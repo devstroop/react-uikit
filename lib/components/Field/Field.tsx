@@ -44,7 +44,7 @@ export function Field({ label, htmlFor, required, hint, error, children, classNa
       )}
       {control}
       {error != null ? (
-        <div id={errorId} className={styles.error} role="alert">
+        <div id={errorId} className={styles.error} aria-live="polite">
           {error}
         </div>
       ) : hint != null ? (

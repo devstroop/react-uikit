@@ -26,6 +26,8 @@ export type { FieldProps } from "./components/Field/Field";
 
 export { Form, useFormContext } from "./components/Form/Form";
 export type { FormProps, FormMethod, FormContextValue, FormFieldDescriptor } from "./components/Form/Form";
+export { useFormField } from "./components/Form/useFormField";
+export type { FormFieldApi, UseFormFieldOptions } from "./components/Form/useFormField";
 
 export { required, email, pattern, minLength, maxLength, range, runValidators } from "./components/Validators";
 export type { Validator } from "./components/Validators";

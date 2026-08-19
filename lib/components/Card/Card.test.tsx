@@ -71,7 +71,7 @@ describe("Field", () => {
         <Input />
       </Field>,
     );
-    expect(screen.getByRole("alert")).toHaveTextContent("Invalid address");
+    expect(screen.getByText("Invalid address")).toHaveAttribute("aria-live", "polite");
     expect(screen.queryByText("We never share it")).not.toBeInTheDocument();
   });
 });

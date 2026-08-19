@@ -36,14 +36,15 @@ describe("Field", () => {
     expect(marker).toHaveAttribute("aria-hidden", "true");
   });
 
-  it("renders error with role=alert", () => {
+  it("renders error inside an aria-live polite region", () => {
     render(
       <Field label="Email" error="Email is required">
         <input aria-label="Email" />
       </Field>,
     );
-    const error = screen.getByRole("alert");
-    expect(error).toHaveTextContent("Email is required");
+    const error = screen.getByText("Email is required");
+    expect(error).toHaveAttribute("aria-live", "polite");
+    expect(error.closest("div")).not.toHaveAttribute("role");
   });
 
   it("renders hint when no error is present", () => {
@@ -53,7 +54,7 @@ describe("Field", () => {
       </Field>,
     );
     expect(screen.getByText("We will never share it.")).toBeInTheDocument();
-    expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+    expect(screen.queryByText("Some error")).not.toBeInTheDocument();
   });
 
   it("prefers error over hint when both are set", () => {
@@ -62,7 +63,7 @@ describe("Field", () => {
         <input aria-label="Email" />
       </Field>,
     );
-    expect(screen.getByRole("alert")).toHaveTextContent("Some error");
+    expect(screen.getByText("Some error")).toBeInTheDocument();
     expect(screen.queryByText("Some hint")).not.toBeInTheDocument();
   });
 
@@ -73,7 +74,7 @@ describe("Field", () => {
       </Field>,
     );
     const input = screen.getByRole("textbox");
-    const alert = screen.getByRole("alert");
+    const alert = screen.getByText("Invalid email");
     expect(input).toHaveAttribute("aria-describedby", alert.id);
     expect(input).toHaveAttribute("aria-invalid", "true");
   });
@@ -97,7 +98,7 @@ describe("Field", () => {
       </Field>,
     );
     const input = screen.getByRole("textbox");
-    const alert = screen.getByRole("alert");
+    const alert = screen.getByText("Invalid email");
     expect(input).toHaveAttribute("aria-describedby", `other ${alert.id}`);
   });
 

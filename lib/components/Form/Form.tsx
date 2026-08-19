@@ -19,6 +19,7 @@ export interface FormContextValue {
   registerField: (field: FormFieldDescriptor) => void;
   unregisterField: (name: string) => void;
   submit: () => void;
+  submitCount: number;
 }
 
 const FormContext = createContext<FormContextValue | null>(null);
@@ -53,6 +54,7 @@ export function Form({
   className,
 }: FormProps) {
   const [fields, setFields] = useState<Record<string, FormFieldDescriptor>>({});
+  const [submitCount, setSubmitCount] = useState(0);
   const fieldsRef = useRef(fields);
   fieldsRef.current = fields;
 
@@ -82,6 +84,7 @@ export function Form({
 
   const submit = useCallback(() => {
     const errors = collectErrors();
+    setSubmitCount((count) => count + 1);
     if (Object.keys(errors).length === 0) {
       onSubmit?.(model);
     } else {
@@ -98,8 +101,8 @@ export function Form({
   };
 
   const value = useMemo(
-    () => ({ registerField, unregisterField, submit }),
-    [registerField, unregisterField, submit],
+    () => ({ registerField, unregisterField, submit, submitCount }),
+    [registerField, unregisterField, submit, submitCount],
   );
 
   const classNames = [styles.form, className].filter(Boolean).join(" ");
