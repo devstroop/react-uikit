@@ -1,4 +1,4 @@
-# @devstroop/react-ui
+# @devstroop/react-uikit
 
 Generic React UI primitives for Devstroop web apps. Presentational, themeable,
 and project-agnostic — no auth, routing, data, or domain coupling. Composable
@@ -10,7 +10,7 @@ Git-tagged distribution (no npm registry). Pin an exact release tag:
 
 ```json
 "dependencies": {
-  "@devstroop/react-ui": "github:devstroop/react-ui#v0.1.0"
+  "@devstroop/react-uikit": "github:devstroop/react-uikit#v0.1.0"
 }
 ```
 
@@ -21,8 +21,8 @@ npm install
 Import the stylesheet once, then use components:
 
 ```tsx
-import "@devstroop/react-ui/style.css";
-import { Button, Card, Field, Input } from "@devstroop/react-ui";
+import "@devstroop/react-uikit/style.css";
+import { Button, Card, Field, Input } from "@devstroop/react-uikit";
 
 export function SignInForm() {
   return (

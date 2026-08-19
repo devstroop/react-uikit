@@ -2,7 +2,7 @@
 
 The canonical development workflow for the **Devstroop Technologies** organization —
 applies to every repository in the org (SoftEther-App, SoftEther-Web, libsoftether,
-SoftEtherZig, react-ui). This document is the referring standard: planning, branching,
+SoftEtherZig, react-uikit). This document is the referring standard: planning, branching,
 worktrees, pull requests, CI, and releases all follow the rules below.
 
 ## 1. Principles
@@ -209,7 +209,7 @@ A workflow triggered on a branch that does not exist is a silent CI outage.
 |---|---|---|---|---|---|---|
 | **SoftEther-App** | Flutter + Zig (libsoftether) | GitHub | `master` | `fixes/` `features/` `chores/` `docs/` | `master` + PRs |
 | **SoftEther-Web** | React + Vite + Hono + Cloudflare Workers | GitHub | `master` | `fixes/` `features/` `chores/` `docs/` | `master` + PRs |
-| **react-ui** | React UI library (vite lib mode) | Codeberg (`codeberg.org/devstroop/react-ui`) | `master` | `fixes/` `features/` `chores/` `docs/` | `master` + PRs (Forgejo Actions, `.forgejo/workflows`) |
+| **react-uikit** | React UI library (vite lib mode) | Codeberg (`codeberg.org/devstroop/react-uikit`) | `master` | `fixes/` `features/` `chores/` `docs/` | `master` + PRs (Forgejo Actions, `.forgejo/workflows`) |
 | **libsoftether** | Zig | GitHub | `master` | `fixes/` `features/` | `master` + PRs |
 
 > Note: legacy branches named `fix/…`, `feat/…` and `develop` exist in history;

@@ -7,7 +7,7 @@
 #                is synced — see scripts/generate-css.mjs
 #   commands    local development commands (run from this directory)
 
-name: "@devstroop/react-ui"
+name: "@devstroop/react-uikit"
 technology: react
 description: React implementation of the uikit specs — presentational, themeable, project-agnostic.
 

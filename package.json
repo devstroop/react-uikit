@@ -1,5 +1,5 @@
 {
-  "name": "@devstroop/react-ui",
+  "name": "@devstroop/react-uikit",
   "version": "0.3.5",
   "description": "Generic React UI primitives for Devstroop web apps — presentational, themeable, project-agnostic.",
   "type": "module",
