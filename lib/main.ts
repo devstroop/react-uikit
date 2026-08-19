@@ -113,10 +113,13 @@ export { Skeleton } from "./components/Skeleton/Skeleton";
 export type { SkeletonProps, SkeletonVariant } from "./components/Skeleton/Skeleton";
 
 export { Row } from "./components/Row/Row";
-export type { RowProps, RowAlign, RowJustify } from "./components/Row/Row";
+export type { RowProps, RowAlign, RowJustify, RowWrap, RowGap } from "./components/Row/Row";
 
 export { Column } from "./components/Column/Column";
-export type { ColumnProps, ColumnSize, ColumnOffset } from "./components/Column/Column";
+export type { ColumnProps, ColumnSize, ColumnOffset, ColumnOrder } from "./components/Column/Column";
+
+export { Stack } from "./components/Stack/Stack";
+export type { StackProps, StackOrientation, StackWrap, StackGap } from "./components/Stack/Stack";
 
 export { Layout } from "./components/Layout/Layout";
 export type { LayoutProps } from "./components/Layout/Layout";

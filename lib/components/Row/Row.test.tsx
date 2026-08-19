@@ -46,3 +46,27 @@ describe("Row", () => {
     expect(element?.getAttribute("aria-label")).toBe("row");
   });
 });
+describe("Row flex parity (#108)", () => {
+  it("supports wrap-reverse and nowrap string values", () => {
+    const { container, rerender } = render(<Row wrap="wrap-reverse" />);
+    expect(container.firstElementChild?.className).toContain("wrapReverse");
+    rerender(<Row wrap="nowrap" />);
+    expect(container.firstElementChild?.className).toContain("noWrap");
+  });
+
+  it("maps justify aliases and new values to classes", () => {
+    const { container, rerender } = render(<Row justify="space-between" />);
+    expect(container.firstElementChild?.className).toContain("justify-space-between");
+    rerender(<Row justify="left" />);
+    expect(container.firstElementChild?.className).toContain("justify-left");
+    rerender(<Row justify="normal" />);
+    expect(container.firstElementChild?.className).toContain("justify-normal");
+  });
+
+  it("applies rowGap as inline style or tier class", () => {
+    const { container, rerender } = render(<Row rowGap={8} />);
+    expect(container.firstElementChild?.getAttribute("style")).toContain("row-gap: 8px");
+    rerender(<Row rowGap="md" />);
+    expect(container.firstElementChild?.className).toContain("gapRowMd");
+  });
+});

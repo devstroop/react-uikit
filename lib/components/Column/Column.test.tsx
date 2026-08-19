@@ -40,3 +40,27 @@ describe("Column", () => {
     expect(container.firstElementChild?.getAttribute("data-test")).toBe("x");
   });
 });
+describe("Column flex parity (#108)", () => {
+  it("applies order first/last and numeric order", () => {
+    const { container, rerender } = render(<Column order="first" />);
+    expect(container.firstElementChild?.className).toContain("orderFirst");
+    rerender(<Column order="last" />);
+    expect(container.firstElementChild?.className).toContain("orderLast");
+    rerender(<Column order={5} />);
+    expect(container.firstElementChild?.getAttribute("style")).toContain("order: 5");
+  });
+
+  it("applies responsive order classes", () => {
+    const { container } = render(<Column orderSm="last" orderXxl="first" />);
+    const classes = container.firstElementChild?.className ?? "";
+    expect(classes).toContain("smorderLast");
+    expect(classes).toContain("xxlorderFirst");
+  });
+
+  it("applies XXL size and offset classes", () => {
+    const { container } = render(<Column sizeXxl={6} offsetXxl={3} />);
+    const classes = container.firstElementChild?.className ?? "";
+    expect(classes).toContain("xxlSize6");
+    expect(classes).toContain("xxlOffset3");
+  });
+});

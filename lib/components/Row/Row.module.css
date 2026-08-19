@@ -68,6 +68,58 @@
   justify-content: space-evenly;
 }
 
+.justify-normal {
+  justify-content: normal;
+}
+
+.justify-left {
+  justify-content: flex-start;
+}
+
+.justify-right {
+  justify-content: flex-end;
+}
+
+.justify-stretch {
+  justify-content: stretch;
+}
+
+.justify-space-between {
+  justify-content: space-between;
+}
+
+.justify-space-around {
+  justify-content: space-around;
+}
+
+.justify-space-evenly {
+  justify-content: space-evenly;
+}
+
 .noWrap {
   flex-wrap: nowrap;
+}
+
+.wrapReverse {
+  flex-wrap: wrap-reverse;
+}
+
+.gapRowXs {
+  row-gap: var(--dt-space-1);
+}
+
+.gapRowSm {
+  row-gap: var(--dt-space-2);
+}
+
+.gapRowMd {
+  row-gap: var(--dt-space-3);
+}
+
+.gapRowLg {
+  row-gap: var(--dt-space-4);
+}
+
+.gapRowXl {
+  row-gap: var(--dt-space-5);
 }
