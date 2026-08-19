@@ -14,6 +14,7 @@ export interface PagerProps {
   onPageChange?: (pageNumber: number) => void;
   onPageSizeChange?: (pageSize: number) => void;
   summaryTemplate?: (context: { count: number; pageNumber: number; pageSize: number }) => ReactNode;
+  ariaLabel?: string;
 }
 
 function pageItems(pageNumber: number, pageCount: number, max: number): (number | "ellipsis")[] {
@@ -44,12 +45,13 @@ export function Pager({
   onPageChange,
   onPageSizeChange,
   summaryTemplate,
+  ariaLabel = "Pagination",
 }: PagerProps) {
   const pageCount = Math.max(1, Math.ceil(count / pageSize));
   const current = Math.min(Math.max(1, pageNumber), pageCount);
   const items = pageItems(current, pageCount, pageNumbersCount);
   return (
-    <nav className={[styles.pager, className].filter(Boolean).join(" ")} aria-label="Pagination">
+    <nav className={[styles.pager, className].filter(Boolean).join(" ")} aria-label={ariaLabel}>
       {showSummary && (
         <span className={styles.summary} aria-live="polite">
           {summaryTemplate

@@ -134,18 +134,19 @@ export function DataGrid<TItem = unknown>({
           pageNumbersCount={pageNumbersCount}
           showSummary={showPagingSummary}
           showPageSizeSelector={showPageSizeSelector}
+          ariaLabel={bottomPager ? "Pagination (top)" : "Pagination"}
           onPageChange={setPageNumber}
           onPageSizeChange={handlePageSize}
         />
       )}
-      <div
-        className={styles.data}
-        role="grid"
-        aria-rowcount={view.total + 1}
-        aria-busy={isLoading || undefined}
-        aria-label={ariaLabel}
-      >
-        <table className={styles.table}>
+      <div className={styles.data}>
+        <table
+          className={styles.table}
+          role="grid"
+          aria-rowcount={view.total + 1}
+          aria-label={ariaLabel}
+          aria-busy={isLoading || undefined}
+        >
           <colgroup>
             {columns.map((c, i) => (
               <col
@@ -275,6 +276,7 @@ export function DataGrid<TItem = unknown>({
           pageNumbersCount={pageNumbersCount}
           showSummary={showPagingSummary}
           showPageSizeSelector={showPageSizeSelector}
+          ariaLabel={topPager ? "Pagination (bottom)" : "Pagination"}
           onPageChange={setPageNumber}
           onPageSizeChange={handlePageSize}
         />

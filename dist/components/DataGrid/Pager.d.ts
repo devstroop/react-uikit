@@ -16,5 +16,6 @@ export interface PagerProps {
         pageNumber: number;
         pageSize: number;
     }) => ReactNode;
+    ariaLabel?: string;
 }
-export declare function Pager({ pageNumber, pageSize, count, pageSizeOptions, pageNumbersCount, showSummary, showPageSizeSelector, pageSizeText, className, onPageChange, onPageSizeChange, summaryTemplate, }: PagerProps): import("react").JSX.Element;
+export declare function Pager({ pageNumber, pageSize, count, pageSizeOptions, pageNumbersCount, showSummary, showPageSizeSelector, pageSizeText, className, onPageChange, onPageSizeChange, summaryTemplate, ariaLabel, }: PagerProps): import("react").JSX.Element;
