@@ -28,15 +28,15 @@ export interface DataFilterRow {
   logicalOperator?: LogicalFilterOperator;
 }
 
-export interface DataFilterProps {
+export interface DataFilterProps<TItem = unknown> {
   properties: readonly DataFilterProperty[];
   logicalOperator?: LogicalFilterOperator;
   filterCaseSensitivity?: "CaseSensitive" | "CaseInsensitive";
   initialRows?: readonly DataFilterRow[];
   uniqueFilters?: boolean;
   className?: string;
-  viewChanged?: (items: unknown[]) => void;
-  items?: readonly unknown[];
+  viewChanged?: (items: TItem[]) => void;
+  items?: readonly TItem[];
   children?: ReactNode;
 }
 
@@ -129,7 +129,7 @@ function ValueEditor({
   );
 }
 
-export function DataFilter({
+export function DataFilter<TItem = unknown>({
   properties,
   logicalOperator = "And",
   filterCaseSensitivity = "CaseInsensitive",
@@ -139,7 +139,7 @@ export function DataFilter({
   viewChanged,
   items,
   children,
-}: DataFilterProps) {
+}: DataFilterProps<TItem>) {
   const [rows, setRows] = useState<RowState[]>(() =>
     initialRows != null && initialRows.length > 0
       ? initialRows.map((row, index) => ({ id: index, ...row }))
@@ -199,7 +199,7 @@ export function DataFilter({
   }, [items, descriptors, logicalOperator, filterCaseSensitivity]);
 
   useEffect(() => {
-    if (viewChanged != null && items != null) viewChanged(applied as unknown[]);
+    if (viewChanged != null && items != null) viewChanged(applied ?? []);
     // viewChanged is a consumer callback; only re-fire when the applied result changes
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [applied]);

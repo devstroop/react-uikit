@@ -21,15 +21,15 @@ export interface DataFilterRow {
     secondValue?: unknown;
     logicalOperator?: LogicalFilterOperator;
 }
-export interface DataFilterProps {
+export interface DataFilterProps<TItem = unknown> {
     properties: readonly DataFilterProperty[];
     logicalOperator?: LogicalFilterOperator;
     filterCaseSensitivity?: "CaseSensitive" | "CaseInsensitive";
     initialRows?: readonly DataFilterRow[];
     uniqueFilters?: boolean;
     className?: string;
-    viewChanged?: (items: unknown[]) => void;
-    items?: readonly unknown[];
+    viewChanged?: (items: TItem[]) => void;
+    items?: readonly TItem[];
     children?: ReactNode;
 }
-export declare function DataFilter({ properties, logicalOperator, filterCaseSensitivity, initialRows, uniqueFilters, className, viewChanged, items, children, }: DataFilterProps): import("react").JSX.Element;
+export declare function DataFilter<TItem = unknown>({ properties, logicalOperator, filterCaseSensitivity, initialRows, uniqueFilters, className, viewChanged, items, children, }: DataFilterProps<TItem>): import("react").JSX.Element;

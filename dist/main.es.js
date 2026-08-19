@@ -799,7 +799,7 @@ function Ul({
     return b;
   }, [_]), N = H(() => l == null || O.length === 0 ? l : os(l, { operator: s, filters: O }, { caseSensitivity: n }), [l, O, s, n]);
   R(() => {
-    i != null && l != null && i(N);
+    i != null && l != null && i(N ?? []);
   }, [N]);
   const y = (g) => e.find((b) => b.name === g) ?? { name: g, type: "string" };
   return /* @__PURE__ */ u("div", { className: [k.filter, r].filter(Boolean).join(" "), children: [
@@ -851,7 +851,7 @@ function Ul({
       /* @__PURE__ */ t("button", { type: "button", className: k.add, onClick: x, children: "Add filter" }),
       c != null ? /* @__PURE__ */ t("div", { className: k.custom, children: c }) : null,
       l != null ? /* @__PURE__ */ u("span", { className: k.summary, "aria-live": "polite", children: [
-        N.length,
+        N?.length ?? 0,
         " of ",
         l.length
       ] }) : null
