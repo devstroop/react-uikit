@@ -78,7 +78,7 @@ export interface ApplyFiltersOptions {
   caseSensitivity?: FilterCaseSensitivity;
 }
 
-function getByPath(object: unknown, path: string): unknown {
+export function getByPath(object: unknown, path: string): unknown {
   return path.split(".").reduce<unknown>((current, key) => {
     if (current == null) return undefined;
     return (current as Record<string, unknown>)[key];

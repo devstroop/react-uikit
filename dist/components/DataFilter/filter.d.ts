@@ -27,6 +27,7 @@ export interface ApplyFiltersOptions {
     logicalOperator?: LogicalFilterOperator;
     caseSensitivity?: FilterCaseSensitivity;
 }
+export declare function getByPath(object: unknown, path: string): unknown;
 export declare function matchesFilters(item: unknown, filters: FilterNode, options?: ApplyFiltersOptions): boolean;
 export declare function applyFilters<T>(items: readonly T[], filters: FilterNode, options?: ApplyFiltersOptions): T[];
 export declare function toFilterString(filters: FilterNode): string;

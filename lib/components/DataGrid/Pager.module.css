@@ -1,0 +1,67 @@
+.pager {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 0.5rem 0;
+}
+
+.summary {
+  font-size: 0.75rem;
+  color: var(--dt-color-fg-muted, currentColor);
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.button {
+  border: 1px solid var(--dt-color-border, currentColor);
+  background: none;
+  color: var(--dt-color-fg, inherit);
+  min-width: 2rem;
+  height: 2rem;
+  padding: 0 0.375rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+.button:hover:not(:disabled) {
+  background: var(--dt-color-surface-raised, transparent);
+}
+
+.button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.active {
+  border-color: var(--dt-color-primary, currentColor);
+  color: var(--dt-color-primary, inherit);
+  font-weight: 600;
+}
+
+.ellipsis {
+  color: var(--dt-color-fg-muted, currentColor);
+  padding: 0 0.25rem;
+}
+
+.size {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--dt-color-fg-muted, currentColor);
+}
+
+.size select {
+  border: 1px solid var(--dt-color-border, currentColor);
+  background: none;
+  color: var(--dt-color-fg, inherit);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+}

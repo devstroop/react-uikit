@@ -31,6 +31,29 @@ export type { FormFieldApi, UseFormFieldOptions } from "./components/Form/useFor
 
 export { DataFilter } from "./components/DataFilter/DataFilter";
 export type { DataFilterProps, DataFilterProperty, DataFilterRow } from "./components/DataFilter/DataFilter";
+
+export { DataGrid } from "./components/DataGrid/DataGrid";
+export type { DataGridProps, PagerPosition } from "./components/DataGrid/DataGrid";
+export { Pager } from "./components/DataGrid/Pager";
+export type { PagerProps } from "./components/DataGrid/Pager";
+export {
+  applyGridState,
+  cycleSort,
+  sortedItems,
+  paginate,
+  columnValue,
+  formatValue,
+  defaultOperatorForType,
+} from "./components/DataGrid/grid";
+export type {
+  GridColumn,
+  GridFilterState,
+  GridState,
+  GridStateOptions,
+  GridTextAlign,
+  GridView,
+  PageResult,
+} from "./components/DataGrid/grid";
 export {
   applyFilters,
   matchesFilters,
@@ -52,6 +75,8 @@ export type {
   SortOrder,
   ApplyFiltersOptions,
 } from "./components/DataFilter/filter";
+
+export { getByPath } from "./components/DataFilter/filter";
 
 export { required, email, pattern, minLength, maxLength, range, runValidators } from "./components/Validators";
 export type { Validator } from "./components/Validators";

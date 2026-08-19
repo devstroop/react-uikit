@@ -1,0 +1,155 @@
+.grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.data {
+  overflow-x: auto;
+  border: 1px solid var(--dt-color-border, currentColor);
+  border-radius: 0.5rem;
+  position: relative;
+}
+
+.table {
+  border-collapse: collapse;
+  width: 100%;
+  background: var(--dt-color-surface, transparent);
+}
+
+.header {
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--dt-color-border, currentColor);
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  background: var(--dt-color-surface-raised, transparent);
+}
+
+.center {
+  text-align: center;
+}
+
+.right {
+  text-align: right;
+}
+
+.sortButton {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0;
+}
+
+.sortButton:hover {
+  color: var(--dt-color-primary, inherit);
+}
+
+.sortIndicator {
+  font-size: 0.625rem;
+}
+
+.sortIndex {
+  font-size: 0.625rem;
+  border: 1px solid var(--dt-color-border, currentColor);
+  border-radius: 999px;
+  min-width: 1rem;
+  height: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cell {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--dt-color-border, currentColor);
+  vertical-align: middle;
+}
+
+.cell.right {
+  text-align: right;
+}
+
+.cell.center {
+  text-align: center;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.clickable:hover {
+  background: var(--dt-color-surface-raised, transparent);
+}
+
+.frozen {
+  position: sticky;
+  left: 0;
+  background: var(--dt-color-surface, var(--dt-color-bg, inherit));
+  z-index: 1;
+}
+
+.filterCell {
+  padding: 0.375rem 0.5rem;
+  border-bottom: 1px solid var(--dt-color-border, currentColor);
+  display: flex;
+  gap: 0.375rem;
+  align-items: center;
+}
+
+.filterSelect {
+  border: 1px solid var(--dt-color-border, currentColor);
+  background: none;
+  color: var(--dt-color-fg, inherit);
+  padding: 0.25rem 0.375rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  min-width: 7.5rem;
+}
+
+.filterInput {
+  border: 1px solid var(--dt-color-border, currentColor);
+  background: none;
+  color: var(--dt-color-fg, inherit);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  min-width: 6rem;
+  flex: 1;
+}
+
+.empty {
+  padding: 1.5rem;
+  text-align: center;
+  color: var(--dt-color-fg-muted, currentColor);
+}
+
+.loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: color-mix(in srgb, var(--dt-color-bg, white) 70%, transparent);
+  color: var(--dt-color-fg, inherit);
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
