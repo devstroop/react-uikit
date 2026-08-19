@@ -24,6 +24,8 @@ export { DataGrid } from './components/DataGrid/DataGrid';
 export type { DataGridProps, PagerPosition } from './components/DataGrid/DataGrid';
 export { Pager } from './components/DataGrid/Pager';
 export type { PagerProps } from './components/DataGrid/Pager';
+export { DataList } from './components/DataList/DataList';
+export type { DataListProps } from './components/DataList/DataList';
 export { applyGridState, cycleSort, sortedItems, paginate, columnValue, formatValue, defaultOperatorForType, } from './components/DataGrid/grid';
 export type { GridColumn, GridFilterState, GridState, GridStateOptions, GridTextAlign, GridView, PageResult, } from './components/DataGrid/grid';
 export { applyFilters, matchesFilters, sortItems, toFilterString, toODataFilterString, FILTER_OPERATORS, DEFAULT_OPERATOR_BY_TYPE, } from './components/DataFilter/filter';
