@@ -64,6 +64,7 @@
 .add {
   border: 1px solid var(--dt-color-border, currentColor);
   background: none;
+  color: var(--dt-color-fg, inherit);
   padding: 0.375rem 0.75rem;
   border-radius: 0.375rem;
   cursor: pointer;
