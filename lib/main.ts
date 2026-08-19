@@ -29,6 +29,30 @@ export type { FormProps, FormMethod, FormContextValue, FormFieldDescriptor } fro
 export { useFormField } from "./components/Form/useFormField";
 export type { FormFieldApi, UseFormFieldOptions } from "./components/Form/useFormField";
 
+export { DataFilter } from "./components/DataFilter/DataFilter";
+export type { DataFilterProps, DataFilterProperty, DataFilterRow } from "./components/DataFilter/DataFilter";
+export {
+  applyFilters,
+  matchesFilters,
+  sortItems,
+  toFilterString,
+  toODataFilterString,
+  FILTER_OPERATORS,
+  DEFAULT_OPERATOR_BY_TYPE,
+} from "./components/DataFilter/filter";
+export type {
+  FilterOperator,
+  LogicalFilterOperator,
+  FilterCaseSensitivity,
+  FilterPropertyType,
+  FilterDescriptor,
+  CompositeFilterDescriptor,
+  FilterNode,
+  SortDescriptor,
+  SortOrder,
+  ApplyFiltersOptions,
+} from "./components/DataFilter/filter";
+
 export { required, email, pattern, minLength, maxLength, range, runValidators } from "./components/Validators";
 export type { Validator } from "./components/Validators";
 
