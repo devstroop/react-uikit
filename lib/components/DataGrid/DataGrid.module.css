@@ -5,6 +5,53 @@
   font-size: 0.875rem;
 }
 
+.toolbar {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.picker {
+  position: relative;
+}
+
+.pickerButton {
+  border: 1px solid var(--dt-color-border, currentColor);
+  background: none;
+  color: var(--dt-color-fg, inherit);
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+.pickerButton:hover {
+  background: var(--dt-color-surface-raised, transparent);
+}
+
+.pickerPanel {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 0.25rem);
+  min-width: 12rem;
+  background: var(--dt-color-surface, var(--dt-color-bg, white));
+  border: 1px solid var(--dt-color-border, currentColor);
+  border-radius: 0.5rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  padding: 0.375rem;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+}
+
+.pickerItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.375rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
 .data {
   overflow-x: auto;
   border: 1px solid var(--dt-color-border, currentColor);
@@ -95,9 +142,30 @@
 
 .frozen {
   position: sticky;
-  left: 0;
-  background: var(--dt-color-surface, var(--dt-color-bg, inherit));
   z-index: 1;
+  background: var(--dt-color-surface, var(--dt-color-bg, inherit));
+}
+
+.selected {
+  background: color-mix(in srgb, var(--dt-color-primary, currentColor) 8%, transparent);
+}
+
+.resizeHandle {
+  display: inline-block;
+  width: 0.375rem;
+  margin-left: 0.25rem;
+  cursor: col-resize;
+  align-self: stretch;
+  flex: none;
+  border-right: 1px solid transparent;
+}
+
+.resizeHandle:hover {
+  border-right-color: var(--dt-color-primary, currentColor);
+}
+
+.header {
+  position: relative;
 }
 
 .filterCell {

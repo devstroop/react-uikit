@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { GridColumn } from './grid';
+import { GridColumn, GridSelectionMode } from './grid';
 export type PagerPosition = "Top" | "Bottom" | "TopAndBottom";
 export interface DataGridProps<TItem = unknown> {
     columns: readonly GridColumn<TItem>[];
@@ -18,10 +18,17 @@ export interface DataGridProps<TItem = unknown> {
     pagerPosition?: PagerPosition;
     showPagingSummary?: boolean;
     showPageSizeSelector?: boolean;
+    selectionMode?: GridSelectionMode;
+    selectedKeys?: readonly (string | number)[];
+    onSelectionChange?: (keys: readonly (string | number)[]) => void;
+    showColumnPicker?: boolean;
+    columnPickerText?: string;
+    allowColumnResize?: boolean;
+    allowColumnReorder?: boolean;
     isLoading?: boolean;
     empty?: ReactNode;
     ariaLabel?: string;
     className?: string;
     onRowClick?: (row: TItem) => void;
 }
-export declare function DataGrid<TItem = unknown>({ columns, rows, rowKey, allowSorting, allowMultiColumnSorting, showSortIndex, allowFiltering, filterCaseSensitivity, logicalOperator, allowPaging, pageSize, pageSizeOptions, pageNumbersCount, pagerPosition, showPagingSummary, showPageSizeSelector, isLoading, empty, ariaLabel, className, onRowClick, }: DataGridProps<TItem>): import("react").JSX.Element;
+export declare function DataGrid<TItem = unknown>({ columns, rows, rowKey, allowSorting, allowMultiColumnSorting, showSortIndex, allowFiltering, filterCaseSensitivity, logicalOperator, allowPaging, pageSize, pageSizeOptions, pageNumbersCount, pagerPosition, showPagingSummary, showPageSizeSelector, selectionMode, selectedKeys, onSelectionChange, showColumnPicker, columnPickerText, allowColumnResize, allowColumnReorder, isLoading, empty, ariaLabel, className, onRowClick, }: DataGridProps<TItem>): import("react").JSX.Element;

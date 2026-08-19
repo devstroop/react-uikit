@@ -27,7 +27,29 @@ export interface GridColumn<TItem = unknown> {
   sortable?: boolean;
   filterable?: boolean;
   frozen?: boolean;
+  visible?: boolean;
   render?: (row: TItem, context: { index: number }) => ReactNode;
+}
+
+export type GridSelectionMode = "None" | "Single" | "Multiple";
+
+export function gridColumnKey<TItem = unknown>(column: GridColumn<TItem>, index: number): string {
+  return column.property ?? `col-${index}`;
+}
+
+export function gridFrozenOffsets<TItem = unknown>(
+  entries: readonly { key: string; column: GridColumn<TItem> }[],
+  widths: Readonly<Record<string, string>>,
+): Readonly<Record<string, string>> {
+  const offsets: Record<string, string> = {};
+  let running = 0;
+  entries.forEach(({ key, column }) => {
+    if (!column.frozen) return;
+    offsets[key] = running === 0 ? "0px" : `${running}px`;
+    const width = widths[key] ?? column.width ?? "8rem";
+    running += parseFloat(width);
+  });
+  return offsets;
 }
 
 export interface GridFilterState {

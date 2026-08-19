@@ -15,10 +15,17 @@ export interface GridColumn<TItem = unknown> {
     sortable?: boolean;
     filterable?: boolean;
     frozen?: boolean;
+    visible?: boolean;
     render?: (row: TItem, context: {
         index: number;
     }) => ReactNode;
 }
+export type GridSelectionMode = "None" | "Single" | "Multiple";
+export declare function gridColumnKey<TItem = unknown>(column: GridColumn<TItem>, index: number): string;
+export declare function gridFrozenOffsets<TItem = unknown>(entries: readonly {
+    key: string;
+    column: GridColumn<TItem>;
+}[], widths: Readonly<Record<string, string>>): Readonly<Record<string, string>>;
 export interface GridFilterState {
     value?: string;
     operator?: FilterOperator;

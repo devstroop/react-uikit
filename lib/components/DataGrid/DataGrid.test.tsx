@@ -29,7 +29,7 @@ function renderGrid(props: Partial<React.ComponentProps<typeof DataGrid<Person>>
     <DataGrid
       columns={columns}
       rows={people}
-      rowKey={(r) => String(r.id)}
+      rowKey={(r) => r.id}
       {...props}
     />,
   );
@@ -129,5 +129,115 @@ describe("DataGrid", () => {
       ],
     });
     expect(screen.getByText("view John")).toBeInTheDocument();
+  });
+
+  it("selects rows in single mode", () => {
+    const onSelectionChange = vi.fn();
+    let keys: (string | number)[] = [];
+    const first = renderGrid({ selectionMode: "Single", selectedKeys: keys, onSelectionChange });
+    fireEvent.click(screen.getByText("Bob"));
+    keys = onSelectionChange.mock.calls[0]![0]!;
+    expect(keys).toEqual([3]);
+    first.unmount();
+    renderGrid({ selectionMode: "Single", selectedKeys: keys, onSelectionChange });
+    fireEvent.click(screen.getByText("Bob"));
+    expect(onSelectionChange).toHaveBeenLastCalledWith([]);
+  });
+
+  it("marks selected rows with aria-selected", () => {
+    renderGrid({ selectionMode: "Single", selectedKeys: [1] });
+    const row = screen.getByText("John").closest("tr");
+    expect(row).toHaveAttribute("aria-selected", "true");
+    expect(screen.getByText("Bob").closest("tr")).toHaveAttribute("aria-selected", "false");  });
+
+  it("toggles multiple selection", () => {
+    const onSelectionChange = vi.fn();
+    let keys: (string | number)[] = [1];
+    const first = renderGrid({ selectionMode: "Multiple", selectedKeys: keys, onSelectionChange });
+    fireEvent.click(screen.getByText("Jane"));
+    keys = onSelectionChange.mock.calls[0]![0]!;
+    expect(keys).toEqual([1, 2]);
+    first.unmount();
+    renderGrid({ selectionMode: "Multiple", selectedKeys: keys, onSelectionChange });
+    fireEvent.click(screen.getByText("John"));
+    expect(onSelectionChange).toHaveBeenLastCalledWith([2]);
+  });
+
+  it("does not select when clicking an interactive control", () => {
+    const onSelectionChange = vi.fn();
+    renderGrid({
+      selectionMode: "Single",
+      selectedKeys: [],
+      onSelectionChange,
+      columns: [
+        { property: "name", title: "Name" },
+        { property: "age", title: "Age" },
+        {
+          property: "role",
+          title: "Role",
+          render: () => <button type="button">action</button>,
+        },
+      ],
+    });
+    expect(screen.getAllByRole("button", { name: "action" })[0]).toBeDefined();
+    fireEvent.click(screen.getAllByRole("button", { name: "action" })[0] as HTMLElement);
+    expect(onSelectionChange).not.toHaveBeenCalled();
+  });
+
+  it("toggles column visibility from the picker", () => {
+    renderGrid({ showColumnPicker: true });
+    expect(screen.getByRole("columnheader", { name: /Role/ })).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "Columns" }));
+    fireEvent.click(screen.getByLabelText("Role"));
+    expect(screen.queryByRole("columnheader", { name: /Role/ })).not.toBeInTheDocument();
+    fireEvent.click(screen.getByLabelText("Role"));
+    expect(screen.getByRole("columnheader", { name: /Role/ })).toBeInTheDocument();
+  });
+
+  it("hides columns marked visible false", () => {
+    renderGrid({
+      columns: [
+        { property: "name", title: "Name" },
+        { property: "age", title: "Age", visible: false },
+      ],
+    });
+    expect(screen.getByRole("columnheader", { name: /Name/ })).toBeInTheDocument();
+    expect(screen.queryByRole("columnheader", { name: /Age/ })).not.toBeInTheDocument();
+  });
+
+  it("resizes a column via drag handle", () => {
+    renderGrid({ allowColumnResize: true });
+    const handle = screen.getByRole("separator", { name: /Resize Name/ });
+    fireEvent.mouseDown(handle, { clientX: 100 });
+    fireEvent.mouseMove(handle, { clientX: 140 });
+    fireEvent.mouseUp(handle);
+    const col = document.querySelector("colgroup col");
+    expect(col).toHaveStyle("width: 136px");
+  });
+
+  it("reorders columns by drag and drop", () => {
+    renderGrid({ allowColumnReorder: true });
+    const ageHeader = screen.getByRole("columnheader", { name: /Age/ });
+    const nameHeader = screen.getByRole("columnheader", { name: /Name/ });
+    fireEvent.dragStart(ageHeader);
+    fireEvent.dragOver(nameHeader);
+    fireEvent.drop(nameHeader);
+    const headers = screen.getAllByRole("columnheader");
+    expect(headers[0]).toHaveTextContent(/Age/);
+    expect(headers[1]).toHaveTextContent(/Name/);
+  });
+
+  it("applies sticky offsets to frozen columns", () => {
+    renderGrid({
+      columns: [
+        { property: "name", title: "Name", frozen: true, width: "120px" },
+        { property: "age", title: "Age", frozen: true, width: "80px" },
+        { property: "role", title: "Role" },
+      ],
+    });
+    const ths = screen.getAllByRole("columnheader");
+    expect(ths[0]).toHaveStyle("left: 0px");
+    expect(ths[1]).toHaveStyle("left: 120px");
+    expect(ths[2]).not.toHaveStyle("left: 0px");
   });
 });

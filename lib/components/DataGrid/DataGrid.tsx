@@ -1,9 +1,9 @@
-import { useMemo, useState, type ReactNode } from "react";
+import { useMemo, useRef, useState, type ReactNode } from "react";
 import { FILTER_OPERATORS } from "../DataFilter/filter";
 import type { FilterOperator, SortDescriptor } from "../DataFilter/filter";
 import { Pager } from "./Pager";
-import { applyGridState, columnValue, cycleSort, defaultOperatorForType, formatValue } from "./grid";
-import type { GridColumn, GridFilterState } from "./grid";
+import { applyGridState, columnValue, cycleSort, defaultOperatorForType, formatValue, gridColumnKey, gridFrozenOffsets } from "./grid";
+import type { GridColumn, GridFilterState, GridSelectionMode } from "./grid";
 import styles from "./DataGrid.module.css";
 
 export type PagerPosition = "Top" | "Bottom" | "TopAndBottom";
@@ -25,6 +25,13 @@ export interface DataGridProps<TItem = unknown> {
   pagerPosition?: PagerPosition;
   showPagingSummary?: boolean;
   showPageSizeSelector?: boolean;
+  selectionMode?: GridSelectionMode;
+  selectedKeys?: readonly (string | number)[];
+  onSelectionChange?: (keys: readonly (string | number)[]) => void;
+  showColumnPicker?: boolean;
+  columnPickerText?: string;
+  allowColumnResize?: boolean;
+  allowColumnReorder?: boolean;
   isLoading?: boolean;
   empty?: ReactNode;
   ariaLabel?: string;
@@ -45,6 +52,10 @@ function isSortable<TItem>(column: GridColumn<TItem>, allowSorting: boolean): bo
   return column.sortable ?? allowSorting;
 }
 
+function isInteractiveTarget(target: EventTarget | null): boolean {
+  return target instanceof HTMLElement && Boolean(target.closest("button, select, input, a, label, [data-dt-grid-resize]"));
+}
+
 export function DataGrid<TItem = unknown>({
   columns,
   rows,
@@ -62,6 +73,13 @@ export function DataGrid<TItem = unknown>({
   pagerPosition = "Bottom",
   showPagingSummary = true,
   showPageSizeSelector = true,
+  selectionMode = "None",
+  selectedKeys,
+  onSelectionChange,
+  showColumnPicker = false,
+  columnPickerText = "Columns",
+  allowColumnResize = false,
+  allowColumnReorder = false,
   isLoading = false,
   empty = "No records found",
   ariaLabel,
@@ -72,6 +90,34 @@ export function DataGrid<TItem = unknown>({
   const [filters, setFilters] = useState<Map<string, GridFilterState>>(new Map());
   const [pageNumber, setPageNumber] = useState(1);
   const [currentPageSize, setCurrentPageSize] = useState(pageSize);
+  const [columnOrder, setColumnOrder] = useState<string[]>(() =>
+    columns.map((c, i) => gridColumnKey(c, i)),
+  );
+  const [visibleColumns, setVisibleColumns] = useState<Set<string>>(
+    () => new Set(columns.map((c, i) => (c.visible !== false ? gridColumnKey(c, i) : "")).filter(Boolean)),
+  );
+  const [columnWidths, setColumnWidths] = useState<Record<string, string>>({});
+  const [pickerOpen, setPickerOpen] = useState(false);
+  const resizeRef = useRef<{ key: string; startX: number; startWidth: number } | null>(null);
+  const dragRef = useRef<string | null>(null);
+
+  const columnByKey = useMemo(() => {
+    const map = new Map<string, GridColumn<TItem>>();
+    columns.forEach((c, i) => map.set(gridColumnKey(c, i), c));
+    return map;
+  }, [columns]);
+  const effectiveColumns = useMemo(
+    () =>
+      columnOrder
+        .filter((key) => visibleColumns.has(key))
+        .map((key) => ({ key, column: columnByKey.get(key) }))
+        .filter((entry): entry is { key: string; column: GridColumn<TItem> } => entry.column != null),
+    [columnOrder, visibleColumns, columnByKey],
+  );
+  const frozenOffsets = useMemo(
+    () => gridFrozenOffsets(effectiveColumns, columnWidths),
+    [effectiveColumns, columnWidths],
+  );
 
   const view = useMemo(
     () =>
@@ -104,6 +150,67 @@ export function DataGrid<TItem = unknown>({
   const handlePageSize = (size: number) => {
     setCurrentPageSize(size);
     setPageNumber(1);
+  };
+
+  const handleSelection = (row: TItem) => {
+    if (selectionMode === "None") return;
+    const key = rowKey(row);
+    const current = selectedKeys ?? [];
+    let next: readonly (string | number)[];
+    if (selectionMode === "Single") {
+      next = current.length === 1 && current[0] === key ? [] : [key];
+    } else {
+      next = current.includes(key) ? current.filter((k) => k !== key) : [...current, key];
+    }
+    onSelectionChange?.(next);
+  };
+
+  const handleRowClick = (row: TItem) => {
+    onRowClick?.(row);
+  };
+
+  const handleResizeStart = (key: string, startX: number, startWidth: number) => {
+    resizeRef.current = { key, startX, startWidth };
+  };
+
+  const handleResizeMove = (clientX: number) => {
+    const resize = resizeRef.current;
+    if (!resize) return;
+    const delta = clientX - resize.startX;
+    const width = Math.max(48, resize.startWidth + delta);
+    setColumnWidths((prev) => ({ ...prev, [resize.key]: `${width}px` }));
+  };
+
+  const handleResizeEnd = () => {
+    resizeRef.current = null;
+  };
+
+  const handleReorderStart = (key: string) => {
+    dragRef.current = key;
+  };
+
+  const handleReorderDrop = (targetKey: string) => {
+    const sourceKey = dragRef.current;
+    dragRef.current = null;
+    if (!sourceKey || sourceKey === targetKey) return;
+    setColumnOrder((prev) => {
+      const next = [...prev];
+      const sourceIndex = next.indexOf(sourceKey);
+      const targetIndex = next.indexOf(targetKey);
+      if (sourceIndex < 0 || targetIndex < 0) return prev;
+      next.splice(sourceIndex, 1);
+      next.splice(targetIndex, 0, sourceKey);
+      return next;
+    });
+  };
+
+  const handlePickerToggle = (key: string) => {
+    setVisibleColumns((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
   };
 
   const topPager = allowPaging && (pagerPosition === "Top" || pagerPosition === "TopAndBottom");
@@ -139,6 +246,38 @@ export function DataGrid<TItem = unknown>({
           onPageSizeChange={handlePageSize}
         />
       )}
+      {showColumnPicker && (
+        <div className={styles.toolbar}>
+          <div className={styles.picker}>
+            <button
+              type="button"
+              className={styles.pickerButton}
+              aria-haspopup="menu"
+              aria-expanded={pickerOpen}
+              onClick={() => setPickerOpen((open) => !open)}
+            >
+              {columnPickerText}
+            </button>
+            {pickerOpen && (
+              <div className={styles.pickerPanel} role="menu" aria-label={columnPickerText}>
+                {columns.map((c, i) => {
+                  const key = gridColumnKey(c, i);
+                  return (
+                    <label key={key} className={styles.pickerItem}>
+                      <input
+                        type="checkbox"
+                        checked={visibleColumns.has(key)}
+                        onChange={() => handlePickerToggle(key)}
+                      />
+                      {c.title ?? c.property}
+                    </label>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
       <div className={styles.data}>
         <table
           className={styles.table}
@@ -148,23 +287,27 @@ export function DataGrid<TItem = unknown>({
           aria-busy={isLoading || undefined}
         >
           <colgroup>
-            {columns.map((c, i) => (
+            {effectiveColumns.map(({ key, column }) => (
               <col
-                key={c.property ?? `col-${i}`}
-                style={{ width: c.width, minWidth: c.minWidth, maxWidth: c.maxWidth }}
+                key={key}
+                style={{
+                  width: columnWidths[key] ?? column.width,
+                  minWidth: column.minWidth,
+                  maxWidth: column.maxWidth,
+                }}
               />
             ))}
           </colgroup>
           <thead>
             <tr>
-              {columns.map((c, i) => {
+              {effectiveColumns.map(({ key, column: c }) => {
                 const sortable = isSortable(c, allowSorting);
                 const sort = sorts.find((s) => s.property === c.property);
                 const sortIndex = sort ? sorts.indexOf(sort) + 1 : 0;
                 const align = c.align ?? "left";
                 return (
                   <th
-                    key={c.property ?? `col-${i}`}
+                    key={key}
                     aria-sort={sortable && sort ? ARIA_SORT[sort.sortOrder] : "none"}
                     className={[
                       styles.header,
@@ -172,7 +315,19 @@ export function DataGrid<TItem = unknown>({
                       align === "right" ? styles.right : "",
                       c.frozen ? styles.frozen : "",
                     ].filter(Boolean).join(" ")}
+                    style={c.frozen ? { left: frozenOffsets[key] } : undefined}
                     scope="col"
+                    draggable={allowColumnReorder || undefined}
+                    onDragStart={
+                      allowColumnReorder
+? (e) => {
+                            if (e.dataTransfer) e.dataTransfer.effectAllowed = "move";
+                            handleReorderStart(key);
+                          }
+                        : undefined
+                    }
+                    onDragOver={allowColumnReorder ? (e) => e.preventDefault() : undefined}
+                    onDrop={allowColumnReorder ? () => handleReorderDrop(key) : undefined}
                   >
                     {sortable ? (
                       <button
@@ -200,17 +355,40 @@ export function DataGrid<TItem = unknown>({
                     ) : (
                       c.title ?? c.property
                     )}
+                    {allowColumnResize && (
+                      <span
+                        className={styles.resizeHandle}
+                        data-dt-grid-resize
+                        role="separator"
+                        aria-orientation="vertical"
+                        aria-label={`Resize ${c.title ?? c.property}`}
+                        onMouseDown={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          const base = columnWidths[key] ?? c.width;
+                          const width = base ? parseFloat(base) : 96;
+                          handleResizeStart(key, e.clientX, Number.isFinite(width) ? width : 96);
+                        }}
+                        onMouseMove={(e) => {
+                          if (resizeRef.current?.key === key) handleResizeMove(e.clientX);
+                        }}
+                        onMouseUp={handleResizeEnd}
+                        onMouseLeave={() => {
+                          if (resizeRef.current?.key === key) handleResizeEnd();
+                        }}
+                      />
+                    )}
                   </th>
                 );
               })}
             </tr>
             {showFilterRow && (
               <tr>
-                {columns.map((c, i) => {
-                  if (!isFilterable(c, allowFiltering)) return <td key={i} className={styles.filterCell} />;
+                {effectiveColumns.map(({ key, column: c }) => {
+                  if (!isFilterable(c, allowFiltering)) return <td key={key} className={styles.filterCell} />;
                   const state = filters.get(c.property ?? "");
                   return (
-                    <td key={c.property} className={styles.filterCell}>
+                    <td key={key} className={styles.filterCell}>
                       <label className={styles.visuallyHidden} htmlFor={`df-${c.property}`}>
                         Filter {c.title ?? c.property}
                       </label>
@@ -245,19 +423,39 @@ export function DataGrid<TItem = unknown>({
             )}
           </thead>
           <tbody>
-            {view.items.map((row, i) => (
-              <tr
-                key={rowKey(row)}
-                className={onRowClick ? styles.clickable : undefined}
-                onClick={onRowClick ? () => onRowClick(row) : undefined}
-              >
-                {columns.map((c, j) => (
-                  <td key={c.property ?? `col-${j}`} className={cellClass(c)}>
-                    {renderCell(c, row, i)}
-                  </td>
-                ))}
-              </tr>
-            ))}
+            {view.items.map((row, i) => {
+              const key = rowKey(row);
+              const selected = (selectedKeys ?? []).includes(key);
+              return (
+                <tr
+                  key={key}
+                  className={[
+                    onRowClick || selectionMode !== "None" ? styles.clickable : "",
+                    selected ? styles.selected : "",
+                  ].filter(Boolean).join(" ")}
+                  aria-selected={selectionMode !== "None" ? selected : undefined}
+                  onClick={
+                    onRowClick || selectionMode !== "None"
+                      ? (e) => {
+                          if (isInteractiveTarget(e.target)) return;
+                          handleRowClick(row);
+                          handleSelection(row);
+                        }
+                      : undefined
+                  }
+                >
+                  {effectiveColumns.map(({ key: colKey, column: c }) => (
+                    <td
+                      key={colKey}
+                      className={cellClass(c)}
+                      style={c.frozen ? { left: frozenOffsets[colKey] } : undefined}
+                    >
+                      {renderCell(c, row, i)}
+                    </td>
+                  ))}
+                </tr>
+              );
+            })}
           </tbody>
         </table>
         {view.items.length === 0 && !isLoading && <div className={styles.empty}>{empty}</div>}
