@@ -1,6 +1,8 @@
 import { type ReactNode } from "react";
 import styles from "./Table.module.css";
 
+export type GridLines = "default" | "both" | "none" | "horizontal" | "vertical";
+
 export interface Column<T> {
   key: string;
   header: ReactNode;
@@ -13,13 +15,33 @@ export interface TableProps<T> {
   rows: readonly T[];
   rowKey: (row: T) => string;
   empty?: ReactNode;
+  caption?: ReactNode;
+  gridLines?: GridLines;
+  allowAlternatingRows?: boolean;
   className?: string;
 }
 
-export function Table<T>({ columns, rows, rowKey, empty, className }: TableProps<T>) {
+export function Table<T>({
+  columns,
+  rows,
+  rowKey,
+  empty,
+  caption,
+  gridLines = "default",
+  allowAlternatingRows = true,
+  className,
+}: TableProps<T>) {
+  const lineClass = gridLines === "default" || gridLines === "both" ? "" : styles[gridLines];
   return (
     <div className={[styles.wrap, className].filter(Boolean).join(" ")}>
-      <table className={styles.table}>
+      <table
+        className={[
+          styles.table,
+          lineClass,
+          allowAlternatingRows ? styles.alternating : "",
+        ].filter(Boolean).join(" ")}
+      >
+        {caption != null && <caption className={styles.caption}>{caption}</caption>}
         <thead>
           <tr>
             {columns.map((column) => (

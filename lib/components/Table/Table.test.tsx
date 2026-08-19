@@ -55,6 +55,78 @@ describe("Table", () => {
     );
     expect(screen.getByText("Nothing here")).toBeInTheDocument();
   });
+
+  it("renders a caption and scope=col headers", () => {
+    render(
+      <Table<Row>
+        columns={[{ key: "name", header: "Name" }]}
+        rows={rows}
+        rowKey={(row) => row.id}
+        caption="Team roster"
+      />,
+    );
+    expect(screen.getByText("Team roster")).toBeInTheDocument();
+    expect(screen.getByRole("columnheader", { name: "Name" }).getAttribute("scope")).toBe("col");
+  });
+
+  it("applies alternating rows by default and disables via prop", () => {
+    const { container, rerender } = render(
+      <Table<Row>
+        columns={[{ key: "name", header: "Name" }]}
+        rows={rows}
+        rowKey={(row) => row.id}
+      />,
+    );
+    expect(container.querySelector("table")!.className).toMatch(/alternating/);
+    rerender(
+      <Table<Row>
+        columns={[{ key: "name", header: "Name" }]}
+        rows={rows}
+        rowKey={(row) => row.id}
+        allowAlternatingRows={false}
+      />,
+    );
+    expect(container.querySelector("table")!.className).not.toMatch(/alternating/);
+  });
+
+  it("switches grid line variants", () => {
+    const { container, rerender } = render(
+      <Table<Row>
+        columns={[{ key: "name", header: "Name" }]}
+        rows={rows}
+        rowKey={(row) => row.id}
+        gridLines="none"
+      />,
+    );
+    expect(container.querySelector("table")!.className).toMatch(/\b_none_/);
+    rerender(
+      <Table<Row>
+        columns={[{ key: "name", header: "Name" }]}
+        rows={rows}
+        rowKey={(row) => row.id}
+        gridLines="vertical"
+      />,
+    );
+    expect(container.querySelector("table")!.className).toMatch(/\b_vertical_/);
+    rerender(
+      <Table<Row>
+        columns={[{ key: "name", header: "Name" }]}
+        rows={rows}
+        rowKey={(row) => row.id}
+        gridLines="horizontal"
+      />,
+    );
+    expect(container.querySelector("table")!.className).toMatch(/\b_horizontal_/);
+    rerender(
+      <Table<Row>
+        columns={[{ key: "name", header: "Name" }]}
+        rows={rows}
+        rowKey={(row) => row.id}
+        gridLines="default"
+      />,
+    );
+    expect(container.querySelector("table")!.className).not.toMatch(/_(none|vertical|horizontal)_/);
+  });
 });
 
 describe("Icon", () => {

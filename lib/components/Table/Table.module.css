@@ -11,6 +11,17 @@
   font-size: var(--dt-font-size-sm);
 }
 
+.caption {
+  caption-side: top;
+  text-align: start;
+  padding: var(--dt-space-2) var(--dt-space-3);
+  font-size: var(--dt-font-size-xs);
+  font-weight: var(--dt-font-weight-medium);
+  color: var(--dt-color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
 .table thead th {
   background-color: var(--dt-color-surface-hover);
   color: var(--dt-color-text-muted);
@@ -34,6 +45,44 @@
 }
 
 .table tbody tr:hover {
+  background-color: var(--dt-color-surface-hover);
+}
+
+.table.none,
+.table.none thead th,
+.table.none tbody td {
+  border: none;
+}
+
+.table.horizontal thead th {
+  border-left: none;
+  border-right: none;
+}
+
+.table.horizontal tbody td {
+  border-left: none;
+  border-right: none;
+}
+
+.table.vertical thead th {
+  border-bottom: 1px solid var(--dt-color-border);
+  border-right: 1px solid var(--dt-color-border);
+}
+
+.table.vertical thead th:last-child {
+  border-right: none;
+}
+
+.table.vertical tbody td {
+  border-bottom: none;
+  border-right: 1px solid var(--dt-color-border);
+}
+
+.table.vertical tbody td:last-child {
+  border-right: none;
+}
+
+.table.alternating tbody tr:nth-child(even) {
   background-color: var(--dt-color-surface-hover);
 }
 

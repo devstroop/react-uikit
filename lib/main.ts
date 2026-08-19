@@ -16,7 +16,7 @@ export { Stat } from "./components/Stat/Stat";
 export type { StatProps, StatDeltaTone } from "./components/Stat/Stat";
 
 export { Table } from "./components/Table/Table";
-export type { TableProps, Column as TableColumn } from "./components/Table/Table";
+export type { TableProps, Column as TableColumn, GridLines as TableGridLines } from "./components/Table/Table";
 
 export { EmptyState } from "./components/EmptyState/EmptyState";
 export type { EmptyStateProps } from "./components/EmptyState/EmptyState";
