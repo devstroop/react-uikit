@@ -24,6 +24,9 @@ export type { EmptyStateProps } from "./components/EmptyState/EmptyState";
 export { Field } from "./components/Field/Field";
 export type { FieldProps } from "./components/Field/Field";
 
+export { Form, useFormContext } from "./components/Form/Form";
+export type { FormProps, FormMethod, FormContextValue, FormFieldDescriptor } from "./components/Form/Form";
+
 export { Label } from "./components/Label/Label";
 
 export { Input } from "./components/Input/Input";
