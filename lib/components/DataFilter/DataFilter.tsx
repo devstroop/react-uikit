@@ -200,8 +200,6 @@ export function DataFilter<TItem = unknown>({
 
   useEffect(() => {
     if (viewChanged != null && items != null) viewChanged(applied ?? []);
-    // viewChanged is a consumer callback; only re-fire when the applied result changes
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [applied]);
 
   const propertyOf = (name: string): DataFilterProperty =>
