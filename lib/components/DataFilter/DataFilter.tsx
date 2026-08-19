@@ -35,7 +35,7 @@ export interface DataFilterProps<TItem = unknown> {
   initialRows?: readonly DataFilterRow[];
   uniqueFilters?: boolean;
   className?: string;
-  viewChanged?: (items: TItem[]) => void;
+  viewChanged?: (items: readonly TItem[]) => void;
   items?: readonly TItem[];
   children?: ReactNode;
 }
