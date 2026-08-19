@@ -240,4 +240,73 @@ describe("DataGrid", () => {
     expect(ths[1]).toHaveStyle("left: 120px");
     expect(ths[2]).not.toHaveStyle("left: 0px");
   });
+
+  it("groups by a column dropped on the group panel and hides it", () => {
+    renderGrid({ allowGrouping: true });
+    const panel = screen.getByText(/Drag a column header here/);
+    fireEvent.dragStart(screen.getByRole("columnheader", { name: /Role/ }));
+    fireEvent.dragOver(panel);
+    fireEvent.drop(panel);
+    expect(screen.queryByRole("columnheader", { name: /Role/ })).not.toBeInTheDocument();
+    expect(screen.getByText(/Role: admin \(1\)/)).toBeInTheDocument();
+    expect(screen.getByText(/Role: editor \(2\)/)).toBeInTheDocument();
+  });
+
+  it("collapses and expands groups", () => {
+    renderGrid({ allowGrouping: true });
+    fireEvent.dragStart(screen.getByRole("columnheader", { name: /Role/ }));
+    fireEvent.drop(screen.getByText(/Drag a column header here/));
+    const toggle = screen.getByRole("button", { name: /Role: admin/ });
+    expect(toggle).toHaveAttribute("aria-expanded", "true");
+    fireEvent.click(toggle);
+    expect(toggle).toHaveAttribute("aria-expanded", "false");
+    expect(screen.queryByText("John")).not.toBeInTheDocument();
+    fireEvent.click(toggle);
+    expect(screen.getByText("John")).toBeInTheDocument();
+  });
+
+  it("removes grouping via the chip", () => {
+    renderGrid({ allowGrouping: true });
+    fireEvent.dragStart(screen.getByRole("columnheader", { name: /Role/ }));
+    fireEvent.drop(screen.getByText(/Drag a column header here/));
+    fireEvent.click(screen.getByRole("button", { name: /Remove group by Role/ }));
+    expect(screen.getByRole("columnheader", { name: /Role/ })).toBeInTheDocument();
+    expect(screen.queryByText(/Role: admin/)).not.toBeInTheDocument();
+  });
+
+  it("edits a row inline and calls onRowUpdate", () => {
+    const onRowUpdate = vi.fn();
+    renderGrid({ editMode: "Single", onRowUpdate });
+    fireEvent.click(screen.getAllByRole("button", { name: "Edit" })[1] as HTMLElement);
+    const input = screen.getByLabelText("Name (edit)");
+    fireEvent.change(input, { target: { value: "Janet" } });
+    fireEvent.click(screen.getAllByRole("button", { name: "Save" })[0] as HTMLElement);
+    expect(onRowUpdate).toHaveBeenCalledWith(people[1], { ...people[1], name: "Janet" });
+    expect(screen.queryByLabelText("Name (edit)")).not.toBeInTheDocument();
+  });
+
+  it("creates a row and calls onRowCreate", () => {
+    const onRowCreate = vi.fn();
+    renderGrid({ editMode: "Single", allowRowCreate: true, onRowCreate });
+    fireEvent.click(screen.getByRole("button", { name: "Add row" }));
+    fireEvent.change(screen.getByLabelText("Name (new)"), { target: { value: "Zed" } });
+    fireEvent.click(screen.getByRole("button", { name: "Save" }));
+    expect(onRowCreate).toHaveBeenCalledWith(expect.objectContaining({ name: "Zed" }));
+  });
+
+  it("deletes a row via command button", () => {
+    const onRowDelete = vi.fn();
+    renderGrid({ onRowDelete });
+    fireEvent.click(screen.getAllByRole("button", { name: "Delete" })[0] as HTMLElement);
+    expect(onRowDelete).toHaveBeenCalledWith(people[0]);
+  });
+
+  it("cancels an edit without notifying", () => {
+    const onRowUpdate = vi.fn();
+    renderGrid({ editMode: "Single", onRowUpdate });
+    fireEvent.click(screen.getAllByRole("button", { name: "Edit" })[0] as HTMLElement);
+    fireEvent.click(screen.getByRole("button", { name: "Cancel" }));
+    expect(onRowUpdate).not.toHaveBeenCalled();
+    expect(screen.queryByLabelText("Name (edit)")).not.toBeInTheDocument();
+  });
 });

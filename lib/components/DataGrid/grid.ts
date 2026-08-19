@@ -33,6 +33,49 @@ export interface GridColumn<TItem = unknown> {
 
 export type GridSelectionMode = "None" | "Single" | "Multiple";
 
+export interface GridGroup {
+  key: string;
+  display: string;
+  property: string;
+  title: string;
+  count: number;
+}
+
+export interface GridGroupedItem<TItem = unknown> {
+  type: "group" | "row";
+  group?: GridGroup;
+  row?: TItem;
+}
+
+export function groupItems<TItem>(
+  items: readonly TItem[],
+  groupBy: string | undefined,
+  column: GridColumn<TItem> | undefined,
+  expanded: ReadonlySet<string>,
+  getValue: (row: TItem, property: string) => unknown,
+  format: (value: unknown) => string,
+): GridGroupedItem<TItem>[] {
+  if (!groupBy || !column) return items.map((row) => ({ type: "row", row }));
+  const map = new Map<string, TItem[]>();
+  items.forEach((row) => {
+    const key = String(getValue(row, groupBy) ?? "");
+    const bucket = map.get(key);
+    if (bucket) bucket.push(row);
+    else map.set(key, [row]);
+  });
+  const flattened: GridGroupedItem<TItem>[] = [];
+  map.forEach((rows, key) => {
+    const first = rows[0];
+    const value = first != null ? getValue(first, groupBy) : undefined;
+    flattened.push({
+      type: "group",
+      group: { key, display: format(value), property: groupBy, title: column.title ?? groupBy, count: rows.length },
+    });
+    if (expanded.has(key)) rows.forEach((row) => flattened.push({ type: "row", row }));
+  });
+  return flattened;
+}
+
 export function gridColumnKey<TItem = unknown>(column: GridColumn<TItem>, index: number): string {
   return column.property ?? `col-${index}`;
 }

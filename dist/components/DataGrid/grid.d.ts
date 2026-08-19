@@ -21,6 +21,19 @@ export interface GridColumn<TItem = unknown> {
     }) => ReactNode;
 }
 export type GridSelectionMode = "None" | "Single" | "Multiple";
+export interface GridGroup {
+    key: string;
+    display: string;
+    property: string;
+    title: string;
+    count: number;
+}
+export interface GridGroupedItem<TItem = unknown> {
+    type: "group" | "row";
+    group?: GridGroup;
+    row?: TItem;
+}
+export declare function groupItems<TItem>(items: readonly TItem[], groupBy: string | undefined, column: GridColumn<TItem> | undefined, expanded: ReadonlySet<string>, getValue: (row: TItem, property: string) => unknown, format: (value: unknown) => string): GridGroupedItem<TItem>[];
 export declare function gridColumnKey<TItem = unknown>(column: GridColumn<TItem>, index: number): string;
 export declare function gridFrozenOffsets<TItem = unknown>(entries: readonly {
     key: string;

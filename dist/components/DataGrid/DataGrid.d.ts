@@ -25,10 +25,18 @@ export interface DataGridProps<TItem = unknown> {
     columnPickerText?: string;
     allowColumnResize?: boolean;
     allowColumnReorder?: boolean;
+    allowGrouping?: boolean;
+    groupPanelText?: string;
+    groupExpanded?: boolean;
+    editMode?: "None" | "Single" | "EditRow";
+    allowRowCreate?: boolean;
+    onRowUpdate?: (original: TItem, updated: TItem) => void;
+    onRowCreate?: (row: TItem) => void;
+    onRowDelete?: (row: TItem) => void;
     isLoading?: boolean;
     empty?: ReactNode;
     ariaLabel?: string;
     className?: string;
     onRowClick?: (row: TItem) => void;
 }
-export declare function DataGrid<TItem = unknown>({ columns, rows, rowKey, allowSorting, allowMultiColumnSorting, showSortIndex, allowFiltering, filterCaseSensitivity, logicalOperator, allowPaging, pageSize, pageSizeOptions, pageNumbersCount, pagerPosition, showPagingSummary, showPageSizeSelector, selectionMode, selectedKeys, onSelectionChange, showColumnPicker, columnPickerText, allowColumnResize, allowColumnReorder, isLoading, empty, ariaLabel, className, onRowClick, }: DataGridProps<TItem>): import("react").JSX.Element;
+export declare function DataGrid<TItem = unknown>({ columns, rows, rowKey, allowSorting, allowMultiColumnSorting, showSortIndex, allowFiltering, filterCaseSensitivity, logicalOperator, allowPaging, pageSize, pageSizeOptions, pageNumbersCount, pagerPosition, showPagingSummary, showPageSizeSelector, selectionMode, selectedKeys, onSelectionChange, showColumnPicker, columnPickerText, allowColumnResize, allowColumnReorder, allowGrouping, groupPanelText, groupExpanded, editMode, allowRowCreate, onRowUpdate, onRowCreate, onRowDelete, isLoading, empty, ariaLabel, className, onRowClick, }: DataGridProps<TItem>): import("react").JSX.Element;
