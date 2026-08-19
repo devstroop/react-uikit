@@ -9,7 +9,7 @@ export interface StackProps extends HTMLAttributes<HTMLDivElement> {
     wrap?: StackWrap;
     gap?: StackGap;
     align?: "start" | "center" | "end" | "stretch" | "baseline" | "normal";
-    justify?: "start" | "center" | "end" | "between" | "around" | "evenly" | "normal";
+    justify?: "start" | "center" | "end" | "between" | "around" | "evenly" | "normal" | "space-between" | "space-around" | "space-evenly";
     className?: string;
     style?: CSSProperties;
 }

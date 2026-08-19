@@ -97,3 +97,18 @@
 .justify-normal {
   justify-content: normal;
 }
+.justify-normal {
+  justify-content: normal;
+}
+
+.justify-space-between {
+  justify-content: space-between;
+}
+
+.justify-space-around {
+  justify-content: space-around;
+}
+
+.justify-space-evenly {
+  justify-content: space-evenly;
+}
