@@ -14,7 +14,7 @@ generic, presentational, project-agnostic. Distribution is git-tagged
 - **Genericity first**: no auth/routing/data/domain coupling; no project-flavored
   component names (`AdminCard` etc. are explicitly rejected); pure primitives.
 - **Styling**: CSS modules per component (collision-proof across consumer apps) +
-  namespaced design tokens (`--se-*`) as the only source of values — components
+  namespaced design tokens (`--dt-*`) as the only source of values — components
   never hardcode colors/radii/spacing. Dark scheme via `[data-theme="dark"]`.
 - **API surface**: `forwardRef` + `className` passthrough + full DOM attributes.
 - **Build**: vite lib mode (es + cjs + d.ts via `vite-plugin-dts`), single

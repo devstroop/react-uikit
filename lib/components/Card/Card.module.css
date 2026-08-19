@@ -1,25 +1,25 @@
 .card {
-  border-radius: var(--se-radius-lg);
-  background-color: var(--se-color-surface);
-  font-family: var(--se-font-sans);
+  border-radius: var(--dt-radius-lg);
+  background-color: var(--dt-color-surface);
+  font-family: var(--dt-font-sans);
   overflow: hidden;
 }
 
 .elevated {
-  box-shadow: var(--se-shadow-md);
-  border: 1px solid var(--se-color-border);
+  box-shadow: var(--dt-shadow-md);
+  border: 1px solid var(--dt-color-border);
 }
 
 .outlined {
-  border: 1px solid var(--se-color-border);
+  border: 1px solid var(--dt-color-border);
 }
 
 .interactive {
-  border: 1px solid var(--se-color-border);
+  border: 1px solid var(--dt-color-border);
   cursor: pointer;
   transition:
-    border-color var(--se-transition-fast),
-    box-shadow var(--se-transition-fast);
+    border-color var(--dt-transition-fast),
+    box-shadow var(--dt-transition-fast);
 }
 
 .text {
@@ -29,32 +29,32 @@
 }
 
 .interactive:hover {
-  border-color: var(--se-color-border-strong);
-  box-shadow: var(--se-shadow-sm);
+  border-color: var(--dt-color-border-strong);
+  box-shadow: var(--dt-shadow-sm);
 }
 
 .interactive:focus-visible {
-  outline: 2px solid var(--se-color-focus);
+  outline: 2px solid var(--dt-color-focus);
   outline-offset: 2px;
 }
 
 .header {
-  padding: var(--se-space-4) var(--se-space-4) 0;
-  font-size: var(--se-font-size-md);
-  font-weight: var(--se-font-weight-bold);
-  color: var(--se-color-text);
+  padding: var(--dt-space-4) var(--dt-space-4) 0;
+  font-size: var(--dt-font-size-md);
+  font-weight: var(--dt-font-weight-bold);
+  color: var(--dt-color-text);
 }
 
 .body {
-  padding: var(--se-space-4);
-  font-size: var(--se-font-size-sm);
-  color: var(--se-color-text);
+  padding: var(--dt-space-4);
+  font-size: var(--dt-font-size-sm);
+  color: var(--dt-color-text);
 }
 
 .header + .body {
-  padding-top: var(--se-space-3);
+  padding-top: var(--dt-space-3);
 }
 
 .footer {
-  padding: 0 var(--se-space-4) var(--se-space-4);
+  padding: 0 var(--dt-space-4) var(--dt-space-4);
 }

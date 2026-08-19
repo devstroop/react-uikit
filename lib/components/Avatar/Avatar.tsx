@@ -16,12 +16,12 @@ export interface AvatarProps {
 }
 
 const PALETTE = [
-  "var(--se-color-palette-0)",
-  "var(--se-color-palette-1)",
-  "var(--se-color-palette-2)",
-  "var(--se-color-palette-3)",
-  "var(--se-color-palette-4)",
-  "var(--se-color-palette-5)",
+  "var(--dt-color-palette-0)",
+  "var(--dt-color-palette-1)",
+  "var(--dt-color-palette-2)",
+  "var(--dt-color-palette-3)",
+  "var(--dt-color-palette-4)",
+  "var(--dt-color-palette-5)",
 ];
 
 function initialsFor(name: string): string {

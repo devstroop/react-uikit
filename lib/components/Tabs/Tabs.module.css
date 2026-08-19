@@ -24,8 +24,8 @@
 .tabList {
   display: flex;
   flex-direction: row;
-  gap: var(--se-space-1);
-  margin-bottom: var(--se-space-4);
+  gap: var(--dt-space-1);
+  margin-bottom: var(--dt-space-4);
 }
 
 .tabList.left {
@@ -33,7 +33,7 @@
   align-items: stretch;
   order: 1;
   margin-bottom: 0;
-  margin-right: var(--se-space-4);
+  margin-right: var(--dt-space-4);
 }
 
 .tabList.right {
@@ -41,47 +41,47 @@
   align-items: stretch;
   order: 2;
   margin-bottom: 0;
-  margin-left: var(--se-space-4);
+  margin-left: var(--dt-space-4);
 }
 
 .tabList.bottom {
   order: 2;
   margin-bottom: 0;
-  margin-top: var(--se-space-4);
+  margin-top: var(--dt-space-4);
 }
 
 .underline {
-  border-bottom: 1px solid var(--se-color-border);
+  border-bottom: 1px solid var(--dt-color-border);
 }
 
 .underline.left {
   border-bottom: none;
-  border-right: 1px solid var(--se-color-border);
+  border-right: 1px solid var(--dt-color-border);
 }
 
 .underline.right {
   border-bottom: none;
-  border-left: 1px solid var(--se-color-border);
+  border-left: 1px solid var(--dt-color-border);
 }
 
 .underline.bottom {
   border-bottom: none;
-  border-top: 1px solid var(--se-color-border);
+  border-top: 1px solid var(--dt-color-border);
 }
 
 .pills {
-  gap: var(--se-space-2);
+  gap: var(--dt-space-2);
 }
 
 .tab {
   border: none;
   background: transparent;
-  color: var(--se-color-text-muted);
-  font-size: var(--se-font-size-sm);
-  font-weight: var(--se-font-weight-medium);
-  padding: var(--se-space-2) var(--se-space-3);
+  color: var(--dt-color-text-muted);
+  font-size: var(--dt-font-size-sm);
+  font-weight: var(--dt-font-weight-medium);
+  padding: var(--dt-space-2) var(--dt-space-3);
   cursor: pointer;
-  transition: color var(--se-transition-fast);
+  transition: color var(--dt-transition-fast);
 }
 
 .underline .tab {
@@ -111,37 +111,37 @@
 }
 
 .underline .tab.active {
-  color: var(--se-color-text-primary);
-  border-bottom-color: var(--se-color-primary);
+  color: var(--dt-color-text-primary);
+  border-bottom-color: var(--dt-color-primary);
 }
 
 .underline.left .tab.active {
-  border-right-color: var(--se-color-primary);
+  border-right-color: var(--dt-color-primary);
 }
 
 .underline.right .tab.active {
-  border-left-color: var(--se-color-primary);
+  border-left-color: var(--dt-color-primary);
 }
 
 .underline.bottom .tab.active {
-  border-top-color: var(--se-color-primary);
+  border-top-color: var(--dt-color-primary);
 }
 
 .pills .tab {
-  border-radius: var(--se-radius-full);
+  border-radius: var(--dt-radius-full);
 }
 
 .pills .tab.active {
-  background: var(--se-color-primary);
-  color: var(--se-color-primary-fg);
+  background: var(--dt-color-primary);
+  color: var(--dt-color-primary-fg);
 }
 
 .tab:hover:not(.disabled):not(.active) {
-  color: var(--se-color-text);
+  color: var(--dt-color-text);
 }
 
 .tab:focus-visible {
-  outline: 2px solid var(--se-color-focus);
+  outline: 2px solid var(--dt-color-focus);
   outline-offset: 2px;
 }
 
@@ -151,6 +151,6 @@
 }
 
 .panel {
-  font-size: var(--se-font-size-sm);
+  font-size: var(--dt-font-size-sm);
   line-height: 1.6;
 }

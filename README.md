@@ -61,14 +61,14 @@ any subset on your `:root` (or a scoped container):
 
 ```css
 :root {
-  --se-color-primary: #7c3aed;
-  --se-color-primary-hover: #6d28d9;
-  --se-radius-md: 6px;
+  --dt-color-primary: #7c3aed;
+  --dt-color-primary-hover: #6d28d9;
+  --dt-radius-md: 6px;
 }
 ```
 
 A dark scheme is available via `[data-theme="dark"]`. See
-`lib/styles/tokens.css` for the full token list (`--se-*`).
+`lib/styles/tokens.css` for the full token list (`--dt-*`).
 
 ## Development
 

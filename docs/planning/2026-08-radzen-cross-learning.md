@@ -13,7 +13,7 @@ arbiter — component-parity learnings drive the fix chain.
 
 | Area | Radzen approach | Ours | Verdict |
 |---|---|---|---|
-| Layout | CSS grid named areas (`rz-header`/`rz-body`/`rz-sidebar`/`rz-footer`), any arrangement via `Style` grid-template-areas; sections optional | Flex column, auto-categorized header/footer/body, sidebar flanks body, `--se-layout-sidebar-width` | **Delta:** grid-areas flexibility; sidebar responsive auto-collapse; overlay/drawer mode |
+| Layout | CSS grid named areas (`rz-header`/`rz-body`/`rz-sidebar`/`rz-footer`), any arrangement via `Style` grid-template-areas; sections optional | Flex column, auto-categorized header/footer/body, sidebar flanks body, `--dt-layout-sidebar-width` | **Delta:** grid-areas flexibility; sidebar responsive auto-collapse; overlay/drawer mode |
 | Sidebar | `Expanded` (bindable) + `Responsive` (auto-collapses at breakpoint); overlay = `Responsive=false` + absolute + manual mask (reuses `rz-dialog-mask`) | `position` left/right, `expanded` collapsed state, `[data-se-sidebar-toggle]` behavior | **Delta (high):** responsive collapse + overlay mode (mask + Esc) |
 | Row | `Gap` property | `gap`, `align`, `justify`, `wrap` | Parity ✓ |
 | Column | 12-unit `Size` + `SizeMD`/`OffsetMD` (2 tiers) | 12-unit `size`/`offset` + 5 tiers (`sm/md/lg/xl`) | Ahead ✓ |
@@ -40,7 +40,7 @@ arbiter — component-parity learnings drive the fix chain.
 | Empty-state | none (DataGrid EmptyTemplate only) | icon + title + description | Ahead ✓ |
 | Card | `Variant` (Filled/Outlined/Text) + width utilities | elevated/outlined/interactive + header/footer | **Delta (low):** text/flat variant |
 | Icon | Material icon font by name + `IconColor` (theme palette) | 40-glyph inline SVG set, size/strokeWidth | **Delta (low):** color prop, bigger set — out of scope |
-| Theming | RadzenTheme (presets, custom theme), `--rz-*` vars, **RadzenAppearanceToggle** (light/dark UI control) | `--se-*` tokens per theme, `[data-theme="dark"]`, switcher only in preview | **Delta (med-high):** ship first-class ThemeSwitcher/appearance-toggle |
+| Theming | RadzenTheme (presets, custom theme), `--rz-*` vars, **RadzenAppearanceToggle** (light/dark UI control) | `--dt-*` tokens per theme, `[data-theme="dark"]`, switcher only in preview | **Delta (med-high):** ship first-class ThemeSwitcher/appearance-toggle |
 
 ---
 

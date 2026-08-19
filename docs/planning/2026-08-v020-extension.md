@@ -29,7 +29,7 @@ feedback/overlay layer explicitly deferred from the foundation
 
 | # | Item | Notes |
 |---|------|-------|
-| #5 | Tokens extension | `--se-z-*` (tooltip 1000 / popover 1500 / modal 2000 / toast 3000), `--se-shadow-lg`, `--se-color-backdrop`, `--se-transition-base/slow`, `--se-ease-out` |
+| #5 | Tokens extension | `--dt-z-*` (tooltip 1000 / popover 1500 / modal 2000 / toast 3000), `--dt-shadow-lg`, `--dt-color-backdrop`, `--dt-transition-base/slow`, `--dt-ease-out` |
 | #6 | Tooltip | hover+focus, `aria-describedby`, arrow, 4 positions |
 | #7 | Dialog | native `<dialog>`, 3 sizes, header/body/footer slots, backdrop, `onClose`, focus restore |
 | #8 | Toast | `ToastProvider` + `useToast()`, viewport, `aria-live`, 4 tones, auto-dismiss |
