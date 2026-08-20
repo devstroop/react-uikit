@@ -26,7 +26,7 @@
 }
 
 .dragging .caption {
-  color: var(--dt-color-primary);
+  color: var(--dt-color-text-primary);
 }
 
 .caption {
@@ -43,7 +43,7 @@
   border: none;
   border-radius: var(--dt-radius-sm);
   background-color: transparent;
-  color: var(--dt-color-primary);
+  color: var(--dt-color-text-primary);
   font-family: var(--dt-font-sans);
   font-size: var(--dt-font-size-sm);
   font-weight: var(--dt-font-weight-medium);
