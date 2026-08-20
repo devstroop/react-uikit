@@ -16,7 +16,7 @@
 }
 
 .button:focus-visible {
-  outline: 2px solid var(--dt-color-focus);
+  outline: 2px solid var(--dt-color-outline-primary);
   outline-offset: 2px;
 }
 
@@ -48,6 +48,22 @@
 .ghost {
   background-color: transparent;
   color: var(--dt-color-text);
+}
+
+.secondary:focus-visible {
+  outline-color: var(--dt-color-outline-secondary);
+}
+
+.danger:focus-visible {
+  outline-color: var(--dt-color-outline-danger);
+}
+
+.success:focus-visible {
+  outline-color: var(--dt-color-outline-success);
+}
+
+.info:focus-visible {
+  outline-color: var(--dt-color-outline-info);
 }
 
 .ghost:hover:not(:disabled) {
