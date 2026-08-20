@@ -31,7 +31,7 @@ describe("Rating", () => {
     const user = userEvent.setup();
     const onChange = vi.fn();
     render(<Rating value={2} onChange={onChange} />);
-    await user.click(screen.getAllByRole("radio")[4]);
+    await user.click(screen.getAllByRole("radio")[4]!);
     expect(onChange).toHaveBeenCalledWith(5);
   });
 
@@ -39,7 +39,7 @@ describe("Rating", () => {
     const user = userEvent.setup();
     const onChange = vi.fn();
     render(<Rating value={2} onChange={onChange} />);
-    await user.click(screen.getAllByRole("radio")[1]);
+    await user.click(screen.getAllByRole("radio")[1]!);
     await user.keyboard("{ArrowRight}");
     expect(onChange).toHaveBeenLastCalledWith(3);
     await user.keyboard("{ArrowLeft}");
