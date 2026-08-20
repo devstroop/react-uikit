@@ -1,0 +1,270 @@
+.dt-timespanpicker {
+  position: relative;
+  display: block;
+  width: 100%;
+  min-width: 0;
+  font-family: var(--dt-font-sans);
+}
+
+.dt-timespanpicker-inline {
+  width: max-content;
+}
+
+.dt-timespanpicker-input {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  border: 1px solid var(--dt-color-border-strong);
+  border-radius: var(--dt-radius-md);
+  background-color: var(--dt-color-surface);
+  color: var(--dt-color-text);
+  font-family: inherit;
+  transition:
+    border-color var(--dt-transition-fast),
+    box-shadow var(--dt-transition-fast);
+}
+
+.dt-timespanpicker-input::placeholder {
+  color: var(--dt-color-text-muted);
+}
+
+.dt-timespanpicker-input:focus-visible {
+  outline: none;
+  border-color: var(--dt-color-primary);
+  box-shadow: 0 0 0 3px var(--dt-color-outline-primary);
+}
+
+.dt-timespanpicker-input:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.dt-timespanpicker-input-invalid,
+.dt-timespanpicker-input-invalid:focus-visible {
+  border-color: var(--dt-color-danger);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--dt-color-danger) 25%, transparent);
+}
+
+.dt-timespanpicker-input--xs {
+  height: var(--dt-control-height-xs);
+  padding: 6px 36px 6px 10px;
+  font-size: var(--dt-font-size-xs);
+}
+
+.dt-timespanpicker-input--sm {
+  height: var(--dt-control-height-sm);
+  padding: 6px 40px 6px 10px;
+  font-size: var(--dt-font-size-xs);
+}
+
+.dt-timespanpicker-input--md {
+  height: var(--dt-control-height-md);
+  padding: 8px 44px 8px 12px;
+  font-size: var(--dt-font-size-sm);
+}
+
+.dt-timespanpicker-input--lg {
+  height: var(--dt-control-height-lg);
+  padding: 10px 50px 10px 14px;
+  font-size: var(--dt-font-size-md);
+}
+
+.dt-timespanpicker-input--xl {
+  height: var(--dt-control-height-xl);
+  padding: 12px 54px 12px 16px;
+  font-size: var(--dt-font-size-lg);
+}
+
+.dt-timespanpicker-trigger {
+  position: absolute;
+  top: 50%;
+  right: 4px;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: calc(100% - 8px);
+  border: none;
+  border-radius: var(--dt-radius-sm);
+  background-color: transparent;
+  color: var(--dt-color-text-muted);
+  cursor: pointer;
+  transition:
+    color var(--dt-transition-fast),
+    background-color var(--dt-transition-fast);
+}
+
+.dt-timespanpicker-trigger:hover:not(:disabled) {
+  color: var(--dt-color-text);
+  background-color: var(--dt-color-surface-hover);
+}
+
+.dt-timespanpicker-trigger:focus-visible {
+  outline: 2px solid var(--dt-color-outline-primary);
+  outline-offset: 1px;
+}
+
+.dt-timespanpicker-trigger:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.dt-timespanpicker-clear {
+  position: absolute;
+  top: 50%;
+  right: 36px;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: var(--dt-radius-sm);
+  background-color: transparent;
+  color: var(--dt-color-text-muted);
+  cursor: pointer;
+  transition:
+    color var(--dt-transition-fast),
+    background-color var(--dt-transition-fast);
+}
+
+.dt-timespanpicker-clear:hover {
+  color: var(--dt-color-text);
+  background-color: var(--dt-color-surface-hover);
+}
+
+.dt-timespanpicker-clear:focus-visible {
+  outline: 2px solid var(--dt-color-outline-primary);
+  outline-offset: 1px;
+}
+
+.dt-timespanpicker-popup {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: var(--dt-z-popover);
+  border: 1px solid var(--dt-color-border-strong);
+  border-radius: var(--dt-radius-md);
+  background-color: var(--dt-color-surface);
+  box-shadow: var(--dt-shadow-lg);
+  padding: var(--dt-space-3);
+}
+
+.dt-timespanpicker-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dt-space-2);
+  min-width: 240px;
+}
+
+.dt-timespanpicker-preview {
+  font-size: var(--dt-font-size-sm);
+  font-weight: var(--dt-font-weight-medium);
+  color: var(--dt-color-text);
+  text-align: center;
+  border-bottom: 1px solid var(--dt-color-border);
+  padding-bottom: var(--dt-space-2);
+}
+
+.dt-timespanpicker-units {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--dt-space-2);
+}
+
+.dt-timespanpicker-unit {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.dt-timespanpicker-unit-label {
+  font-size: var(--dt-font-size-xs);
+  color: var(--dt-color-text-muted);
+}
+
+.dt-timespanpicker-unit-control {
+  position: relative;
+}
+
+.dt-timespanpicker-unit-input {
+  width: 72px;
+  height: 30px;
+  box-sizing: border-box;
+  border: 1px solid var(--dt-color-border-strong);
+  border-radius: var(--dt-radius-sm);
+  background-color: var(--dt-color-surface);
+  color: var(--dt-color-text);
+  font-family: inherit;
+  font-size: var(--dt-font-size-sm);
+  text-align: center;
+  padding: 4px 22px 4px 6px;
+}
+
+.dt-timespanpicker-unit-input:focus-visible {
+  outline: none;
+  border-color: var(--dt-color-primary);
+  box-shadow: 0 0 0 2px var(--dt-color-outline-primary);
+}
+
+.dt-timespanpicker-unit-buttons {
+  position: absolute;
+  top: 1px;
+  right: 2px;
+  bottom: 1px;
+  display: flex;
+  flex-direction: column;
+  width: 18px;
+}
+
+.dt-timespanpicker-unit-buttons button {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  border-radius: 2px;
+  background-color: transparent;
+  color: var(--dt-color-text-muted);
+  cursor: pointer;
+}
+
+.dt-timespanpicker-unit-buttons button:hover {
+  color: var(--dt-color-text);
+  background-color: var(--dt-color-surface-hover);
+}
+
+.dt-timespanpicker-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--dt-space-2);
+  padding-top: var(--dt-space-2);
+  border-top: 1px solid var(--dt-color-border);
+}
+
+.dt-timespanpicker-ok {
+  height: var(--dt-control-height-sm);
+  padding: 0 var(--dt-space-4);
+  border: none;
+  border-radius: var(--dt-radius-md);
+  background-color: var(--dt-color-primary);
+  color: var(--dt-color-primary-fg);
+  font-family: inherit;
+  font-size: var(--dt-font-size-xs);
+  font-weight: var(--dt-font-weight-medium);
+  cursor: pointer;
+  transition: background-color var(--dt-transition-fast);
+}
+
+.dt-timespanpicker-ok:hover:not(:disabled) {
+  background-color: var(--dt-color-primary-hover);
+}
+
+.dt-timespanpicker-ok:focus-visible {
+  outline: 2px solid var(--dt-color-outline-primary);
+  outline-offset: 2px;
+}

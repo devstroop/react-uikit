@@ -56,11 +56,14 @@ describe("Icon", () => {
     expect(ref.current).toHaveClass("my-icon");
   });
 
-  it("exports 40 icon names", () => {
-    expect(iconNames).toHaveLength(40);
+  it("exports 43 icon names", () => {
+    expect(iconNames).toHaveLength(43);
     expect(iconNames).toContain("check");
     expect(iconNames).toContain("chevron-down");
     expect(iconNames).toContain("settings");
     expect(iconNames).toContain("link");
+    expect(iconNames).toContain("star");
+    expect(iconNames).toContain("star-outline");
+    expect(iconNames).toContain("ban");
   });
 });
