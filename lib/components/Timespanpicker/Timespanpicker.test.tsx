@@ -37,7 +37,7 @@ describe("formatTimeSpan", () => {
 describe("Timespanpicker", () => {
   it("renders an input, a trigger and no popup by default", () => {
     render(<Timespanpicker aria-label="Duration" />);
-    expect(screen.getByRole("textbox", { name: "Duration" })).toBeInTheDocument();
+    expect(screen.getByRole("combobox", { name: "Duration" })).toBeInTheDocument();
     const trigger = screen.getByRole("button", { name: "Open timespan picker" });
     expect(trigger).toHaveAttribute("aria-haspopup", "dialog");
     expect(trigger).toHaveAttribute("aria-expanded", "false");
@@ -46,7 +46,7 @@ describe("Timespanpicker", () => {
 
   it("shows the value formatted on the input", () => {
     render(<Timespanpicker aria-label="Duration" defaultValue="PT1H30M" />);
-    expect(screen.getByRole("textbox", { name: "Duration" })).toHaveValue("01:30:00");
+    expect(screen.getByRole("combobox", { name: "Duration" })).toHaveValue("01:30:00");
   });
 
   it("opens the panel with unit steppers", async () => {
@@ -96,7 +96,7 @@ describe("Timespanpicker", () => {
     fireEvent.keyDown(screen.getByLabelText("Hours"), { key: "Enter" });
     expect(onChange).toHaveBeenCalledWith("02:00:00");
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
-    expect(screen.getByRole("textbox", { name: "Duration" })).toHaveValue("02:00:00");
+    expect(screen.getByRole("combobox", { name: "Duration" })).toHaveValue("02:00:00");
   });
 
   it("reverts staged edits when closed without confirm", async () => {
@@ -107,7 +107,7 @@ describe("Timespanpicker", () => {
     expect(screen.getByLabelText("Hours")).toHaveValue("2");
     fireEvent.keyDown(document.activeElement as HTMLElement, { key: "Escape" });
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
-    expect(screen.getByRole("textbox", { name: "Duration" })).toHaveValue("01:00:00");
+    expect(screen.getByRole("combobox", { name: "Duration" })).toHaveValue("01:00:00");
     await user.click(screen.getByRole("button", { name: "Open timespan picker" }));
     expect(screen.getByLabelText("Hours")).toHaveValue("1");
   });
@@ -138,7 +138,7 @@ describe("Timespanpicker", () => {
         onChange={onChange}
       />,
     );
-    const input = screen.getByRole("textbox", { name: "Duration" });
+    const input = screen.getByRole("combobox", { name: "Duration" });
     await user.clear(input);
     await user.type(input, "5:00:00");
     fireEvent.keyDown(input, { key: "Enter" });
@@ -154,13 +154,13 @@ describe("Timespanpicker", () => {
     );
     await user.click(screen.getByRole("button", { name: "Clear" }));
     expect(onChange).toHaveBeenCalledWith("");
-    expect(screen.getByRole("textbox", { name: "Duration" })).toHaveValue("");
+    expect(screen.getByRole("combobox", { name: "Duration" })).toHaveValue("");
   });
 
   it("does not open when disabled", async () => {
     const user = userEvent.setup();
     render(<Timespanpicker aria-label="Duration" disabled />);
-    expect(screen.getByRole("textbox", { name: "Duration" })).toBeDisabled();
+    expect(screen.getByRole("combobox", { name: "Duration" })).toBeDisabled();
     const trigger = screen.getByRole("button", { name: "Open timespan picker" });
     expect(trigger).toBeDisabled();
     await user.click(trigger);
@@ -182,7 +182,7 @@ describe("Timespanpicker", () => {
 
   it("applies size and invalid classes", () => {
     render(<Timespanpicker aria-label="Duration" size="sm" invalid />);
-    const input = screen.getByRole("textbox", { name: "Duration" });
+    const input = screen.getByRole("combobox", { name: "Duration" });
     expect(input.className).toContain("dtTimespanpickerInputSm");
     expect(input.className).toContain("dtTimespanpickerInputInvalid");
     expect(input).toHaveAttribute("aria-invalid", "true");

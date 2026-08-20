@@ -768,7 +768,6 @@ export const Datepicker = forwardRef<HTMLInputElement, DatepickerProps>(function
               key={day}
               role="columnheader"
               className={styles.dtDatepickerWeekday}
-              aria-hidden="true"
             >
               {day}
             </div>
@@ -891,6 +890,8 @@ export const Datepicker = forwardRef<HTMLInputElement, DatepickerProps>(function
             readOnly={readOnly}
             placeholder={placeholder}
             tabIndex={tabIndex}
+            role={showButton ? undefined : "combobox"}
+            aria-label={ariaLabel ?? "Date"}
             aria-haspopup={showButton ? undefined : "dialog"}
             aria-expanded={showButton ? undefined : effectiveOpen}
             aria-controls={showButton ? undefined : popupId}
