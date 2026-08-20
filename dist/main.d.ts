@@ -81,3 +81,5 @@ export { Accordion } from './components/Accordion/Accordion';
 export type { AccordionProps, AccordionItem } from './components/Accordion/Accordion';
 export { Textarea } from './components/Textarea/Textarea';
 export type { TextareaProps, TextareaSize } from './components/Textarea/Textarea';
+export { Typography } from './components/Typography/Typography';
+export type { TypographyProps, TypographyVariant } from './components/Typography/Typography';
