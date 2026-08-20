@@ -210,3 +210,15 @@ export type { SliderProps, SliderOrientation } from "./components/Slider/Slider"
 
 export { Timespanpicker } from "./components/Timespanpicker/Timespanpicker";
 export type { TimespanpickerProps, TimespanpickerSize } from "./components/Timespanpicker/Timespanpicker";
+
+export { SecurityCode } from "./components/SecurityCode/SecurityCode";
+export type { SecurityCodeProps, SecurityCodeSize } from "./components/SecurityCode/SecurityCode";
+
+export { SignaturePad } from "./components/SignaturePad/SignaturePad";
+export type { SignaturePadProps, SignaturePadHandle } from "./components/SignaturePad/SignaturePad";
+
+export { Upload } from "./components/Upload/Upload";
+export type { UploadProps, UploadHandle, UploadedFile } from "./components/Upload/Upload";
+
+export { DropZone } from "./components/DropZone/DropZone";
+export type { DropZoneProps, DropZoneHandle } from "./components/DropZone/DropZone";
