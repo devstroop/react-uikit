@@ -39,7 +39,6 @@ describe("Rating", () => {
     const user = userEvent.setup();
     const onChange = vi.fn();
     render(<Rating value={2} onChange={onChange} />);
-    const group = screen.getByRole("radiogroup", { name: "Rating" });
     await user.click(screen.getAllByRole("radio")[1]);
     await user.keyboard("{ArrowRight}");
     expect(onChange).toHaveBeenLastCalledWith(3);
