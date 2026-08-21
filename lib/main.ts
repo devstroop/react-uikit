@@ -261,3 +261,18 @@ export type { SchedulerProps, SchedulerEvent, SchedulerResource } from "./compon
 
 export { Gantt } from "./components/Gantt/Gantt";
 export type { GanttProps, GanttTask } from "./components/Gantt/Gantt";
+
+export { Pivot } from "./components/Pivot/Pivot";
+export type { PivotProps, PivotField, PivotAggregate } from "./components/Pivot/Pivot";
+
+export { Timeline } from "./components/Timeline/Timeline";
+export type { TimelineProps, TimelineItem } from "./components/Timeline/Timeline";
+
+export { VirtualGrid } from "./components/VirtualGrid/VirtualGrid";
+export type { VirtualGridProps, VirtualColumn } from "./components/VirtualGrid/VirtualGrid";
+
+export { QRCode } from "./components/QRCode/QRCode";
+export type { QRCodeProps } from "./components/QRCode/QRCode";
+
+export { Barcode } from "./components/Barcode/Barcode";
+export type { BarcodeProps } from "./components/Barcode/Barcode";
