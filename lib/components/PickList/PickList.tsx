@@ -286,7 +286,7 @@ export function PickList({
     // create copy
     const next = [...targetItems];
     const keys = targetSelected;
-    let moved: PickListItem[] = [];
+    const moved: PickListItem[] = [];
     // For up: iterate from top to bottom, if item selected and previous not selected and not disabled, swap
     for (let i = 1; i < next.length; i++) {
       const curr = next[i];
@@ -319,7 +319,7 @@ export function PickList({
     if (targetSelected.size === 0) return;
     const next = [...targetItems];
     const keys = targetSelected;
-    let moved: PickListItem[] = [];
+    const moved: PickListItem[] = [];
     for (let i = next.length - 2; i >= 0; i--) {
       const curr = next[i];
       const nxt = next[i + 1];
@@ -356,7 +356,7 @@ export function PickList({
       if (sourceItems.length === 0) return;
       const enabled = sourceEnabledIdxs;
       if (enabled.length === 0) return;
-      let current = enabled.includes(sourceActive) ? sourceActive : (enabled[0] ?? 0);
+      const current = enabled.includes(sourceActive) ? sourceActive : (enabled[0] ?? 0);
       let next = -1;
       if (e.key === "ArrowDown") {
         e.preventDefault();
@@ -402,7 +402,7 @@ export function PickList({
       if (targetItems.length === 0) return;
       const enabled = targetEnabledIdxs;
       if (enabled.length === 0) return;
-      let current = enabled.includes(targetActive) ? targetActive : (enabled[0] ?? 0);
+      const current = enabled.includes(targetActive) ? targetActive : (enabled[0] ?? 0);
       let next = -1;
       if (e.key === "ArrowDown") {
         e.preventDefault();

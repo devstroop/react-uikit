@@ -287,7 +287,7 @@ export function Tree({
       if (disabled) return;
       if (effectiveSelectionMode === "multiple") {
         // uncontrolled update if not controlled
-        let next = new Set(selectedKeys);
+        const next = new Set(selectedKeys);
         if (next.has(key)) next.delete(key);
         else next.add(key);
         if (!isControlled) setInternalSelectedKeys(next);
