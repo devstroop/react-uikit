@@ -35,8 +35,8 @@ export type { DataFilterProps, DataFilterProperty, DataFilterRow } from "./compo
 
 export { DataGrid } from "./components/DataGrid/DataGrid";
 export type { DataGridProps, PagerPosition } from "./components/DataGrid/DataGrid";
-export { Pager } from "./components/DataGrid/Pager";
-export type { PagerProps } from "./components/DataGrid/Pager";
+export { Pager } from "./components/Pager/Pager";
+export type { PagerProps, PageEventArgs, PagingInformation } from "./components/Pager/Pager";
 export { DataList } from "./components/DataList/DataList";
 export type { DataListProps } from "./components/DataList/DataList";
 export {

@@ -18,4 +18,4 @@ export interface PagerProps {
     }) => ReactNode;
     ariaLabel?: string;
 }
-export declare function Pager({ pageNumber, pageSize, count, pageSizeOptions, pageNumbersCount, showSummary, showPageSizeSelector, pageSizeText, className, onPageChange, onPageSizeChange, summaryTemplate, ariaLabel, }: PagerProps): import("react").JSX.Element;
+export declare function Pager(props: PagerProps): import("react").JSX.Element;
