@@ -1,0 +1,128 @@
+.root {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  border: 1px solid var(--dt-color-border);
+  border-radius: var(--dt-radius-md);
+  overflow: hidden;
+  background-color: var(--dt-color-surface);
+  font-family: var(--dt-font-sans);
+  min-height: 120px;
+}
+
+.horizontal {
+  flex-direction: row;
+}
+
+.vertical {
+  flex-direction: column;
+}
+
+.pane {
+  position: relative;
+  background-color: var(--dt-color-surface);
+  color: var(--dt-color-text);
+  padding: var(--dt-space-2);
+  overflow: auto;
+  min-width: 0;
+  min-height: 0;
+}
+
+.handle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--dt-color-border);
+  flex-shrink: 0;
+  position: relative;
+  transition: background-color var(--dt-transition-fast);
+}
+
+.handle:hover {
+  background-color: var(--dt-color-border-strong);
+}
+
+.handle:focus-visible {
+  outline: 2px solid var(--dt-color-outline-primary);
+  outline-offset: -2px;
+  background-color: var(--dt-color-border-strong);
+}
+
+.handleHorizontal {
+  width: 8px;
+  cursor: col-resize;
+  flex-direction: column;
+}
+
+.handleVertical {
+  height: 8px;
+  cursor: row-resize;
+  flex-direction: row;
+}
+
+.handleGrip {
+  width: 2px;
+  height: 24px;
+  background-color: var(--dt-color-border-strong);
+  border-radius: var(--dt-radius-md);
+}
+
+.handleVertical .handleGrip {
+  width: 24px;
+  height: 2px;
+}
+
+.handleCollapseHint {
+  display: none;
+}
+
+.collapseBtn {
+  position: absolute;
+  top: var(--dt-space-1);
+  right: var(--dt-space-1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--dt-color-border);
+  border-radius: var(--dt-radius-md);
+  background-color: var(--dt-color-surface);
+  color: var(--dt-color-text);
+  font-size: var(--dt-font-size-sm);
+  cursor: pointer;
+  transition:
+    background-color var(--dt-transition-fast),
+    border-color var(--dt-transition-fast);
+}
+
+.collapseBtn:hover {
+  background-color: var(--dt-color-surface-hover);
+  border-color: var(--dt-color-border-strong);
+}
+
+.collapseBtn:focus-visible {
+  outline: 2px solid var(--dt-color-outline-primary);
+  outline-offset: 1px;
+}
+
+.collapseBtnCollapsed {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  min-height: 24px;
+  align-self: center;
+  border: 1px solid var(--dt-color-border);
+  border-radius: var(--dt-radius-md);
+  background-color: var(--dt-color-surface);
+  color: var(--dt-color-text);
+  cursor: pointer;
+  flex-shrink: 0;
+  margin: var(--dt-space-1);
+}
+
+.collapseBtnCollapsed:focus-visible {
+  outline: 2px solid var(--dt-color-outline-primary);
+  outline-offset: 1px;
+}
