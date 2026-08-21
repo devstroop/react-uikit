@@ -147,3 +147,7 @@ export { Tree } from './components/Tree/Tree';
 export type { TreeProps, TreeItem, TreeChangeArgs, TreeExpandArgs, TreeCollapseArgs } from './components/Tree/Tree';
 export { PickList } from './components/PickList/PickList';
 export type { PickListProps, PickListItem, PickListMoveArgs } from './components/PickList/PickList';
+export { Scheduler } from './components/Scheduler/Scheduler';
+export type { SchedulerProps, SchedulerEvent, SchedulerResource } from './components/Scheduler/Scheduler';
+export { Gantt } from './components/Gantt/Gantt';
+export type { GanttProps, GanttTask } from './components/Gantt/Gantt';
