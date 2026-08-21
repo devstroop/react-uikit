@@ -36,11 +36,8 @@ export function Gantt({ tasks, view = "week", onTaskClick, ariaLabel = "Gantt", 
             <div
               className={styles.bar}
               role="button"
-              aria-label={`${task.name} ${task.start.toLocaleDateString()} - ${task.end.toLocaleDateString()}`}
+              aria-label={`${task.name} ${task.start.toLocaleDateString()} - ${task.end.toLocaleDateString()}${task.progress !== undefined ? `, ${task.progress}% complete` : ""}`}
               aria-pressed={selected === task.id}
-              aria-valuenow={task.progress ?? 0}
-              aria-valuemin={0}
-              aria-valuemax={100}
               tabIndex={0}
               onClick={() => {
                 setSelected(task.id);

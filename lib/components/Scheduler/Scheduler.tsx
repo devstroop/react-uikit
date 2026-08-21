@@ -65,14 +65,14 @@ export function Scheduler({
           ))}
         </div>
       )}
-      <div className={styles.grid}>
-        <div className={styles.timeCol}>
+      <div className={styles.grid} role="presentation">
+        <div className={styles.timeCol} role="presentation">
           {hours.map((h) => (
             <div key={h} className={styles.timeCell}>{h}:00</div>
           ))}
         </div>
         {days.map((day) => (
-          <div key={day.toISOString()} className={styles.dayCol} role="gridcell" onClick={() => onSlotClick?.({ date: day })} tabIndex={0} aria-label={day.toLocaleDateString()}>
+          <div key={day.toISOString()} className={styles.dayCol} role="row" onClick={() => onSlotClick?.({ date: day })} tabIndex={0} aria-label={day.toLocaleDateString()}>
             <div className={styles.dayHeader}>{day.toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" })}</div>
             {hours.map((h) => (
               <div key={h} className={styles.slot} role="gridcell" aria-selected={false} tabIndex={-1} onClick={() => { const d = new Date(day); d.setHours(h); onSlotClick?.({ date: d }); }} />
