@@ -10,7 +10,7 @@ const events = [
 describe("Scheduler", () => {
   it("renders grid and events", () => {
     render(<Scheduler data={events} date={new Date("2024-01-15")} />);
-    expect(screen.getByRole("grid")).toBeInTheDocument();
+    expect(screen.getByRole("group", { name: "Scheduler" })).toBeInTheDocument();
     expect(screen.getByText("Meeting")).toBeInTheDocument();
   });
   it("calls onEventClick", () => {
@@ -22,8 +22,8 @@ describe("Scheduler", () => {
   it("calls onSlotClick", () => {
     const fn = vi.fn();
     render(<Scheduler data={events} date={new Date("2024-01-15")} onSlotClick={fn} />);
-    const slots = screen.getAllByRole("gridcell");
-    fireEvent.click(slots[0]!);
+    const day = screen.getByTitle("15/1/2024");
+    fireEvent.click(day);
     expect(fn).toHaveBeenCalled();
   });
   it("navigates dates", () => {
