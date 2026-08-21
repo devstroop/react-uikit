@@ -1,0 +1,153 @@
+.root {
+  display: block;
+  border: 1px solid var(--dt-color-border);
+  border-radius: var(--dt-radius-md);
+  background-color: var(--dt-color-surface);
+  color: var(--dt-color-text);
+  font-family: var(--dt-font-sans);
+  font-size: var(--dt-font-size-sm);
+  font-weight: var(--dt-font-weight-medium);
+  padding: var(--dt-space-2);
+  overflow: auto;
+  outline: none;
+}
+
+.root:focus-visible {
+  outline: 2px solid var(--dt-color-outline-primary);
+  outline-offset: 1px;
+}
+
+.group {
+  list-style: none;
+  margin: 0;
+  padding-left: var(--dt-space-2);
+}
+
+.root > .group {
+  padding-left: 0;
+}
+
+.itemWrapper {
+  margin: 1px 0;
+}
+
+.treeitem {
+  display: flex;
+  align-items: center;
+  gap: var(--dt-space-1);
+  padding: var(--dt-space-1) var(--dt-space-2);
+  border: 1px solid transparent;
+  border-radius: var(--dt-radius-sm);
+  cursor: pointer;
+  transition:
+    background-color var(--dt-transition-fast),
+    border-color var(--dt-transition-fast),
+    color var(--dt-transition-fast);
+  outline: none;
+  user-select: none;
+}
+
+.treeitem:hover:not(.disabled) {
+  background-color: var(--dt-color-surface-hover);
+}
+
+.treeitem:focus-visible {
+  outline: 2px solid var(--dt-color-outline-primary);
+  outline-offset: -1px;
+  border-color: var(--dt-color-border-primary);
+}
+
+.treeitem.selected {
+  background-color: var(--dt-color-primary);
+  color: var(--dt-color-primary-fg);
+  border-color: var(--dt-color-primary);
+}
+
+.treeitem.selected .caret {
+  color: var(--dt-color-primary-fg);
+}
+
+.treeitem.disabled {
+  color: var(--dt-color-text-muted);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.treeitem[aria-disabled="true"] {
+  cursor: not-allowed;
+}
+
+.caret {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: var(--dt-radius-sm);
+  background: transparent;
+  color: var(--dt-color-text-muted);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition:
+    background-color var(--dt-transition-fast),
+    color var(--dt-transition-fast),
+    transform var(--dt-transition-fast);
+}
+
+.caret:hover:not(:disabled) {
+  background-color: var(--dt-color-surface-hover);
+  color: var(--dt-color-text);
+}
+
+.caret:focus-visible {
+  outline: 2px solid var(--dt-color-outline-primary);
+  outline-offset: 1px;
+}
+
+.caret:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.caretIcon {
+  display: inline-block;
+  transition: transform var(--dt-transition-fast);
+  font-size: 10px;
+  line-height: 1;
+}
+
+.caretOpen {
+  transform: rotate(90deg);
+}
+
+.caretPlaceholder {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.label {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.loading {
+  color: var(--dt-color-text-muted);
+  font-size: 12px;
+  margin-left: var(--dt-space-1);
+}
+
+.loadingRow {
+  padding: var(--dt-space-1) var(--dt-space-2) var(--dt-space-1) 28px;
+  color: var(--dt-color-text-muted);
+  font-size: var(--dt-font-size-sm);
+}
+
+.empty {
+  padding: var(--dt-space-2);
+  color: var(--dt-color-text-muted);
+  font-size: var(--dt-font-size-sm);
+}

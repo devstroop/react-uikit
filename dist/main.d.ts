@@ -143,3 +143,7 @@ export { Toc } from './components/Toc/Toc';
 export type { TocProps, TocItem, TocItemEventArgs } from './components/Toc/Toc';
 export { Carousel } from './components/Carousel/Carousel';
 export type { CarouselProps } from './components/Carousel/Carousel';
+export { Tree } from './components/Tree/Tree';
+export type { TreeProps, TreeItem, TreeChangeArgs, TreeExpandArgs, TreeCollapseArgs } from './components/Tree/Tree';
+export { PickList } from './components/PickList/PickList';
+export type { PickListProps, PickListItem, PickListMoveArgs } from './components/PickList/PickList';
