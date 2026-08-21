@@ -22,8 +22,8 @@ describe("Scheduler", () => {
   it("calls onSlotClick", () => {
     const fn = vi.fn();
     render(<Scheduler data={events} date={new Date("2024-01-15")} onSlotClick={fn} />);
-    const day = screen.getByTitle("15/1/2024");
-    fireEvent.click(day);
+    const days = screen.getAllByLabelText(/2024/);
+    fireEvent.click(days[0]!);
     expect(fn).toHaveBeenCalled();
   });
   it("navigates dates", () => {
