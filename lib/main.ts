@@ -276,3 +276,6 @@ export type { QRCodeProps } from "./components/QRCode/QRCode";
 
 export { Barcode } from "./components/Barcode/Barcode";
 export type { BarcodeProps } from "./components/Barcode/Barcode";
+
+export { Chart } from "./components/Chart/Chart";
+export type { ChartProps, ChartSeries, SeriesClickArgs } from "./components/Chart/Chart";
