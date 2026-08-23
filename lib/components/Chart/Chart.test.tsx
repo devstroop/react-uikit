@@ -63,6 +63,27 @@ describe("Chart", () => {
     expect(screen.queryByText("Sales: 10")).not.toBeInTheDocument();
   });
 
+
+  it("scatter renders points", () => {
+    const scatter = { type: "scatter" as const, title: "S", data: [{ x: 1, y: 10 }, { x: 2, y: 20 }], categoryProperty: "x", valueProperty: "y" };
+    const { container } = render(<Chart series={[scatter]} />);
+    expect(container.querySelectorAll("circle").length).toBeGreaterThanOrEqual(2);
+  });
+
+  it("pie renders arcs", () => {
+    const pie = { type: "pie" as const, title: "P", data: [{ cat: "A", val: 30 }, { cat: "B", val: 70 }], categoryProperty: "cat", valueProperty: "val" };
+    const { container } = render(<Chart series={[pie]} />);
+    expect(container.querySelectorAll("path").length).toBeGreaterThanOrEqual(2);
+  });
+
+  it("stacked bar sums per category", () => {
+    const s1 = { type: "bar" as const, title: "A", stack: "s", data: [{ cat: "X", val: 10 }], categoryProperty: "cat", valueProperty: "val" };
+    const s2 = { type: "bar" as const, title: "B", stack: "s", data: [{ cat: "X", val: 20 }], categoryProperty: "cat", valueProperty: "val" };
+    const { container } = render(<Chart series={[s1, s2]} />);
+    // two bars in same stack should be rendered
+    expect(container.querySelectorAll("rect[rx='2']").length).toBeGreaterThanOrEqual(2);
+  });
+
   it("custom color is respected", () => {
     const { container } = render(<Chart series={[{ ...lineSeries, color: "#ff0000" }]} />);
     expect(container.querySelector('path[stroke="#ff0000"]')).toBeTruthy();

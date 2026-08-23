@@ -4,13 +4,16 @@ import styles from "./Chart.module.css";
 export type SeriesClickArgs = { seriesTitle: string; category: string; value: number; item: Record<string, unknown> };
 
 export interface ChartSeries {
-  type: "line" | "area" | "bar" | "column";
+  type: "line" | "area" | "bar" | "column" | "scatter" | "bubble" | "pie" | "donut";
   data: Record<string, unknown>[];
   categoryProperty: string;
   valueProperty: string;
   title?: string;
   color?: string;
+  stack?: string;
   labels?: { visible?: boolean };
+  innerRadius?: number;
+  sizeProperty?: string;
 }
 
 export interface ChartProps {
@@ -114,48 +117,231 @@ export function Chart({
           </text>
         )}
         {/* series */}
-        {series.map((ser, sIdx) => {
-          const pts = ser.data.map((d) => ({
-            cat: String(d[ser.categoryProperty] ?? ""),
-            val: Number(d[ser.valueProperty]),
-            item: d,
-          }));
-          const cIdxMap = new Map(categories.map((c, i) => [c, i] as const));
-          const color = colorFor(sIdx, ser);
-          if (ser.type === "line" || ser.type === "area") {
-            const d = pts
-              .map((p) => {
-                const ci = cIdxMap.get(p.cat) ?? 0;
-                return `${ci === 0 ? "M" : "L"} ${xFor(ci)} ${yFor(p.val)}`;
-              })
-              .join(" ");
+        {(() => {
+          // stacking: group bar/column/area/line by stack name, sum per category
+          const stackSums = new Map<string, Map<string, number>>();
+          for (const ser of series) {
+            if (!ser.stack) continue;
+            for (const d of ser.data) {
+              const cat = String(d[ser.categoryProperty] ?? "");
+              const val = Number(d[ser.valueProperty]);
+              if (Number.isNaN(val)) continue;
+              if (!stackSums.has(ser.stack)) stackSums.set(ser.stack, new Map());
+              const m = stackSums.get(ser.stack)!;
+              m.set(cat, (m.get(cat) ?? 0) + val);
+            }
+          }
+          // pie/donut totals for arc angles
+          const pieGroups = series.filter((s) => s.type === "pie" || s.type === "donut");
+          const pieTotals = new Map<string, number>();
+          for (const ser of pieGroups) {
+            const total = ser.data.reduce((sum, d) => sum + (Number(d[ser.valueProperty]) || 0), 0);
+            pieTotals.set(ser.title ?? String(pieGroups.indexOf(ser)), total);
+          }
+          return series.map((ser, sIdx) => {
+            const pts = ser.data.map((d) => ({
+              cat: String(d[ser.categoryProperty] ?? ""),
+              val: Number(d[ser.valueProperty]),
+              size: ser.sizeProperty ? Number(d[ser.sizeProperty]) : undefined,
+              item: d,
+            }));
+            const cIdxMap = new Map(categories.map((c, i) => [c, i] as const));
+            const color = colorFor(sIdx, ser);
+            if (ser.type === "pie" || ser.type === "donut") {
+              const cx = pad.l + plotW / 2;
+              const cy = pad.t + plotH / 2;
+              const outerR = Math.min(plotW, plotH) / 3;
+              const innerR = ser.type === "donut" ? (ser.innerRadius ?? outerR * 0.5) : 0;
+              const total = pieTotals.get(ser.title ?? String(sIdx)) ?? pts.reduce((s, p) => s + p.val, 0);
+              let angle = -90;
+              return (
+                <g key={sIdx} role="list" aria-label={ser.title ?? `Series ${sIdx + 1}`}>
+                  <title>{ser.title ?? `Series ${sIdx + 1}`}</title>
+                  {pts.map((p, i) => {
+                    const sweep = total ? (p.val / total) * 360 : 0;
+                    const start = angle;
+                    const end = angle + sweep;
+                    angle = end;
+                    const large = sweep > 180 ? 1 : 0;
+                    const rad = (deg: number) => (deg * Math.PI) / 180;
+                    const x1 = cx + outerR * Math.cos(rad(start));
+                    const y1 = cy + outerR * Math.sin(rad(start));
+                    const x2 = cx + outerR * Math.cos(rad(end));
+                    const y2 = cy + outerR * Math.sin(rad(end));
+                    const x3 = cx + innerR * Math.cos(rad(end));
+                    const y3 = cy + innerR * Math.sin(rad(end));
+                    const x4 = cx + innerR * Math.cos(rad(start));
+                    const y4 = cy + innerR * Math.sin(rad(start));
+                    const d = innerR
+                      ? `M ${x1} ${y1} A ${outerR} ${outerR} 0 ${large} 1 ${x2} ${y2} L ${x3} ${y3} A ${innerR} ${innerR} 0 ${large} 0 ${x4} ${y4} Z`
+                      : `M ${cx} ${cy} L ${x1} ${y1} A ${outerR} ${outerR} 0 ${large} 1 ${x2} ${y2} Z`;
+                    const mid = (start + end) / 2;
+                    const lx = cx + (outerR + 12) * Math.cos(rad(mid));
+                    const ly = cy + (outerR + 12) * Math.sin(rad(mid));
+                    return (
+                      <g key={i} role="listitem">
+                        <path
+                          d={d}
+                          fill={color}
+                          stroke="var(--dt-color-surface)"
+                          strokeWidth={1}
+                          onMouseEnter={() => tooltipVisible && setTip({ x: lx, y: ly, text: `${ser.title ?? p.cat}: ${p.val}` })}
+                          onMouseLeave={() => setTip(null)}
+                          onClick={() => onSeriesClick?.({ seriesTitle: ser.title ?? "", category: p.cat, value: p.val, item: p.item })}
+                          style={{ cursor: "pointer" }}
+                        />
+                        {ser.labels?.visible && (
+                          <text x={lx} y={ly} textAnchor="middle" className={styles.dataLabel}>
+                            {p.val}
+                          </text>
+                        )}
+                      </g>
+                    );
+                  })}
+                </g>
+              );
+            }
+            if (ser.type === "scatter" || ser.type === "bubble") {
+              return (
+                <g key={sIdx} role="list" aria-label={ser.title ?? `Series ${sIdx + 1}`}>
+                  <title>{ser.title ?? `Series ${sIdx + 1}`}</title>
+                  {pts.map((p, i) => {
+                    const ci = cIdxMap.get(p.cat) ?? 0;
+                    // for scatter/bubble, category is numeric x, value is y
+                    const xVal = Number(pts[i]!.cat);
+                    const x = Number.isNaN(xVal) ? xFor(ci) : pad.l + ((xVal - scale.min) / (scale.max - scale.min || 1)) * plotW;
+                    const y = yFor(p.val);
+                    const r = ser.type === "bubble" && p.size !== undefined ? Math.max(4, Math.min(12, p.size / 10)) : 4;
+                    return (
+                      <g key={i} role="listitem">
+                        <circle cx={x} cy={y} r={r} fill={color} stroke="var(--dt-color-surface)" strokeWidth={1.5} />
+                        <circle
+                          cx={x}
+                          cy={y}
+                          r={12}
+                          fill="transparent"
+                          onMouseEnter={() => tooltipVisible && setTip({ x, y, text: `${ser.title ?? p.cat}: ${p.val}` })}
+                          onMouseLeave={() => setTip(null)}
+                          onClick={() => onSeriesClick?.({ seriesTitle: ser.title ?? "", category: p.cat, value: p.val, item: p.item })}
+                          style={{ cursor: "pointer" }}
+                        />
+                      </g>
+                    );
+                  })}
+                </g>
+              );
+            }
+            if (ser.type === "line" || ser.type === "area") {
+              // stacking for line/area: accumulate previous stack values per category
+              const baseFor = (cat: string, val: number) => {
+                if (!ser.stack) return scale.min;
+                let sum = 0;
+                for (let j = 0; j < sIdx; j++) {
+                  const prev = series[j];
+                  if (prev?.stack !== ser.stack) continue;
+                  const found = prev.data.find((d) => String(d[prev.categoryProperty] ?? "") === cat);
+                  if (found) sum += Number(found[prev.valueProperty]) || 0;
+                }
+                return sum;
+              };
+              const d = pts
+                .map((p) => {
+                  const ci = cIdxMap.get(p.cat) ?? 0;
+                  const base = baseFor(p.cat, p.val);
+                  return `${ci === 0 ? "M" : "L"} ${xFor(ci)} ${yFor(base + p.val)}`;
+                })
+                .join(" ");
+              const baseD = pts
+                .map((p) => {
+                  const ci = cIdxMap.get(p.cat) ?? 0;
+                  const base = baseFor(p.cat, p.val);
+                  return `${ci === 0 ? "M" : "L"} ${xFor(ci)} ${yFor(base)}`;
+                })
+                .join(" ");
+              return (
+                <g key={sIdx} role="list" aria-label={ser.title ?? `Series ${sIdx + 1}`}>
+                  <title>{ser.title ?? `Series ${sIdx + 1}`}</title>
+                  {ser.type === "area" && (
+                    <path d={`${d} L ${xFor(pts.length - 1)} ${yFor(baseFor(pts[pts.length - 1]!.cat, 0))} L ${xFor(0)} ${yFor(baseFor(pts[0]!.cat, 0))} Z`} fill={color} fillOpacity={0.25} stroke="none" />
+                  )}
+                  <path d={d} fill="none" stroke={color} strokeWidth={2} />
+                  {/* baseline for stacking visual */}
+                  {ser.stack && <path d={baseD} fill="none" stroke="transparent" />}
+                  {pts.map((p, i) => {
+                    const ci = cIdxMap.get(p.cat) ?? 0;
+                    const base = baseFor(p.cat, p.val);
+                    const x = xFor(ci);
+                    const y = yFor(base + p.val);
+                    return (
+                      <g key={i} role="listitem">
+                        <circle cx={x} cy={y} r={4} fill={color} stroke="var(--dt-color-surface)" strokeWidth={1.5} />
+                        <rect
+                          x={x - 12}
+                          y={y - 12}
+                          width={24}
+                          height={24}
+                          fill="transparent"
+                          onMouseEnter={() => tooltipVisible && setTip({ x, y, text: `${ser.title ?? p.cat}: ${p.val}` })}
+                          onMouseLeave={() => setTip(null)}
+                          onFocus={() => tooltipVisible && setTip({ x, y, text: `${ser.title ?? p.cat}: ${p.val}` })}
+                          onBlur={() => setTip(null)}
+                          onClick={() => onSeriesClick?.({ seriesTitle: ser.title ?? "", category: p.cat, value: p.val, item: p.item })}
+                          style={{ cursor: "pointer" }}
+                        />
+                        {ser.labels?.visible && (
+                          <text x={x} y={y - 8} textAnchor="middle" className={styles.dataLabel}>
+                            {p.val}
+                          </text>
+                        )}
+                      </g>
+                    );
+                  })}
+                </g>
+              );
+            }
+            // bar (horizontal) / column (vertical) with stacking
+            const isBar = ser.type === "bar";
             return (
               <g key={sIdx} role="list" aria-label={ser.title ?? `Series ${sIdx + 1}`}>
                 <title>{ser.title ?? `Series ${sIdx + 1}`}</title>
-                {ser.type === "area" && <path d={`${d} L ${xFor(pts.length - 1)} ${yFor(scale.min)} L ${xFor(0)} ${yFor(scale.min)} Z`} fill={color} fillOpacity={0.25} stroke="none" />}
-                <path d={d} fill="none" stroke={color} strokeWidth={2} />
                 {pts.map((p, i) => {
                   const ci = cIdxMap.get(p.cat) ?? 0;
-                  const x = xFor(ci);
-                  const y = yFor(p.val);
+                  // stacking offset: sum of previous series in same stack for this category
+                  let stackOffset = 0;
+                  if (ser.stack) {
+                    for (let j = 0; j < sIdx; j++) {
+                      const prev = series[j];
+                      if (prev?.stack !== ser.stack) continue;
+                      const found = prev.data.find((d) => String(d[prev.categoryProperty] ?? "") === p.cat);
+                      if (found) stackOffset += Number(found[prev.valueProperty]) || 0;
+                    }
+                  }
+                  const stackedVal = stackOffset + p.val;
+                  const nSeries = series.filter((s) => !s.stack || s.stack === ser.stack).length; // not used for stacked; keep simple
+                  const groupW = plotW / categories.length;
+                  const barW = isBar ? 18 : Math.max(12, groupW / (ser.stack ? 1 : series.length) - 4);
+                  const x = isBar ? pad.l + (stackOffset / (scale.max - scale.min || 1)) * plotW : xFor(ci) - barW / 2 + (ser.stack ? 0 : (sIdx % nSeries) * barW);
+                  const y = isBar ? pad.t + (ci * plotH) / categories.length + 4 : yFor(stackedVal);
+                  const w = isBar ? ((p.val) / (scale.max - scale.min || 1)) * plotW : barW - 4;
+                  const h = isBar ? 16 : yFor(stackOffset) - yFor(stackedVal);
+                  const rx = isBar ? pad.l + (stackOffset / (scale.max - scale.min || 1)) * plotW : x;
+                  const ry = isBar ? pad.t + (ci * plotH) / categories.length + 4 : y;
                   return (
                     <g key={i} role="listitem">
-                      <circle cx={x} cy={y} r={4} fill={color} stroke="var(--dt-color-surface)" strokeWidth={1.5} />
                       <rect
-                        x={x - 12}
-                        y={y - 12}
-                        width={24}
-                        height={24}
-                        fill="transparent"
-                        onMouseEnter={() => tooltipVisible && setTip({ x, y, text: `${ser.title ?? p.cat}: ${p.val}` })}
+                        x={rx}
+                        y={ry}
+                        width={isBar ? w : barW - 4}
+                        height={isBar ? h : h}
+                        fill={color}
+                        rx={2}
+                        onMouseEnter={() => tooltipVisible && setTip({ x: rx + (isBar ? w : barW) / 2, y: ry, text: `${ser.title ?? p.cat}: ${p.val}` })}
                         onMouseLeave={() => setTip(null)}
-                        onFocus={() => tooltipVisible && setTip({ x, y, text: `${ser.title ?? p.cat}: ${p.val}` })}
-                        onBlur={() => setTip(null)}
                         onClick={() => onSeriesClick?.({ seriesTitle: ser.title ?? "", category: p.cat, value: p.val, item: p.item })}
                         style={{ cursor: "pointer" }}
                       />
                       {ser.labels?.visible && (
-                        <text x={x} y={y - 8} textAnchor="middle" className={styles.dataLabel}>
+                        <text x={rx + (isBar ? w : barW) / 2} y={ry - 4} textAnchor="middle" className={styles.dataLabel}>
                           {p.val}
                         </text>
                       )}
@@ -164,48 +350,8 @@ export function Chart({
                 })}
               </g>
             );
-          }
-          // bar (horizontal) / column (vertical)
-          const isBar = ser.type === "bar";
-          return (
-            <g key={sIdx} role="list" aria-label={ser.title ?? `Series ${sIdx + 1}`}>
-              <title>{ser.title ?? `Series ${sIdx + 1}`}</title>
-              {pts.map((p, i) => {
-                const ci = cIdxMap.get(p.cat) ?? 0;
-                const nSeries = series.length;
-                const groupW = plotW / categories.length;
-                const barW = (isBar ? 18 : Math.max(12, groupW / nSeries - 4));
-                const x = isBar ? pad.l : xFor(ci) - (nSeries * barW) / 2 + sIdx * barW + 2;
-                const y = isBar ? pad.t + (ci * plotH) / categories.length + 4 : yFor(p.val);
-                const w = isBar ? ((p.val - scale.min) / (scale.max - scale.min || 1)) * plotW : barW - 4;
-                const h = isBar ? 16 : pad.t + plotH - yFor(p.val);
-                const rx = isBar ? x : x;
-                const ry = isBar ? y : y;
-                return (
-                  <g key={i} role="listitem">
-                    <rect
-                      x={rx}
-                      y={ry}
-                      width={w}
-                      height={h}
-                      fill={color}
-                      rx={2}
-                      onMouseEnter={() => tooltipVisible && setTip({ x: rx + w / 2, y: ry, text: `${ser.title ?? p.cat}: ${p.val}` })}
-                      onMouseLeave={() => setTip(null)}
-                      onClick={() => onSeriesClick?.({ seriesTitle: ser.title ?? "", category: p.cat, value: p.val, item: p.item })}
-                      style={{ cursor: "pointer" }}
-                    />
-                    {ser.labels?.visible && (
-                      <text x={rx + w / 2} y={ry - 4} textAnchor="middle" className={styles.dataLabel}>
-                        {p.val}
-                      </text>
-                    )}
-                  </g>
-                );
-              })}
-            </g>
-          );
-        })}
+          });
+        })()}
       </svg>
       {tip && (
         <div className={styles.tooltip} style={{ left: tip.x, top: tip.y - 28 }}>
