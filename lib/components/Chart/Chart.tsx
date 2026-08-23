@@ -247,14 +247,14 @@ export function Chart({
               const d = pts
                 .map((p) => {
                   const ci = cIdxMap.get(p.cat) ?? 0;
-                  const base = baseFor(p.cat, p.val);
+                  const base = baseFor(p.cat);
                   return `${ci === 0 ? "M" : "L"} ${xFor(ci)} ${yFor(base + p.val)}`;
                 })
                 .join(" ");
               const baseD = pts
                 .map((p) => {
                   const ci = cIdxMap.get(p.cat) ?? 0;
-                  const base = baseFor(p.cat, p.val);
+                  const base = baseFor(p.cat);
                   return `${ci === 0 ? "M" : "L"} ${xFor(ci)} ${yFor(base)}`;
                 })
                 .join(" ");
@@ -262,14 +262,14 @@ export function Chart({
                 <g key={sIdx} role="list" aria-label={ser.title ?? `Series ${sIdx + 1}`}>
                   <title>{ser.title ?? `Series ${sIdx + 1}`}</title>
                   {ser.type === "area" && (
-                    <path d={`${d} L ${xFor(pts.length - 1)} ${yFor(baseFor(pts[pts.length - 1]!.cat, 0))} L ${xFor(0)} ${yFor(baseFor(pts[0]!.cat, 0))} Z`} fill={color} fillOpacity={0.25} stroke="none" />
+                    <path d={`${d} L ${xFor(pts.length - 1)} ${yFor(baseFor(pts[pts.length - 1]!.cat))} L ${xFor(0)} ${yFor(baseFor(pts[0]!.cat))} Z`} fill={color} fillOpacity={0.25} stroke="none" />
                   )}
                   <path d={d} fill="none" stroke={color} strokeWidth={2} />
                   {/* baseline for stacking visual */}
                   {ser.stack && <path d={baseD} fill="none" stroke="transparent" />}
                   {pts.map((p, i) => {
                     const ci = cIdxMap.get(p.cat) ?? 0;
-                    const base = baseFor(p.cat, p.val);
+                    const base = baseFor(p.cat);
                     const x = xFor(ci);
                     const y = yFor(base + p.val);
                     return (
