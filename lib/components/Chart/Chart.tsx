@@ -233,7 +233,7 @@ export function Chart({
             }
             if (ser.type === "line" || ser.type === "area") {
               // stacking for line/area: accumulate previous stack values per category
-              const baseFor = (cat: string, val: number) => {
+              const baseFor = (cat: string) => {
                 if (!ser.stack) return scale.min;
                 let sum = 0;
                 for (let j = 0; j < sIdx; j++) {
