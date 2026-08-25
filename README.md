@@ -40,7 +40,7 @@ export function SignInForm() {
 
 | Component | Purpose |
 |---|---|
-| `Button` | variant (`primary`/`secondary`/`ghost`/`danger`), size, `fullWidth` |
+| `Button` | variant (`primary`/`secondary`/`ghost`/`danger`/`success`/`info`), size (`xs`/`sm`/`md`/`lg`/`xl`), `fullWidth`, `iconOnly` (requires `aria-label`) |
 | `Card` | `elevated`/`outlined`/`interactive` with `header`/`footer` slots |
 | `Badge` | tone (`neutral`/`primary`/`success`/`warning`/`danger`) × variant (`soft`/`solid`/`outline`) |
 | `Icon` | 40 stroke icons — `name`, `size`, `strokeWidth` |
