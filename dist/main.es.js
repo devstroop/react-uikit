@@ -437,7 +437,7 @@ function F0({
     () => ({ registerField: D, unregisterField: $, submit: C, submitCount: h }),
     [D, $, C, h]
   ), g = [ls.form, u].filter(Boolean).join(" ");
-  return /* @__PURE__ */ t(Or.Provider, { value: _, children: /* @__PURE__ */ t("form", { className: g, onSubmit: b, action: o, method: s, children: c }) });
+  return /* @__PURE__ */ t(Or.Provider, { value: _, children: /* @__PURE__ */ t("form", { className: g, onSubmit: b, action: o, method: s, noValidate: !0, children: c }) });
 }
 const sn = (e) => e == null || e === "" || typeof e == "string" && e.trim() === "", K0 = (e = "Required") => (n) => sn(n) ? e : null, H0 = (e = "Invalid email") => (n) => sn(n) || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(n)) ? null : e, W0 = (e, n = "Invalid format") => (r) => sn(r) || e.test(String(r)) ? null : n, U0 = (e, n = `Minimum ${e} characters`) => (r) => sn(r) || String(r).length >= e ? null : n, V0 = (e, n = `Maximum ${e} characters`) => (r) => sn(r) || String(r).length <= e ? null : n, X0 = (e, n, r = `Between ${e} and ${n}`) => (o) => {
   if (sn(o)) return null;

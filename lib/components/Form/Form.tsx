@@ -109,7 +109,10 @@ export function Form({
 
   return (
     <FormContext.Provider value={value}>
-      <form className={classNames} onSubmit={handleSubmit} action={action} method={method}>
+      {/* noValidate: JS validation owns submission — native constraint
+          blocking (e.g. type=email) would cancel the submit event before
+          onSubmit/onInvalidSubmit ever fire. */}
+      <form className={classNames} onSubmit={handleSubmit} action={action} method={method} noValidate>
         {children}
       </form>
     </FormContext.Provider>

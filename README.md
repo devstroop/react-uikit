@@ -40,7 +40,7 @@ export function SignInForm() {
 
 | Component | Purpose |
 |---|---|
-| `Button` | variant (`primary`/`secondary`/`ghost`/`danger`), size, `fullWidth` |
+| `Button` | variant (`primary`/`secondary`/`ghost`/`danger`/`success`/`info`), size (`xs`/`sm`/`md`/`lg`/`xl`), `fullWidth`, `iconOnly` (requires `aria-label`) |
 | `Card` | `elevated`/`outlined`/`interactive` with `header`/`footer` slots |
 | `Badge` | tone (`neutral`/`primary`/`success`/`warning`/`danger`) × variant (`soft`/`solid`/`outline`) |
 | `Icon` | 40 stroke icons — `name`, `size`, `strokeWidth` |
@@ -56,8 +56,17 @@ controls, `role="switch"` for `Switch`, keyboard focus-visible rings.
 
 ## Theming
 
-Components consume design tokens exclusively — no hardcoded values. Override
-any subset on your `:root` (or a scoped container):
+Components consume design tokens exclusively — no hardcoded values. Tokens are generated from `uikit/specs/tokens.schema.json` via `scripts/generate-css.mjs:1` (`--dt-*`):
+
+- `themes/<name>/tokens.json` → `themes/<name>/tokens.css` (generated, do not edit). Only `default` is vendored into `lib/styles/tokens.css` (`uikit.yml:13`); other themes are imported directly from `uikit/themes/<name>/tokens.css`.
+- Pick a theme by importing its tokens once, then the framework:
+
+```ts
+import "@devstroop/react-uikit/style.css";
+import "uikit/themes/default/tokens.css"; // or fluent/github/material/material-3/shadcn
+```
+
+Override any subset on your `:root` (or a scoped container):
 
 ```css
 :root {
@@ -67,8 +76,7 @@ any subset on your `:root` (or a scoped container):
 }
 ```
 
-A dark scheme is available via `[data-theme="dark"]`. See
-`lib/styles/tokens.css` for the full token list (`--dt-*`).
+Dark parity via `[data-theme="dark"]` on `<html>` (only tokens with a `dark` value are re-emitted there). See `lib/styles/tokens.css` for the full vendored list and `uikit/specs/tokens.md` for the contract.
 
 ## Development
 
