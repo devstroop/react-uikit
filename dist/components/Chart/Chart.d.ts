@@ -5,15 +5,18 @@ export type SeriesClickArgs = {
     item: Record<string, unknown>;
 };
 export interface ChartSeries {
-    type: "line" | "area" | "bar" | "column";
+    type: "line" | "area" | "bar" | "column" | "scatter" | "bubble" | "pie" | "donut";
     data: Record<string, unknown>[];
     categoryProperty: string;
     valueProperty: string;
     title?: string;
     color?: string;
+    stack?: string;
     labels?: {
         visible?: boolean;
     };
+    innerRadius?: number;
+    sizeProperty?: string;
 }
 export interface ChartProps {
     series: ChartSeries[];
