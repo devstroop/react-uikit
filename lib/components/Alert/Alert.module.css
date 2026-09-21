@@ -60,6 +60,31 @@
 }
 
 /* Tones define the palette; variants paint it (Badge-language parity) */
+.primary {
+  --alert-tone: var(--dx-color-primary);
+  --alert-fg: var(--dx-color-text-primary);
+}
+
+.secondary {
+  --alert-tone: var(--dx-color-secondary);
+  --alert-fg: var(--dx-color-text);
+}
+
+.light {
+  --alert-tone: var(--dx-color-light);
+  --alert-fg: var(--dx-color-light-fg);
+}
+
+.base {
+  --alert-tone: var(--dx-color-base);
+  --alert-fg: var(--dx-color-text-base);
+}
+
+.dark {
+  --alert-tone: var(--dx-color-dark);
+  --alert-fg: var(--dx-color-text-dark);
+}
+
 .info {
   --alert-tone: var(--dx-color-primary);
   --alert-fg: var(--dx-color-text-primary);
@@ -113,6 +138,22 @@
 
 .filled.info {
   color: var(--dx-color-primary-fg);
+}
+
+.filled.secondary {
+  color: var(--dx-color-secondary-fg);
+}
+
+.filled.light {
+  color: var(--dx-color-light-fg);
+}
+
+.filled.base {
+  color: var(--dx-color-base-fg);
+}
+
+.filled.dark {
+  color: var(--dx-color-dark-fg);
 }
 
 .filled.danger {

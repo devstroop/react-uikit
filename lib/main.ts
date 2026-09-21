@@ -108,7 +108,7 @@ export type { DialogProps, DialogSize } from "./components/Dialog/Dialog";
 export { ToastProvider, useToast } from "./components/Toast/Toast";
 export type { ToastProviderProps, ToastOptions, ToastTone, ToastPosition } from "./components/Toast/Toast";
 
-export { Alert } from "./components/Alert/Alert";
+export { Alert, ALERT_ICON } from "./components/Alert/Alert";
 export type { AlertProps, AlertStyle, AlertVariant, AlertShade } from "./components/Alert/Alert";
 
 export { Skeleton } from "./components/Skeleton/Skeleton";

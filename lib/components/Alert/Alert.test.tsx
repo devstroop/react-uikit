@@ -16,6 +16,23 @@ describe("Alert", () => {
     expect(screen.getByRole("alert").className).toContain("danger");
   });
 
+  it.each(
+    ["primary", "secondary", "light", "base", "dark", "info", "success", "warning", "danger"] as const,
+  )("applies the %s severity class", (severity) => {
+    render(<Alert severity={severity} title="Heads up" />);
+    expect(screen.getByRole("alert").className).toContain(severity);
+  });
+
+  it("shows the contextual icon by default and hides it with showIcon={false}", () => {
+    const { rerender } = render(<Alert severity="success" title="Done" />);
+    const alert = () => screen.getByRole("alert");
+    // Scoped to the alert node: the dismiss control renders a × character
+    // (no svg), but the query must not depend on that staying true.
+    expect(alert().querySelector("svg")).toBeInTheDocument();
+    rerender(<Alert severity="success" title="Done" showIcon={false} />);
+    expect(alert().querySelector("svg")).not.toBeInTheDocument();
+  });
+
   it("disappears after dismissing", async () => {
     const user = userEvent.setup();
     render(<Alert title="Heads up" dismissible />);
