@@ -715,24 +715,24 @@ export const Datepicker = forwardRef<HTMLInputElement, DatepickerProps>(function
 
   const sizeClass =
     size === "xs"
-      ? styles.dtDatepickerInputXs
+      ? styles["dx-datepicker-input--xs"]
       : size === "sm"
-        ? styles.dtDatepickerInputSm
+        ? styles["dx-datepicker-input--sm"]
         : size === "lg"
-          ? styles.dtDatepickerInputLg
+          ? styles["dx-datepicker-input--lg"]
           : size === "xl"
-            ? styles.dtDatepickerInputXl
-            : styles.dtDatepickerInputMd;
+            ? styles["dx-datepicker-input--xl"]
+            : styles["dx-datepicker-input--md"];
 
   const calendar = (
     <div
-      className={styles.dtDatepickerCalendar}
+      className={styles["dx-datepicker-calendar"]}
       aria-label={ariaLabel ?? "Date picker"}
     >
-      <div className={styles.dtDatepickerHeader}>
+      <div className={styles["dx-datepicker-header"]}>
         <button
           type="button"
-          className={styles.dtDatepickerNav}
+          className={styles["dx-datepicker-nav"]}
           aria-label="Previous month"
           onClick={() => {
             const next = nearestEnabled(addMonths(focusDate, -1));
@@ -742,10 +742,10 @@ export const Datepicker = forwardRef<HTMLInputElement, DatepickerProps>(function
         >
           <Icon name="chevron-left" size={16} />
         </button>
-        <span className={styles.dtDatepickerTitle}>{monthTitle}</span>
+        <span className={styles["dx-datepicker-title"]}>{monthTitle}</span>
         <button
           type="button"
-          className={styles.dtDatepickerNav}
+          className={styles["dx-datepicker-nav"]}
           aria-label="Next month"
           onClick={() => {
             const next = nearestEnabled(addMonths(focusDate, 1));
@@ -759,22 +759,22 @@ export const Datepicker = forwardRef<HTMLInputElement, DatepickerProps>(function
       <div
         ref={gridRef}
         role="grid"
-        className={styles.dtDatepickerGrid}
+        className={styles["dx-datepicker-grid"]}
         onKeyDown={handleGridKeyDown}
       >
-        <div role="row" className={styles.dtDatepickerWeekRow}>
+        <div role="row" className={styles["dx-datepicker-week-row"]}>
           {weekdays.map((day) => (
             <div
               key={day}
               role="columnheader"
-              className={styles.dtDatepickerWeekday}
+              className={styles["dx-datepicker-weekday"]}
             >
               {day}
             </div>
           ))}
         </div>
         {Array.from({ length: 6 }, (_, rowIndex) => (
-          <div role="row" key={rowIndex} className={styles.dtDatepickerRow}>
+          <div role="row" key={rowIndex} className={styles["dx-datepicker-row"]}>
             {cells.slice(rowIndex * 7, rowIndex * 7 + 7).map((cell) => {
               const cellDate = isoDate(cell);
               const disabled = isDisabled(cell);
@@ -792,11 +792,11 @@ export const Datepicker = forwardRef<HTMLInputElement, DatepickerProps>(function
                     new Date(cell.year, cell.month - 1, cell.day),
                   )}
                   className={[
-                    styles.dtDatepickerDay,
-                    inMonth ? null : styles.dtDatepickerDayOutside,
-                    cellDate === todayString ? styles.dtDatepickerDayToday : null,
-                    cellDate === selectedDate ? styles.dtDatepickerDaySelected : null,
-                    disabled ? styles.dtDatepickerDayDisabled : null,
+                    styles["dx-datepicker-day"],
+                    inMonth ? null : styles["dx-datepicker-day--outside"],
+                    cellDate === todayString ? styles["dx-datepicker-day--today"] : null,
+                    cellDate === selectedDate ? styles["dx-datepicker-day--selected"] : null,
+                    disabled ? styles["dx-datepicker-day--disabled"] : null,
                   ]
                     .filter(Boolean)
                     .join(" ")}
@@ -811,15 +811,15 @@ export const Datepicker = forwardRef<HTMLInputElement, DatepickerProps>(function
         ))}
       </div>
       {showTime && (
-        <div className={styles.dtDatepickerTime}>
+        <div className={styles["dx-datepicker-time"]}>
           {TIME_FIELDS.map((field) => (
-            <label key={field} className={styles.dtDatepickerTimeField}>
-              <span className={styles.dtDatepickerTimeLabel}>
+            <label key={field} className={styles["dx-datepicker-time-field"]}>
+              <span className={styles["dx-datepicker-time-label"]}>
                 {timeFieldLabel(field)}
               </span>
-              <div className={styles.dtDatepickerTimeControl}>
+              <div className={styles["dx-datepicker-time-control"]}>
                 <input
-                  className={styles.dtDatepickerTimeInput}
+                  className={styles["dx-datepicker-time-input"]}
                   inputMode="numeric"
                   aria-label={timeFieldLabel(field)}
                   value={pad2((pending ?? currentParts ?? todayParts())[field])}
@@ -837,7 +837,7 @@ export const Datepicker = forwardRef<HTMLInputElement, DatepickerProps>(function
                     }
                   }}
                 />
-                <span className={styles.dtDatepickerTimeButtons}>
+                <span className={styles["dx-datepicker-time-buttons"]}>
                   <button
                     type="button"
                     aria-label={`Increase ${timeFieldLabel(field).toLowerCase()}`}
@@ -858,7 +858,7 @@ export const Datepicker = forwardRef<HTMLInputElement, DatepickerProps>(function
           ))}
           <button
             type="button"
-            className={styles.dtDatepickerOk}
+            className={styles["dx-datepicker-ok"]}
             onClick={confirmTime}
           >
             OK
@@ -872,8 +872,8 @@ export const Datepicker = forwardRef<HTMLInputElement, DatepickerProps>(function
     <div
       ref={rootRef}
       className={[
-        styles.dtDatepicker,
-        inline ? styles.dtDatepickerInline : null,
+        styles["dx-datepicker"],
+        inline ? styles["dx-datepicker-inline"] : null,
         className,
       ]
         .filter(Boolean)
@@ -897,9 +897,9 @@ export const Datepicker = forwardRef<HTMLInputElement, DatepickerProps>(function
             aria-controls={showButton ? undefined : popupId}
             aria-invalid={invalid || undefined}
             className={[
-              styles.dtDatepickerInput,
+              styles["dx-datepicker-input"],
               sizeClass,
-              invalid ? styles.dtDatepickerInputInvalid : null,
+              invalid ? styles["dx-datepicker-input-invalid"] : null,
             ]
               .filter(Boolean)
               .join(" ")}
@@ -915,8 +915,8 @@ export const Datepicker = forwardRef<HTMLInputElement, DatepickerProps>(function
             <button
               type="button"
               className={[
-                styles.dtDatepickerClear,
-                showButton ? styles.dtDatepickerClearInset : null,
+                styles["dx-datepicker-clear"],
+                showButton ? styles["dx-datepicker-clear--inset"] : null,
               ]
                 .filter(Boolean)
                 .join(" ")}
@@ -931,8 +931,7 @@ export const Datepicker = forwardRef<HTMLInputElement, DatepickerProps>(function
               ref={triggerRef}
               type="button"
               className={[
-                styles.dtDatepickerTrigger,
-                open ? styles.dtDatepickerTriggerOpen : null,
+                styles["dx-datepicker-trigger"],
               ]
                 .filter(Boolean)
                 .join(" ")}
@@ -952,7 +951,7 @@ export const Datepicker = forwardRef<HTMLInputElement, DatepickerProps>(function
         <div
           id={popupId}
           role={inline ? undefined : "dialog"}
-          className={inline ? undefined : styles.dtDatepickerPopup}
+          className={inline ? undefined : styles["dx-datepicker-popup"]}
         >
           {calendar}
         </div>

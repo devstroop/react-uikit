@@ -207,8 +207,8 @@ describe("Datepicker", () => {
       />,
     );
     const input = screen.getByPlaceholderText("Pick a date");
-    expect(input.className).toContain("dtDatepickerInputLg");
-    expect(input.className).toContain("dtDatepickerInputInvalid");
+    expect(input.className).toContain("dx-datepicker-input--lg");
+    expect(input.className).toContain("dx-datepicker-input-invalid");
     expect(input).toHaveAttribute("aria-invalid", "true");
     expect(input).toHaveAttribute("tabindex", "3");
   });
