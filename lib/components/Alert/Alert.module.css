@@ -86,8 +86,8 @@
 }
 
 .info {
-  --alert-tone: var(--dx-color-primary);
-  --alert-fg: var(--dx-color-text-primary);
+  --alert-tone: var(--dx-color-info);
+  --alert-fg: var(--dx-color-text-info);
 }
 
 .success {
@@ -137,7 +137,19 @@
 
 
 .filled.info {
+  color: var(--dx-color-info-fg);
+}
+
+.filled.primary {
   color: var(--dx-color-primary-fg);
+}
+
+.filled.success {
+  color: var(--dx-color-success-fg);
+}
+
+.filled.warning {
+  color: var(--dx-color-warning-fg);
 }
 
 .filled.secondary {
