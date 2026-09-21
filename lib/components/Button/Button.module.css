@@ -2,21 +2,21 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--dt-space-2);
+  gap: var(--dx-space-2);
   border: 1px solid transparent;
-  border-radius: var(--dt-radius-md);
-  font-family: var(--dt-font-sans);
-  font-weight: var(--dt-font-weight-medium);
+  border-radius: var(--dx-radius-md);
+  font-family: var(--dx-font-sans);
+  font-weight: var(--dx-font-weight-medium);
   line-height: 1;
   cursor: pointer;
   transition:
-    background-color var(--dt-transition-fast),
-    border-color var(--dt-transition-fast),
-    color var(--dt-transition-fast);
+    background-color var(--dx-transition-fast),
+    border-color var(--dx-transition-fast),
+    color var(--dx-transition-fast);
 }
 
 .button:focus-visible {
-  outline: 2px solid var(--dt-color-outline-primary);
+  outline: 2px solid var(--dx-color-outline-primary);
   outline-offset: 2px;
 }
 
@@ -25,133 +25,161 @@
   cursor: not-allowed;
 }
 
-/* Variants */
-.primary {
-  background-color: var(--dt-color-primary);
-  color: var(--dt-color-primary-fg);
-}
+/* ── Radzen axes: Variant (filled | flat | outlined | text) × Style (color) × Shade ── */
+.filled { border-color: transparent; }
+.flat { border-color: transparent; }
+.outlined { background-color: transparent; border-color: var(--dx-color-border-strong); }
+.text { background-color: transparent; border-color: transparent; }
 
-.primary:hover:not(:disabled) {
-  background-color: var(--dt-color-primary-hover);
-}
+/* style fills — filled + flat carry bg, outlined/text are text+border only */
+.filled.style-primary, .filled.tone-primary { background-color: var(--dx-color-primary); color: var(--dx-color-primary-fg); }
+.filled.style-primary:hover:not(:disabled), .filled.tone-primary:hover:not(:disabled) { background-color: var(--dx-color-primary-hover); }
+.flat.style-primary { background-color: color-mix(in srgb, var(--dx-color-primary) 14%, var(--dx-color-surface)); color: var(--dx-color-text-primary); }
+.outlined.style-primary, .outlined.tone-primary { color: var(--dx-color-text-primary); border-color: var(--dx-color-border-primary); }
+.text.style-primary, .text.tone-primary { color: var(--dx-color-text-primary); }
 
-.secondary {
-  background-color: var(--dt-color-surface);
-  border-color: var(--dt-color-border-strong);
-  color: var(--dt-color-text);
-}
+.filled.style-secondary, .filled.tone-secondary { background-color: var(--dx-color-secondary); color: var(--dx-color-secondary-fg); }
+.filled.style-secondary:hover:not(:disabled), .filled.tone-secondary:hover:not(:disabled) { background-color: var(--dx-color-secondary-hover); }
+.flat.style-secondary { background-color: var(--dx-color-surface-hover); color: var(--dx-color-text); }
+.outlined.style-secondary, .outlined.tone-secondary { color: var(--dx-color-text); }
+.text.style-secondary, .text.tone-secondary { color: var(--dx-color-text); }
 
-.secondary:hover:not(:disabled) {
-  background-color: var(--dt-color-surface-hover);
-}
+.filled.style-base { background-color: var(--dx-color-surface); color: var(--dx-color-text); border-color: var(--dx-color-border); }
+.filled.style-base:hover:not(:disabled) { background-color: var(--dx-color-surface-hover); }
+.flat.style-base { background-color: var(--dx-color-surface-hover); color: var(--dx-color-text); }
+.filled.style-light { background-color: var(--dx-color-surface); color: var(--dx-color-text); }
+.filled.style-light:hover:not(:disabled) { background-color: var(--dx-color-surface-hover); }
+.flat.style-light { background-color: var(--dx-color-surface-hover); color: var(--dx-color-text); }
+.filled.style-dark { background-color: var(--dx-color-text); color: var(--dx-color-surface); }
+.filled.style-dark:hover:not(:disabled) { background-color: var(--dx-color-dark-hover); }
+.flat.style-dark { background-color: color-mix(in srgb, var(--dx-color-text) 14%, var(--dx-color-surface)); color: var(--dx-color-text); }
 
-.ghost {
-  background-color: transparent;
-  color: var(--dt-color-text);
-}
+.filled.style-danger, .filled.tone-danger { background-color: var(--dx-color-danger); color: var(--dx-color-danger-fg); }
+.filled.style-danger:hover:not(:disabled), .filled.tone-danger:hover:not(:disabled) { background-color: var(--dx-color-danger-hover); }
+.flat.style-danger { background-color: color-mix(in srgb, var(--dx-color-danger) 14%, var(--dx-color-surface)); color: var(--dx-color-text-danger); }
+.outlined.style-danger, .outlined.tone-danger { color: var(--dx-color-text-danger); border-color: var(--dx-color-danger); }
+.text.style-danger, .text.tone-danger { color: var(--dx-color-text-danger); }
 
-.secondary:focus-visible {
-  outline-color: var(--dt-color-outline-secondary);
-}
+.filled.style-success, .filled.tone-success { background-color: var(--dx-color-success); color: var(--dx-color-success-fg); }
+.filled.style-success:hover:not(:disabled), .filled.tone-success:hover:not(:disabled) { background-color: var(--dx-color-success-hover); }
+.flat.style-success { background-color: color-mix(in srgb, var(--dx-color-success) 14%, var(--dx-color-surface)); color: var(--dx-color-text-success); }
+.outlined.style-success, .outlined.tone-success { color: var(--dx-color-text-success); border-color: var(--dx-color-success); }
+.text.style-success, .text.tone-success { color: var(--dx-color-text-success); }
 
-.danger:focus-visible {
-  outline-color: var(--dt-color-outline-danger);
-}
+.filled.style-warning, .filled.tone-warning { background-color: var(--dx-color-warning); color: var(--dx-color-warning-fg); }
+.filled.style-warning:hover:not(:disabled), .filled.tone-warning:hover:not(:disabled) { background-color: var(--dx-color-warning-hover); }
+.flat.style-warning { background-color: color-mix(in srgb, var(--dx-color-warning) 14%, var(--dx-color-surface)); color: var(--dx-color-text-warning); }
+.outlined.style-warning, .outlined.tone-warning { color: var(--dx-color-text-warning); border-color: var(--dx-color-warning); }
+.text.style-warning, .text.tone-warning { color: var(--dx-color-text-warning); }
 
-.success:focus-visible {
-  outline-color: var(--dt-color-outline-success);
-}
+.filled.style-info, .filled.tone-info { background-color: var(--dx-color-info); color: var(--dx-color-info-fg); }
+.filled.style-info:hover:not(:disabled), .filled.tone-info:hover:not(:disabled) { background-color: var(--dx-color-info-hover); }
+.flat.style-info { background-color: color-mix(in srgb, var(--dx-color-info) 14%, var(--dx-color-surface)); color: var(--dx-color-text-info); }
+.outlined.style-info, .outlined.tone-info { color: var(--dx-color-text-info); border-color: var(--dx-color-info); }
+.text.style-info, .text.tone-info { color: var(--dx-color-text-info); }
 
-.info:focus-visible {
-  outline-color: var(--dt-color-outline-info);
-}
+/* Shade (Radzen Shade) — lightness step within a Style, applies to filled only.
+   Uses --dx-color-*-light/darker when generated; fallback to color-mix. */
+.filled.style-primary.shade-lighter, .filled.tone-primary.shade-lighter { background-color: var(--dx-color-border-primary-light, color-mix(in srgb, var(--dx-color-primary) 42%, white)); color: var(--dx-color-text-primary); }
+.filled.style-primary.shade-light, .filled.tone-primary.shade-light { background-color: var(--dx-color-primary); filter: brightness(1.12); }
+.filled.style-primary.shade-dark, .filled.tone-primary.shade-dark { background-color: var(--dx-color-border-primary-darker, color-mix(in srgb, var(--dx-color-primary) 88%, black)); color: var(--dx-color-primary-fg); }
+.filled.style-primary.shade-darker, .filled.tone-primary.shade-darker { background-color: var(--dx-color-border-primary-darker, color-mix(in srgb, var(--dx-color-primary) 78%, black)); color: var(--dx-color-primary-fg); }
+/* non-primary shades collapse to flat/filled approximations until per-hue scales are generated */
+.filled.shade-lighter { background-color: color-mix(in srgb, currentColor 12%, var(--dx-color-surface)); }
+.filled.shade-darker { filter: brightness(0.88); }
 
-.ghost:hover:not(:disabled) {
-  background-color: var(--dt-color-surface-hover);
-}
+/* focus rings per style */
+.style-primary:focus-visible, .tone-primary:focus-visible { outline-color: var(--dx-color-outline-primary); }
+.style-secondary:focus-visible, .tone-secondary:focus-visible { outline-color: var(--dx-color-outline-secondary); }
+.style-danger:focus-visible, .tone-danger:focus-visible { outline-color: var(--dx-color-outline-danger); }
+.style-success:focus-visible, .tone-success:focus-visible { outline-color: var(--dx-color-outline-success); }
+.style-warning:focus-visible, .tone-warning:focus-visible { outline-color: var(--dx-color-outline-warning); }
+.style-info:focus-visible, .tone-info:focus-visible { outline-color: var(--dx-color-outline-info); }
 
-.danger {
-  background-color: var(--dt-color-danger);
-  color: var(--dt-color-danger-fg);
-}
+/* ── Deprecated aliases (keep until 1.0) ── */
+.primary { background-color: var(--dx-color-primary); color: var(--dx-color-primary-fg); }
+.primary:hover:not(:disabled) { background-color: var(--dx-color-primary-hover); }
+.secondary { background-color: var(--dx-color-surface); border-color: var(--dx-color-border-strong); color: var(--dx-color-text); }
+.secondary:hover:not(:disabled) { background-color: var(--dx-color-surface-hover); }
+.ghost { background-color: transparent; color: var(--dx-color-text); }
+.ghost:hover:not(:disabled) { background-color: var(--dx-color-surface-hover); }
+.danger { background-color: var(--dx-color-danger); color: var(--dx-color-danger-fg); }
+.danger:hover:not(:disabled) { background-color: var(--dx-color-danger-hover); }
+.success { background-color: var(--dx-color-success); color: var(--dx-color-success-fg); }
+.success:hover:not(:disabled) { background-color: var(--dx-color-success-hover); }
+.info { background-color: var(--dx-color-info); color: var(--dx-color-info-fg); }
+.info:hover:not(:disabled) { background-color: var(--dx-color-info-hover); }
 
-.danger:hover:not(:disabled) {
-  background-color: var(--dt-color-danger-hover);
+/* loading spinner */
+.loading {
+  pointer-events: none;
 }
-
-.success {
-  background-color: var(--dt-color-success);
-  color: var(--dt-color-success-fg);
+.spinner {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  animation: dx-spin 0.7s linear infinite;
+  flex: none;
 }
-
-.success:hover:not(:disabled) {
-  background-color: var(--dt-color-success-hover);
-}
-
-.info {
-  background-color: var(--dt-color-info);
-  color: var(--dt-color-info-fg);
-}
-
-.info:hover:not(:disabled) {
-  background-color: var(--dt-color-info-hover);
-}
+@keyframes dx-spin { to { transform: rotate(360deg); } }
 
 /* Sizes */
 .xs {
-  height: var(--dt-control-height-xs);
+  height: var(--dx-control-height-xs);
   padding: 0 8px;
-  font-size: var(--dt-font-size-xs);
+  font-size: var(--dx-font-size-xs);
 }
 
 .sm {
-  height: var(--dt-control-height-sm);
+  height: var(--dx-control-height-sm);
   padding: 0 12px;
-  font-size: var(--dt-font-size-xs);
+  font-size: var(--dx-font-size-xs);
 }
 
 .md {
-  height: var(--dt-control-height-md);
+  height: var(--dx-control-height-md);
   padding: 0 16px;
-  font-size: var(--dt-font-size-sm);
+  font-size: var(--dx-font-size-sm);
 }
 
 .lg {
-  height: var(--dt-control-height-lg);
+  height: var(--dx-control-height-lg);
   padding: 0 20px;
-  font-size: var(--dt-font-size-md);
+  font-size: var(--dx-font-size-md);
 }
 
 .xl {
-  height: var(--dt-control-height-xl);
+  height: var(--dx-control-height-xl);
   padding: 0 24px;
-  font-size: var(--dt-font-size-lg);
+  font-size: var(--dx-font-size-lg);
 }
 
 .iconOnly {
   padding: 0;
   aspect-ratio: 1;
-  border-radius: var(--dt-radius-full);
+  border-radius: var(--dx-radius-full);
 }
 
 .iconOnly.xs {
-  width: var(--dt-control-height-xs);
+  width: var(--dx-control-height-xs);
 }
 
 .iconOnly.sm {
-  width: var(--dt-control-height-sm);
+  width: var(--dx-control-height-sm);
 }
 
 .iconOnly.md {
-  width: var(--dt-control-height-md);
+  width: var(--dx-control-height-md);
 }
 
 .iconOnly.lg {
-  width: var(--dt-control-height-lg);
+  width: var(--dx-control-height-lg);
 }
 
 .iconOnly.xl {
-  width: var(--dt-control-height-xl);
+  width: var(--dx-control-height-xl);
 }
 
 .fullWidth {
