@@ -13,7 +13,8 @@
       "import": "./dist/main.es.js",
       "require": "./dist/main.cjs.js"
     },
-    "./style.css": "./dist/style.css"
+    "./style.css": "./dist/style.css",
+    "./bridge-1km.css": "./dist/bridge-1km.css"
   },
   "files": [
     "dist"
@@ -22,7 +23,8 @@
     "*.css"
   ],
   "scripts": {
-    "build": "vite build",
+    "build": "vite build && node scripts/copy-bridge.mjs",
+
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "test": "vitest run",
