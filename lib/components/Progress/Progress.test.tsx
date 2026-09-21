@@ -29,7 +29,7 @@ describe("Progress", () => {
   });
 
   it("applies the tone class", () => {
-    render(<Progress value={10} tone="success" />);
+    render(<Progress value={10} severity="success" />);
     expect(screen.getByRole("progressbar").className).toContain("success");
   });
 

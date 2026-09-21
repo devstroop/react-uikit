@@ -2,8 +2,8 @@
   position: relative;
   width: 100%;
   height: 6px;
-  border-radius: var(--dt-radius-full);
-  background: var(--dt-color-surface-hover);
+  border-radius: var(--dx-radius-full);
+  background: var(--dx-color-surface-hover);
   overflow: hidden;
 }
 
@@ -32,29 +32,45 @@
   position: absolute;
   inset: 0 auto 0 0;
   height: 100%;
-  border-radius: var(--dt-radius-full);
-  transition: width var(--dt-transition-base) var(--dt-ease-out);
+  border-radius: var(--dx-radius-full);
+  transition: width var(--dx-transition-base) var(--dx-ease-out);
 }
 
 .primary .bar {
-  background: var(--dt-color-primary);
+  background: var(--dx-color-primary);
 }
 
 .success .bar {
-  background: var(--dt-color-success);
+  background: var(--dx-color-success);
 }
 
 .warning .bar {
-  background: var(--dt-color-warning);
+  background: var(--dx-color-warning);
 }
 
 .danger .bar {
-  background: var(--dt-color-danger);
+  background: var(--dx-color-danger);
+}
+
+.shade-lighter .bar {
+  filter: brightness(1.12);
+}
+
+.shade-light .bar {
+  filter: brightness(1.06);
+}
+
+.shade-dark .bar {
+  filter: brightness(0.92);
+}
+
+.shade-darker .bar {
+  filter: brightness(0.84);
 }
 
 .indeterminate .bar {
   width: 40%;
-  animation: se-progress-slide var(--dt-motion-sweep) infinite;
+  animation: se-progress-slide var(--dx-motion-sweep) infinite;
 }
 
 @keyframes se-progress-slide {
@@ -73,28 +89,28 @@
 
 /* Circular diameter tiers — control-height scale (specs/sizes.md) */
 .circular-xs {
-  width: var(--dt-control-height-xs);
-  height: var(--dt-control-height-xs);
+  width: var(--dx-control-height-xs);
+  height: var(--dx-control-height-xs);
 }
 
 .circular-sm {
-  width: var(--dt-control-height-sm);
-  height: var(--dt-control-height-sm);
+  width: var(--dx-control-height-sm);
+  height: var(--dx-control-height-sm);
 }
 
 .circular-md {
-  width: var(--dt-control-height-md);
-  height: var(--dt-control-height-md);
+  width: var(--dx-control-height-md);
+  height: var(--dx-control-height-md);
 }
 
 .circular-lg {
-  width: var(--dt-control-height-lg);
-  height: var(--dt-control-height-lg);
+  width: var(--dx-control-height-lg);
+  height: var(--dx-control-height-lg);
 }
 
 .circular-xl {
-  width: var(--dt-control-height-xl);
-  height: var(--dt-control-height-xl);
+  width: var(--dx-control-height-xl);
+  height: var(--dx-control-height-xl);
 }
 
 .circular circle {
@@ -103,28 +119,28 @@
 }
 
 .track {
-  stroke: var(--dt-color-surface-hover);
+  stroke: var(--dx-color-surface-hover);
 }
 
 .fill {
-  stroke: var(--dt-color-primary);
-  transition: stroke-dashoffset var(--dt-transition-base) var(--dt-ease-out);
+  stroke: var(--dx-color-primary);
+  transition: stroke-dashoffset var(--dx-transition-base) var(--dx-ease-out);
 }
 
 .circular.success .fill {
-  stroke: var(--dt-color-success);
+  stroke: var(--dx-color-success);
 }
 
 .circular.warning .fill {
-  stroke: var(--dt-color-warning);
+  stroke: var(--dx-color-warning);
 }
 
 .circular.danger .fill {
-  stroke: var(--dt-color-danger);
+  stroke: var(--dx-color-danger);
 }
 
 .circular.indeterminate {
-  animation: se-progress-spin var(--dt-motion-sweep) linear infinite;
+  animation: se-progress-spin var(--dx-motion-sweep) linear infinite;
 }
 
 @keyframes se-progress-spin {

@@ -1,22 +1,32 @@
 import { type HTMLAttributes } from "react";
 import type { ComponentSize } from "../../sizes";
+import type { Severity } from "../../types/severity";
+import type { Shade } from "../../types/shade";
 import styles from "./Progress.module.css";
 
-export type ProgressTone = "primary" | "success" | "warning" | "danger";
+export type ProgressTone = Extract<Severity, "primary" | "success" | "warning" | "danger">;
+export type ProgressShade = Shade;
+export type ProgressVariant = "linear" | "circular";
 
 export interface ProgressProps extends Omit<HTMLAttributes<HTMLDivElement>, "role"> {
   value?: number;
   max?: number;
-  tone?: ProgressTone;
+  /**
+   * Severity axis — the single severity prop. Native `style` is always
+   * plain CSS and never a hue.
+   */
+  severity?: ProgressTone;
+  shade?: ProgressShade;
   indeterminate?: boolean;
-  variant?: "linear" | "circular";
+  variant?: ProgressVariant;
   size?: number | ComponentSize;
 }
 
 export function Progress({
   value = 0,
   max = 100,
-  tone = "primary",
+  severity = "primary",
+  shade,
   indeterminate = false,
   variant = "linear",
   size = "md",
@@ -49,7 +59,8 @@ export function Progress({
         style={props.style}
         className={[
           styles.circular,
-          styles[tone],
+          styles[severity],
+          shade && shade !== "default" ? styles[`shade-${shade}`] : null,
           tier ? styles[`circular-${size}`] : null,
           indeterminate ? styles.indeterminate : null,
           className,
@@ -71,6 +82,7 @@ export function Progress({
     );
   }
 
+  const shadeCls = shade && shade !== "default" ? `shade-${shade}` : null;
   return (
     <div
       role="progressbar"
@@ -79,7 +91,8 @@ export function Progress({
       aria-valuemax={max}
       className={[
         styles.track,
-        styles[tone],
+        styles[severity],
+        shadeCls ? styles[shadeCls] : null,
         typeof size === "string" ? styles[`linear-${size}`] : null,
         indeterminate ? styles.indeterminate : null,
         className,
