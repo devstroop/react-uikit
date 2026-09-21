@@ -259,6 +259,15 @@
   transition: background-color var(--dx-transition-fast);
 }
 
+/* items are native buttons: strip UA chrome, keep menu layout */
+button.item {
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: start;
+  font: inherit;
+}
+
 .item:hover:not(.disabled) {
   background-color: var(--dx-color-surface-hover);
 }

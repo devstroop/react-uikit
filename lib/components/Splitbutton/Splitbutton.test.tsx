@@ -30,6 +30,13 @@ describe("Splitbutton", () => {
     expect(root?.className).toContain(variant);
   });
 
+  it("moves focus into the menu on open (items carry real focus)", async () => {
+    const user = userEvent.setup();
+    render(<Splitbutton label="Save" items={items} />);
+    await user.click(screen.getByRole("button", { name: "More actions" }));
+    expect(screen.getByRole("menuitem", { name: "Edit" })).toHaveFocus();
+  });
+
   it("opens the menu on caret click", async () => {
     const user = userEvent.setup();
     render(<Splitbutton label="Save" items={items} />);
@@ -78,10 +85,9 @@ describe("Splitbutton", () => {
     const caret = screen.getByRole("button", { name: "More actions" });
     caret.focus();
     await user.keyboard("{ArrowDown}");
-    const menu = screen.getByRole("menu");
-    expect(menu).toHaveAttribute("aria-activedescendant", screen.getAllByRole("menuitem")[0]!.id);
+    expect(screen.getByRole("menuitem", { name: "Edit" })).toHaveFocus();
     await user.keyboard("{ArrowDown}");
-    expect(menu).toHaveAttribute("aria-activedescendant", screen.getAllByRole("menuitem")[1]!.id);
+    expect(screen.getByRole("menuitem", { name: "Duplicate" })).toHaveFocus();
     await user.keyboard("{ArrowUp}");
     await user.keyboard("{Enter}");
     expect(onEdit).toHaveBeenCalledTimes(1);
@@ -110,14 +116,8 @@ describe("Splitbutton", () => {
     const caret = screen.getByRole("button", { name: "More actions" });
     caret.focus();
     await user.keyboard("{ArrowDown}");
-    expect(screen.getByRole("menu")).toHaveAttribute(
-      "aria-activedescendant",
-      screen.getAllByRole("menuitem")[1]!.id,
-    );
-    expect(screen.getByRole("menuitem", { name: "Print" })).toHaveAttribute(
-      "aria-disabled",
-      "true",
-    );
+    expect(screen.getByRole("menuitem", { name: "Edit" })).toHaveFocus();
+    expect(screen.getByRole("menuitem", { name: "Print" })).toBeDisabled();
   });
 
   it("never opens when disabled", async () => {

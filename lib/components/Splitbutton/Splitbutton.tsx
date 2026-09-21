@@ -2,6 +2,7 @@ import {
   useCallback,
   useEffect,
   useId,
+  useMemo,
   useRef,
   useState,
   type KeyboardEvent,
@@ -55,12 +56,17 @@ export function Splitbutton({
   const menuId = `${baseId}-menu`;
   const rootRef = useRef<HTMLDivElement>(null);
   const caretRef = useRef<HTMLButtonElement>(null);
+  const itemRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
 
-  const enabledIndexes = items
-    .map((item, index) => (item.disabled ? -1 : index))
-    .filter((index) => index >= 0);
+  const enabledIndexes = useMemo(
+    () =>
+      items
+        .map((item, index) => (item.disabled ? -1 : index))
+        .filter((index) => index >= 0),
+    [items],
+  );
 
   const openMenu = useCallback(() => {
     if (disabled) return;
@@ -84,6 +90,24 @@ export function Splitbutton({
     return () => document.removeEventListener("mousedown", onMouseDown);
   }, [open]);
 
+  // Move focus to the active item on open. Items are native buttons, so
+  // focus (not aria-activedescendant) is the source of truth; arrows move
+  // it, Enter/Space activate natively, Escape returns to the caret.
+  // Guarded to the closed→open transition so later re-renders (e.g. an
+  // inline `items` array changing identity) never yank focus back.
+  // activeIndex is already synced here: openMenu() sets it to the first
+  // enabled item on every open path before flipping `open`.
+  const wasOpenRef = useRef(open);
+  useEffect(() => {
+    const wasOpen = wasOpenRef.current;
+    wasOpenRef.current = open;
+    if (!open || wasOpen) return;
+    const first = enabledIndexes.includes(activeIndex)
+      ? activeIndex
+      : (enabledIndexes[0] ?? -1);
+    if (first >= 0) itemRefs.current[first]?.focus();
+  }, [open, activeIndex, enabledIndexes]);
+
   const activate = (index: number) => {
     const item = items[index];
     if (!item || item.disabled) return;
@@ -103,17 +127,24 @@ export function Splitbutton({
       enabledIndexes[
         (current + direction + enabledIndexes.length) % enabledIndexes.length
       ];
-    if (next != null) setActiveIndex(next);
+    if (next == null) return;
+    setActiveIndex(next);
+    itemRefs.current[next]?.focus();
   };
 
-  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
-    if (!open) {
-      if (event.key === "ArrowDown" || event.key === "Enter" || event.key === " ") {
-        event.preventDefault();
-        openMenu();
-      }
-      return;
-    }
+  const focusEdge = (edge: "first" | "last") => {
+    const index =
+      edge === "first"
+        ? enabledIndexes[0]
+        : enabledIndexes[enabledIndexes.length - 1];
+    if (index == null) return;
+    setActiveIndex(index);
+    itemRefs.current[index]?.focus();
+  };
+
+  // Arrow/Home/End/Escape/Tab handling for the composite menu. Enter and
+  // Space are deliberately untouched: item buttons activate natively.
+  const handleMenuKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     switch (event.key) {
       case "ArrowDown":
         event.preventDefault();
@@ -125,18 +156,11 @@ export function Splitbutton({
         break;
       case "Home":
         event.preventDefault();
-        if (enabledIndexes[0] != null) setActiveIndex(enabledIndexes[0]);
+        focusEdge("first");
         break;
       case "End":
         event.preventDefault();
-        if (enabledIndexes[enabledIndexes.length - 1] != null) {
-          setActiveIndex(enabledIndexes[enabledIndexes.length - 1]!);
-        }
-        break;
-      case "Enter":
-      case " ":
-        event.preventDefault();
-        if (activeIndex >= 0) activate(activeIndex);
+        focusEdge("last");
         break;
       case "Escape":
         event.preventDefault();
@@ -161,7 +185,6 @@ export function Splitbutton({
       ]
         .filter(Boolean)
         .join(" ")}
-      onKeyDown={handleKeyDown}
     >
       <button
         type="button"
@@ -181,6 +204,12 @@ export function Splitbutton({
         aria-label="More actions"
         disabled={disabled}
         onClick={() => (open ? setOpen(false) : openMenu())}
+        onKeyDown={(event) => {
+          if (!open && event.key === "ArrowDown") {
+            event.preventDefault();
+            openMenu();
+          }
+        }}
       >
         ▾
       </button>
@@ -188,18 +217,21 @@ export function Splitbutton({
         <div
           id={menuId}
           role="menu"
-          aria-activedescendant={
-            activeIndex >= 0 ? `${baseId}-item-${activeIndex}` : undefined
-          }
+          tabIndex={-1}
           className={styles.menu}
+          onKeyDown={handleMenuKeyDown}
           {...ariaProps}
         >
           {items.map((item, index) => (
-            <div
+            <button
               key={item.key}
-              id={`${baseId}-item-${index}`}
+              ref={(node) => {
+                itemRefs.current[index] = node;
+              }}
+              type="button"
               role="menuitem"
-              aria-disabled={item.disabled || undefined}
+              tabIndex={index === activeIndex ? 0 : -1}
+              disabled={item.disabled}
               className={[
                 styles.item,
                 index === activeIndex ? styles.active : null,
@@ -214,7 +246,7 @@ export function Splitbutton({
               }}
             >
               {item.label}
-            </div>
+            </button>
           ))}
         </div>
       )}
