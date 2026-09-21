@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, type ReactNode } from "react";
+import { useCallback, useEffect, useId, useRef, type ReactNode } from "react";
 import styles from "./Dialog.module.css";
 
 export type DialogSize = "sm" | "md" | "lg";
@@ -28,6 +28,34 @@ export function Dialog({
   const titleId = useId();
   const descId = useId();
 
+  // onClose identity must not disturb the open effect: a parent re-render
+  // with a fresh callback would otherwise run cleanup (dropping the
+  // scroll lock + ESC listener) and the re-run would no-op on the already
+  // open dialog. The ref always serves the latest callback instead.
+  const onCloseRef = useRef(onClose);
+  onCloseRef.current = onClose;
+  // Tracks whether the current close gesture already notified the parent,
+  // so the ensuing native `close` event doesn't notify a second time.
+  const notifiedRef = useRef(false);
+  const suppressNextNativeCloseRef = useRef(false);
+
+  // The single user-gesture close path: ESC, backdrop, and the X button
+  // all funnel here. Exactly one notification per gesture; the native
+  // `close` event that follows the parent's `open` flip is suppressed.
+  const requestClose = useCallback(() => {
+    if (notifiedRef.current) return;
+    notifiedRef.current = true;
+    onCloseRef.current();
+  }, []);
+
+  const handleNativeClose = useCallback(() => {
+    if (suppressNextNativeCloseRef.current) {
+      suppressNextNativeCloseRef.current = false;
+      return;
+    }
+    onCloseRef.current();
+  }, []);
+
   useEffect(() => {
     const dialog = ref.current;
     if (!dialog) {
@@ -35,16 +63,40 @@ export function Dialog({
     }
     if (open && !dialog.open) {
       dialog.showModal();
+      // body scroll lock without layout shift
+      const prev = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      const onCancel = (e: Event) => {
+        e.preventDefault();
+        // Controlled close: notify once here and let the parent's `open`
+        // flip drive the native close below. Never force-close — that
+        // would fire `onClose` a second time via the native handler.
+        requestClose();
+      };
+      dialog.addEventListener("cancel", onCancel);
+      return () => {
+        dialog.removeEventListener("cancel", onCancel);
+        document.body.style.overflow = prev;
+      };
     } else if (!open && dialog.open) {
+      // Consume the gesture flag so a parent-driven close still notifies
+      // once via the native handler, while a gesture-driven close (already
+      // notified through requestClose) stays silent here.
+      suppressNextNativeCloseRef.current = notifiedRef.current;
+      notifiedRef.current = false;
       dialog.close();
     }
-  }, [open]);
+  }, [open, requestClose]);
 
   return (
     <dialog
       ref={ref}
       className={[styles.dialog, styles[size], className].filter(Boolean).join(" ")}
-      onClose={onClose}
+      onClose={handleNativeClose}
+      onClick={(e) => {
+        if (e.target === ref.current) requestClose();
+      }}
+      aria-modal="true"
       aria-labelledby={title ? titleId : undefined}
       aria-describedby={description ? descId : undefined}
     >
@@ -63,7 +115,7 @@ export function Dialog({
           <button
             type="button"
             className={styles.close}
-            onClick={onClose}
+            onClick={requestClose}
             aria-label="Close dialog"
           >
             ×
