@@ -235,14 +235,14 @@ export function Menu({
               onMouseLeave={() => {
                 if (orientation === "horizontal" && hasChildren) setOpenIndex((prev) => (prev === index ? null : prev));
               }}
-              data-dt-menu-item=""
+              data-dx-menu-item=""
             >
               <button
                 type="button"
                 role="menuitem"
                 data-top="true"
                 data-index={index}
-                data-dt-menu-item=""
+                data-dx-menu-item=""
                 aria-disabled={disabled || undefined}
                 aria-haspopup={hasChildren ? "menu" : undefined}
                 aria-expanded={hasChildren ? isOpen : undefined}
@@ -272,7 +272,7 @@ export function Menu({
                   id={submenuId}
                   role="menu"
                   className={styles.submenu}
-                  data-dt-menu-submenu=""
+                  data-dx-menu-submenu=""
                   aria-label={item.text}
                 >
                   {item.children?.map((child, childIndex) => {

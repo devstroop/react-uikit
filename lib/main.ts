@@ -1,14 +1,15 @@
 import "./styles/tokens.css";
 import "./utilities.css";
+/* Optional 1km bridge — consumers import "@devstroop/react-uikit/bridge-1km.css" explicitly. */
 
 export { Button } from "./components/Button/Button";
-export type { ButtonProps, ButtonVariant, ButtonSize } from "./components/Button/Button";
+export type { ButtonProps, ButtonVariant, ButtonStyle, ButtonShade, ButtonSize } from "./components/Button/Button";
 
 export { Card } from "./components/Card/Card";
 export type { CardProps, CardVariant } from "./components/Card/Card";
 
 export { Badge } from "./components/Badge/Badge";
-export type { BadgeProps, BadgeTone, BadgeVariant, BadgeSize } from "./components/Badge/Badge";
+export type { BadgeProps, BadgeStyle, BadgeVariant, BadgeSize, BadgeShade } from "./components/Badge/Badge";
 
 export { Icon, iconNames } from "./components/Icon/Icon";
 export type { IconProps, IconName } from "./components/Icon/Icon";
@@ -107,8 +108,8 @@ export type { DialogProps, DialogSize } from "./components/Dialog/Dialog";
 export { ToastProvider, useToast } from "./components/Toast/Toast";
 export type { ToastProviderProps, ToastOptions, ToastTone, ToastPosition } from "./components/Toast/Toast";
 
-export { Alert } from "./components/Alert/Alert";
-export type { AlertProps, AlertTone } from "./components/Alert/Alert";
+export { Alert, ALERT_ICON } from "./components/Alert/Alert";
+export type { AlertProps, AlertStyle, AlertVariant, AlertShade } from "./components/Alert/Alert";
 
 export { Skeleton } from "./components/Skeleton/Skeleton";
 export type { SkeletonProps, SkeletonVariant } from "./components/Skeleton/Skeleton";
@@ -138,9 +139,12 @@ export { Sidebar } from "./components/Sidebar/Sidebar";
 export type { SidebarProps, SidebarPosition } from "./components/Sidebar/Sidebar";
 
 export { Progress } from "./components/Progress/Progress";
-export type { ProgressProps, ProgressTone } from "./components/Progress/Progress";
+export type { ProgressProps, ProgressTone, ProgressShade, ProgressVariant } from "./components/Progress/Progress";
 
 export type { ComponentSize } from "./sizes";
+export type { Severity } from "./types/severity";
+export type { Shade } from "./types/shade";
+export type { Variant } from "./types/variant";
 
 export { ThemeSwitcher } from "./components/ThemeSwitcher/ThemeSwitcher";
 export type { ThemeSwitcherProps, ThemeName } from "./components/ThemeSwitcher/ThemeSwitcher";
@@ -182,7 +186,7 @@ export { Togglebutton } from "./components/Togglebutton/Togglebutton";
 export type { TogglebuttonProps, TogglebuttonSize } from "./components/Togglebutton/Togglebutton";
 
 export { Splitbutton } from "./components/Splitbutton/Splitbutton";
-export type { SplitbuttonProps, SplitbuttonItem, SplitbuttonSize } from "./components/Splitbutton/Splitbutton";
+export type { SplitbuttonProps, SplitbuttonItem, SplitbuttonSize, SplitbuttonSeverity, SplitbuttonVariant, SplitbuttonShade } from "./components/Splitbutton/Splitbutton";
 
 export { Textbox } from "./components/Textbox/Textbox";
 export type { TextboxProps, TextboxSize } from "./components/Textbox/Textbox";

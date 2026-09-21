@@ -12,8 +12,25 @@ describe("Alert", () => {
   });
 
   it("applies the tone class", () => {
-    render(<Alert tone="danger" title="Error" />);
+    render(<Alert severity="danger" title="Error" />);
     expect(screen.getByRole("alert").className).toContain("danger");
+  });
+
+  it.each(
+    ["primary", "secondary", "light", "base", "dark", "info", "success", "warning", "danger"] as const,
+  )("applies the %s severity class", (severity) => {
+    render(<Alert severity={severity} title="Heads up" />);
+    expect(screen.getByRole("alert").className).toContain(severity);
+  });
+
+  it("shows the contextual icon by default and hides it with showIcon={false}", () => {
+    const { rerender } = render(<Alert severity="success" title="Done" />);
+    const alert = () => screen.getByRole("alert");
+    // Scoped to the alert node: the dismiss control renders a × character
+    // (no svg), but the query must not depend on that staying true.
+    expect(alert().querySelector("svg")).toBeInTheDocument();
+    rerender(<Alert severity="success" title="Done" showIcon={false} />);
+    expect(alert().querySelector("svg")).not.toBeInTheDocument();
   });
 
   it("disappears after dismissing", async () => {
@@ -31,9 +48,9 @@ describe("Alert", () => {
     expect(onDismiss).toHaveBeenCalledTimes(1);
   });
 
-  it("applies the variant class", () => {
-    render(<Alert title="Heads up" variant="solid" />);
-    expect(screen.getByRole("alert").className).toContain("solid");
+  it.each(["filled", "flat", "outlined", "text"] as const)("applies the %s variant class", (variant) => {
+    render(<Alert title="Heads up" variant={variant} />);
+    expect(screen.getByRole("alert").className).toContain(variant);
   });
 
   it.each(["xs", "sm", "md", "lg", "xl"] as const)("applies the %s size class", (size) => {

@@ -30,12 +30,12 @@ export interface ChartProps {
 }
 
 const PALETTE = [
-  "var(--dt-color-palette-0)",
-  "var(--dt-color-palette-1)",
-  "var(--dt-color-palette-2)",
-  "var(--dt-color-palette-3)",
-  "var(--dt-color-palette-4)",
-  "var(--dt-color-palette-5)",
+  "var(--dx-color-palette-0)",
+  "var(--dx-color-palette-1)",
+  "var(--dx-color-palette-2)",
+  "var(--dx-color-palette-3)",
+  "var(--dx-color-palette-4)",
+  "var(--dx-color-palette-5)",
 ];
 
 function niceScale(min: number, max: number, step?: number) {
@@ -183,7 +183,7 @@ export function Chart({
                         <path
                           d={d}
                           fill={color}
-                          stroke="var(--dt-color-surface)"
+                          stroke="var(--dx-color-surface)"
                           strokeWidth={1}
                           onMouseEnter={() => tooltipVisible && setTip({ x: lx, y: ly, text: `${ser.title ?? p.cat}: ${p.val}` })}
                           onMouseLeave={() => setTip(null)}
@@ -214,7 +214,7 @@ export function Chart({
                     const r = ser.type === "bubble" && p.size !== undefined ? Math.max(4, Math.min(12, p.size / 10)) : 4;
                     return (
                       <g key={i} role="listitem">
-                        <circle cx={x} cy={y} r={r} fill={color} stroke="var(--dt-color-surface)" strokeWidth={1.5} />
+                        <circle cx={x} cy={y} r={r} fill={color} stroke="var(--dx-color-surface)" strokeWidth={1.5} />
                         <circle
                           cx={x}
                           cy={y}
@@ -274,7 +274,7 @@ export function Chart({
                     const y = yFor(base + p.val);
                     return (
                       <g key={i} role="listitem">
-                        <circle cx={x} cy={y} r={4} fill={color} stroke="var(--dt-color-surface)" strokeWidth={1.5} />
+                        <circle cx={x} cy={y} r={4} fill={color} stroke="var(--dx-color-surface)" strokeWidth={1.5} />
                         <rect
                           x={x - 12}
                           y={y - 12}

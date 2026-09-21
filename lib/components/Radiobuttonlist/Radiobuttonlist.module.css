@@ -2,15 +2,15 @@
   border: none;
   margin: 0;
   padding: 0;
-  font-family: var(--dt-font-sans);
+  font-family: var(--dx-font-sans);
 }
 
 .legend {
   padding: 0;
-  margin: 0 0 var(--dt-space-2);
-  font-size: var(--dt-font-size-sm);
-  font-weight: var(--dt-font-weight-medium);
-  color: var(--dt-color-text);
+  margin: 0 0 var(--dx-space-2);
+  font-size: var(--dx-font-size-sm);
+  font-weight: var(--dx-font-weight-medium);
+  color: var(--dx-color-text);
 }
 
 .list {
@@ -19,25 +19,25 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--dt-space-2);
+  gap: var(--dx-space-2);
 }
 
 .item {
   display: flex;
   align-items: center;
-  font-size: var(--dt-font-size-sm);
-  color: var(--dt-color-text);
+  font-size: var(--dx-font-size-sm);
+  color: var(--dx-color-text);
 }
 
 .item.disabled {
-  color: var(--dt-color-text-muted);
+  color: var(--dx-color-text-muted);
   cursor: not-allowed;
 }
 
 .label {
   display: inline-flex;
   align-items: center;
-  gap: var(--dt-space-2);
+  gap: var(--dx-space-2);
   cursor: pointer;
 }
 
@@ -51,30 +51,30 @@
   height: 18px;
   margin: 0;
   flex-shrink: 0;
-  border: 1px solid var(--dt-color-border-strong);
-  border-radius: var(--dt-radius-full);
-  background-color: var(--dt-color-surface);
+  border: 1px solid var(--dx-color-border-strong);
+  border-radius: var(--dx-radius-full);
+  background-color: var(--dx-color-surface);
   cursor: pointer;
   display: inline-grid;
   place-content: center;
   transition:
-    background-color var(--dt-transition-fast),
-    border-color var(--dt-transition-fast);
+    background-color var(--dx-transition-fast),
+    border-color var(--dx-transition-fast);
 }
 
 .radio::before {
   content: "";
   width: 10px;
   height: 10px;
-  border-radius: var(--dt-radius-full);
+  border-radius: var(--dx-radius-full);
   transform: scale(0);
-  transition: transform var(--dt-transition-fast);
-  background-color: var(--dt-color-primary-fg);
+  transition: transform var(--dx-transition-fast);
+  background-color: var(--dx-color-primary-fg);
 }
 
 .radio:checked {
-  background-color: var(--dt-color-primary);
-  border-color: var(--dt-color-primary);
+  background-color: var(--dx-color-primary);
+  border-color: var(--dx-color-primary);
 }
 
 .radio:checked::before {
@@ -82,7 +82,7 @@
 }
 
 .radio:focus-visible {
-  outline: 2px solid var(--dt-color-outline-primary);
+  outline: 2px solid var(--dx-color-outline-primary);
   outline-offset: 2px;
 }
 

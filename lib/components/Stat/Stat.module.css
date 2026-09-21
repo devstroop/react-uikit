@@ -1,14 +1,14 @@
 .stat {
-  font-family: var(--dt-font-sans);
+  font-family: var(--dx-font-sans);
   display: flex;
   flex-direction: column;
-  gap: var(--dt-space-2);
+  gap: var(--dx-space-2);
 }
 
 .label {
-  font-size: var(--dt-font-size-xs);
-  font-weight: var(--dt-font-weight-medium);
-  color: var(--dt-color-text-muted);
+  font-size: var(--dx-font-size-xs);
+  font-weight: var(--dx-font-weight-medium);
+  color: var(--dx-color-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
@@ -16,33 +16,33 @@
 .row {
   display: flex;
   align-items: baseline;
-  gap: var(--dt-space-2);
+  gap: var(--dx-space-2);
 }
 
 .value {
-  font-size: var(--dt-font-size-lg);
-  font-weight: var(--dt-font-weight-bold);
-  color: var(--dt-color-text);
+  font-size: var(--dx-font-size-lg);
+  font-weight: var(--dx-font-weight-bold);
+  color: var(--dx-color-text);
 }
 
 .delta {
-  font-size: var(--dt-font-size-xs);
-  font-weight: var(--dt-font-weight-medium);
+  font-size: var(--dx-font-size-xs);
+  font-weight: var(--dx-font-weight-medium);
 }
 
 .delta.success {
-  color: var(--dt-color-text-success);
+  color: var(--dx-color-text-success);
 }
 
 .delta.danger {
-  color: var(--dt-color-text-danger);
+  color: var(--dx-color-text-danger);
 }
 
 .delta.neutral {
-  color: var(--dt-color-text-muted);
+  color: var(--dx-color-text-muted);
 }
 
 .hint {
-  font-size: var(--dt-font-size-xs);
-  color: var(--dt-color-text-muted);
+  font-size: var(--dx-font-size-xs);
+  color: var(--dx-color-text-muted);
 }

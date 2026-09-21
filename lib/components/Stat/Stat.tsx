@@ -1,7 +1,8 @@
 import { forwardRef, type HTMLAttributes, type ReactNode } from "react";
+import type { Severity } from "../../types/severity";
 import styles from "./Stat.module.css";
 
-export type StatDeltaTone = "success" | "danger" | "neutral";
+export type StatDeltaTone = Extract<Severity, "success" | "danger" | "neutral">;
 
 export interface StatProps extends HTMLAttributes<HTMLDivElement> {
   label: string;

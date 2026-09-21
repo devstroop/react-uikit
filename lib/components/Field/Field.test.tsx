@@ -102,6 +102,33 @@ describe("Field", () => {
     expect(input).toHaveAttribute("aria-describedby", `other ${alert.id}`);
   });
 
+  it("associates the label with an explicit child id, not the generated one", async () => {
+    const user = userEvent.setup();
+    render(
+      <Field label="Name">
+        <input id="custom" />
+      </Field>,
+    );
+    const label = screen.getByText("Name");
+    expect(label).toHaveAttribute("for", "custom");
+    await user.click(label);
+    expect(document.getElementById("custom")).toHaveFocus();
+  });
+
+  it("backfills an id onto bare DOM controls so the label always lands", () => {
+    render(
+      <Field label="Name">
+        <input aria-label="Name" />
+      </Field>,
+    );
+    const box = screen.getByRole("textbox", { name: "Name" });
+    expect(box).toHaveAttribute("id");
+    expect(screen.getByText("Name")).toHaveAttribute(
+      "for",
+      box.getAttribute("id"),
+    );
+  });
+
   it("renders children without a label", () => {
     const { container } = render(
       <Field>
@@ -110,5 +137,20 @@ describe("Field", () => {
     );
     expect(screen.getByRole("textbox", { name: "Solo" })).toBeInTheDocument();
     expect(container.querySelector("label")).not.toBeInTheDocument();
+  });
+
+  it("omits htmlFor when the control cannot carry the generated id", () => {
+    // Custom component that forwards nothing: cloning it an id would be
+    // dishonest, so the label must not point at a nonexistent node.
+    function Custom() {
+      return <span data-testid="custom-control" />;
+    }
+    render(
+      <Field label="Name">
+        <Custom />
+      </Field>,
+    );
+    expect(screen.getByText("Name")).not.toHaveAttribute("for");
+    expect(screen.getByTestId("custom-control")).not.toHaveAttribute("id");
   });
 });

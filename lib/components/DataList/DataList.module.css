@@ -17,14 +17,14 @@
 }
 
 .item {
-  border: 1px solid var(--dt-color-border, #d0d7de);
-  border-radius: var(--dt-radius, 0.375rem);
+  border: 1px solid var(--dx-color-border, #d0d7de);
+  border-radius: var(--dx-radius, 0.375rem);
   padding: 0.75rem;
 }
 
 .empty {
   padding: 2rem 1rem;
   text-align: center;
-  color: var(--dt-color-fg-muted, #57606a);
+  color: var(--dx-color-fg-muted, #57606a);
   font-size: 0.875rem;
 }

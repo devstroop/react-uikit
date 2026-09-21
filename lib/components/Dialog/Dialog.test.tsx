@@ -46,4 +46,37 @@ describe("Dialog", () => {
     rerender(<Dialog open={false} onClose={onClose} title="Settings" />);
     expect(onClose).toHaveBeenCalledTimes(1);
   });
+
+  it("calls onClose exactly once on Escape (no double-fire)", () => {
+    const onClose = vi.fn();
+    render(<Dialog open onClose={onClose} title="Settings" />);
+    // Native cancel path: the handler notifies the parent once and lets
+    // the `open` flip drive the close — never force-closes on top.
+    screen
+      .getByRole("dialog")
+      .dispatchEvent(new Event("cancel", { cancelable: true }));
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
+  it("notifies exactly once across Escape + parent-driven close", () => {
+    const onClose = vi.fn();
+    const { rerender } = render(<Dialog open onClose={onClose} title="Settings" />);
+    screen
+      .getByRole("dialog")
+      .dispatchEvent(new Event("cancel", { cancelable: true }));
+    // Parent flips `open` in response; the ensuing native close must not
+    // notify a second time.
+    rerender(<Dialog open={false} onClose={onClose} title="Settings" />);
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
+  it("keeps ESC working when onClose identity changes while open", () => {
+    const { rerender } = render(<Dialog open onClose={() => {}} title="Settings" />);
+    const second = vi.fn();
+    rerender(<Dialog open onClose={second} title="Settings" />);
+    screen
+      .getByRole("dialog")
+      .dispatchEvent(new Event("cancel", { cancelable: true }));
+    expect(second).toHaveBeenCalledTimes(1);
+  });
 });

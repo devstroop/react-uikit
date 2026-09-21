@@ -1,25 +1,25 @@
 /* Size tiers — icon pixels source from the font-size scale (specs/sizes.md). */
 .xs {
-  width: var(--dt-font-size-xs);
-  height: var(--dt-font-size-xs);
+  width: var(--dx-font-size-xs);
+  height: var(--dx-font-size-xs);
 }
 
 .sm {
-  width: var(--dt-font-size-sm);
-  height: var(--dt-font-size-sm);
+  width: var(--dx-font-size-sm);
+  height: var(--dx-font-size-sm);
 }
 
 .md {
-  width: var(--dt-font-size-md);
-  height: var(--dt-font-size-md);
+  width: var(--dx-font-size-md);
+  height: var(--dx-font-size-md);
 }
 
 .lg {
-  width: var(--dt-font-size-lg);
-  height: var(--dt-font-size-lg);
+  width: var(--dx-font-size-lg);
+  height: var(--dx-font-size-lg);
 }
 
 .xl {
-  width: var(--dt-font-size-xl);
-  height: var(--dt-font-size-xl);
+  width: var(--dx-font-size-xl);
+  height: var(--dx-font-size-xl);
 }

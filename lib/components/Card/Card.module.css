@@ -1,25 +1,30 @@
 .card {
-  border-radius: var(--dt-radius-lg);
-  background-color: var(--dt-color-surface);
-  font-family: var(--dt-font-sans);
+  border-radius: var(--dx-radius-lg);
+  background-color: var(--dx-color-surface);
+  font-family: var(--dx-font-sans);
   overflow: hidden;
 }
 
 .elevated {
-  box-shadow: var(--dt-shadow-md);
-  border: 1px solid var(--dt-color-border);
+  box-shadow: var(--dx-shadow-md);
+  border: 1px solid var(--dx-color-border);
+}
+
+.filled {
+  box-shadow: var(--dx-shadow-md);
+  border: 1px solid var(--dx-color-border);
 }
 
 .outlined {
-  border: 1px solid var(--dt-color-border);
+  border: 1px solid var(--dx-color-border);
 }
 
 .interactive {
-  border: 1px solid var(--dt-color-border);
+  border: 1px solid var(--dx-color-border);
   cursor: pointer;
   transition:
-    border-color var(--dt-transition-fast),
-    box-shadow var(--dt-transition-fast);
+    border-color var(--dx-transition-fast),
+    box-shadow var(--dx-transition-fast);
 }
 
 .text {
@@ -29,32 +34,32 @@
 }
 
 .interactive:hover {
-  border-color: var(--dt-color-border-strong);
-  box-shadow: var(--dt-shadow-sm);
+  border-color: var(--dx-color-border-strong);
+  box-shadow: var(--dx-shadow-sm);
 }
 
 .interactive:focus-visible {
-  outline: 2px solid var(--dt-color-focus);
+  outline: 2px solid var(--dx-color-focus);
   outline-offset: 2px;
 }
 
 .header {
-  padding: var(--dt-space-4) var(--dt-space-4) 0;
-  font-size: var(--dt-font-size-md);
-  font-weight: var(--dt-font-weight-bold);
-  color: var(--dt-color-text);
+  padding: var(--dx-space-4) var(--dx-space-4) 0;
+  font-size: var(--dx-font-size-md);
+  font-weight: var(--dx-font-weight-bold);
+  color: var(--dx-color-text);
 }
 
 .body {
-  padding: var(--dt-space-4);
-  font-size: var(--dt-font-size-sm);
-  color: var(--dt-color-text);
+  padding: var(--dx-space-4);
+  font-size: var(--dx-font-size-sm);
+  color: var(--dx-color-text);
 }
 
 .header + .body {
-  padding-top: var(--dt-space-3);
+  padding-top: var(--dx-space-3);
 }
 
 .footer {
-  padding: 0 var(--dt-space-4) var(--dt-space-4);
+  padding: 0 var(--dx-space-4) var(--dx-space-4);
 }

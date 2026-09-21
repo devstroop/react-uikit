@@ -27,23 +27,23 @@
 }
 
 .gapXs {
-  gap: var(--dt-space-1);
+  gap: var(--dx-space-1);
 }
 
 .gapSm {
-  gap: var(--dt-space-2);
+  gap: var(--dx-space-2);
 }
 
 .gapMd {
-  gap: var(--dt-space-3);
+  gap: var(--dx-space-3);
 }
 
 .gapLg {
-  gap: var(--dt-space-4);
+  gap: var(--dx-space-4);
 }
 
 .gapXl {
-  gap: var(--dt-space-5);
+  gap: var(--dx-space-5);
 }
 
 .align-start {

@@ -1,17 +1,17 @@
 .sidebar {
   flex-shrink: 0;
-  width: var(--dt-layout-sidebar-width, 240px);
-  padding: var(--dt-space-4);
-  background: var(--dt-color-surface);
+  width: var(--dx-layout-sidebar-width, 240px);
+  padding: var(--dx-space-4);
+  background: var(--dx-color-surface);
   overflow-y: auto;
 }
 
 .left {
-  border-right: 1px solid var(--dt-color-border);
+  border-right: 1px solid var(--dx-color-border);
 }
 
 .right {
-  border-left: 1px solid var(--dt-color-border);
+  border-left: 1px solid var(--dx-color-border);
 }
 
 .collapsed {
@@ -35,7 +35,7 @@
   top: 0;
   bottom: 0;
   z-index: 20;
-  box-shadow: var(--dt-shadow-lg);
+  box-shadow: var(--dx-shadow-lg);
 }
 
 .overlay.collapsed {
@@ -54,7 +54,7 @@
   position: fixed;
   inset: 0;
   z-index: 10;
-  background: var(--dt-color-backdrop);
+  background: var(--dx-color-backdrop);
 }
 
 /* Stacking contract: mask 10 < drawer 20 < toggle 30. Drawer toggles

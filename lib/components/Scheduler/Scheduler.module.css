@@ -1,21 +1,21 @@
 .root {
-  font-family: var(--dt-font-sans);
-  border: 1px solid var(--dt-color-border);
-  border-radius: var(--dt-radius-md);
-  background-color: var(--dt-color-surface);
+  font-family: var(--dx-font-sans);
+  border: 1px solid var(--dx-color-border);
+  border-radius: var(--dx-radius-md);
+  background-color: var(--dx-color-surface);
   overflow: hidden;
 }
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--dt-space-2);
-  border-bottom: 1px solid var(--dt-color-border);
+  padding: var(--dx-space-2);
+  border-bottom: 1px solid var(--dx-color-border);
 }
 .title {
-  font-size: var(--dt-font-size-sm);
-  font-weight: var(--dt-font-weight-medium);
-  color: var(--dt-color-text);
+  font-size: var(--dx-font-size-sm);
+  font-weight: var(--dx-font-weight-medium);
+  color: var(--dx-color-text);
 }
 .navBtn {
   display: inline-flex;
@@ -23,34 +23,34 @@
   justify-content: center;
   width: 28px;
   height: 28px;
-  border: 1px solid var(--dt-color-border);
-  border-radius: var(--dt-radius-sm);
-  background-color: var(--dt-color-surface);
-  color: var(--dt-color-text);
+  border: 1px solid var(--dx-color-border);
+  border-radius: var(--dx-radius-sm);
+  background-color: var(--dx-color-surface);
+  color: var(--dx-color-text);
   cursor: pointer;
 }
 .navBtn:hover {
-  background-color: var(--dt-color-surface-hover);
+  background-color: var(--dx-color-surface-hover);
 }
 .navBtn:focus-visible {
-  outline: 2px solid var(--dt-color-outline-primary);
+  outline: 2px solid var(--dx-color-outline-primary);
   outline-offset: 1px;
 }
 .resources {
   display: flex;
-  gap: var(--dt-space-1);
-  padding: var(--dt-space-1) var(--dt-space-2);
-  border-bottom: 1px solid var(--dt-color-border);
+  gap: var(--dx-space-1);
+  padding: var(--dx-space-1) var(--dx-space-2);
+  border-bottom: 1px solid var(--dx-color-border);
 }
 .resource {
   flex: 1;
-  font-size: var(--dt-font-size-sm);
-  color: var(--dt-color-text-muted);
+  font-size: var(--dx-font-size-sm);
+  color: var(--dx-color-text-muted);
 }
 .grid {
   display: flex;
-  gap: var(--dt-space-1);
-  padding: var(--dt-space-1);
+  gap: var(--dx-space-1);
+  padding: var(--dx-space-1);
 }
 .timeCol {
   display: flex;
@@ -59,45 +59,45 @@
   padding-top: 24px;
 }
 .timeCell {
-  font-size: var(--dt-font-size-sm);
-  color: var(--dt-color-text-muted);
+  font-size: var(--dx-font-size-sm);
+  color: var(--dx-color-text-muted);
   height: 24px;
 }
 .dayCol {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: var(--dt-space-1);
+  gap: var(--dx-space-1);
   min-width: 80px;
 }
 .dayHeader {
-  font-size: var(--dt-font-size-sm);
-  font-weight: var(--dt-font-weight-medium);
-  color: var(--dt-color-text);
+  font-size: var(--dx-font-size-sm);
+  font-weight: var(--dx-font-weight-medium);
+  color: var(--dx-color-text);
   text-align: center;
-  padding: var(--dt-space-1);
-  border-bottom: 1px solid var(--dt-color-border);
+  padding: var(--dx-space-1);
+  border-bottom: 1px solid var(--dx-color-border);
 }
 .slot {
   height: 24px;
-  border: 1px solid var(--dt-color-border);
-  border-radius: var(--dt-radius-sm);
-  background-color: var(--dt-color-surface);
+  border: 1px solid var(--dx-color-border);
+  border-radius: var(--dx-radius-sm);
+  background-color: var(--dx-color-surface);
 }
 .slot:focus-visible {
-  outline: 2px solid var(--dt-color-outline-primary);
+  outline: 2px solid var(--dx-color-outline-primary);
   outline-offset: 1px;
 }
 .event {
-  padding: var(--dt-space-1);
-  border: 1px solid var(--dt-color-primary);
-  border-radius: var(--dt-radius-sm);
-  background-color: var(--dt-color-primary);
-  color: var(--dt-color-primary-fg);
-  font-size: var(--dt-font-size-sm);
+  padding: var(--dx-space-1);
+  border: 1px solid var(--dx-color-primary);
+  border-radius: var(--dx-radius-sm);
+  background-color: var(--dx-color-primary);
+  color: var(--dx-color-primary-fg);
+  font-size: var(--dx-font-size-sm);
   cursor: pointer;
 }
 .event:focus-visible {
-  outline: 2px solid var(--dt-color-outline-primary);
+  outline: 2px solid var(--dx-color-outline-primary);
   outline-offset: 1px;
 }

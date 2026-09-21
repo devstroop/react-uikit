@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
-export type ToastTone = "info" | "success" | "warning" | "danger";
+import { Severity } from '../../types/severity';
+export type ToastTone = Extract<Severity, "info" | "success" | "warning" | "danger">;
 export type ToastPosition = "top-left" | "top-right" | "bottom-left" | "bottom-right";
 export interface ToastAction {
     label: ReactNode;
@@ -8,7 +9,8 @@ export interface ToastAction {
 export interface ToastOptions {
     title?: ReactNode;
     description?: ReactNode;
-    tone?: ToastTone;
+    /** Severity axis — the single severity prop (Radzen Severity parity). */
+    severity?: ToastTone;
     durationMs?: number;
     /** Reuse an id to update an existing toast instead of appending (sonner parity). */
     id?: number | string;
