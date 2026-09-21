@@ -144,7 +144,9 @@ export type { ProgressProps, ProgressTone, ProgressShade, ProgressVariant } from
 export type { ComponentSize } from "./sizes";
 export type { Severity } from "./types/severity";
 export type { Shade } from "./types/shade";
+export { shadeClass } from "./types/shade";
 export type { Variant } from "./types/variant";
+export { resolveVariant } from "./types/variant";
 
 export { ThemeSwitcher } from "./components/ThemeSwitcher/ThemeSwitcher";
 export type { ThemeSwitcherProps, ThemeName } from "./components/ThemeSwitcher/ThemeSwitcher";
