@@ -247,7 +247,6 @@ export function Menu({
                 aria-haspopup={hasChildren ? "menu" : undefined}
                 aria-expanded={hasChildren ? isOpen : undefined}
                 aria-controls={hasChildren ? submenuId : undefined}
-                aria-current={item.path && !hasChildren ? undefined : undefined}
                 tabIndex={disabled ? -1 : 0}
                 disabled={disabled}
                 className={[styles.item, disabled ? styles.disabled : null, hasChildren ? styles.hasChildren : null]
