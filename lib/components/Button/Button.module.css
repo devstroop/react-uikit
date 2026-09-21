@@ -47,12 +47,18 @@
 .filled.style-base { background-color: var(--dx-color-surface); color: var(--dx-color-text); border-color: var(--dx-color-border); }
 .filled.style-base:hover:not(:disabled) { background-color: var(--dx-color-surface-hover); }
 .flat.style-base { background-color: var(--dx-color-surface-hover); color: var(--dx-color-text); }
+.outlined.style-base { color: var(--dx-color-text); border-color: var(--dx-color-border); }
+.text.style-base { color: var(--dx-color-text); }
 .filled.style-light { background-color: var(--dx-color-surface); color: var(--dx-color-text); }
 .filled.style-light:hover:not(:disabled) { background-color: var(--dx-color-surface-hover); }
 .flat.style-light { background-color: var(--dx-color-surface-hover); color: var(--dx-color-text); }
+.outlined.style-light { color: var(--dx-color-text); border-color: var(--dx-color-border); }
+.text.style-light { color: var(--dx-color-text); }
 .filled.style-dark { background-color: var(--dx-color-text); color: var(--dx-color-surface); }
 .filled.style-dark:hover:not(:disabled) { background-color: var(--dx-color-dark-hover); }
 .flat.style-dark { background-color: color-mix(in srgb, var(--dx-color-text) 14%, var(--dx-color-surface)); color: var(--dx-color-text); }
+.outlined.style-dark { color: var(--dx-color-text); border-color: var(--dx-color-text); }
+.text.style-dark { color: var(--dx-color-text); }
 
 .filled.style-danger, .filled.tone-danger { background-color: var(--dx-color-danger); color: var(--dx-color-danger-fg); }
 .filled.style-danger:hover:not(:disabled), .filled.tone-danger:hover:not(:disabled) { background-color: var(--dx-color-danger-hover); }
@@ -84,8 +90,10 @@
 .filled.style-primary.shade-light, .filled.tone-primary.shade-light { background-color: var(--dx-color-primary); filter: brightness(1.12); }
 .filled.style-primary.shade-dark, .filled.tone-primary.shade-dark { background-color: var(--dx-color-border-primary-darker, color-mix(in srgb, var(--dx-color-primary) 88%, black)); color: var(--dx-color-primary-fg); }
 .filled.style-primary.shade-darker, .filled.tone-primary.shade-darker { background-color: var(--dx-color-border-primary-darker, color-mix(in srgb, var(--dx-color-primary) 78%, black)); color: var(--dx-color-primary-fg); }
-/* non-primary shades collapse to flat/filled approximations until per-hue scales are generated */
-.filled.shade-lighter { background-color: color-mix(in srgb, currentColor 12%, var(--dx-color-surface)); }
+/* non-primary shades collapse to brightness steps (same scheme as Badge/Alert/Splitbutton) */
+.filled.shade-lighter { filter: brightness(1.12); }
+.filled.shade-light { filter: brightness(1.06); }
+.filled.shade-dark { filter: brightness(0.92); }
 .filled.shade-darker { filter: brightness(0.88); }
 
 /* focus rings per style */
