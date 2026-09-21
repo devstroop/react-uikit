@@ -248,17 +248,17 @@ export const Slider = ({
   return (
     <div
       className={[
-        styles.dtSlider,
-        orientation === "vertical" ? styles.dtSliderVertical : null,
-        disabled ? styles.dtSliderDisabled : null,
+        styles["dx-slider"],
+        orientation === "vertical" ? styles["dx-slider-vertical"] : null,
+        disabled ? styles["dx-slider-disabled"] : null,
         className,
       ]
         .filter(Boolean)
         .join(" ")}
     >
-      <div ref={trackRef} className={styles.dtSliderTrack}>
+      <div ref={trackRef} className={styles["dx-slider-track"]}>
         <div
-          className={styles.dtSliderRange}
+          className={styles["dx-slider-range"]}
           style={
             orientation === "vertical"
               ? { bottom: `${fillStart}%`, height: `${fillEnd - fillStart}%` }
@@ -274,7 +274,7 @@ export const Slider = ({
           aria-label={range ? minLabel : label}
           aria-disabled={disabled || undefined}
           tabIndex={disabled ? -1 : range ? (focused === "max" ? -1 : tabIndex) : tabIndex}
-          className={styles.dtSliderHandle}
+          className={styles["dx-slider-handle"]}
           style={
             orientation === "vertical"
               ? { bottom: `calc(${minPos}% - 8px)` }
@@ -296,7 +296,7 @@ export const Slider = ({
             aria-label={maxLabel}
             aria-disabled={disabled || undefined}
             tabIndex={disabled ? -1 : focused === "min" ? -1 : tabIndex}
-            className={styles.dtSliderHandle}
+            className={styles["dx-slider-handle"]}
             style={
               orientation === "vertical"
                 ? { bottom: `calc(${maxPos}% - 8px)` }
