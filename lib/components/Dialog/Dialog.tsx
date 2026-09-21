@@ -33,7 +33,9 @@ export function Dialog({
   // scroll lock + ESC listener) and the re-run would no-op on the already
   // open dialog. The ref always serves the latest callback instead.
   const onCloseRef = useRef(onClose);
-  onCloseRef.current = onClose;
+  useEffect(() => {
+    onCloseRef.current = onClose;
+  });
   // Tracks whether the current close gesture already notified the parent,
   // so the ensuing native `close` event doesn't notify a second time.
   const notifiedRef = useRef(false);
@@ -62,7 +64,16 @@ export function Dialog({
       return;
     }
     if (open && !dialog.open) {
+      // Remember the opener so focus can be restored on close; move focus
+      // into the dialog (close button first) so AT enters the modal.
+      const opener = document.activeElement instanceof HTMLElement ? document.activeElement : null;
       dialog.showModal();
+      // Prefer the close control so focus lands predictably regardless of
+      // content order; fall back to the first button if titleless.
+      const firstFocus =
+        dialog.querySelector<HTMLButtonElement>('button[aria-label="Close dialog"]') ??
+        dialog.querySelector<HTMLButtonElement>("button");
+      firstFocus?.focus();
       // body scroll lock without layout shift
       const prev = document.body.style.overflow;
       document.body.style.overflow = "hidden";
@@ -77,6 +88,7 @@ export function Dialog({
       return () => {
         dialog.removeEventListener("cancel", onCancel);
         document.body.style.overflow = prev;
+        opener?.focus({ preventScroll: true });
       };
     } else if (!open && dialog.open) {
       // Consume the gesture flag so a parent-driven close still notifies
@@ -89,6 +101,9 @@ export function Dialog({
   }, [open, requestClose]);
 
   return (
+    // Backdrop dismissal is mouse-only by design; keyboard users close
+    // via ESC (cancel path above) or the X button.
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
     <dialog
       ref={ref}
       className={[styles.dialog, styles[size], className].filter(Boolean).join(" ")}
