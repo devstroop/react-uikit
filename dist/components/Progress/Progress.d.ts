@@ -1,12 +1,21 @@
 import { HTMLAttributes } from 'react';
 import { ComponentSize } from '../../sizes';
-export type ProgressTone = "primary" | "success" | "warning" | "danger";
+import { Severity } from '../../types/severity';
+import { Shade } from '../../types/shade';
+export type ProgressTone = Extract<Severity, "primary" | "success" | "warning" | "danger">;
+export type ProgressShade = Shade;
+export type ProgressVariant = "linear" | "circular";
 export interface ProgressProps extends Omit<HTMLAttributes<HTMLDivElement>, "role"> {
     value?: number;
     max?: number;
-    tone?: ProgressTone;
+    /**
+     * Severity axis — the single severity prop. Native `style` is always
+     * plain CSS and never a hue.
+     */
+    severity?: ProgressTone;
+    shade?: ProgressShade;
     indeterminate?: boolean;
-    variant?: "linear" | "circular";
+    variant?: ProgressVariant;
     size?: number | ComponentSize;
 }
-export declare function Progress({ value, max, tone, indeterminate, variant, size, className, ...props }: ProgressProps): import("react").JSX.Element;
+export declare function Progress({ value, max, severity, shade, indeterminate, variant, size, className, ...props }: ProgressProps): import("react").JSX.Element;
