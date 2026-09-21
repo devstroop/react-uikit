@@ -51,9 +51,21 @@ export function Avatar({
 }: AvatarProps) {
   const initials = useMemo(() => (name ? initialsFor(name) : "?"), [name]);
   const color = useMemo(() => (name ? colorFor(name) : PALETTE[0]), [name]);
+  // Single announcement: with a photo the <img alt> carries the name and
+  // the wrapper stays neutral; otherwise the wrapper is the image with
+  // the status folded into its label (the dot itself stays aria-hidden).
+  // An explicit alt="" stays decorative even with a status — the caller
+  // opted out of announcement.
+  const decorative = src != null && alt === "";
+  const accessibleName = alt ?? name ?? "avatar";
+  const labelled = status ? `${accessibleName}, ${status}` : accessibleName;
 
   const content = src ? (
-    <img className={styles.image} src={src} alt={alt ?? name ?? ""} />
+    <img
+      className={styles.image}
+      src={src}
+      alt={decorative ? "" : status ? labelled : accessibleName}
+    />
   ) : (
     <span aria-hidden="true" className={styles.initials} style={{ background: color }}>
       {initials}
@@ -70,8 +82,8 @@ export function Avatar({
       ]
         .filter(Boolean)
         .join(" ")}
-      role="img"
-      aria-label={alt ?? name ?? "avatar"}
+      role={src ? undefined : "img"}
+      aria-label={src ? undefined : labelled}
     >
       {content}
       {status && <span className={styles.status} aria-hidden="true" />}

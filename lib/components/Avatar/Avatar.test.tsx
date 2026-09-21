@@ -26,6 +26,27 @@ describe("Avatar", () => {
 
   it("renders a status dot when status is set", () => {
     render(<Avatar name="Jane Doe" status="online" />);
+    expect(screen.getByRole("img")).toHaveAttribute("aria-label", "Jane Doe, online");
     expect(screen.getByRole("img").className).toContain("online");
+  });
+
+  it("announces once with a photo: neutral wrapper, labelled image", () => {
+    const { container } = render(
+      <Avatar name="Jane Doe" src="https://example.com/jane.png" status="online" />,
+    );
+    expect(container.querySelector('span[role="img"]')).not.toBeInTheDocument();
+    expect(container.querySelector("img")).toHaveAttribute("alt", "Jane Doe, online");
+  });
+
+  it("preserves explicit decorative alt even with a status", () => {
+    const { container } = render(
+      <Avatar name="Jane Doe" src="https://example.com/jane.png" alt="" status="online" />,
+    );
+    expect(container.querySelector("img")).toHaveAttribute("alt", "");
+  });
+
+  it("labels an unnamed photo like the initials variant", () => {
+    const { container } = render(<Avatar src="https://example.com/jane.png" />);
+    expect(container.querySelector("img")).toHaveAttribute("alt", "avatar");
   });
 });
