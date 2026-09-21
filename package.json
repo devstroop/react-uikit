@@ -24,7 +24,6 @@
   ],
   "scripts": {
     "build": "vite build && node scripts/copy-bridge.mjs",
-
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "test": "vitest run",
@@ -46,6 +45,8 @@
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "eslint": "^9.39.2",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react-hooks": "^7.1.1",
     "globals": "^16.5.0",
     "jsdom": "^30.0.1",
     "react": "^19.2.1",
