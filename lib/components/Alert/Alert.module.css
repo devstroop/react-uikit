@@ -1,114 +1,122 @@
 .alert {
-  --alert-pad: var(--dt-space-3);
-  --alert-gap: var(--dt-space-2);
-  --alert-radius: var(--dt-radius-md);
-  --alert-title-size: var(--dt-font-size-md);
-  --alert-body-size: var(--dt-font-size-sm);
+  --alert-pad: var(--dx-space-3);
+  --alert-gap: var(--dx-space-2);
+  --alert-radius: var(--dx-radius-md);
+  --alert-title-size: var(--dx-font-size-md);
+  --alert-body-size: var(--dx-font-size-sm);
   --alert-dismiss-size: 22px;
-  --alert-dismiss-font: var(--dt-font-size-md);
+  --alert-dismiss-font: var(--dx-font-size-md);
   display: flex;
   align-items: flex-start;
   gap: var(--alert-gap);
   padding: var(--alert-pad);
-  margin: 0 0 var(--dt-space-3);
+  margin: 0 0 var(--dx-space-3);
   border-radius: var(--alert-radius);
-  border: 1px solid var(--dt-color-border);
-  background: var(--dt-color-surface);
-  color: var(--dt-color-text);
-  font-size: var(--dt-font-size-sm);
+  border: 1px solid var(--dx-color-border);
+  background: var(--dx-color-surface);
+  color: var(--dx-color-text);
+  font-size: var(--dx-font-size-sm);
 }
 
 /* Size tiers scale the whole banner (shared ComponentSize scale) */
 .xs {
-  --alert-pad: var(--dt-space-2);
-  --alert-gap: var(--dt-space-1);
-  --alert-radius: var(--dt-radius-sm);
-  --alert-title-size: var(--dt-font-size-sm);
-  --alert-body-size: var(--dt-font-size-xs);
+  --alert-pad: var(--dx-space-2);
+  --alert-gap: var(--dx-space-1);
+  --alert-radius: var(--dx-radius-sm);
+  --alert-title-size: var(--dx-font-size-sm);
+  --alert-body-size: var(--dx-font-size-xs);
   --alert-dismiss-size: 18px;
-  --alert-dismiss-font: var(--dt-font-size-xs);
+  --alert-dismiss-font: var(--dx-font-size-xs);
 }
 
 .sm {
-  --alert-pad: var(--dt-space-2);
-  --alert-gap: var(--dt-space-1);
-  --alert-radius: var(--dt-radius-sm);
-  --alert-title-size: var(--dt-font-size-sm);
-  --alert-body-size: var(--dt-font-size-xs);
+  --alert-pad: var(--dx-space-2);
+  --alert-gap: var(--dx-space-1);
+  --alert-radius: var(--dx-radius-sm);
+  --alert-title-size: var(--dx-font-size-sm);
+  --alert-body-size: var(--dx-font-size-xs);
   --alert-dismiss-size: 20px;
-  --alert-dismiss-font: var(--dt-font-size-sm);
+  --alert-dismiss-font: var(--dx-font-size-sm);
 }
 
 .lg {
-  --alert-pad: var(--dt-space-4);
-  --alert-gap: var(--dt-space-2);
-  --alert-radius: var(--dt-radius-lg);
-  --alert-title-size: var(--dt-font-size-lg);
-  --alert-body-size: var(--dt-font-size-sm);
+  --alert-pad: var(--dx-space-4);
+  --alert-gap: var(--dx-space-2);
+  --alert-radius: var(--dx-radius-lg);
+  --alert-title-size: var(--dx-font-size-lg);
+  --alert-body-size: var(--dx-font-size-sm);
   --alert-dismiss-size: 26px;
-  --alert-dismiss-font: var(--dt-font-size-lg);
+  --alert-dismiss-font: var(--dx-font-size-lg);
 }
 
 .xl {
-  --alert-pad: var(--dt-space-4);
-  --alert-gap: var(--dt-space-3);
-  --alert-radius: var(--dt-radius-lg);
-  --alert-title-size: var(--dt-font-size-lg);
-  --alert-body-size: var(--dt-font-size-md);
+  --alert-pad: var(--dx-space-4);
+  --alert-gap: var(--dx-space-3);
+  --alert-radius: var(--dx-radius-lg);
+  --alert-title-size: var(--dx-font-size-lg);
+  --alert-body-size: var(--dx-font-size-md);
   --alert-dismiss-size: 30px;
-  --alert-dismiss-font: var(--dt-font-size-lg);
+  --alert-dismiss-font: var(--dx-font-size-lg);
 }
 
 /* Tones define the palette; variants paint it (Badge-language parity) */
 .info {
-  --alert-tone: var(--dt-color-primary);
-  --alert-fg: var(--dt-color-text-primary);
+  --alert-tone: var(--dx-color-primary);
+  --alert-fg: var(--dx-color-text-primary);
 }
 
 .success {
-  --alert-tone: var(--dt-color-success);
-  --alert-fg: var(--dt-color-text-success);
+  --alert-tone: var(--dx-color-success);
+  --alert-fg: var(--dx-color-text-success);
 }
 
 .warning {
-  --alert-tone: var(--dt-color-warning);
-  --alert-fg: var(--dt-color-text-warning);
+  --alert-tone: var(--dx-color-warning);
+  --alert-fg: var(--dx-color-text-warning);
 }
 
 .danger {
-  --alert-tone: var(--dt-color-danger);
-  --alert-fg: var(--dt-color-text-danger);
+  --alert-tone: var(--dx-color-danger);
+  --alert-fg: var(--dx-color-text-danger);
 }
 
-/* soft (default): 12% tone tint, tone border, text-{tone} foreground —
+/* flat (default): 12% tone tint, tone border, text-{tone} foreground —
    the same painted tint the text-{tone} tokens are derived against */
-.soft {
+.flat {
   background-color: color-mix(in srgb, var(--alert-tone) 12%, transparent);
   border-color: var(--alert-tone);
   color: var(--alert-fg);
 }
 
-/* outline: no fill, tone border, text-{tone} foreground */
-.outline {
+/* outlined: no fill, tone border, text-{tone} foreground */
+.outlined {
   background-color: transparent;
   border-color: var(--alert-tone);
   color: var(--alert-fg);
 }
 
-/* solid: tone fill; primary/danger use their dedicated contrast tokens,
+/* filled: tone fill; primary/danger use their dedicated contrast tokens,
    success/warning use surface (Badge solid pattern) */
-.solid {
+.filled {
   background-color: var(--alert-tone);
   border-color: var(--alert-tone);
-  color: var(--dt-color-surface);
+  color: var(--dx-color-surface);
 }
 
-.info.solid {
-  color: var(--dt-color-primary-fg);
+/* text: no fill, no border, text-{tone} foreground (Radzen text parity) */
+.text {
+  background-color: transparent;
+  border-color: transparent;
+  color: var(--alert-fg);
 }
 
-.danger.solid {
-  color: var(--dt-color-danger-fg);
+
+.filled.info {
+  color: var(--dx-color-primary-fg);
+}
+
+.filled.danger {
+  color: var(--dx-color-danger-fg);
 }
 
 .icon {
@@ -124,12 +132,12 @@
 
 .title {
   font-size: var(--alert-title-size);
-  font-weight: var(--dt-font-weight-bold);
+  font-weight: var(--dx-font-weight-bold);
   line-height: 1.4;
 }
 
 .body {
-  margin-top: var(--dt-space-1);
+  margin-top: var(--dx-space-1);
   font-size: var(--alert-body-size);
   line-height: 1.5;
 }
@@ -141,30 +149,50 @@
   margin-top: calc(-1 * var(--alert-pad) / 2);
   margin-right: calc(-1 * var(--alert-gap));
   border: none;
-  border-radius: var(--dt-radius-md);
+  border-radius: var(--dx-radius-md);
   background: transparent;
-  color: var(--dt-color-text-muted);
+  color: var(--dx-color-text-muted);
   font-size: var(--alert-dismiss-font);
   line-height: 1;
   cursor: pointer;
-  transition: background var(--dt-transition-fast), color var(--dt-transition-fast);
+  transition: background var(--dx-transition-fast), color var(--dx-transition-fast);
 }
 
 .dismiss:hover {
-  background: var(--dt-color-surface-hover);
-  color: var(--dt-color-text);
+  background: var(--dx-color-surface-hover);
+  color: var(--dx-color-text);
 }
 
 .dismiss:focus-visible {
-  outline: 2px solid var(--dt-color-focus);
+  outline: 2px solid var(--dx-color-focus);
   outline-offset: 2px;
 }
 
-.solid .dismiss {
+.filled .dismiss {
   color: color-mix(in srgb, currentColor 75%, transparent);
 }
 
-.solid .dismiss:hover {
+.filled .dismiss:hover {
   background: color-mix(in srgb, currentColor 15%, transparent);
   color: currentColor;
+}
+
+/* Shade — same scheme as Button/Badge: filled gets brightness steps; flat/outlined/text muted */
+.shade-lighter.filled {
+  filter: brightness(1.12);
+}
+.shade-light.filled {
+  filter: brightness(1.06);
+}
+.shade-dark.filled {
+  filter: brightness(0.92);
+}
+.shade-darker.filled {
+  filter: brightness(0.84);
+}
+.shade-lighter:not(.filled) {
+  opacity: 0.96;
+}
+.shade-darker:not(.filled) {
+  filter: saturate(1.08);
 }

@@ -1,16 +1,30 @@
 import { useState, type ReactNode } from "react";
 import type { ComponentSize } from "../../sizes";
+import type { Severity } from "../../types/severity";
+import type { Shade } from "../../types/shade";
+import { resolveVariant, type Variant } from "../../types/variant";
 import styles from "./Alert.module.css";
 
-export type AlertTone = "info" | "success" | "warning" | "danger";
-
-export type AlertVariant = "soft" | "outline" | "solid";
+/**
+ * Supported hues — mirrors the `style-*` rules in Alert.module.css.
+ * Narrowed on purpose (Progress/Toast/Stat precedent): wider unions
+ * render unstyled with no warning, so unsupported values are a
+ * compile error instead of a silent regression.
+ */
+export type AlertStyle = Extract<Severity, "info" | "success" | "warning" | "danger">;
+export type AlertVariant = Variant;
+export type AlertShade = Shade;
 
 export type AlertSize = ComponentSize;
 
-export interface AlertProps {
-  tone?: AlertTone;
+export interface AlertProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
+  /**
+   * Severity axis — the single severity prop (Radzen AlertStyle parity).
+   * Native `style` is always plain CSS and never a hue.
+   */
+  severity?: AlertStyle;
   variant?: AlertVariant;
+  shade?: AlertShade;
   size?: AlertSize;
   title?: ReactNode;
   icon?: ReactNode;
@@ -21,8 +35,9 @@ export interface AlertProps {
 }
 
 export function Alert({
-  tone = "info",
-  variant = "soft",
+  severity = "info",
+  variant = "flat",
+  shade,
   size = "md",
   title,
   icon,
@@ -30,6 +45,7 @@ export function Alert({
   dismissible = false,
   onDismiss,
   className,
+  ...rest
 }: AlertProps) {
   const [dismissed, setDismissed] = useState(false);
 
@@ -42,10 +58,14 @@ export function Alert({
     onDismiss?.();
   };
 
+  const t = severity as string;
+  const v = resolveVariant(variant, "flat");
+  const shadeCls = shade && shade !== "default" ? `shade-${shade}` : null;
   return (
     <div
       role="alert"
-      className={[styles.alert, styles[tone], styles[variant], styles[size], className]
+      {...rest}
+      className={[styles.alert, styles[t], styles[v], shadeCls ? styles[shadeCls] : null, styles[size], className]
         .filter(Boolean)
         .join(" ")}
     >
