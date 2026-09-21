@@ -126,12 +126,12 @@
 
 .filled.success {
   background-color: var(--dx-color-success);
-  color: var(--dx-color-surface);
+  color: var(--dx-color-success-fg);
 }
 
 .filled.warning {
   background-color: var(--dx-color-warning);
-  color: var(--dx-color-surface);
+  color: var(--dx-color-warning-fg);
 }
 
 .filled.danger {

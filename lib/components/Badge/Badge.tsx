@@ -7,7 +7,7 @@ import styles from "./Badge.module.css";
 
 /**
  * Supported hues — mirrors the severity tint rules in Badge.module.css
- * (`neutral/primary/success/warning/danger`). Narrowed on purpose:
+ * (`neutral/primary/secondary/light/base/dark/info/success/warning/danger`). Narrowed on purpose:
  * wider unions render unstyled with no warning.
  */
 export type BadgeStyle = Extract<
