@@ -8,7 +8,7 @@ import { Variant } from '../../types/variant';
  * (`neutral/primary/success/warning/danger`). Narrowed on purpose:
  * wider unions render unstyled with no warning.
  */
-export type BadgeStyle = Extract<Severity, "neutral" | "primary" | "success" | "warning" | "danger">;
+export type BadgeStyle = Extract<Severity, "neutral" | "primary" | "secondary" | "light" | "base" | "dark" | "info" | "success" | "warning" | "danger">;
 export type BadgeVariant = Variant;
 export type BadgeSize = ComponentSize;
 export type BadgeShade = Shade;

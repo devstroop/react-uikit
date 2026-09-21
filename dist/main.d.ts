@@ -48,7 +48,7 @@ export { Dialog } from './components/Dialog/Dialog';
 export type { DialogProps, DialogSize } from './components/Dialog/Dialog';
 export { ToastProvider, useToast } from './components/Toast/Toast';
 export type { ToastProviderProps, ToastOptions, ToastTone, ToastPosition } from './components/Toast/Toast';
-export { Alert } from './components/Alert/Alert';
+export { Alert, ALERT_ICON } from './components/Alert/Alert';
 export type { AlertProps, AlertStyle, AlertVariant, AlertShade } from './components/Alert/Alert';
 export { Skeleton } from './components/Skeleton/Skeleton';
 export type { SkeletonProps, SkeletonVariant } from './components/Skeleton/Skeleton';
@@ -101,7 +101,7 @@ export type { SelectbarProps, SelectbarOption, SelectbarSize } from './component
 export { Togglebutton } from './components/Togglebutton/Togglebutton';
 export type { TogglebuttonProps, TogglebuttonSize } from './components/Togglebutton/Togglebutton';
 export { Splitbutton } from './components/Splitbutton/Splitbutton';
-export type { SplitbuttonProps, SplitbuttonItem, SplitbuttonSize } from './components/Splitbutton/Splitbutton';
+export type { SplitbuttonProps, SplitbuttonItem, SplitbuttonSize, SplitbuttonSeverity, SplitbuttonVariant, SplitbuttonShade } from './components/Splitbutton/Splitbutton';
 export { Textbox } from './components/Textbox/Textbox';
 export type { TextboxProps, TextboxSize } from './components/Textbox/Textbox';
 export { Password } from './components/Password/Password';
