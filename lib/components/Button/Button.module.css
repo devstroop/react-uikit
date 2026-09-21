@@ -4,7 +4,7 @@
   justify-content: center;
   gap: var(--dx-space-2);
   border: 1px solid transparent;
-  border-radius: var(--dx-radius-md);
+  border-radius: var(--dx-radius-full);
   font-family: var(--dx-font-sans);
   font-weight: var(--dx-font-weight-medium);
   line-height: 1;
