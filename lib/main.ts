@@ -1,6 +1,5 @@
 import "./styles/tokens.css";
 import "./utilities.css";
-/* Optional 1km bridge — consumers import "@devstroop/react-uikit/bridge-1km.css" explicitly. */
 
 export { Button } from "./components/Button/Button";
 export type { ButtonProps, ButtonVariant, ButtonStyle, ButtonShade, ButtonSize } from "./components/Button/Button";
