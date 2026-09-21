@@ -86,9 +86,9 @@ export const Rating = ({
       aria-label={ariaLabel}
       aria-readonly={readOnly || undefined}
       className={[
-        styles.dtRating,
-        readOnly ? styles.dtRatingReadonly : null,
-        disabled ? styles.dtRatingDisabled : null,
+        styles["dx-rating"],
+        readOnly ? styles["dx-rating-readonly"] : null,
+        disabled ? styles["dx-rating-disabled"] : null,
         className,
       ]
         .filter(Boolean)
@@ -98,7 +98,7 @@ export const Rating = ({
       {!readOnly && !disabled && (
         <button
           type="button"
-          className={styles.dtRatingClear}
+          className={styles["dx-rating-clear"]}
           aria-label={clearLabel}
           tabIndex={value === 0 ? tabIndex : -1}
           disabled={disabled}
@@ -123,18 +123,18 @@ export const Rating = ({
             aria-disabled={disabled || readOnly || undefined}
             disabled={disabled || readOnly}
             className={[
-              styles.dtRatingItem,
-              filled ? styles.dtRatingItemFilled : null,
+              styles["dx-rating-item"],
+              filled ? styles["dx-rating-item-filled"] : null,
             ]
               .filter(Boolean)
               .join(" ")}
             onClick={() => select(index)}
             onFocus={() => setFocused(index)}
           >
-            <span className={styles.dtRatingIconFilled} aria-hidden="true">
+            <span className={styles["dx-rating-icon-filled"]} aria-hidden="true">
               <Icon name="star" size={20} />
             </span>
-            <span className={styles.dtRatingIconEmpty} aria-hidden="true">
+            <span className={styles["dx-rating-icon-empty"]} aria-hidden="true">
               <Icon name="star-outline" size={20} />
             </span>
           </button>
