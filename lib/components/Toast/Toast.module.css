@@ -1,29 +1,29 @@
 .viewport {
   position: fixed;
-  z-index: var(--dt-z-toast);
-  bottom: var(--dt-space-5);
-  right: var(--dt-space-5);
+  z-index: var(--dx-z-toast);
+  bottom: var(--dx-space-5);
+  right: var(--dx-space-5);
   display: flex;
   flex-direction: column;
-  gap: var(--dt-space-2);
-  width: min(360px, calc(100vw - 2 * var(--dt-space-5)));
+  gap: var(--dx-space-2);
+  width: min(360px, calc(100vw - 2 * var(--dx-space-5)));
   pointer-events: none;
 }
 
 .topLeft {
-  top: var(--dt-space-5);
-  left: var(--dt-space-5);
+  top: var(--dx-space-5);
+  left: var(--dx-space-5);
   bottom: auto;
   right: auto;
 }
 
 .topRight {
-  top: var(--dt-space-5);
+  top: var(--dx-space-5);
   bottom: auto;
 }
 
 .bottomLeft {
-  left: var(--dt-space-5);
+  left: var(--dx-space-5);
   right: auto;
 }
 
@@ -31,15 +31,15 @@
   position: relative;
   display: flex;
   align-items: flex-start;
-  gap: var(--dt-space-3);
-  padding: var(--dt-space-3) var(--dt-space-4);
-  border-radius: var(--dt-radius-md);
-  border: 1px solid var(--dt-color-border);
-  background: var(--dt-color-surface);
-  color: var(--dt-color-text);
-  box-shadow: var(--dt-shadow-lg);
+  gap: var(--dx-space-3);
+  padding: var(--dx-space-3) var(--dx-space-4);
+  border-radius: var(--dx-radius-md);
+  border: 1px solid var(--dx-color-border);
+  background: var(--dx-color-surface);
+  color: var(--dx-color-text);
+  box-shadow: var(--dx-shadow-lg);
   pointer-events: auto;
-  animation: se-toast-in var(--dt-transition-base) var(--dt-ease-out);
+  animation: se-toast-in var(--dx-transition-base) var(--dx-ease-out);
   cursor: default;
 }
 
@@ -59,7 +59,7 @@
 }
 
 .leaving {
-  animation: se-toast-out var(--dt-transition-fast) var(--dt-ease-out) forwards;
+  animation: se-toast-out var(--dx-transition-fast) var(--dx-ease-out) forwards;
   pointer-events: none;
 }
 
@@ -75,23 +75,23 @@
 }
 
 .info {
-  border-color: var(--dt-color-primary);
-  background-color: color-mix(in srgb, var(--dt-color-primary) 12%, var(--dt-color-surface));
+  border-color: var(--dx-color-primary);
+  background-color: color-mix(in srgb, var(--dx-color-primary) 12%, var(--dx-color-surface));
 }
 
 .success {
-  border-color: var(--dt-color-success);
-  background-color: color-mix(in srgb, var(--dt-color-success) 12%, var(--dt-color-surface));
+  border-color: var(--dx-color-success);
+  background-color: color-mix(in srgb, var(--dx-color-success) 12%, var(--dx-color-surface));
 }
 
 .warning {
-  border-color: var(--dt-color-warning);
-  background-color: color-mix(in srgb, var(--dt-color-warning) 12%, var(--dt-color-surface));
+  border-color: var(--dx-color-warning);
+  background-color: color-mix(in srgb, var(--dx-color-warning) 12%, var(--dx-color-surface));
 }
 
 .danger {
-  border-color: var(--dt-color-danger);
-  background-color: color-mix(in srgb, var(--dt-color-danger) 12%, var(--dt-color-surface));
+  border-color: var(--dx-color-danger);
+  background-color: color-mix(in srgb, var(--dx-color-danger) 12%, var(--dx-color-surface));
 }
 
 .content {
@@ -100,32 +100,32 @@
 }
 
 .title {
-  font-size: var(--dt-font-size-sm);
-  font-weight: var(--dt-font-weight-bold);
+  font-size: var(--dx-font-size-sm);
+  font-weight: var(--dx-font-weight-bold);
   line-height: 1.4;
-  color: var(--dt-color-text);
+  color: var(--dx-color-text);
 }
 
 .info .title {
-  color: var(--dt-color-text-primary);
+  color: var(--dx-color-text-primary);
 }
 
 .success .title {
-  color: var(--dt-color-text-success);
+  color: var(--dx-color-text-success);
 }
 
 .warning .title {
-  color: var(--dt-color-text-warning);
+  color: var(--dx-color-text-warning);
 }
 
 .danger .title {
-  color: var(--dt-color-text-danger);
+  color: var(--dx-color-text-danger);
 }
 
 .description {
-  margin-top: var(--dt-space-1);
-  font-size: var(--dt-font-size-xs);
-  color: var(--dt-color-text-muted);
+  margin-top: var(--dx-space-1);
+  font-size: var(--dx-font-size-xs);
+  color: var(--dx-color-text-muted);
   line-height: 1.5;
 }
 
@@ -134,61 +134,61 @@
   width: 22px;
   height: 22px;
   border: none;
-  border-radius: var(--dt-radius-sm);
+  border-radius: var(--dx-radius-sm);
   background: transparent;
-  color: var(--dt-color-text-muted);
-  font-size: var(--dt-font-size-md);
+  color: var(--dx-color-text-muted);
+  font-size: var(--dx-font-size-md);
   line-height: 1;
   cursor: pointer;
-  transition: background var(--dt-transition-fast), color var(--dt-transition-fast);
+  transition: background var(--dx-transition-fast), color var(--dx-transition-fast);
 }
 
 .dismiss:hover {
-  background: var(--dt-color-surface-hover);
-  color: var(--dt-color-text);
+  background: var(--dx-color-surface-hover);
+  color: var(--dx-color-text);
 }
 
 .actions {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--dt-space-2);
-  margin-top: var(--dt-space-2);
+  gap: var(--dx-space-2);
+  margin-top: var(--dx-space-2);
 }
 
 .action,
 .cancel {
   border: none;
-  border-radius: var(--dt-radius-sm);
-  padding: var(--dt-space-1) var(--dt-space-2);
+  border-radius: var(--dx-radius-sm);
+  padding: var(--dx-space-1) var(--dx-space-2);
   background: transparent;
-  font-size: var(--dt-font-size-xs);
-  font-weight: var(--dt-font-weight-bold);
+  font-size: var(--dx-font-size-xs);
+  font-weight: var(--dx-font-weight-bold);
   cursor: pointer;
-  transition: background var(--dt-transition-fast), color var(--dt-transition-fast);
+  transition: background var(--dx-transition-fast), color var(--dx-transition-fast);
 }
 
 .action {
-  color: var(--dt-color-text-primary);
+  color: var(--dx-color-text-primary);
 }
 
 .action:hover {
-  background: var(--dt-color-surface-hover);
-  color: var(--dt-color-text-primary);
+  background: var(--dx-color-surface-hover);
+  color: var(--dx-color-text-primary);
 }
 
 .cancel {
-  color: var(--dt-color-text-muted);
+  color: var(--dx-color-text-muted);
 }
 
 .cancel:hover {
-  background: var(--dt-color-surface-hover);
-  color: var(--dt-color-text);
+  background: var(--dx-color-surface-hover);
+  color: var(--dx-color-text);
 }
 
 .action:focus-visible,
 .cancel:focus-visible,
 .dismiss:focus-visible {
-  outline: 2px solid var(--dt-color-focus);
+  outline: 2px solid var(--dx-color-focus);
   outline-offset: 2px;
 }
 
@@ -198,8 +198,8 @@
   right: 0;
   bottom: 0;
   height: 3px;
-  border-radius: 0 0 var(--dt-radius-md) var(--dt-radius-md);
-  background-color: var(--dt-color-primary);
+  border-radius: 0 0 var(--dx-radius-md) var(--dx-radius-md);
+  background-color: var(--dx-color-primary);
   transform-origin: left;
   animation: se-toast-progress linear;
 }
@@ -218,17 +218,17 @@
 }
 
 .info .progress {
-  background-color: var(--dt-color-primary);
+  background-color: var(--dx-color-primary);
 }
 
 .success .progress {
-  background-color: var(--dt-color-success);
+  background-color: var(--dx-color-success);
 }
 
 .warning .progress {
-  background-color: var(--dt-color-warning);
+  background-color: var(--dx-color-warning);
 }
 
 .danger .progress {
-  background-color: var(--dt-color-danger);
+  background-color: var(--dx-color-danger);
 }

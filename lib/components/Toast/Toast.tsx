@@ -8,9 +8,10 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import type { Severity } from "../../types/severity";
 import styles from "./Toast.module.css";
 
-export type ToastTone = "info" | "success" | "warning" | "danger";
+export type ToastTone = Extract<Severity, "info" | "success" | "warning" | "danger">;
 
 export type ToastPosition = "top-left" | "top-right" | "bottom-left" | "bottom-right";
 
@@ -22,7 +23,8 @@ export interface ToastAction {
 export interface ToastOptions {
   title?: ReactNode;
   description?: ReactNode;
-  tone?: ToastTone;
+  /** Severity axis — the single severity prop (Radzen Severity parity). */
+  severity?: ToastTone;
   durationMs?: number;
   /** Reuse an id to update an existing toast instead of appending (sonner parity). */
   id?: number | string;
@@ -42,7 +44,7 @@ interface ToastItem {
   id: number | string;
   title?: ReactNode;
   description?: ReactNode;
-  tone: ToastTone;
+  severity: ToastTone;
   durationMs: number;
   action?: ToastAction;
   cancel?: ToastAction;
@@ -222,7 +224,7 @@ export function ToastProvider({
         id: options.id ?? ++nextId.current,
         title: options.title,
         description: options.description,
-        tone: options.tone ?? "info",
+        severity: options.severity ?? "info",
         durationMs: options.durationMs ?? durationMs,
         action: options.action,
         cancel: options.cancel,
@@ -282,12 +284,12 @@ export function ToastProvider({
             .map((t) => (
               <div
                 key={t.id}
-                role={t.tone === "danger" ? "alert" : "status"}
+                role={t.severity === "danger" ? "alert" : "status"}
                 data-paused={paused ? "true" : "false"}
                 data-clickable={t.closeOnClick ? "true" : "false"}
                 className={[
                   styles.toast,
-                  styles[t.tone],
+                  styles[t.severity],
                   t.leaving ? styles.leaving : "",
                 ]
                   .filter(Boolean)

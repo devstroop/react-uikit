@@ -6,7 +6,7 @@ import { ToastProvider, useToast, type ToastOptions } from "./Toast";
 function ToastTester({ message = "Saved!", options = {} }: { message?: string; options?: ToastOptions }) {
   const { toast } = useToast();
   return (
-    <button type="button" onClick={() => toast({ title: message, tone: "success", ...options })}>
+    <button type="button" onClick={() => toast({ title: message, severity: "success", ...options })}>
       Fire
     </button>
   );
@@ -93,7 +93,7 @@ describe("Toast", () => {
           type="button"
           onClick={() => {
             toast({ id: 1, title: "Uploading…", durationMs: 0 });
-            toast({ id: 1, title: "Uploaded", tone: "success", durationMs: 0 });
+            toast({ id: 1, title: "Uploaded", severity: "success", durationMs: 0 });
           }}
         >
           Upload
