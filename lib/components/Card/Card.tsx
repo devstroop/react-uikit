@@ -15,8 +15,13 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(function Card(
 ) {
   const interactive = variant === "interactive";
   return (
-    <div
+  // Interactivity is conditional on variant="interactive" (role + tabIndex
+  // travel together); static analysis cannot see that.
+  // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+  <div
       ref={ref}
+      role={interactive ? "button" : undefined}
+      // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
       tabIndex={interactive ? 0 : undefined}
       onKeyDown={(event) => {
         onKeyDown?.(event);
