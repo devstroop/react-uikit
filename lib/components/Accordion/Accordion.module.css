@@ -1,13 +1,13 @@
 .root {
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--dt-color-border);
-  border-radius: var(--dt-radius-md);
+  border: 1px solid var(--dx-color-border);
+  border-radius: var(--dx-radius-md);
   overflow: hidden;
 }
 
 .item + .item {
-  border-top: 1px solid var(--dt-color-border);
+  border-top: 1px solid var(--dx-color-border);
 }
 
 .heading {
@@ -18,25 +18,25 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--dt-space-3);
+  gap: var(--dx-space-3);
   width: 100%;
-  padding: var(--dt-space-3) var(--dt-space-4);
+  padding: var(--dx-space-3) var(--dx-space-4);
   border: none;
   background: transparent;
-  color: var(--dt-color-text);
-  font-size: var(--dt-font-size-sm);
-  font-weight: var(--dt-font-weight-medium);
+  color: var(--dx-color-text);
+  font-size: var(--dx-font-size-sm);
+  font-weight: var(--dx-font-weight-medium);
   text-align: left;
   cursor: pointer;
-  transition: background var(--dt-transition-fast);
+  transition: background var(--dx-transition-fast);
 }
 
 .trigger:hover:not(.disabled) {
-  background: var(--dt-color-surface-hover);
+  background: var(--dx-color-surface-hover);
 }
 
 .trigger:focus-visible {
-  outline: 2px solid var(--dt-color-focus);
+  outline: 2px solid var(--dx-color-focus);
   outline-offset: -2px;
 }
 
@@ -51,9 +51,9 @@
 
 .chevron {
   flex-shrink: 0;
-  font-size: var(--dt-font-size-xs);
-  color: var(--dt-color-text-muted);
-  transition: transform var(--dt-transition-base) var(--dt-ease-out);
+  font-size: var(--dx-font-size-xs);
+  color: var(--dx-color-text-muted);
+  transition: transform var(--dx-transition-base) var(--dx-ease-out);
 }
 
 .chevron.open {
@@ -61,11 +61,11 @@
 }
 
 .content {
-  padding: 0 var(--dt-space-4) var(--dt-space-3);
-  font-size: var(--dt-font-size-sm);
-  color: var(--dt-color-text-muted);
+  padding: 0 var(--dx-space-4) var(--dx-space-3);
+  font-size: var(--dx-font-size-sm);
+  color: var(--dx-color-text-muted);
   line-height: 1.6;
-  animation: se-accordion-in var(--dt-transition-base) var(--dt-ease-out);
+  animation: se-accordion-in var(--dx-transition-base) var(--dx-ease-out);
 }
 
 @keyframes se-accordion-in {

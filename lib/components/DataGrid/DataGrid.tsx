@@ -61,7 +61,7 @@ function isSortable<TItem>(column: GridColumn<TItem>, allowSorting: boolean): bo
 }
 
 function isInteractiveTarget(target: EventTarget | null): boolean {
-  return target instanceof HTMLElement && Boolean(target.closest("button, select, input, a, label, [data-dt-grid-resize]"));
+  return target instanceof HTMLElement && Boolean(target.closest("button, select, input, a, label, [data-dx-grid-resize]"));
 }
 
 export function DataGrid<TItem = unknown>({
@@ -356,7 +356,7 @@ export function DataGrid<TItem = unknown>({
           {allowGrouping && (
             <div
               className={[styles.groupPanel, groupBy ? styles.groupPanelActive : ""].filter(Boolean).join(" ")}
-              data-dt-grid-group-panel
+              data-dx-grid-group-panel
               onDragOver={allowGrouping ? (e) => e.preventDefault() : undefined}
               onDrop={allowGrouping ? handleGroupDrop : undefined}
             >
@@ -490,7 +490,7 @@ export function DataGrid<TItem = unknown>({
                     {allowColumnResize && (
                       <span
                         className={styles.resizeHandle}
-                        data-dt-grid-resize
+                        data-dx-grid-resize
                         role="separator"
                         aria-orientation="vertical"
                         aria-label={`Resize ${c.title ?? c.property}`}

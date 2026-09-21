@@ -7,75 +7,75 @@
 .trigger {
   display: inline-flex;
   align-items: center;
-  gap: var(--dt-space-1);
-  border: 1px solid var(--dt-color-border-strong);
-  border-radius: var(--dt-radius-md);
-  background-color: var(--dt-color-surface);
-  color: var(--dt-color-text);
-  font-family: var(--dt-font-sans);
-  font-size: var(--dt-font-size-sm);
-  font-weight: var(--dt-font-weight-medium);
-  height: var(--dt-control-height-sm);
-  padding: 0 var(--dt-space-3);
+  gap: var(--dx-space-1);
+  border: 1px solid var(--dx-color-border-strong);
+  border-radius: var(--dx-radius-md);
+  background-color: var(--dx-color-surface);
+  color: var(--dx-color-text);
+  font-family: var(--dx-font-sans);
+  font-size: var(--dx-font-size-sm);
+  font-weight: var(--dx-font-weight-medium);
+  height: var(--dx-control-height-sm);
+  padding: 0 var(--dx-space-3);
   cursor: pointer;
   transition:
-    border-color var(--dt-transition-fast),
-    background-color var(--dt-transition-fast);
+    border-color var(--dx-transition-fast),
+    background-color var(--dx-transition-fast);
 }
 
 .trigger:hover {
-  background-color: var(--dt-color-surface-hover);
+  background-color: var(--dx-color-surface-hover);
 }
 
 .trigger:focus-visible {
-  outline: 3px solid var(--dt-color-outline-primary);
+  outline: 3px solid var(--dx-color-outline-primary);
   outline-offset: 1px;
 }
 
 .list {
   list-style: none;
-  margin: var(--dt-space-2) 0 0;
+  margin: var(--dx-space-2) 0 0;
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--dt-space-1);
+  gap: var(--dx-space-1);
 }
 
 .row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto 96px auto auto;
   align-items: center;
-  gap: var(--dt-space-2);
-  padding: var(--dt-space-1) var(--dt-space-2);
-  border: 1px solid var(--dt-color-border);
-  border-radius: var(--dt-radius-sm);
-  background-color: var(--dt-color-surface);
+  gap: var(--dx-space-2);
+  padding: var(--dx-space-1) var(--dx-space-2);
+  border: 1px solid var(--dx-color-border);
+  border-radius: var(--dx-radius-sm);
+  background-color: var(--dx-color-surface);
 }
 
 .row[data-state="error"] {
-  border-color: var(--dt-color-danger);
+  border-color: var(--dx-color-danger);
 }
 
 .name {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  color: var(--dt-color-text);
-  font-family: var(--dt-font-sans);
-  font-size: var(--dt-font-size-sm);
+  color: var(--dx-color-text);
+  font-family: var(--dx-font-sans);
+  font-size: var(--dx-font-size-sm);
 }
 
 .size {
-  color: var(--dt-color-text-muted);
-  font-family: var(--dt-font-sans);
-  font-size: var(--dt-font-size-sm);
+  color: var(--dx-color-text-muted);
+  font-family: var(--dx-font-sans);
+  font-size: var(--dx-font-size-sm);
 }
 
 .progress {
   display: block;
   height: 6px;
-  border-radius: var(--dt-radius-full);
-  background-color: var(--dt-color-surface-hover);
+  border-radius: var(--dx-radius-full);
+  background-color: var(--dx-color-surface-hover);
   overflow: hidden;
 }
 
@@ -83,23 +83,23 @@
   display: block;
   height: 100%;
   width: 0;
-  border-radius: var(--dt-radius-full);
-  background-color: var(--dt-color-primary);
-  transition: width var(--dt-transition-fast);
+  border-radius: var(--dx-radius-full);
+  background-color: var(--dx-color-primary);
+  transition: width var(--dx-transition-fast);
 }
 
 .row[data-state="complete"] .fill {
-  background-color: var(--dt-color-success);
+  background-color: var(--dx-color-success);
 }
 
 .row[data-state="error"] .fill {
-  background-color: var(--dt-color-danger);
+  background-color: var(--dx-color-danger);
 }
 
 .status {
-  color: var(--dt-color-text-muted);
-  font-family: var(--dt-font-sans);
-  font-size: var(--dt-font-size-sm);
+  color: var(--dx-color-text-muted);
+  font-family: var(--dx-font-sans);
+  font-size: var(--dx-font-size-sm);
   text-align: right;
 }
 
@@ -110,21 +110,21 @@
   width: 24px;
   height: 24px;
   border: none;
-  border-radius: var(--dt-radius-sm);
+  border-radius: var(--dx-radius-sm);
   background-color: transparent;
-  color: var(--dt-color-text-muted);
+  color: var(--dx-color-text-muted);
   cursor: pointer;
   transition:
-    color var(--dt-transition-fast),
-    background-color var(--dt-transition-fast);
+    color var(--dx-transition-fast),
+    background-color var(--dx-transition-fast);
 }
 
 .remove:hover:not(:disabled) {
-  color: var(--dt-color-text);
-  background-color: var(--dt-color-surface-hover);
+  color: var(--dx-color-text);
+  background-color: var(--dx-color-surface-hover);
 }
 
 .remove:focus-visible {
-  outline: 2px solid var(--dt-color-outline-primary);
+  outline: 2px solid var(--dx-color-outline-primary);
   outline-offset: 1px;
 }

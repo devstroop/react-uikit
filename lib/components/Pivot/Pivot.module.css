@@ -1,59 +1,59 @@
 .root {
-  font-family: var(--dt-font-sans);
+  font-family: var(--dx-font-sans);
   overflow: auto;
 }
 
 .fields {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--dt-space-1);
-  padding: var(--dt-space-2);
+  gap: var(--dx-space-1);
+  padding: var(--dx-space-2);
 }
 
 .chip {
   display: inline-flex;
   align-items: center;
-  padding: 0 var(--dt-space-2);
+  padding: 0 var(--dx-space-2);
   height: 24px;
-  border: 1px solid var(--dt-color-border);
-  border-radius: var(--dt-radius-sm);
-  background-color: var(--dt-color-surface);
-  color: var(--dt-color-text);
-  font-size: var(--dt-font-size-sm);
+  border: 1px solid var(--dx-color-border);
+  border-radius: var(--dx-radius-sm);
+  background-color: var(--dx-color-surface);
+  color: var(--dx-color-text);
+  font-size: var(--dx-font-size-sm);
   cursor: pointer;
 }
 
 .chip:hover {
-  background-color: var(--dt-color-surface-hover);
+  background-color: var(--dx-color-surface-hover);
 }
 
 .chip:focus-visible {
-  outline: 2px solid var(--dt-color-outline-primary);
+  outline: 2px solid var(--dx-color-outline-primary);
   outline-offset: 1px;
 }
 
 .table {
   border-collapse: collapse;
   width: 100%;
-  font-size: var(--dt-font-size-sm);
+  font-size: var(--dx-font-size-sm);
 }
 
 .table th,
 .table td {
-  border: 1px solid var(--dt-color-border);
-  padding: var(--dt-space-1) var(--dt-space-2);
+  border: 1px solid var(--dx-color-border);
+  padding: var(--dx-space-1) var(--dx-space-2);
   text-align: start;
-  color: var(--dt-color-text);
+  color: var(--dx-color-text);
 }
 
 .table thead th {
-  font-weight: var(--dt-font-weight-medium);
-  color: var(--dt-color-text-muted);
-  background-color: var(--dt-color-surface);
+  font-weight: var(--dx-font-weight-medium);
+  color: var(--dx-color-text-muted);
+  background-color: var(--dx-color-surface);
 }
 
 .totalRow th,
 .totalRow td,
 .total {
-  font-weight: var(--dt-font-weight-medium);
+  font-weight: var(--dx-font-weight-medium);
 }

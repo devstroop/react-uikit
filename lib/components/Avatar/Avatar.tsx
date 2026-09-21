@@ -16,12 +16,12 @@ export interface AvatarProps {
 }
 
 const PALETTE = [
-  "var(--dt-color-palette-0)",
-  "var(--dt-color-palette-1)",
-  "var(--dt-color-palette-2)",
-  "var(--dt-color-palette-3)",
-  "var(--dt-color-palette-4)",
-  "var(--dt-color-palette-5)",
+  "var(--dx-color-palette-0)",
+  "var(--dx-color-palette-1)",
+  "var(--dx-color-palette-2)",
+  "var(--dx-color-palette-3)",
+  "var(--dx-color-palette-4)",
+  "var(--dx-color-palette-5)",
 ];
 
 function initialsFor(name: string): string {

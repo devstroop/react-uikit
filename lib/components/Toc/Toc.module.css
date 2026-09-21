@@ -1,5 +1,5 @@
 .root {
-  font-family: var(--dt-font-sans);
+  font-family: var(--dx-font-sans);
 }
 
 .list {
@@ -7,22 +7,22 @@
   margin: 0;
   padding: 0;
   display: flex;
-  gap: var(--dt-space-1);
+  gap: var(--dx-space-1);
   border-left: 1px solid transparent;
 }
 
 .vertical .list {
   flex-direction: column;
-  border-left: 1px solid var(--dt-color-border);
-  padding-left: var(--dt-space-2);
+  border-left: 1px solid var(--dx-color-border);
+  padding-left: var(--dx-space-2);
 }
 
 .horizontal .list {
   flex-direction: row;
   flex-wrap: wrap;
   border-left: none;
-  border-bottom: 1px solid var(--dt-color-border);
-  padding-bottom: var(--dt-space-1);
+  border-bottom: 1px solid var(--dx-color-border);
+  padding-bottom: var(--dx-space-1);
 }
 
 .item {
@@ -32,45 +32,45 @@
 .link {
   display: inline-flex;
   align-items: center;
-  padding: var(--dt-space-1) var(--dt-space-2);
-  color: var(--dt-color-text-muted);
-  font-size: var(--dt-font-size-sm);
-  font-weight: var(--dt-font-weight-medium);
+  padding: var(--dx-space-1) var(--dx-space-2);
+  color: var(--dx-color-text-muted);
+  font-size: var(--dx-font-size-sm);
+  font-weight: var(--dx-font-weight-medium);
   text-decoration: none;
-  border-radius: var(--dt-radius-md);
+  border-radius: var(--dx-radius-md);
   transition:
-    color var(--dt-transition-fast),
-    background-color var(--dt-transition-fast);
+    color var(--dx-transition-fast),
+    background-color var(--dx-transition-fast);
   border: 1px solid transparent;
 }
 
 .link:hover {
-  color: var(--dt-color-text);
-  background-color: var(--dt-color-surface-hover);
+  color: var(--dx-color-text);
+  background-color: var(--dx-color-surface-hover);
 }
 
 .link:focus-visible {
-  outline: 2px solid var(--dt-color-outline-primary);
+  outline: 2px solid var(--dx-color-outline-primary);
   outline-offset: 1px;
 }
 
 .active {
-  color: var(--dt-color-text-primary);
+  color: var(--dx-color-text-primary);
   background-color: transparent;
   border-color: transparent;
-  font-weight: var(--dt-font-weight-medium);
+  font-weight: var(--dx-font-weight-medium);
 }
 
 .vertical .active {
-  color: var(--dt-color-text-primary);
-  border-left: 2px solid var(--dt-color-primary);
+  color: var(--dx-color-text-primary);
+  border-left: 2px solid var(--dx-color-primary);
   margin-left: -9px;
-  padding-left: calc(var(--dt-space-2) - 1px);
+  padding-left: calc(var(--dx-space-2) - 1px);
 }
 
 .horizontal .active {
-  border-bottom: 2px solid var(--dt-color-primary);
+  border-bottom: 2px solid var(--dx-color-primary);
   border-radius: 0;
   margin-bottom: -1px;
-  padding-bottom: calc(var(--dt-space-1) - 2px);
+  padding-bottom: calc(var(--dx-space-1) - 2px);
 }

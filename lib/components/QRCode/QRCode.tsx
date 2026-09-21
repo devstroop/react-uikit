@@ -93,8 +93,8 @@ export function QRCode({ value, size = 128, render = "svg", ariaLabel, className
       aria-label={label}
       data-value={value}
     >
-      <rect width={size} height={size} fill="var(--dt-color-surface)" />
-      <g fill="var(--dt-color-text)">{rects}</g>
+      <rect width={size} height={size} fill="var(--dx-color-surface)" />
+      <g fill="var(--dx-color-text)">{rects}</g>
     </svg>
   );
 }

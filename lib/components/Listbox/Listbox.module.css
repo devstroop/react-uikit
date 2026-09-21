@@ -1,41 +1,41 @@
 .box {
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--dt-color-border-strong);
-  border-radius: var(--dt-radius-md);
-  background-color: var(--dt-color-surface);
-  padding: var(--dt-space-2);
+  border: 1px solid var(--dx-color-border-strong);
+  border-radius: var(--dx-radius-md);
+  background-color: var(--dx-color-surface);
+  padding: var(--dx-space-2);
   overflow: auto;
-  font-family: var(--dt-font-sans);
+  font-family: var(--dx-font-sans);
 }
 
 .option {
   display: flex;
   align-items: center;
-  padding: var(--dt-space-2) var(--dt-space-3);
-  border-radius: var(--dt-radius-md);
-  color: var(--dt-color-text);
-  font-size: var(--dt-font-size-sm);
+  padding: var(--dx-space-2) var(--dx-space-3);
+  border-radius: var(--dx-radius-md);
+  color: var(--dx-color-text);
+  font-size: var(--dx-font-size-sm);
   cursor: pointer;
-  transition: background-color var(--dt-transition-fast);
+  transition: background-color var(--dx-transition-fast);
 }
 
 .option:hover:not(.disabled) {
-  background-color: var(--dt-color-surface-hover);
+  background-color: var(--dx-color-surface-hover);
 }
 
 .selected,
 .selected:hover:not(.disabled) {
-  background-color: var(--dt-color-primary);
-  color: var(--dt-color-primary-fg);
+  background-color: var(--dx-color-primary);
+  color: var(--dx-color-primary-fg);
 }
 
 .active {
-  outline: 2px solid var(--dt-color-outline-primary);
+  outline: 2px solid var(--dx-color-outline-primary);
   outline-offset: -2px;
 }
 
 .disabled {
-  color: var(--dt-color-text-muted);
+  color: var(--dx-color-text-muted);
   cursor: not-allowed;
 }
