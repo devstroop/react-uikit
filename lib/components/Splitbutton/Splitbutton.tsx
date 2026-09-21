@@ -7,9 +7,16 @@ import {
   type KeyboardEvent,
   type ReactNode,
 } from "react";
+import type { Severity } from "../../types/severity";
+import type { Shade } from "../../types/shade";
+import { resolveVariant, type Variant } from "../../types/variant";
 import styles from "./Splitbutton.module.css";
 
 export type SplitbuttonSize = "sm" | "md" | "lg";
+/** Severity axis — Radzen ButtonStyle parity (neutral excluded, like Button). */
+export type SplitbuttonSeverity = Exclude<Severity, "neutral">;
+export type SplitbuttonVariant = Variant;
+export type SplitbuttonShade = Shade;
 
 export interface SplitbuttonItem {
   key: string;
@@ -23,6 +30,9 @@ export interface SplitbuttonProps {
   label?: ReactNode;
   onClick?: () => void;
   items?: readonly SplitbuttonItem[];
+  severity?: SplitbuttonSeverity;
+  variant?: SplitbuttonVariant;
+  shade?: SplitbuttonShade;
   size?: SplitbuttonSize;
   disabled?: boolean;
   className?: string;
@@ -33,6 +43,9 @@ export function Splitbutton({
   label,
   onClick,
   items = [],
+  severity = "primary",
+  variant = "filled",
+  shade = "default",
   size = "md",
   disabled = false,
   className,
@@ -138,7 +151,16 @@ export function Splitbutton({
   return (
     <div
       ref={rootRef}
-      className={[styles.root, styles[size], className].filter(Boolean).join(" ")}
+      className={[
+        styles.root,
+        styles[size],
+        styles[`style-${severity}`],
+        styles[resolveVariant(variant, "filled")],
+        shade !== "default" ? styles[`shade-${shade}`] : null,
+        className,
+      ]
+        .filter(Boolean)
+        .join(" ")}
       onKeyDown={handleKeyDown}
     >
       <button

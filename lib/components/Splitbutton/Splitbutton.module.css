@@ -5,16 +5,110 @@
   font-family: var(--dx-font-sans);
 }
 
+/* ── Radzen axes: Variant (filled | flat | outlined | text) × Severity × Shade.
+ * Per-severity roles mirror Button.module.css values exactly (including its
+ * secondary/base quirks); variants consume them generically. */
+.style-primary {
+  --split-fill: var(--dx-color-primary);
+  --split-hover: var(--dx-color-primary-hover);
+  --split-fg: var(--dx-color-primary-fg);
+  --split-soft: color-mix(in srgb, var(--dx-color-primary) 14%, var(--dx-color-surface));
+  --split-soft-fg: var(--dx-color-text-primary);
+  --split-ol-fg: var(--dx-color-text-primary);
+  --split-ol-border: var(--dx-color-border-primary);
+  --split-outline: var(--dx-color-outline-primary);
+}
+.style-secondary {
+  --split-fill: var(--dx-color-secondary);
+  --split-hover: var(--dx-color-secondary-hover);
+  --split-fg: var(--dx-color-secondary-fg);
+  --split-soft: var(--dx-color-surface-hover);
+  --split-soft-fg: var(--dx-color-text);
+  --split-ol-fg: var(--dx-color-text);
+  --split-ol-border: var(--dx-color-border-strong);
+  --split-outline: var(--dx-color-outline-secondary);
+}
+.style-base {
+  --split-fill: var(--dx-color-surface);
+  --split-hover: var(--dx-color-surface-hover);
+  --split-fg: var(--dx-color-text);
+  --split-soft: var(--dx-color-surface-hover);
+  --split-soft-fg: var(--dx-color-text);
+  --split-ol-fg: var(--dx-color-text);
+  --split-ol-border: var(--dx-color-border);
+  --split-outline: var(--dx-color-outline-primary);
+}
+.style-light {
+  --split-fill: var(--dx-color-surface);
+  --split-hover: var(--dx-color-surface-hover);
+  --split-fg: var(--dx-color-text);
+  --split-soft: var(--dx-color-surface-hover);
+  --split-soft-fg: var(--dx-color-text);
+  --split-ol-fg: var(--dx-color-text);
+  --split-ol-border: var(--dx-color-border);
+  --split-outline: var(--dx-color-outline-primary);
+}
+.style-dark {
+  --split-fill: var(--dx-color-text);
+  --split-hover: var(--dx-color-dark-hover);
+  --split-fg: var(--dx-color-surface);
+  --split-soft: color-mix(in srgb, var(--dx-color-text) 14%, var(--dx-color-surface));
+  --split-soft-fg: var(--dx-color-text);
+  --split-ol-fg: var(--dx-color-text);
+  --split-ol-border: var(--dx-color-text);
+  --split-outline: var(--dx-color-outline-primary);
+}
+.style-info {
+  --split-fill: var(--dx-color-info);
+  --split-hover: var(--dx-color-info-hover);
+  --split-fg: var(--dx-color-info-fg);
+  --split-soft: color-mix(in srgb, var(--dx-color-info) 14%, var(--dx-color-surface));
+  --split-soft-fg: var(--dx-color-text-info);
+  --split-ol-fg: var(--dx-color-text-info);
+  --split-ol-border: var(--dx-color-info);
+  --split-outline: var(--dx-color-outline-info);
+}
+.style-success {
+  --split-fill: var(--dx-color-success);
+  --split-hover: var(--dx-color-success-hover);
+  --split-fg: var(--dx-color-success-fg);
+  --split-soft: color-mix(in srgb, var(--dx-color-success) 14%, var(--dx-color-surface));
+  --split-soft-fg: var(--dx-color-text-success);
+  --split-ol-fg: var(--dx-color-text-success);
+  --split-ol-border: var(--dx-color-success);
+  --split-outline: var(--dx-color-outline-success);
+}
+.style-warning {
+  --split-fill: var(--dx-color-warning);
+  --split-hover: var(--dx-color-warning-hover);
+  --split-fg: var(--dx-color-warning-fg);
+  --split-soft: color-mix(in srgb, var(--dx-color-warning) 14%, var(--dx-color-surface));
+  --split-soft-fg: var(--dx-color-text-warning);
+  --split-ol-fg: var(--dx-color-text-warning);
+  --split-ol-border: var(--dx-color-warning);
+  --split-outline: var(--dx-color-outline-warning);
+}
+.style-danger {
+  --split-fill: var(--dx-color-danger);
+  --split-hover: var(--dx-color-danger-hover);
+  --split-fg: var(--dx-color-danger-fg);
+  --split-soft: color-mix(in srgb, var(--dx-color-danger) 14%, var(--dx-color-surface));
+  --split-soft-fg: var(--dx-color-text-danger);
+  --split-ol-fg: var(--dx-color-text-danger);
+  --split-ol-border: var(--dx-color-danger);
+  --split-outline: var(--dx-color-outline-danger);
+}
+
 .action {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--dx-space-2);
-  border: 1px solid var(--dx-color-primary);
+  border: 1px solid var(--split-border, var(--split-fill));
   border-right: none;
   border-radius: var(--dx-radius-md) 0 0 var(--dx-radius-md);
-  background-color: var(--dx-color-primary);
-  color: var(--dx-color-primary-fg);
+  background-color: var(--split-bg, var(--split-fill));
+  color: var(--split-fg);
   font-family: inherit;
   font-weight: var(--dx-font-weight-medium);
   line-height: 1;
@@ -25,18 +119,18 @@
     color var(--dx-transition-fast);
 }
 
-.action:hover:not(:disabled) {
-  background-color: var(--dx-color-primary-hover);
+.filled .action:hover:not(:disabled) {
+  background-color: var(--split-hover);
 }
 
 .caret {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--dx-color-primary);
+  border: 1px solid var(--split-border, var(--split-fill));
   border-radius: 0 var(--dx-radius-md) var(--dx-radius-md) 0;
-  background-color: var(--dx-color-primary);
-  color: var(--dx-color-primary-fg);
+  background-color: var(--split-bg, var(--split-fill));
+  color: var(--split-fg);
   font-family: inherit;
   cursor: pointer;
   transition:
@@ -45,15 +139,57 @@
     color var(--dx-transition-fast);
 }
 
-.caret:hover:not(:disabled) {
-  background-color: var(--dx-color-primary-hover);
+.filled .caret:hover:not(:disabled) {
+  background-color: var(--split-hover);
+}
+
+/* flat: soft tint, no border (Button flat parity — no hover shift) */
+.flat .action,
+.flat .caret {
+  --split-bg: var(--split-soft);
+  --split-border: transparent;
+  color: var(--split-soft-fg);
+}
+
+/* outlined: transparent fill, severity border + text */
+.outlined .action,
+.outlined .caret {
+  --split-bg: transparent;
+  --split-border: var(--split-ol-border);
+  color: var(--split-ol-fg);
+}
+
+/* text: transparent fill and border, severity text */
+.text .action,
+.text .caret {
+  --split-bg: transparent;
+  --split-border: transparent;
+  color: var(--split-ol-fg);
 }
 
 .action:focus-visible,
 .caret:focus-visible {
-  outline: 2px solid var(--dx-color-outline-primary);
+  outline: 2px solid var(--split-outline, var(--dx-color-outline-primary));
   outline-offset: 2px;
   z-index: 1;
+}
+
+/* Shade — filled only (flat/outlined/text mute like Button/Badge) */
+.shade-lighter.filled .action,
+.shade-lighter.filled .caret {
+  filter: brightness(1.12);
+}
+.shade-light.filled .action,
+.shade-light.filled .caret {
+  filter: brightness(1.06);
+}
+.shade-dark.filled .action,
+.shade-dark.filled .caret {
+  filter: brightness(0.92);
+}
+.shade-darker.filled .action,
+.shade-darker.filled .caret {
+  filter: brightness(0.84);
 }
 
 .action:disabled,

@@ -18,6 +18,18 @@ describe("Splitbutton", () => {
     expect(caret).toHaveAttribute("aria-expanded", "false");
   });
 
+  it.each([
+    ["primary", "filled"],
+    ["danger", "outlined"],
+    ["success", "flat"],
+    ["info", "text"],
+  ] as const)("applies style-%s + %s classes", (severity, variant) => {
+    render(<Splitbutton label="Save" items={items} severity={severity} variant={variant} />);
+    const root = screen.getByRole("button", { name: "Save" }).parentElement;
+    expect(root?.className).toContain(`style-${severity}`);
+    expect(root?.className).toContain(variant);
+  });
+
   it("opens the menu on caret click", async () => {
     const user = userEvent.setup();
     render(<Splitbutton label="Save" items={items} />);

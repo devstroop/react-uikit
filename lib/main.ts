@@ -186,7 +186,7 @@ export { Togglebutton } from "./components/Togglebutton/Togglebutton";
 export type { TogglebuttonProps, TogglebuttonSize } from "./components/Togglebutton/Togglebutton";
 
 export { Splitbutton } from "./components/Splitbutton/Splitbutton";
-export type { SplitbuttonProps, SplitbuttonItem, SplitbuttonSize } from "./components/Splitbutton/Splitbutton";
+export type { SplitbuttonProps, SplitbuttonItem, SplitbuttonSize, SplitbuttonSeverity, SplitbuttonVariant, SplitbuttonShade } from "./components/Splitbutton/Splitbutton";
 
 export { Textbox } from "./components/Textbox/Textbox";
 export type { TextboxProps, TextboxSize } from "./components/Textbox/Textbox";
