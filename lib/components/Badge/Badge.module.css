@@ -1,11 +1,11 @@
 .badge {
   display: inline-flex;
   align-items: center;
-  gap: var(--dt-space-1);
-  border-radius: var(--dt-radius-full);
-  font-family: var(--dt-font-sans);
-  font-size: var(--dt-font-size-xs);
-  font-weight: var(--dt-font-weight-medium);
+  gap: var(--dx-space-1);
+  border-radius: var(--dx-radius-full);
+  font-family: var(--dx-font-sans);
+  font-size: var(--dx-font-size-xs);
+  font-weight: var(--dx-font-weight-medium);
   line-height: 1.6;
   white-space: nowrap;
 }
@@ -13,103 +13,149 @@
 /* Sizes */
 .xs {
   padding: 1px 6px;
-  font-size: var(--dt-font-size-xs);
+  font-size: var(--dx-font-size-xs);
 }
 
 .sm {
   padding: 1px 8px;
-  font-size: var(--dt-font-size-xs);
+  font-size: var(--dx-font-size-xs);
 }
 
 .md {
   padding: 2px 10px;
-  font-size: var(--dt-font-size-sm);
+  font-size: var(--dx-font-size-sm);
 }
 
 .lg {
   padding: 3px 12px;
-  font-size: var(--dt-font-size-md);
+  font-size: var(--dx-font-size-md);
 }
 
 .xl {
   padding: 4px 14px;
-  font-size: var(--dt-font-size-lg);
+  font-size: var(--dx-font-size-lg);
 }
 
-/* Tones (soft) */
+/* Severity tints (flat default) */
 .neutral {
-  background-color: var(--dt-color-surface-hover);
-  color: var(--dt-color-text-muted);
+  background-color: var(--dx-color-surface-hover);
+  color: var(--dx-color-text-muted);
 }
 
 .primary {
-  background-color: color-mix(in srgb, var(--dt-color-primary) 12%, transparent);
-  color: var(--dt-color-text-primary);
+  background-color: color-mix(in srgb, var(--dx-color-primary) 12%, transparent);
+  color: var(--dx-color-text-primary);
 }
 
 .success {
-  background-color: color-mix(in srgb, var(--dt-color-success) 12%, transparent);
-  color: var(--dt-color-text-success);
+  background-color: color-mix(in srgb, var(--dx-color-success) 12%, transparent);
+  color: var(--dx-color-text-success);
 }
 
 .warning {
-  background-color: color-mix(in srgb, var(--dt-color-warning) 12%, transparent);
-  color: var(--dt-color-text-warning);
+  background-color: color-mix(in srgb, var(--dx-color-warning) 12%, transparent);
+  color: var(--dx-color-text-warning);
 }
 
 .danger {
-  background-color: color-mix(in srgb, var(--dt-color-danger) 12%, transparent);
-  color: var(--dt-color-text-danger);
+  background-color: color-mix(in srgb, var(--dx-color-danger) 12%, transparent);
+  color: var(--dx-color-text-danger);
 }
 
-/* Variant overrides */
-.solid {
-  background-color: var(--dt-color-primary);
-  color: var(--dt-color-primary-fg);
+/* Variant overrides (Radzen Variant parity: filled | flat | outlined | text).
+   Flat is the default severity tint above — no extra rule needed. */
+.filled {
+  background-color: var(--dx-color-primary);
+  color: var(--dx-color-primary-fg);
 }
 
-.solid.neutral {
-  background-color: var(--dt-color-text);
-  color: var(--dt-color-surface);
+.filled.neutral {
+  background-color: var(--dx-color-text);
+  color: var(--dx-color-surface);
 }
 
-.solid.success {
-  background-color: var(--dt-color-success);
-  color: var(--dt-color-surface);
+.filled.success {
+  background-color: var(--dx-color-success);
+  color: var(--dx-color-surface);
 }
 
-.solid.warning {
-  background-color: var(--dt-color-warning);
-  color: var(--dt-color-surface);
+.filled.warning {
+  background-color: var(--dx-color-warning);
+  color: var(--dx-color-surface);
 }
 
-.solid.danger {
-  background-color: var(--dt-color-danger);
-  color: var(--dt-color-danger-fg);
+.filled.danger {
+  background-color: var(--dx-color-danger);
+  color: var(--dx-color-danger-fg);
 }
 
-.outline {
+.outlined {
   background-color: transparent;
-  border: 1px solid var(--dt-color-border-strong);
-  color: var(--dt-color-text);
+  border: 1px solid var(--dx-color-border-strong);
+  color: var(--dx-color-text);
 }
 
-.outline.primary {
-  border-color: var(--dt-color-primary);
-  color: var(--dt-color-text-primary);
+.outlined.primary {
+  border-color: var(--dx-color-primary);
+  color: var(--dx-color-text-primary);
 }
 
-.outline.success {
-  border-color: var(--dt-color-success);
-  color: var(--dt-color-text-success);
+.outlined.success {
+  border-color: var(--dx-color-success);
+  color: var(--dx-color-text-success);
 }
 
-.outline.warning {
-  border-color: var(--dt-color-warning);
-  color: var(--dt-color-text-warning);
+.outlined.warning {
+  border-color: var(--dx-color-warning);
+  color: var(--dx-color-text-warning);
 }
 
-.outline.danger {
-  border-color: var(--dt-color-danger);
-  color: var(--dt-color-text-danger);
+.outlined.danger {
+  border-color: var(--dx-color-danger);
+  color: var(--dx-color-text-danger);
+}
+
+/* text: no fill, no border — severity color shows (Radzen text parity). */
+.text {
+  background-color: transparent;
+  border: none;
+  color: var(--dx-color-text);
+}
+
+.text.primary {
+  color: var(--dx-color-text-primary);
+}
+
+.text.success {
+  color: var(--dx-color-text-success);
+}
+
+.text.warning {
+  color: var(--dx-color-text-warning);
+}
+
+.text.danger {
+  color: var(--dx-color-text-danger);
+}
+
+
+/* Shade — applies on filled primarily; flat/outlined/text mute via opacity filter fallback */
+.shade-lighter.filled {
+  filter: brightness(1.12);
+}
+.shade-light.filled {
+  filter: brightness(1.06);
+}
+.shade-dark.filled {
+  filter: brightness(0.92);
+}
+.shade-darker.filled {
+  filter: brightness(0.84);
+}
+.shade-lighter:not(.filled) {
+  opacity: 0.92;
+}
+.shade-darker:not(.filled) {
+  opacity: 1;
+  filter: saturate(1.1);
 }

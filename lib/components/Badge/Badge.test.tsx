@@ -11,21 +11,21 @@ describe("Badge", () => {
     expect(badge).toBeInTheDocument();
   });
 
-  it("defaults to neutral tone and soft variant", () => {
+  it("defaults to neutral severity and flat variant", () => {
     render(<Badge>New</Badge>);
     const badge = screen.getByText("New");
     expect(badge.className).toContain("neutral");
-    expect(badge.className).toContain("soft");
+    expect(badge.className).not.toContain("filled");
   });
 
   it("applies the requested tone class", () => {
-    render(<Badge tone="success">Ok</Badge>);
+    render(<Badge severity="success">Ok</Badge>);
     expect(screen.getByText("Ok").className).toContain("success");
   });
 
-  it("applies the requested variant class", () => {
-    render(<Badge variant="solid">Ok</Badge>);
-    expect(screen.getByText("Ok").className).toContain("solid");
+  it.each(["filled", "outlined", "text"] as const)("applies the requested %s variant class", (variant) => {
+    render(<Badge variant={variant}>Ok</Badge>);
+    expect(screen.getByText("Ok").className).toContain(variant);
   });
 
   it("forwards extra props and className to the span", () => {
