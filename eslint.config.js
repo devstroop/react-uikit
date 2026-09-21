@@ -44,10 +44,4 @@ export default tseslint.config(
       "jsx-a11y/role-supports-aria-props": "warn",
     },
   },
-  {
-    files: ["scripts/**/*.mjs"],
-    languageOptions: {
-      globals: { ...globals.node },
-    },
-  },
 );
