@@ -131,12 +131,13 @@ export function Chart({
               m.set(cat, (m.get(cat) ?? 0) + val);
             }
           }
-          // pie/donut totals for arc angles
+          // pie/donut totals for arc angles, keyed by series identity:
+          // titles are display text and may repeat across series.
           const pieGroups = series.filter((s) => s.type === "pie" || s.type === "donut");
-          const pieTotals = new Map<string, number>();
+          const pieTotals = new Map<object, number>();
           for (const ser of pieGroups) {
             const total = ser.data.reduce((sum, d) => sum + (Number(d[ser.valueProperty]) || 0), 0);
-            pieTotals.set(ser.title ?? String(pieGroups.indexOf(ser)), total);
+            pieTotals.set(ser, total);
           }
           return series.map((ser, sIdx) => {
             const pts = ser.data.map((d) => ({
@@ -152,7 +153,7 @@ export function Chart({
               const cy = pad.t + plotH / 2;
               const outerR = Math.min(plotW, plotH) / 3;
               const innerR = ser.type === "donut" ? (ser.innerRadius ?? outerR * 0.5) : 0;
-              const total = pieTotals.get(ser.title ?? String(sIdx)) ?? pts.reduce((s, p) => s + p.val, 0);
+              const total = pieTotals.get(ser) ?? pts.reduce((s, p) => s + p.val, 0);
               let angle = -90;
               return (
                 <g key={sIdx} role="list" aria-label={ser.title ?? `Series ${sIdx + 1}`}>
