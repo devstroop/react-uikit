@@ -447,14 +447,14 @@ export const Colorpicker = ({
 
   const sizeClass =
     size === "xs"
-      ? styles.dtColorpickerTriggerXs
+      ? styles["dx-colorpicker-trigger-xs"]
       : size === "sm"
-        ? styles.dtColorpickerTriggerSm
+        ? styles["dx-colorpicker-trigger-sm"]
         : size === "lg"
-          ? styles.dtColorpickerTriggerLg
+          ? styles["dx-colorpicker-trigger-lg"]
           : size === "xl"
-            ? styles.dtColorpickerTriggerXl
-            : styles.dtColorpickerTriggerMd;
+            ? styles["dx-colorpicker-trigger-xl"]
+            : styles["dx-colorpicker-trigger"];
 
   const css = toCss(current);
   const hex = rgbToHex(current);
@@ -463,7 +463,7 @@ export const Colorpicker = ({
   const alphaPos = current.a * 100;
 
   const body = (
-    <div className={styles.dtColorpickerPanel}>
+    <div className={styles["dx-colorpicker-panel"]}>
       {showSaturation && (
         <div
           ref={satRef}
@@ -476,7 +476,7 @@ export const Colorpicker = ({
           aria-label="Color"
           aria-disabled={disabled || undefined}
           tabIndex={disabled ? -1 : tabIndex}
-          className={styles.dtSaturationPicker}
+          className={styles["dx-saturation-picker"]}
           style={{
             background: `linear-gradient(to top, #000, transparent), linear-gradient(to right, #fff, transparent), hsl(${hsv.h}, 100%, 50%)`,
           }}
@@ -486,7 +486,7 @@ export const Colorpicker = ({
           onPointerUp={handlePointerUp}
         >
           <span
-            className={styles.dtSaturationIndicator}
+            className={styles["dx-saturation-indicator"]}
             style={{ left: `${satPos.x}%`, top: `${satPos.y}%` }}
             aria-hidden="true"
           />
@@ -502,14 +502,14 @@ export const Colorpicker = ({
           aria-valuenow={Math.round(hsv.h)}
           aria-disabled={disabled || undefined}
           tabIndex={disabled ? -1 : tabIndex}
-          className={styles.dtHuePicker}
+          className={styles["dx-hue-picker"]}
           onKeyDown={(event) => handleStripKeyDown(event, "hue")}
           onPointerDown={handleHuePointerDown}
           onPointerMove={handleHuePointerMove}
           onPointerUp={handlePointerUp}
         >
           <span
-            className={styles.dtHueIndicator}
+            className={styles["dx-hue-indicator"]}
             style={{ left: `${huePos}%` }}
             aria-hidden="true"
           />
@@ -525,7 +525,7 @@ export const Colorpicker = ({
           aria-valuenow={Math.round(alphaPos)}
           aria-disabled={disabled || undefined}
           tabIndex={disabled ? -1 : tabIndex}
-          className={styles.dtAlphaPicker}
+          className={styles["dx-alpha-picker"]}
           style={{
             background: `repeating-conic-gradient(var(--dx-color-border) 0% 25%, var(--dx-color-surface) 0% 50%) 0 0 / 12px 12px, linear-gradient(to right, transparent, hsl(${hsv.h}, 100%, 50%))`,
           }}
@@ -535,68 +535,68 @@ export const Colorpicker = ({
           onPointerUp={handlePointerUp}
         >
           <span
-            className={styles.dtAlphaIndicator}
+            className={styles["dx-alpha-indicator"]}
             style={{ left: `${alphaPos}%` }}
             aria-hidden="true"
           />
         </div>
       )}
       {showRgba && (
-        <div className={styles.dtColorpickerRgba}>
-          <label className={styles.dtColorpickerRgbaField}>
-            <span className={styles.dtColorpickerRgbaLabel}>Hex</span>
+        <div className={styles["dx-colorpicker-rgba"]}>
+          <label className={styles["dx-colorpicker-rgba-field"]}>
+            <span className={styles["dx-colorpicker-rgba-label"]}>Hex</span>
             <input
               type="text"
               maxLength={7}
-              className={styles.dtColorpickerRgbaInput}
+              className={styles["dx-colorpicker-rgba-input"]}
               aria-label="Hex"
               value={hex}
               onChange={(event) => handleRgbaInput("hex", event.target.value)}
             />
           </label>
-          <label className={styles.dtColorpickerRgbaField}>
-            <span className={styles.dtColorpickerRgbaLabel}>R</span>
+          <label className={styles["dx-colorpicker-rgba-field"]}>
+            <span className={styles["dx-colorpicker-rgba-label"]}>R</span>
             <input
               type="text"
               inputMode="numeric"
               maxLength={3}
-              className={styles.dtColorpickerRgbaInput}
+              className={styles["dx-colorpicker-rgba-input"]}
               aria-label="Red"
               value={current.r}
               onChange={(event) => handleRgbaInput("r", event.target.value)}
             />
           </label>
-          <label className={styles.dtColorpickerRgbaField}>
-            <span className={styles.dtColorpickerRgbaLabel}>G</span>
+          <label className={styles["dx-colorpicker-rgba-field"]}>
+            <span className={styles["dx-colorpicker-rgba-label"]}>G</span>
             <input
               type="text"
               inputMode="numeric"
               maxLength={3}
-              className={styles.dtColorpickerRgbaInput}
+              className={styles["dx-colorpicker-rgba-input"]}
               aria-label="Green"
               value={current.g}
               onChange={(event) => handleRgbaInput("g", event.target.value)}
             />
           </label>
-          <label className={styles.dtColorpickerRgbaField}>
-            <span className={styles.dtColorpickerRgbaLabel}>B</span>
+          <label className={styles["dx-colorpicker-rgba-field"]}>
+            <span className={styles["dx-colorpicker-rgba-label"]}>B</span>
             <input
               type="text"
               inputMode="numeric"
               maxLength={3}
-              className={styles.dtColorpickerRgbaInput}
+              className={styles["dx-colorpicker-rgba-input"]}
               aria-label="Blue"
               value={current.b}
               onChange={(event) => handleRgbaInput("b", event.target.value)}
             />
           </label>
-          <label className={styles.dtColorpickerRgbaField}>
-            <span className={styles.dtColorpickerRgbaLabel}>A</span>
+          <label className={styles["dx-colorpicker-rgba-field"]}>
+            <span className={styles["dx-colorpicker-rgba-label"]}>A</span>
             <input
               type="text"
               inputMode="decimal"
               maxLength={4}
-              className={styles.dtColorpickerRgbaInput}
+              className={styles["dx-colorpicker-rgba-input"]}
               aria-label="Alpha"
               value={Math.round(current.a * 100)}
               onChange={(event) => handleRgbaInput("a", event.target.value)}
@@ -605,13 +605,12 @@ export const Colorpicker = ({
         </div>
       )}
       {showPalette && (
-        <div className={styles.dtColorpickerPalette}>
+        <div className={styles["dx-colorpicker-palette"]}>
           {palette.map((swatch) => (
             <button
               key={swatch}
               type="button"
-              role="button"
-              className={styles.dtColorpickerSwatch}
+              className={styles["dx-colorpicker-swatch"]}
               aria-label={swatch}
               aria-disabled={disabled || undefined}
               tabIndex={disabled ? -1 : tabIndex}
@@ -633,10 +632,10 @@ export const Colorpicker = ({
         </div>
       )}
       {showButton && (
-        <div className={styles.dtColorpickerFooter}>
+        <div className={styles["dx-colorpicker-footer"]}>
           <button
             type="button"
-            className={styles.dtColorpickerOk}
+            className={styles["dx-colorpicker-ok"]}
             onClick={handleOk}
           >
             OK
@@ -650,9 +649,9 @@ export const Colorpicker = ({
     <div
       ref={rootRef}
       className={[
-        styles.dtColorpicker,
-        open ? styles.dtColorpickerOpen : null,
-        invalid ? styles.dtColorpickerInvalid : null,
+        styles["dx-colorpicker"],
+        open ? styles["dx-colorpicker-open"] : null,
+        invalid ? styles["dx-colorpicker-invalid"] : null,
         className,
       ]
         .filter(Boolean)
@@ -661,8 +660,7 @@ export const Colorpicker = ({
       <button
         ref={triggerRef}
         type="button"
-        role="button"
-        className={[styles.dtColorpickerTrigger, sizeClass].join(" ")}
+        className={[styles["dx-colorpicker-trigger"], sizeClass].join(" ")}
         aria-haspopup="dialog"
         aria-expanded={open}
         aria-controls={popupId}
@@ -679,13 +677,13 @@ export const Colorpicker = ({
         }}
       >
         <span
-          className={styles.dtColorpickerValue}
+          className={styles["dx-colorpicker-value"]}
           style={{ backgroundColor: css }}
           aria-hidden="true"
         />
-        {placeholder && <span className={styles.dtColorpickerText}>{placeholder}</span>}
+        {placeholder && <span className={styles["dx-colorpicker-text"]}>{placeholder}</span>}
         {showArrow && (
-          <span className={styles.dtColorpickerChevron} aria-hidden="true">
+          <span className={styles["dx-colorpicker-chevron"]} aria-hidden="true">
             <Icon name="chevron-down" size={14} />
           </span>
         )}
@@ -695,7 +693,7 @@ export const Colorpicker = ({
           id={popupId}
           role="dialog"
           aria-label="Choose color"
-          className={styles.dtColorpickerPopup}
+          className={styles["dx-colorpicker-popup"]}
         >
           {body}
         </div>
