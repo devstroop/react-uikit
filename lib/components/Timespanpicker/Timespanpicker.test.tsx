@@ -183,8 +183,8 @@ describe("Timespanpicker", () => {
   it("applies size and invalid classes", () => {
     render(<Timespanpicker aria-label="Duration" size="sm" invalid />);
     const input = screen.getByRole("combobox", { name: "Duration" });
-    expect(input.className).toContain("dtTimespanpickerInputSm");
-    expect(input.className).toContain("dtTimespanpickerInputInvalid");
+    expect(input.className).toContain("dx-timespanpicker-input--sm");
+    expect(input.className).toContain("dx-timespanpicker-input-invalid");
     expect(input).toHaveAttribute("aria-invalid", "true");
   });
 });

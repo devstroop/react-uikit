@@ -483,36 +483,36 @@ export const Timespanpicker = forwardRef<HTMLInputElement, TimespanpickerProps>(
 
     const sizeClass =
       size === "xs"
-        ? styles.dtTimespanpickerInputXs
+        ? styles["dx-timespanpicker-input--xs"]
         : size === "sm"
-          ? styles.dtTimespanpickerInputSm
+          ? styles["dx-timespanpicker-input--sm"]
           : size === "lg"
-            ? styles.dtTimespanpickerInputLg
+            ? styles["dx-timespanpicker-input--lg"]
             : size === "xl"
-              ? styles.dtTimespanpickerInputXl
-              : styles.dtTimespanpickerInputMd;
+              ? styles["dx-timespanpicker-input--xl"]
+              : styles["dx-timespanpicker-input--md"];
 
     const panel = (
-      <div className={styles.dtTimespanpickerPanel}>
-        <div className={styles.dtTimespanpickerPreview} aria-live="polite">
+      <div className={styles["dx-timespanpicker-panel"]}>
+        <div className={styles["dx-timespanpicker-preview"]} aria-live="polite">
           {formatSeconds(stagedSeconds, precision)}
         </div>
-        <div className={styles.dtTimespanpickerUnits}>
+        <div className={styles["dx-timespanpicker-units"]}>
           {visibleUnits.map((unit) => (
-            <label key={unit} className={styles.dtTimespanpickerUnit}>
-              <span className={styles.dtTimespanpickerUnitLabel}>
+            <label key={unit} className={styles["dx-timespanpicker-unit"]}>
+              <span className={styles["dx-timespanpicker-unit-label"]}>
                 {UNIT_LABELS[unit]}
               </span>
-              <span className={styles.dtTimespanpickerUnitControl}>
+              <span className={styles["dx-timespanpicker-unit-control"]}>
                 <input
-                  className={styles.dtTimespanpickerUnitInput}
+                  className={styles["dx-timespanpicker-unit-input"]}
                   inputMode="decimal"
                   value={draft?.[unit] ?? String(parts[unit])}
                   onChange={(event) => handleUnitChange(unit, event.target.value)}
                   onKeyDown={(event) => handleUnitKeyDown(unit, event)}
                   onBlur={() => commitDraft(unit)}
                 />
-                <span className={styles.dtTimespanpickerUnitButtons}>
+                <span className={styles["dx-timespanpicker-unit-buttons"]}>
                   <button
                     type="button"
                     aria-label={`Increase ${UNIT_LABELS[unit].toLowerCase()}`}
@@ -538,10 +538,10 @@ export const Timespanpicker = forwardRef<HTMLInputElement, TimespanpickerProps>(
             </label>
           ))}
         </div>
-        <div className={styles.dtTimespanpickerFooter}>
+        <div className={styles["dx-timespanpicker-footer"]}>
           <button
             type="button"
-            className={styles.dtTimespanpickerOk}
+            className={styles["dx-timespanpicker-ok"]}
             onClick={() => closePopup(true)}
           >
             OK
@@ -554,8 +554,8 @@ export const Timespanpicker = forwardRef<HTMLInputElement, TimespanpickerProps>(
       <div
         ref={rootRef}
         className={[
-          styles.dtTimespanpicker,
-          inline ? styles.dtTimespanpickerInline : null,
+          styles["dx-timespanpicker"],
+          inline ? styles["dx-timespanpicker-inline"] : null,
           className,
         ]
           .filter(Boolean)
@@ -578,9 +578,9 @@ export const Timespanpicker = forwardRef<HTMLInputElement, TimespanpickerProps>(
               aria-controls={popupId}
               aria-invalid={invalid || undefined}
               className={[
-                styles.dtTimespanpickerInput,
+                styles["dx-timespanpicker-input"],
                 sizeClass,
-                invalid ? styles.dtTimespanpickerInputInvalid : null,
+                invalid ? styles["dx-timespanpicker-input-invalid"] : null,
               ]
                 .filter(Boolean)
                 .join(" ")}
@@ -592,7 +592,7 @@ export const Timespanpicker = forwardRef<HTMLInputElement, TimespanpickerProps>(
             {allowClear && !disabled && hasValue && (
               <button
                 type="button"
-                className={styles.dtTimespanpickerClear}
+                className={styles["dx-timespanpicker-clear"]}
                 aria-label={clearLabel ?? "Clear"}
                 onClick={handleClear}
               >
@@ -603,8 +603,7 @@ export const Timespanpicker = forwardRef<HTMLInputElement, TimespanpickerProps>(
               ref={triggerRef}
               type="button"
               className={[
-                styles.dtTimespanpickerTrigger,
-                open ? styles.dtTimespanpickerTriggerOpen : null,
+                styles["dx-timespanpicker-trigger"],
               ]
                 .filter(Boolean)
                 .join(" ")}
@@ -624,7 +623,7 @@ export const Timespanpicker = forwardRef<HTMLInputElement, TimespanpickerProps>(
             id={popupId}
             role={inline ? undefined : "dialog"}
             aria-label={ariaLabel ?? "Time span picker"}
-            className={inline ? undefined : styles.dtTimespanpickerPopup}
+            className={inline ? undefined : styles["dx-timespanpicker-popup"]}
           >
             {panel}
           </div>
