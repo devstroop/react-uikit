@@ -11,17 +11,25 @@ describe("Badge", () => {
     expect(badge).toBeInTheDocument();
   });
 
-  it("defaults to neutral severity and flat variant", () => {
+  it("defaults to primary severity and filled variant (Radzen parity)", () => {
     render(<Badge>New</Badge>);
     const badge = screen.getByText("New");
-    expect(badge.className).toContain("neutral");
-    expect(badge.className).not.toContain("filled");
+    expect(badge.className).toContain("primary");
+    expect(badge.className).toContain("filled");
   });
 
   it("applies the requested tone class", () => {
     render(<Badge severity="success">Ok</Badge>);
     expect(screen.getByText("Ok").className).toContain("success");
   });
+
+  it.each(["secondary", "light", "base", "dark", "info"] as const)(
+    "applies the %s severity class",
+    (severity) => {
+      render(<Badge severity={severity}>Ok</Badge>);
+      expect(screen.getByText("Ok").className).toContain(severity);
+    },
+  );
 
   it.each(["filled", "outlined", "text"] as const)("applies the requested %s variant class", (variant) => {
     render(<Badge variant={variant}>Ok</Badge>);

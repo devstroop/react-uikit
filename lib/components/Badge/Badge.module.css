@@ -47,6 +47,31 @@
   color: var(--dx-color-text-primary);
 }
 
+.secondary {
+  background-color: var(--dx-color-surface-hover);
+  color: var(--dx-color-text);
+}
+
+.light {
+  background-color: var(--dx-color-light);
+  color: var(--dx-color-light-fg);
+}
+
+.base {
+  background-color: color-mix(in srgb, var(--dx-color-base) 12%, transparent);
+  color: var(--dx-color-text-base);
+}
+
+.dark {
+  background-color: var(--dx-color-dark);
+  color: var(--dx-color-dark-fg);
+}
+
+.info {
+  background-color: color-mix(in srgb, var(--dx-color-info) 12%, transparent);
+  color: var(--dx-color-text-info);
+}
+
 .success {
   background-color: color-mix(in srgb, var(--dx-color-success) 12%, transparent);
   color: var(--dx-color-text-success);
@@ -72,6 +97,31 @@
 .filled.neutral {
   background-color: var(--dx-color-text);
   color: var(--dx-color-surface);
+}
+
+.filled.secondary {
+  background-color: var(--dx-color-secondary);
+  color: var(--dx-color-secondary-fg);
+}
+
+.filled.light {
+  background-color: var(--dx-color-light);
+  color: var(--dx-color-light-fg);
+}
+
+.filled.base {
+  background-color: var(--dx-color-base);
+  color: var(--dx-color-base-fg);
+}
+
+.filled.dark {
+  background-color: var(--dx-color-dark);
+  color: var(--dx-color-dark-fg);
+}
+
+.filled.info {
+  background-color: var(--dx-color-info);
+  color: var(--dx-color-info-fg);
 }
 
 .filled.success {
@@ -100,6 +150,31 @@
   color: var(--dx-color-text-primary);
 }
 
+.outlined.secondary {
+  border-color: var(--dx-color-secondary);
+  color: var(--dx-color-text);
+}
+
+.outlined.light {
+  border-color: var(--dx-color-border-light);
+  color: var(--dx-color-light-fg);
+}
+
+.outlined.base {
+  border-color: var(--dx-color-base);
+  color: var(--dx-color-text-base);
+}
+
+.outlined.dark {
+  border-color: var(--dx-color-dark);
+  color: var(--dx-color-text-dark);
+}
+
+.outlined.info {
+  border-color: var(--dx-color-info);
+  color: var(--dx-color-text-info);
+}
+
 .outlined.success {
   border-color: var(--dx-color-success);
   color: var(--dx-color-text-success);
@@ -124,6 +199,26 @@
 
 .text.primary {
   color: var(--dx-color-text-primary);
+}
+
+.text.secondary {
+  color: var(--dx-color-text);
+}
+
+.text.light {
+  color: var(--dx-color-light-fg);
+}
+
+.text.base {
+  color: var(--dx-color-text-base);
+}
+
+.text.dark {
+  color: var(--dx-color-text-dark);
+}
+
+.text.info {
+  color: var(--dx-color-text-info);
 }
 
 .text.success {

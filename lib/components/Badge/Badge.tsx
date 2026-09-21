@@ -10,7 +10,10 @@ import styles from "./Badge.module.css";
  * (`neutral/primary/success/warning/danger`). Narrowed on purpose:
  * wider unions render unstyled with no warning.
  */
-export type BadgeStyle = Extract<Severity, "neutral" | "primary" | "success" | "warning" | "danger">;
+export type BadgeStyle = Extract<
+  Severity,
+  "neutral" | "primary" | "secondary" | "light" | "base" | "dark" | "info" | "success" | "warning" | "danger"
+>;
 export type BadgeVariant = Variant;
 export type BadgeSize = ComponentSize;
 export type BadgeShade = Shade;
@@ -27,11 +30,11 @@ export interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
 }
 
 export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(function Badge(
-  { severity = "neutral", variant = "flat", shade, size = "md", className, children, ...props },
+  { severity = "primary", variant = "filled", shade, size = "md", className, children, ...props },
   ref,
 ) {
   const t = severity as string;
-  const v = resolveVariant(variant, "flat");
+  const v = resolveVariant(variant, "filled");
   const shadeCls = shade && shade !== "default" ? `shade-${shade}` : null;
   return (
     <span
