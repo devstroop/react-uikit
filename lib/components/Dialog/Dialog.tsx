@@ -12,6 +12,10 @@ export interface DialogProps {
   children?: ReactNode;
   footer?: ReactNode;
   size?: DialogSize;
+  /** Explicit width (any CSS length). Overrides the size tier. */
+  width?: number | string;
+  /** Explicit height (any CSS length). Defaults to content height. */
+  height?: number | string;
   className?: string;
 }
 
@@ -23,6 +27,8 @@ export function Dialog({
   children,
   footer,
   size = "md",
+  width,
+  height,
   className,
 }: DialogProps) {
   const ref = useRef<HTMLDialogElement>(null);
@@ -108,6 +114,12 @@ export function Dialog({
     <dialog
       ref={ref}
       className={[styles.dialog, styles[size], className].filter(Boolean).join(" ")}
+      style={{
+        width: width ?? undefined,
+        // Explicit width escapes the size tier's max-width cap.
+        maxWidth: width != null ? "none" : undefined,
+        height: height ?? undefined,
+      }}
       onClose={handleNativeClose}
       onClick={(e) => {
         if (e.target === ref.current) requestClose();
