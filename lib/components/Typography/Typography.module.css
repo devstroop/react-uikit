@@ -32,6 +32,55 @@
   letter-spacing: var(--dx-letterspacing-display-6);
 }
 
+/* Standard headings sit below the display ramp (Radzen H1-H6 parity). */
+.h1 {
+  font-size: var(--dx-font-display-5);
+  font-weight: var(--dx-font-weight-bold);
+  line-height: 1.25;
+}
+
+.h2 {
+  font-size: var(--dx-font-display-6);
+  font-weight: var(--dx-font-weight-bold);
+  line-height: 1.25;
+}
+
+.h3 {
+  font-size: var(--dx-font-size-xl);
+  font-weight: var(--dx-font-weight-bold);
+  line-height: 1.3;
+}
+
+.h4 {
+  font-size: var(--dx-font-size-lg);
+  font-weight: var(--dx-font-weight-bold);
+  line-height: 1.35;
+}
+
+.h5 {
+  font-size: var(--dx-font-size-md);
+  font-weight: var(--dx-font-weight-medium);
+  line-height: 1.4;
+}
+
+.h6 {
+  font-size: var(--dx-font-size-md);
+  font-weight: var(--dx-font-weight-medium);
+  line-height: 1.4;
+}
+
+.subtitle-1 {
+  font-size: var(--dx-font-size-md);
+  font-weight: var(--dx-font-weight-medium);
+  line-height: 1.5;
+}
+
+.subtitle-2 {
+  font-size: var(--dx-font-size-sm);
+  font-weight: var(--dx-font-weight-medium);
+  line-height: 1.5;
+}
+
 .body-1 {
   font-size: var(--dx-font-size-sm);
   line-height: 1.429;
@@ -54,4 +103,21 @@
   font-weight: var(--dx-font-weight-medium);
   text-transform: uppercase;
   letter-spacing: var(--dx-letterspacing-overline);
+}
+
+/* Text alignment (Radzen TextAlign parity) — composes with any variant. */
+.align-left {
+  text-align: left;
+}
+
+.align-center {
+  text-align: center;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.align-justify {
+  text-align: justify;
 }

@@ -8,14 +8,25 @@ export type TypographyVariant =
   | "display-4"
   | "display-5"
   | "display-6"
+  | "h1"
+  | "h2"
+  | "h3"
+  | "h4"
+  | "h5"
+  | "h6"
+  | "subtitle-1"
+  | "subtitle-2"
   | "body-1"
   | "body-2"
   | "caption"
   | "overline";
 
+export type TypographyAlign = "left" | "center" | "right" | "justify";
+
 export interface TypographyProps extends HTMLAttributes<HTMLElement> {
   variant?: TypographyVariant;
   as?: ElementType;
+  align?: TypographyAlign;
 }
 
 const ELEMENT_BY_VARIANT: Record<TypographyVariant, ElementType> = {
@@ -25,6 +36,15 @@ const ELEMENT_BY_VARIANT: Record<TypographyVariant, ElementType> = {
   "display-4": "h4",
   "display-5": "h5",
   "display-6": "h6",
+  h1: "h1",
+  h2: "h2",
+  h3: "h3",
+  h4: "h4",
+  h5: "h5",
+  h6: "h6",
+  // Radzen parity: subtitles render as h6.
+  "subtitle-1": "h6",
+  "subtitle-2": "h6",
   "body-1": "p",
   "body-2": "p",
   caption: "span",
@@ -32,14 +52,16 @@ const ELEMENT_BY_VARIANT: Record<TypographyVariant, ElementType> = {
 };
 
 export const Typography = forwardRef<HTMLElement, TypographyProps>(function Typography(
-  { variant = "body-1", as, className, children, ...props },
+  { variant = "body-1", as, align, className, children, ...props },
   ref,
 ) {
   const Tag = as ?? ELEMENT_BY_VARIANT[variant];
   return (
     <Tag
       ref={ref}
-      className={[styles.typography, styles[variant], className].filter(Boolean).join(" ")}
+      className={[styles.typography, styles[variant], align ? styles[`align-${align}`] : null, className]
+        .filter(Boolean)
+        .join(" ")}
       {...props}
     >
       {children}
