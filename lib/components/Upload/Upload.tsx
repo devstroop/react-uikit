@@ -27,6 +27,10 @@ export interface UploadProps {
   auto?: boolean;
   headers?: Record<string, string>;
   accept?: string;
+  /** Maximum files kept in the list (default unlimited). Extras are rejected via onError. */
+  maxFileCount?: number;
+  /** Maximum bytes per file. Oversize files are rejected via onError. */
+  maxFileSize?: number;
   chooseText?: string;
   children?: ReactNode;
   onProgress?: (name: string, progress: number) => void;
@@ -35,7 +39,8 @@ export interface UploadProps {
 }
 
 function formatSize(size: number): string {
-  return size > 0 ? `${Math.max(1, Math.round(size / 1024))} KB` : "0 KB";
+  if (size < 1024) return `${size} B`;
+  return `${Math.max(1, Math.round(size / 1024))} KB`;
 }
 
 export const Upload = forwardRef<UploadHandle, UploadProps>(function Upload(
@@ -46,6 +51,8 @@ export const Upload = forwardRef<UploadHandle, UploadProps>(function Upload(
     auto = true,
     headers,
     accept,
+    maxFileCount = Number.POSITIVE_INFINITY,
+    maxFileSize,
     chooseText = "Upload",
     children,
     onProgress,
@@ -100,7 +107,24 @@ export const Upload = forwardRef<UploadHandle, UploadProps>(function Upload(
 
   const handleSelect = (list: FileList | null) => {
     if (!list) return;
-    const selected = [...list].map<UploadedFile>((f) => ({
+    const incoming = [...list];
+    // Validate in order: oversize files are reported (and skipped) first
+    // so they never consume count slots meant for valid files.
+    const accepted: File[] = [];
+    let slots = Math.max(0, maxFileCount - files.length);
+    for (const f of incoming) {
+      if (maxFileSize != null && f.size > maxFileSize) {
+        onError?.(f.name, `File too large (maximum ${formatSize(maxFileSize)})`);
+        continue;
+      }
+      if (slots <= 0) {
+        onError?.(f.name, `Too many files (maximum ${maxFileCount})`);
+        continue;
+      }
+      slots -= 1;
+      accepted.push(f);
+    }
+    const selected = accepted.map<UploadedFile>((f) => ({
       file: f,
       state: "pending",
       progress: 0,
