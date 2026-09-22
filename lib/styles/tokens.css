@@ -401,9 +401,12 @@
 
 /* OS-dark fallback for apps without an explicit data-theme
  * (e.g. media-query-only hosts). Generated from the [data-theme="dark"]
- * block above — re-generate, don't hand-edit, to keep them identical. */
+ * block above — re-generate, don't hand-edit, to keep them identical.
+ * :where() keeps specificity at (0,1,0) so app :root rules (later in
+ * import order) always win ties; this block only fills roles the app
+ * doesn't define. Explicit data-theme still wins outright (:not fails). */
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme]) {
+  :where(:root):not([data-theme]) {
   /* color */
   --dx-color-bg: #0f172a;
   --dx-color-surface: #1e293b;
