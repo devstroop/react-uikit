@@ -49,7 +49,15 @@ export interface TreeProps {
     ItemTemplate?: (item: TreeItem) => React.ReactNode;
     ariaLabel?: string;
     AriaLabel?: string;
+    /** Render checkboxes with full cascade (Radzen AllowCheckBoxes parity). */
+    allowCheckBoxes?: boolean;
+    /** Controlled checked keys. Omit for uncontrolled. */
+    checkedKeys?: string[];
+    defaultCheckedKeys?: string[];
+    onCheckedChange?: (keys: string[]) => void;
+    /** Checking a parent checks descendants (default true). */
+    allowCheckChildren?: boolean;
     className?: string;
 }
-export declare function Tree({ data, Data, children, Children, textProperty, TextProperty, keyProperty, KeyProperty, selectionMode, SelectionMode, selectedItem, SelectedItem, selectedItems, SelectedItems, defaultSelectedItem, defaultSelectedItems, onChange, Change, onExpand, Expand, onCollapse, Collapse, loadChildData, LoadChildData, template, Template, itemTemplate, ItemTemplate, ariaLabel, AriaLabel, className, }: TreeProps): import("react").JSX.Element;
+export declare function Tree({ data, Data, children, Children, textProperty, TextProperty, keyProperty, KeyProperty, selectionMode, SelectionMode, selectedItem, SelectedItem, selectedItems, SelectedItems, defaultSelectedItem, defaultSelectedItems, onChange, Change, onExpand, Expand, onCollapse, Collapse, loadChildData, LoadChildData, template, Template, itemTemplate, ItemTemplate, ariaLabel, AriaLabel, allowCheckBoxes, checkedKeys, defaultCheckedKeys, onCheckedChange, allowCheckChildren, className, }: TreeProps): import("react").JSX.Element;
 export type { TreeProps as TreePropsAlias };

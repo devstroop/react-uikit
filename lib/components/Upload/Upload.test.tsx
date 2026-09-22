@@ -87,6 +87,25 @@ describe("Upload", () => {
     });
   });
 
+  it("reports oversize files without consuming count slots", () => {
+    mockXhr();
+    const onError = vi.fn();
+    render(
+      <Upload url="/api/files" auto multiple maxFileCount={1} maxFileSize={100} onError={onError} />,
+    );
+    const input = screen.getByTestId("upload-input") as HTMLInputElement;
+    const files = [
+      new File([new Uint8Array(200)], "big.txt", { type: "text/plain" }),
+      new File([new Uint8Array(10)], "small.txt", { type: "text/plain" }),
+    ];
+    Object.defineProperty(input, "files", { value: files, configurable: true });
+    fireEvent.change(input);
+    expect(screen.queryAllByTestId("upload-row")).toHaveLength(1);
+    expect(screen.getByText("small.txt")).toBeInTheDocument();
+    expect(onError).toHaveBeenCalledWith("big.txt", "File too large (maximum 100 B)");
+    expect(onError).not.toHaveBeenCalledWith("small.txt", expect.anything());
+  });
+
   it("sends the files field with the parameter name", () => {
     const xhr = mockXhr();
     render(<Upload url="/api/files" parameterName="attachment" />);
@@ -115,5 +134,35 @@ describe("Upload", () => {
     );
     expect(screen.getByRole("button", { name: "Custom" })).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "Upload" })).not.toBeInTheDocument();
+  });
+
+  it("rejects files beyond maxFileCount with onError", () => {
+    mockXhr();
+    const onError = vi.fn();
+    render(<Upload url="/api/files" auto multiple maxFileCount={1} onError={onError} />);
+    const input = screen.getByTestId("upload-input") as HTMLInputElement;
+    const files = [
+      new File([new Uint8Array(10)], "a.txt", { type: "text/plain" }),
+      new File([new Uint8Array(10)], "b.txt", { type: "text/plain" }),
+    ];
+    Object.defineProperty(input, "files", { value: files, configurable: true });
+    fireEvent.change(input);
+    expect(screen.queryAllByTestId("upload-row")).toHaveLength(1);
+    expect(onError).toHaveBeenCalledWith("b.txt", "Too many files (maximum 1)");
+  });
+
+  it("rejects oversize files with onError", () => {
+    mockXhr();
+    const onError = vi.fn();
+    render(<Upload url="/api/files" auto multiple maxFileSize={100} onError={onError} />);
+    const input = screen.getByTestId("upload-input") as HTMLInputElement;
+    const files = [
+      new File([new Uint8Array(10)], "small.txt", { type: "text/plain" }),
+      new File([new Uint8Array(200)], "big.txt", { type: "text/plain" }),
+    ];
+    Object.defineProperty(input, "files", { value: files, configurable: true });
+    fireEvent.change(input);
+    expect(screen.queryAllByTestId("upload-row")).toHaveLength(1);
+    expect(onError).toHaveBeenCalledWith("big.txt", "File too large (maximum 100 B)");
   });
 });

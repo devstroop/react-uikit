@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { Fragment, useEffect, useMemo, useState, type ReactNode } from "react";
 import { Select } from "../Select/Select";
-import { applyFilters, DEFAULT_OPERATOR_BY_TYPE, FILTER_OPERATORS } from "./filter";
+import { applyFilters, DEFAULT_OPERATOR_BY_TYPE, FILTER_OPERATORS, hasSecondClause } from "./filter";
 import type {
   CompositeFilterDescriptor,
   FilterDescriptor,
@@ -50,6 +50,8 @@ interface RowState {
   secondValue?: unknown;
   logicalOperator?: LogicalFilterOperator;
 }
+
+const NULLISH_OPERATORS: readonly FilterOperator[] = ["IsNull", "IsEmpty", "IsNotNull", "IsNotEmpty"];
 
 const OPERATOR_LABELS: Record<FilterOperator, string> = {
   Equals: "Equals",
@@ -171,19 +173,22 @@ export function DataFilter<TItem = unknown>({
   };
 
   const descriptors = useMemo<FilterNode[]>(() => {
-    const nullishOps: readonly FilterOperator[] = ["IsNull", "IsEmpty", "IsNotNull", "IsNotEmpty"];
     const nodes: FilterNode[] = [];
     for (const row of rows) {
       if (row.property === "") continue;
       const emptyValue = row.value == null || row.value === "";
-      if (emptyValue && !nullishOps.includes(row.operator)) continue;
+      if (emptyValue && !NULLISH_OPERATORS.includes(row.operator)) continue;
       const descriptor: FilterDescriptor = {
         property: row.property,
         operator: row.operator,
         value: row.value,
       };
-      if (row.secondOperator != null && row.secondValue !== undefined) {
-        descriptor.secondOperator = row.secondOperator;
+      // hasSecondClause shares the core skip rules: an empty second value
+      // constrains nothing (skip it), while a nullish second operator
+      // needs no value and still applies.
+      const { secondOperator } = row;
+      if (secondOperator != null && hasSecondClause(row)) {
+        descriptor.secondOperator = secondOperator;
         descriptor.secondValue = row.secondValue;
         descriptor.logicalOperator = row.logicalOperator ?? "And";
       }
@@ -212,8 +217,11 @@ export function DataFilter<TItem = unknown>({
         {rows.map((row, index) => {
           const property = propertyOf(row.property);
           const operators = uniqueFilters ? [DEFAULT_OPERATOR_BY_TYPE[property.type ?? "string"]] : FILTER_OPERATORS;
+          const takesValue = !NULLISH_OPERATORS.includes(row.operator);
+          const hasSecond = row.secondOperator != null;
           return (
-            <div key={row.id} className={styles.row}>
+            <Fragment key={row.id}>
+            <div className={styles.row}>
               {index > 0 ? (
                 <span className={styles.join} aria-hidden="true">
                   {logicalOperator}
@@ -229,6 +237,9 @@ export function DataFilter<TItem = unknown>({
                     property: event.target.value,
                     operator: DEFAULT_OPERATOR_BY_TYPE[next?.type ?? "string"],
                     value: undefined,
+                    secondOperator: undefined,
+                    secondValue: undefined,
+                    logicalOperator: undefined,
                   });
                 }}
                 options={properties.map((p) => ({ value: p.name, label: p.title ?? p.name }))}
@@ -237,10 +248,25 @@ export function DataFilter<TItem = unknown>({
                 aria-label={`Condition ${index + 1} operator`}
                 className={styles.operator}
                 value={row.operator}
-                onChange={(event) => updateRow(row.id, { operator: event.target.value as FilterOperator })}
+                onChange={(event) => {
+                  const operator = event.target.value as FilterOperator;
+                  updateRow(
+                    row.id,
+                    NULLISH_OPERATORS.includes(operator)
+                      ? {
+                          operator,
+                          secondOperator: undefined,
+                          secondValue: undefined,
+                          logicalOperator: undefined,
+                        }
+                      : { operator },
+                  );
+                }}
                 options={operators.map((operator) => ({ value: operator, label: OPERATOR_LABELS[operator] }))}
               />
-              <ValueEditor property={property} value={row.value} onChange={(value) => updateRow(row.id, { value })} />
+              {takesValue ? (
+                <ValueEditor property={property} value={row.value} onChange={(value) => updateRow(row.id, { value })} />
+              ) : null}
               <button
                 type="button"
                 className={styles.remove}
@@ -250,6 +276,80 @@ export function DataFilter<TItem = unknown>({
                 <Icon name="close" size="sm" />
               </button>
             </div>
+            {takesValue ? (
+              hasSecond ? (
+                <div className={[styles.row, styles.second].filter(Boolean).join(" ")}>
+                  <Select
+                    aria-label={`Condition ${index + 1} second-operator logic`}
+                    className={styles.joinSelect}
+                    value={row.logicalOperator ?? "And"}
+                    onChange={(event) =>
+                      updateRow(row.id, { logicalOperator: event.target.value as LogicalFilterOperator })
+                    }
+                    options={[
+                      { value: "And", label: "And" },
+                      { value: "Or", label: "Or" },
+                    ]}
+                  />
+                  <Select
+                    aria-label={`Condition ${index + 1} second operator`}
+                    className={styles.operator}
+                    value={row.secondOperator}
+                    onChange={(event) => {
+                      const secondOperator = event.target.value as FilterOperator;
+                      updateRow(
+                        row.id,
+                        NULLISH_OPERATORS.includes(secondOperator)
+                          ? { secondOperator, secondValue: undefined }
+                          : { secondOperator },
+                      );
+                    }}
+                    options={operators.map((operator) => ({
+                      value: operator,
+                      label: OPERATOR_LABELS[operator],
+                    }))}
+                  />
+                  {row.secondOperator == null || !NULLISH_OPERATORS.includes(row.secondOperator) ? (
+                    <ValueEditor
+                      property={property}
+                      value={row.secondValue}
+                      onChange={(secondValue) => updateRow(row.id, { secondValue })}
+                    />
+                  ) : null}
+                  <button
+                    type="button"
+                    className={styles.remove}
+                    aria-label={`Remove second condition ${index + 1}`}
+                    onClick={() =>
+                      updateRow(row.id, {
+                        secondOperator: undefined,
+                        secondValue: undefined,
+                        logicalOperator: undefined,
+                      })
+                    }
+                  >
+                    <Icon name="close" size="sm" />
+                  </button>
+                </div>
+              ) : (
+                <div className={styles.secondAdd}>
+                  <button
+                    type="button"
+                    className={styles.addSecond}
+                    onClick={() =>
+                      updateRow(row.id, {
+                        secondOperator: DEFAULT_OPERATOR_BY_TYPE[property.type ?? "string"],
+                        secondValue: undefined,
+                        logicalOperator: "And",
+                      })
+                    }
+                  >
+                    + Second condition
+                  </button>
+                </div>
+              )
+            ) : null}
+            </Fragment>
           );
         })}
       </div>

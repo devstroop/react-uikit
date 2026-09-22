@@ -127,6 +127,65 @@ describe("matchesFilters / composite descriptors", () => {
     expect(applyFilters(people, between).map((p) => p.name)).toEqual(["John", "jane"]);
   });
 
+  it("nullish second operator applies without a value", () => {
+    const noNulls: FilterDescriptor = {
+      property: "tags",
+      operator: "IsNotNull",
+      secondOperator: "IsNotNull",
+      logicalOperator: "And",
+    };
+    expect(applyFilters(people, noNulls).map((p) => p.name)).toEqual(["John"]);
+    const impossible: FilterDescriptor = {
+      property: "tags",
+      operator: "IsNotNull",
+      secondOperator: "IsNull",
+      logicalOperator: "And",
+    };
+    expect(applyFilters(people, impossible)).toHaveLength(0);
+    const either: FilterDescriptor = {
+      property: "tags",
+      operator: "IsNotNull",
+      secondOperator: "IsNull",
+      logicalOperator: "Or",
+    };
+    expect(applyFilters(people, either)).toHaveLength(4);
+  });
+
+  it("skips empty second values for non-nullish operators everywhere", () => {
+    const empty: FilterDescriptor = {
+      property: "age",
+      operator: "GreaterThan",
+      value: 20,
+      secondOperator: "LessThan",
+      secondValue: "",
+      logicalOperator: "And",
+    };
+    const nulled: FilterDescriptor = { ...empty, secondValue: null };
+    const firstOnly = { property: "age", operator: "GreaterThan", value: 20 } as FilterDescriptor;
+    // Filtering matches the first clause alone…
+    expect(applyFilters(people, empty).map((p) => p.name)).toEqual(
+      applyFilters(people, firstOnly).map((p) => p.name),
+    );
+    expect(applyFilters(people, nulled).map((p) => p.name)).toEqual(
+      applyFilters(people, firstOnly).map((p) => p.name),
+    );
+    // …and both string forms render the first clause alone.
+    expect(toFilterString(empty)).toBe(toFilterString(firstOnly));
+    expect(toODataFilterString(empty)).toBe(toODataFilterString(firstOnly));
+  });
+
+  it("renders a valueless nullish second clause in both string forms", () => {
+    const descriptor: FilterDescriptor = {
+      property: "age",
+      operator: "GreaterThan",
+      value: 20,
+      secondOperator: "IsNull",
+      logicalOperator: "And",
+    };
+    expect(toFilterString(descriptor)).toBe("(age.GreaterThan(20) And age == null)");
+    expect(toODataFilterString(descriptor)).toBe("(age gt 20 and age eq null)");
+  });
+
   it("empty group matches everything", () => {
     expect(applyFilters(people, { operator: "And", filters: [] })).toHaveLength(4);
   });

@@ -81,7 +81,7 @@ export type {
 
 export { getByPath } from "./components/DataFilter/filter";
 
-export { required, email, pattern, minLength, maxLength, range, runValidators } from "./components/Validators";
+export { required, email, pattern, minLength, maxLength, range, compare, requiredTrue, custom, runValidators } from "./components/Validators";
 export type { Validator } from "./components/Validators";
 
 export { Label } from "./components/Label/Label";
@@ -181,7 +181,7 @@ export { Radiobuttonlist } from "./components/Radiobuttonlist/Radiobuttonlist";
 export type { RadiobuttonlistProps, RadiobuttonlistOption } from "./components/Radiobuttonlist/Radiobuttonlist";
 
 export { Selectbar } from "./components/Selectbar/Selectbar";
-export type { SelectbarProps, SelectbarOption, SelectbarSize } from "./components/Selectbar/Selectbar";
+export type { SelectbarProps, SelectbarSingleProps, SelectbarMultiProps, SelectbarOption, SelectbarSize } from "./components/Selectbar/Selectbar";
 
 export { Togglebutton } from "./components/Togglebutton/Togglebutton";
 export type { TogglebuttonProps, TogglebuttonSize } from "./components/Togglebutton/Togglebutton";

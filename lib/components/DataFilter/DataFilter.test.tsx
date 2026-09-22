@@ -54,6 +54,148 @@ describe("DataFilter", () => {
     expect(screen.getByLabelText("Condition 1 property")).toBeInTheDocument();
   });
 
+  it("adds a second condition narrowing the result", () => {
+    const viewChanged = vi.fn();
+    render(
+      <DataFilter
+        properties={properties}
+        items={people}
+        initialRows={[{ property: "age", operator: "GreaterThan", value: 20 }]}
+        viewChanged={viewChanged}
+      />,
+    );
+    expect(screen.queryByLabelText("Condition 1 second operator")).not.toBeInTheDocument();
+    fireEvent.click(screen.getByText("+ Second condition"));
+    expect(screen.getByLabelText("Condition 1 second operator")).toBeInTheDocument();
+    fireEvent.change(screen.getByLabelText("Condition 1 second operator"), {
+      target: { value: "LessThan" },
+    });
+    // Both editors share the property label; the second one is the target.
+    const ageBoxes = screen.getAllByLabelText("Age");
+    fireEvent.change(ageBoxes[1]!, { target: { value: "35" } });
+    const last = viewChanged.mock.calls.at(-1)?.[0] as { name: string }[];
+    expect(last.map((p) => p.name).sort()).toEqual(["Jane", "John"]);
+  });
+
+  it("applies a valueless nullish second condition to the result", () => {
+    const viewChanged = vi.fn();
+    render(
+      <DataFilter
+        properties={properties}
+        items={people}
+        initialRows={[
+          {
+            property: "age",
+            operator: "GreaterThan",
+            value: 20,
+            secondOperator: "IsNull",
+            logicalOperator: "And",
+          },
+        ]}
+        viewChanged={viewChanged}
+      />,
+    );
+    // Every age is present, so `> 20 AND IS NULL` matches nothing.
+    const last = viewChanged.mock.calls.at(-1)?.[0] as { name: string }[];
+    expect(last).toHaveLength(0);
+  });
+
+  it("skips an empty second value under the same rules as the first", () => {
+    const viewChanged = vi.fn();
+    render(
+      <DataFilter
+        properties={properties}
+        items={people}
+        initialRows={[
+          {
+            property: "age",
+            operator: "GreaterThan",
+            value: 20,
+            secondOperator: "LessThan",
+            secondValue: "",
+            logicalOperator: "And",
+          },
+        ]}
+        viewChanged={viewChanged}
+      />,
+    );
+    // Empty second value constrains nothing: first clause alone applies.
+    const last = viewChanged.mock.calls.at(-1)?.[0] as { name: string }[];
+    expect(last.map((p) => p.name).sort()).toEqual(["Bob", "Jane", "John"]);
+  });
+
+  it("clears a stale second condition when the first turns nullish", () => {
+    render(
+      <DataFilter
+        properties={properties}
+        items={people}
+        initialRows={[
+          {
+            property: "age",
+            operator: "GreaterThan",
+            value: 20,
+            secondOperator: "LessThan",
+            secondValue: 35,
+          },
+        ]}
+      />,
+    );
+    expect(screen.getByLabelText("Condition 1 second operator")).toBeInTheDocument();
+    fireEvent.change(screen.getByLabelText("Condition 1 operator"), {
+      target: { value: "IsNull" },
+    });
+    expect(screen.queryByLabelText("Condition 1 second operator")).not.toBeInTheDocument();
+    // Switching back starts clean, not resurrected.
+    fireEvent.change(screen.getByLabelText("Condition 1 operator"), {
+      target: { value: "GreaterThan" },
+    });
+    expect(screen.queryByLabelText("Condition 1 second operator")).not.toBeInTheDocument();
+  });
+
+  it("hides the second value editor for nullish second operators", () => {
+    render(
+      <DataFilter
+        properties={properties}
+        items={people}
+        initialRows={[
+          {
+            property: "age",
+            operator: "GreaterThan",
+            value: 20,
+            secondOperator: "LessThan",
+            secondValue: 35,
+          },
+        ]}
+      />,
+    );
+    expect(screen.getAllByLabelText("Age")).toHaveLength(2);
+    fireEvent.change(screen.getByLabelText("Condition 1 second operator"), {
+      target: { value: "IsNull" },
+    });
+    expect(screen.getAllByLabelText("Age")).toHaveLength(1);
+  });
+
+  it("removes the second condition", () => {
+    render(
+      <DataFilter
+        properties={properties}
+        items={people}
+        initialRows={[
+          {
+            property: "age",
+            operator: "GreaterThan",
+            value: 20,
+            secondOperator: "LessThan",
+            secondValue: 35,
+          },
+        ]}
+      />,
+    );
+    expect(screen.getByLabelText("Condition 1 second operator")).toBeInTheDocument();
+    fireEvent.click(screen.getByLabelText("Remove second condition 1"));
+    expect(screen.queryByLabelText("Condition 1 second operator")).not.toBeInTheDocument();
+  });
+
   it("viewChanged fires with the filtered result on change", () => {
     const viewChanged = vi.fn();
     render(<DataFilter properties={properties} items={people} viewChanged={viewChanged} />);
@@ -81,5 +223,14 @@ describe("DataFilter", () => {
     expect(screen.getByText("3 of 3")).toBeInTheDocument();
     fireEvent.change(screen.getByLabelText("Name"), { target: { value: "o" } });
     expect(screen.getByText("2 of 3")).toBeInTheDocument();
+  });
+
+  it("hides the first value editor for nullish operators", () => {
+    render(<DataFilter properties={properties} items={people} />);
+    expect(screen.getByLabelText("Name")).toBeInTheDocument();
+    fireEvent.change(screen.getByLabelText("Condition 1 operator"), {
+      target: { value: "IsNull" },
+    });
+    expect(screen.queryByLabelText("Name")).not.toBeInTheDocument();
   });
 });

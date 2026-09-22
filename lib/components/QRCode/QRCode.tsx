@@ -1,66 +1,47 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useMediaQuery } from "../../hooks/useMediaQuery";
+import { qrcodegen } from "./qrcodegen";
 import styles from "./QRCode.module.css";
+
+export type QRCodeErrorCorrection = "low" | "medium" | "quartile" | "high";
 
 export interface QRCodeProps {
   value: string;
   size?: number;
   render?: "svg" | "canvas";
+  /** Error correction level (default medium). Higher survives more damage. */
+  errorCorrection?: QRCodeErrorCorrection;
+  /** Quiet-zone width in modules (default 4, the spec minimum). Clamped to >= 0. */
+  margin?: number;
   ariaLabel?: string;
   className?: string;
+  /** Called once per value when encoding fails (payload exceeds capacity). */
+  onError?: (message: string) => void;
 }
 
-const N = 25; // matrix size (version 2-ish)
-
-function hashBytes(value: string): number[] {
-  const out: number[] = [];
-  let h = 0x811c9dc5;
-  for (let i = 0; i < value.length; i++) {
-    h ^= value.charCodeAt(i);
-    h = Math.imul(h, 0x01000193) >>> 0;
-    out.push(h & 0xff);
-  }
-  // expand deterministically
-  while (out.length < N * N) {
-    h = Math.imul(h ^ (out.length + 1), 0x01000193) >>> 0;
-    out.push(h & 0xff);
-  }
-  return out;
-}
-
-function isReserved(x: number, y: number): boolean {
-  const inBox = (bx: number, by: number) => x >= bx && x < bx + 7 && y >= by && y < by + 7;
-  if (inBox(0, 0) || inBox(N - 7, 0) || inBox(0, N - 7)) return true;
-  if (x === 6 || y === 6) return true; // timing
-  if (x === 8 && y === 8) return true; // format area approx
-  if ((x === 8 && (y < 9 || y > N - 9)) || (y === 8 && (x < 9 || x > N - 9))) return true;
-  return false;
-}
-
-function finderDark(x: number, y: number): boolean | null {
-  const box = (bx: number, by: number): boolean => {
-    const dx = x - bx;
-    const dy = y - by;
-    const ring = Math.max(Math.abs(dx - 3), Math.abs(dy - 3));
-    return ring === 3 || ring <= 1;
-  };
-  if (x < 7 && y < 7) return box(0, 0);
-  if (x >= N - 7 && y < 7) return box(N - 7, 0);
-  if (x < 7 && y >= N - 7) return box(0, N - 7);
-  return null;
-}
+const ECL: Record<QRCodeErrorCorrection, qrcodegen.QrCode.Ecc> = {
+  low: qrcodegen.QrCode.Ecc.LOW,
+  medium: qrcodegen.QrCode.Ecc.MEDIUM,
+  quartile: qrcodegen.QrCode.Ecc.QUARTILE,
+  high: qrcodegen.QrCode.Ecc.HIGH,
+};
 
 /**
- * Deterministic decorative matrix (NOT a scannable QR code).
- *
- * The cells are FNV-hashed payload bytes with drawn finder/timing
- * patterns — it *looks* like a QR code for placeholders and visual
- * parity, but no QR encoding (finder/alignment, format info,
- * Reed-Solomon, masking) is performed. Do not print this on anything
- * that must scan: integrate a real encoder (e.g. qrcodegen-style)
- * for production codes.
+ * Real scannable QR code (Project Nayuki encoder, vendored in
+ * `./qrcodegen`). The smallest version fitting `value` is chosen
+ * automatically; the symbol includes finder/alignment/timing patterns,
+ * format info, masking, and Reed-Solomon error correction.
  */
-export function QRCode({ value, size = 128, render = "svg", ariaLabel, className }: QRCodeProps) {
+export function QRCode({
+  value,
+  size = 128,
+  render = "svg",
+  errorCorrection = "medium",
+  margin = 4,
+  ariaLabel,
+  className,
+  onError,
+}: QRCodeProps) {
   const label = ariaLabel ?? `QR code for ${value}`;
   const canvasRef = useRef<HTMLCanvasElement>(null);
   // Theme change subscriptions for canvas art (no CSS to inherit it).
@@ -68,8 +49,6 @@ export function QRCode({ value, size = 128, render = "svg", ariaLabel, className
   const [attrTheme, setAttrTheme] = useState<string | null>(null);
   useEffect(() => {
     const root = document.documentElement;
-    // Initial sync on subscribe is the documented exception.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setAttrTheme(root.dataset.theme ?? null);
     const observer = new MutationObserver(() => {
       setAttrTheme(root.dataset.theme ?? null);
@@ -77,28 +56,45 @@ export function QRCode({ value, size = 128, render = "svg", ariaLabel, className
     observer.observe(root, { attributes: true, attributeFilter: ["data-theme"] });
     return () => observer.disconnect();
   }, []);
-  const dark = useMemo(() => {
-    const bytes = hashBytes(value);
-    const cells: boolean[] = [];
-    for (let y = 0; y < N; y++) {
-      for (let x = 0; x < N; x++) {
-        const f = finderDark(x, y);
-        if (f !== null) {
-          cells.push(f);
-          continue;
-        }
-        if (isReserved(x, y)) {
-          cells.push((x === 6 || y === 6) ? (x + y) % 2 === 0 : false);
-          continue;
-        }
-        cells.push(bytes[y * N + x]! % 2 === 1);
-      }
-    }
-    return cells;
-  }, [value]);
 
+  const qr = useMemo<qrcodegen.QrCode | null>(() => {
+    try {
+      return qrcodegen.QrCode.encodeText(value, ECL[errorCorrection]);
+    } catch {
+      // Payload exceeds version-40 capacity. No logging here — this runs
+      // during render (twice under StrictMode); reporting lives in the
+      // effect below.
+      return null;
+    }
+  }, [value, errorCorrection]);
+
+  // Report encode failure as an effect: dev-gated console + onError, once
+  // per failure episode (StrictMode double-invokes effects in dev; the ref
+  // guards that duplicate). The guard resets on recovery so a later
+  // bad→good→bad sequence re-reports, and it tracks the onError identity
+  // so a changed host callback is still invoked for the same value.
+  const reported = useRef<{ value: string; onError?: (message: string) => void } | null>(null);
   useEffect(() => {
-    if (render !== "canvas") return;
+    if (qr !== null) {
+      reported.current = null;
+      return;
+    }
+    const message = `[QRCode] value too long to encode (${value.length} chars)`;
+    if (typeof process !== "undefined" && process.env?.NODE_ENV !== "production") {
+      console.error(message);
+    }
+    if (reported.current?.value !== value || reported.current?.onError !== onError) {
+      reported.current = { value, onError };
+      onError?.(message);
+    }
+  }, [qr, value, onError]);
+
+  // Negative or fractional margins would shrink offsets below zero and
+  // break the quiet zone; clamp once and use everywhere below.
+  const safeMargin = Math.max(0, Math.floor(margin));
+  const cls = [styles.root, className].filter(Boolean).join(" ");
+  useEffect(() => {
+    if (render !== "canvas" || qr === null) return;
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext("2d");
     if (!canvas || !ctx) return;
@@ -109,20 +105,24 @@ export function QRCode({ value, size = 128, render = "svg", ariaLabel, className
     const cs = getComputedStyle(canvas);
     const fg = cs.getPropertyValue("--dx-color-text").trim() || "#000";
     const bg = cs.getPropertyValue("--dx-color-surface").trim() || "#fff";
-    const px = size / N;
-    ctx.fillStyle = bg;
-    ctx.fillRect(0, 0, size, size);
-    ctx.fillStyle = fg;
-    dark.forEach((on, i) => {
-      if (on) ctx.fillRect((i % N) * px, Math.floor(i / N) * px, px + 0.5, px + 0.5);
-    });
-  }, [render, dark, size, osTheme, attrTheme]);
+    paint(ctx, qr, size, safeMargin, fg, bg);
+  }, [render, qr, size, safeMargin, osTheme, attrTheme]);
+
+  // Encode failure renders an accessible placeholder (role + label, no
+  // silent null) so assistive tech and layouts still see the element.
+  // (All hooks are above this return, so hook order stays stable.)
+  if (qr === null) {
+    return <div className={cls} role="img" aria-label={label} data-qr-error="true" />;
+  }
+
+  const modules = qr.size + safeMargin * 2;
+  const cellPx = size / modules;
 
   if (render === "canvas") {
     return (
       <canvas
         ref={canvasRef}
-        className={[styles.root, className].filter(Boolean).join(" ")}
+        className={cls}
         width={size}
         height={size}
         role="img"
@@ -132,19 +132,26 @@ export function QRCode({ value, size = 128, render = "svg", ariaLabel, className
     );
   }
 
-  const cellPx = size / N;
   const rects: React.ReactNode[] = [];
-  for (let y = 0; y < N; y++) {
-    for (let x = 0; x < N; x++) {
-      if (dark[y * N + x]) {
-        rects.push(<rect key={`${x}-${y}`} x={x * cellPx} y={y * cellPx} width={cellPx} height={cellPx} />);
+  for (let y = 0; y < qr.size; y++) {
+    for (let x = 0; x < qr.size; x++) {
+      if (qr.getModule(x, y)) {
+        rects.push(
+          <rect
+            key={`${x}-${y}`}
+            x={(x + safeMargin) * cellPx}
+            y={(y + safeMargin) * cellPx}
+            width={cellPx + 0.5}
+            height={cellPx + 0.5}
+          />,
+        );
       }
     }
   }
 
   return (
     <svg
-      className={[styles.root, className].filter(Boolean).join(" ")}
+      className={cls}
       width={size}
       height={size}
       viewBox={`0 0 ${size} ${size}`}
@@ -156,4 +163,25 @@ export function QRCode({ value, size = 128, render = "svg", ariaLabel, className
       <g fill="var(--dx-color-text)">{rects}</g>
     </svg>
   );
+}
+
+function paint(
+  ctx: CanvasRenderingContext2D,
+  qr: qrcodegen.QrCode,
+  size: number,
+  margin: number,
+  fg: string,
+  bg: string,
+): void {
+  const px = size / (qr.size + margin * 2);
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, size, size);
+  ctx.fillStyle = fg;
+  for (let y = 0; y < qr.size; y++) {
+    for (let x = 0; x < qr.size; x++) {
+      if (qr.getModule(x, y)) {
+        ctx.fillRect((x + margin) * px, (y + margin) * px, px + 0.5, px + 0.5);
+      }
+    }
+  }
 }

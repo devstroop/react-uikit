@@ -245,7 +245,15 @@
 }
 
 
-[data-theme="dark"] {
+/* Explicit theme wins outright — INTENTIONAL specificity (0,2,0).
+ * A bare [data-theme="dark"] tied with consumer :root rules and lost
+ * whenever the consumer stylesheet loaded later, so an explicit theme
+ * silently failed to apply (verified live). Consequences for consumers:
+ * to override a dark token, match or beat this specificity, e.g.
+ * `:root[data-theme="dark"] { --dx-color-surface: ...; }` placed after
+ * this import, or set the token on a closer scope (component / subtree).
+ * Plain `:root` overrides keep working for light mode only. */
+:root[data-theme="dark"] {
   color-scheme: dark;
   /* color */
   --dx-color-bg: #0f172a;
@@ -402,8 +410,9 @@
 }
 
 /* OS-dark fallback for apps without an explicit data-theme
- * (e.g. media-query-only hosts). Generated from the [data-theme="dark"]
- * block above — re-generate, don't hand-edit, to keep them identical.
+ * (e.g. media-query-only hosts). Generated from the
+ * :root[data-theme="dark"] block above — re-generate, don't hand-edit,
+ * to keep them identical.
  * :where() keeps specificity at (0,1,0) so app :root rules (later in
  * import order) always win ties; this block only fills roles the app
  * doesn't define. Explicit data-theme still wins outright (:not fails). */

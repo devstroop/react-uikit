@@ -57,6 +57,14 @@ export interface TreeProps {
   ItemTemplate?: (item: TreeItem) => React.ReactNode;
   ariaLabel?: string;
   AriaLabel?: string;
+  /** Render checkboxes with full cascade (Radzen AllowCheckBoxes parity). */
+  allowCheckBoxes?: boolean;
+  /** Controlled checked keys. Omit for uncontrolled. */
+  checkedKeys?: string[];
+  defaultCheckedKeys?: string[];
+  onCheckedChange?: (keys: string[]) => void;
+  /** Checking a parent checks descendants (default true). */
+  allowCheckChildren?: boolean;
   className?: string;
 }
 
@@ -71,6 +79,24 @@ interface FlatNode {
   expanded: boolean;
   parentKey: string | null;
   disabled: boolean;
+}
+
+/**
+ * Checkbox with a controlled `indeterminate` visual state. The property
+ * is DOM-only (no React prop), so it syncs in an effect rather than an
+ * inline ref callback, whose attach/detach timing differs across versions.
+ */
+function IndeterminateCheckbox({
+  indeterminate,
+  ...props
+}: Omit<React.InputHTMLAttributes<HTMLInputElement>, "type"> & {
+  indeterminate?: boolean;
+}) {
+  const ref = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    if (ref.current) ref.current.indeterminate = indeterminate ?? false;
+  }, [indeterminate]);
+  return <input ref={ref} type="checkbox" {...props} />;
 }
 
 export function Tree({
@@ -104,6 +130,11 @@ export function Tree({
   ItemTemplate,
   ariaLabel,
   AriaLabel,
+  allowCheckBoxes = false,
+  checkedKeys,
+  defaultCheckedKeys,
+  onCheckedChange,
+  allowCheckChildren = true,
   className,
 }: TreeProps) {
   const effectiveData = data ?? Data ?? [];
@@ -394,6 +425,117 @@ export function Tree({
     [getKey, expandedKeys, getChildren, loadedChildren, effectiveLoadChildData, loadingKeys, onExpand, Expand, onCollapse, Collapse],
   );
 
+  // ---- Checkbox cascade (allowCheckBoxes) ----
+  // Structural maps over current data (incl. lazily loaded children).
+  const hierarchy = useMemo(() => {
+    const childrenOf = new Map<string, string[]>();
+    const parentOf = new Map<string, string | null>();
+    // Disabled keys are collected in the same walk so cascade checks can
+    // exclude them with set lookups instead of per-node item searches.
+    const disabledKeys = new Set<string>();
+    const walk = (list: TreeItem[], parent: string | null) => {
+      for (const it of list) {
+        const k = getKey(it);
+        if (!childrenOf.has(k)) childrenOf.set(k, []);
+        parentOf.set(k, parent);
+        if (it.disabled) disabledKeys.add(k);
+        const loaded = loadedChildren.get(k);
+        const ch = loaded ?? getChildren(it);
+        if (ch && ch.length > 0) {
+          childrenOf.set(k, ch.map((c) => getKey(c)));
+          walk(ch, k);
+        }
+      }
+    };
+    walk(effectiveData, null);
+    return { childrenOf, parentOf, disabledKeys };
+  }, [effectiveData, loadedChildren, getKey, getChildren]);
+
+  const descendantsOf = useCallback(
+    (key: string): string[] => {
+      const out: string[] = [];
+      const stack = [...(hierarchy.childrenOf.get(key) ?? [])];
+      while (stack.length > 0) {
+        const k = stack.pop() as string;
+        out.push(k);
+        stack.push(...(hierarchy.childrenOf.get(k) ?? []));
+      }
+      return out;
+    },
+    [hierarchy],
+  );
+
+  const [internalCheckedKeys, setInternalCheckedKeys] = useState<Set<string>>(
+    () => new Set(defaultCheckedKeys ?? []),
+  );
+  const checkedSet: Set<string> = checkedKeys !== undefined ? new Set(checkedKeys) : internalCheckedKeys;
+
+  // Cascade contract: toggleCheck never adds/removes disabled descendants,
+  // so derivation ignores them too — a parent with an unchecked disabled
+  // child still reads checked once every *enabled* descendant is checked.
+  // (An explicitly checked parent key always reads checked regardless.)
+  const enabledDescendantsOf = useCallback(
+    (key: string): string[] => {
+      const disabled = hierarchy.disabledKeys;
+      return descendantsOf(key).filter((k) => !disabled.has(k));
+    },
+    [descendantsOf, hierarchy],
+  );
+
+  const isChecked = useCallback(
+    (key: string): boolean => {
+      if (checkedSet.has(key)) return true;
+      if (!allowCheckBoxes || !allowCheckChildren) return false;
+      const desc = enabledDescendantsOf(key);
+      return desc.length > 0 && desc.every((k) => checkedSet.has(k));
+    },
+    [checkedSet, allowCheckBoxes, allowCheckChildren, enabledDescendantsOf],
+  );
+
+  const isIndeterminate = useCallback(
+    (key: string): boolean => {
+      if (!allowCheckBoxes || !allowCheckChildren || checkedSet.has(key)) return false;
+      const desc = enabledDescendantsOf(key);
+      if (desc.length === 0) return false;
+      const count = desc.filter((k) => checkedSet.has(k)).length;
+      return count > 0 && count < desc.length;
+    },
+    [checkedSet, allowCheckBoxes, allowCheckChildren, enabledDescendantsOf],
+  );
+
+  const toggleCheck = useCallback(
+    (item: TreeItem) => {
+      if (!allowCheckBoxes || !!item.disabled) return;
+      const key = getKey(item);
+      const next = new Set(checkedSet);
+      if (next.has(key) || isChecked(key)) {
+        // Uncheck: mirror the check path — single key only unless
+        // cascading, and never drop disabled descendants.
+        next.delete(key);
+        if (allowCheckChildren) {
+          for (const k of enabledDescendantsOf(key)) next.delete(k);
+        }
+      } else {
+        next.add(key);
+        if (allowCheckChildren) {
+          for (const k of enabledDescendantsOf(key)) next.add(k);
+        }
+      }
+      if (checkedKeys === undefined) setInternalCheckedKeys(next);
+      onCheckedChange?.([...next]);
+    },
+    [
+      allowCheckBoxes,
+      allowCheckChildren,
+      checkedKeys,
+      checkedSet,
+      enabledDescendantsOf,
+      getKey,
+      isChecked,
+      onCheckedChange,
+    ],
+  );
+
   // Build flat visible nodes list
   const visibleNodes: FlatNode[] = useMemo(() => {
     const result: FlatNode[] = [];
@@ -571,8 +713,20 @@ export function Tree({
         return;
       }
       if (e.key === "Enter" || e.key === " ") {
+        // A focused checkbox handles Space natively via its own onChange —
+        // return BEFORE preventDefault, which would cancel the native
+        // toggle, and without toggling here (that would double-toggle).
+        if (e.key === " " && (e.target as HTMLElement)?.tagName === "INPUT") return;
         e.preventDefault();
-        if (currentNode) handleSelect(currentNode.item);
+        if (!currentNode) return;
+        // With checkboxes, Space toggles the check (Radzen behavior) while
+        // Enter keeps selecting; without them both keys select.
+        if (e.key === " " && allowCheckBoxes) {
+          const target = findItemByKey(currentNode.key);
+          if (target) toggleCheck(target);
+          return;
+        }
+        handleSelect(currentNode.item);
         return;
       }
       if (e.key.length === 1 && /^[a-zA-Z0-9]$/.test(e.key)) {
@@ -591,7 +745,7 @@ export function Tree({
         return;
       }
     },
-    [visibleNodes, focusedKey, focusNode, handleToggleExpand, handleSelect, getParentKey],
+    [visibleNodes, focusedKey, focusNode, handleToggleExpand, handleSelect, getParentKey, allowCheckBoxes, toggleCheck],
   );
 
   const handleTreeFocus = useCallback(() => {
@@ -627,6 +781,12 @@ export function Tree({
           const setSize = nodes.length;
           const posInSet = idx + 1;
           const content = effectiveTemplate ? effectiveTemplate(item) : text;
+          const checkState = allowCheckBoxes
+            ? {
+                checked: isChecked(key),
+                indeterminate: isIndeterminate(key),
+              }
+            : null;
 
           return (
             <li key={key} role="none" className={styles.itemWrapper}>
@@ -655,6 +815,17 @@ export function Tree({
                 }}
                 onFocus={() => setFocusedKey(key)}
               >
+                {allowCheckBoxes ? (
+                  <IndeterminateCheckbox
+                    className={styles.checkbox}
+                    checked={checkState?.checked ?? false}
+                    indeterminate={checkState?.indeterminate ?? false}
+                    disabled={isDisabled}
+                    aria-label={`Select ${text}`}
+                    onClick={(e) => e.stopPropagation()}
+                    onChange={() => toggleCheck(item)}
+                  />
+                ) : null}
                 {hasChildren ? (
                   <button
                     type="button"
