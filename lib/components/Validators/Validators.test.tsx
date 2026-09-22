@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { email, maxLength, minLength, pattern, range, required, runValidators } from "./index";
+import { compare, custom, email, maxLength, minLength, pattern, range, required, requiredTrue, runValidators } from "./index";
 
 describe("required", () => {
   it("fails empty values", () => {
@@ -101,5 +101,35 @@ describe("runValidators", () => {
       value === (model as Record<string, unknown>).match ? null : "No match";
     expect(runValidators([custom], "x", { match: "x" })).toEqual([]);
     expect(runValidators([custom], "y", { match: "x" })).toEqual(["No match"]);
+  });
+});
+describe("compare", () => {
+  it("matches literals and model-derived values", () => {
+    expect(compare("a@b.c")("a@b.c")).toBeNull();
+    expect(compare("a@b.c")("x")).toBe("Values do not match");
+    expect(compare((m: Record<string, string>) => m.email)("a@b.c", { email: "a@b.c" })).toBeNull();
+    expect(compare((m: Record<string, string>) => m.email)("x", { email: "a@b.c" })).toBe(
+      "Values do not match",
+    );
+  });
+
+  it("passes empty values and accepts a custom message", () => {
+    expect(compare("x")("")).toBeNull();
+    expect(compare("x", "Must match")("y")).toBe("Must match");
+  });
+});
+
+describe("requiredTrue", () => {
+  it("accepts only true", () => {
+    expect(requiredTrue()(true)).toBeNull();
+    expect(requiredTrue()(false)).toBe("Required");
+    expect(requiredTrue()(undefined)).toBe("Required");
+  });
+});
+
+describe("custom", () => {
+  it("delegates to the provided rule", () => {
+    expect(custom(() => "Nope")("x")).toBe("Nope");
+    expect(custom((v) => (v === 1 ? null : "One"))(1)).toBeNull();
   });
 });

@@ -81,7 +81,7 @@ export type {
 
 export { getByPath } from "./components/DataFilter/filter";
 
-export { required, email, pattern, minLength, maxLength, range, runValidators } from "./components/Validators";
+export { required, email, pattern, minLength, maxLength, range, compare, requiredTrue, custom, runValidators } from "./components/Validators";
 export type { Validator } from "./components/Validators";
 
 export { Label } from "./components/Label/Label";
