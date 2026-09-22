@@ -18,6 +18,14 @@ describe("QRCode", () => {
     expect(svg).toHaveAttribute("width", "64");
   });
 
+  it("renders a labelled canvas when render is canvas", () => {
+    const { container } = render(<QRCode value="x" render="canvas" />);
+    expect(container.querySelector("svg")).not.toBeInTheDocument();
+    const canvas = container.querySelector("canvas");
+    expect(canvas).toHaveAttribute("role", "img");
+    expect(canvas).toHaveAttribute("aria-label", "QR code for x");
+  });
+
   it("is deterministic per value", () => {
     const a = render(<QRCode value="abc" />).container.querySelector("svg");
     const b = render(<QRCode value="abc" />).container.querySelector("svg");
