@@ -28,6 +28,13 @@ export interface ApplyFiltersOptions {
     caseSensitivity?: FilterCaseSensitivity;
 }
 export declare function getByPath(object: unknown, path: string): unknown;
+/**
+ * Whether a descriptor's second clause constrains matching. Mirrors the
+ * UI builder rules in DataFilter.tsx: an empty second value (undefined,
+ * null, "") constrains nothing and is skipped unless the operator is
+ * nullish (IsNull & co. need no value and still apply).
+ */
+export declare function hasSecondClause(descriptor: FilterDescriptor): boolean;
 export declare function matchesFilters(item: unknown, filters: FilterNode, options?: ApplyFiltersOptions): boolean;
 export declare function applyFilters<T>(items: readonly T[], filters: FilterNode, options?: ApplyFiltersOptions): T[];
 export declare function toFilterString(filters: FilterNode): string;
