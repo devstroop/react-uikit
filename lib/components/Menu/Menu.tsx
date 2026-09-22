@@ -58,21 +58,24 @@ export function Menu({
     [onClick, Click],
   );
 
-  const handleTopClick = (item: MenuItem, index: number) => {
-    if (isDisabled(item)) return;
-    if (item.children && item.children.length > 0) {
-      const isOpen = openIndex === index;
-      const hoveredRecently = Date.now() - hoveredAtRef.current < 600;
-      if (isOpen && hoveredRecently) {
-        hoveredAtRef.current = 0;
+  const handleTopClick = useCallback(
+    (item: MenuItem, index: number) => {
+      if (isDisabled(item)) return;
+      if (item.children && item.children.length > 0) {
+        const isOpen = openIndex === index;
+        const hoveredRecently = Date.now() - hoveredAtRef.current < 600;
+        if (isOpen && hoveredRecently) {
+          hoveredAtRef.current = 0;
+          return;
+        }
+        setOpenIndex((prev) => (prev === index ? null : index));
         return;
       }
-      setOpenIndex((prev) => (prev === index ? null : index));
-      return;
-    }
-    emit(item);
-    setOpenIndex(null);
-  };
+      emit(item);
+      setOpenIndex(null);
+    },
+    [emit, openIndex],
+  );
 
   const handleChildClick = (item: MenuItem) => {
     if (isDisabled(item)) return;
@@ -214,6 +217,9 @@ export function Menu({
       aria-label={ariaLabel}
       className={[styles.root, styles[orientation], className].filter(Boolean).join(" ")}
     >
+      {/* Roving focus lives on the item buttons (arrow-key nav below);
+          the container stays unfocused so Tab enters the active item. */}
+      {/* eslint-disable-next-line jsx-a11y/interactive-supports-focus */}
       <div
         ref={menubarRef}
         role="menubar"
@@ -227,9 +233,9 @@ export function Menu({
           const disabled = isDisabled(item);
           const submenuId = `${baseId}-submenu-${index}`;
           return (
-            <div
-              key={`${item.text}-${index}`}
-              className={styles.itemWrapper}
+          <div
+            key={`${item.text}-${index}`}
+            className={styles.itemWrapper}
               onMouseEnter={() => {
                 if (orientation === "horizontal" && hasChildren && !disabled) {
                   hoveredAtRef.current = Date.now();
