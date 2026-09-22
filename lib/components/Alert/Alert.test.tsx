@@ -47,6 +47,31 @@ describe("Alert", () => {
     expect(onDismiss).toHaveBeenCalledTimes(1);
   });
 
+  it("stays mounted when controlled visible and notifies instead", async () => {
+    const user = userEvent.setup();
+    const onVisibleChange = vi.fn();
+    render(
+      <Alert title="Heads up" dismissible visible onVisibleChange={onVisibleChange} />,
+    );
+    await user.click(screen.getByRole("button", { name: "Dismiss alert" }));
+    expect(screen.getByRole("alert")).toBeInTheDocument();
+    expect(onVisibleChange).toHaveBeenCalledWith(false);
+  });
+
+  it("hides when visible is false", () => {
+    const { container } = render(<Alert title="Heads up" visible={false} />);
+    expect(container.firstElementChild).not.toBeInTheDocument();
+  });
+
+  it("re-shows when controlled visible returns to true after a dismiss", async () => {
+    const user = userEvent.setup();
+    const { rerender } = render(<Alert title="Heads up" dismissible />);
+    await user.click(screen.getByRole("button", { name: "Dismiss alert" }));
+    expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+    rerender(<Alert title="Heads up" dismissible visible />);
+    expect(screen.getByRole("alert")).toBeInTheDocument();
+  });
+
   it.each(["filled", "flat", "outlined", "text"] as const)("applies the %s variant class", (variant) => {
     render(<Alert title="Heads up" variant={variant} />);
     expect(screen.getByRole("alert").className).toContain(variant);
