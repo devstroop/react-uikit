@@ -13,7 +13,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid transparent;
+  border: 1px solid var(--dx-color-border-strong);
   border-radius: var(--dx-radius-md);
   background-color: transparent;
   color: var(--dx-color-text);
@@ -34,6 +34,7 @@
 .selected:hover:not(:disabled) {
   background-color: var(--dx-color-primary);
   color: var(--dx-color-primary-fg);
+  border-color: var(--dx-color-primary);
 }
 
 .option:focus-visible {
