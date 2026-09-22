@@ -30,8 +30,15 @@ export interface AlertProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "
     children?: ReactNode;
     dismissible?: boolean;
     onDismiss?: () => void;
+    /**
+     * Controlled visibility (Radzen Visible parity). When `undefined` the
+     * alert manages itself: dismiss hides it. Pass `false` to hide from
+     * the parent; dismissal then only fires the callbacks below.
+     */
+    visible?: boolean;
+    onVisibleChange?: (visible: boolean) => void;
     className?: string;
 }
 /** Contextual icon per severity — Radzen Alert auto-icon parity. */
 export declare const ALERT_ICON: Record<AlertStyle, IconName>;
-export declare function Alert({ severity, variant, shade, size, title, icon, showIcon, children, dismissible, onDismiss, className, ...rest }: AlertProps): import("react").JSX.Element | null;
+export declare function Alert({ severity, variant, shade, size, title, icon, showIcon, children, dismissible, onDismiss, visible, onVisibleChange, className, ...rest }: AlertProps): import("react").JSX.Element | null;
