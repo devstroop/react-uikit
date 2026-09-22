@@ -87,7 +87,7 @@ export type { AccordionProps, AccordionItem } from './components/Accordion/Accor
 export { Textarea } from './components/Textarea/Textarea';
 export type { TextareaProps, TextareaSize } from './components/Textarea/Textarea';
 export { Typography } from './components/Typography/Typography';
-export type { TypographyProps, TypographyVariant } from './components/Typography/Typography';
+export type { TypographyProps, TypographyVariant, TypographyAlign } from './components/Typography/Typography';
 export { Dropdown } from './components/Dropdown/Dropdown';
 export type { DropdownProps, DropdownOption } from './components/Dropdown/Dropdown';
 export { Autocomplete } from './components/Autocomplete/Autocomplete';

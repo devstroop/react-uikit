@@ -27,6 +27,38 @@ describe("Typography", () => {
     });
   });
 
+  it("maps h1-h6 variants to their own headings", () => {
+    (["h1", "h2", "h3", "h4", "h5", "h6"] as const).forEach((variant) => {
+      const { container, unmount } = render(<Typography variant={variant}>heading</Typography>);
+      const element = container.firstElementChild;
+      expect(element?.tagName).toBe(variant.toUpperCase());
+      expect(element?.className).toContain(variant);
+      unmount();
+    });
+  });
+
+  it("maps subtitles to h6 (Radzen parity)", () => {
+    (["subtitle-1", "subtitle-2"] as const).forEach((variant) => {
+      const { container, unmount } = render(<Typography variant={variant}>sub</Typography>);
+      expect(container.firstElementChild?.tagName).toBe("H6");
+      expect(container.firstElementChild?.className).toContain(variant);
+      unmount();
+    });
+  });
+
+  it("applies alignment as a composable class", () => {
+    const { container } = render(
+      <Typography variant="body-1" align="center">
+        centered
+      </Typography>,
+    );
+    expect(container.firstElementChild?.className).toContain("align-center");
+  });
+
+  it("renders no alignment class by default", () => {
+    const { container } = render(<Typography>plain</Typography>);
+    expect(container.firstElementChild?.className).not.toContain("align-");
+  });
   it("renders body-2 as a paragraph", () => {
     const { container } = render(<Typography variant="body-2">body</Typography>);
     expect(container.firstElementChild?.tagName).toBe("P");
