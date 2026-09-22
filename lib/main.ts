@@ -181,7 +181,7 @@ export { Radiobuttonlist } from "./components/Radiobuttonlist/Radiobuttonlist";
 export type { RadiobuttonlistProps, RadiobuttonlistOption } from "./components/Radiobuttonlist/Radiobuttonlist";
 
 export { Selectbar } from "./components/Selectbar/Selectbar";
-export type { SelectbarProps, SelectbarOption, SelectbarSize } from "./components/Selectbar/Selectbar";
+export type { SelectbarProps, SelectbarSingleProps, SelectbarMultiProps, SelectbarOption, SelectbarSize } from "./components/Selectbar/Selectbar";
 
 export { Togglebutton } from "./components/Togglebutton/Togglebutton";
 export type { TogglebuttonProps, TogglebuttonSize } from "./components/Togglebutton/Togglebutton";
