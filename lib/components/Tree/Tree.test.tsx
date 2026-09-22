@@ -25,6 +25,86 @@ const sampleData: TreeItem[] = [
 describe("Tree", () => {
   beforeEach(() => vi.restoreAllMocks());
 
+  it("renders no checkboxes by default", () => {
+    render(<Tree data={sampleData} />);
+    expect(screen.queryByRole("checkbox")).not.toBeInTheDocument();
+  });
+
+  it("checks a parent and cascades to descendants", async () => {
+    const user = userEvent.setup();
+    const onCheckedChange = vi.fn();
+    render(<Tree data={sampleData} allowCheckBoxes onCheckedChange={onCheckedChange} />);
+    const boxes = screen.getAllByRole("checkbox");
+    expect(boxes.length).toBeGreaterThan(0);
+    await user.click(screen.getByRole("checkbox", { name: "Select Root 1" }));
+    expect(onCheckedChange).toHaveBeenLastCalledWith(
+      expect.arrayContaining(["1", "1-1", "1-3", "1-3-1"]),
+    );
+    expect(screen.getByRole("checkbox", { name: "Select Child 1-1" })).toBeChecked();
+  });
+
+  it("marks partially checked parents indeterminate", async () => {
+    const user = userEvent.setup();
+    render(<Tree data={sampleData} allowCheckBoxes />);
+    await user.click(screen.getByRole("checkbox", { name: "Select Child 1-1" }));
+    const parent = screen.getByRole("checkbox", { name: "Select Root 1" }) as HTMLInputElement;
+    expect(parent.checked).toBe(false);
+    expect(parent.indeterminate).toBe(true);
+  });
+
+  it("excludes disabled descendants from cascade derivation and payloads", async () => {
+    const user = userEvent.setup();
+    const onCheckedChange = vi.fn();
+    render(<Tree data={sampleData} allowCheckBoxes onCheckedChange={onCheckedChange} />);
+    // Check every *enabled* descendant of Root 1 (1-2 is disabled).
+    await user.click(screen.getByRole("checkbox", { name: "Select Child 1-1" }));
+    await user.click(screen.getByRole("checkbox", { name: "Select Child 1-3" }));
+    // Parent reads checked even though disabled 1-2 is unchecked.
+    expect(
+      (screen.getByRole("checkbox", { name: "Select Root 1" }) as HTMLInputElement).checked,
+    ).toBe(true);
+    // Unchecking the parent never touches the disabled key.
+    await user.click(screen.getByRole("checkbox", { name: "Select Root 1" }));
+    const last = onCheckedChange.mock.calls.at(-1)?.[0] as string[];
+    expect(last).not.toContain("1-2");
+    expect(screen.getByRole("checkbox", { name: "Select Child 1-2" })).not.toBeChecked();
+  });
+
+  it("respects controlled checkedKeys", async () => {
+    const user = userEvent.setup();
+    render(<Tree data={sampleData} allowCheckBoxes checkedKeys={["2"]} />);
+    expect((screen.getByRole("checkbox", { name: "Select Root 2" }) as HTMLInputElement).checked).toBe(
+      true,
+    );
+    await user.click(screen.getByRole("button", { name: "Expand Root 2" }));
+    expect(screen.getByRole("checkbox", { name: "Select Child 2-1" })).not.toBeChecked();
+  });
+
+  it("unchecks a single key when cascading is off", async () => {
+    const user = userEvent.setup();
+    const onCheckedChange = vi.fn();
+    render(
+      <Tree
+        data={sampleData}
+        allowCheckBoxes
+        allowCheckChildren={false}
+        defaultCheckedKeys={["1", "1-1"]}
+        onCheckedChange={onCheckedChange}
+      />,
+    );
+    await user.click(screen.getByRole("checkbox", { name: "Select Root 1" }));
+    expect(onCheckedChange).toHaveBeenLastCalledWith(["1-1"]);
+  });
+
+  it("toggles once via keyboard Space on a focused checkbox", async () => {
+    const user = userEvent.setup();
+    const onCheckedChange = vi.fn();
+    render(<Tree data={sampleData} allowCheckBoxes onCheckedChange={onCheckedChange} />);
+    screen.getByRole("checkbox", { name: "Select Child 1-1" }).focus();
+    await user.keyboard(" ");
+    expect(onCheckedChange).toHaveBeenCalledTimes(1);
+    expect(onCheckedChange).toHaveBeenLastCalledWith(["1-1"]);
+  });
   it("renders tree with role tree and aria-label", () => {
     render(<Tree data={sampleData} ariaLabel="My Tree" />);
     expect(screen.getByRole("tree", { name: "My Tree" })).toBeInTheDocument();
