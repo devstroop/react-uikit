@@ -37,6 +37,13 @@ export interface AlertProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "
   children?: ReactNode;
   dismissible?: boolean;
   onDismiss?: () => void;
+  /**
+   * Controlled visibility (Radzen Visible parity). When `undefined` the
+   * alert manages itself: dismiss hides it. Pass `false` to hide from
+   * the parent; dismissal then only fires the callbacks below.
+   */
+  visible?: boolean;
+  onVisibleChange?: (visible: boolean) => void;
   className?: string;
 }
 
@@ -68,18 +75,25 @@ export function Alert({
   children,
   dismissible = true,
   onDismiss,
+  visible,
+  onVisibleChange,
   className,
   ...rest
 }: AlertProps) {
   const [dismissed, setDismissed] = useState(false);
 
-  if (dismissed) {
+  // Uncontrolled dismissal latches only in uncontrolled mode: a later
+  // controlled `visible={true}` must always re-show.
+  if (visible === false || (visible === undefined && dismissed)) {
     return null;
   }
 
   const dismiss = () => {
-    setDismissed(true);
+    if (visible === undefined) {
+      setDismissed(true);
+    }
     onDismiss?.();
+    onVisibleChange?.(false);
   };
 
   const t = severity as string;
@@ -110,7 +124,7 @@ export function Alert({
           onClick={dismiss}
           aria-label="Dismiss alert"
         >
-          ×
+          <Icon name="close" size="sm" />
         </button>
       )}
     </div>

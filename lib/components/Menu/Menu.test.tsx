@@ -83,6 +83,20 @@ describe("Menu", () => {
     expect(screen.getByRole("menu", { name: "Products" })).toBeInTheDocument();
   });
 
+  it("keeps a hover-opened submenu open when its trigger is clicked", async () => {
+    const user = userEvent.setup();
+    render(<Menu items={items} orientation="horizontal" />);
+    const products = screen.getByRole("menuitem", { name: /Products/ });
+    const wrapper = products.closest("div");
+    if (wrapper) fireEvent.mouseEnter(wrapper);
+    expect(products).toHaveAttribute("aria-expanded", "true");
+    // Clicking the trigger of an already-open (hover-opened) submenu is a
+    // no-op, not a toggle: hover intent wins over the click.
+    await user.click(products);
+    expect(products).toHaveAttribute("aria-expanded", "true");
+    expect(screen.getByRole("menu", { name: "Products" })).toBeInTheDocument();
+  });
+
   it("fires onClick for submenu leaf and handles disabled child", async () => {
     const user = userEvent.setup();
     const onClick = vi.fn();

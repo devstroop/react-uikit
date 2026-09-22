@@ -9,6 +9,7 @@ import {
   type ReactNode,
 } from "react";
 import type { Severity } from "../../types/severity";
+import { Icon } from "../Icon/Icon";
 import styles from "./Toast.module.css";
 
 export type ToastTone = Extract<Severity, "info" | "success" | "warning" | "danger">;
@@ -337,7 +338,7 @@ export function ToastProvider({
                     onClick={() => dismiss(t.id)}
                     aria-label="Dismiss notification"
                   >
-                    ×
+                    <Icon name="close" size="sm" />
                   </button>
                 )}
                 {t.showProgress && t.durationMs > 0 && (

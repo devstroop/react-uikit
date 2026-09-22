@@ -1,4 +1,5 @@
 import { useId, useState, type ReactNode } from "react";
+import { Icon } from "../Icon/Icon";
 import styles from "./Accordion.module.css";
 
 export interface AccordionItem {
@@ -64,7 +65,7 @@ export function Accordion({
               >
                 <span className={styles.title}>{item.title}</span>
                 <span className={[styles.chevron, open ? styles.open : null].filter(Boolean).join(" ")} aria-hidden="true">
-                  ▾
+                  <Icon name="chevron-down" size={12} />
                 </span>
               </button>
             </h3>

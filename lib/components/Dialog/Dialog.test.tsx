@@ -4,6 +4,15 @@ import { describe, expect, it, vi } from "vitest";
 import { Dialog } from "./Dialog";
 
 describe("Dialog", () => {
+  it("applies explicit width and height geometry", () => {
+    render(
+      <Dialog open onClose={() => {}} title="Settings" width={640} height="50vh" />,
+    );
+    const dialog = screen.getByRole("dialog");
+    expect(dialog.style.width).toBe("640px");
+    expect(dialog.style.height).toBe("50vh");
+  });
+
   it("is hidden when closed and visible when open", () => {
     const { rerender } = render(
       <Dialog open={false} onClose={() => {}} title="Settings" />,

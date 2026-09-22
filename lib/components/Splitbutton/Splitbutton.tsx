@@ -11,6 +11,7 @@ import {
 import type { Severity } from "../../types/severity";
 import type { Shade } from "../../types/shade";
 import { resolveVariant, type Variant } from "../../types/variant";
+import { Icon } from "../Icon/Icon";
 import styles from "./Splitbutton.module.css";
 
 export type SplitbuttonSize = "sm" | "md" | "lg";
@@ -211,7 +212,7 @@ export function Splitbutton({
           }
         }}
       >
-        ▾
+        <Icon name="chevron-down" />
       </button>
       {open && (
         <div

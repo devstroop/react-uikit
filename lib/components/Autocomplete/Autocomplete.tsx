@@ -8,6 +8,7 @@ import {
   type KeyboardEvent,
 } from "react";
 import type { ComponentSize } from "../../sizes";
+import { Icon } from "../Icon/Icon";
 import styles from "./Autocomplete.module.css";
 
 export interface AutocompleteOption {
@@ -189,7 +190,7 @@ export function Autocomplete({
             aria-label="Clear"
             onClick={clear}
           >
-            ×
+            <Icon name="close" size="sm" />
           </button>
         )}
       </div>

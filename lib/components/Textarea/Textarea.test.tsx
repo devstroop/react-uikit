@@ -9,6 +9,13 @@ describe("Textarea", () => {
     expect(screen.getByLabelText("Notes")).toHaveValue("hello");
   });
 
+  it("marks invalid with aria-invalid and the invalid class", () => {
+    render(<Textarea aria-label="Notes" invalid />);
+    const box = screen.getByLabelText("Notes");
+    expect(box).toHaveAttribute("aria-invalid", "true");
+    expect(box.className).toContain("invalid");
+  });
+
   it("defaults to md size with no resize", () => {
     const { container } = render(<Textarea aria-label="Notes" />);
     const element = container.firstElementChild;

@@ -27,8 +27,8 @@ describe("Steps", () => {
     render(<Steps items={items} defaultIndex={1} />);
     const buttons = screen.getAllByRole("button");
     expect(buttons[1]).toHaveAttribute("aria-current", "step");
-    expect(buttons[0]?.textContent).toContain("✓");
-    expect(buttons[1]).not.toHaveTextContent("✓");
+    expect(buttons[0]?.querySelector("svg")).toBeInTheDocument();
+    expect(buttons[1]?.querySelector("svg")).not.toBeInTheDocument();
   });
 
   it("disables items with disabled prop", () => {

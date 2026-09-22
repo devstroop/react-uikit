@@ -8,6 +8,7 @@
  */
 
 :root {
+  color-scheme: light;
   /* color */
   --dx-color-bg: #f8fafc;
   --dx-color-surface: #ffffff;
@@ -245,6 +246,7 @@
 
 
 [data-theme="dark"] {
+  color-scheme: dark;
   /* color */
   --dx-color-bg: #0f172a;
   --dx-color-surface: #1e293b;
@@ -407,6 +409,7 @@
  * doesn't define. Explicit data-theme still wins outright (:not fails). */
 @media (prefers-color-scheme: dark) {
   :where(:root):not([data-theme]) {
+  color-scheme: dark;
   /* color */
   --dx-color-bg: #0f172a;
   --dx-color-surface: #1e293b;

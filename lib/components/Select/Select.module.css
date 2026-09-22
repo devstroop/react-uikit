@@ -33,19 +33,24 @@
 .invalid,
 .invalid:focus-visible {
   border-color: var(--dx-color-danger);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--dx-color-danger) 25%, transparent);
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--dx-color-danger) 25%, transparent);
 }
 
 .xs {
   height: var(--dx-control-height-xs);
-  padding: 6px 32px 6px 10px;
+  padding: 6px 28px 6px 10px;
   font-size: var(--dx-font-size-xs);
+  background-size: 12px;
+  background-position: right 8px center;
 }
 
 .sm {
   height: var(--dx-control-height-sm);
-  padding: 6px 32px 6px 10px;
+  padding: 6px 28px 6px 10px;
   font-size: var(--dx-font-size-xs);
+  background-size: 12px;
+  background-position: right 8px center;
 }
 
 .md {

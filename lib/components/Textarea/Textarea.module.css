@@ -22,6 +22,12 @@
   box-shadow: 0 0 0 3px var(--dx-color-focus);
 }
 
+.invalid,
+.invalid:focus-visible {
+  border-color: var(--dx-color-danger);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--dx-color-danger) 25%, transparent);
+}
+
 .xs {
   min-height: 40px;
   font-size: var(--dx-font-size-xs);

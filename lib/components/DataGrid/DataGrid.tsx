@@ -4,6 +4,7 @@ import type { FilterOperator, SortDescriptor } from "../DataFilter/filter";
 import { Pager } from "./Pager";
 import { applyGridState, columnValue, cycleSort, defaultOperatorForType, formatValue, gridColumnKey, gridFrozenOffsets, groupItems } from "./grid";
 import type { GridColumn, GridFilterState, GridSelectionMode } from "./grid";
+import { Icon } from "../Icon/Icon";
 import styles from "./DataGrid.module.css";
 
 export type PagerPosition = "Top" | "Bottom" | "TopAndBottom";
@@ -364,7 +365,7 @@ export function DataGrid<TItem = unknown>({
                 <span className={styles.groupChip}>
                   {groupedColumn?.title ?? groupBy}:{" "}
                   <button type="button" className={styles.groupRemove} onClick={handleGroupRemove} aria-label={`Remove group by ${groupedColumn?.title ?? groupBy}`}>
-                    ×
+                    <Icon name="close" size="sm" />
                   </button>
                 </span>
               ) : (

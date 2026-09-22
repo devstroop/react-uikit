@@ -56,27 +56,22 @@ controls, `role="switch"` for `Switch`, keyboard focus-visible rings.
 
 ## Theming
 
-Components consume design tokens exclusively — no hardcoded values. Tokens are generated from `uikit/specs/tokens.schema.json` via `scripts/generate-css.mjs:1` (`--dt-*`):
+Components consume design tokens exclusively — no hardcoded values. Tokens are hand-maintained in `lib/styles/tokens.css` (`--dx-*`), bundled into the published `style.css` (imported once via `lib/main.ts`):
 
-- `themes/<name>/tokens.json` → `themes/<name>/tokens.css` (generated, do not edit). Only `default` is vendored into `lib/styles/tokens.css` (`uikit.yml:13`); other themes are imported directly from `uikit/themes/<name>/tokens.css`.
-- Pick a theme by importing its tokens once, then the framework:
+- Light defaults on `:root`; dark values under `[data-theme="dark"]` on `<html>`. Hosts without an explicit `data-theme` get an OS-dark fallback via `@media (prefers-color-scheme: dark)` (specificity-capped with `:where()` so app `:root` rules win ties).
+- Toggle at runtime with the `ThemeSwitcher` component, or set `document.documentElement.dataset.theme` to `"light"` / `"dark"` yourself.
 
-```ts
-import "@devstroop/react-uikit/style.css";
-import "uikit/themes/default/tokens.css"; // or fluent/github/material/material-3/shadcn
-```
-
-Override any subset on your `:root` (or a scoped container):
+Override any subset on your `:root` (or a scoped container) — later rules win:
 
 ```css
 :root {
-  --dt-color-primary: #7c3aed;
-  --dt-color-primary-hover: #6d28d9;
-  --dt-radius-md: 6px;
+  --dx-color-primary: #7c3aed;
+  --dx-color-primary-hover: #6d28d9;
+  --dx-radius-md: 6px;
 }
 ```
 
-Dark parity via `[data-theme="dark"]` on `<html>` (only tokens with a `dark` value are re-emitted there). See `lib/styles/tokens.css` for the full vendored list and `uikit/specs/tokens.md` for the contract.
+See `lib/styles/tokens.css` for the full list (color, radius, space, font, shadow, transition/motion, z-index, control heights).
 
 ## Development
 

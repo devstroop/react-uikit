@@ -1,4 +1,5 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useMediaQuery } from "../../hooks/useMediaQuery";
 import styles from "./QRCode.module.css";
 
 export interface QRCodeProps {
@@ -49,8 +50,33 @@ function finderDark(x: number, y: number): boolean | null {
   return null;
 }
 
+/**
+ * Deterministic decorative matrix (NOT a scannable QR code).
+ *
+ * The cells are FNV-hashed payload bytes with drawn finder/timing
+ * patterns — it *looks* like a QR code for placeholders and visual
+ * parity, but no QR encoding (finder/alignment, format info,
+ * Reed-Solomon, masking) is performed. Do not print this on anything
+ * that must scan: integrate a real encoder (e.g. qrcodegen-style)
+ * for production codes.
+ */
 export function QRCode({ value, size = 128, render = "svg", ariaLabel, className }: QRCodeProps) {
   const label = ariaLabel ?? `QR code for ${value}`;
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  // Theme change subscriptions for canvas art (no CSS to inherit it).
+  const osTheme = useMediaQuery("(prefers-color-scheme: dark)");
+  const [attrTheme, setAttrTheme] = useState<string | null>(null);
+  useEffect(() => {
+    const root = document.documentElement;
+    // Initial sync on subscribe is the documented exception.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setAttrTheme(root.dataset.theme ?? null);
+    const observer = new MutationObserver(() => {
+      setAttrTheme(root.dataset.theme ?? null);
+    });
+    observer.observe(root, { attributes: true, attributeFilter: ["data-theme"] });
+    return () => observer.disconnect();
+  }, []);
   const dark = useMemo(() => {
     const bytes = hashBytes(value);
     const cells: boolean[] = [];
@@ -71,7 +97,40 @@ export function QRCode({ value, size = 128, render = "svg", ariaLabel, className
     return cells;
   }, [value]);
 
-  void render; // svg-only rendering keeps parity contract
+  useEffect(() => {
+    if (render !== "canvas") return;
+    const canvas = canvasRef.current;
+    const ctx = canvas?.getContext("2d");
+    if (!canvas || !ctx) return;
+    // Theme subscriptions only re-trigger this effect; colors are read
+    // fresh below so attribute/OS flips never leave stale art.
+    void osTheme;
+    void attrTheme;
+    const cs = getComputedStyle(canvas);
+    const fg = cs.getPropertyValue("--dx-color-text").trim() || "#000";
+    const bg = cs.getPropertyValue("--dx-color-surface").trim() || "#fff";
+    const px = size / N;
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, size, size);
+    ctx.fillStyle = fg;
+    dark.forEach((on, i) => {
+      if (on) ctx.fillRect((i % N) * px, Math.floor(i / N) * px, px + 0.5, px + 0.5);
+    });
+  }, [render, dark, size, osTheme, attrTheme]);
+
+  if (render === "canvas") {
+    return (
+      <canvas
+        ref={canvasRef}
+        className={[styles.root, className].filter(Boolean).join(" ")}
+        width={size}
+        height={size}
+        role="img"
+        aria-label={label}
+        data-value={value}
+      />
+    );
+  }
 
   const cellPx = size / N;
   const rects: React.ReactNode[] = [];
