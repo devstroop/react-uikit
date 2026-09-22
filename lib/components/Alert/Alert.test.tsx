@@ -26,11 +26,10 @@ describe("Alert", () => {
   it("shows the contextual icon by default and hides it with showIcon={false}", () => {
     const { rerender } = render(<Alert severity="success" title="Done" />);
     const alert = () => screen.getByRole("alert");
-    // Scoped to the alert node: the dismiss control renders a × character
-    // (no svg), but the query must not depend on that staying true.
-    expect(alert().querySelector("svg")).toBeInTheDocument();
+    // Scoped to the icon slot: the dismiss control renders its own svg.
+    expect(alert().querySelector('[class*="icon"] svg')).toBeInTheDocument();
     rerender(<Alert severity="success" title="Done" showIcon={false} />);
-    expect(alert().querySelector("svg")).not.toBeInTheDocument();
+    expect(alert().querySelector('[class*="icon"]')).not.toBeInTheDocument();
   });
 
   it("disappears after dismissing", async () => {

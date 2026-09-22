@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useId, useRef, type ReactNode } from "react";
+import { Icon } from "../Icon/Icon";
 import styles from "./Dialog.module.css";
 
 export type DialogSize = "sm" | "md" | "lg";
@@ -133,7 +134,7 @@ export function Dialog({
             onClick={requestClose}
             aria-label="Close dialog"
           >
-            ×
+            <Icon name="close" size="sm" />
           </button>
         </header>
       )}

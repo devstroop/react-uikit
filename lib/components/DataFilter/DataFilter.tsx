@@ -9,6 +9,7 @@ import type {
   FilterPropertyType,
   LogicalFilterOperator,
 } from "./filter";
+import { Icon } from "../Icon/Icon";
 import styles from "./DataFilter.module.css";
 
 export interface DataFilterProperty {
@@ -246,7 +247,7 @@ export function DataFilter<TItem = unknown>({
                 aria-label={`Remove condition ${index + 1}`}
                 onClick={() => removeRow(row.id)}
               >
-                ×
+                <Icon name="close" size="sm" />
               </button>
             </div>
           );

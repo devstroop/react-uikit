@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Icon } from "../Icon/Icon";
 import styles from "./PickList.module.css";
 
 export interface PickListItem {
@@ -598,7 +599,7 @@ export function PickList({
             disabled={!targetHasSelection}
             onClick={moveUp}
           >
-            ↑
+            <Icon name="chevron-up" size="sm" />
           </button>
           <button
             type="button"
@@ -608,7 +609,7 @@ export function PickList({
             disabled={!targetHasSelection}
             onClick={moveDown}
           >
-            ↓
+            <Icon name="chevron-down" size="sm" />
           </button>
         </div>
       </div>

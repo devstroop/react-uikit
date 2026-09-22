@@ -1,4 +1,5 @@
 import { useCallback, useId, useState } from "react";
+import { Icon } from "../Icon/Icon";
 import styles from "./PanelMenu.module.css";
 
 export interface PanelMenuItem {
@@ -90,7 +91,7 @@ function NestedItem({
           ) : null}
           <span className={styles.text}>{item.text}</span>
           <span className={[styles.caret, open ? styles.open : null].filter(Boolean).join(" ")} aria-hidden="true">
-            ▾
+            <Icon name="chevron-down" size={10} />
           </span>
         </button>
         {open ? (
@@ -303,7 +304,7 @@ export function PanelMenu({
                 )}
                 {hasChildren && effectiveShowArrow ? (
                   <span className={[styles.caret, isOpen ? styles.open : null].filter(Boolean).join(" ")} aria-hidden="true">
-                    ▾
+                    <Icon name="chevron-down" size={10} />
                   </span>
                 ) : null}
               </button>

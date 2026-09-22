@@ -110,7 +110,7 @@ export function Alert({
           onClick={dismiss}
           aria-label="Dismiss alert"
         >
-          ×
+          <Icon name="close" size="sm" />
         </button>
       )}
     </div>

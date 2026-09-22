@@ -1,4 +1,8 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions -- item wrappers
+   pre-open submenus for pointer users only; keyboard and touch operate
+   entirely through the focusable menuitem buttons. */
 import { useCallback, useEffect, useId, useRef, useState } from "react";
+import { Icon } from "../Icon/Icon";
 import styles from "./Menu.module.css";
 
 export interface MenuItem {
@@ -262,7 +266,7 @@ export function Menu({
                 <span className={styles.text}>{item.text}</span>
                 {hasChildren ? (
                   <span className={styles.caret} aria-hidden="true">
-                    ▾
+                    <Icon name="chevron-down" size={10} />
                   </span>
                 ) : null}
               </button>

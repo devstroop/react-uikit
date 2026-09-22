@@ -141,13 +141,13 @@ describe("PanelMenu", () => {
     render(<PanelMenu items={items} showArrow={false} />);
     const settings = screen.getByRole("button", { name: /Settings/ });
     // caret is inside but hidden; check not rendered
-    expect(settings.querySelector("span:last-child")?.textContent).not.toBe("▾");
+    expect(settings.querySelector("svg")).not.toBeInTheDocument();
   });
 
   it("showArrow true shows caret", () => {
     render(<PanelMenu items={items} showArrow />);
     const settings = screen.getByRole("button", { name: /Settings/ });
-    expect(settings.textContent).toContain("▾");
+    expect(settings.querySelector("svg")).toBeInTheDocument();
   });
 
   it("displayStyle icon hides text but shows icon", () => {

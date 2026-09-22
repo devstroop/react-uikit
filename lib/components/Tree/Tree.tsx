@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Icon } from "../Icon/Icon";
 import styles from "./Tree.module.css";
 
 export interface TreeItem {
@@ -669,7 +670,7 @@ export function Tree({
                     }}
                   >
                     <span aria-hidden="true" className={[styles.caretIcon, isExpanded ? styles.caretOpen : null].filter(Boolean).join(" ")}>
-                      ▸
+                      <Icon name="chevron-right" size={10} />
                     </span>
                   </button>
                 ) : (
