@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import userEvent from "@testing-library/user-event";
+import { describe, expect, it, vi } from "vitest";
 import { Progress } from "./Progress";
 
 describe("Progress", () => {
@@ -41,6 +42,25 @@ describe("Progress", () => {
     expect(bar).toHaveAttribute("aria-valuemin", "0");
     expect(bar).toHaveAttribute("aria-valuemax", "100");
     expect(bar.getAttribute("class")).toContain("circular");
+  });
+
+  it("forwards data, aria, and handler props to the circular svg", async () => {
+    const onClick = vi.fn();
+    render(
+      <Progress
+        value={10}
+        max={100}
+        variant="circular"
+        data-testid="ring"
+        aria-label="Loading"
+        onClick={onClick}
+      />,
+    );
+    const bar = screen.getByTestId("ring");
+    expect(bar.tagName).toBe("svg");
+    expect(bar).toHaveAttribute("aria-label", "Loading");
+    await userEvent.setup().click(bar);
+    expect(onClick).toHaveBeenCalledTimes(1);
   });
 
   it("computes circular dash geometry from the value (normalized 24-unit viewBox)", () => {

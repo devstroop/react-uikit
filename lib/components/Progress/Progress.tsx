@@ -1,4 +1,4 @@
-import { type HTMLAttributes } from "react";
+import { type HTMLAttributes, type SVGAttributes } from "react";
 import type { ComponentSize } from "../../sizes";
 import type { Severity } from "../../types/severity";
 import type { Shade } from "../../types/shade";
@@ -55,8 +55,7 @@ export function Progress({
         aria-valuenow={indeterminate ? undefined : Math.round(clamped)}
         aria-valuemin={0}
         aria-valuemax={max}
-        id={props.id}
-        style={props.style}
+        {...(props as SVGAttributes<SVGSVGElement>)}
         className={[
           styles.circular,
           styles[severity],
