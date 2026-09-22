@@ -16,6 +16,10 @@ export interface UploadProps {
     auto?: boolean;
     headers?: Record<string, string>;
     accept?: string;
+    /** Maximum files kept in the list (default unlimited). Extras are rejected via onError. */
+    maxFileCount?: number;
+    /** Maximum bytes per file. Oversize files are rejected via onError. */
+    maxFileSize?: number;
     chooseText?: string;
     children?: ReactNode;
     onProgress?: (name: string, progress: number) => void;

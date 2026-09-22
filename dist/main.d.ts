@@ -31,7 +31,7 @@ export type { GridColumn, GridFilterState, GridState, GridStateOptions, GridText
 export { applyFilters, matchesFilters, sortItems, toFilterString, toODataFilterString, FILTER_OPERATORS, DEFAULT_OPERATOR_BY_TYPE, } from './components/DataFilter/filter';
 export type { FilterOperator, LogicalFilterOperator, FilterCaseSensitivity, FilterPropertyType, FilterDescriptor, CompositeFilterDescriptor, FilterNode, SortDescriptor, SortOrder, ApplyFiltersOptions, } from './components/DataFilter/filter';
 export { getByPath } from './components/DataFilter/filter';
-export { required, email, pattern, minLength, maxLength, range, runValidators } from './components/Validators';
+export { required, email, pattern, minLength, maxLength, range, compare, requiredTrue, custom, runValidators } from './components/Validators';
 export type { Validator } from './components/Validators';
 export { Label } from './components/Label/Label';
 export { Input } from './components/Input/Input';
@@ -99,7 +99,7 @@ export type { CheckboxlistProps, CheckboxlistOption } from './components/Checkbo
 export { Radiobuttonlist } from './components/Radiobuttonlist/Radiobuttonlist';
 export type { RadiobuttonlistProps, RadiobuttonlistOption } from './components/Radiobuttonlist/Radiobuttonlist';
 export { Selectbar } from './components/Selectbar/Selectbar';
-export type { SelectbarProps, SelectbarOption, SelectbarSize } from './components/Selectbar/Selectbar';
+export type { SelectbarProps, SelectbarSingleProps, SelectbarMultiProps, SelectbarOption, SelectbarSize } from './components/Selectbar/Selectbar';
 export { Togglebutton } from './components/Togglebutton/Togglebutton';
 export type { TogglebuttonProps, TogglebuttonSize } from './components/Togglebutton/Togglebutton';
 export { Splitbutton } from './components/Splitbutton/Splitbutton';
