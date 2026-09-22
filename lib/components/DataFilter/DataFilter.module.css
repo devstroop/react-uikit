@@ -84,3 +84,28 @@
   color: var(--dx-color-fg-muted, currentColor);
   margin-left: auto;
 }
+.second {
+  padding-left: var(--dx-space-4);
+}
+
+.secondAdd {
+  padding-left: var(--dx-space-4);
+}
+
+.addSecond {
+  border: none;
+  background: none;
+  color: var(--dx-color-text-muted);
+  font-size: var(--dx-font-size-xs);
+  cursor: pointer;
+  padding: var(--dx-space-1) 0;
+}
+
+.addSecond:hover {
+  color: var(--dx-color-text);
+  text-decoration: underline;
+}
+
+.joinSelect {
+  max-width: 6rem;
+}

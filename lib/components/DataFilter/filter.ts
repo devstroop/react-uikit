@@ -51,6 +51,12 @@ export const DEFAULT_OPERATOR_BY_TYPE: Record<FilterPropertyType, FilterOperator
 
 export type FilterPropertyType = "string" | "number" | "boolean" | "date" | "enum";
 
+const NULLISH_OPERATORS: readonly FilterOperator[] = ["IsNull", "IsEmpty", "IsNotNull", "IsNotEmpty"];
+
+function isNullishOperator(operator: FilterOperator): boolean {
+  return NULLISH_OPERATORS.includes(operator);
+}
+
 export interface FilterDescriptor {
   property: string;
   operator: FilterOperator;
@@ -102,11 +108,24 @@ function compare(a: unknown, b: unknown): number {
   return sa < sb ? -1 : sa > sb ? 1 : 0;
 }
 
+/**
+ * Whether a descriptor's second clause constrains matching. Mirrors the
+ * UI builder rules in DataFilter.tsx: an empty second value (undefined,
+ * null, "") constrains nothing and is skipped unless the operator is
+ * nullish (IsNull & co. need no value and still apply).
+ */
+export function hasSecondClause(descriptor: FilterDescriptor): boolean {
+  if (descriptor.secondOperator == null) return false;
+  if (isNullishOperator(descriptor.secondOperator)) return true;
+  const value = descriptor.secondValue;
+  return value !== undefined && value !== null && value !== "";
+}
+
 function matchesDescriptor(descriptor: FilterDescriptor, item: unknown, caseSensitivity: FilterCaseSensitivity): boolean {
   const actual = getByPath(item, descriptor.property);
   const primary = testValue(actual, descriptor.value, descriptor.operator, caseSensitivity);
-  if (descriptor.secondOperator == null || descriptor.secondValue === undefined) return primary;
-  const secondary = testValue(actual, descriptor.secondValue, descriptor.secondOperator, caseSensitivity);
+  if (!hasSecondClause(descriptor)) return primary;
+  const secondary = testValue(actual, descriptor.secondValue, descriptor.secondOperator as FilterOperator, caseSensitivity);
   return (descriptor.logicalOperator ?? "And") === "And" ? primary && secondary : primary || secondary;
 }
 
@@ -245,12 +264,13 @@ function describeDescriptor(descriptor: FilterDescriptor): string {
         return "";
     }
   };
-  if (descriptor.secondOperator == null || descriptor.secondValue === undefined) {
+  if (!hasSecondClause(descriptor)) {
     return expression(descriptor.operator, descriptor.value);
   }
   const join = descriptor.logicalOperator ?? "And";
+  const secondOperator = descriptor.secondOperator as FilterOperator;
   return `(${expression(descriptor.operator, descriptor.value)} ${join} ${expression(
-    descriptor.secondOperator,
+    secondOperator,
     descriptor.secondValue,
   )})`;
 }
@@ -334,12 +354,13 @@ function odataDescriptor(
     }
   };
 
-  if (descriptor.secondOperator == null || descriptor.secondValue === undefined) {
+  if (!hasSecondClause(descriptor)) {
     return expression(descriptor.operator, descriptor.value);
   }
   const join = (descriptor.logicalOperator ?? "And") === "And" ? "and" : "or";
+  const secondOperator = descriptor.secondOperator as FilterOperator;
   return `(${expression(descriptor.operator, descriptor.value)} ${join} ${expression(
-    descriptor.secondOperator,
+    secondOperator,
     descriptor.secondValue,
   )})`;
 }
