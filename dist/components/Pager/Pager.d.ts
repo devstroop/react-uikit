@@ -46,5 +46,7 @@ export interface PagerProps {
     onPageSizeChange?: (pageSize: number) => void;
     ariaLabel?: string;
     className?: string;
+    /** Render nothing when false. Defaults to true. */
+    visible?: boolean;
 }
-export declare function Pager({ count, pageSize, page, pageNumber, defaultPage, pageSizeOptions, pageNumbersCount, alwaysVisible, horizontalAlign, showPagingSummary, showSummary, showPageSizeSelector, pagingSummaryFormat, pagingSummaryTemplate, summaryTemplate, pageSizeText, firstPageTitle, prevPageTitle, nextPageTitle, lastPageTitle, pageTitleFormat, pageAriaLabelFormat, onPageChange, onPageSizeChange, ariaLabel, className, }: PagerProps): import("react").JSX.Element | null;
+export declare function Pager({ count, pageSize, page, pageNumber, defaultPage, pageSizeOptions, pageNumbersCount, alwaysVisible, horizontalAlign, showPagingSummary, showSummary, showPageSizeSelector, pagingSummaryFormat, pagingSummaryTemplate, summaryTemplate, pageSizeText, firstPageTitle, prevPageTitle, nextPageTitle, lastPageTitle, pageTitleFormat, pageAriaLabelFormat, onPageChange, onPageSizeChange, ariaLabel, className, visible, }: PagerProps): import("react").JSX.Element | null;

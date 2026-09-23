@@ -5,5 +5,7 @@ export interface EmptyStateProps {
     description?: ReactNode;
     action?: ReactNode;
     className?: string;
+    /** Render nothing when false. Defaults to true. */
+    visible?: boolean;
 }
-export declare function EmptyState({ icon, title, description, action, className }: EmptyStateProps): import("react").JSX.Element;
+export declare function EmptyState({ icon, title, description, action, className, visible }: EmptyStateProps): import("react").JSX.Element | null;

@@ -28,5 +28,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     iconOnly?: boolean;
     /** Inline spinner + `aria-busy`, disables click. */
     loading?: boolean;
+    /** Render nothing when false. Defaults to true. */
+    visible?: boolean;
 }
 export declare const Button: import('react').ForwardRefExoticComponent<ButtonProps & import('react').RefAttributes<HTMLButtonElement>>;
