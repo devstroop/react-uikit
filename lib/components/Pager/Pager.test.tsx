@@ -90,4 +90,9 @@ describe("Pager", () => {
     // CSS modules hashes the class name, so check for substring
     expect((container.firstChild as Element).className).toMatch(/alignCenter/);
   });
+
+  it("renders nothing when visible is false", () => {
+    const { container } = render(<Pager page={1} pageSize={10} count={35} visible={false} />);
+    expect(container.firstChild).not.toBeInTheDocument();
+  });
 });

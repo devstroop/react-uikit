@@ -7,12 +7,15 @@ export type InputSize = ComponentSize;
 export interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "size"> {
   size?: InputSize;
   invalid?: boolean;
+  /** Render nothing when false. Defaults to true. */
+  visible?: boolean;
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
-  { size = "md", invalid = false, className, ...props },
+  { size = "md", invalid = false, className, visible = true, ...props },
   ref,
 ) {
+  if (visible === false) return null;
   return (
     <input
       ref={ref}

@@ -50,4 +50,9 @@ describe("Input", () => {
     await user.type(screen.getByRole("textbox", { name: "Search" }), "def");
     expect(onChange).toHaveBeenCalledTimes(3);
   });
+
+  it("renders nothing when visible is false", () => {
+    render(<Input aria-label="Search" visible={false} />);
+    expect(screen.queryByRole("textbox", { name: "Search" })).not.toBeInTheDocument();
+  });
 });

@@ -33,6 +33,8 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   iconOnly?: boolean;
   /** Inline spinner + `aria-busy`, disables click. */
   loading?: boolean;
+  /** Render nothing when false. Defaults to true. */
+  visible?: boolean;
 }
 
 const DEPRECATED_MAP: Record<DeprecatedButtonVariant, { variant: ButtonVariant; style: ButtonStyle }> = {
@@ -76,6 +78,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
     fullWidth = false,
     iconOnly = false,
     loading = false,
+    visible = true,
     className,
     type = "button",
     disabled,
@@ -84,6 +87,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
   },
   ref,
 ) {
+  if (visible === false) return null;
   const resolved = resolveVariantStyle(variant, severity);
   const shadeCls = shade !== "default" ? `shade-${shade}` : null;
   const classNames = [

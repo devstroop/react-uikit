@@ -7,12 +7,15 @@ export interface CardProps extends HTMLAttributes<HTMLDivElement> {
   variant?: CardVariant;
   header?: ReactNode;
   footer?: ReactNode;
+  /** Render nothing when false. Defaults to true. */
+  visible?: boolean;
 }
 
 export const Card = forwardRef<HTMLDivElement, CardProps>(function Card(
-  { variant = "elevated", header, footer, className, children, onKeyDown, ...props },
+  { variant = "elevated", header, footer, className, visible = true, children, onKeyDown, ...props },
   ref,
 ) {
+  if (visible === false) return null;
   const interactive = variant === "interactive";
   return (
   // Interactivity is conditional on variant="interactive" (role + tabIndex

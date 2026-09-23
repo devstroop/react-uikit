@@ -153,4 +153,13 @@ describe("Field", () => {
     expect(screen.getByText("Name")).not.toHaveAttribute("for");
     expect(screen.getByTestId("custom-control")).not.toHaveAttribute("id");
   });
+
+  it("renders nothing when visible is false", () => {
+    render(
+      <Field label="Name" visible={false}>
+        <input aria-label="Name" />
+      </Field>,
+    );
+    expect(screen.queryByText("Name")).not.toBeInTheDocument();
+  });
 });

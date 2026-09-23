@@ -60,4 +60,9 @@ describe("Badge", () => {
       expect(screen.getByText("New").className).toContain(`shade-${shade}`);
     },
   );
+
+  it("renders nothing when visible is false", () => {
+    render(<Badge visible={false}>New</Badge>);
+    expect(screen.queryByText("New")).not.toBeInTheDocument();
+  });
 });

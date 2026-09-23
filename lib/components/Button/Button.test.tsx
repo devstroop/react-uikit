@@ -53,4 +53,9 @@ describe("Button", () => {
       expect(screen.getByRole("button", { name: "Save" }).className).toContain(`shade-${shade}`);
     },
   );
+
+  it("renders nothing when visible is false", () => {
+    render(<Button visible={false}>Save</Button>);
+    expect(screen.queryByRole("button", { name: "Save" })).not.toBeInTheDocument();
+  });
 });

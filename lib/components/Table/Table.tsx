@@ -19,6 +19,8 @@ export interface TableProps<T> {
   gridLines?: GridLines;
   allowAlternatingRows?: boolean;
   className?: string;
+  /** Render nothing when false. Defaults to true. */
+  visible?: boolean;
 }
 
 export function Table<T>({
@@ -30,7 +32,9 @@ export function Table<T>({
   gridLines = "default",
   allowAlternatingRows = true,
   className,
+  visible = true,
 }: TableProps<T>) {
+  if (visible === false) return null;
   const lineClass = gridLines === "default" || gridLines === "both" ? "" : styles[gridLines];
   return (
     <div className={[styles.wrap, className].filter(Boolean).join(" ")}>

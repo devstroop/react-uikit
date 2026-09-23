@@ -96,4 +96,9 @@ describe("Progress", () => {
       expect(screen.getByRole("progressbar").className).toContain(`shade-${shade}`);
     },
   );
+
+  it("renders nothing when visible is false", () => {
+    render(<Progress value={10} visible={false} />);
+    expect(screen.queryByRole("progressbar")).not.toBeInTheDocument();
+  });
 });
