@@ -234,23 +234,128 @@
 }
 
 
-/* Shade — applies on filled primarily; flat/outlined/text mute via opacity filter fallback */
-.shade-lighter.filled {
-  filter: brightness(1.12);
+/* Shade steps per hue — consumed by the hue-agnostic shade rules below.
+   Fallbacks keep older token sets working (same sRGB ratios as tokens.css).
+   Neutral aliases base; achromatic hues included so no brightness-filter
+   fallback remains. */
+.primary {
+  --shade-lighter: var(--dx-color-primary-lighter, color-mix(in srgb, var(--dx-color-primary) 55%, white));
+  --shade-light: var(--dx-color-primary-light, color-mix(in srgb, var(--dx-color-primary) 70%, white));
+  --shade-dark: var(--dx-color-primary-dark, color-mix(in srgb, var(--dx-color-primary) 85%, black));
+  --shade-darker: var(--dx-color-primary-darker, color-mix(in srgb, var(--dx-color-primary) 70%, black));
+  --on-lighter: var(--dx-color-on-primary-lighter);
+  --on-light: var(--dx-color-on-primary-light);
+  --on-dark: var(--dx-color-on-primary-dark);
+  --on-darker: var(--dx-color-on-primary-darker);
 }
-.shade-light.filled {
-  filter: brightness(1.06);
+.secondary {
+  --shade-lighter: var(--dx-color-secondary-lighter, color-mix(in srgb, var(--dx-color-secondary) 55%, white));
+  --shade-light: var(--dx-color-secondary-light, color-mix(in srgb, var(--dx-color-secondary) 70%, white));
+  --shade-dark: var(--dx-color-secondary-dark, color-mix(in srgb, var(--dx-color-secondary) 85%, black));
+  --shade-darker: var(--dx-color-secondary-darker, color-mix(in srgb, var(--dx-color-secondary) 70%, black));
+  --on-lighter: var(--dx-color-on-secondary-lighter);
+  --on-light: var(--dx-color-on-secondary-light);
+  --on-dark: var(--dx-color-on-secondary-dark);
+  --on-darker: var(--dx-color-on-secondary-darker);
 }
-.shade-dark.filled {
-  filter: brightness(0.92);
+.light {
+  --shade-lighter: var(--dx-color-light-lighter, color-mix(in srgb, var(--dx-color-light) 55%, white));
+  --shade-light: var(--dx-color-light-light, color-mix(in srgb, var(--dx-color-light) 70%, white));
+  --shade-dark: var(--dx-color-light-dark, color-mix(in srgb, var(--dx-color-light) 85%, black));
+  --shade-darker: var(--dx-color-light-darker, color-mix(in srgb, var(--dx-color-light) 70%, black));
+  --on-lighter: var(--dx-color-on-light-lighter);
+  --on-light: var(--dx-color-on-light-light);
+  --on-dark: var(--dx-color-on-light-dark);
+  --on-darker: var(--dx-color-on-light-darker);
 }
-.shade-darker.filled {
-  filter: brightness(0.84);
+.base {
+  --shade-lighter: var(--dx-color-base-lighter, color-mix(in srgb, var(--dx-color-base) 55%, white));
+  --shade-light: var(--dx-color-base-light, color-mix(in srgb, var(--dx-color-base) 70%, white));
+  --shade-dark: var(--dx-color-base-dark, color-mix(in srgb, var(--dx-color-base) 85%, black));
+  --shade-darker: var(--dx-color-base-darker, color-mix(in srgb, var(--dx-color-base) 70%, black));
+  --on-lighter: var(--dx-color-on-base-lighter);
+  --on-light: var(--dx-color-on-base-light);
+  --on-dark: var(--dx-color-on-base-dark);
+  --on-darker: var(--dx-color-on-base-darker);
 }
-.shade-lighter:not(.filled) {
-  opacity: 0.92;
+.dark {
+  --shade-lighter: var(--dx-color-dark-lighter, color-mix(in srgb, var(--dx-color-dark) 55%, white));
+  --shade-light: var(--dx-color-dark-light, color-mix(in srgb, var(--dx-color-dark) 70%, white));
+  --shade-dark: var(--dx-color-dark-dark, color-mix(in srgb, var(--dx-color-dark) 85%, black));
+  --shade-darker: var(--dx-color-dark-darker, color-mix(in srgb, var(--dx-color-dark) 70%, black));
+  --on-lighter: var(--dx-color-on-dark-lighter);
+  --on-light: var(--dx-color-on-dark-light);
+  --on-dark: var(--dx-color-on-dark-dark);
+  --on-darker: var(--dx-color-on-dark-darker);
 }
-.shade-darker:not(.filled) {
-  opacity: 1;
-  filter: saturate(1.1);
+.info {
+  --shade-lighter: var(--dx-color-info-lighter, color-mix(in srgb, var(--dx-color-info) 55%, white));
+  --shade-light: var(--dx-color-info-light, color-mix(in srgb, var(--dx-color-info) 70%, white));
+  --shade-dark: var(--dx-color-info-dark, color-mix(in srgb, var(--dx-color-info) 85%, black));
+  --shade-darker: var(--dx-color-info-darker, color-mix(in srgb, var(--dx-color-info) 70%, black));
+  --on-lighter: var(--dx-color-on-info-lighter);
+  --on-light: var(--dx-color-on-info-light);
+  --on-dark: var(--dx-color-on-info-dark);
+  --on-darker: var(--dx-color-on-info-darker);
 }
+.success {
+  --shade-lighter: var(--dx-color-success-lighter, color-mix(in srgb, var(--dx-color-success) 55%, white));
+  --shade-light: var(--dx-color-success-light, color-mix(in srgb, var(--dx-color-success) 70%, white));
+  --shade-dark: var(--dx-color-success-dark, color-mix(in srgb, var(--dx-color-success) 85%, black));
+  --shade-darker: var(--dx-color-success-darker, color-mix(in srgb, var(--dx-color-success) 70%, black));
+  --on-lighter: var(--dx-color-on-success-lighter);
+  --on-light: var(--dx-color-on-success-light);
+  --on-dark: var(--dx-color-on-success-dark);
+  --on-darker: var(--dx-color-on-success-darker);
+}
+.warning {
+  --shade-lighter: var(--dx-color-warning-lighter, color-mix(in srgb, var(--dx-color-warning) 55%, white));
+  --shade-light: var(--dx-color-warning-light, color-mix(in srgb, var(--dx-color-warning) 70%, white));
+  --shade-dark: var(--dx-color-warning-dark, color-mix(in srgb, var(--dx-color-warning) 85%, black));
+  --shade-darker: var(--dx-color-warning-darker, color-mix(in srgb, var(--dx-color-warning) 70%, black));
+  --on-lighter: var(--dx-color-on-warning-lighter);
+  --on-light: var(--dx-color-on-warning-light);
+  --on-dark: var(--dx-color-on-warning-dark);
+  --on-darker: var(--dx-color-on-warning-darker);
+}
+.danger {
+  --shade-lighter: var(--dx-color-danger-lighter, color-mix(in srgb, var(--dx-color-danger) 55%, white));
+  --shade-light: var(--dx-color-danger-light, color-mix(in srgb, var(--dx-color-danger) 70%, white));
+  --shade-dark: var(--dx-color-danger-dark, color-mix(in srgb, var(--dx-color-danger) 85%, black));
+  --shade-darker: var(--dx-color-danger-darker, color-mix(in srgb, var(--dx-color-danger) 70%, black));
+  --on-lighter: var(--dx-color-on-danger-lighter);
+  --on-light: var(--dx-color-on-danger-light);
+  --on-dark: var(--dx-color-on-danger-dark);
+  --on-darker: var(--dx-color-on-danger-darker);
+}
+.neutral {
+  --shade-lighter: var(--dx-color-base-lighter, color-mix(in srgb, var(--dx-color-base) 55%, white));
+  --shade-light: var(--dx-color-base-light, color-mix(in srgb, var(--dx-color-base) 70%, white));
+  --shade-dark: var(--dx-color-base-dark, color-mix(in srgb, var(--dx-color-base) 85%, black));
+  --shade-darker: var(--dx-color-base-darker, color-mix(in srgb, var(--dx-color-base) 70%, black));
+  --on-lighter: var(--dx-color-on-base-lighter);
+  --on-light: var(--dx-color-on-base-light);
+  --on-dark: var(--dx-color-on-base-dark);
+  --on-darker: var(--dx-color-on-base-darker);
+}
+
+/* Shade application — hue-agnostic, token-driven, no brightness filters.
+   Pale filled steps take dark text; dark steps keep the base filled fg.
+   Flat is the default (no variant class): matched via :not() chain.
+   Lighter/light text steps suit dark surfaces. Stays last (ties win). */
+.filled.shade-lighter { background-color: var(--shade-lighter); color: var(--on-lighter); }
+.filled.shade-light { background-color: var(--shade-light); color: var(--on-light); }
+.filled.shade-dark { background-color: var(--shade-dark); }
+.filled.shade-darker { background-color: var(--shade-darker); }
+.shade-lighter:not(.filled):not(.outlined):not(.text) { background-color: color-mix(in srgb, var(--shade-lighter) 12%, transparent); }
+.shade-light:not(.filled):not(.outlined):not(.text) { background-color: color-mix(in srgb, var(--shade-light) 12%, transparent); }
+.shade-dark:not(.filled):not(.outlined):not(.text) { background-color: color-mix(in srgb, var(--shade-dark) 12%, transparent); }
+.shade-darker:not(.filled):not(.outlined):not(.text) { background-color: color-mix(in srgb, var(--shade-darker) 12%, transparent); }
+.outlined.shade-lighter { border-color: var(--shade-lighter); }
+.outlined.shade-light { border-color: var(--shade-light); }
+.outlined.shade-dark { border-color: var(--shade-dark); }
+.outlined.shade-darker { border-color: var(--shade-darker); }
+.text.shade-lighter { color: var(--shade-lighter); }
+.text.shade-light { color: var(--shade-light); }
+.text.shade-dark { color: var(--shade-dark); }
+.text.shade-darker { color: var(--shade-darker); }

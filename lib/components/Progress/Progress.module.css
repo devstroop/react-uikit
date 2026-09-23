@@ -52,20 +52,50 @@
   background: var(--dx-color-danger);
 }
 
+/* Shade steps per hue — consumed by the hue-agnostic shade rules below.
+   Fallbacks keep older token sets working (same sRGB ratios as tokens.css).
+   Only the four bar hues carry steps (the only ones with bar rules). */
+.primary {
+  --shade-lighter: var(--dx-color-primary-lighter, color-mix(in srgb, var(--dx-color-primary) 55%, white));
+  --shade-light: var(--dx-color-primary-light, color-mix(in srgb, var(--dx-color-primary) 70%, white));
+  --shade-dark: var(--dx-color-primary-dark, color-mix(in srgb, var(--dx-color-primary) 85%, black));
+  --shade-darker: var(--dx-color-primary-darker, color-mix(in srgb, var(--dx-color-primary) 70%, black));
+}
+.success {
+  --shade-lighter: var(--dx-color-success-lighter, color-mix(in srgb, var(--dx-color-success) 55%, white));
+  --shade-light: var(--dx-color-success-light, color-mix(in srgb, var(--dx-color-success) 70%, white));
+  --shade-dark: var(--dx-color-success-dark, color-mix(in srgb, var(--dx-color-success) 85%, black));
+  --shade-darker: var(--dx-color-success-darker, color-mix(in srgb, var(--dx-color-success) 70%, black));
+}
+.warning {
+  --shade-lighter: var(--dx-color-warning-lighter, color-mix(in srgb, var(--dx-color-warning) 55%, white));
+  --shade-light: var(--dx-color-warning-light, color-mix(in srgb, var(--dx-color-warning) 70%, white));
+  --shade-dark: var(--dx-color-warning-dark, color-mix(in srgb, var(--dx-color-warning) 85%, black));
+  --shade-darker: var(--dx-color-warning-darker, color-mix(in srgb, var(--dx-color-warning) 70%, black));
+}
+.danger {
+  --shade-lighter: var(--dx-color-danger-lighter, color-mix(in srgb, var(--dx-color-danger) 55%, white));
+  --shade-light: var(--dx-color-danger-light, color-mix(in srgb, var(--dx-color-danger) 70%, white));
+  --shade-dark: var(--dx-color-danger-dark, color-mix(in srgb, var(--dx-color-danger) 85%, black));
+  --shade-darker: var(--dx-color-danger-darker, color-mix(in srgb, var(--dx-color-danger) 70%, black));
+}
+
+/* Shade application — hue-agnostic, token-driven, no brightness filters.
+   Stays after the hue rules (equal specificity, later wins). */
 .shade-lighter .bar {
-  filter: brightness(1.12);
+  background: var(--shade-lighter);
 }
 
 .shade-light .bar {
-  filter: brightness(1.06);
+  background: var(--shade-light);
 }
 
 .shade-dark .bar {
-  filter: brightness(0.92);
+  background: var(--shade-dark);
 }
 
 .shade-darker .bar {
-  filter: brightness(0.84);
+  background: var(--shade-darker);
 }
 
 .indeterminate .bar {
@@ -137,6 +167,24 @@
 
 .circular.danger .fill {
   stroke: var(--dx-color-danger);
+}
+
+/* Circular shade — hue-agnostic via the root hue steps above. Placed after
+   the hue stroke rules (equal specificity, later wins). */
+.shade-lighter.circular .fill {
+  stroke: var(--shade-lighter);
+}
+
+.shade-light.circular .fill {
+  stroke: var(--shade-light);
+}
+
+.shade-dark.circular .fill {
+  stroke: var(--shade-dark);
+}
+
+.shade-darker.circular .fill {
+  stroke: var(--shade-darker);
 }
 
 .circular.indeterminate {

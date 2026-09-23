@@ -71,6 +71,28 @@ Override any subset on your `:root` (or a scoped container) — later rules win:
 }
 ```
 
+### Shade ramps
+
+Every chromatic hue (`primary`, `secondary`, `info`, `success`, `warning`, `danger`) plus the
+achromatic hues (`light`, `base`, `dark`) ships a 5-step Radzen-Shade scale, each in light and
+dark themes:
+
+| Token | Meaning |
+|---|---|
+| `--dx-color-{hue}` | Default (base) step |
+| `--dx-color-{hue}-lighter` | 45% white mix |
+| `--dx-color-{hue}-light` | 30% white mix |
+| `--dx-color-{hue}-dark` | 15% black mix |
+| `--dx-color-{hue}-darker` | 30% black mix |
+| `--dx-color-on-{hue}-{step}` | Foreground for that step (`var()` alias, drift-proof: pale steps → darker ink, dark steps → light ink, near-white/-black hues → opposite body token) |
+
+`Button`, `Badge`, `Alert`, `Progress`, and `Splitbutton` consume these through their `shade`
+prop (`lighter | light | dark | darker`) on every variant — no `brightness()` filters. Pale
+filled steps pair with dark text automatically; lighter/light `text`-variant steps suit dark
+surfaces. Hover states fall back to the base-hue hover token. Values are M3 approximations
+(AA-unverified); keep the three theme blocks (`:root`, `:root[data-theme="dark"]`, OS fallback)
+in sync when overriding.
+
 See `lib/styles/tokens.css` for the full list (color, radius, space, font, shadow, transition/motion, z-index, control heights).
 
 ## Development

@@ -52,4 +52,12 @@ describe("Badge", () => {
     render(<Badge ref={ref}>New</Badge>);
     expect(ref.current).toBe(screen.getByText("New"));
   });
+
+  it.each(["lighter", "light", "dark", "darker"] as const)(
+    "applies the shade-%s class (token-driven, no brightness filter)",
+    (shade) => {
+      render(<Badge shade={shade}>New</Badge>);
+      expect(screen.getByText("New").className).toContain(`shade-${shade}`);
+    },
+  );
 });

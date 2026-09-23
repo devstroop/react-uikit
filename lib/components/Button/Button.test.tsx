@@ -45,4 +45,12 @@ describe("Button", () => {
     await user.click(screen.getByRole("button"));
     expect(onClick).not.toHaveBeenCalled();
   });
+
+  it.each(["lighter", "light", "dark", "darker"] as const)(
+    "applies the shade-%s class (token-driven, no brightness filter)",
+    (shade) => {
+      render(<Button shade={shade}>Save</Button>);
+      expect(screen.getByRole("button", { name: "Save" }).className).toContain(`shade-${shade}`);
+    },
+  );
 });
