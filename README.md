@@ -98,9 +98,9 @@ See `lib/styles/tokens.css` for the full list (color, radius, space, font, shado
 ### Text (RadzenText parity)
 
 `Text` covers the full Radzen text hierarchy — `DisplayH1..H6`, `H1..H6`,
-`Subtitle1/2`, `Body1/2`, `Button`, `Caption`, `Overline` via `TextStyle` —
-with automatic semantic elements (`TagName="Auto"` default; override with
-`Div | Span | P | H1..H6 | A | Button | Pre | Strong`) and `TextAlign`
+`Subtitle1/2`, `Body1/2`, `Button`, `Caption`, `Overline` via `textStyle` —
+with automatic semantic elements (`tagName="Auto"` default; override with
+`Div | Span | P | H1..H6 | A | Button | Pre | Strong`) and `textAlign`
 (`Left | Right | Center | Justify | Start | End | JustifyAll`). The `Text`
 prop takes precedence over children. Pair any style with
 a `dx-text-*` color utility (`default | muted | primary | success |

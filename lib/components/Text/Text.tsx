@@ -52,14 +52,14 @@ export type TextTagName =
 export type TextAlign = "Left" | "Right" | "Center" | "Justify" | "Start" | "End" | "JustifyAll";
 
 export interface TextProps extends HTMLAttributes<HTMLElement> {
-  TextStyle?: TextStyle;
-  TagName?: TextTagName;
-  TextAlign?: TextAlign;
+  textStyle?: TextStyle;
+  tagName?: TextTagName;
+  textAlign?: TextAlign;
   /**
    * Plain text content. Takes precedence over children when set,
    * like Radzen's `Text` parameter.
    */
-  Text?: ReactNode;
+  text?: ReactNode;
   /** Render nothing when false (Radzen Visible parity). Defaults to true. */
   visible?: boolean;
 }
@@ -137,10 +137,10 @@ const CLASS_BY_ALIGN: Record<TextAlign, string> = {
 
 export const Text = forwardRef<HTMLElement, TextProps>(function Text(
   {
-    TextStyle = "Body1",
-    TagName = "Auto",
-    TextAlign,
-    Text,
+    textStyle = "Body1",
+    tagName = "Auto",
+    textAlign,
+    text,
     visible = true,
     className,
     children,
@@ -149,21 +149,21 @@ export const Text = forwardRef<HTMLElement, TextProps>(function Text(
   ref,
 ) {
   if (visible === false) return null;
-  const Tag = TagName === "Auto" ? ELEMENT_BY_TEXT_STYLE[TextStyle] : ELEMENT_BY_TAG_NAME[TagName];
+  const Tag = tagName === "Auto" ? ELEMENT_BY_TEXT_STYLE[textStyle] : ELEMENT_BY_TAG_NAME[tagName];
   return (
     <Tag
       ref={ref}
       className={[
         styles.typography,
-        styles[CLASS_BY_TEXT_STYLE[TextStyle]],
-        TextAlign ? styles[CLASS_BY_ALIGN[TextAlign]] : null,
+        styles[CLASS_BY_TEXT_STYLE[textStyle]],
+        textAlign ? styles[CLASS_BY_ALIGN[textAlign]] : null,
         className,
       ]
         .filter(Boolean)
         .join(" ")}
       {...props}
     >
-      {Text ?? children}
+      {text ?? children}
     </Tag>
   );
 });

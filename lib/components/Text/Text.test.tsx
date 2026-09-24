@@ -20,7 +20,7 @@ describe("Text", () => {
       "DisplayH6",
     ] as const;
     variants.forEach((variant, index) => {
-      const { container } = render(<Text TextStyle={variant}>heading</Text>);
+      const { container } = render(<Text textStyle={variant}>heading</Text>);
       const element = container.firstElementChild;
       expect(element?.tagName).toBe(`H${index + 1}`);
     });
@@ -28,30 +28,30 @@ describe("Text", () => {
 
   it("maps H1-H6 styles to their own headings", () => {
     (["H1", "H2", "H3", "H4", "H5", "H6"] as const).forEach((style) => {
-      const { container } = render(<Text TextStyle={style}>heading</Text>);
+      const { container } = render(<Text textStyle={style}>heading</Text>);
       expect(container.firstElementChild?.tagName).toBe(style);
     });
   });
 
   it("maps subtitles to h6 (Radzen parity)", () => {
     for (const style of ["Subtitle1", "Subtitle2"] as const) {
-      const { container } = render(<Text TextStyle={style}>sub</Text>);
+      const { container } = render(<Text textStyle={style}>sub</Text>);
       expect(container.firstElementChild?.tagName).toBe("H6");
     }
   });
 
   it("maps Body2 to a paragraph and Button/Caption/Overline to spans", () => {
-    const { container: body } = render(<Text TextStyle="Body2">body</Text>);
+    const { container: body } = render(<Text textStyle="Body2">body</Text>);
     expect(body.firstElementChild?.tagName).toBe("P");
     for (const style of ["Button", "Caption", "Overline"] as const) {
-      const { container } = render(<Text TextStyle={style}>x</Text>);
+      const { container } = render(<Text textStyle={style}>x</Text>);
       expect(container.firstElementChild?.tagName).toBe("SPAN");
     }
   });
 
   it("overrides the element via TagName (Radzen TagName parity)", () => {
     const { container } = render(
-      <Text TextStyle="H3" TagName="P">
+      <Text textStyle="H3" tagName="P">
         styled as H3
       </Text>,
     );
@@ -61,7 +61,7 @@ describe("Text", () => {
   });
 
   it("applies alignment as a composable class", () => {
-    const { container } = render(<Text TextAlign="Center">content</Text>);
+    const { container } = render(<Text textAlign="Center">content</Text>);
     expect(container.firstElementChild?.className).toContain("align-center");
   });
 
@@ -71,7 +71,7 @@ describe("Text", () => {
   });
 
   it("prefers the Text prop over children (Radzen parity)", () => {
-    render(<Text Text="plain">rich</Text>);
+    render(<Text text="plain">rich</Text>);
     expect(screen.getByText("plain")).toBeInTheDocument();
     expect(screen.queryByText("rich")).not.toBeInTheDocument();
   });
