@@ -175,7 +175,12 @@
 .icon {
   flex-shrink: 0;
   display: flex;
-  margin-top: 1px;
+  align-items: center;
+  /* Pin the icon to the title's first line at every size tier: the box
+     matches exactly one title line-height, so the icon centers on the
+     title row whether the alert is title-only or title + body. The old
+     1px nudge only aligned the default size. */
+  min-height: calc(var(--alert-title-size) * 1.4);
 }
 
 .content {
