@@ -10,7 +10,7 @@
   position: relative;
   height: 4px;
   border-radius: var(--dx-radius-full);
-  background-color: var(--dx-color-border);
+  background-color: var(--dx-border-color);
   touch-action: none;
 }
 
@@ -19,7 +19,7 @@
   top: 0;
   height: 100%;
   border-radius: var(--dx-radius-full);
-  background-color: var(--dx-color-primary);
+  background-color: var(--dx-primary-color);
   pointer-events: none;
 }
 
@@ -31,14 +31,14 @@
   box-sizing: border-box;
   border: none;
   border-radius: var(--dx-radius-full);
-  background-color: var(--dx-color-primary);
+  background-color: var(--dx-primary-color);
   box-shadow: var(--dx-shadow-sm);
   cursor: grab;
   touch-action: none;
 }
 
 .dx-slider-handle:hover:not(:disabled) {
-  background-color: var(--dx-color-primary-hover);
+  background-color: var(--dx-primary-hover-color);
 }
 
 .dx-slider-handle:active {
@@ -46,7 +46,7 @@
 }
 
 .dx-slider-handle:focus-visible {
-  outline: 2px solid var(--dx-color-outline-primary);
+  outline: 2px solid var(--dx-outline-primary-color);
   outline-offset: 2px;
 }
 

@@ -8,7 +8,7 @@
 
 .summary {
   font-size: 0.75rem;
-  color: var(--dx-color-fg-muted, currentColor);
+  color: var(--dx-fg-muted-color, currentColor);
 }
 
 .controls {
@@ -18,9 +18,9 @@
 }
 
 .button {
-  border: 1px solid var(--dx-color-border, currentColor);
+  border: 1px solid var(--dx-border-color, currentColor);
   background: none;
-  color: var(--dx-color-fg, inherit);
+  color: var(--dx-fg-color, inherit);
   min-width: 2rem;
   height: 2rem;
   padding: 0 0.375rem;
@@ -30,7 +30,7 @@
 }
 
 .button:hover:not(:disabled) {
-  background: var(--dx-color-surface-raised, transparent);
+  background: var(--dx-surface-color-raised, transparent);
 }
 
 .button:disabled {
@@ -39,13 +39,13 @@
 }
 
 .active {
-  border-color: var(--dx-color-primary, currentColor);
-  color: var(--dx-color-primary, inherit);
+  border-color: var(--dx-primary-color, currentColor);
+  color: var(--dx-primary-color, inherit);
   font-weight: 600;
 }
 
 .ellipsis {
-  color: var(--dx-color-fg-muted, currentColor);
+  color: var(--dx-fg-muted-color, currentColor);
   padding: 0 0.25rem;
 }
 
@@ -54,13 +54,13 @@
   align-items: center;
   gap: 0.5rem;
   font-size: 0.75rem;
-  color: var(--dx-color-fg-muted, currentColor);
+  color: var(--dx-fg-muted-color, currentColor);
 }
 
 .size select {
-  border: 1px solid var(--dx-color-border, currentColor);
+  border: 1px solid var(--dx-border-color, currentColor);
   background: none;
-  color: var(--dx-color-fg, inherit);
+  color: var(--dx-fg-color, inherit);
   padding: 0.25rem 0.5rem;
   border-radius: var(--dx-radius-sm);
   font-size: 0.875rem;

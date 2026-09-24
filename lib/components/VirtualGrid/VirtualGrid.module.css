@@ -1,12 +1,12 @@
 .root {
   overflow: auto;
   font-family: var(--dx-font-sans);
-  border: 1px solid var(--dx-color-border);
-  background-color: var(--dx-color-surface);
+  border: 1px solid var(--dx-border-color);
+  background-color: var(--dx-surface-color);
 }
 
 .root:focus-visible {
-  outline: 2px solid var(--dx-color-outline-primary);
+  outline: 2px solid var(--dx-outline-primary-color);
   outline-offset: 1px;
 }
 
@@ -15,8 +15,8 @@
   position: sticky;
   top: 0;
   z-index: 1;
-  background-color: var(--dx-color-surface);
-  border-bottom: 1px solid var(--dx-color-border-strong);
+  background-color: var(--dx-surface-color);
+  border-bottom: 1px solid var(--dx-border-strong-color);
 }
 
 .headCell {
@@ -24,14 +24,14 @@
   display: flex;
   align-items: center;
   padding: 0 var(--dx-space-2);
-  color: var(--dx-color-text-muted);
+  color: var(--dx-text-muted-color);
   font-size: var(--dx-font-size-sm);
   font-weight: 500;
 }
 
 .row {
   display: flex;
-  border-bottom: 1px solid var(--dx-color-border);
+  border-bottom: 1px solid var(--dx-border-color);
 }
 
 .cell {
@@ -39,7 +39,7 @@
   display: flex;
   align-items: center;
   padding: 0 var(--dx-space-2);
-  color: var(--dx-color-text);
+  color: var(--dx-text-color);
   font-size: var(--dx-font-size-sm);
   white-space: nowrap;
   overflow: hidden;

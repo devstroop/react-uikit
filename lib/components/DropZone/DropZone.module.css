@@ -7,31 +7,31 @@
   min-height: 120px;
   box-sizing: border-box;
   padding: var(--dx-space-4);
-  border: 1px dashed var(--dx-color-border-strong);
+  border: 1px dashed var(--dx-border-strong-color);
   border-radius: var(--dx-radius-md);
-  background-color: var(--dx-color-surface);
+  background-color: var(--dx-surface-color);
   transition:
     border-color var(--dx-transition-fast),
     background-color var(--dx-transition-fast);
 }
 
 .zone:focus-visible {
-  outline: 3px solid var(--dx-color-outline-primary);
+  outline: 3px solid var(--dx-outline-primary-color);
   outline-offset: 1px;
 }
 
 .dragging {
-  border-color: var(--dx-color-border-primary);
-  background-color: var(--dx-color-surface-hover);
+  border-color: var(--dx-border-primary-color);
+  background-color: var(--dx-surface-hover-color);
 }
 
 .dragging .caption {
-  color: var(--dx-color-text-primary);
+  color: var(--dx-text-primary-color);
 }
 
 .caption {
   margin: 0;
-  color: var(--dx-color-text-muted);
+  color: var(--dx-text-muted-color);
   font-family: var(--dx-font-sans);
   font-size: var(--dx-font-size-sm);
   text-align: center;
@@ -43,7 +43,7 @@
   border: none;
   border-radius: var(--dx-radius-sm);
   background-color: transparent;
-  color: var(--dx-color-text-primary);
+  color: var(--dx-text-primary-color);
   font-family: var(--dx-font-sans);
   font-size: var(--dx-font-size-sm);
   font-weight: var(--dx-font-weight-medium);
@@ -56,11 +56,11 @@
 }
 
 .browse:hover {
-  background-color: var(--dx-color-surface-hover);
+  background-color: var(--dx-surface-hover-color);
 }
 
 .browse:focus-visible {
-  outline: 2px solid var(--dx-color-outline-primary);
+  outline: 2px solid var(--dx-outline-primary-color);
   outline-offset: 1px;
 }
 

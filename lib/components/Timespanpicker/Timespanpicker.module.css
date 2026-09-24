@@ -15,10 +15,10 @@
   width: 100%;
   min-width: 0;
   box-sizing: border-box;
-  border: 1px solid var(--dx-color-border-strong);
+  border: 1px solid var(--dx-border-strong-color);
   border-radius: var(--dx-radius-md);
-  background-color: var(--dx-color-surface);
-  color: var(--dx-color-text);
+  background-color: var(--dx-surface-color);
+  color: var(--dx-text-color);
   font-family: inherit;
   transition:
     border-color var(--dx-transition-fast),
@@ -26,13 +26,13 @@
 }
 
 .dx-timespanpicker-input::placeholder {
-  color: var(--dx-color-text-muted);
+  color: var(--dx-text-muted-color);
 }
 
 .dx-timespanpicker-input:focus-visible {
   outline: none;
-  border-color: var(--dx-color-primary);
-  box-shadow: 0 0 0 3px var(--dx-color-outline-primary);
+  border-color: var(--dx-primary-color);
+  box-shadow: 0 0 0 3px var(--dx-outline-primary-color);
 }
 
 .dx-timespanpicker-input:disabled {
@@ -42,8 +42,8 @@
 
 .dx-timespanpicker-input-invalid,
 .dx-timespanpicker-input-invalid:focus-visible {
-  border-color: var(--dx-color-danger);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--dx-color-danger) 25%, transparent);
+  border-color: var(--dx-danger-color);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--dx-danger-color) 25%, transparent);
 }
 
 .dx-timespanpicker-input--xs {
@@ -89,7 +89,7 @@
   border: none;
   border-radius: var(--dx-radius-sm);
   background-color: transparent;
-  color: var(--dx-color-text-muted);
+  color: var(--dx-text-muted-color);
   cursor: pointer;
   transition:
     color var(--dx-transition-fast),
@@ -97,12 +97,12 @@
 }
 
 .dx-timespanpicker-trigger:hover:not(:disabled) {
-  color: var(--dx-color-text);
-  background-color: var(--dx-color-surface-hover);
+  color: var(--dx-text-color);
+  background-color: var(--dx-surface-hover-color);
 }
 
 .dx-timespanpicker-trigger:focus-visible {
-  outline: 2px solid var(--dx-color-outline-primary);
+  outline: 2px solid var(--dx-outline-primary-color);
   outline-offset: 1px;
 }
 
@@ -124,7 +124,7 @@
   border: none;
   border-radius: var(--dx-radius-sm);
   background-color: transparent;
-  color: var(--dx-color-text-muted);
+  color: var(--dx-text-muted-color);
   cursor: pointer;
   transition:
     color var(--dx-transition-fast),
@@ -132,12 +132,12 @@
 }
 
 .dx-timespanpicker-clear:hover {
-  color: var(--dx-color-text);
-  background-color: var(--dx-color-surface-hover);
+  color: var(--dx-text-color);
+  background-color: var(--dx-surface-hover-color);
 }
 
 .dx-timespanpicker-clear:focus-visible {
-  outline: 2px solid var(--dx-color-outline-primary);
+  outline: 2px solid var(--dx-outline-primary-color);
   outline-offset: 1px;
 }
 
@@ -146,9 +146,9 @@
   top: calc(100% + 4px);
   left: 0;
   z-index: var(--dx-z-popover);
-  border: 1px solid var(--dx-color-border-strong);
+  border: 1px solid var(--dx-border-strong-color);
   border-radius: var(--dx-radius-md);
-  background-color: var(--dx-color-surface);
+  background-color: var(--dx-surface-color);
   box-shadow: var(--dx-shadow-lg);
   padding: var(--dx-space-3);
 }
@@ -163,9 +163,9 @@
 .dx-timespanpicker-preview {
   font-size: var(--dx-font-size-sm);
   font-weight: var(--dx-font-weight-medium);
-  color: var(--dx-color-text);
+  color: var(--dx-text-color);
   text-align: center;
-  border-bottom: 1px solid var(--dx-color-border);
+  border-bottom: 1px solid var(--dx-border-color);
   padding-bottom: var(--dx-space-2);
 }
 
@@ -183,7 +183,7 @@
 
 .dx-timespanpicker-unit-label {
   font-size: var(--dx-font-size-xs);
-  color: var(--dx-color-text-muted);
+  color: var(--dx-text-muted-color);
 }
 
 .dx-timespanpicker-unit-control {
@@ -194,10 +194,10 @@
   width: 72px;
   height: 30px;
   box-sizing: border-box;
-  border: 1px solid var(--dx-color-border-strong);
+  border: 1px solid var(--dx-border-strong-color);
   border-radius: var(--dx-radius-sm);
-  background-color: var(--dx-color-surface);
-  color: var(--dx-color-text);
+  background-color: var(--dx-surface-color);
+  color: var(--dx-text-color);
   font-family: inherit;
   font-size: var(--dx-font-size-sm);
   text-align: center;
@@ -206,8 +206,8 @@
 
 .dx-timespanpicker-unit-input:focus-visible {
   outline: none;
-  border-color: var(--dx-color-primary);
-  box-shadow: 0 0 0 2px var(--dx-color-outline-primary);
+  border-color: var(--dx-primary-color);
+  box-shadow: 0 0 0 2px var(--dx-outline-primary-color);
 }
 
 .dx-timespanpicker-unit-buttons {
@@ -229,13 +229,13 @@
   border: none;
   border-radius: var(--dx-radius-xs);
   background-color: transparent;
-  color: var(--dx-color-text-muted);
+  color: var(--dx-text-muted-color);
   cursor: pointer;
 }
 
 .dx-timespanpicker-unit-buttons button:hover {
-  color: var(--dx-color-text);
-  background-color: var(--dx-color-surface-hover);
+  color: var(--dx-text-color);
+  background-color: var(--dx-surface-hover-color);
 }
 
 .dx-timespanpicker-footer {
@@ -243,7 +243,7 @@
   justify-content: flex-end;
   margin-top: var(--dx-space-2);
   padding-top: var(--dx-space-2);
-  border-top: 1px solid var(--dx-color-border);
+  border-top: 1px solid var(--dx-border-color);
 }
 
 .dx-timespanpicker-ok {
@@ -251,8 +251,8 @@
   padding: 0 var(--dx-space-4);
   border: none;
   border-radius: var(--dx-radius-md);
-  background-color: var(--dx-color-primary);
-  color: var(--dx-color-primary-fg);
+  background-color: var(--dx-primary-color);
+  color: var(--dx-primary-fg-color);
   font-family: inherit;
   font-size: var(--dx-font-size-xs);
   font-weight: var(--dx-font-weight-medium);
@@ -261,10 +261,10 @@
 }
 
 .dx-timespanpicker-ok:hover:not(:disabled) {
-  background-color: var(--dx-color-primary-hover);
+  background-color: var(--dx-primary-hover-color);
 }
 
 .dx-timespanpicker-ok:focus-visible {
-  outline: 2px solid var(--dx-color-outline-primary);
+  outline: 2px solid var(--dx-outline-primary-color);
   outline-offset: 2px;
 }

@@ -1,8 +1,8 @@
 .root {
   font-family: var(--dx-font-sans);
-  border: 1px solid var(--dx-color-border);
+  border: 1px solid var(--dx-border-color);
   border-radius: var(--dx-radius-md);
-  background-color: var(--dx-color-surface);
+  background-color: var(--dx-surface-color);
   overflow: hidden;
 }
 .header {
@@ -10,12 +10,12 @@
   align-items: center;
   justify-content: space-between;
   padding: var(--dx-space-2);
-  border-bottom: 1px solid var(--dx-color-border);
+  border-bottom: 1px solid var(--dx-border-color);
 }
 .title {
   font-size: var(--dx-font-size-sm);
   font-weight: var(--dx-font-weight-medium);
-  color: var(--dx-color-text);
+  color: var(--dx-text-color);
 }
 .navBtn {
   display: inline-flex;
@@ -23,29 +23,29 @@
   justify-content: center;
   width: 28px;
   height: 28px;
-  border: 1px solid var(--dx-color-border);
+  border: 1px solid var(--dx-border-color);
   border-radius: var(--dx-radius-sm);
-  background-color: var(--dx-color-surface);
-  color: var(--dx-color-text);
+  background-color: var(--dx-surface-color);
+  color: var(--dx-text-color);
   cursor: pointer;
 }
 .navBtn:hover {
-  background-color: var(--dx-color-surface-hover);
+  background-color: var(--dx-surface-hover-color);
 }
 .navBtn:focus-visible {
-  outline: 2px solid var(--dx-color-outline-primary);
+  outline: 2px solid var(--dx-outline-primary-color);
   outline-offset: 1px;
 }
 .resources {
   display: flex;
   gap: var(--dx-space-1);
   padding: var(--dx-space-1) var(--dx-space-2);
-  border-bottom: 1px solid var(--dx-color-border);
+  border-bottom: 1px solid var(--dx-border-color);
 }
 .resource {
   flex: 1;
   font-size: var(--dx-font-size-sm);
-  color: var(--dx-color-text-muted);
+  color: var(--dx-text-muted-color);
 }
 .grid {
   display: flex;
@@ -60,7 +60,7 @@
 }
 .timeCell {
   font-size: var(--dx-font-size-sm);
-  color: var(--dx-color-text-muted);
+  color: var(--dx-text-muted-color);
   height: 24px;
 }
 .dayCol {
@@ -73,31 +73,31 @@
 .dayHeader {
   font-size: var(--dx-font-size-sm);
   font-weight: var(--dx-font-weight-medium);
-  color: var(--dx-color-text);
+  color: var(--dx-text-color);
   text-align: center;
   padding: var(--dx-space-1);
-  border-bottom: 1px solid var(--dx-color-border);
+  border-bottom: 1px solid var(--dx-border-color);
 }
 .slot {
   height: 24px;
-  border: 1px solid var(--dx-color-border);
+  border: 1px solid var(--dx-border-color);
   border-radius: var(--dx-radius-sm);
-  background-color: var(--dx-color-surface);
+  background-color: var(--dx-surface-color);
 }
 .slot:focus-visible {
-  outline: 2px solid var(--dx-color-outline-primary);
+  outline: 2px solid var(--dx-outline-primary-color);
   outline-offset: 1px;
 }
 .event {
   padding: var(--dx-space-1);
-  border: 1px solid var(--dx-color-primary);
+  border: 1px solid var(--dx-primary-color);
   border-radius: var(--dx-radius-sm);
-  background-color: var(--dx-color-primary);
-  color: var(--dx-color-primary-fg);
+  background-color: var(--dx-primary-color);
+  color: var(--dx-primary-fg-color);
   font-size: var(--dx-font-size-sm);
   cursor: pointer;
 }
 .event:focus-visible {
-  outline: 2px solid var(--dx-color-outline-primary);
+  outline: 2px solid var(--dx-outline-primary-color);
   outline-offset: 1px;
 }

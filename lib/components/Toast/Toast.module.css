@@ -34,9 +34,9 @@
   gap: var(--dx-space-3);
   padding: var(--dx-space-3) var(--dx-space-4);
   border-radius: var(--dx-radius-md);
-  border: 1px solid var(--dx-color-border);
-  background: var(--dx-color-surface);
-  color: var(--dx-color-text);
+  border: 1px solid var(--dx-border-color);
+  background: var(--dx-surface-color);
+  color: var(--dx-text-color);
   box-shadow: var(--dx-shadow-lg);
   pointer-events: auto;
   animation: se-toast-in var(--dx-transition-base) var(--dx-ease-out);
@@ -75,23 +75,23 @@
 }
 
 .info {
-  border-color: var(--dx-color-primary);
-  background-color: color-mix(in srgb, var(--dx-color-primary) 12%, var(--dx-color-surface));
+  border-color: var(--dx-primary-color);
+  background-color: color-mix(in srgb, var(--dx-primary-color) 12%, var(--dx-surface-color));
 }
 
 .success {
-  border-color: var(--dx-color-success);
-  background-color: color-mix(in srgb, var(--dx-color-success) 12%, var(--dx-color-surface));
+  border-color: var(--dx-success-color);
+  background-color: color-mix(in srgb, var(--dx-success-color) 12%, var(--dx-surface-color));
 }
 
 .warning {
-  border-color: var(--dx-color-warning);
-  background-color: color-mix(in srgb, var(--dx-color-warning) 12%, var(--dx-color-surface));
+  border-color: var(--dx-warning-color);
+  background-color: color-mix(in srgb, var(--dx-warning-color) 12%, var(--dx-surface-color));
 }
 
 .danger {
-  border-color: var(--dx-color-danger);
-  background-color: color-mix(in srgb, var(--dx-color-danger) 12%, var(--dx-color-surface));
+  border-color: var(--dx-danger-color);
+  background-color: color-mix(in srgb, var(--dx-danger-color) 12%, var(--dx-surface-color));
 }
 
 .content {
@@ -103,29 +103,29 @@
   font-size: var(--dx-font-size-sm);
   font-weight: var(--dx-font-weight-bold);
   line-height: 1.4;
-  color: var(--dx-color-text);
+  color: var(--dx-text-color);
 }
 
 .info .title {
-  color: var(--dx-color-text-primary);
+  color: var(--dx-text-primary-color);
 }
 
 .success .title {
-  color: var(--dx-color-text-success);
+  color: var(--dx-text-success-color);
 }
 
 .warning .title {
-  color: var(--dx-color-text-warning);
+  color: var(--dx-text-warning-color);
 }
 
 .danger .title {
-  color: var(--dx-color-text-danger);
+  color: var(--dx-text-danger-color);
 }
 
 .description {
   margin-top: var(--dx-space-1);
   font-size: var(--dx-font-size-xs);
-  color: var(--dx-color-text-muted);
+  color: var(--dx-text-muted-color);
   line-height: 1.5;
 }
 
@@ -136,7 +136,7 @@
   border: none;
   border-radius: var(--dx-radius-sm);
   background: transparent;
-  color: var(--dx-color-text-muted);
+  color: var(--dx-text-muted-color);
   font-size: var(--dx-font-size-md);
   line-height: 1;
   cursor: pointer;
@@ -144,8 +144,8 @@
 }
 
 .dismiss:hover {
-  background: var(--dx-color-surface-hover);
-  color: var(--dx-color-text);
+  background: var(--dx-surface-hover-color);
+  color: var(--dx-text-color);
 }
 
 .actions {
@@ -168,27 +168,27 @@
 }
 
 .action {
-  color: var(--dx-color-text-primary);
+  color: var(--dx-text-primary-color);
 }
 
 .action:hover {
-  background: var(--dx-color-surface-hover);
-  color: var(--dx-color-text-primary);
+  background: var(--dx-surface-hover-color);
+  color: var(--dx-text-primary-color);
 }
 
 .cancel {
-  color: var(--dx-color-text-muted);
+  color: var(--dx-text-muted-color);
 }
 
 .cancel:hover {
-  background: var(--dx-color-surface-hover);
-  color: var(--dx-color-text);
+  background: var(--dx-surface-hover-color);
+  color: var(--dx-text-color);
 }
 
 .action:focus-visible,
 .cancel:focus-visible,
 .dismiss:focus-visible {
-  outline: 2px solid var(--dx-color-focus);
+  outline: 2px solid var(--dx-focus-color);
   outline-offset: 2px;
 }
 
@@ -199,7 +199,7 @@
   bottom: 0;
   height: 3px;
   border-radius: 0 0 var(--dx-radius-md) var(--dx-radius-md);
-  background-color: var(--dx-color-primary);
+  background-color: var(--dx-primary-color);
   transform-origin: left;
   animation: se-toast-progress linear;
 }
@@ -218,17 +218,17 @@
 }
 
 .info .progress {
-  background-color: var(--dx-color-primary);
+  background-color: var(--dx-primary-color);
 }
 
 .success .progress {
-  background-color: var(--dx-color-success);
+  background-color: var(--dx-success-color);
 }
 
 .warning .progress {
-  background-color: var(--dx-color-warning);
+  background-color: var(--dx-warning-color);
 }
 
 .danger .progress {
-  background-color: var(--dx-color-danger);
+  background-color: var(--dx-danger-color);
 }

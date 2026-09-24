@@ -65,8 +65,8 @@ Override any subset on your `:root` (or a scoped container) — later rules win:
 
 ```css
 :root {
-  --dx-color-primary: #7c3aed;
-  --dx-color-primary-hover: #6d28d9;
+  --dx-primary-color: #7c3aed;
+  --dx-primary-hover-color: #6d28d9;
   --dx-radius-md: 6px;
 }
 ```
@@ -79,12 +79,12 @@ dark themes:
 
 | Token | Meaning |
 |---|---|
-| `--dx-color-{hue}` | Default (base) step |
-| `--dx-color-{hue}-lighter` | 45% white mix |
-| `--dx-color-{hue}-light` | 30% white mix |
-| `--dx-color-{hue}-dark` | 15% black mix |
-| `--dx-color-{hue}-darker` | 30% black mix |
-| `--dx-color-on-{hue}-{step}` | Foreground for that step (`var()` alias, drift-proof: pale steps → darker ink, dark steps → light ink, near-white/-black hues → opposite body token) |
+| `--dx-{hue}-color` | Default (base) step |
+| `--dx-{hue}-lighter-color` | 45% white mix |
+| `--dx-{hue}-light-color` | 30% white mix |
+| `--dx-{hue}-dark-color` | 15% black mix |
+| `--dx-{hue}-darker-color` | 30% black mix |
+| `--dx-on-{hue}-{step}-color` | Foreground for that step (`var()` alias, drift-proof: pale steps → darker ink, dark steps → light ink, near-white/-black hues → opposite body token) |
 
 `Button`, `Badge`, `Alert`, `Progress`, and `Splitbutton` consume these through their `shade`
 prop (`lighter | light | dark | darker`) on every variant — no `brightness()` filters. Pale

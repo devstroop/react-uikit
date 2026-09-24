@@ -2,16 +2,16 @@
   flex-shrink: 0;
   width: var(--dx-layout-sidebar-width, 240px);
   padding: var(--dx-space-4);
-  background: var(--dx-color-surface);
+  background: var(--dx-surface-color);
   overflow-y: auto;
 }
 
 .left {
-  border-right: 1px solid var(--dx-color-border);
+  border-right: 1px solid var(--dx-border-color);
 }
 
 .right {
-  border-left: 1px solid var(--dx-color-border);
+  border-left: 1px solid var(--dx-border-color);
 }
 
 .collapsed {
@@ -54,7 +54,7 @@
   position: fixed;
   inset: 0;
   z-index: 10;
-  background: var(--dx-color-backdrop);
+  background: var(--dx-backdrop-color);
 }
 
 /* Stacking contract: mask 10 < drawer 20 < toggle 30. Drawer toggles

@@ -15,20 +15,20 @@
   align-items: center;
   padding: 0 var(--dx-space-2);
   height: 24px;
-  border: 1px solid var(--dx-color-border);
+  border: 1px solid var(--dx-border-color);
   border-radius: var(--dx-radius-sm);
-  background-color: var(--dx-color-surface);
-  color: var(--dx-color-text);
+  background-color: var(--dx-surface-color);
+  color: var(--dx-text-color);
   font-size: var(--dx-font-size-sm);
   cursor: pointer;
 }
 
 .chip:hover {
-  background-color: var(--dx-color-surface-hover);
+  background-color: var(--dx-surface-hover-color);
 }
 
 .chip:focus-visible {
-  outline: 2px solid var(--dx-color-outline-primary);
+  outline: 2px solid var(--dx-outline-primary-color);
   outline-offset: 1px;
 }
 
@@ -40,16 +40,16 @@
 
 .table th,
 .table td {
-  border: 1px solid var(--dx-color-border);
+  border: 1px solid var(--dx-border-color);
   padding: var(--dx-space-1) var(--dx-space-2);
   text-align: start;
-  color: var(--dx-color-text);
+  color: var(--dx-text-color);
 }
 
 .table thead th {
   font-weight: var(--dx-font-weight-medium);
-  color: var(--dx-color-text-muted);
-  background-color: var(--dx-color-surface);
+  color: var(--dx-text-muted-color);
+  background-color: var(--dx-surface-color);
 }
 
 .totalRow th,

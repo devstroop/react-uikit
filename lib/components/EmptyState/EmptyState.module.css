@@ -11,19 +11,19 @@
 }
 
 .icon {
-  color: var(--dx-color-text-muted);
+  color: var(--dx-text-muted-color);
   margin-bottom: var(--dx-space-1);
 }
 
 .title {
   font-size: var(--dx-font-size-md);
   font-weight: var(--dx-font-weight-bold);
-  color: var(--dx-color-text);
+  color: var(--dx-text-color);
 }
 
 .description {
   font-size: var(--dx-font-size-sm);
-  color: var(--dx-color-text-muted);
+  color: var(--dx-text-muted-color);
   max-width: 40ch;
 }
 

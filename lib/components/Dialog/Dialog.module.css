@@ -1,9 +1,9 @@
 .dialog {
   z-index: var(--dx-z-modal);
-  border: 1px solid var(--dx-color-border);
+  border: 1px solid var(--dx-border-color);
   border-radius: var(--dx-radius-lg);
-  background: var(--dx-color-surface);
-  color: var(--dx-color-text);
+  background: var(--dx-surface-color);
+  color: var(--dx-text-color);
   box-shadow: var(--dx-shadow-lg);
   padding: 0;
   width: 100%;
@@ -13,7 +13,7 @@
 }
 
 .dialog::backdrop {
-  background: var(--dx-color-backdrop);
+  background: var(--dx-backdrop-color);
 }
 
 @keyframes se-dialog-in {
@@ -45,7 +45,7 @@
   justify-content: space-between;
   gap: var(--dx-space-3);
   padding: var(--dx-space-4) var(--dx-space-5);
-  border-bottom: 1px solid var(--dx-color-border);
+  border-bottom: 1px solid var(--dx-border-color);
 }
 
 .title {
@@ -58,7 +58,7 @@
 .description {
   margin: var(--dx-space-1) 0 0;
   font-size: var(--dx-font-size-sm);
-  color: var(--dx-color-text-muted);
+  color: var(--dx-text-muted-color);
   line-height: 1.5;
 }
 
@@ -69,7 +69,7 @@
   border: none;
   border-radius: var(--dx-radius-sm);
   background: transparent;
-  color: var(--dx-color-text-muted);
+  color: var(--dx-text-muted-color);
   font-size: var(--dx-font-size-lg);
   line-height: 1;
   cursor: pointer;
@@ -77,8 +77,8 @@
 }
 
 .close:hover {
-  background: var(--dx-color-surface-hover);
-  color: var(--dx-color-text);
+  background: var(--dx-surface-hover-color);
+  color: var(--dx-text-color);
 }
 
 .body {
@@ -93,5 +93,5 @@
   justify-content: flex-end;
   gap: var(--dx-space-2);
   padding: var(--dx-space-3) var(--dx-space-5);
-  border-top: 1px solid var(--dx-color-border);
+  border-top: 1px solid var(--dx-border-color);
 }

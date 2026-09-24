@@ -25,7 +25,7 @@
   top: 14px;
   bottom: 0;
   width: 2px;
-  background-color: var(--dx-color-border);
+  background-color: var(--dx-border-color);
 }
 
 .item:last-child::before {
@@ -36,9 +36,9 @@
   width: 12px;
   height: 12px;
   border-radius: var(--dx-radius-full);
-  background-color: var(--dx-color-primary);
-  border: 2px solid var(--dx-color-surface);
-  box-shadow: 0 0 0 1px var(--dx-color-primary);
+  background-color: var(--dx-primary-color);
+  border: 2px solid var(--dx-surface-color);
+  box-shadow: 0 0 0 1px var(--dx-primary-color);
   flex-shrink: 0;
   margin-top: 3px;
 }
@@ -48,13 +48,13 @@
 }
 
 .label {
-  color: var(--dx-color-text);
+  color: var(--dx-text-color);
   font-size: var(--dx-font-size-sm);
   font-weight: var(--dx-font-weight-medium);
 }
 
 .content {
-  color: var(--dx-color-text-muted);
+  color: var(--dx-text-muted-color);
   font-size: var(--dx-font-size-sm);
   padding-top: var(--dx-space-1);
 }

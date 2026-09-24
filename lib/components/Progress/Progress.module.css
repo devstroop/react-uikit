@@ -3,7 +3,7 @@
   width: 100%;
   height: 6px;
   border-radius: var(--dx-radius-full);
-  background: var(--dx-color-surface-hover);
+  background: var(--dx-surface-hover-color);
   overflow: hidden;
 }
 
@@ -37,47 +37,47 @@
 }
 
 .primary .bar {
-  background: var(--dx-color-primary);
+  background: var(--dx-primary-color);
 }
 
 .success .bar {
-  background: var(--dx-color-success);
+  background: var(--dx-success-color);
 }
 
 .warning .bar {
-  background: var(--dx-color-warning);
+  background: var(--dx-warning-color);
 }
 
 .danger .bar {
-  background: var(--dx-color-danger);
+  background: var(--dx-danger-color);
 }
 
 /* Shade steps per hue — consumed by the hue-agnostic shade rules below.
    Fallbacks keep older token sets working (same sRGB ratios as tokens.css).
    Only the four bar hues carry steps (the only ones with bar rules). */
 .primary {
-  --shade-lighter: var(--dx-color-primary-lighter, color-mix(in srgb, var(--dx-color-primary) 55%, white));
-  --shade-light: var(--dx-color-primary-light, color-mix(in srgb, var(--dx-color-primary) 70%, white));
-  --shade-dark: var(--dx-color-primary-dark, color-mix(in srgb, var(--dx-color-primary) 85%, black));
-  --shade-darker: var(--dx-color-primary-darker, color-mix(in srgb, var(--dx-color-primary) 70%, black));
+  --shade-lighter: var(--dx-primary-lighter-color, color-mix(in srgb, var(--dx-primary-color) 55%, white));
+  --shade-light: var(--dx-primary-light-color, color-mix(in srgb, var(--dx-primary-color) 70%, white));
+  --shade-dark: var(--dx-primary-dark-color, color-mix(in srgb, var(--dx-primary-color) 85%, black));
+  --shade-darker: var(--dx-primary-darker-color, color-mix(in srgb, var(--dx-primary-color) 70%, black));
 }
 .success {
-  --shade-lighter: var(--dx-color-success-lighter, color-mix(in srgb, var(--dx-color-success) 55%, white));
-  --shade-light: var(--dx-color-success-light, color-mix(in srgb, var(--dx-color-success) 70%, white));
-  --shade-dark: var(--dx-color-success-dark, color-mix(in srgb, var(--dx-color-success) 85%, black));
-  --shade-darker: var(--dx-color-success-darker, color-mix(in srgb, var(--dx-color-success) 70%, black));
+  --shade-lighter: var(--dx-success-lighter-color, color-mix(in srgb, var(--dx-success-color) 55%, white));
+  --shade-light: var(--dx-success-light-color, color-mix(in srgb, var(--dx-success-color) 70%, white));
+  --shade-dark: var(--dx-success-dark-color, color-mix(in srgb, var(--dx-success-color) 85%, black));
+  --shade-darker: var(--dx-success-darker-color, color-mix(in srgb, var(--dx-success-color) 70%, black));
 }
 .warning {
-  --shade-lighter: var(--dx-color-warning-lighter, color-mix(in srgb, var(--dx-color-warning) 55%, white));
-  --shade-light: var(--dx-color-warning-light, color-mix(in srgb, var(--dx-color-warning) 70%, white));
-  --shade-dark: var(--dx-color-warning-dark, color-mix(in srgb, var(--dx-color-warning) 85%, black));
-  --shade-darker: var(--dx-color-warning-darker, color-mix(in srgb, var(--dx-color-warning) 70%, black));
+  --shade-lighter: var(--dx-warning-lighter-color, color-mix(in srgb, var(--dx-warning-color) 55%, white));
+  --shade-light: var(--dx-warning-light-color, color-mix(in srgb, var(--dx-warning-color) 70%, white));
+  --shade-dark: var(--dx-warning-dark-color, color-mix(in srgb, var(--dx-warning-color) 85%, black));
+  --shade-darker: var(--dx-warning-darker-color, color-mix(in srgb, var(--dx-warning-color) 70%, black));
 }
 .danger {
-  --shade-lighter: var(--dx-color-danger-lighter, color-mix(in srgb, var(--dx-color-danger) 55%, white));
-  --shade-light: var(--dx-color-danger-light, color-mix(in srgb, var(--dx-color-danger) 70%, white));
-  --shade-dark: var(--dx-color-danger-dark, color-mix(in srgb, var(--dx-color-danger) 85%, black));
-  --shade-darker: var(--dx-color-danger-darker, color-mix(in srgb, var(--dx-color-danger) 70%, black));
+  --shade-lighter: var(--dx-danger-lighter-color, color-mix(in srgb, var(--dx-danger-color) 55%, white));
+  --shade-light: var(--dx-danger-light-color, color-mix(in srgb, var(--dx-danger-color) 70%, white));
+  --shade-dark: var(--dx-danger-dark-color, color-mix(in srgb, var(--dx-danger-color) 85%, black));
+  --shade-darker: var(--dx-danger-darker-color, color-mix(in srgb, var(--dx-danger-color) 70%, black));
 }
 
 /* Shade application — hue-agnostic, token-driven, no brightness filters.
@@ -149,24 +149,24 @@
 }
 
 .track {
-  stroke: var(--dx-color-surface-hover);
+  stroke: var(--dx-surface-hover-color);
 }
 
 .fill {
-  stroke: var(--dx-color-primary);
+  stroke: var(--dx-primary-color);
   transition: stroke-dashoffset var(--dx-transition-base) var(--dx-ease-out);
 }
 
 .circular.success .fill {
-  stroke: var(--dx-color-success);
+  stroke: var(--dx-success-color);
 }
 
 .circular.warning .fill {
-  stroke: var(--dx-color-warning);
+  stroke: var(--dx-warning-color);
 }
 
 .circular.danger .fill {
-  stroke: var(--dx-color-danger);
+  stroke: var(--dx-danger-color);
 }
 
 /* Circular shade — hue-agnostic via the root hue steps above. Placed after

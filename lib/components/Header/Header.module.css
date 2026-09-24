@@ -2,6 +2,6 @@
   display: flex;
   flex-shrink: 0;
   padding: var(--dx-space-4);
-  background: var(--dx-color-surface);
-  border-bottom: 1px solid var(--dx-color-border);
+  background: var(--dx-surface-color);
+  border-bottom: 1px solid var(--dx-border-color);
 }

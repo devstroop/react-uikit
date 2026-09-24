@@ -16,7 +16,7 @@
 }
 
 .button:focus-visible {
-  outline: 2px solid var(--dx-color-outline-primary);
+  outline: 2px solid var(--dx-outline-primary-color);
   outline-offset: 2px;
 }
 
@@ -28,154 +28,154 @@
 /* ── Radzen axes: Variant (filled | flat | outlined | text) × Style (color) × Shade ── */
 .filled { border-color: transparent; }
 .flat { border-color: transparent; }
-.outlined { background-color: transparent; border-color: var(--dx-color-border-strong); }
+.outlined { background-color: transparent; border-color: var(--dx-border-strong-color); }
 .text { background-color: transparent; border-color: transparent; }
 
 /* style fills — filled + flat carry bg, outlined/text are text+border only */
-.filled.style-primary, .filled.tone-primary { background-color: var(--dx-color-primary); color: var(--dx-color-primary-fg); }
-.filled.style-primary:hover:not(:disabled), .filled.tone-primary:hover:not(:disabled) { background-color: var(--dx-color-primary-hover); }
-.flat.style-primary { background-color: color-mix(in srgb, var(--dx-color-primary) 14%, var(--dx-color-surface)); color: var(--dx-color-text-primary); }
-.outlined.style-primary, .outlined.tone-primary { color: var(--dx-color-text-primary); border-color: var(--dx-color-border-primary); }
-.text.style-primary, .text.tone-primary { color: var(--dx-color-text-primary); }
+.filled.style-primary, .filled.tone-primary { background-color: var(--dx-primary-color); color: var(--dx-primary-fg-color); }
+.filled.style-primary:hover:not(:disabled), .filled.tone-primary:hover:not(:disabled) { background-color: var(--dx-primary-hover-color); }
+.flat.style-primary { background-color: color-mix(in srgb, var(--dx-primary-color) 14%, var(--dx-surface-color)); color: var(--dx-text-primary-color); }
+.outlined.style-primary, .outlined.tone-primary { color: var(--dx-text-primary-color); border-color: var(--dx-border-primary-color); }
+.text.style-primary, .text.tone-primary { color: var(--dx-text-primary-color); }
 
-.filled.style-secondary, .filled.tone-secondary { background-color: var(--dx-color-secondary); color: var(--dx-color-secondary-fg); }
-.filled.style-secondary:hover:not(:disabled), .filled.tone-secondary:hover:not(:disabled) { background-color: var(--dx-color-secondary-hover); }
-.flat.style-secondary { background-color: var(--dx-color-surface-hover); color: var(--dx-color-text); }
-.outlined.style-secondary, .outlined.tone-secondary { color: var(--dx-color-text); }
-.text.style-secondary, .text.tone-secondary { color: var(--dx-color-text); }
+.filled.style-secondary, .filled.tone-secondary { background-color: var(--dx-secondary-color); color: var(--dx-secondary-fg-color); }
+.filled.style-secondary:hover:not(:disabled), .filled.tone-secondary:hover:not(:disabled) { background-color: var(--dx-secondary-hover-color); }
+.flat.style-secondary { background-color: var(--dx-surface-hover-color); color: var(--dx-text-color); }
+.outlined.style-secondary, .outlined.tone-secondary { color: var(--dx-text-color); }
+.text.style-secondary, .text.tone-secondary { color: var(--dx-text-color); }
 
-.filled.style-base { background-color: var(--dx-color-surface); color: var(--dx-color-text); border-color: var(--dx-color-border); }
-.filled.style-base:hover:not(:disabled) { background-color: var(--dx-color-surface-hover); }
-.flat.style-base { background-color: var(--dx-color-surface-hover); color: var(--dx-color-text); }
-.outlined.style-base { color: var(--dx-color-text); border-color: var(--dx-color-border); }
-.text.style-base { color: var(--dx-color-text); }
-.filled.style-light { background-color: var(--dx-color-surface); color: var(--dx-color-text); }
-.filled.style-light:hover:not(:disabled) { background-color: var(--dx-color-surface-hover); }
-.flat.style-light { background-color: var(--dx-color-surface-hover); color: var(--dx-color-text); }
-.outlined.style-light { color: var(--dx-color-text); border-color: var(--dx-color-border); }
-.text.style-light { color: var(--dx-color-text); }
-.filled.style-dark { background-color: var(--dx-color-text); color: var(--dx-color-surface); }
-.filled.style-dark:hover:not(:disabled) { background-color: var(--dx-color-dark-hover); }
-.flat.style-dark { background-color: color-mix(in srgb, var(--dx-color-text) 14%, var(--dx-color-surface)); color: var(--dx-color-text); }
-.outlined.style-dark { color: var(--dx-color-text); border-color: var(--dx-color-text); }
-.text.style-dark { color: var(--dx-color-text); }
+.filled.style-base { background-color: var(--dx-surface-color); color: var(--dx-text-color); border-color: var(--dx-border-color); }
+.filled.style-base:hover:not(:disabled) { background-color: var(--dx-surface-hover-color); }
+.flat.style-base { background-color: var(--dx-surface-hover-color); color: var(--dx-text-color); }
+.outlined.style-base { color: var(--dx-text-color); border-color: var(--dx-border-color); }
+.text.style-base { color: var(--dx-text-color); }
+.filled.style-light { background-color: var(--dx-surface-color); color: var(--dx-text-color); }
+.filled.style-light:hover:not(:disabled) { background-color: var(--dx-surface-hover-color); }
+.flat.style-light { background-color: var(--dx-surface-hover-color); color: var(--dx-text-color); }
+.outlined.style-light { color: var(--dx-text-color); border-color: var(--dx-border-color); }
+.text.style-light { color: var(--dx-text-color); }
+.filled.style-dark { background-color: var(--dx-text-color); color: var(--dx-surface-color); }
+.filled.style-dark:hover:not(:disabled) { background-color: var(--dx-dark-hover-color); }
+.flat.style-dark { background-color: color-mix(in srgb, var(--dx-text-color) 14%, var(--dx-surface-color)); color: var(--dx-text-color); }
+.outlined.style-dark { color: var(--dx-text-color); border-color: var(--dx-text-color); }
+.text.style-dark { color: var(--dx-text-color); }
 
-.filled.style-danger, .filled.tone-danger { background-color: var(--dx-color-danger); color: var(--dx-color-danger-fg); }
-.filled.style-danger:hover:not(:disabled), .filled.tone-danger:hover:not(:disabled) { background-color: var(--dx-color-danger-hover); }
-.flat.style-danger { background-color: color-mix(in srgb, var(--dx-color-danger) 14%, var(--dx-color-surface)); color: var(--dx-color-text-danger); }
-.outlined.style-danger, .outlined.tone-danger { color: var(--dx-color-text-danger); border-color: var(--dx-color-danger); }
-.text.style-danger, .text.tone-danger { color: var(--dx-color-text-danger); }
+.filled.style-danger, .filled.tone-danger { background-color: var(--dx-danger-color); color: var(--dx-danger-fg-color); }
+.filled.style-danger:hover:not(:disabled), .filled.tone-danger:hover:not(:disabled) { background-color: var(--dx-danger-hover-color); }
+.flat.style-danger { background-color: color-mix(in srgb, var(--dx-danger-color) 14%, var(--dx-surface-color)); color: var(--dx-text-danger-color); }
+.outlined.style-danger, .outlined.tone-danger { color: var(--dx-text-danger-color); border-color: var(--dx-danger-color); }
+.text.style-danger, .text.tone-danger { color: var(--dx-text-danger-color); }
 
-.filled.style-success, .filled.tone-success { background-color: var(--dx-color-success); color: var(--dx-color-success-fg); }
-.filled.style-success:hover:not(:disabled), .filled.tone-success:hover:not(:disabled) { background-color: var(--dx-color-success-hover); }
-.flat.style-success { background-color: color-mix(in srgb, var(--dx-color-success) 14%, var(--dx-color-surface)); color: var(--dx-color-text-success); }
-.outlined.style-success, .outlined.tone-success { color: var(--dx-color-text-success); border-color: var(--dx-color-success); }
-.text.style-success, .text.tone-success { color: var(--dx-color-text-success); }
+.filled.style-success, .filled.tone-success { background-color: var(--dx-success-color); color: var(--dx-success-fg-color); }
+.filled.style-success:hover:not(:disabled), .filled.tone-success:hover:not(:disabled) { background-color: var(--dx-success-hover-color); }
+.flat.style-success { background-color: color-mix(in srgb, var(--dx-success-color) 14%, var(--dx-surface-color)); color: var(--dx-text-success-color); }
+.outlined.style-success, .outlined.tone-success { color: var(--dx-text-success-color); border-color: var(--dx-success-color); }
+.text.style-success, .text.tone-success { color: var(--dx-text-success-color); }
 
-.filled.style-warning, .filled.tone-warning { background-color: var(--dx-color-warning); color: var(--dx-color-warning-fg); }
-.filled.style-warning:hover:not(:disabled), .filled.tone-warning:hover:not(:disabled) { background-color: var(--dx-color-warning-hover); }
-.flat.style-warning { background-color: color-mix(in srgb, var(--dx-color-warning) 14%, var(--dx-color-surface)); color: var(--dx-color-text-warning); }
-.outlined.style-warning, .outlined.tone-warning { color: var(--dx-color-text-warning); border-color: var(--dx-color-warning); }
-.text.style-warning, .text.tone-warning { color: var(--dx-color-text-warning); }
+.filled.style-warning, .filled.tone-warning { background-color: var(--dx-warning-color); color: var(--dx-warning-fg-color); }
+.filled.style-warning:hover:not(:disabled), .filled.tone-warning:hover:not(:disabled) { background-color: var(--dx-warning-hover-color); }
+.flat.style-warning { background-color: color-mix(in srgb, var(--dx-warning-color) 14%, var(--dx-surface-color)); color: var(--dx-text-warning-color); }
+.outlined.style-warning, .outlined.tone-warning { color: var(--dx-text-warning-color); border-color: var(--dx-warning-color); }
+.text.style-warning, .text.tone-warning { color: var(--dx-text-warning-color); }
 
-.filled.style-info, .filled.tone-info { background-color: var(--dx-color-info); color: var(--dx-color-info-fg); }
-.filled.style-info:hover:not(:disabled), .filled.tone-info:hover:not(:disabled) { background-color: var(--dx-color-info-hover); }
-.flat.style-info { background-color: color-mix(in srgb, var(--dx-color-info) 14%, var(--dx-color-surface)); color: var(--dx-color-text-info); }
-.outlined.style-info, .outlined.tone-info { color: var(--dx-color-text-info); border-color: var(--dx-color-info); }
-.text.style-info, .text.tone-info { color: var(--dx-color-text-info); }
+.filled.style-info, .filled.tone-info { background-color: var(--dx-info-color); color: var(--dx-info-fg-color); }
+.filled.style-info:hover:not(:disabled), .filled.tone-info:hover:not(:disabled) { background-color: var(--dx-info-hover-color); }
+.flat.style-info { background-color: color-mix(in srgb, var(--dx-info-color) 14%, var(--dx-surface-color)); color: var(--dx-text-info-color); }
+.outlined.style-info, .outlined.tone-info { color: var(--dx-text-info-color); border-color: var(--dx-info-color); }
+.text.style-info, .text.tone-info { color: var(--dx-text-info-color); }
 
 /* Shade steps per Style — consumed by the hue-agnostic shade rules below.
    Fallbacks keep older token sets working (same sRGB ratios as tokens.css).
    Achromatic hues included so no brightness-filter fallback remains. */
 .style-primary, .tone-primary {
-  --shade-lighter: var(--dx-color-primary-lighter, color-mix(in srgb, var(--dx-color-primary) 55%, white));
-  --shade-light: var(--dx-color-primary-light, color-mix(in srgb, var(--dx-color-primary) 70%, white));
-  --shade-dark: var(--dx-color-primary-dark, color-mix(in srgb, var(--dx-color-primary) 85%, black));
-  --shade-darker: var(--dx-color-primary-darker, color-mix(in srgb, var(--dx-color-primary) 70%, black));
-  --on-lighter: var(--dx-color-on-primary-lighter);
-  --on-light: var(--dx-color-on-primary-light);
-  --on-dark: var(--dx-color-on-primary-dark);
-  --on-darker: var(--dx-color-on-primary-darker);
+  --shade-lighter: var(--dx-primary-lighter-color, color-mix(in srgb, var(--dx-primary-color) 55%, white));
+  --shade-light: var(--dx-primary-light-color, color-mix(in srgb, var(--dx-primary-color) 70%, white));
+  --shade-dark: var(--dx-primary-dark-color, color-mix(in srgb, var(--dx-primary-color) 85%, black));
+  --shade-darker: var(--dx-primary-darker-color, color-mix(in srgb, var(--dx-primary-color) 70%, black));
+  --on-lighter: var(--dx-on-primary-lighter-color);
+  --on-light: var(--dx-on-primary-light-color);
+  --on-dark: var(--dx-on-primary-dark-color);
+  --on-darker: var(--dx-on-primary-darker-color);
 }
 .style-secondary, .tone-secondary {
-  --shade-lighter: var(--dx-color-secondary-lighter, color-mix(in srgb, var(--dx-color-secondary) 55%, white));
-  --shade-light: var(--dx-color-secondary-light, color-mix(in srgb, var(--dx-color-secondary) 70%, white));
-  --shade-dark: var(--dx-color-secondary-dark, color-mix(in srgb, var(--dx-color-secondary) 85%, black));
-  --shade-darker: var(--dx-color-secondary-darker, color-mix(in srgb, var(--dx-color-secondary) 70%, black));
-  --on-lighter: var(--dx-color-on-secondary-lighter);
-  --on-light: var(--dx-color-on-secondary-light);
-  --on-dark: var(--dx-color-on-secondary-dark);
-  --on-darker: var(--dx-color-on-secondary-darker);
+  --shade-lighter: var(--dx-secondary-lighter-color, color-mix(in srgb, var(--dx-secondary-color) 55%, white));
+  --shade-light: var(--dx-secondary-light-color, color-mix(in srgb, var(--dx-secondary-color) 70%, white));
+  --shade-dark: var(--dx-secondary-dark-color, color-mix(in srgb, var(--dx-secondary-color) 85%, black));
+  --shade-darker: var(--dx-secondary-darker-color, color-mix(in srgb, var(--dx-secondary-color) 70%, black));
+  --on-lighter: var(--dx-on-secondary-lighter-color);
+  --on-light: var(--dx-on-secondary-light-color);
+  --on-dark: var(--dx-on-secondary-dark-color);
+  --on-darker: var(--dx-on-secondary-darker-color);
 }
 .style-base {
-  --shade-lighter: var(--dx-color-base-lighter, color-mix(in srgb, var(--dx-color-base) 55%, white));
-  --shade-light: var(--dx-color-base-light, color-mix(in srgb, var(--dx-color-base) 70%, white));
-  --shade-dark: var(--dx-color-base-dark, color-mix(in srgb, var(--dx-color-base) 85%, black));
-  --shade-darker: var(--dx-color-base-darker, color-mix(in srgb, var(--dx-color-base) 70%, black));
-  --on-lighter: var(--dx-color-on-base-lighter);
-  --on-light: var(--dx-color-on-base-light);
-  --on-dark: var(--dx-color-on-base-dark);
-  --on-darker: var(--dx-color-on-base-darker);
+  --shade-lighter: var(--dx-base-lighter-color, color-mix(in srgb, var(--dx-base-color) 55%, white));
+  --shade-light: var(--dx-base-light-color, color-mix(in srgb, var(--dx-base-color) 70%, white));
+  --shade-dark: var(--dx-base-dark-color, color-mix(in srgb, var(--dx-base-color) 85%, black));
+  --shade-darker: var(--dx-base-darker-color, color-mix(in srgb, var(--dx-base-color) 70%, black));
+  --on-lighter: var(--dx-on-base-lighter-color);
+  --on-light: var(--dx-on-base-light-color);
+  --on-dark: var(--dx-on-base-dark-color);
+  --on-darker: var(--dx-on-base-darker-color);
 }
 .style-light {
-  --shade-lighter: var(--dx-color-light-lighter, color-mix(in srgb, var(--dx-color-light) 55%, white));
-  --shade-light: var(--dx-color-light-light, color-mix(in srgb, var(--dx-color-light) 70%, white));
-  --shade-dark: var(--dx-color-light-dark, color-mix(in srgb, var(--dx-color-light) 85%, black));
-  --shade-darker: var(--dx-color-light-darker, color-mix(in srgb, var(--dx-color-light) 70%, black));
-  --on-lighter: var(--dx-color-on-light-lighter);
-  --on-light: var(--dx-color-on-light-light);
-  --on-dark: var(--dx-color-on-light-dark);
-  --on-darker: var(--dx-color-on-light-darker);
+  --shade-lighter: var(--dx-light-lighter-color, color-mix(in srgb, var(--dx-light-color) 55%, white));
+  --shade-light: var(--dx-light-light-color, color-mix(in srgb, var(--dx-light-color) 70%, white));
+  --shade-dark: var(--dx-light-dark-color, color-mix(in srgb, var(--dx-light-color) 85%, black));
+  --shade-darker: var(--dx-light-darker-color, color-mix(in srgb, var(--dx-light-color) 70%, black));
+  --on-lighter: var(--dx-on-light-lighter-color);
+  --on-light: var(--dx-on-light-light-color);
+  --on-dark: var(--dx-on-light-dark-color);
+  --on-darker: var(--dx-on-light-darker-color);
 }
 .style-dark {
-  --shade-lighter: var(--dx-color-dark-lighter, color-mix(in srgb, var(--dx-color-dark) 55%, white));
-  --shade-light: var(--dx-color-dark-light, color-mix(in srgb, var(--dx-color-dark) 70%, white));
-  --shade-dark: var(--dx-color-dark-dark, color-mix(in srgb, var(--dx-color-dark) 85%, black));
-  --shade-darker: var(--dx-color-dark-darker, color-mix(in srgb, var(--dx-color-dark) 70%, black));
-  --on-lighter: var(--dx-color-on-dark-lighter);
-  --on-light: var(--dx-color-on-dark-light);
-  --on-dark: var(--dx-color-on-dark-dark);
-  --on-darker: var(--dx-color-on-dark-darker);
+  --shade-lighter: var(--dx-dark-lighter-color, color-mix(in srgb, var(--dx-dark-color) 55%, white));
+  --shade-light: var(--dx-dark-light-color, color-mix(in srgb, var(--dx-dark-color) 70%, white));
+  --shade-dark: var(--dx-dark-dark-color, color-mix(in srgb, var(--dx-dark-color) 85%, black));
+  --shade-darker: var(--dx-dark-darker-color, color-mix(in srgb, var(--dx-dark-color) 70%, black));
+  --on-lighter: var(--dx-on-dark-lighter-color);
+  --on-light: var(--dx-on-dark-light-color);
+  --on-dark: var(--dx-on-dark-dark-color);
+  --on-darker: var(--dx-on-dark-darker-color);
 }
 .style-danger, .tone-danger {
-  --shade-lighter: var(--dx-color-danger-lighter, color-mix(in srgb, var(--dx-color-danger) 55%, white));
-  --shade-light: var(--dx-color-danger-light, color-mix(in srgb, var(--dx-color-danger) 70%, white));
-  --shade-dark: var(--dx-color-danger-dark, color-mix(in srgb, var(--dx-color-danger) 85%, black));
-  --shade-darker: var(--dx-color-danger-darker, color-mix(in srgb, var(--dx-color-danger) 70%, black));
-  --on-lighter: var(--dx-color-on-danger-lighter);
-  --on-light: var(--dx-color-on-danger-light);
-  --on-dark: var(--dx-color-on-danger-dark);
-  --on-darker: var(--dx-color-on-danger-darker);
+  --shade-lighter: var(--dx-danger-lighter-color, color-mix(in srgb, var(--dx-danger-color) 55%, white));
+  --shade-light: var(--dx-danger-light-color, color-mix(in srgb, var(--dx-danger-color) 70%, white));
+  --shade-dark: var(--dx-danger-dark-color, color-mix(in srgb, var(--dx-danger-color) 85%, black));
+  --shade-darker: var(--dx-danger-darker-color, color-mix(in srgb, var(--dx-danger-color) 70%, black));
+  --on-lighter: var(--dx-on-danger-lighter-color);
+  --on-light: var(--dx-on-danger-light-color);
+  --on-dark: var(--dx-on-danger-dark-color);
+  --on-darker: var(--dx-on-danger-darker-color);
 }
 .style-success, .tone-success {
-  --shade-lighter: var(--dx-color-success-lighter, color-mix(in srgb, var(--dx-color-success) 55%, white));
-  --shade-light: var(--dx-color-success-light, color-mix(in srgb, var(--dx-color-success) 70%, white));
-  --shade-dark: var(--dx-color-success-dark, color-mix(in srgb, var(--dx-color-success) 85%, black));
-  --shade-darker: var(--dx-color-success-darker, color-mix(in srgb, var(--dx-color-success) 70%, black));
-  --on-lighter: var(--dx-color-on-success-lighter);
-  --on-light: var(--dx-color-on-success-light);
-  --on-dark: var(--dx-color-on-success-dark);
-  --on-darker: var(--dx-color-on-success-darker);
+  --shade-lighter: var(--dx-success-lighter-color, color-mix(in srgb, var(--dx-success-color) 55%, white));
+  --shade-light: var(--dx-success-light-color, color-mix(in srgb, var(--dx-success-color) 70%, white));
+  --shade-dark: var(--dx-success-dark-color, color-mix(in srgb, var(--dx-success-color) 85%, black));
+  --shade-darker: var(--dx-success-darker-color, color-mix(in srgb, var(--dx-success-color) 70%, black));
+  --on-lighter: var(--dx-on-success-lighter-color);
+  --on-light: var(--dx-on-success-light-color);
+  --on-dark: var(--dx-on-success-dark-color);
+  --on-darker: var(--dx-on-success-darker-color);
 }
 .style-warning, .tone-warning {
-  --shade-lighter: var(--dx-color-warning-lighter, color-mix(in srgb, var(--dx-color-warning) 55%, white));
-  --shade-light: var(--dx-color-warning-light, color-mix(in srgb, var(--dx-color-warning) 70%, white));
-  --shade-dark: var(--dx-color-warning-dark, color-mix(in srgb, var(--dx-color-warning) 85%, black));
-  --shade-darker: var(--dx-color-warning-darker, color-mix(in srgb, var(--dx-color-warning) 70%, black));
-  --on-lighter: var(--dx-color-on-warning-lighter);
-  --on-light: var(--dx-color-on-warning-light);
-  --on-dark: var(--dx-color-on-warning-dark);
-  --on-darker: var(--dx-color-on-warning-darker);
+  --shade-lighter: var(--dx-warning-lighter-color, color-mix(in srgb, var(--dx-warning-color) 55%, white));
+  --shade-light: var(--dx-warning-light-color, color-mix(in srgb, var(--dx-warning-color) 70%, white));
+  --shade-dark: var(--dx-warning-dark-color, color-mix(in srgb, var(--dx-warning-color) 85%, black));
+  --shade-darker: var(--dx-warning-darker-color, color-mix(in srgb, var(--dx-warning-color) 70%, black));
+  --on-lighter: var(--dx-on-warning-lighter-color);
+  --on-light: var(--dx-on-warning-light-color);
+  --on-dark: var(--dx-on-warning-dark-color);
+  --on-darker: var(--dx-on-warning-darker-color);
 }
 .style-info, .tone-info {
-  --shade-lighter: var(--dx-color-info-lighter, color-mix(in srgb, var(--dx-color-info) 55%, white));
-  --shade-light: var(--dx-color-info-light, color-mix(in srgb, var(--dx-color-info) 70%, white));
-  --shade-dark: var(--dx-color-info-dark, color-mix(in srgb, var(--dx-color-info) 85%, black));
-  --shade-darker: var(--dx-color-info-darker, color-mix(in srgb, var(--dx-color-info) 70%, black));
-  --on-lighter: var(--dx-color-on-info-lighter);
-  --on-light: var(--dx-color-on-info-light);
-  --on-dark: var(--dx-color-on-info-dark);
-  --on-darker: var(--dx-color-on-info-darker);
+  --shade-lighter: var(--dx-info-lighter-color, color-mix(in srgb, var(--dx-info-color) 55%, white));
+  --shade-light: var(--dx-info-light-color, color-mix(in srgb, var(--dx-info-color) 70%, white));
+  --shade-dark: var(--dx-info-dark-color, color-mix(in srgb, var(--dx-info-color) 85%, black));
+  --shade-darker: var(--dx-info-darker-color, color-mix(in srgb, var(--dx-info-color) 70%, black));
+  --on-lighter: var(--dx-on-info-lighter-color);
+  --on-light: var(--dx-on-info-light-color);
+  --on-dark: var(--dx-on-info-dark-color);
+  --on-darker: var(--dx-on-info-darker-color);
 }
 
 /* Shade application (Radzen Shade) — hue-agnostic, token-driven, no
@@ -186,10 +186,10 @@
 .filled.shade-light { background-color: var(--shade-light); border-color: transparent; color: var(--on-light); }
 .filled.shade-dark { background-color: var(--shade-dark); border-color: transparent; }
 .filled.shade-darker { background-color: var(--shade-darker); border-color: transparent; }
-.flat.shade-lighter { background-color: color-mix(in srgb, var(--shade-lighter) 14%, var(--dx-color-surface)); }
-.flat.shade-light { background-color: color-mix(in srgb, var(--shade-light) 14%, var(--dx-color-surface)); }
-.flat.shade-dark { background-color: color-mix(in srgb, var(--shade-dark) 14%, var(--dx-color-surface)); }
-.flat.shade-darker { background-color: color-mix(in srgb, var(--shade-darker) 14%, var(--dx-color-surface)); }
+.flat.shade-lighter { background-color: color-mix(in srgb, var(--shade-lighter) 14%, var(--dx-surface-color)); }
+.flat.shade-light { background-color: color-mix(in srgb, var(--shade-light) 14%, var(--dx-surface-color)); }
+.flat.shade-dark { background-color: color-mix(in srgb, var(--shade-dark) 14%, var(--dx-surface-color)); }
+.flat.shade-darker { background-color: color-mix(in srgb, var(--shade-darker) 14%, var(--dx-surface-color)); }
 .outlined.shade-lighter { border-color: var(--shade-lighter); }
 .outlined.shade-light { border-color: var(--shade-light); }
 .outlined.shade-dark { border-color: var(--shade-dark); }
@@ -200,26 +200,26 @@
 .text.shade-darker { color: var(--shade-darker); }
 
 /* focus rings per style */
-.style-primary:focus-visible, .tone-primary:focus-visible { outline-color: var(--dx-color-outline-primary); }
-.style-secondary:focus-visible, .tone-secondary:focus-visible { outline-color: var(--dx-color-outline-secondary); }
-.style-danger:focus-visible, .tone-danger:focus-visible { outline-color: var(--dx-color-outline-danger); }
-.style-success:focus-visible, .tone-success:focus-visible { outline-color: var(--dx-color-outline-success); }
-.style-warning:focus-visible, .tone-warning:focus-visible { outline-color: var(--dx-color-outline-warning); }
-.style-info:focus-visible, .tone-info:focus-visible { outline-color: var(--dx-color-outline-info); }
+.style-primary:focus-visible, .tone-primary:focus-visible { outline-color: var(--dx-outline-primary-color); }
+.style-secondary:focus-visible, .tone-secondary:focus-visible { outline-color: var(--dx-outline-secondary-color); }
+.style-danger:focus-visible, .tone-danger:focus-visible { outline-color: var(--dx-outline-danger-color); }
+.style-success:focus-visible, .tone-success:focus-visible { outline-color: var(--dx-outline-success-color); }
+.style-warning:focus-visible, .tone-warning:focus-visible { outline-color: var(--dx-outline-warning-color); }
+.style-info:focus-visible, .tone-info:focus-visible { outline-color: var(--dx-outline-info-color); }
 
 /* ── Deprecated aliases (keep until 1.0) ── */
-.primary { background-color: var(--dx-color-primary); color: var(--dx-color-primary-fg); }
-.primary:hover:not(:disabled) { background-color: var(--dx-color-primary-hover); }
-.secondary { background-color: var(--dx-color-surface); border-color: var(--dx-color-border-strong); color: var(--dx-color-text); }
-.secondary:hover:not(:disabled) { background-color: var(--dx-color-surface-hover); }
-.ghost { background-color: transparent; color: var(--dx-color-text); }
-.ghost:hover:not(:disabled) { background-color: var(--dx-color-surface-hover); }
-.danger { background-color: var(--dx-color-danger); color: var(--dx-color-danger-fg); }
-.danger:hover:not(:disabled) { background-color: var(--dx-color-danger-hover); }
-.success { background-color: var(--dx-color-success); color: var(--dx-color-success-fg); }
-.success:hover:not(:disabled) { background-color: var(--dx-color-success-hover); }
-.info { background-color: var(--dx-color-info); color: var(--dx-color-info-fg); }
-.info:hover:not(:disabled) { background-color: var(--dx-color-info-hover); }
+.primary { background-color: var(--dx-primary-color); color: var(--dx-primary-fg-color); }
+.primary:hover:not(:disabled) { background-color: var(--dx-primary-hover-color); }
+.secondary { background-color: var(--dx-surface-color); border-color: var(--dx-border-strong-color); color: var(--dx-text-color); }
+.secondary:hover:not(:disabled) { background-color: var(--dx-surface-hover-color); }
+.ghost { background-color: transparent; color: var(--dx-text-color); }
+.ghost:hover:not(:disabled) { background-color: var(--dx-surface-hover-color); }
+.danger { background-color: var(--dx-danger-color); color: var(--dx-danger-fg-color); }
+.danger:hover:not(:disabled) { background-color: var(--dx-danger-hover-color); }
+.success { background-color: var(--dx-success-color); color: var(--dx-success-fg-color); }
+.success:hover:not(:disabled) { background-color: var(--dx-success-hover-color); }
+.info { background-color: var(--dx-info-color); color: var(--dx-info-fg-color); }
+.info:hover:not(:disabled) { background-color: var(--dx-info-hover-color); }
 
 /* loading spinner */
 .loading {

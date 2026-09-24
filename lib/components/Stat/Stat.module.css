@@ -8,7 +8,7 @@
 .label {
   font-size: var(--dx-font-size-xs);
   font-weight: var(--dx-font-weight-medium);
-  color: var(--dx-color-text-muted);
+  color: var(--dx-text-muted-color);
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
@@ -22,7 +22,7 @@
 .value {
   font-size: var(--dx-font-size-lg);
   font-weight: var(--dx-font-weight-bold);
-  color: var(--dx-color-text);
+  color: var(--dx-text-color);
 }
 
 .delta {
@@ -31,18 +31,18 @@
 }
 
 .delta.success {
-  color: var(--dx-color-text-success);
+  color: var(--dx-text-success-color);
 }
 
 .delta.danger {
-  color: var(--dx-color-text-danger);
+  color: var(--dx-text-danger-color);
 }
 
 .delta.neutral {
-  color: var(--dx-color-text-muted);
+  color: var(--dx-text-muted-color);
 }
 
 .hint {
   font-size: var(--dx-font-size-xs);
-  color: var(--dx-color-text-muted);
+  color: var(--dx-text-muted-color);
 }

@@ -339,13 +339,13 @@
 /* Text color utilities — Radzen rz-text-* parity. No breakpoint variants
  * (color never responds to viewport). Pair with Typography variants
  * instead of ad-hoc muted/brand text classes in products. */
-.dx-text-default { color: var(--dx-color-text) !important; }
-.dx-text-muted { color: var(--dx-color-text-muted) !important; }
-.dx-text-primary { color: var(--dx-color-text-primary) !important; }
-.dx-text-success { color: var(--dx-color-text-success) !important; }
-.dx-text-warning { color: var(--dx-color-text-warning) !important; }
-.dx-text-danger { color: var(--dx-color-text-danger) !important; }
-.dx-text-info { color: var(--dx-color-text-info) !important; }
+.dx-text-default { color: var(--dx-text-color) !important; }
+.dx-text-muted { color: var(--dx-text-muted-color) !important; }
+.dx-text-primary { color: var(--dx-text-primary-color) !important; }
+.dx-text-success { color: var(--dx-text-success-color) !important; }
+.dx-text-warning { color: var(--dx-text-warning-color) !important; }
+.dx-text-danger { color: var(--dx-text-danger-color) !important; }
+.dx-text-info { color: var(--dx-text-info-color) !important; }
 
 @media (min-width: 576px) {
   .dx-display-xs-none { display: none !important; }

@@ -6,13 +6,13 @@ import { describe, expect, it } from "vitest";
 const css = readFileSync(join(dirname(fileURLToPath(import.meta.url)), "utilities.css"), "utf8");
 
 const TONES: Record<string, string> = {
-  default: "--dx-color-text",
-  muted: "--dx-color-text-muted",
-  primary: "--dx-color-text-primary",
-  success: "--dx-color-text-success",
-  warning: "--dx-color-text-warning",
-  danger: "--dx-color-text-danger",
-  info: "--dx-color-text-info",
+  default: "--dx-text-color",
+  muted: "--dx-text-muted-color",
+  primary: "--dx-text-primary-color",
+  success: "--dx-text-success-color",
+  warning: "--dx-text-warning-color",
+  danger: "--dx-text-danger-color",
+  info: "--dx-text-info-color",
 };
 
 describe("text color utilities", () => {

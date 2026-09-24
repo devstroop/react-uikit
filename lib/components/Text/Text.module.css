@@ -103,7 +103,7 @@
 .caption {
   font-size: var(--dx-font-size-xs);
   line-height: 1.429;
-  color: var(--dx-color-text-muted);
+  color: var(--dx-text-muted-color);
 }
 
 .overline {

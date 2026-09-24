@@ -68,9 +68,9 @@ export function Barcode({ value, format = "Code128", height = 60, showValue = fa
         aria-label={label}
         data-value={value}
       >
-        <rect width={bars.total} height={height} fill="var(--dx-color-surface)" />
+        <rect width={bars.total} height={height} fill="var(--dx-surface-color)" />
         {bars.modules.map((m, i) => (
-          <rect key={i} x={m.x} y={0} width={m.w} height={height} fill="var(--dx-color-text)" />
+          <rect key={i} x={m.x} y={0} width={m.w} height={height} fill="var(--dx-text-color)" />
         ))}
       </svg>
       {showValue && <span className={styles.value}>{value}</span>}
