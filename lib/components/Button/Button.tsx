@@ -89,7 +89,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
 ) {
   if (visible === false) return null;
   const resolved = resolveVariantStyle(variant, severity);
-  const shadeCls = shade !== "default" ? `shade-${shade}` : null;
+  // Radzen parity: Light and Dark button styles don't have Shades —
+  // a shade prop on them is ignored, never rendered.
+  const unshaded = resolved.style === "light" || resolved.style === "dark";
+  const shadeCls = !unshaded && shade !== "default" ? `shade-${shade}` : null;
   const classNames = [
     styles.button,
     styles[resolved.variant],

@@ -86,7 +86,7 @@
 
 /* Shade steps per Style — consumed by the hue-agnostic shade rules below.
    Fallbacks keep older token sets working (same sRGB ratios as tokens.css).
-   Achromatic hues included so no brightness-filter fallback remains. */
+   Light/Dark deliberately excluded (Radzen: those styles have no Shades). */
 .style-primary, .tone-primary {
   --shade-lighter: var(--dx-primary-lighter-color, color-mix(in srgb, var(--dx-primary-color) 55%, white));
   --shade-light: var(--dx-primary-light-color, color-mix(in srgb, var(--dx-primary-color) 70%, white));
@@ -117,26 +117,8 @@
   --on-dark: var(--dx-on-base-dark-color);
   --on-darker: var(--dx-on-base-darker-color);
 }
-.style-light {
-  --shade-lighter: var(--dx-light-lighter-color, color-mix(in srgb, var(--dx-light-color) 55%, white));
-  --shade-light: var(--dx-light-light-color, color-mix(in srgb, var(--dx-light-color) 70%, white));
-  --shade-dark: var(--dx-light-dark-color, color-mix(in srgb, var(--dx-light-color) 85%, black));
-  --shade-darker: var(--dx-light-darker-color, color-mix(in srgb, var(--dx-light-color) 70%, black));
-  --on-lighter: var(--dx-on-light-lighter-color);
-  --on-light: var(--dx-on-light-light-color);
-  --on-dark: var(--dx-on-light-dark-color);
-  --on-darker: var(--dx-on-light-darker-color);
-}
-.style-dark {
-  --shade-lighter: var(--dx-dark-lighter-color, color-mix(in srgb, var(--dx-dark-color) 55%, white));
-  --shade-light: var(--dx-dark-light-color, color-mix(in srgb, var(--dx-dark-color) 70%, white));
-  --shade-dark: var(--dx-dark-dark-color, color-mix(in srgb, var(--dx-dark-color) 85%, black));
-  --shade-darker: var(--dx-dark-darker-color, color-mix(in srgb, var(--dx-dark-color) 70%, black));
-  --on-lighter: var(--dx-on-dark-lighter-color);
-  --on-light: var(--dx-on-dark-light-color);
-  --on-dark: var(--dx-on-dark-dark-color);
-  --on-darker: var(--dx-on-dark-darker-color);
-}
+/* No shade steps for Light/Dark (Radzen parity: those styles don't
+   have Shades — Button.tsx never emits the shade class for them). */
 .style-danger, .tone-danger {
   --shade-lighter: var(--dx-danger-lighter-color, color-mix(in srgb, var(--dx-danger-color) 55%, white));
   --shade-light: var(--dx-danger-light-color, color-mix(in srgb, var(--dx-danger-color) 70%, white));

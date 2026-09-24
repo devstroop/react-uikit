@@ -54,6 +54,19 @@ describe("Button", () => {
     },
   );
 
+  it.each(["light", "dark"] as const)(
+    "ignores shade on %s severity (Radzen: Light/Dark have no Shades)",
+    (severity) => {
+      render(
+        <Button severity={severity} shade="dark">
+          Save
+        </Button>,
+      );
+      const cls = screen.getByRole("button", { name: "Save" }).className;
+      expect(cls).not.toContain("shade-");
+    },
+  );
+
   it("renders nothing when visible is false", () => {
     render(<Button visible={false}>Save</Button>);
     expect(screen.queryByRole("button", { name: "Save" })).not.toBeInTheDocument();
