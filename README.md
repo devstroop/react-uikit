@@ -95,12 +95,14 @@ in sync when overriding.
 
 See `lib/styles/tokens.css` for the full list (color, radius, space, font, shadow, transition/motion, z-index, control heights).
 
-### Typography (RadzenText parity)
+### Text (RadzenText parity)
 
-`Typography` covers the full Radzen text hierarchy — `display-1..6`, `h1..h6`,
-`subtitle-1/2`, `body-1/2`, `button`, `caption`, `overline` — with automatic
-semantic elements (`as` overrides per-instance, like `TagName`) and `align`
-(`left | center | right | justify`, like `TextAlign`). Pair any variant with
+`Text` covers the full Radzen text hierarchy — `DisplayH1..H6`, `H1..H6`,
+`Subtitle1/2`, `Body1/2`, `Button`, `Caption`, `Overline` via `TextStyle` —
+with automatic semantic elements (`TagName="Auto"` default; override with
+`Div | Span | P | H1..H6 | A | Button | Pre | Strong`) and `TextAlign`
+(`Left | Right | Center | Justify | Start | End | JustifyAll`). The `Text`
+prop takes precedence over children. Pair any style with
 a `dx-text-*` color utility (`default | muted | primary | success |
 warning | danger | info`) instead of ad-hoc muted/brand text
 classes in products. Anchor-link headings are intentionally unsupported
