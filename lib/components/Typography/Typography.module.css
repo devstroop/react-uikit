@@ -91,6 +91,15 @@
   line-height: 1.5;
 }
 
+/* Button label text (Radzen TextStyle.Button parity): matches the
+ * uikit Button label metrics so text and controls align. */
+.button {
+  font-size: var(--dx-font-size-sm);
+  font-weight: var(--dx-font-weight-medium);
+  line-height: 1.429;
+  letter-spacing: 0.25px;
+}
+
 .caption {
   font-size: var(--dx-font-size-xs);
   line-height: 1.429;

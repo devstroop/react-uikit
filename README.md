@@ -95,6 +95,17 @@ in sync when overriding.
 
 See `lib/styles/tokens.css` for the full list (color, radius, space, font, shadow, transition/motion, z-index, control heights).
 
+### Typography (RadzenText parity)
+
+`Typography` covers the full Radzen text hierarchy — `display-1..6`, `h1..h6`,
+`subtitle-1/2`, `body-1/2`, `button`, `caption`, `overline` — with automatic
+semantic elements (`as` overrides per-instance, like `TagName`) and `align`
+(`left | center | right | justify`, like `TextAlign`). Pair any variant with
+a `dx-text-*` color utility (`default | muted | primary | success |
+warning | danger | info`) instead of ad-hoc muted/brand text
+classes in products. Anchor-link headings are intentionally unsupported
+(no consumer need).
+
 ## Development
 
 See `docs/DEVELOPMENT_STRATEGY.md` for branch/PR/release protocol.

@@ -336,6 +336,17 @@
 .dx-pe-11 { padding-inline-end: var(--dx-space-11) !important; }
 .dx-pe-12 { padding-inline-end: var(--dx-space-12) !important; }
 
+/* Text color utilities — Radzen rz-text-* parity. No breakpoint variants
+ * (color never responds to viewport). Pair with Typography variants
+ * instead of ad-hoc muted/brand text classes in products. */
+.dx-text-default { color: var(--dx-color-text) !important; }
+.dx-text-muted { color: var(--dx-color-text-muted) !important; }
+.dx-text-primary { color: var(--dx-color-text-primary) !important; }
+.dx-text-success { color: var(--dx-color-text-success) !important; }
+.dx-text-warning { color: var(--dx-color-text-warning) !important; }
+.dx-text-danger { color: var(--dx-color-text-danger) !important; }
+.dx-text-info { color: var(--dx-color-text-info) !important; }
+
 @media (min-width: 576px) {
   .dx-display-xs-none { display: none !important; }
   .dx-display-xs-block { display: block !important; }

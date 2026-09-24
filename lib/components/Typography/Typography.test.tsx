@@ -91,4 +91,11 @@ describe("Typography", () => {
     expect(element?.getAttribute("aria-label")).toBe("Content");
     expect(element?.className).toContain("custom");
   });
+
+  it("maps button variant to a span (Radzen TextStyle.Button parity)", () => {
+    const { container } = render(<Typography variant="button">label</Typography>);
+    const element = container.firstElementChild;
+    expect(element?.tagName).toBe("SPAN");
+    expect(element?.className).toContain("button");
+  });
 });

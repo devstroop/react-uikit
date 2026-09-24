@@ -18,6 +18,7 @@ export type TypographyVariant =
   | "subtitle-2"
   | "body-1"
   | "body-2"
+  | "button"
   | "caption"
   | "overline";
 
@@ -25,6 +26,8 @@ export type TypographyAlign = "left" | "center" | "right" | "justify";
 
 export interface TypographyProps extends HTMLAttributes<HTMLElement> {
   variant?: TypographyVariant;
+  /** Tag override (Radzen TagName parity: Div/Span/P/H1-H6/A/Button/Pre
+   * all expressible; Auto = ELEMENT_BY_VARIANT default below). */
   as?: ElementType;
   align?: TypographyAlign;
 }
@@ -47,6 +50,8 @@ const ELEMENT_BY_VARIANT: Record<TypographyVariant, ElementType> = {
   "subtitle-2": "h6",
   "body-1": "p",
   "body-2": "p",
+  // Radzen parity: Button text style renders inline.
+  button: "span",
   caption: "span",
   overline: "span",
 };
