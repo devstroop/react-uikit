@@ -14,14 +14,14 @@ export type TextTagName = "Auto" | "Div" | "Span" | "P" | "H1" | "H2" | "H3" | "
 /** Horizontal alignment. Mirrors Radzen `TextAlign`. */
 export type TextAlign = "Left" | "Right" | "Center" | "Justify" | "Start" | "End" | "JustifyAll";
 export interface TextProps extends HTMLAttributes<HTMLElement> {
-    TextStyle?: TextStyle;
-    TagName?: TextTagName;
-    TextAlign?: TextAlign;
+    textStyle?: TextStyle;
+    tagName?: TextTagName;
+    textAlign?: TextAlign;
     /**
      * Plain text content. Takes precedence over children when set,
      * like Radzen's `Text` parameter.
      */
-    Text?: ReactNode;
+    text?: ReactNode;
     /** Render nothing when false (Radzen Visible parity). Defaults to true. */
     visible?: boolean;
 }

@@ -3364,29 +3364,29 @@ const j_ = "_textarea_we46m_1", L_ = "_invalid_we46m_25", R_ = "_xs_we46m_31", P
   End: "align-right",
   JustifyAll: "align-justify"
 }, Dy = He(function({
-  TextStyle: e = "Body1",
-  TagName: t = "Auto",
-  TextAlign: r,
-  Text: s,
-  visible: l = !0,
-  className: c,
-  children: h,
-  ...o
-}, a) {
-  if (l === !1) return null;
-  const i = t === "Auto" ? Q_[e] : tp[t];
+  textStyle: t = "Body1",
+  tagName: r = "Auto",
+  textAlign: s,
+  text: l,
+  visible: c = !0,
+  className: h,
+  children: o,
+  ...a
+}, i) {
+  if (c === !1) return null;
+  const p = r === "Auto" ? Q_[t] : tp[r];
   return /* @__PURE__ */ n(
-    i,
+    p,
     {
-      ref: a,
+      ref: i,
       className: [
         Jn.typography,
-        Jn[ep[e]],
-        r ? Jn[np[r]] : null,
-        c
+        Jn[ep[t]],
+        s ? Jn[np[s]] : null,
+        h
       ].filter(Boolean).join(" "),
-      ...o,
-      children: s ?? h
+      ...a,
+      children: l ?? o
     }
   );
 }), rp = "_root_1n255_1", op = "_trigger_1n255_9", sp = "_invalid_1n255_40", ap = "_placeholder_1n255_46", lp = "_label_1n255_53", ip = "_chevron_1n255_59", cp = "_chevronOpen_1n255_69", dp = "_menu_1n255_73", up = "_option_1n255_88", fp = "_disabled_1n255_99", _p = "_active_1n255_103", pp = "_selected_1n255_104", hp = "_header_1n255_114", mp = "_xs_1n255_121", gp = "_sm_1n255_127", bp = "_md_1n255_133", yp = "_lg_1n255_139", xp = "_xl_1n255_145", it = {
