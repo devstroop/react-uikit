@@ -59,16 +59,45 @@ describe("Utilities parity (#75)", () => {
       ".dx-overflow-xx-scroll",
       ".dx-w-50",
       ".dx-w-sm-100",
-      ".dx-vw-25",
+      ".dx-w-25",
+      ".dx-w-75",
+      ".dx-w-100",
+      ".dx-w-auto",
       ".dx-w-fit-content",
+      ".dx-w-min-content",
+      ".dx-w-max-content",
+      ".dx-w-stretch",
       ".dx-w-xs-auto",
+      ".dx-min-w-25",
       ".dx-min-w-75",
       ".dx-max-w-100",
+      ".dx-vw-25",
+      ".dx-vw-100",
+      ".dx-h-25",
       ".dx-h-50",
-      ".dx-vh-100",
+      ".dx-h-100",
       ".dx-h-auto",
       ".dx-min-h-25",
       ".dx-max-h-xx-50",
+      ".dx-vh-25",
+      ".dx-vh-100",
+      ".dx-shadow-0",
+      ".dx-shadow-5",
+      ".dx-shadow-10",
+      ".dx-ripple",
+      ".dx-text-align-center",
+      ".dx-text-align-md-center",
+      ".dx-text-align-justify",
+      ".dx-text-wrap",
+      ".dx-text-nowrap",
+      ".dx-text-truncate",
+      ".dx-text-uppercase",
+      ".dx-text-primary-lighter",
+      ".dx-text-on-info-light",
+      ".dx-background-info-lighter",
+      ".dx-background-danger",
+      ".dx-border-info-light",
+      ".dx-border-success",
     ]) {
       expect(set.has(cls), `missing ${cls}`).toBe(true);
     }
@@ -136,5 +165,61 @@ describe("Utilities parity (#75)", () => {
     }
     expect(REACT_CSS).toContain(".dx-m-auto { margin: auto !important; }");
     expect(REACT_CSS).toContain("@media (min-width: 1024px) {");
+  });
+
+  it("ships the Radzen shadow scale as tokens and utilities (0–10)", () => {
+    for (let n = 0; n <= 10; n++) {
+      expect(REACT_TOKENS, `definition --dx-shadow-${n}`).toContain(`--dx-shadow-${n}:`);
+      expect(REACT_CSS, `utility .dx-shadow-${n}`).toContain(
+        `.dx-shadow-${n} { box-shadow: var(--dx-shadow-${n}) !important; }`,
+      );
+    }
+    expect(REACT_TOKENS).toContain("--dx-shadow-0: none;");
+  });
+
+  it("ships the Radzen ripple press feedback as .dx-ripple", () => {
+    expect(REACT_CSS).toContain(".dx-ripple { position: relative; overflow: hidden; }");
+    expect(REACT_CSS).toContain(".dx-ripple:active::before");
+    expect(REACT_CSS).toContain("opacity: 0.32;");
+    expect(REACT_CSS).toContain("radial-gradient(circle, currentColor 1%, transparent 1%)");
+    expect(REACT_CSS).toContain("var(--dx-ripple-duration, 0.8s)");
+    expect(REACT_TOKENS).toContain("--dx-ripple-duration: 0.8s;");
+    expect(REACT_CSS).toContain("prefers-reduced-motion");
+  });
+
+  it("ships Radzen text-align / wrap / transform utilities", () => {
+    expect(REACT_CSS).toContain(".dx-text-align-center { text-align: center; }");
+    expect(REACT_CSS).toContain(
+      ".dx-text-align-md-center { text-align: center !important; }",
+    );
+    expect(REACT_CSS).toContain(".dx-text-wrap { white-space: normal !important; }");
+    expect(REACT_CSS).toContain(".dx-text-nowrap { white-space: nowrap !important; }");
+    expect(REACT_CSS).toContain(".dx-text-truncate { overflow: hidden;");
+    expect(REACT_CSS).toContain(".dx-text-uppercase { text-transform: uppercase; }");
+  });
+
+  it("maps the tone color matrix onto dx roles", () => {
+    for (const tone of ["primary", "secondary", "success", "warning", "danger", "info"]) {
+      for (const shade of ["lighter", "light", "dark", "darker"]) {
+        expect(REACT_CSS, `text ${tone} ${shade}`).toContain(
+          `.dx-text-${tone}-${shade} { color: var(--dx-${tone}-${shade}-color) !important; }`,
+        );
+        expect(REACT_CSS, `background ${tone} ${shade}`).toContain(
+          `.dx-background-${tone}-${shade} { background-color: var(--dx-${tone}-${shade}-color) !important; }`,
+        );
+        expect(REACT_CSS, `on ${tone} ${shade}`).toContain(
+          `.dx-text-on-${tone}-${shade} { color: var(--dx-on-${tone}-${shade}-color) !important; }`,
+        );
+      }
+    }
+    expect(REACT_CSS).toContain(
+      ".dx-background-warning { background-color: var(--dx-warn-container-color) !important; }",
+    );
+    expect(REACT_CSS).toContain(
+      ".dx-background-danger { background-color: var(--dx-error-container-color) !important; }",
+    );
+    expect(REACT_CSS).toContain(
+      ".dx-border-info-light { border-color: var(--dx-border-info-light-color) !important; }",
+    );
   });
 });

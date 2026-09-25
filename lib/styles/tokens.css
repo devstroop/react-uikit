@@ -176,6 +176,21 @@
   --dx-shadow-sm: 0 1px 2px rgb(15 23 42 / 0.06);
   --dx-shadow-md: 0 4px 12px rgb(15 23 42 / 0.1);
   --dx-shadow-lg: 0 12px 32px rgb(15 23 42 / 0.18);
+  /* numbered elevation scale (Radzen material parity; identical in
+   * Radzen light/dark material themes, so theme-independent) */
+  --dx-shadow-0: none;
+  --dx-shadow-1: 0px 1px 1px rgb(0 0 0 / 0.14), 0px 2px 1px rgb(0 0 0 / 0.12), 0px 1px 3px rgb(0 0 0 / 0.14);
+  --dx-shadow-2: 0px 2px 2px rgb(0 0 0 / 0.14), 0px 3px 1px rgb(0 0 0 / 0.12), 0px 1px 5px rgb(0 0 0 / 0.14);
+  --dx-shadow-3: 0px 3px 4px rgb(0 0 0 / 0.14), 0px 3px 3px rgb(0 0 0 / 0.12), 0px 1px 8px rgb(0 0 0 / 0.14);
+  --dx-shadow-4: 0px 4px 5px rgb(0 0 0 / 0.14), 0px 1px 10px rgb(0 0 0 / 0.12), 0px 2px 4px rgb(0 0 0 / 0.14);
+  --dx-shadow-5: 0px 6px 10px rgb(0 0 0 / 0.14), 0px 1px 18px rgb(0 0 0 / 0.12), 0px 3px 5px rgb(0 0 0 / 0.14);
+  --dx-shadow-6: 0px 8px 10px rgb(0 0 0 / 0.14), 0px 3px 14px rgb(0 0 0 / 0.12), 0px 5px 5px rgb(0 0 0 / 0.14);
+  --dx-shadow-7: 0px 9px 12px rgb(0 0 0 / 0.14), 0px 3px 16px rgb(0 0 0 / 0.12), 0px 5px 6px rgb(0 0 0 / 0.14);
+  --dx-shadow-8: 0px 12px 17px rgb(0 0 0 / 0.14), 0px 5px 22px rgb(0 0 0 / 0.12), 0px 7px 8px rgb(0 0 0 / 0.14);
+  --dx-shadow-9: 0px 16px 24px rgb(0 0 0 / 0.14), 0px 6px 30px rgb(0 0 0 / 0.12), 0px 8px 10px rgb(0 0 0 / 0.14);
+  --dx-shadow-10: 0px 24px 38px rgb(0 0 0 / 0.14), 0px 9px 46px rgb(0 0 0 / 0.12), 0px 11px 15px rgb(0 0 0 / 0.14);
+  /* ripple press duration (Radzen --rz-ripple-duration parity) */
+  --dx-ripple-duration: 0.8s;
   /* transition */
   --dx-transition-fast: 120ms ease;
   --dx-transition-base: 200ms ease;
