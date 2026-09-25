@@ -77,4 +77,37 @@ describe('Button', () => {
       screen.queryByRole('button', { name: 'Save' })
     ).not.toBeInTheDocument();
   });
+
+  it('carries press feedback on every button', () => {
+    render(<Button>Save</Button>);
+    expect(screen.getByRole('button', { name: 'Save' }).className).toContain(
+      'dx-ripple'
+    );
+  });
+
+  it('renders an anchor when href is set', () => {
+    render(
+      <Button href="/zones" variant="outlined">
+        Zones
+      </Button>
+    );
+    const link = screen.getByRole('link', { name: 'Zones' });
+    expect(link.tagName).toBe('A');
+    expect(link).toHaveAttribute('href', '/zones');
+    expect(link.className).toContain('dx-ripple');
+  });
+
+  it('disables anchor clicks with aria-disabled', async () => {
+    const user = userEvent.setup();
+    const onClick = vi.fn();
+    render(
+      <Button href="/zones" disabled onClick={onClick}>
+        Zones
+      </Button>
+    );
+    const link = screen.getByRole('link', { name: 'Zones' });
+    expect(link).toHaveAttribute('aria-disabled', 'true');
+    await user.click(link);
+    expect(onClick).not.toHaveBeenCalled();
+  });
 });

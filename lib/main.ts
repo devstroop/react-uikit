@@ -4,6 +4,9 @@ import './utilities.css';
 export { Button } from './components/Button/Button';
 export type {
   ButtonProps,
+  ButtonBaseProps,
+  ButtonButtonProps,
+  ButtonAnchorProps,
   ButtonVariant,
   ButtonStyle,
   ButtonShade,

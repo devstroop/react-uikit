@@ -1,4 +1,9 @@
-import { forwardRef, type ButtonHTMLAttributes } from 'react';
+import {
+  forwardRef,
+  type AnchorHTMLAttributes,
+  type ButtonHTMLAttributes,
+  type Ref,
+} from 'react';
 import type { ComponentSize } from '../../sizes';
 import type { Severity } from '../../types/severity';
 import type { Shade } from '../../types/shade';
@@ -17,7 +22,7 @@ export type ButtonShade = Shade;
 
 export type ButtonSize = ComponentSize;
 
-export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonBaseProps {
   variant?: ButtonVariant;
   /**
    * Severity axis — the single severity prop (Radzen ButtonStyle parity).
@@ -34,6 +39,23 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   visible?: boolean;
 }
 
+export interface ButtonButtonProps
+  extends ButtonBaseProps, ButtonHTMLAttributes<HTMLButtonElement> {
+  href?: undefined;
+}
+
+export interface ButtonAnchorProps
+  extends
+    ButtonBaseProps,
+    Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> {
+  /** Renders an anchor instead of a button (navigation CTAs). */
+  href: string;
+  /** Anchors use aria-disabled + click suppression (no native disabled). */
+  disabled?: boolean;
+}
+
+export type ButtonProps = ButtonButtonProps | ButtonAnchorProps;
+
 function resolveVariantStyle(
   variant: ButtonVariant | undefined,
   severity: ButtonStyle | undefined
@@ -47,9 +69,9 @@ function resolveVariantStyle(
   return { variant: canonical, style: picked ?? 'primary' };
 }
 
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  function Button(
-    {
+export const Button = forwardRef<HTMLElement, ButtonProps>(
+  function Button(props, ref) {
+    const {
       variant = 'filled',
       severity,
       shade = 'default',
@@ -59,13 +81,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       loading = false,
       visible = true,
       className,
-      type = 'button',
       disabled,
       children,
-      ...props
-    },
-    ref
-  ) {
+      ...rest
+    } = props;
     if (visible === false) return null;
     const resolved = resolveVariantStyle(variant, severity);
     // Radzen parity: Light and Dark button styles don't have Shades —
@@ -83,24 +102,59 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       fullWidth ? styles.fullWidth : null,
       iconOnly ? styles.iconOnly : null,
       loading ? styles.loading : null,
+      // Press feedback on every button (Radzen material parity).
+      'dx-ripple',
       className,
     ]
       .filter(Boolean)
       .join(' ');
-
-    return (
-      <button
-        ref={ref}
-        type={type}
-        className={classNames}
-        disabled={disabled || loading}
-        aria-busy={loading || undefined}
-        {...props}
-      >
+    const content = (
+      <>
         {loading ? (
           <span aria-hidden="true" className={styles.spinner} />
         ) : null}
         {children}
+      </>
+    );
+
+    const href = (props as { href?: string }).href;
+    if (href != null) {
+      const { onClick, ...anchorProps } =
+        rest as AnchorHTMLAttributes<HTMLAnchorElement>;
+      const anchorDisabled = disabled || loading;
+      return (
+        <a
+          ref={ref as Ref<HTMLAnchorElement>}
+          href={href}
+          className={classNames}
+          aria-disabled={anchorDisabled || undefined}
+          aria-busy={loading || undefined}
+          onClick={(e) => {
+            if (anchorDisabled) {
+              e.preventDefault();
+              return;
+            }
+            onClick?.(e);
+          }}
+          {...anchorProps}
+        >
+          {content}
+        </a>
+      );
+    }
+
+    const { type = 'button', ...buttonProps } =
+      rest as ButtonHTMLAttributes<HTMLButtonElement>;
+    return (
+      <button
+        ref={ref as Ref<HTMLButtonElement>}
+        type={type}
+        className={classNames}
+        disabled={disabled || loading}
+        aria-busy={loading || undefined}
+        {...buttonProps}
+      >
+        {content}
       </button>
     );
   }

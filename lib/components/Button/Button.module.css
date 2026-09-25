@@ -588,6 +588,10 @@
   padding: 0;
   aspect-ratio: 1;
   border-radius: var(--dx-radius-full);
+  /* Icon buttons never shrink below the 40px touch target, whatever
+   * the tier maps to (xs–md tiers are smaller). */
+  min-width: var(--dx-target-min);
+  min-height: var(--dx-target-min);
 }
 
 .iconOnly.xs {
