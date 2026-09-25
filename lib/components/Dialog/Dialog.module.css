@@ -106,9 +106,13 @@
 }
 
 .close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
   width: var(--dx-dialog-close-size);
   height: var(--dx-dialog-close-size);
+  padding: 0;
   border: none;
   border-radius: var(--dx-radius-sm);
   background: transparent;
@@ -117,6 +121,11 @@
   line-height: var(--dx-leading-none);
   cursor: pointer;
   transition: background var(--dx-transition-fast), color var(--dx-transition-fast);
+}
+
+.close > svg {
+  /* Kill the inline baseline gap so the glyph stays optically centered. */
+  display: block;
 }
 
 .close:hover {
