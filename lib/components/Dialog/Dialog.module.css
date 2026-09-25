@@ -15,6 +15,10 @@
   width: 100%;
   max-height: var(--dx-dialog-max-height);
   overflow: auto;
+  /* Native <dialog> centers via UA margin:auto, which resets like
+   * Tailwind preflight zero out. Restore it or showModal() dialogs
+   * stick to inline-start instead of centering. */
+  margin: auto;
   animation: se-dialog-in var(--dx-transition-base) var(--dx-ease-out);
 }
 

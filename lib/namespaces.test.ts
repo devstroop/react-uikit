@@ -56,4 +56,11 @@ describe("component namespaces (Radzen parity pilot)", () => {
     expect(css("Table")).toContain("var(--dx-letterspacing-wide)");
     expect(css("Dialog")).toContain("var(--dx-leading-loose)");
   });
+
+  it("keeps native dialog centering against UA-margin resets", () => {
+    // Resets like Tailwind preflight zero the UA margin:auto that
+    // centers showModal() dialogs; without this they stick to
+    // inline-start.
+    expect(css("Dialog")).toMatch(/\.dialog\s*{[^}]*margin:\s*auto;/);
+  });
 });
