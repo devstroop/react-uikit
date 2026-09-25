@@ -1,24 +1,21 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import '../lib/styles/tokens.css';
 import '../lib/utilities.css';
-import {
-  Alert,
-  Button,
-  Dialog,
-  Field,
-  Input,
-  Text,
-  Tooltip,
-} from '../lib/main';
+import { Body, Header, Layout, Sidebar, Text } from '../lib/main';
+import { DEMO_GROUPS, routeTitle } from './nav';
+import { IndexPage } from './pages/index';
+import { LayoutDemos } from './pages/layout';
+import { TypographyDemos } from './pages/typography';
+import { ButtonDemos } from './pages/buttons';
+import { FormDemos } from './pages/forms';
+import { FeedbackDemos } from './pages/feedback';
+import { NavigationDemos } from './pages/navigation';
+import { DataDemos } from './pages/data';
+import { DisplayDemos } from './pages/display';
+import { ThemeDemos } from './pages/theme';
 
-/**
- * Minimal e2e target (NOT shipped): exercises the chrome the axe spec
- * expects — theme <select>, dark-mode checkbox, Button, Dialog,
- * Tooltip, and a Field with an error. The full per-component showcase
- * (B1.4) expands this entry.
- */
-const THEMES = [
+export const THEMES = [
   'default',
   'fluent',
   'github',
@@ -27,31 +24,139 @@ const THEMES = [
   'shadcn',
 ] as const;
 
-function Preview() {
+function routeFromHash(): string {
+  const slug = window.location.hash.replace(/^#\/?/, '').split('?')[0];
+  return slug || '';
+}
+
+function DemoForRoute({ slug }: { slug: string }) {
+  switch (slug) {
+    case '':
+      return <IndexPage />;
+    case 'layout':
+    case 'header':
+    case 'body':
+    case 'footer':
+    case 'sidebar':
+    case 'sidebartoggle':
+    case 'row':
+    case 'column':
+    case 'stack':
+      return <LayoutDemos slug={slug} />;
+    case 'text':
+    case 'icon':
+      return <TypographyDemos slug={slug} />;
+    case 'button':
+    case 'togglebutton':
+    case 'splitbutton':
+    case 'fabmenu':
+      return <ButtonDemos slug={slug} />;
+    case 'form':
+    case 'field':
+    case 'input':
+    case 'textbox':
+    case 'textarea':
+    case 'password':
+    case 'mask':
+    case 'numeric':
+    case 'select':
+    case 'dropdown':
+    case 'autocomplete':
+    case 'listbox':
+    case 'checkbox':
+    case 'checkboxlist':
+    case 'radiobuttonlist':
+    case 'switch':
+    case 'slider':
+    case 'rating':
+    case 'colorpicker':
+    case 'datepicker':
+    case 'timespanpicker':
+    case 'securitycode':
+    case 'upload':
+    case 'selectbar':
+    case 'label':
+      return <FormDemos slug={slug} />;
+    case 'alert':
+    case 'progress':
+    case 'skeleton':
+    case 'emptystate':
+    case 'toast':
+    case 'dialog':
+    case 'tooltip':
+      return <FeedbackDemos slug={slug} />;
+    case 'breadcrumb':
+    case 'menu':
+    case 'panelmenu':
+    case 'profilemenu':
+    case 'tabs':
+    case 'steps':
+    case 'toc':
+    case 'pager':
+      return <NavigationDemos slug={slug} />;
+    case 'table':
+    case 'datagrid':
+    case 'datalist':
+    case 'tree':
+    case 'picklist':
+    case 'pivot':
+    case 'chart':
+    case 'gantt':
+    case 'scheduler':
+    case 'timeline':
+    case 'datafilter':
+    case 'qrcode':
+    case 'barcode':
+      return <DataDemos slug={slug} />;
+    case 'card':
+    case 'badge':
+    case 'avatar':
+    case 'stat':
+    case 'accordion':
+    case 'carousel':
+    case 'splitter':
+      return <DisplayDemos slug={slug} />;
+    case 'themeswitcher':
+      return <ThemeDemos slug={slug} />;
+    default:
+      return <Text textStyle="Body1">Unknown demo: {routeTitle(slug)}</Text>;
+  }
+}
+
+function App() {
+  const [route, setRoute] = useState(routeFromHash);
   const [theme, setTheme] = useState<string>('default');
   const [dark, setDark] = useState(false);
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [name, setName] = useState('');
-  const [touched, setTouched] = useState(false);
-  const error = touched && name.trim() === '' ? 'Name is required.' : null;
+
+  useEffect(() => {
+    const onHash = () => setRoute(routeFromHash());
+    window.addEventListener('hashchange', onHash);
+    return () => window.removeEventListener('hashchange', onHash);
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = dark ? 'dark' : '';
+  }, [dark]);
 
   return (
-    <main
-      data-preview-theme={theme}
-      data-theme={dark ? 'dark' : undefined}
-      style={{ padding: 24, maxWidth: 720, margin: '0 auto' }}
-    >
-      <Text textStyle="H1" tagName="H1">
-        react-uikit preview
-      </Text>
-
-      <section aria-label="Chrome controls">
-        <div className="chrome-controls">
+    <Layout>
+      <Header>
+        <a
+          href="#/"
+          style={{ color: 'inherit', textDecoration: 'none', fontWeight: 700 }}
+        >
+          react-uikit
+        </a>
+        <div
+          className="chrome-controls"
+          style={{ display: 'flex', gap: 12, marginLeft: 'auto' }}
+        >
           <label htmlFor="preview-theme">Theme</label>
           <select
             id="preview-theme"
             value={theme}
             onChange={(e) => setTheme(e.target.value)}
+            data-preview-theme={theme}
           >
             {THEMES.map((t) => (
               <option key={t} value={t}>
@@ -69,67 +174,38 @@ function Preview() {
             Dark mode
           </label>
         </div>
-      </section>
-
-      <section aria-label="Button">
-        <Text textStyle="H2" tagName="H2">
-          Button
-        </Text>
-        <Button
-          variant="filled"
-          severity="primary"
-          onClick={() => setDialogOpen(true)}
-        >
-          Open dialog
-        </Button>
-      </section>
-
-      <section aria-label="Tooltip">
-        <Text textStyle="H2" tagName="H2">
-          Tooltip
-        </Text>
-        <Tooltip content="Preview tooltip">
-          <span>Hover for tooltip</span>
-        </Tooltip>
-      </section>
-
-      <section aria-label="Forms">
-        <Text textStyle="H2" tagName="H2">
-          Field
-        </Text>
-        <Field label="Name" error={error ?? undefined}>
-          {({ inputId }) => (
-            <Input
-              id={inputId}
-              value={name}
-              onChange={(e) => {
-                setName(e.target.value);
-                setTouched(true);
-              }}
-              onBlur={() => setTouched(true)}
-            />
-          )}
-        </Field>
-      </section>
-
-      <Dialog
-        open={dialogOpen}
-        onClose={() => setDialogOpen(false)}
-        title="Preview dialog"
-        description="Verifies focus, Esc, and axe cleanliness."
-        footer={
-          <Button variant="text" onClick={() => setDialogOpen(false)}>
-            Close
-          </Button>
-        }
-      >
-        <Alert severity="info" title="Axe runs against this dialog too" />
-      </Dialog>
-    </main>
+      </Header>
+      <Sidebar>
+        <nav aria-label="Components">
+          {DEMO_GROUPS.map((group) => (
+            <div key={group.title}>
+              <Text textStyle="Overline" tagName="P">
+                {group.title}
+              </Text>
+              <ul style={{ listStyle: 'none', margin: 0, padding: 0 }}>
+                {group.routes.map((r) => (
+                  <li key={r.slug}>
+                    <a
+                      href={`#/${r.slug}`}
+                      aria-current={route === r.slug ? 'page' : undefined}
+                    >
+                      {r.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </nav>
+      </Sidebar>
+      <Body>
+        <DemoForRoute slug={route} />
+      </Body>
+    </Layout>
   );
 }
 
 const root = document.getElementById('root');
 if (root) {
-  createRoot(root).render(<Preview />);
+  createRoot(root).render(<App />);
 }
