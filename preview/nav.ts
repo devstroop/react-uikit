@@ -45,6 +45,8 @@ export const DEMO_GROUPS: DemoGroup[] = [
     routes: [
       { slug: 'form', title: 'Form' },
       { slug: 'field', title: 'Field' },
+      { slug: 'formfield', title: 'FormField' },
+      { slug: 'fieldset', title: 'Fieldset' },
       { slug: 'input', title: 'Input' },
       { slug: 'textbox', title: 'Textbox' },
       { slug: 'textarea', title: 'Textarea' },

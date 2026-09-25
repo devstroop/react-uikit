@@ -7,7 +7,9 @@ import {
   Datepicker,
   Dropdown,
   Field,
+  Fieldset,
   Form,
+  FormField,
   Input,
   Label,
   Listbox,
@@ -81,17 +83,77 @@ export function FormDemos({ slug }: { slug: string }) {
     case 'field':
       return (
         <DemoSection title="Field">
+          <Text textStyle="Body1" className="dx-text-muted">
+            Deprecated — prefer FormField for new code.
+          </Text>
           <Field label="Email" supporting="We never share it.">
-            {({ inputId }) => <Input id={inputId} placeholder="you@zone.app" />}
+            {({ inputId }) => (
+              <Textbox id={inputId} placeholder="you@zone.app" />
+            )}
           </Field>
           <Field label="Broken" error="Fix this field.">
-            {({ inputId }) => <Input id={inputId} />}
+            {({ inputId }) => <Textbox id={inputId} />}
           </Field>
+        </DemoSection>
+      );
+    case 'formfield':
+      return (
+        <DemoSection title="FormField">
+          <Text textStyle="Body1" className="dx-text-muted">
+            Custom controls carry explicit ids — FormField cannot backfill ids
+            it cannot see, so the label points at the id you pass.
+          </Text>
+          <FormField text="Email" helper="We never share it.">
+            <Textbox id="demo-email" placeholder="you@zone.app" />
+          </FormField>
+          <FormField
+            text="Search"
+            variant="filled"
+            start={<span aria-hidden="true">S</span>}
+            end={
+              <button type="button" aria-label="Clear">
+                ×
+              </button>
+            }
+          >
+            <Textbox id="demo-search" />
+          </FormField>
+          <FormField
+            text="Bio"
+            allowFloatingLabel={false}
+            helper="A sentence or two."
+          >
+            <Textarea id="demo-bio" rows={2} />
+          </FormField>
+          <FormField text="Amount" invalid helper="Must be positive.">
+            <Textbox id="demo-amount" />
+          </FormField>
+        </DemoSection>
+      );
+    case 'fieldset':
+      return (
+        <DemoSection title="Fieldset">
+          <Fieldset text="Address">
+            <FormField text="Street">
+              <Textbox id="demo-street" />
+            </FormField>
+            <FormField text="Town">
+              <Textbox id="demo-town" />
+            </FormField>
+          </Fieldset>
+          <Fieldset text="Advanced" allowCollapse summary="2 of 5 set">
+            <FormField text="Code">
+              <Textbox id="demo-code" />
+            </FormField>
+          </Fieldset>
         </DemoSection>
       );
     case 'input':
       return (
         <DemoSection title="Input">
+          <Text textStyle="Body1" className="dx-text-muted">
+            Deprecated alias of Textbox — identical rendering.
+          </Text>
           <Stack orientation="vertical" gap="sm">
             <Input placeholder="Default" aria-label="Default input" />
             <Input placeholder="Disabled" disabled aria-label="Disabled" />

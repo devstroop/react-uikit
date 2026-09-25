@@ -54,6 +54,8 @@ function DemoForRoute({ slug }: { slug: string }) {
       return <ButtonDemos slug={slug} />;
     case 'form':
     case 'field':
+    case 'formfield':
+    case 'fieldset':
     case 'input':
     case 'textbox':
     case 'textarea':
