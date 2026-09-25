@@ -14,6 +14,20 @@ describe('Stat', () => {
     expect(screen.getByText('99.9%')).toBeInTheDocument();
   });
 
+  it('accepts a ReactNode label', () => {
+    render(
+      <Stat
+        label={
+          <span>
+            Revenue <span aria-hidden="true">*</span>
+          </span>
+        }
+        value="$12,345"
+      />
+    );
+    expect(screen.getByText('Revenue')).toBeInTheDocument();
+  });
+
   it('renders the delta only when provided, with neutral tone by default', () => {
     const { rerender } = render(<Stat label="Revenue" value="10" />);
     expect(screen.queryByText('+5%')).not.toBeInTheDocument();
