@@ -129,6 +129,13 @@ export const DEMO_GROUPS: DemoGroup[] = [
     title: 'Theme',
     routes: [{ slug: 'themeswitcher', title: 'ThemeSwitcher' }],
   },
+  {
+    title: 'Recipes',
+    routes: [
+      { slug: 'recipe-login', title: 'Login split card' },
+      { slug: 'recipe-404', title: 'Bare 404' },
+    ],
+  },
 ];
 
 export function routeTitle(slug: string): string {

@@ -14,6 +14,7 @@ import { NavigationDemos } from './pages/navigation';
 import { DataDemos } from './pages/data';
 import { DisplayDemos } from './pages/display';
 import { ThemeDemos } from './pages/theme';
+import { RecipeDemos } from './pages/recipes';
 
 export const THEMES = [
   'default',
@@ -118,6 +119,9 @@ function DemoForRoute({ slug }: { slug: string }) {
       return <DisplayDemos slug={slug} />;
     case 'themeswitcher':
       return <ThemeDemos slug={slug} />;
+    case 'recipe-login':
+    case 'recipe-404':
+      return <RecipeDemos slug={slug} />;
     default:
       return <Text textStyle="Body1">Unknown demo: {routeTitle(slug)}</Text>;
   }
