@@ -1,26 +1,36 @@
 .row {
+  box-sizing: border-box;
   display: flex;
   flex-wrap: wrap;
-  gap: var(--dx-space-4);
+  /* Column grid math (Column.module.css) compensates for this gap so
+   * exact-sum rows never wrap. Keep the var and gap in sync: tier
+   * classes below set both, arbitrary gaps arrive inline from Row.tsx. */
+  --dx-col-gap: var(--dx-space-4);
+  gap: var(--dx-col-gap);
 }
 
 .gapXs {
+  --dx-col-gap: var(--dx-space-1);
   gap: var(--dx-space-1);
 }
 
 .gapSm {
+  --dx-col-gap: var(--dx-space-2);
   gap: var(--dx-space-2);
 }
 
 .gapMd {
+  --dx-col-gap: var(--dx-space-3);
   gap: var(--dx-space-3);
 }
 
 .gapLg {
+  --dx-col-gap: var(--dx-space-4);
   gap: var(--dx-space-4);
 }
 
 .gapXl {
+  --dx-col-gap: var(--dx-space-5);
   gap: var(--dx-space-5);
 }
 
