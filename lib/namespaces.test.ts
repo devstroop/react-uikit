@@ -63,4 +63,30 @@ describe("component namespaces (Radzen parity pilot)", () => {
     // inline-start.
     expect(css("Dialog")).toMatch(/\.dialog\s*{[^}]*margin:\s*auto;/);
   });
+
+  it("sizes dialogs by content with edge-to-edge internal scroll", () => {
+    const dialog = css("Dialog");
+    // No fixed height binding: shell flexes to content, capped only by
+    // the screen edge — 100vh baseline, 100dvh behind @supports (a bare
+    // var() line cannot be the fallback: it resolves at computed-value
+    // time, so pre-dvh browsers would drop to `none`).
+    expect(dialog).toContain("--dx-dialog-max-height: 100dvh;");
+    expect(dialog).toContain("max-height: 100vh;");
+    expect(dialog).toContain("@supports (max-height: 100dvh)");
+    expect(dialog).toContain("max-height: var(--dx-dialog-max-height);");
+    // The old min(85vh, 720px) height cap is gone (720px survives only
+    // as the lg *width* tier default).
+    expect(dialog).not.toContain("85vh");
+    // Outer shell clips to the radius and never scrolls; the body owns
+    // scrolling so scrollbars stay inside the rounded layer.
+    expect(dialog).toMatch(/\.dialog\s*{[^}]*overflow:\s*hidden;/);
+    expect(dialog).toMatch(/\.body\s*{[^}]*overflow:\s*auto;/);
+    expect(dialog).toMatch(/\.body\s*{[^}]*min-height:\s*0;/);
+    // Open/closed display never depends on UA-stylesheet internals
+    // (comments stripped: prose mentions of display: must not match).
+    const code = dialog.replace(/\/\*[\s\S]*?\*\//g, "");
+    expect(code).toMatch(/\.dialog\[open\]\s*{[^}]*display:\s*flex;/);
+    expect(code).toMatch(/\.dialog:not\(\[open\]\)\s*{[^}]*display:\s*none;/);
+    expect(code.match(/\.dialog\s*{[^}]*display:/g) ?? []).toHaveLength(0);
+  });
 });

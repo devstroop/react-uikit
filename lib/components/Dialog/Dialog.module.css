@@ -1,9 +1,12 @@
 .dialog {
-  /* Component namespace: width tiers + chrome geometry hooks. */
+  /* Component namespace: width tiers + chrome geometry hooks. Widths
+   * are defaults until overridden (size tier or width prop). Height is
+   * never bound: the shell grows/shrinks with content up to the screen
+   * edge (100dvh), with zero y margin/padding reserved. */
   --dx-dialog-width-sm: 360px;
   --dx-dialog-width-md: 520px;
   --dx-dialog-width-lg: 720px;
-  --dx-dialog-max-height: min(85vh, 720px);
+  --dx-dialog-max-height: 100dvh;
   --dx-dialog-close-size: 28px;
   z-index: var(--dx-z-modal);
   border: var(--dx-border-width) solid var(--dx-border-color);
@@ -13,13 +16,42 @@
   box-shadow: var(--dx-shadow-lg);
   padding: 0;
   width: 100%;
-  max-height: var(--dx-dialog-max-height);
-  overflow: auto;
+  /* Outer shell clips to the radius and never scrolls itself (Radzen
+   * parity): the body region below owns scrolling, so scrollbars and
+   * content stay cleanly inside the rounded layer. display:flex lives
+   * on .dialog[open] below — never unconditionally, so closed dialogs
+   * cannot paint regardless of UA internals. */
+  flex-direction: column;
+  overflow: hidden;
+  /* Height cap is the screen edge only: 100vh baseline, 100dvh where
+   * supported. A bare `max-height: var(--dx-dialog-max-height)` line
+   * cannot serve as the fallback — var() resolves at computed-value
+   * time, so pre-dvh browsers would drop to `none` instead of 100vh. */
+  max-height: 100vh;
   /* Native <dialog> centers via UA margin:auto, which resets like
    * Tailwind preflight zero out. Restore it or showModal() dialogs
    * stick to inline-start instead of centering. */
   margin: auto;
   animation: se-dialog-in var(--dx-transition-base) var(--dx-ease-out);
+}
+
+@supports (max-height: 100dvh) {
+  .dialog {
+    max-height: var(--dx-dialog-max-height);
+  }
+}
+
+/* Closed dialogs stay hidden on our own rule, not on UA-stylesheet
+ * internals: UA `dialog:not([open]) { display: none }` (0,1,1) only
+ * wins while our display declaration stays at single-class (0,1,0)
+ * specificity. Scope the flex layout to [open] so no future
+ * specificity increase can ever paint a closed dialog. */
+.dialog:not([open]) {
+  display: none;
+}
+
+.dialog[open] {
+  display: flex;
 }
 
 .dialog::backdrop {
@@ -51,6 +83,7 @@
 
 .header {
   display: flex;
+  flex: none;
   align-items: flex-start;
   justify-content: space-between;
   gap: var(--dx-space-3);
@@ -92,6 +125,12 @@
 }
 
 .body {
+  /* The only scrolling region: grows with content until the shell hits
+   * the screen edge, then scrolls internally. min-height lets it shrink
+   * inside short viewports instead of pushing header/footer out. */
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
   padding: var(--dx-space-4) var(--dx-space-5);
   font-size: var(--dx-font-size-sm);
   line-height: var(--dx-leading-loose);
@@ -99,6 +138,7 @@
 
 .footer {
   display: flex;
+  flex: none;
   align-items: center;
   justify-content: flex-end;
   gap: var(--dx-space-2);
