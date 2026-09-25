@@ -1,13 +1,19 @@
 import { useEffect, type HTMLAttributes } from "react";
 import styles from "./Sidebar.module.css";
 
-export type SidebarPosition = "left" | "right";
+export type SidebarPosition = "left" | "right" | "start" | "end";
 
 export interface SidebarProps extends HTMLAttributes<HTMLElement> {
   position?: SidebarPosition;
   expanded?: boolean;
   responsive?: boolean;
   overlay?: boolean;
+  /**
+   * Span the full layout height (header through footer) instead of the
+   * body row. Only honored for a single fullHeight sidebar — Layout
+   * switches to grid placement for it (Radzen FullHeight parity).
+   */
+  fullHeight?: boolean;
   onClose?: () => void;
   children?: React.ReactNode;
 }
@@ -17,6 +23,7 @@ export function Sidebar({
   expanded = true,
   responsive = false,
   overlay = false,
+  fullHeight = false,
   onClose,
   className,
   children,
@@ -39,10 +46,11 @@ export function Sidebar({
       <aside
         className={[
           styles.sidebar,
-          position === "right" ? styles.right : styles.left,
+          styles[position],
           !expanded ? styles.collapsed : null,
           responsive ? styles.responsive : null,
           overlay ? [styles.overlay, "se-sidebar--overlay"] : null,
+          fullHeight ? styles.fullHeight : null,
           className,
         ]
           .flat()

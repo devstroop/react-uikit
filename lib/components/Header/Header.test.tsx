@@ -15,4 +15,9 @@ describe("Header", () => {
     expect(container.firstElementChild?.getAttribute("id")).toBe("h1");
     expect(container.firstElementChild?.getAttribute("aria-label")).toBe("Top");
   });
+
+  it("applies the sticky class when sticky is true", () => {
+    const { container } = render(<Header sticky>content</Header>);
+    expect(container.firstElementChild?.className).toContain("sticky");
+  });
 });

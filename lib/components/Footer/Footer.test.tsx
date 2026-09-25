@@ -15,4 +15,9 @@ describe("Footer", () => {
     expect(container.firstElementChild?.getAttribute("id")).toBe("f1");
     expect(container.firstElementChild?.getAttribute("aria-label")).toBe("Site");
   });
+
+  it("applies the sticky class when sticky is true", () => {
+    const { container } = render(<Footer sticky>content</Footer>);
+    expect(container.firstElementChild?.className).toContain("sticky");
+  });
 });

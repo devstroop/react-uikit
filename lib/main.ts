@@ -137,6 +137,9 @@ export type { FooterProps } from "./components/Footer/Footer";
 export { Sidebar } from "./components/Sidebar/Sidebar";
 export type { SidebarProps, SidebarPosition } from "./components/Sidebar/Sidebar";
 
+export { SidebarToggle } from "./components/SidebarToggle/SidebarToggle";
+export type { SidebarToggleProps } from "./components/SidebarToggle/SidebarToggle";
+
 export { Progress } from "./components/Progress/Progress";
 export type { ProgressProps, ProgressTone, ProgressShade, ProgressVariant } from "./components/Progress/Progress";
 

@@ -116,6 +116,14 @@ describe("foundation tokens", () => {
     expect(css).toContain("--dx-link-hover-color: var(--dx-primary-hover-color);");
   });
 
+  it("defines layout chrome tokens", () => {
+    expect(css).toContain("--dx-z-sticky: 100;");
+    expect(css).toContain("--dx-layout-sidebar-width: 240px;");
+    expect(css).toContain("--dx-z-drawer-scrim: 150;");
+    expect(css).toContain("--dx-z-drawer: 200;");
+    expect(css).toContain("--dx-z-drawer-toggle: 250;");
+  });
+
   it("self-hosts the Source Sans 3 variable fonts with swap", () => {
     expect(css).toContain('font-family: "Source Sans 3";');
     expect(css).toContain('url("./fonts/SourceSans3VF-Upright.ttf.woff2")');

@@ -76,4 +76,91 @@ describe("Layout", () => {
     expect(root?.getAttribute("data-test")).toBe("x");
     expect(root?.getAttribute("style")).toContain("min-height: 320px");
   });
+
+  it("renders children without a wrapper when bare", () => {
+    const { container } = render(
+      <Layout bare>
+        <p>naked</p>
+      </Layout>,
+    );
+    expect(container.firstElementChild?.tagName).toBe("P");
+    expect(container.firstElementChild?.className ?? "").not.toMatch(/layout|row/);
+  });
+
+  it("routes logical end position after the body", () => {
+    const { container } = render(
+      <Layout>
+        <Sidebar position="end" />
+        <Body />
+      </Layout>,
+    );
+    const { rowChildren } = layout(container);
+    expect(rowChildren[0]?.tagName).toBe("MAIN");
+    expect(rowChildren[1]?.tagName).toBe("ASIDE");
+    expect(rowChildren[1]?.className).toContain("end");
+  });
+
+  it("engages grid placement for a single fullHeight sidebar", () => {
+    const { container } = render(
+      <Layout>
+        <Header />
+        <Sidebar fullHeight />
+        <Body />
+        <Footer />
+      </Layout>,
+    );
+    const root = container.firstElementChild;
+    expect(root?.className).toContain("grid");
+    expect(root?.querySelector("header")?.parentElement?.className).toContain("gridHeader");
+    expect(root?.querySelector("aside")).not.toBeNull();
+    expect(root?.querySelector("main")?.parentElement?.className).toContain("gridBody");
+    expect(root?.querySelector("footer")?.parentElement?.className).toContain("gridFooter");
+  });
+
+  it("stacks duplicate regions inside one grid cell", () => {
+    const { container } = render(
+      <Layout>
+        <Header>one</Header>
+        <Header>two</Header>
+        <Sidebar fullHeight />
+        <Body />
+      </Layout>,
+    );
+    const root = container.firstElementChild;
+    expect(root?.className).toContain("grid");
+    const headers = root?.querySelectorAll("header") ?? [];
+    expect(headers.length).toBe(2);
+    expect(headers[0]?.parentElement?.className).toContain("gridHeader");
+    expect(headers[1]?.parentElement?.className).toContain("gridHeader");
+  });
+
+  it("mirrors the grid for a right fullHeight sidebar", () => {
+    const { container } = render(
+      <Layout>
+        <Sidebar position="end" fullHeight />
+        <Body />
+      </Layout>,
+    );
+    const root = container.firstElementChild;
+    expect(root?.className).toContain("grid");
+    expect(root?.className).toContain("gridRight");
+  });
+
+  it("keeps flex layout without fullHeight or with two sidebars", () => {
+    const { container, rerender } = render(
+      <Layout>
+        <Sidebar />
+        <Body />
+      </Layout>,
+    );
+    expect(container.firstElementChild?.className).not.toContain("grid");
+    rerender(
+      <Layout>
+        <Sidebar fullHeight />
+        <Sidebar position="right" fullHeight />
+        <Body />
+      </Layout>,
+    );
+    expect(container.firstElementChild?.className).not.toContain("grid");
+  });
 });

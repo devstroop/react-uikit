@@ -243,6 +243,13 @@
   --dx-z-popover: 1500;
   --dx-z-modal: 2000;
   --dx-z-toast: 3000;
+  /* layout chrome sits above body content but below all overlays */
+  --dx-z-sticky: 100;
+  --dx-layout-sidebar-width: 240px;
+  /* overlay drawer stack: scrim < drawer < toggle, all below overlays */
+  --dx-z-drawer-scrim: 150;
+  --dx-z-drawer: 200;
+  --dx-z-drawer-toggle: 250;
   /* control */
   --dx-control-height: 36px;
   --dx-control-height-xs: 20px;

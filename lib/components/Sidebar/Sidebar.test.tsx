@@ -21,6 +21,20 @@ describe("Sidebar", () => {
     expect(cls).not.toContain("left");
   });
 
+  it("applies logical start/end classes", () => {
+    const { container, rerender } = render(<Sidebar position="start" />);
+    expect(container.querySelector("aside")?.className).toContain("start");
+    rerender(<Sidebar position="end" />);
+    const cls = container.querySelector("aside")?.className ?? "";
+    expect(cls).toContain("end");
+    expect(cls).not.toContain("start");
+  });
+
+  it("applies the fullHeight class for grid placement", () => {
+    const { container } = render(<Sidebar fullHeight />);
+    expect(container.querySelector("aside")?.className).toContain("fullHeight");
+  });
+
   it("applies the collapsed class when expanded is false", () => {
     const { container } = render(<Sidebar expanded={false} />);
     expect(container.querySelector("aside")?.className).toContain("collapsed");

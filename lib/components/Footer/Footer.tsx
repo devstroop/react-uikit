@@ -3,11 +3,16 @@ import styles from "./Footer.module.css";
 
 export interface FooterProps extends HTMLAttributes<HTMLElement> {
   children?: React.ReactNode;
+  /** Pin to the viewport bottom while body scrolls. */
+  sticky?: boolean;
 }
 
-export function Footer({ className, children, ...props }: FooterProps) {
+export function Footer({ sticky = false, className, children, ...props }: FooterProps) {
   return (
-    <footer className={[styles.footer, className].filter(Boolean).join(" ")} {...props}>
+    <footer
+      className={[styles.footer, sticky ? styles.sticky : null, className].filter(Boolean).join(" ")}
+      {...props}
+    >
       {children}
     </footer>
   );

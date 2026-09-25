@@ -7,11 +7,26 @@
 }
 
 .left {
-  border-right: 1px solid var(--dx-border-color);
+  border-right: var(--dx-border-width) solid var(--dx-border-color);
 }
 
 .right {
-  border-left: 1px solid var(--dx-border-color);
+  border-left: var(--dx-border-width) solid var(--dx-border-color);
+}
+
+/* Logical positions flip automatically in RTL (Radzen Start/End parity). */
+.start {
+  border-inline-end: var(--dx-border-width) solid var(--dx-border-color);
+}
+
+.end {
+  border-inline-start: var(--dx-border-width) solid var(--dx-border-color);
+}
+
+/* Grid-placement hook: Layout switches to grid areas when exactly one
+ * fullHeight sidebar is present; the column/row assignment lives there. */
+.fullHeight {
+  align-self: stretch;
 }
 
 .collapsed {
@@ -34,7 +49,7 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  z-index: 20;
+  z-index: var(--dx-z-drawer);
   box-shadow: var(--dx-shadow-lg);
 }
 
@@ -50,16 +65,25 @@
   right: 0;
 }
 
+.overlay.start {
+  inset-inline-start: 0;
+}
+
+.overlay.end {
+  inset-inline-end: 0;
+}
+
 .mask {
   position: fixed;
   inset: 0;
-  z-index: 10;
+  z-index: var(--dx-z-drawer-scrim);
   background: var(--dx-backdrop-color);
 }
 
-/* Stacking contract: mask 10 < drawer 20 < toggle 30. Drawer toggles
-   (htmx-idiom data attribute) stay clickable above the scrim. */
+/* Stacking contract: scrim < drawer < toggle, all above sticky chrome
+   (100) and below overlays (1000+). Drawer toggles (htmx-idiom data
+   attribute) stay clickable above the scrim. */
 :global([data-se-sidebar-toggle]) {
   position: relative;
-  z-index: 30;
+  z-index: var(--dx-z-drawer-toggle);
 }

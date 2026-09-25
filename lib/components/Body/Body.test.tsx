@@ -21,4 +21,9 @@ describe("Body", () => {
     expect(container.firstElementChild?.getAttribute("id")).toBe("b1");
     expect(container.firstElementChild?.getAttribute("aria-label")).toBe("Content");
   });
+
+  it("removes padding when padded is false", () => {
+    const { container } = render(<Body padded={false}>content</Body>);
+    expect(container.firstElementChild?.className).toContain("bare");
+  });
 });

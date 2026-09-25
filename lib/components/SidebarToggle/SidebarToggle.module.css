@@ -1,0 +1,22 @@
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: var(--dx-target-min);
+  height: var(--dx-target-min);
+  padding: 0;
+  border: 0;
+  border-radius: var(--dx-radius-full);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.toggle:hover {
+  background: color-mix(in srgb, var(--dx-text-color) 8%, transparent);
+}
+
+.toggle svg {
+  display: block;
+}
