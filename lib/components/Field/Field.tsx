@@ -11,13 +11,16 @@ export interface FieldProps {
   error?: ReactNode;
   children: ReactNode | ((ids: { inputId: string; hintId: string; errorId: string }) => ReactNode);
   className?: string;
+  /** Render nothing when false. Defaults to true. */
+  visible?: boolean;
 }
 
-export function Field({ label, htmlFor, required, hint, supporting, error, children, className }: FieldProps) {
+export function Field({ label, htmlFor, required, hint, supporting, error, children, className, visible = true }: FieldProps) {
   const resolvedHint = hint ?? supporting;
   const inputId = useId();
   const errorId = useId();
   const hintId = useId();
+  if (visible === false) return null;
   const messageId = error != null ? errorId : resolvedHint != null ? hintId : null;
 
   const resolvedChildren =

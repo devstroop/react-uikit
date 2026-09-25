@@ -141,4 +141,11 @@ describe("Icon", () => {
     render(<Icon name="search" size={24} />);
     expect(document.querySelector("svg")).toHaveAttribute("width", "24");
   });
+
+  it("renders nothing when visible is false", () => {
+    const { container } = render(
+      <Table columns={[{ key: "a", header: "A" }]} rows={[{ a: "1" }]} rowKey={(r) => r.a} visible={false} />,
+    );
+    expect(container.querySelector("table")).not.toBeInTheDocument();
+  });
 });

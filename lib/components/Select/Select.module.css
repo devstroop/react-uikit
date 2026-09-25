@@ -3,10 +3,10 @@
   width: 100%;
   min-width: 0;
   box-sizing: border-box;
-  border: 1px solid var(--dx-color-border-strong);
+  border: 1px solid var(--dx-border-strong-color);
   border-radius: var(--dx-radius-md);
-  background-color: var(--dx-color-surface);
-  color: var(--dx-color-text);
+  background-color: var(--dx-surface-color);
+  color: var(--dx-text-color);
   font-family: var(--dx-font-sans);
   appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
@@ -21,8 +21,8 @@
 
 .select:focus-visible {
   outline: none;
-  border-color: var(--dx-color-primary);
-  box-shadow: 0 0 0 3px var(--dx-color-outline-primary);
+  border-color: var(--dx-primary-color);
+  box-shadow: 0 0 0 3px var(--dx-outline-primary-color);
 }
 
 .select:disabled {
@@ -32,9 +32,9 @@
 
 .invalid,
 .invalid:focus-visible {
-  border-color: var(--dx-color-danger);
+  border-color: var(--dx-danger-color);
   box-shadow: 0 0 0 3px
-    color-mix(in srgb, var(--dx-color-danger) 25%, transparent);
+    color-mix(in srgb, var(--dx-danger-color) 25%, transparent);
 }
 
 .xs {

@@ -70,3 +70,18 @@ describe("Row flex parity (#108)", () => {
     expect(container.firstElementChild?.className).toContain("gapRowMd");
   });
 });
+describe("Row column-gap variable (grid parity)", () => {
+  it("syncs --dx-col-gap inline for arbitrary gaps", () => {
+    const { container, rerender } = render(<Row gap={24} />);
+    expect(container.firstElementChild?.getAttribute("style")).toContain("--dx-col-gap: 24px");
+    rerender(<Row gap="2rem" />);
+    expect(container.firstElementChild?.getAttribute("style")).toContain("--dx-col-gap: 2rem");
+  });
+
+  it("leaves --dx-col-gap to the tier class for token gaps", () => {
+    const { container } = render(<Row gap="sm" />);
+    const element = container.firstElementChild as HTMLElement;
+    expect(element.className).toContain("gapSm");
+    expect(element.getAttribute("style")).toBeNull();
+  });
+});

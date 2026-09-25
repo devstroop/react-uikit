@@ -27,12 +27,15 @@ export interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
   variant?: BadgeVariant;
   shade?: BadgeShade;
   size?: BadgeSize;
+  /** Render nothing when false. Defaults to true. */
+  visible?: boolean;
 }
 
 export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(function Badge(
-  { severity = "primary", variant = "filled", shade, size = "md", className, children, ...props },
+  { severity = "primary", variant = "filled", shade, size = "md", className, visible = true, children, ...props },
   ref,
 ) {
+  if (visible === false) return null;
   const t = severity as string;
   const v = resolveVariant(variant, "filled");
   const shadeCls = shade && shade !== "default" ? `shade-${shade}` : null;

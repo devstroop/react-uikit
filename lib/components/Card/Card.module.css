@@ -1,26 +1,26 @@
 .card {
   border-radius: var(--dx-radius-lg);
-  background-color: var(--dx-color-surface);
+  background-color: var(--dx-surface-color);
   font-family: var(--dx-font-sans);
   overflow: hidden;
 }
 
 .elevated {
   box-shadow: var(--dx-shadow-md);
-  border: 1px solid var(--dx-color-border);
+  border: var(--dx-border-width) solid var(--dx-border-color);
 }
 
 .filled {
   box-shadow: var(--dx-shadow-md);
-  border: 1px solid var(--dx-color-border);
+  border: var(--dx-border-width) solid var(--dx-border-color);
 }
 
 .outlined {
-  border: 1px solid var(--dx-color-border);
+  border: var(--dx-border-width) solid var(--dx-border-color);
 }
 
 .interactive {
-  border: 1px solid var(--dx-color-border);
+  border: var(--dx-border-width) solid var(--dx-border-color);
   cursor: pointer;
   transition:
     border-color var(--dx-transition-fast),
@@ -34,26 +34,26 @@
 }
 
 .interactive:hover {
-  border-color: var(--dx-color-border-strong);
+  border-color: var(--dx-border-strong-color);
   box-shadow: var(--dx-shadow-sm);
 }
 
 .interactive:focus-visible {
-  outline: 2px solid var(--dx-color-focus);
-  outline-offset: 2px;
+  outline: var(--dx-outline-width) solid var(--dx-focus-color);
+  outline-offset: var(--dx-focus-ring-offset);
 }
 
 .header {
   padding: var(--dx-space-4) var(--dx-space-4) 0;
   font-size: var(--dx-font-size-md);
   font-weight: var(--dx-font-weight-bold);
-  color: var(--dx-color-text);
+  color: var(--dx-text-color);
 }
 
 .body {
   padding: var(--dx-space-4);
   font-size: var(--dx-font-size-sm);
-  color: var(--dx-color-text);
+  color: var(--dx-text-color);
 }
 
 .header + .body {

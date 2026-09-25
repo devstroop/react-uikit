@@ -103,8 +103,8 @@ export function QRCode({
     void osTheme;
     void attrTheme;
     const cs = getComputedStyle(canvas);
-    const fg = cs.getPropertyValue("--dx-color-text").trim() || "#000";
-    const bg = cs.getPropertyValue("--dx-color-surface").trim() || "#fff";
+    const fg = cs.getPropertyValue("--dx-text-color").trim() || "#000";
+    const bg = cs.getPropertyValue("--dx-surface-color").trim() || "#fff";
     paint(ctx, qr, size, safeMargin, fg, bg);
   }, [render, qr, size, safeMargin, osTheme, attrTheme]);
 
@@ -159,8 +159,8 @@ export function QRCode({
       aria-label={label}
       data-value={value}
     >
-      <rect width={size} height={size} fill="var(--dx-color-surface)" />
-      <g fill="var(--dx-color-text)">{rects}</g>
+      <rect width={size} height={size} fill="var(--dx-surface-color)" />
+      <g fill="var(--dx-text-color)">{rects}</g>
     </svg>
   );
 }

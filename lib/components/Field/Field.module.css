@@ -8,20 +8,20 @@
 .label {
   font-size: var(--dx-font-size-sm);
   font-weight: var(--dx-font-weight-medium);
-  color: var(--dx-color-text);
+  color: var(--dx-text-color);
 }
 
 .required {
-  color: var(--dx-color-text-danger);
+  color: var(--dx-text-danger-color);
   margin-left: 2px;
 }
 
 .hint {
   font-size: var(--dx-font-size-xs);
-  color: var(--dx-color-text-muted);
+  color: var(--dx-text-muted-color);
 }
 
 .error {
   font-size: var(--dx-font-size-xs);
-  color: var(--dx-color-text-danger);
+  color: var(--dx-text-danger-color);
 }

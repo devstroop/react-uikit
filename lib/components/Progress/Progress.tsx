@@ -20,6 +20,8 @@ export interface ProgressProps extends Omit<HTMLAttributes<HTMLDivElement>, "rol
   indeterminate?: boolean;
   variant?: ProgressVariant;
   size?: number | ComponentSize;
+  /** Render nothing when false. Defaults to true. */
+  visible?: boolean;
 }
 
 export function Progress({
@@ -31,8 +33,10 @@ export function Progress({
   variant = "linear",
   size = "md",
   className,
+  visible = true,
   ...props
 }: ProgressProps) {
+  if (visible === false) return null;
   const clamped = max > 0 ? Math.min(max, Math.max(0, value)) : 0;
   const percent = max > 0 ? (clamped / max) * 100 : 0;
 

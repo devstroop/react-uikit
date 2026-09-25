@@ -5,5 +5,5 @@
   font-family: var(--dx-font-sans);
   font-size: var(--dx-font-size-sm);
   font-weight: var(--dx-font-weight-medium);
-  color: var(--dx-color-text);
+  color: var(--dx-text-color);
 }

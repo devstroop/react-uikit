@@ -15,5 +15,7 @@ export interface TableProps<T> {
     gridLines?: GridLines;
     allowAlternatingRows?: boolean;
     className?: string;
+    /** Render nothing when false. Defaults to true. */
+    visible?: boolean;
 }
-export declare function Table<T>({ columns, rows, rowKey, empty, caption, gridLines, allowAlternatingRows, className, }: TableProps<T>): import("react").JSX.Element;
+export declare function Table<T>({ columns, rows, rowKey, empty, caption, gridLines, allowAlternatingRows, className, visible, }: TableProps<T>): import("react").JSX.Element | null;

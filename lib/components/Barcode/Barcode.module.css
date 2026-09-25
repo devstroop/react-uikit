@@ -8,7 +8,7 @@
 
 .value {
   text-align: center;
-  color: var(--dx-color-text);
+  color: var(--dx-text-color);
   font-size: var(--dx-font-size-sm);
   padding-top: var(--dx-space-1);
 }

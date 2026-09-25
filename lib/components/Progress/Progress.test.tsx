@@ -88,4 +88,17 @@ describe("Progress", () => {
     expect(bar).not.toHaveAttribute("aria-valuenow");
     expect(bar.getAttribute("class")).toContain("indeterminate");
   });
+
+  it.each(["lighter", "light", "dark", "darker"] as const)(
+    "applies the shade-%s class (token-driven, no brightness filter)",
+    (shade) => {
+      render(<Progress value={10} shade={shade} />);
+      expect(screen.getByRole("progressbar").className).toContain(`shade-${shade}`);
+    },
+  );
+
+  it("renders nothing when visible is false", () => {
+    render(<Progress value={10} visible={false} />);
+    expect(screen.queryByRole("progressbar")).not.toBeInTheDocument();
+  });
 });

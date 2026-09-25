@@ -1,6 +1,6 @@
 .wrap {
   font-family: var(--dx-font-sans);
-  border: 1px solid var(--dx-color-border);
+  border: var(--dx-border-width) solid var(--dx-border-color);
   border-radius: var(--dx-radius-md);
   overflow: hidden;
 }
@@ -17,27 +17,27 @@
   padding: var(--dx-space-2) var(--dx-space-3);
   font-size: var(--dx-font-size-xs);
   font-weight: var(--dx-font-weight-medium);
-  color: var(--dx-color-text-muted);
+  color: var(--dx-text-muted-color);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: var(--dx-letterspacing-wide);
 }
 
 .table thead th {
-  background-color: var(--dx-color-surface-hover);
-  color: var(--dx-color-text-muted);
+  background-color: var(--dx-surface-hover-color);
+  color: var(--dx-text-muted-color);
   text-align: left;
   font-weight: var(--dx-font-weight-medium);
   font-size: var(--dx-font-size-xs);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: var(--dx-letterspacing-wide);
   padding: var(--dx-space-2) var(--dx-space-3);
-  border-bottom: 1px solid var(--dx-color-border);
+  border-bottom: var(--dx-border-width) solid var(--dx-border-color);
 }
 
 .table tbody td {
   padding: var(--dx-space-3);
-  color: var(--dx-color-text);
-  border-bottom: 1px solid var(--dx-color-border);
+  color: var(--dx-text-color);
+  border-bottom: var(--dx-border-width) solid var(--dx-border-color);
 }
 
 .table tbody tr:last-child td {
@@ -45,7 +45,7 @@
 }
 
 .table tbody tr:hover {
-  background-color: var(--dx-color-surface-hover);
+  background-color: var(--dx-surface-hover-color);
 }
 
 .table.none,
@@ -65,8 +65,8 @@
 }
 
 .table.vertical thead th {
-  border-bottom: 1px solid var(--dx-color-border);
-  border-right: 1px solid var(--dx-color-border);
+  border-bottom: var(--dx-border-width) solid var(--dx-border-color);
+  border-right: var(--dx-border-width) solid var(--dx-border-color);
 }
 
 .table.vertical thead th:last-child {
@@ -75,7 +75,7 @@
 
 .table.vertical tbody td {
   border-bottom: none;
-  border-right: 1px solid var(--dx-color-border);
+  border-right: var(--dx-border-width) solid var(--dx-border-color);
 }
 
 .table.vertical tbody td:last-child {
@@ -83,7 +83,7 @@
 }
 
 .table.alternating tbody tr:nth-child(even) {
-  background-color: var(--dx-color-surface-hover);
+  background-color: var(--dx-surface-hover-color);
 }
 
 .start {
@@ -100,6 +100,6 @@
 
 .empty {
   padding: var(--dx-space-6);
-  color: var(--dx-color-text-muted);
+  color: var(--dx-text-muted-color);
   text-align: center;
 }

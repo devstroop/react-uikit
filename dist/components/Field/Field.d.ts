@@ -13,5 +13,7 @@ export interface FieldProps {
         errorId: string;
     }) => ReactNode);
     className?: string;
+    /** Render nothing when false. Defaults to true. */
+    visible?: boolean;
 }
-export declare function Field({ label, htmlFor, required, hint, supporting, error, children, className }: FieldProps): import("react").JSX.Element;
+export declare function Field({ label, htmlFor, required, hint, supporting, error, children, className, visible }: FieldProps): import("react").JSX.Element | null;

@@ -1,12 +1,18 @@
 .input {
+  /* Component namespace: per-size inner padding hooks. */
+  --dx-input-padding-xs: 6px 10px;
+  --dx-input-padding-sm: 6px 10px;
+  --dx-input-padding-md: 8px 12px;
+  --dx-input-padding-lg: 10px 14px;
+  --dx-input-padding-xl: 12px 16px;
   display: block;
   width: 100%;
   min-width: 0;
   box-sizing: border-box;
-  border: 1px solid var(--dx-color-border-strong);
+  border: var(--dx-border-width) solid var(--dx-border-strong-color);
   border-radius: var(--dx-radius-md);
-  background-color: var(--dx-color-surface);
-  color: var(--dx-color-text);
+  background-color: var(--dx-surface-color);
+  color: var(--dx-text-color);
   font-family: var(--dx-font-sans);
   transition:
     border-color var(--dx-transition-fast),
@@ -14,52 +20,52 @@
 }
 
 .input::placeholder {
-  color: var(--dx-color-text-muted);
+  color: var(--dx-text-muted-color);
 }
 
 .input:focus-visible {
   outline: none;
-  border-color: var(--dx-color-primary);
-  box-shadow: 0 0 0 3px var(--dx-color-outline-primary);
+  border-color: var(--dx-primary-color);
+  box-shadow: 0 0 0 var(--dx-focus-ring-width) var(--dx-outline-primary-color);
 }
 
 .input:disabled {
-  opacity: 0.55;
+  opacity: var(--dx-disabled-opacity);
   cursor: not-allowed;
 }
 
 .invalid,
 .invalid:focus-visible {
-  border-color: var(--dx-color-danger);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--dx-color-danger) 25%, transparent);
+  border-color: var(--dx-danger-color);
+  box-shadow: 0 0 0 var(--dx-focus-ring-width) color-mix(in srgb, var(--dx-danger-color) 25%, transparent);
 }
 
 .xs {
   height: var(--dx-control-height-xs);
-  padding: 6px 10px;
+  padding: var(--dx-input-padding-xs);
   font-size: var(--dx-font-size-xs);
 }
 
 .sm {
   height: var(--dx-control-height-sm);
-  padding: 6px 10px;
+  padding: var(--dx-input-padding-sm);
   font-size: var(--dx-font-size-xs);
 }
 
 .md {
   height: var(--dx-control-height-md);
-  padding: 8px 12px;
+  padding: var(--dx-input-padding-md);
   font-size: var(--dx-font-size-sm);
 }
 
 .lg {
   height: var(--dx-control-height-lg);
-  padding: 10px 14px;
+  padding: var(--dx-input-padding-lg);
   font-size: var(--dx-font-size-md);
 }
 
 .xl {
   height: var(--dx-control-height-xl);
-  padding: 12px 16px;
+  padding: var(--dx-input-padding-xl);
   font-size: var(--dx-font-size-lg);
 }

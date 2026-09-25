@@ -17,5 +17,7 @@ export interface ProgressProps extends Omit<HTMLAttributes<HTMLDivElement>, "rol
     indeterminate?: boolean;
     variant?: ProgressVariant;
     size?: number | ComponentSize;
+    /** Render nothing when false. Defaults to true. */
+    visible?: boolean;
 }
-export declare function Progress({ value, max, severity, shade, indeterminate, variant, size, className, ...props }: ProgressProps): import("react").JSX.Element;
+export declare function Progress({ value, max, severity, shade, indeterminate, variant, size, className, visible, ...props }: ProgressProps): import("react").JSX.Element | null;

@@ -1,10 +1,16 @@
 .alert {
+  /* Component namespace (pilot): dismiss affordance per size tier. */
+  --dx-alert-dismiss-size-xs: 18px;
+  --dx-alert-dismiss-size-sm: 20px;
+  --dx-alert-dismiss-size-md: 22px;
+  --dx-alert-dismiss-size-lg: 26px;
+  --dx-alert-dismiss-size-xl: 30px;
   --alert-pad: var(--dx-space-3);
   --alert-gap: var(--dx-space-2);
   --alert-radius: var(--dx-radius-md);
   --alert-title-size: var(--dx-font-size-md);
   --alert-body-size: var(--dx-font-size-sm);
-  --alert-dismiss-size: 22px;
+  --alert-dismiss-size: var(--dx-alert-dismiss-size-md);
   --alert-dismiss-font: var(--dx-font-size-md);
   display: flex;
   align-items: flex-start;
@@ -12,9 +18,9 @@
   padding: var(--alert-pad);
   margin: 0 0 var(--dx-space-3);
   border-radius: var(--alert-radius);
-  border: 1px solid var(--dx-color-border);
-  background: var(--dx-color-surface);
-  color: var(--dx-color-text);
+  border: var(--dx-border-width) solid var(--dx-border-color);
+  background: var(--dx-surface-color);
+  color: var(--dx-text-color);
   font-size: var(--dx-font-size-sm);
 }
 
@@ -25,7 +31,7 @@
   --alert-radius: var(--dx-radius-sm);
   --alert-title-size: var(--dx-font-size-sm);
   --alert-body-size: var(--dx-font-size-xs);
-  --alert-dismiss-size: 18px;
+  --alert-dismiss-size: var(--dx-alert-dismiss-size-xs);
   --alert-dismiss-font: var(--dx-font-size-xs);
 }
 
@@ -35,7 +41,7 @@
   --alert-radius: var(--dx-radius-sm);
   --alert-title-size: var(--dx-font-size-sm);
   --alert-body-size: var(--dx-font-size-xs);
-  --alert-dismiss-size: 20px;
+  --alert-dismiss-size: var(--dx-alert-dismiss-size-sm);
   --alert-dismiss-font: var(--dx-font-size-sm);
 }
 
@@ -45,7 +51,7 @@
   --alert-radius: var(--dx-radius-lg);
   --alert-title-size: var(--dx-font-size-lg);
   --alert-body-size: var(--dx-font-size-sm);
-  --alert-dismiss-size: 26px;
+  --alert-dismiss-size: var(--dx-alert-dismiss-size-lg);
   --alert-dismiss-font: var(--dx-font-size-lg);
 }
 
@@ -55,54 +61,54 @@
   --alert-radius: var(--dx-radius-lg);
   --alert-title-size: var(--dx-font-size-lg);
   --alert-body-size: var(--dx-font-size-md);
-  --alert-dismiss-size: 30px;
+  --alert-dismiss-size: var(--dx-alert-dismiss-size-xl);
   --alert-dismiss-font: var(--dx-font-size-lg);
 }
 
 /* Tones define the palette; variants paint it (Badge-language parity) */
 .primary {
-  --alert-tone: var(--dx-color-primary);
-  --alert-fg: var(--dx-color-text-primary);
+  --alert-tone: var(--dx-primary-color);
+  --alert-fg: var(--dx-text-primary-color);
 }
 
 .secondary {
-  --alert-tone: var(--dx-color-secondary);
-  --alert-fg: var(--dx-color-text);
+  --alert-tone: var(--dx-secondary-color);
+  --alert-fg: var(--dx-text-color);
 }
 
 .light {
-  --alert-tone: var(--dx-color-light);
-  --alert-fg: var(--dx-color-light-fg);
+  --alert-tone: var(--dx-light-color);
+  --alert-fg: var(--dx-light-fg-color);
 }
 
 .base {
-  --alert-tone: var(--dx-color-base);
-  --alert-fg: var(--dx-color-text-base);
+  --alert-tone: var(--dx-base-color);
+  --alert-fg: var(--dx-text-base-color);
 }
 
 .dark {
-  --alert-tone: var(--dx-color-dark);
-  --alert-fg: var(--dx-color-text-dark);
+  --alert-tone: var(--dx-dark-color);
+  --alert-fg: var(--dx-text-dark-color);
 }
 
 .info {
-  --alert-tone: var(--dx-color-info);
-  --alert-fg: var(--dx-color-text-info);
+  --alert-tone: var(--dx-info-color);
+  --alert-fg: var(--dx-text-info-color);
 }
 
 .success {
-  --alert-tone: var(--dx-color-success);
-  --alert-fg: var(--dx-color-text-success);
+  --alert-tone: var(--dx-success-color);
+  --alert-fg: var(--dx-text-success-color);
 }
 
 .warning {
-  --alert-tone: var(--dx-color-warning);
-  --alert-fg: var(--dx-color-text-warning);
+  --alert-tone: var(--dx-warning-color);
+  --alert-fg: var(--dx-text-warning-color);
 }
 
 .danger {
-  --alert-tone: var(--dx-color-danger);
-  --alert-fg: var(--dx-color-text-danger);
+  --alert-tone: var(--dx-danger-color);
+  --alert-fg: var(--dx-text-danger-color);
 }
 
 /* flat (default): 12% tone tint, tone border, text-{tone} foreground —
@@ -125,7 +131,7 @@
 .filled {
   background-color: var(--alert-tone);
   border-color: var(--alert-tone);
-  color: var(--dx-color-surface);
+  color: var(--dx-surface-color);
 }
 
 /* text: no fill, no border, text-{tone} foreground (Radzen text parity) */
@@ -137,45 +143,50 @@
 
 
 .filled.info {
-  color: var(--dx-color-info-fg);
+  color: var(--dx-info-fg-color);
 }
 
 .filled.primary {
-  color: var(--dx-color-primary-fg);
+  color: var(--dx-primary-fg-color);
 }
 
 .filled.success {
-  color: var(--dx-color-success-fg);
+  color: var(--dx-success-fg-color);
 }
 
 .filled.warning {
-  color: var(--dx-color-warning-fg);
+  color: var(--dx-warning-fg-color);
 }
 
 .filled.secondary {
-  color: var(--dx-color-secondary-fg);
+  color: var(--dx-secondary-fg-color);
 }
 
 .filled.light {
-  color: var(--dx-color-light-fg);
+  color: var(--dx-light-fg-color);
 }
 
 .filled.base {
-  color: var(--dx-color-base-fg);
+  color: var(--dx-base-fg-color);
 }
 
 .filled.dark {
-  color: var(--dx-color-dark-fg);
+  color: var(--dx-dark-fg-color);
 }
 
 .filled.danger {
-  color: var(--dx-color-danger-fg);
+  color: var(--dx-danger-fg-color);
 }
 
 .icon {
   flex-shrink: 0;
   display: flex;
-  margin-top: 1px;
+  align-items: center;
+  /* Pin the icon to the title's first line at every size tier: the box
+     matches exactly one title line-height, so the icon centers on the
+     title row whether the alert is title-only or title + body. The old
+     1px nudge only aligned the default size. */
+  min-height: calc(var(--alert-title-size) * 1.4);
 }
 
 .content {
@@ -186,13 +197,13 @@
 .title {
   font-size: var(--alert-title-size);
   font-weight: var(--dx-font-weight-bold);
-  line-height: 1.4;
+  line-height: var(--dx-leading-relaxed);
 }
 
 .body {
   margin-top: var(--dx-space-1);
   font-size: var(--alert-body-size);
-  line-height: 1.5;
+  line-height: var(--dx-leading-body);
 }
 
 .dismiss {
@@ -204,21 +215,21 @@
   border: none;
   border-radius: var(--dx-radius-md);
   background: transparent;
-  color: var(--dx-color-text-muted);
+  color: var(--dx-text-muted-color);
   font-size: var(--alert-dismiss-font);
-  line-height: 1;
+  line-height: var(--dx-leading-none);
   cursor: pointer;
   transition: background var(--dx-transition-fast), color var(--dx-transition-fast);
 }
 
 .dismiss:hover {
-  background: var(--dx-color-surface-hover);
-  color: var(--dx-color-text);
+  background: var(--dx-surface-hover-color);
+  color: var(--dx-text-color);
 }
 
 .dismiss:focus-visible {
-  outline: 2px solid var(--dx-color-focus);
-  outline-offset: 2px;
+  outline: var(--dx-outline-width) solid var(--dx-focus-color);
+  outline-offset: var(--dx-focus-ring-offset);
 }
 
 .filled .dismiss {
@@ -230,22 +241,116 @@
   color: currentColor;
 }
 
-/* Shade — same scheme as Button/Badge: filled gets brightness steps; flat/outlined/text muted */
-.shade-lighter.filled {
-  filter: brightness(1.12);
+/* Shade steps per hue — consumed by the hue-agnostic shade rules below.
+   Fallbacks keep older token sets working (same sRGB ratios as tokens.css).
+   Achromatic hues included so no brightness-filter fallback remains. */
+.primary {
+  --shade-lighter: var(--dx-primary-lighter-color, color-mix(in srgb, var(--dx-primary-color) 55%, white));
+  --shade-light: var(--dx-primary-light-color, color-mix(in srgb, var(--dx-primary-color) 70%, white));
+  --shade-dark: var(--dx-primary-dark-color, color-mix(in srgb, var(--dx-primary-color) 85%, black));
+  --shade-darker: var(--dx-primary-darker-color, color-mix(in srgb, var(--dx-primary-color) 70%, black));
+  --on-lighter: var(--dx-on-primary-lighter-color);
+  --on-light: var(--dx-on-primary-light-color);
+  --on-dark: var(--dx-on-primary-dark-color);
+  --on-darker: var(--dx-on-primary-darker-color);
 }
-.shade-light.filled {
-  filter: brightness(1.06);
+.secondary {
+  --shade-lighter: var(--dx-secondary-lighter-color, color-mix(in srgb, var(--dx-secondary-color) 55%, white));
+  --shade-light: var(--dx-secondary-light-color, color-mix(in srgb, var(--dx-secondary-color) 70%, white));
+  --shade-dark: var(--dx-secondary-dark-color, color-mix(in srgb, var(--dx-secondary-color) 85%, black));
+  --shade-darker: var(--dx-secondary-darker-color, color-mix(in srgb, var(--dx-secondary-color) 70%, black));
+  --on-lighter: var(--dx-on-secondary-lighter-color);
+  --on-light: var(--dx-on-secondary-light-color);
+  --on-dark: var(--dx-on-secondary-dark-color);
+  --on-darker: var(--dx-on-secondary-darker-color);
 }
-.shade-dark.filled {
-  filter: brightness(0.92);
+.light {
+  --shade-lighter: var(--dx-light-lighter-color, color-mix(in srgb, var(--dx-light-color) 55%, white));
+  --shade-light: var(--dx-light-light-color, color-mix(in srgb, var(--dx-light-color) 70%, white));
+  --shade-dark: var(--dx-light-dark-color, color-mix(in srgb, var(--dx-light-color) 85%, black));
+  --shade-darker: var(--dx-light-darker-color, color-mix(in srgb, var(--dx-light-color) 70%, black));
+  --on-lighter: var(--dx-on-light-lighter-color);
+  --on-light: var(--dx-on-light-light-color);
+  --on-dark: var(--dx-on-light-dark-color);
+  --on-darker: var(--dx-on-light-darker-color);
 }
-.shade-darker.filled {
-  filter: brightness(0.84);
+.base {
+  --shade-lighter: var(--dx-base-lighter-color, color-mix(in srgb, var(--dx-base-color) 55%, white));
+  --shade-light: var(--dx-base-light-color, color-mix(in srgb, var(--dx-base-color) 70%, white));
+  --shade-dark: var(--dx-base-dark-color, color-mix(in srgb, var(--dx-base-color) 85%, black));
+  --shade-darker: var(--dx-base-darker-color, color-mix(in srgb, var(--dx-base-color) 70%, black));
+  --on-lighter: var(--dx-on-base-lighter-color);
+  --on-light: var(--dx-on-base-light-color);
+  --on-dark: var(--dx-on-base-dark-color);
+  --on-darker: var(--dx-on-base-darker-color);
 }
-.shade-lighter:not(.filled) {
-  opacity: 0.96;
+.dark {
+  --shade-lighter: var(--dx-dark-lighter-color, color-mix(in srgb, var(--dx-dark-color) 55%, white));
+  --shade-light: var(--dx-dark-light-color, color-mix(in srgb, var(--dx-dark-color) 70%, white));
+  --shade-dark: var(--dx-dark-dark-color, color-mix(in srgb, var(--dx-dark-color) 85%, black));
+  --shade-darker: var(--dx-dark-darker-color, color-mix(in srgb, var(--dx-dark-color) 70%, black));
+  --on-lighter: var(--dx-on-dark-lighter-color);
+  --on-light: var(--dx-on-dark-light-color);
+  --on-dark: var(--dx-on-dark-dark-color);
+  --on-darker: var(--dx-on-dark-darker-color);
 }
-.shade-darker:not(.filled) {
-  filter: saturate(1.08);
+.info {
+  --shade-lighter: var(--dx-info-lighter-color, color-mix(in srgb, var(--dx-info-color) 55%, white));
+  --shade-light: var(--dx-info-light-color, color-mix(in srgb, var(--dx-info-color) 70%, white));
+  --shade-dark: var(--dx-info-dark-color, color-mix(in srgb, var(--dx-info-color) 85%, black));
+  --shade-darker: var(--dx-info-darker-color, color-mix(in srgb, var(--dx-info-color) 70%, black));
+  --on-lighter: var(--dx-on-info-lighter-color);
+  --on-light: var(--dx-on-info-light-color);
+  --on-dark: var(--dx-on-info-dark-color);
+  --on-darker: var(--dx-on-info-darker-color);
 }
+.success {
+  --shade-lighter: var(--dx-success-lighter-color, color-mix(in srgb, var(--dx-success-color) 55%, white));
+  --shade-light: var(--dx-success-light-color, color-mix(in srgb, var(--dx-success-color) 70%, white));
+  --shade-dark: var(--dx-success-dark-color, color-mix(in srgb, var(--dx-success-color) 85%, black));
+  --shade-darker: var(--dx-success-darker-color, color-mix(in srgb, var(--dx-success-color) 70%, black));
+  --on-lighter: var(--dx-on-success-lighter-color);
+  --on-light: var(--dx-on-success-light-color);
+  --on-dark: var(--dx-on-success-dark-color);
+  --on-darker: var(--dx-on-success-darker-color);
+}
+.warning {
+  --shade-lighter: var(--dx-warning-lighter-color, color-mix(in srgb, var(--dx-warning-color) 55%, white));
+  --shade-light: var(--dx-warning-light-color, color-mix(in srgb, var(--dx-warning-color) 70%, white));
+  --shade-dark: var(--dx-warning-dark-color, color-mix(in srgb, var(--dx-warning-color) 85%, black));
+  --shade-darker: var(--dx-warning-darker-color, color-mix(in srgb, var(--dx-warning-color) 70%, black));
+  --on-lighter: var(--dx-on-warning-lighter-color);
+  --on-light: var(--dx-on-warning-light-color);
+  --on-dark: var(--dx-on-warning-dark-color);
+  --on-darker: var(--dx-on-warning-darker-color);
+}
+.danger {
+  --shade-lighter: var(--dx-danger-lighter-color, color-mix(in srgb, var(--dx-danger-color) 55%, white));
+  --shade-light: var(--dx-danger-light-color, color-mix(in srgb, var(--dx-danger-color) 70%, white));
+  --shade-dark: var(--dx-danger-dark-color, color-mix(in srgb, var(--dx-danger-color) 85%, black));
+  --shade-darker: var(--dx-danger-darker-color, color-mix(in srgb, var(--dx-danger-color) 70%, black));
+  --on-lighter: var(--dx-on-danger-lighter-color);
+  --on-light: var(--dx-on-danger-light-color);
+  --on-dark: var(--dx-on-danger-dark-color);
+  --on-darker: var(--dx-on-danger-darker-color);
+}
+
+/* Shade application — hue-agnostic, token-driven, no brightness filters.
+   Pale filled steps take dark text; dark steps keep the filled fg.
+   Lighter/light text steps suit dark surfaces. Stays last (ties win). */
+.filled.shade-lighter { background-color: var(--shade-lighter); border-color: var(--shade-lighter); color: var(--on-lighter); }
+.filled.shade-light { background-color: var(--shade-light); border-color: var(--shade-light); color: var(--on-light); }
+.filled.shade-dark { background-color: var(--shade-dark); border-color: var(--shade-dark); }
+.filled.shade-darker { background-color: var(--shade-darker); border-color: var(--shade-darker); }
+.flat.shade-lighter { background-color: color-mix(in srgb, var(--shade-lighter) 12%, transparent); border-color: var(--shade-lighter); }
+.flat.shade-light { background-color: color-mix(in srgb, var(--shade-light) 12%, transparent); border-color: var(--shade-light); }
+.flat.shade-dark { background-color: color-mix(in srgb, var(--shade-dark) 12%, transparent); border-color: var(--shade-dark); }
+.flat.shade-darker { background-color: color-mix(in srgb, var(--shade-darker) 12%, transparent); border-color: var(--shade-darker); }
+.outlined.shade-lighter { border-color: var(--shade-lighter); }
+.outlined.shade-light { border-color: var(--shade-light); }
+.outlined.shade-dark { border-color: var(--shade-dark); }
+.outlined.shade-darker { border-color: var(--shade-darker); }
+.text.shade-lighter { color: var(--shade-lighter); }
+.text.shade-light { color: var(--shade-light); }
+.text.shade-dark { color: var(--shade-dark); }
+.text.shade-darker { color: var(--shade-darker); }

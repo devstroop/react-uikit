@@ -89,4 +89,12 @@ describe("Alert", () => {
     expect(wrapper).toHaveAttribute("aria-hidden", "true");
     expect(screen.getByRole("alert").firstElementChild).toBe(wrapper);
   });
+
+  it.each(["lighter", "light", "dark", "darker"] as const)(
+    "applies the shade-%s class (token-driven, no brightness filter)",
+    (shade) => {
+      render(<Alert severity="danger" title="Error" shade={shade} />);
+      expect(screen.getByRole("alert").className).toContain(`shade-${shade}`);
+    },
+  );
 });

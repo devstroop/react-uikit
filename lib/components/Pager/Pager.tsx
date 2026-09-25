@@ -46,6 +46,8 @@ export interface PagerProps {
   onPageSizeChange?: (pageSize: number) => void;
   ariaLabel?: string;
   className?: string;
+  /** Render nothing when false. Defaults to true. */
+  visible?: boolean;
 }
 
 function formatSummary(template: string, page: number, pageCount: number, count: number): string {
@@ -98,6 +100,7 @@ export function Pager({
   onPageSizeChange,
   ariaLabel = "Pagination",
   className,
+  visible = true,
 }: PagerProps) {
   const rawPage = page ?? pageNumber ?? defaultPage;
   const [internalPage, setInternalPage] = useState(rawPage);
@@ -156,7 +159,7 @@ export function Pager({
     }
   };
 
-  if (!showPager) return null;
+  if (visible === false || !showPager) return null;
 
   return (
     <nav className={[styles.pager, alignClass, className].filter(Boolean).join(" ")} aria-label={ariaLabel}>

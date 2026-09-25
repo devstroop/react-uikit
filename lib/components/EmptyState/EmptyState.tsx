@@ -7,9 +7,12 @@ export interface EmptyStateProps {
   description?: ReactNode;
   action?: ReactNode;
   className?: string;
+  /** Render nothing when false. Defaults to true. */
+  visible?: boolean;
 }
 
-export function EmptyState({ icon, title, description, action, className }: EmptyStateProps) {
+export function EmptyState({ icon, title, description, action, className, visible = true }: EmptyStateProps) {
+  if (visible === false) return null;
   return (
     <div className={[styles.emptyState, className].filter(Boolean).join(" ")}>
       {icon != null && <div className={styles.icon}>{icon}</div>}

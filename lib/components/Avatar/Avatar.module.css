@@ -5,7 +5,7 @@
   justify-content: center;
   flex-shrink: 0;
   border-radius: 50%;
-  background: var(--dx-color-surface-hover);
+  background: var(--dx-surface-hover-color);
   overflow: visible;
 }
 
@@ -46,7 +46,7 @@
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  color: var(--dx-color-surface);
+  color: var(--dx-surface-color);
   font-size: 0.72em;
   font-weight: var(--dx-font-weight-bold);
   text-transform: uppercase;
@@ -67,7 +67,7 @@
   bottom: -2px;
   width: 12px;
   height: 12px;
-  border: 2px solid var(--dx-color-surface);
+  border: 2px solid var(--dx-surface-color);
   border-radius: 50%;
 }
 
@@ -82,13 +82,13 @@
 }
 
 .online .status {
-  background: var(--dx-color-success);
+  background: var(--dx-success-color);
 }
 
 .offline .status {
-  background: var(--dx-color-text-muted);
+  background: var(--dx-text-muted-color);
 }
 
 .away .status {
-  background: var(--dx-color-warning);
+  background: var(--dx-warning-color);
 }

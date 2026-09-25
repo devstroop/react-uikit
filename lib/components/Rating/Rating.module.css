@@ -13,7 +13,7 @@
   border: none;
   border-radius: var(--dx-radius-sm);
   background-color: transparent;
-  color: var(--dx-color-text-muted);
+  color: var(--dx-text-muted-color);
   cursor: pointer;
   transition:
     color var(--dx-transition-fast),
@@ -21,16 +21,16 @@
 }
 
 .dx-rating-item:hover:not(:disabled):not([aria-disabled="true"]) {
-  color: var(--dx-color-warning);
+  color: var(--dx-warning-color);
   transform: scale(1.12);
 }
 
 .dx-rating-item-filled {
-  color: var(--dx-color-warning);
+  color: var(--dx-warning-color);
 }
 
 .dx-rating-item:focus-visible {
-  outline: 2px solid var(--dx-color-outline-primary);
+  outline: 2px solid var(--dx-outline-primary-color);
   outline-offset: 1px;
 }
 
@@ -61,7 +61,7 @@
   border: none;
   border-radius: var(--dx-radius-sm);
   background-color: transparent;
-  color: var(--dx-color-text-muted);
+  color: var(--dx-text-muted-color);
   cursor: pointer;
   transition:
     color var(--dx-transition-fast),
@@ -69,12 +69,12 @@
 }
 
 .dx-rating-clear:hover:not(:disabled):not([aria-disabled="true"]) {
-  color: var(--dx-color-text);
-  background-color: var(--dx-color-surface-hover);
+  color: var(--dx-text-color);
+  background-color: var(--dx-surface-hover-color);
 }
 
 .dx-rating-clear:focus-visible {
-  outline: 2px solid var(--dx-color-outline-primary);
+  outline: 2px solid var(--dx-outline-primary-color);
   outline-offset: 1px;
 }
 

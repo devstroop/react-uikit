@@ -61,4 +61,9 @@ describe("EmptyState", () => {
     await user.click(button);
     expect(button).toBeInTheDocument();
   });
+
+  it("renders nothing when visible is false", () => {
+    render(<EmptyState title="Empty" visible={false} />);
+    expect(screen.queryByText("Empty")).not.toBeInTheDocument();
+  });
 });

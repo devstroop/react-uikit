@@ -21,5 +21,7 @@ export interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
     variant?: BadgeVariant;
     shade?: BadgeShade;
     size?: BadgeSize;
+    /** Render nothing when false. Defaults to true. */
+    visible?: boolean;
 }
 export declare const Badge: import('react').ForwardRefExoticComponent<BadgeProps & import('react').RefAttributes<HTMLSpanElement>>;

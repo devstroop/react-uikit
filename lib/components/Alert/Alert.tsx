@@ -38,7 +38,7 @@ export interface AlertProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "
   dismissible?: boolean;
   onDismiss?: () => void;
   /**
-   * Controlled visibility (Radzen Visible parity). When `undefined` the
+   * Controlled visibility. When `undefined` the
    * alert manages itself: dismiss hides it. Pass `false` to hide from
    * the parent; dismissal then only fires the callbacks below.
    */

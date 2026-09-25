@@ -5,7 +5,7 @@
   height: 22px;
   margin: 0;
   border-radius: var(--dx-radius-full);
-  background-color: var(--dx-color-border-strong);
+  background-color: var(--dx-border-strong-color);
   cursor: pointer;
   transition: background-color var(--dx-transition-fast);
   flex-shrink: 0;
@@ -19,13 +19,13 @@
   width: 16px;
   height: 16px;
   border-radius: var(--dx-radius-full);
-  background-color: var(--dx-color-surface);
+  background-color: var(--dx-surface-color);
   box-shadow: var(--dx-shadow-sm);
   transition: transform var(--dx-transition-fast);
 }
 
 .switch:checked {
-  background-color: var(--dx-color-primary);
+  background-color: var(--dx-primary-color);
 }
 
 .switch:checked::before {
@@ -33,7 +33,7 @@
 }
 
 .switch:focus-visible {
-  outline: 2px solid var(--dx-color-outline-primary);
+  outline: 2px solid var(--dx-outline-primary-color);
   outline-offset: 2px;
 }
 

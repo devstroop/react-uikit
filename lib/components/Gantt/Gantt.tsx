@@ -54,7 +54,7 @@ export function Gantt({ tasks, view = "week", onTaskClick, ariaLabel = "Gantt", 
               <div className={styles.progress} style={{ width: `${task.progress ?? 0}%` }} />
             </div>
             {task.dependencies?.map((dep) => (
-              <svg key={dep} className={styles.dep} aria-hidden="true"><line x1="0" y1="10" x2="20" y2="10" stroke="var(--dx-color-border)" /></svg>
+              <svg key={dep} className={styles.dep} aria-hidden="true"><line x1="0" y1="10" x2="20" y2="10" stroke="var(--dx-border-color)" /></svg>
             ))}
           </div>
         </div>

@@ -74,4 +74,9 @@ describe("Field", () => {
     expect(screen.getByText("Invalid address")).toHaveAttribute("aria-live", "polite");
     expect(screen.queryByText("We never share it")).not.toBeInTheDocument();
   });
+
+  it("renders nothing when visible is false", () => {
+    render(<Card visible={false}>Hidden body</Card>);
+    expect(screen.queryByText("Hidden body")).not.toBeInTheDocument();
+  });
 });

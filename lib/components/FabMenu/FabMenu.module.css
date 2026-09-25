@@ -53,9 +53,9 @@
 
 .tooltip {
   padding: var(--dx-space-1) var(--dx-space-2);
-  background-color: var(--dx-color-surface);
-  color: var(--dx-color-text);
-  border: 1px solid var(--dx-color-border);
+  background-color: var(--dx-surface-color);
+  color: var(--dx-text-color);
+  border: 1px solid var(--dx-border-color);
   border-radius: var(--dx-radius-md);
   font-size: var(--dx-font-size-sm);
   font-weight: var(--dx-font-weight-medium);
@@ -81,8 +81,8 @@
   justify-content: center;
   border: none;
   border-radius: var(--dx-radius-full);
-  background-color: var(--dx-color-primary);
-  color: var(--dx-color-primary-fg);
+  background-color: var(--dx-primary-color);
+  color: var(--dx-primary-fg-color);
   font-size: 24px;
   font-weight: var(--dx-font-weight-medium);
   cursor: pointer;
@@ -93,11 +93,11 @@
 }
 
 .main:hover {
-  background-color: var(--dx-color-primary-hover);
+  background-color: var(--dx-primary-hover-color);
 }
 
 .main:focus-visible {
-  outline: 2px solid var(--dx-color-outline-primary);
+  outline: 2px solid var(--dx-outline-primary-color);
   outline-offset: 2px;
 }
 
@@ -116,10 +116,10 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--dx-color-border);
+  border: 1px solid var(--dx-border-color);
   border-radius: var(--dx-radius-full);
-  background-color: var(--dx-color-surface);
-  color: var(--dx-color-text);
+  background-color: var(--dx-surface-color);
+  color: var(--dx-text-color);
   font-size: var(--dx-font-size-sm);
   cursor: pointer;
   box-shadow: var(--dx-shadow-sm);
@@ -129,12 +129,12 @@
 }
 
 .item:hover:not(:disabled):not([aria-disabled="true"]) {
-  background-color: var(--dx-color-surface-hover);
-  color: var(--dx-color-text);
+  background-color: var(--dx-surface-hover-color);
+  color: var(--dx-text-color);
 }
 
 .item:focus-visible {
-  outline: 2px solid var(--dx-color-outline-primary);
+  outline: 2px solid var(--dx-outline-primary-color);
   outline-offset: 1px;
 }
 

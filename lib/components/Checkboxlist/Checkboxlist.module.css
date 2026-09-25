@@ -10,7 +10,7 @@
   margin: 0 0 var(--dx-space-2);
   font-size: var(--dx-font-size-sm);
   font-weight: var(--dx-font-weight-medium);
-  color: var(--dx-color-text);
+  color: var(--dx-text-color);
 }
 
 .list {
@@ -26,11 +26,11 @@
   display: flex;
   align-items: center;
   font-size: var(--dx-font-size-sm);
-  color: var(--dx-color-text);
+  color: var(--dx-text-color);
 }
 
 .item.disabled {
-  color: var(--dx-color-text-muted);
+  color: var(--dx-text-muted-color);
   cursor: not-allowed;
 }
 
@@ -51,9 +51,9 @@
   height: 18px;
   margin: 0;
   flex-shrink: 0;
-  border: 1px solid var(--dx-color-border-strong);
+  border: 1px solid var(--dx-border-strong-color);
   border-radius: var(--dx-radius-sm);
-  background-color: var(--dx-color-surface);
+  background-color: var(--dx-surface-color);
   cursor: pointer;
   display: inline-grid;
   place-content: center;
@@ -68,13 +68,13 @@
   height: 10px;
   transform: scale(0);
   transition: transform var(--dx-transition-fast);
-  background-color: var(--dx-color-primary-fg);
+  background-color: var(--dx-primary-fg-color);
   clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
 }
 
 .checkbox:checked {
-  background-color: var(--dx-color-primary);
-  border-color: var(--dx-color-primary);
+  background-color: var(--dx-primary-color);
+  border-color: var(--dx-primary-color);
 }
 
 .checkbox:checked::before {
@@ -82,7 +82,7 @@
 }
 
 .checkbox:focus-visible {
-  outline: 2px solid var(--dx-color-outline-primary);
+  outline: 2px solid var(--dx-outline-primary-color);
   outline-offset: 2px;
 }
 

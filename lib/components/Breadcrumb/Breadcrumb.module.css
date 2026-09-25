@@ -25,7 +25,7 @@
   display: inline-flex;
   align-items: center;
   gap: var(--dx-space-1);
-  color: var(--dx-color-text-muted);
+  color: var(--dx-text-muted-color);
   font-family: var(--dx-font-sans);
   font-size: var(--dx-font-size-sm);
   font-weight: var(--dx-font-weight-medium);
@@ -39,20 +39,20 @@
 
 .link:hover,
 .linkButton:hover:not(:disabled) {
-  color: var(--dx-color-text-primary);
+  color: var(--dx-text-primary-color);
   text-decoration: underline;
 }
 
 .link:focus-visible,
 .linkButton:focus-visible,
 .current:focus-visible {
-  outline: 2px solid var(--dx-color-outline-primary);
+  outline: 2px solid var(--dx-outline-primary-color);
   outline-offset: 1px;
   border-radius: var(--dx-radius-sm);
 }
 
 .current {
-  color: var(--dx-color-text);
+  color: var(--dx-text-color);
   cursor: default;
   font-weight: var(--dx-font-weight-medium);
 }
@@ -75,7 +75,7 @@
   display: inline-flex;
   align-items: center;
   font-size: var(--dx-font-size-sm);
-  color: var(--dx-color-text-muted);
+  color: var(--dx-text-muted-color);
 }
 
 .text {
@@ -84,6 +84,6 @@
 
 .separator {
   margin: 0 var(--dx-space-1);
-  color: var(--dx-color-text-muted);
+  color: var(--dx-text-muted-color);
   user-select: none;
 }

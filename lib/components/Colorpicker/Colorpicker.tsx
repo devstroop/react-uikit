@@ -527,7 +527,7 @@ export const Colorpicker = ({
           tabIndex={disabled ? -1 : tabIndex}
           className={styles["dx-alpha-picker"]}
           style={{
-            background: `repeating-conic-gradient(var(--dx-color-border) 0% 25%, var(--dx-color-surface) 0% 50%) 0 0 / 12px 12px, linear-gradient(to right, transparent, hsl(${hsv.h}, 100%, 50%))`,
+            background: `repeating-conic-gradient(var(--dx-border-color) 0% 25%, var(--dx-surface-color) 0% 50%) 0 0 / 12px 12px, linear-gradient(to right, transparent, hsl(${hsv.h}, 100%, 50%))`,
           }}
           onKeyDown={(event) => handleStripKeyDown(event, "alpha")}
           onPointerDown={handleAlphaPointerDown}
