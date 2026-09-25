@@ -18,6 +18,6 @@ export interface AutocompleteProps {
     className?: string;
     name?: string;
     id?: string;
-    "aria-label"?: string;
+    'aria-label'?: string;
 }
 export declare function Autocomplete({ options, value, defaultValue, onChange, onSelect, placeholder, size, invalid, disabled, filter, className, ...restProps }: AutocompleteProps): import("react").JSX.Element;

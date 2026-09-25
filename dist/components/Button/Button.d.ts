@@ -10,10 +10,10 @@ export type ButtonVariant = Variant;
  * (every hue except `neutral`). Narrowed on purpose: wider unions
  * render unstyled with no warning.
  */
-export type ButtonStyle = Exclude<Severity, "neutral">;
+export type ButtonStyle = Exclude<Severity, 'neutral'>;
 export type ButtonShade = Shade;
 /** @deprecated use `variant` × `buttonStyle` × `shade` (e.g. `variant="filled" buttonStyle="danger"`). */
-export type DeprecatedButtonVariant = "primary" | "secondary" | "ghost" | "danger" | "success" | "info";
+export type DeprecatedButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger' | 'success' | 'info';
 export type ButtonSize = ComponentSize;
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     variant?: ButtonVariant | DeprecatedButtonVariant;

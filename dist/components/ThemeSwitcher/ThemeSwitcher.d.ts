@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-export type ThemeName = "light" | "dark" | "system";
+export type ThemeName = 'light' | 'dark' | 'system';
 export interface ThemeSwitcherProps {
     /** Controlled theme. Omit for uncontrolled. */
     value?: ThemeName;
@@ -12,7 +12,7 @@ export interface ThemeSwitcherProps {
      * persistence. Defaults to `"dx-theme"`.
      */
     storageKey?: string | null;
-    onChange?: (theme: Exclude<ThemeName, "system">) => void;
+    onChange?: (theme: Exclude<ThemeName, 'system'>) => void;
     label?: ReactNode;
     className?: string;
 }

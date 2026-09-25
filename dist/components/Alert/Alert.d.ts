@@ -10,11 +10,11 @@ import { IconName } from '../Icon/Icon';
  * render unstyled with no warning, so unsupported values are a
  * compile error instead of a silent regression.
  */
-export type AlertStyle = Extract<Severity, "primary" | "secondary" | "light" | "base" | "dark" | "info" | "success" | "warning" | "danger">;
+export type AlertStyle = Extract<Severity, 'primary' | 'secondary' | 'light' | 'base' | 'dark' | 'info' | 'success' | 'warning' | 'danger'>;
 export type AlertVariant = Variant;
 export type AlertShade = Shade;
 export type AlertSize = ComponentSize;
-export interface AlertProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
+export interface AlertProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
     /**
      * Severity axis — the single severity prop (Radzen AlertStyle parity).
      * Native `style` is always plain CSS and never a hue.

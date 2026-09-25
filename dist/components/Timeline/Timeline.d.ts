@@ -9,4 +9,4 @@ export interface TimelineProps {
     ariaLabel?: string;
     className?: string;
 }
-export declare function Timeline({ items, reverse, ariaLabel, className }: TimelineProps): import("react").JSX.Element;
+export declare function Timeline({ items, reverse, ariaLabel, className, }: TimelineProps): import("react").JSX.Element;

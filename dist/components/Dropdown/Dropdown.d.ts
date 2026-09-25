@@ -15,6 +15,6 @@ export interface DropdownProps {
     disabled?: boolean;
     className?: string;
     id?: string;
-    "aria-label"?: string;
+    'aria-label'?: string;
 }
 export declare function Dropdown({ options, value, defaultValue, onChange, placeholder, size, invalid, disabled, className, ...ariaProps }: DropdownProps): import("react").JSX.Element;

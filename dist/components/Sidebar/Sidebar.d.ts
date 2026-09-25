@@ -1,5 +1,5 @@
 import { HTMLAttributes } from 'react';
-export type SidebarPosition = "left" | "right" | "start" | "end";
+export type SidebarPosition = 'left' | 'right' | 'start' | 'end';
 export interface SidebarProps extends HTMLAttributes<HTMLElement> {
     position?: SidebarPosition;
     expanded?: boolean;

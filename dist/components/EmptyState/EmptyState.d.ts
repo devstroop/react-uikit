@@ -8,4 +8,4 @@ export interface EmptyStateProps {
     /** Render nothing when false. Defaults to true. */
     visible?: boolean;
 }
-export declare function EmptyState({ icon, title, description, action, className, visible }: EmptyStateProps): import("react").JSX.Element | null;
+export declare function EmptyState({ icon, title, description, action, className, visible, }: EmptyStateProps): import("react").JSX.Element | null;

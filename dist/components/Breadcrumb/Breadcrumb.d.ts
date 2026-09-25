@@ -16,4 +16,4 @@ export interface BreadcrumbProps {
     ariaLabel?: string;
     className?: string;
 }
-export declare function Breadcrumb({ items, onClick, Click, ariaLabel, className }: BreadcrumbProps): import("react").JSX.Element;
+export declare function Breadcrumb({ items, onClick, Click, ariaLabel, className, }: BreadcrumbProps): import("react").JSX.Element;

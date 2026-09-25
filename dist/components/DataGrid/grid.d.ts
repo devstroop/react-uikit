@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { FilterCaseSensitivity, FilterOperator, LogicalFilterOperator, SortDescriptor } from '../DataFilter/filter';
-export type GridTextAlign = "left" | "center" | "right";
-export type GridSortOrder = "Ascending" | "Descending";
+export type GridTextAlign = 'left' | 'center' | 'right';
+export type GridSortOrder = 'Ascending' | 'Descending';
 export interface GridColumn<TItem = unknown> {
     property?: string;
     title?: string;
@@ -10,7 +10,7 @@ export interface GridColumn<TItem = unknown> {
     minWidth?: string;
     maxWidth?: string;
     format?: string;
-    type?: "string" | "number" | "boolean" | "date" | "enum";
+    type?: 'string' | 'number' | 'boolean' | 'date' | 'enum';
     align?: GridTextAlign;
     sortable?: boolean;
     filterable?: boolean;
@@ -20,7 +20,7 @@ export interface GridColumn<TItem = unknown> {
         index: number;
     }) => ReactNode;
 }
-export type GridSelectionMode = "None" | "Single" | "Multiple";
+export type GridSelectionMode = 'None' | 'Single' | 'Multiple';
 export interface GridGroup {
     key: string;
     display: string;
@@ -29,7 +29,7 @@ export interface GridGroup {
     count: number;
 }
 export interface GridGroupedItem<TItem = unknown> {
-    type: "group" | "row";
+    type: 'group' | 'row';
     group?: GridGroup;
     row?: TItem;
 }
@@ -52,7 +52,7 @@ export interface GridState {
 export interface GridStateOptions {
     logicalOperator?: LogicalFilterOperator;
     caseSensitivity?: FilterCaseSensitivity;
-    types?: Readonly<Record<string, "string" | "number" | "boolean" | "date" | "enum">>;
+    types?: Readonly<Record<string, 'string' | 'number' | 'boolean' | 'date' | 'enum'>>;
 }
 export declare function columnValue<TItem>(row: TItem, property?: string): unknown;
 export declare function formatValue(value: unknown, format?: string): string;

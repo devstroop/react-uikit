@@ -9,7 +9,7 @@ export interface GanttTask {
 }
 export interface GanttProps {
     tasks: GanttTask[];
-    view?: "day" | "week";
+    view?: 'day' | 'week';
     onTaskClick?: (args: {
         task: GanttTask;
     }) => void;
@@ -25,4 +25,4 @@ export interface GanttProps {
     ariaLabel?: string;
     className?: string;
 }
-export declare function Gantt({ tasks, view, onTaskClick, ariaLabel, className }: GanttProps): import("react").JSX.Element;
+export declare function Gantt({ tasks, view, onTaskClick, ariaLabel, className, }: GanttProps): import("react").JSX.Element;

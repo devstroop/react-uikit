@@ -1,6 +1,6 @@
 import { ComponentSize } from '../../sizes';
 export type AvatarSize = ComponentSize;
-export type AvatarStatus = "online" | "offline" | "away";
+export type AvatarStatus = 'online' | 'offline' | 'away';
 export interface AvatarProps {
     name?: string;
     src?: string;

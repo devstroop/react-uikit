@@ -2,10 +2,10 @@ import { HTMLAttributes } from 'react';
 import { ComponentSize } from '../../sizes';
 import { Severity } from '../../types/severity';
 import { Shade } from '../../types/shade';
-export type ProgressTone = Extract<Severity, "primary" | "success" | "warning" | "danger">;
+export type ProgressTone = Extract<Severity, 'primary' | 'success' | 'warning' | 'danger'>;
 export type ProgressShade = Shade;
-export type ProgressVariant = "linear" | "circular";
-export interface ProgressProps extends Omit<HTMLAttributes<HTMLDivElement>, "role"> {
+export type ProgressVariant = 'linear' | 'circular';
+export interface ProgressProps extends Omit<HTMLAttributes<HTMLDivElement>, 'role'> {
     value?: number;
     max?: number;
     /**

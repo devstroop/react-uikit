@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { GridColumn, GridSelectionMode } from './grid';
-export type PagerPosition = "Top" | "Bottom" | "TopAndBottom";
+export type PagerPosition = 'Top' | 'Bottom' | 'TopAndBottom';
 export interface DataGridProps<TItem = unknown> {
     columns: readonly GridColumn<TItem>[];
     rows: readonly TItem[];
@@ -9,8 +9,8 @@ export interface DataGridProps<TItem = unknown> {
     allowMultiColumnSorting?: boolean;
     showSortIndex?: boolean;
     allowFiltering?: boolean;
-    filterCaseSensitivity?: "CaseSensitive" | "CaseInsensitive";
-    logicalOperator?: "And" | "Or";
+    filterCaseSensitivity?: 'CaseSensitive' | 'CaseInsensitive';
+    logicalOperator?: 'And' | 'Or';
     allowPaging?: boolean;
     pageSize?: number;
     pageSizeOptions?: readonly number[];
@@ -28,7 +28,7 @@ export interface DataGridProps<TItem = unknown> {
     allowGrouping?: boolean;
     groupPanelText?: string;
     groupExpanded?: boolean;
-    editMode?: "None" | "Single" | "EditRow";
+    editMode?: 'None' | 'Single' | 'EditRow';
     allowRowCreate?: boolean;
     onRowUpdate?: (original: TItem, updated: TItem) => void;
     onRowCreate?: (row: TItem) => void;

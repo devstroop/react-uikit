@@ -22,7 +22,7 @@ export interface PagerProps {
     pageSizeOptions?: readonly number[];
     pageNumbersCount?: number;
     alwaysVisible?: boolean;
-    horizontalAlign?: "left" | "center" | "right" | "justify";
+    horizontalAlign?: 'left' | 'center' | 'right' | 'justify';
     showPagingSummary?: boolean;
     /** @deprecated use showPagingSummary */
     showSummary?: boolean;

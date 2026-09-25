@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { Severity } from '../../types/severity';
-export type ToastTone = Extract<Severity, "info" | "success" | "warning" | "danger">;
-export type ToastPosition = "top-left" | "top-right" | "bottom-left" | "bottom-right";
+export type ToastTone = Extract<Severity, 'info' | 'success' | 'warning' | 'danger'>;
+export type ToastPosition = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
 export interface ToastAction {
     label: ReactNode;
     onClick?: () => void;

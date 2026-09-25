@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-export type TooltipPlacement = "top" | "right" | "bottom" | "left";
+export type TooltipPlacement = 'top' | 'right' | 'bottom' | 'left';
 export interface TooltipProps {
     content: ReactNode;
     children: ReactNode;

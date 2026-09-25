@@ -16,4 +16,4 @@ export interface FieldProps {
     /** Render nothing when false. Defaults to true. */
     visible?: boolean;
 }
-export declare function Field({ label, htmlFor, required, hint, supporting, error, children, className, visible }: FieldProps): import("react").JSX.Element | null;
+export declare function Field({ label, htmlFor, required, hint, supporting, error, children, className, visible, }: FieldProps): import("react").JSX.Element | null;

@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
-export type SelectbarSize = "sm" | "md" | "lg";
-export type SelectbarOrientation = "horizontal" | "vertical";
+export type SelectbarSize = 'sm' | 'md' | 'lg';
+export type SelectbarOrientation = 'horizontal' | 'vertical';
 export interface SelectbarOption {
     value: string;
     label: string;
@@ -11,8 +11,8 @@ interface SelectbarBaseProps {
     orientation?: SelectbarOrientation;
     size?: SelectbarSize;
     className?: string;
-    "aria-label"?: string;
-    "aria-labelledby"?: string;
+    'aria-label'?: string;
+    'aria-labelledby'?: string;
 }
 export interface SelectbarSingleProps extends SelectbarBaseProps {
     multiple?: false;

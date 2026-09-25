@@ -8,7 +8,7 @@ export interface FabMenuItemEventArgs {
     text: string;
     value?: string;
 }
-export type FabMenuPosition = "bottom-right" | "bottom-left" | "top-right" | "top-left";
+export type FabMenuPosition = 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left';
 export interface FabMenuProps {
     items: FabMenuItem[];
     position?: FabMenuPosition;

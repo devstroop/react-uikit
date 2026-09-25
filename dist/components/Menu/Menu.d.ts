@@ -13,7 +13,7 @@ export interface MenuItemEventArgs {
 }
 export interface MenuProps {
     items: MenuItem[];
-    orientation?: "horizontal" | "vertical";
+    orientation?: 'horizontal' | 'vertical';
     onClick?: (args: MenuItemEventArgs) => void;
     /** @deprecated use onClick */
     Click?: (args: MenuItemEventArgs) => void;

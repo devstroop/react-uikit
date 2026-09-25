@@ -1,4 +1,4 @@
-export type SkeletonVariant = "text" | "circle" | "rect";
+export type SkeletonVariant = 'text' | 'circle' | 'rect';
 export interface SkeletonProps {
     variant?: SkeletonVariant;
     width?: number | string;

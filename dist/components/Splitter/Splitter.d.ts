@@ -18,8 +18,8 @@ export interface SplitterCollapseArgs {
     cancel: boolean;
 }
 export interface SplitterProps {
-    orientation?: "horizontal" | "vertical";
-    Orientation?: "horizontal" | "vertical";
+    orientation?: 'horizontal' | 'vertical';
+    Orientation?: 'horizontal' | 'vertical';
     panes: SplitterPane[];
     onResize?: (args: SplitterResizeArgs) => void;
     Resize?: (args: SplitterResizeArgs) => void;

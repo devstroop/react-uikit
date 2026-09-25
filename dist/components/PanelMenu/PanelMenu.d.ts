@@ -19,9 +19,9 @@ export interface PanelMenuProps {
     showArrow?: boolean;
     /** @deprecated use showArrow */
     ShowArrow?: boolean;
-    displayStyle?: "icon" | "iconAndText";
+    displayStyle?: 'icon' | 'iconAndText';
     /** @deprecated use displayStyle */
-    DisplayStyle?: "icon" | "iconAndText";
+    DisplayStyle?: 'icon' | 'iconAndText';
     onClick?: (args: PanelMenuItemEventArgs) => void;
     /** @deprecated use onClick */
     Click?: (args: PanelMenuItemEventArgs) => void;

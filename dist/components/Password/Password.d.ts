@@ -1,7 +1,7 @@
 import { InputHTMLAttributes } from 'react';
 import { ComponentSize } from '../../sizes';
 export type PasswordSize = ComponentSize;
-export interface PasswordProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "size" | "type"> {
+export interface PasswordProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'type'> {
     size?: PasswordSize;
     invalid?: boolean;
     showLabel?: string;

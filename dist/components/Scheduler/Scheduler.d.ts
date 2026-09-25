@@ -12,7 +12,7 @@ export interface SchedulerResource {
 }
 export interface SchedulerProps {
     data: SchedulerEvent[];
-    view?: "day" | "week" | "month";
+    view?: 'day' | 'week' | 'month';
     date?: Date;
     onDateChange?: (date: Date) => void;
     resources?: SchedulerResource[];

@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-export type DialogSize = "sm" | "md" | "lg";
+export type DialogSize = 'sm' | 'md' | 'lg';
 export interface DialogProps {
     open: boolean;
     onClose: () => void;

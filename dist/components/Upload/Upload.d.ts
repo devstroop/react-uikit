@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 export interface UploadedFile {
     file: File;
-    state: "pending" | "uploading" | "complete" | "error";
+    state: 'pending' | 'uploading' | 'complete' | 'error';
     progress: number;
     message?: string;
 }

@@ -2,9 +2,9 @@ import { ReactNode } from 'react';
 import { Severity } from '../../types/severity';
 import { Shade } from '../../types/shade';
 import { Variant } from '../../types/variant';
-export type SplitbuttonSize = "sm" | "md" | "lg";
+export type SplitbuttonSize = 'sm' | 'md' | 'lg';
 /** Severity axis — Radzen ButtonStyle parity (neutral excluded, like Button). */
-export type SplitbuttonSeverity = Exclude<Severity, "neutral">;
+export type SplitbuttonSeverity = Exclude<Severity, 'neutral'>;
 export type SplitbuttonVariant = Variant;
 export type SplitbuttonShade = Shade;
 export interface SplitbuttonItem {
@@ -24,6 +24,6 @@ export interface SplitbuttonProps {
     size?: SplitbuttonSize;
     disabled?: boolean;
     className?: string;
-    "aria-label"?: string;
+    'aria-label'?: string;
 }
 export declare function Splitbutton({ label, onClick, items, severity, variant, shade, size, disabled, className, ...ariaProps }: SplitbuttonProps): import("react").JSX.Element;

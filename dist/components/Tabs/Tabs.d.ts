@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
-export type TabsVariant = "underline" | "pills";
-export type TabsPosition = "top" | "left" | "right" | "bottom";
+export type TabsVariant = 'underline' | 'pills';
+export type TabsPosition = 'top' | 'left' | 'right' | 'bottom';
 export interface TabItem {
     key: string;
     label: ReactNode;
