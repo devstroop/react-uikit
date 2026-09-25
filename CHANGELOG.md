@@ -47,6 +47,8 @@ Notes:
 - Downstream: `1km/admin`'s dev-only `UikitSmoke` page asserts the old
   `ghost` mapping — update it to the canonical `text` + `secondary`
   form when bumping past this release.
+- The `--dx-input-padding-*` component hooks retire with `Input`;
+  override `--dx-textbox-padding-*` instead (same values).
 
 ### Removed — abbreviated background/foreground tokens (breaking)
 
@@ -59,10 +61,38 @@ Compat: the old names survive as reference aliases (remove in 3.0),
 so unmigrated stylesheets keep resolving. Migrate at leisure; dropping
 the aliases is the only later break.
 
+### Added
+
+- `FormField` — Radzen `FormFieldComponent` parity: `text`, `start`/`end`
+  adornments, `helper`, `component` (explicit id), `allowFloatingLabel`
+  (default true, CSS-only `:placeholder-shown`), `invalid` (wires
+  `aria-invalid` on DOM children), `required` marker. Label points at the
+  control only when the id is known to exist; `helper` is attached via
+  `aria-describedby` (existing values preserved); blank-placeholder float
+  trigger applies to `textarea` and text-like `input` types only
+  (checkboxes, radios, dates, selects and friends are untouched) and
+  never overrides explicit placeholders. Fragments are never cloned,
+  so multi-control children carry no label association; custom
+  components receive helper/invalid wiring only if they forward props.
+- `Fieldset` — Radzen `FieldsetComponent` parity: `text`, `icon` +
+  `iconColor`, `allowCollapse`, `summary`, `headerTemplate` rendered
+  beside (never inside) the toggle, controlled `collapsed` +
+  `defaultCollapsed` with `onCollapse`/`onExpand`, custom
+  `collapseTitle`/`expandTitle` (default `Collapse`/`Expand`) and
+  `collapseAriaLabel`/`expandAriaLabel` (default `Collapse`/`Expand`,
+  naming the icon-only toggle — with visible text the text itself is
+  the accessible name per WCAG 2.5.3).
+  Collapse works only with `allowCollapse`; without it the section is
+  always expanded. Content stays mounted under the native `hidden`
+  attribute so `aria-controls` never dangles. Function children are not
+  supported — pass nodes (no released version ever offered them).
+
 ### Changed
 
-- Outlined borders render at `--dx-outlined-border-width: 2px`
-  (was 1px) on Badge, Button, Alert, Card, and Splitbutton.
+- Outlined borders render at `--dx-outlined-border-width: 1px`
+  on Badge, Button, Alert, Card, and Splitbutton; outlines at
+  `--dx-outline-width: 1px`, focus rings at
+  `--dx-focus-ring-width: 2px` with `--dx-focus-ring-offset: 2px`.
 - Badge density tightened one step per size tier
   (xs `0 4px` … xl `3px 12px`, icon gap `4px` → `2px`).
 - Selectbar options are borderless text buttons inside the single

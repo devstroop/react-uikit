@@ -17,6 +17,11 @@
 5. **Radzen parity is a compass, not a cage.** Match Radzen APIs where
    they fit (`variant`/`severity`/`shade`, prop names); diverge
    deliberately and document the divergence in code comments.
+6. **Short module class names are safe because the build hashes them.**
+   Never concatenate raw `*.module.css` files globally (that would leak
+   the short names unhashed); never add a lone bare-element selector
+   or an unlisted `:global()` hook — `namespaces.test.ts` enforces the
+   scoping half (no top-level bare elements, `:global` allowlist).
 
 ## Workflow
 
