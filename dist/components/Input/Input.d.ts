@@ -1,10 +1,17 @@
-import { InputHTMLAttributes } from 'react';
-import { ComponentSize } from '../../sizes';
-export type InputSize = ComponentSize;
-export interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
-    size?: InputSize;
-    invalid?: boolean;
-    /** Render nothing when false. Defaults to true. */
-    visible?: boolean;
-}
-export declare const Input: import('react').ForwardRefExoticComponent<InputProps & import('react').RefAttributes<HTMLInputElement>>;
+import { TextboxProps, TextboxSize } from '../Textbox/Textbox';
+/**
+ * @deprecated Use `Textbox` — the canonical single-line input since
+ * 2.0. Identical rendering (same values, tokenized implementation);
+ * will be removed in 3.0.
+ */
+export type InputSize = TextboxSize;
+/**
+ * @deprecated Use `Textbox` — the canonical single-line input since
+ * 2.0. Identical rendering; will be removed in 3.0.
+ */
+export type InputProps = TextboxProps;
+/**
+ * @deprecated Use `Textbox` — the canonical single-line input since
+ * 2.0. Identical rendering; will be removed in 3.0.
+ */
+export declare const Input: import('react').ForwardRefExoticComponent<TextboxProps & import('react').RefAttributes<HTMLInputElement>>;
