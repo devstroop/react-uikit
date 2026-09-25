@@ -5,8 +5,6 @@ export interface ThemeSwitcherProps {
     value?: ThemeName;
     /** Uncontrolled initial theme. Defaults to following the OS. */
     defaultValue?: ThemeName;
-    /** @deprecated alias for `defaultValue`. */
-    defaultTheme?: ThemeName;
     /**
      * localStorage key for the explicit choice. Set to `null` to disable
      * persistence. Defaults to `"dx-theme"`.
@@ -16,4 +14,4 @@ export interface ThemeSwitcherProps {
     label?: ReactNode;
     className?: string;
 }
-export declare function ThemeSwitcher({ value, defaultValue, defaultTheme, storageKey, onChange, label, className, }: ThemeSwitcherProps): import("react").JSX.Element;
+export declare function ThemeSwitcher({ value, defaultValue, storageKey, onChange, label, className, }: ThemeSwitcherProps): import("react").JSX.Element;

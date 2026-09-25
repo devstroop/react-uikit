@@ -12,13 +12,9 @@ export type FabMenuPosition = 'bottom-right' | 'bottom-left' | 'top-right' | 'to
 export interface FabMenuProps {
     items: FabMenuItem[];
     position?: FabMenuPosition;
-    /** @deprecated use position */
-    Position?: FabMenuPosition;
     icon?: string;
     onClick?: (args: FabMenuItemEventArgs) => void;
-    /** @deprecated use onClick */
-    Click?: (args: FabMenuItemEventArgs) => void;
     ariaLabel?: string;
     className?: string;
 }
-export declare function FabMenu({ items, position, Position, icon, onClick, Click, ariaLabel, className, }: FabMenuProps): import("react").JSX.Element;
+export declare function FabMenu({ items, position, icon, onClick, ariaLabel, className, }: FabMenuProps): import("react").JSX.Element;

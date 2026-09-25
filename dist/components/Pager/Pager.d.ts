@@ -16,25 +16,15 @@ export interface PagerProps {
     count: number;
     pageSize: number;
     page?: number;
-    /** @deprecated use `page` */
-    pageNumber?: number;
     defaultPage?: number;
     pageSizeOptions?: readonly number[];
     pageNumbersCount?: number;
     alwaysVisible?: boolean;
     horizontalAlign?: 'left' | 'center' | 'right' | 'justify';
     showPagingSummary?: boolean;
-    /** @deprecated use showPagingSummary */
-    showSummary?: boolean;
     showPageSizeSelector?: boolean;
     pagingSummaryFormat?: string;
     pagingSummaryTemplate?: (info: PagingInformation) => ReactNode;
-    /** @deprecated use pagingSummaryTemplate */
-    summaryTemplate?: (ctx: {
-        count: number;
-        pageNumber: number;
-        pageSize: number;
-    }) => ReactNode;
     pageSizeText?: string;
     firstPageTitle?: string;
     prevPageTitle?: string;
@@ -49,4 +39,4 @@ export interface PagerProps {
     /** Render nothing when false. Defaults to true. */
     visible?: boolean;
 }
-export declare function Pager({ count, pageSize, page, pageNumber, defaultPage, pageSizeOptions, pageNumbersCount, alwaysVisible, horizontalAlign, showPagingSummary, showSummary, showPageSizeSelector, pagingSummaryFormat, pagingSummaryTemplate, summaryTemplate, pageSizeText, firstPageTitle, prevPageTitle, nextPageTitle, lastPageTitle, pageTitleFormat, pageAriaLabelFormat, onPageChange, onPageSizeChange, ariaLabel, className, visible, }: PagerProps): import("react").JSX.Element | null;
+export declare function Pager({ count, pageSize, page, defaultPage, pageSizeOptions, pageNumbersCount, alwaysVisible, horizontalAlign, showPagingSummary, showPageSizeSelector, pagingSummaryFormat, pagingSummaryTemplate, pageSizeText, firstPageTitle, prevPageTitle, nextPageTitle, lastPageTitle, pageTitleFormat, pageAriaLabelFormat, onPageChange, onPageSizeChange, ariaLabel, className, visible, }: PagerProps): import("react").JSX.Element | null;

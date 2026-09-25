@@ -11,9 +11,7 @@ export interface BreadcrumbItemEventArgs {
 export interface BreadcrumbProps {
     items: BreadcrumbItem[];
     onClick?: (args: BreadcrumbItemEventArgs) => void;
-    /** @deprecated use onClick */
-    Click?: (args: BreadcrumbItemEventArgs) => void;
     ariaLabel?: string;
     className?: string;
 }
-export declare function Breadcrumb({ items, onClick, Click, ariaLabel, className, }: BreadcrumbProps): import("react").JSX.Element;
+export declare function Breadcrumb({ items, onClick, ariaLabel, className, }: BreadcrumbProps): import("react").JSX.Element;

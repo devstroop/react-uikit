@@ -12,11 +12,9 @@ export type ButtonVariant = Variant;
  */
 export type ButtonStyle = Exclude<Severity, 'neutral'>;
 export type ButtonShade = Shade;
-/** @deprecated use `variant` × `buttonStyle` × `shade` (e.g. `variant="filled" buttonStyle="danger"`). */
-export type DeprecatedButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger' | 'success' | 'info';
 export type ButtonSize = ComponentSize;
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-    variant?: ButtonVariant | DeprecatedButtonVariant;
+    variant?: ButtonVariant;
     /**
      * Severity axis — the single severity prop (Radzen ButtonStyle parity).
      * Native `style` is always plain CSS and never a hue.

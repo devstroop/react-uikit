@@ -15,9 +15,7 @@ export interface MenuProps {
     items: MenuItem[];
     orientation?: 'horizontal' | 'vertical';
     onClick?: (args: MenuItemEventArgs) => void;
-    /** @deprecated use onClick */
-    Click?: (args: MenuItemEventArgs) => void;
     ariaLabel?: string;
     className?: string;
 }
-export declare function Menu({ items, orientation, onClick, Click, ariaLabel, className, }: MenuProps): import("react").JSX.Element;
+export declare function Menu({ items, orientation, onClick, ariaLabel, className, }: MenuProps): import("react").JSX.Element;
