@@ -10,13 +10,23 @@ export interface TextboxProps extends Omit<
 > {
   size?: TextboxSize;
   invalid?: boolean;
+  /** Render nothing when false. Defaults to true. */
+  visible?: boolean;
 }
 
 export const Textbox = forwardRef<HTMLInputElement, TextboxProps>(
   function Textbox(
-    { size = 'md', invalid = false, className, type = 'text', ...props },
+    {
+      size = 'md',
+      invalid = false,
+      className,
+      visible = true,
+      type = 'text',
+      ...props
+    },
     ref
   ) {
+    if (visible === false) return null;
     return (
       <input
         ref={ref}

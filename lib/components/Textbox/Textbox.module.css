@@ -1,9 +1,15 @@
 .textbox {
+  /* Component namespace: per-size inner padding hooks. */
+  --dx-textbox-padding-xs: 6px 10px;
+  --dx-textbox-padding-sm: 6px 10px;
+  --dx-textbox-padding-md: 8px 12px;
+  --dx-textbox-padding-lg: 10px 14px;
+  --dx-textbox-padding-xl: 12px 16px;
   display: block;
   width: 100%;
   min-width: 0;
   box-sizing: border-box;
-  border: 1px solid var(--dx-border-strong-color);
+  border: var(--dx-border-width) solid var(--dx-border-strong-color);
   border-radius: var(--dx-radius-md);
   background-color: var(--dx-surface-color);
   color: var(--dx-text-color);
@@ -20,47 +26,47 @@
 .textbox:focus-visible {
   outline: none;
   border-color: var(--dx-primary-color);
-  box-shadow: 0 0 0 3px var(--dx-outline-primary-color);
+  box-shadow: 0 0 0 var(--dx-focus-ring-width) var(--dx-outline-primary-color);
 }
 
 .textbox:disabled {
-  opacity: 0.55;
+  opacity: var(--dx-disabled-opacity);
   cursor: not-allowed;
 }
 
 .invalid,
 .invalid:focus-visible {
   border-color: var(--dx-danger-color);
-  box-shadow: 0 0 0 3px
+  box-shadow: 0 0 0 var(--dx-focus-ring-width)
     color-mix(in srgb, var(--dx-danger-color) 25%, transparent);
 }
 
 .xs {
   height: var(--dx-control-height-xs);
-  padding: 6px 10px;
+  padding: var(--dx-textbox-padding-xs);
   font-size: var(--dx-font-size-xs);
 }
 
 .sm {
   height: var(--dx-control-height-sm);
-  padding: 6px 10px;
+  padding: var(--dx-textbox-padding-sm);
   font-size: var(--dx-font-size-xs);
 }
 
 .md {
   height: var(--dx-control-height-md);
-  padding: 8px 12px;
+  padding: var(--dx-textbox-padding-md);
   font-size: var(--dx-font-size-sm);
 }
 
 .lg {
   height: var(--dx-control-height-lg);
-  padding: 10px 14px;
+  padding: var(--dx-textbox-padding-lg);
   font-size: var(--dx-font-size-md);
 }
 
 .xl {
   height: var(--dx-control-height-xl);
-  padding: 12px 16px;
+  padding: var(--dx-textbox-padding-xl);
   font-size: var(--dx-font-size-lg);
 }
