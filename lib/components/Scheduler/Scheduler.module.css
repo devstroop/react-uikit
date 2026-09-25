@@ -93,7 +93,7 @@
   border: 1px solid var(--dx-primary-color);
   border-radius: var(--dx-radius-sm);
   background-color: var(--dx-primary-color);
-  color: var(--dx-primary-fg-color);
+  color: var(--dx-primary-foreground-color);
   font-size: var(--dx-font-size-sm);
   cursor: pointer;
 }

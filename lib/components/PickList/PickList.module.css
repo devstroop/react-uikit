@@ -69,12 +69,12 @@
 
 .option.selected {
   background-color: var(--dx-primary-color);
-  color: var(--dx-primary-fg-color);
+  color: var(--dx-primary-foreground-color);
 }
 
 .option.selected:hover:not(.disabled) {
   background-color: var(--dx-primary-color);
-  color: var(--dx-primary-fg-color);
+  color: var(--dx-primary-foreground-color);
 }
 
 .option.disabled {

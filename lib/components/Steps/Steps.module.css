@@ -97,13 +97,13 @@
 .active .circle {
   background-color: var(--dx-primary-color);
   border-color: var(--dx-primary-color);
-  color: var(--dx-primary-fg-color);
+  color: var(--dx-primary-foreground-color);
 }
 
 .completed .circle {
   background-color: var(--dx-primary-color);
   border-color: var(--dx-primary-color);
-  color: var(--dx-primary-fg-color);
+  color: var(--dx-primary-foreground-color);
 }
 
 .check {

@@ -28,7 +28,7 @@
 :root {
   color-scheme: light;
   /* color */
-  --dx-bg-color: #f8fafc;
+  --dx-background-color: #f8fafc;
   --dx-surface-color: #ffffff;
   --dx-surface-hover-color: #f1f5f9;
   --dx-border-color: #e2e8f0;
@@ -37,21 +37,21 @@
   --dx-text-muted-color: #475569;
   --dx-primary-color: #2563eb;
   --dx-primary-hover-color: #1d4ed8;
-  --dx-primary-fg-color: #ffffff;
+  --dx-primary-foreground-color: #ffffff;
   --dx-danger-color: #dc2626;
   --dx-danger-hover-color: #b91c1c;
-  --dx-danger-fg-color: #ffffff;
+  --dx-danger-foreground-color: #ffffff;
   --dx-success-color: #12843c;
   --dx-success-hover-color: #117c38;
-  --dx-success-fg-color: #ffffff;
+  --dx-success-foreground-color: #ffffff;
   --dx-warning-color: #b16105;
   --dx-warning-hover-color: #924d06;
-  --dx-warning-fg-color: #ffffff;
+  --dx-warning-foreground-color: #ffffff;
   --dx-focus-color: rgb(37 99 235 / 0.35);
   --dx-backdrop-color: rgb(15 23 42 / 0.5);
   --dx-soft-color: #64748b;
   --dx-soft-hover-color: #56677f;
-  --dx-soft-fg-color: #ffffff;
+  --dx-soft-foreground-color: #ffffff;
   --dx-text-primary-color: #1759ea;
   --dx-text-success-color: #107736;
   --dx-text-warning-color: #9d5604;
@@ -64,11 +64,11 @@
   --dx-palette-5-color: #0b7caf;
   --dx-info-color: #0b7caf;
   --dx-info-hover-color: #086193;
-  --dx-info-fg-color: #ffffff;
+  --dx-info-foreground-color: #ffffff;
   --dx-text-info-color: #0a6a94;
   --dx-secondary-color: #64748b;
   --dx-secondary-hover-color: #56677f;
-  --dx-secondary-fg-color: #ffffff;
+  --dx-secondary-foreground-color: #ffffff;
   --dx-border-primary-color: #2563eb;
   --dx-border-primary-light-color: #5b8aef;
   --dx-border-primary-darker-color: #184099;
@@ -108,16 +108,16 @@
   /* neutral/base + light + dark tonal roles (no hue concept — see types/severity.ts) */
   --dx-neutral-color: #64748b;
   --dx-neutral-hover-color: #56677f;
-  --dx-neutral-fg-color: #ffffff;
+  --dx-neutral-foreground-color: #ffffff;
   --dx-base-color: #64748b;
   --dx-base-hover-color: #56677f;
-  --dx-base-fg-color: #ffffff;
+  --dx-base-foreground-color: #ffffff;
   --dx-light-color: #f1f5f9;
   --dx-light-hover-color: #e2e8f0;
-  --dx-light-fg-color: #0f172a;
+  --dx-light-foreground-color: #0f172a;
   --dx-dark-color: #0f172a;
   --dx-dark-hover-color: #1e293b;
-  --dx-dark-fg-color: #ffffff;
+  --dx-dark-foreground-color: #ffffff;
   --dx-text-neutral-color: #475569;
   --dx-text-light-color: #475569;
   --dx-text-dark-color: #0f172a;
@@ -440,7 +440,7 @@
 :root[data-theme='dark'] {
   color-scheme: dark;
   /* color */
-  --dx-bg-color: #0f172a;
+  --dx-background-color: #0f172a;
   --dx-surface-color: #1e293b;
   --dx-surface-hover-color: #334155;
   --dx-border-color: #334155;
@@ -449,21 +449,21 @@
   --dx-text-muted-color: #cbd5e1;
   --dx-primary-color: #2563eb;
   --dx-primary-hover-color: #1d4ed8;
-  --dx-primary-fg-color: #ffffff;
+  --dx-primary-foreground-color: #ffffff;
   --dx-danger-color: #dc2626;
   --dx-danger-hover-color: #b91c1c;
-  --dx-danger-fg-color: #ffffff;
+  --dx-danger-foreground-color: #ffffff;
   --dx-success-color: #17a84c;
   --dx-success-hover-color: #25ad57;
-  --dx-success-fg-color: #000000;
+  --dx-success-foreground-color: #000000;
   --dx-warning-color: #d97706;
   --dx-warning-hover-color: #b45309;
-  --dx-warning-fg-color: #000000;
+  --dx-warning-foreground-color: #000000;
   --dx-focus-color: rgb(59 130 246 / 0.4);
   --dx-backdrop-color: rgb(0 0 0 / 0.6);
   --dx-soft-color: #606f85;
   --dx-soft-hover-color: #56677f;
-  --dx-soft-fg-color: #ffffff;
+  --dx-soft-foreground-color: #ffffff;
   --dx-text-primary-color: #7098f2;
   --dx-text-success-color: #19b552;
   --dx-text-warning-color: #ed8207;
@@ -476,11 +476,11 @@
   --dx-palette-5-color: #0ea5e9;
   --dx-info-color: #0b7caf;
   --dx-info-hover-color: #086193;
-  --dx-info-fg-color: #ffffff;
+  --dx-info-foreground-color: #ffffff;
   --dx-text-info-color: #38bdf8;
   --dx-secondary-color: #606f85;
   --dx-secondary-hover-color: #606f85;
-  --dx-secondary-fg-color: #f1f5f9;
+  --dx-secondary-foreground-color: #f1f5f9;
   --dx-border-primary-color: #336dec;
   --dx-border-primary-light-color: #3e70de;
   --dx-border-primary-darker-color: #3c6fe0;
@@ -519,16 +519,16 @@
   --dx-outline-danger-darker-color: #dc3232;
   --dx-neutral-color: #606f85;
   --dx-neutral-hover-color: #56677f;
-  --dx-neutral-fg-color: #f1f5f9;
+  --dx-neutral-foreground-color: #f1f5f9;
   --dx-base-color: #606f85;
   --dx-base-hover-color: #56677f;
-  --dx-base-fg-color: #f1f5f9;
+  --dx-base-foreground-color: #f1f5f9;
   --dx-light-color: #e2e8f0;
   --dx-light-hover-color: #cbd5e1;
-  --dx-light-fg-color: #0f172a;
+  --dx-light-foreground-color: #0f172a;
   --dx-dark-color: #1e293b;
   --dx-dark-hover-color: #0f172a;
-  --dx-dark-fg-color: #f1f5f9;
+  --dx-dark-foreground-color: #f1f5f9;
   --dx-text-neutral-color: #cbd5e1;
   --dx-text-light-color: #cbd5e1;
   --dx-text-dark-color: #f1f5f9;
@@ -707,7 +707,7 @@
   :where(:root):not([data-theme]) {
     color-scheme: dark;
     /* color */
-    --dx-bg-color: #0f172a;
+    --dx-background-color: #0f172a;
     --dx-surface-color: #1e293b;
     --dx-surface-hover-color: #334155;
     --dx-border-color: #334155;
@@ -716,21 +716,21 @@
     --dx-text-muted-color: #cbd5e1;
     --dx-primary-color: #2563eb;
     --dx-primary-hover-color: #1d4ed8;
-    --dx-primary-fg-color: #ffffff;
+    --dx-primary-foreground-color: #ffffff;
     --dx-danger-color: #dc2626;
     --dx-danger-hover-color: #b91c1c;
-    --dx-danger-fg-color: #ffffff;
+    --dx-danger-foreground-color: #ffffff;
     --dx-success-color: #17a84c;
     --dx-success-hover-color: #25ad57;
-    --dx-success-fg-color: #000000;
+    --dx-success-foreground-color: #000000;
     --dx-warning-color: #d97706;
     --dx-warning-hover-color: #b45309;
-    --dx-warning-fg-color: #000000;
+    --dx-warning-foreground-color: #000000;
     --dx-focus-color: rgb(59 130 246 / 0.4);
     --dx-backdrop-color: rgb(0 0 0 / 0.6);
     --dx-soft-color: #606f85;
     --dx-soft-hover-color: #56677f;
-    --dx-soft-fg-color: #ffffff;
+    --dx-soft-foreground-color: #ffffff;
     --dx-text-primary-color: #7098f2;
     --dx-text-success-color: #19b552;
     --dx-text-warning-color: #ed8207;
@@ -743,11 +743,11 @@
     --dx-palette-5-color: #0ea5e9;
     --dx-info-color: #0b7caf;
     --dx-info-hover-color: #086193;
-    --dx-info-fg-color: #ffffff;
+    --dx-info-foreground-color: #ffffff;
     --dx-text-info-color: #38bdf8;
     --dx-secondary-color: #606f85;
     --dx-secondary-hover-color: #606f85;
-    --dx-secondary-fg-color: #f1f5f9;
+    --dx-secondary-foreground-color: #f1f5f9;
     --dx-border-primary-color: #336dec;
     --dx-border-primary-light-color: #3e70de;
     --dx-border-primary-darker-color: #3c6fe0;
@@ -786,16 +786,16 @@
     --dx-outline-danger-darker-color: #dc3232;
     --dx-neutral-color: #606f85;
     --dx-neutral-hover-color: #56677f;
-    --dx-neutral-fg-color: #f1f5f9;
+    --dx-neutral-foreground-color: #f1f5f9;
     --dx-base-color: #606f85;
     --dx-base-hover-color: #56677f;
-    --dx-base-fg-color: #f1f5f9;
+    --dx-base-foreground-color: #f1f5f9;
     --dx-light-color: #e2e8f0;
     --dx-light-hover-color: #cbd5e1;
-    --dx-light-fg-color: #0f172a;
+    --dx-light-foreground-color: #0f172a;
     --dx-dark-color: #1e293b;
     --dx-dark-hover-color: #0f172a;
-    --dx-dark-fg-color: #f1f5f9;
+    --dx-dark-foreground-color: #f1f5f9;
     --dx-text-neutral-color: #cbd5e1;
     --dx-text-light-color: #cbd5e1;
     --dx-text-dark-color: #f1f5f9;
@@ -962,4 +962,22 @@
     --dx-inverse-primary-color: #006b54;
     --dx-accent-color: #e7bd4d;
   }
+}
+
+/* Deprecated abbreviated aliases (remove in 3.0): prefer the full
+ * -background-/-foreground- names. Reference-only aliases — they track
+ * the winning theme value automatically. */
+:root {
+  --dx-bg-color: var(--dx-background-color);
+  --dx-primary-fg-color: var(--dx-primary-foreground-color);
+  --dx-secondary-fg-color: var(--dx-secondary-foreground-color);
+  --dx-success-fg-color: var(--dx-success-foreground-color);
+  --dx-danger-fg-color: var(--dx-danger-foreground-color);
+  --dx-warning-fg-color: var(--dx-warning-foreground-color);
+  --dx-info-fg-color: var(--dx-info-foreground-color);
+  --dx-light-fg-color: var(--dx-light-foreground-color);
+  --dx-base-fg-color: var(--dx-base-foreground-color);
+  --dx-dark-fg-color: var(--dx-dark-foreground-color);
+  --dx-neutral-fg-color: var(--dx-neutral-foreground-color);
+  --dx-soft-fg-color: var(--dx-soft-foreground-color);
 }

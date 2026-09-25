@@ -68,7 +68,7 @@
   height: 10px;
   transform: scale(0);
   transition: transform var(--dx-transition-fast);
-  background-color: var(--dx-primary-fg-color);
+  background-color: var(--dx-primary-foreground-color);
   clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
 }
 

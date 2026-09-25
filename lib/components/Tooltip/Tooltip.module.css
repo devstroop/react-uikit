@@ -8,7 +8,7 @@
   position: absolute;
   z-index: var(--dx-z-tooltip);
   background: var(--dx-text-color);
-  color: var(--dx-bg-color);
+  color: var(--dx-background-color);
   font-size: var(--dx-font-size-xs);
   font-weight: var(--dx-font-weight-medium);
   line-height: 1.4;

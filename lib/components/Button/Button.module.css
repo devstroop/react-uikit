@@ -52,7 +52,7 @@
 .filled.style-primary,
 .filled.tone-primary {
   background-color: var(--dx-primary-color);
-  color: var(--dx-primary-fg-color);
+  color: var(--dx-primary-foreground-color);
 }
 .filled.style-primary:hover:not(:disabled),
 .filled.tone-primary:hover:not(:disabled) {
@@ -79,7 +79,7 @@
 .filled.style-secondary,
 .filled.tone-secondary {
   background-color: var(--dx-secondary-color);
-  color: var(--dx-secondary-fg-color);
+  color: var(--dx-secondary-foreground-color);
 }
 .filled.style-secondary:hover:not(:disabled),
 .filled.tone-secondary:hover:not(:disabled) {
@@ -161,7 +161,7 @@
 .filled.style-danger,
 .filled.tone-danger {
   background-color: var(--dx-danger-color);
-  color: var(--dx-danger-fg-color);
+  color: var(--dx-danger-foreground-color);
 }
 .filled.style-danger:hover:not(:disabled),
 .filled.tone-danger:hover:not(:disabled) {
@@ -188,7 +188,7 @@
 .filled.style-success,
 .filled.tone-success {
   background-color: var(--dx-success-color);
-  color: var(--dx-success-fg-color);
+  color: var(--dx-success-foreground-color);
 }
 .filled.style-success:hover:not(:disabled),
 .filled.tone-success:hover:not(:disabled) {
@@ -215,7 +215,7 @@
 .filled.style-warning,
 .filled.tone-warning {
   background-color: var(--dx-warning-color);
-  color: var(--dx-warning-fg-color);
+  color: var(--dx-warning-foreground-color);
 }
 .filled.style-warning:hover:not(:disabled),
 .filled.tone-warning:hover:not(:disabled) {
@@ -242,7 +242,7 @@
 .filled.style-info,
 .filled.tone-info {
   background-color: var(--dx-info-color);
-  color: var(--dx-info-fg-color);
+  color: var(--dx-info-foreground-color);
 }
 .filled.style-info:hover:not(:disabled),
 .filled.tone-info:hover:not(:disabled) {

@@ -261,7 +261,7 @@
 
 .dx-datepicker-day--selected {
   background-color: var(--dx-primary-color);
-  color: var(--dx-primary-fg-color);
+  color: var(--dx-primary-foreground-color);
   font-weight: var(--dx-font-weight-medium);
 }
 
@@ -359,7 +359,7 @@
   border: none;
   border-radius: var(--dx-radius-md);
   background-color: var(--dx-primary-color);
-  color: var(--dx-primary-fg-color);
+  color: var(--dx-primary-foreground-color);
   font-family: inherit;
   font-size: var(--dx-font-size-xs);
   font-weight: var(--dx-font-weight-medium);

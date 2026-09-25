@@ -73,13 +73,13 @@
 .active {
   background-color: var(--dx-primary-color);
   border-color: var(--dx-primary-color);
-  color: var(--dx-primary-fg-color);
+  color: var(--dx-primary-foreground-color);
 }
 
 .active:hover:not(:disabled) {
   background-color: var(--dx-primary-hover-color);
   border-color: var(--dx-primary-hover-color);
-  color: var(--dx-primary-fg-color);
+  color: var(--dx-primary-foreground-color);
 }
 
 .ellipsis {

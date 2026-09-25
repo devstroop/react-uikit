@@ -82,7 +82,7 @@
   border: none;
   border-radius: var(--dx-radius-full);
   background-color: var(--dx-primary-color);
-  color: var(--dx-primary-fg-color);
+  color: var(--dx-primary-foreground-color);
   font-size: 24px;
   font-weight: var(--dx-font-weight-medium);
   cursor: pointer;

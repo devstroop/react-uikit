@@ -69,7 +69,7 @@
   border-radius: var(--dx-radius-full);
   transform: scale(0);
   transition: transform var(--dx-transition-fast);
-  background-color: var(--dx-primary-fg-color);
+  background-color: var(--dx-primary-foreground-color);
 }
 
 .radio:checked {

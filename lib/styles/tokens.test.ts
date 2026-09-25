@@ -160,4 +160,25 @@ describe('foundation tokens', () => {
     expect(css).toContain('font-display: swap;');
     expect(css).toContain('font-weight: 100 900;');
   });
+
+  it('keeps deprecated abbreviated aliases pointing at the new names', () => {
+    expect(css).toContain('--dx-bg-color: var(--dx-background-color);');
+    for (const tone of [
+      'primary',
+      'secondary',
+      'success',
+      'danger',
+      'warning',
+      'info',
+      'light',
+      'base',
+      'dark',
+      'neutral',
+      'soft',
+    ]) {
+      expect(css, tone).toContain(
+        `--dx-${tone}-fg-color: var(--dx-${tone}-foreground-color);`
+      );
+    }
+  });
 });
