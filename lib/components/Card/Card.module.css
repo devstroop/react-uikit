@@ -16,7 +16,7 @@
 }
 
 .outlined {
-  border: var(--dx-border-width) solid var(--dx-border-color);
+  border: var(--dx-outlined-border-width) solid var(--dx-border-color);
 }
 
 .interactive {

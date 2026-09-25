@@ -16,6 +16,9 @@ const SCOPE = [
   'Table',
   'Alert',
   'Pager',
+  'Badge',
+  'Splitbutton',
+  'Selectbar',
 ] as const;
 
 describe('component namespaces (Radzen parity pilot)', () => {
@@ -31,6 +34,23 @@ describe('component namespaces (Radzen parity pilot)', () => {
     expect(css('Alert')).toContain(
       '--alert-dismiss-size: var(--dx-alert-dismiss-size-md);'
     );
+  });
+
+  it('exposes Badge padding hooks and a shared outlined width', () => {
+    expect(css('Badge')).toContain('--dx-badge-padding-md: 1px 8px;');
+    expect(css('Badge')).toContain('padding: var(--dx-badge-padding-md);');
+    for (const name of ['Button', 'Alert'] as const) {
+      expect(css(name), `${name} outlined width`).toContain(
+        'border-width: var(--dx-outlined-border-width);'
+      );
+    }
+    expect(css('Badge')).toContain(
+      'border: var(--dx-outlined-border-width) solid var(--dx-border-strong-color);'
+    );
+    expect(css('Card')).toContain(
+      'border: var(--dx-outlined-border-width) solid var(--dx-border-color);'
+    );
+    expect(css('Splitbutton')).toContain('border-width: var(--dx-outlined-border-width);');
   });
 
   it('keeps no bare border/opacity/focus-ring literals in the pilot scope', () => {
@@ -88,5 +108,17 @@ describe('component namespaces (Radzen parity pilot)', () => {
     expect(code).toMatch(/\.dialog\[open\]\s*{[^}]*display:\s*flex;/);
     expect(code).toMatch(/\.dialog:not\(\[open\]\)\s*{[^}]*display:\s*none;/);
     expect(code.match(/\.dialog\s*{[^}]*display:/g) ?? []).toHaveLength(0);
+  });
+
+  it('keeps selectbar options borderless inside the bordered bar', () => {
+    // Design contract: the bar carries the single outer border, options
+    // are text buttons, selected is the primary fill — never outlined.
+    const selectbar = css('Selectbar');
+    expect(selectbar).toMatch(/\.option\s*{[^}]*border:\s*none;/);
+    expect(selectbar).toMatch(
+      /\.bar\s*{[^}]*border:\s*var\(--dx-border-width\)/
+    );
+    expect(selectbar).not.toMatch(/\.selected\s*{[^}]*border-color:/);
+    expect(selectbar).not.toMatch(/\.option\s*{[^}]*border:\s*1px/);
   });
 });

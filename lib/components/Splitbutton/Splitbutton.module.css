@@ -17,8 +17,8 @@
     var(--dx-primary-color) 14%,
     var(--dx-surface-color)
   );
-  --split-soft-fg: var(--dx-text-primary-color);
-  --split-ol-fg: var(--dx-text-primary-color);
+  --split-soft-foreground: var(--dx-text-primary-color);
+  --split-ol-foreground: var(--dx-text-primary-color);
   --split-ol-border: var(--dx-border-primary-color);
   --split-outline: var(--dx-outline-primary-color);
 }
@@ -61,8 +61,8 @@
     var(--dx-text-color) 14%,
     var(--dx-surface-color)
   );
-  --split-soft-fg: var(--dx-text-color);
-  --split-ol-fg: var(--dx-text-color);
+  --split-soft-foreground: var(--dx-text-color);
+  --split-ol-foreground: var(--dx-text-color);
   --split-ol-border: var(--dx-text-color);
   --split-outline: var(--dx-outline-primary-color);
 }
@@ -75,8 +75,8 @@
     var(--dx-info-color) 14%,
     var(--dx-surface-color)
   );
-  --split-soft-fg: var(--dx-text-info-color);
-  --split-ol-fg: var(--dx-text-info-color);
+  --split-soft-foreground: var(--dx-text-info-color);
+  --split-ol-foreground: var(--dx-text-info-color);
   --split-ol-border: var(--dx-info-color);
   --split-outline: var(--dx-outline-info-color);
 }
@@ -89,8 +89,8 @@
     var(--dx-success-color) 14%,
     var(--dx-surface-color)
   );
-  --split-soft-fg: var(--dx-text-success-color);
-  --split-ol-fg: var(--dx-text-success-color);
+  --split-soft-foreground: var(--dx-text-success-color);
+  --split-ol-foreground: var(--dx-text-success-color);
   --split-ol-border: var(--dx-success-color);
   --split-outline: var(--dx-outline-success-color);
 }
@@ -103,8 +103,8 @@
     var(--dx-warning-color) 14%,
     var(--dx-surface-color)
   );
-  --split-soft-fg: var(--dx-text-warning-color);
-  --split-ol-fg: var(--dx-text-warning-color);
+  --split-soft-foreground: var(--dx-text-warning-color);
+  --split-ol-foreground: var(--dx-text-warning-color);
   --split-ol-border: var(--dx-warning-color);
   --split-outline: var(--dx-outline-warning-color);
 }
@@ -117,8 +117,8 @@
     var(--dx-danger-color) 14%,
     var(--dx-surface-color)
   );
-  --split-soft-fg: var(--dx-text-danger-color);
-  --split-ol-fg: var(--dx-text-danger-color);
+  --split-soft-foreground: var(--dx-text-danger-color);
+  --split-ol-foreground: var(--dx-text-danger-color);
   --split-ol-border: var(--dx-danger-color);
   --split-outline: var(--dx-outline-danger-color);
 }
@@ -330,7 +330,7 @@
   align-items: center;
   justify-content: center;
   gap: var(--dx-space-2);
-  border: 1px solid var(--split-border, var(--split-fill));
+  border: var(--dx-border-width) solid var(--split-border, var(--split-fill));
   border-right: none;
   border-radius: var(--dx-radius-md) 0 0 var(--dx-radius-md);
   background-color: var(--split-bg, var(--split-fill));
@@ -374,7 +374,7 @@
 .flat .caret {
   --split-bg: var(--split-soft);
   --split-border: transparent;
-  color: var(--split-soft-fg);
+  color: var(--split-soft-foreground);
 }
 
 /* outlined: transparent fill, severity border + text */
@@ -382,7 +382,8 @@
 .outlined .caret {
   --split-bg: transparent;
   --split-border: var(--split-ol-border);
-  color: var(--split-ol-fg);
+  border-width: var(--dx-outlined-border-width);
+  color: var(--split-ol-foreground);
 }
 
 /* text: transparent fill and border, severity text */
@@ -390,13 +391,13 @@
 .text .caret {
   --split-bg: transparent;
   --split-border: transparent;
-  color: var(--split-ol-fg);
+  color: var(--split-ol-foreground);
 }
 
 .action:focus-visible,
 .caret:focus-visible {
-  outline: 2px solid var(--split-outline, var(--dx-outline-primary-color));
-  outline-offset: 2px;
+  outline: var(--dx-outline-width) solid var(--split-outline, var(--dx-outline-primary-color));
+  outline-offset: var(--dx-focus-ring-offset);
   z-index: 1;
 }
 
@@ -488,7 +489,7 @@
 
 .action:disabled,
 .caret:disabled {
-  opacity: 0.55;
+  opacity: var(--dx-disabled-opacity);
   cursor: not-allowed;
 }
 
@@ -534,7 +535,7 @@
   left: 0;
   z-index: var(--dx-z-popover);
   min-width: 100%;
-  border: 1px solid var(--dx-border-strong-color);
+  border: var(--dx-border-width) solid var(--dx-border-strong-color);
   border-radius: var(--dx-radius-md);
   background-color: var(--dx-surface-color);
   box-shadow: var(--dx-shadow-md);
@@ -586,7 +587,7 @@ button.item {
 }
 
 .item:focus-visible {
-  outline: 2px solid var(--dx-outline-primary-color);
+  outline: var(--dx-outline-width) solid var(--dx-outline-primary-color);
   outline-offset: -2px;
 }
 

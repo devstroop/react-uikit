@@ -1,7 +1,14 @@
 .badge {
+  /* Component namespace: per-size inline padding hooks. Radzen-parity
+   * tight rhythm (2/4px base): badges sit inline in tables and headers. */
+  --dx-badge-padding-xs: 0 4px;
+  --dx-badge-padding-sm: 1px 6px;
+  --dx-badge-padding-md: 1px 8px;
+  --dx-badge-padding-lg: 2px 10px;
+  --dx-badge-padding-xl: 3px 12px;
   display: inline-flex;
   align-items: center;
-  gap: var(--dx-space-1);
+  gap: var(--dx-space-05);
   border-radius: var(--dx-radius-full);
   font-family: var(--dx-font-sans);
   font-size: var(--dx-font-size-xs);
@@ -12,27 +19,27 @@
 
 /* Sizes */
 .xs {
-  padding: 1px 6px;
+  padding: var(--dx-badge-padding-xs);
   font-size: var(--dx-font-size-xs);
 }
 
 .sm {
-  padding: 1px 8px;
+  padding: var(--dx-badge-padding-sm);
   font-size: var(--dx-font-size-xs);
 }
 
 .md {
-  padding: 2px 10px;
+  padding: var(--dx-badge-padding-md);
   font-size: var(--dx-font-size-sm);
 }
 
 .lg {
-  padding: 3px 12px;
+  padding: var(--dx-badge-padding-lg);
   font-size: var(--dx-font-size-md);
 }
 
 .xl {
-  padding: 4px 14px;
+  padding: var(--dx-badge-padding-xl);
   font-size: var(--dx-font-size-lg);
 }
 
@@ -153,7 +160,7 @@
 
 .outlined {
   background-color: transparent;
-  border: 1px solid var(--dx-border-strong-color);
+  border: var(--dx-outlined-border-width) solid var(--dx-border-strong-color);
   color: var(--dx-text-color);
 }
 

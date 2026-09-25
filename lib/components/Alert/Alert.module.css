@@ -123,6 +123,7 @@
 .outlined {
   background-color: transparent;
   border-color: var(--alert-tone);
+  border-width: var(--dx-outlined-border-width);
   color: var(--alert-fg);
 }
 

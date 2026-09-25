@@ -42,6 +42,7 @@
 .outlined {
   background-color: transparent;
   border-color: var(--dx-border-strong-color);
+  border-width: var(--dx-outlined-border-width);
 }
 .text {
   background-color: transparent;
@@ -531,51 +532,6 @@
 .style-info:focus-visible,
 .tone-info:focus-visible {
   outline-color: var(--dx-outline-info-color);
-}
-
-/* ── Deprecated aliases (keep until 1.0) ── */
-.primary {
-  background-color: var(--dx-primary-color);
-  color: var(--dx-primary-fg-color);
-}
-.primary:hover:not(:disabled) {
-  background-color: var(--dx-primary-hover-color);
-}
-.secondary {
-  background-color: var(--dx-surface-color);
-  border-color: var(--dx-border-strong-color);
-  color: var(--dx-text-color);
-}
-.secondary:hover:not(:disabled) {
-  background-color: var(--dx-surface-hover-color);
-}
-.ghost {
-  background-color: transparent;
-  color: var(--dx-text-color);
-}
-.ghost:hover:not(:disabled) {
-  background-color: var(--dx-surface-hover-color);
-}
-.danger {
-  background-color: var(--dx-danger-color);
-  color: var(--dx-danger-fg-color);
-}
-.danger:hover:not(:disabled) {
-  background-color: var(--dx-danger-hover-color);
-}
-.success {
-  background-color: var(--dx-success-color);
-  color: var(--dx-success-fg-color);
-}
-.success:hover:not(:disabled) {
-  background-color: var(--dx-success-hover-color);
-}
-.info {
-  background-color: var(--dx-info-color);
-  color: var(--dx-info-fg-color);
-}
-.info:hover:not(:disabled) {
-  background-color: var(--dx-info-hover-color);
 }
 
 /* loading spinner */

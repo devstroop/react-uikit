@@ -111,6 +111,7 @@ describe('foundation tokens', () => {
   it('defines geometry and interaction constants', () => {
     for (const [token, value] of [
       ['--dx-border-width', '1px'],
+      ['--dx-outlined-border-width', '2px'],
       ['--dx-outline-width', '2px'],
       ['--dx-focus-ring-width', '3px'],
       ['--dx-focus-ring-offset', '2px'],
