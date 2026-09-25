@@ -32,7 +32,7 @@
   transition: background var(--dx-transition-fast);
 }
 
-.trigger:hover:not(:disabled):not([aria-disabled="true"]) {
+.trigger:hover:not(:disabled):not([aria-disabled='true']) {
   background-color: var(--dx-surface-hover-color);
 }
 
@@ -43,7 +43,7 @@
 
 .trigger.disabled,
 .trigger:disabled,
-.trigger[aria-disabled="true"] {
+.trigger[aria-disabled='true'] {
   opacity: 0.5;
   cursor: not-allowed;
 }
@@ -104,7 +104,7 @@
   outline: none;
 }
 
-.submenuItem:hover:not([aria-disabled="true"]) {
+.submenuItem:hover:not([aria-disabled='true']) {
   background-color: var(--dx-surface-hover-color);
 }
 
@@ -114,7 +114,7 @@
 }
 
 .submenuItem.disabled,
-.submenuItem[aria-disabled="true"] {
+.submenuItem[aria-disabled='true'] {
   opacity: 0.5;
   cursor: not-allowed;
 }

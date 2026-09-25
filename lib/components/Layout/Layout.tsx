@@ -4,11 +4,11 @@ import {
   type HTMLAttributes,
   type ReactElement,
   type ReactNode,
-} from "react";
-import styles from "./Layout.module.css";
-import { Footer } from "../Footer/Footer";
-import { Header } from "../Header/Header";
-import { Sidebar } from "../Sidebar/Sidebar";
+} from 'react';
+import styles from './Layout.module.css';
+import { Footer } from '../Footer/Footer';
+import { Header } from '../Header/Header';
+import { Sidebar } from '../Sidebar/Sidebar';
 
 type LayoutCommonProps = {
   children?: ReactNode;
@@ -28,7 +28,11 @@ export type LayoutProps = LayoutCommonProps &
       }
   );
 
-type SidebarElement = ReactElement<{ position?: "left" | "right" | "start" | "end"; fullHeight?: boolean; className?: string }>;
+type SidebarElement = ReactElement<{
+  position?: 'left' | 'right' | 'start' | 'end';
+  fullHeight?: boolean;
+  className?: string;
+}>;
 
 export function Layout(props: LayoutProps) {
   if (props.bare === true) {
@@ -55,7 +59,7 @@ export function Layout(props: LayoutProps) {
       const sidebar = child as SidebarElement;
       const position = sidebar.props.position;
       sidebars.push(sidebar);
-      (position === "right" || position === "end" ? right : left).push(sidebar);
+      (position === 'right' || position === 'end' ? right : left).push(sidebar);
     } else {
       body.push(child);
     }
@@ -67,18 +71,27 @@ export function Layout(props: LayoutProps) {
   // parity). Each region renders inside a single grid cell, so duplicate
   // headers/bodies/footers stack normally instead of overlapping.
   // Anything else keeps the classic flex row.
-  const gridSidebar = sidebars.length === 1 && sidebars[0]?.props.fullHeight === true ? sidebars[0] : null;
+  const gridSidebar =
+    sidebars.length === 1 && sidebars[0]?.props.fullHeight === true
+      ? sidebars[0]
+      : null;
   const gridRight =
     gridSidebar != null &&
-    (gridSidebar.props.position === "right" || gridSidebar.props.position === "end");
+    (gridSidebar.props.position === 'right' ||
+      gridSidebar.props.position === 'end');
 
   if (gridSidebar) {
     const aside = gridRight ? right : left;
     return (
       <div
-        className={[styles.layout, styles.grid, gridRight ? styles.gridRight : null, className]
+        className={[
+          styles.layout,
+          styles.grid,
+          gridRight ? styles.gridRight : null,
+          className,
+        ]
           .filter(Boolean)
-          .join(" ")}
+          .join(' ')}
         {...rest}
       >
         {header.length > 0 && <div className={styles.gridHeader}>{header}</div>}
@@ -92,7 +105,10 @@ export function Layout(props: LayoutProps) {
   }
 
   return (
-    <div className={[styles.layout, className].filter(Boolean).join(" ")} {...rest}>
+    <div
+      className={[styles.layout, className].filter(Boolean).join(' ')}
+      {...rest}
+    >
       {header}
       <div className={styles.row}>
         {left}

@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Icon } from "../Icon/Icon";
-import styles from "./Tree.module.css";
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Icon } from '../Icon/Icon';
+import styles from './Tree.module.css';
 
 export interface TreeItem {
   id: string;
@@ -35,8 +35,8 @@ export interface TreeProps {
   TextProperty?: string;
   keyProperty?: string;
   KeyProperty?: string;
-  selectionMode?: "single" | "multiple";
-  SelectionMode?: "single" | "multiple";
+  selectionMode?: 'single' | 'multiple';
+  SelectionMode?: 'single' | 'multiple';
   selectedItem?: TreeItem | null;
   SelectedItem?: TreeItem | null;
   selectedItems?: TreeItem[];
@@ -89,7 +89,7 @@ interface FlatNode {
 function IndeterminateCheckbox({
   indeterminate,
   ...props
-}: Omit<React.InputHTMLAttributes<HTMLInputElement>, "type"> & {
+}: Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'> & {
   indeterminate?: boolean;
 }) {
   const ref = useRef<HTMLInputElement>(null);
@@ -139,20 +139,21 @@ export function Tree({
 }: TreeProps) {
   const effectiveData = data ?? Data ?? [];
   const childrenGetter = children ?? Children;
-  const effectiveTextProp = textProperty ?? TextProperty ?? "text";
-  const effectiveKeyProp = keyProperty ?? KeyProperty ?? "id";
-  const effectiveSelectionMode = selectionMode ?? SelectionMode ?? "single";
-  const effectiveAriaLabel = ariaLabel ?? AriaLabel ?? "Tree";
+  const effectiveTextProp = textProperty ?? TextProperty ?? 'text';
+  const effectiveKeyProp = keyProperty ?? KeyProperty ?? 'id';
+  const effectiveSelectionMode = selectionMode ?? SelectionMode ?? 'single';
+  const effectiveAriaLabel = ariaLabel ?? AriaLabel ?? 'Tree';
   const effectiveLoadChildData = loadChildData ?? LoadChildData;
-  const effectiveTemplate = template ?? Template ?? itemTemplate ?? ItemTemplate;
+  const effectiveTemplate =
+    template ?? Template ?? itemTemplate ?? ItemTemplate;
 
   const getKey = useCallback(
     (item: TreeItem): string => {
       const v = item[effectiveKeyProp];
       if (v != null) return String(v);
-      return String(item.id ?? "");
+      return String(item.id ?? '');
     },
-    [effectiveKeyProp],
+    [effectiveKeyProp]
   );
 
   const getText = useCallback(
@@ -160,11 +161,11 @@ export function Tree({
       const v = item[effectiveTextProp];
       if (v != null) return String(v);
       // fallback to text property
-      const fb = item["text"];
+      const fb = item['text'];
       if (fb != null) return String(fb);
-      return "";
+      return '';
     },
-    [effectiveTextProp],
+    [effectiveTextProp]
   );
 
   const getChildren = useCallback(
@@ -177,7 +178,7 @@ export function Tree({
       if (Array.isArray(ch)) return ch;
       return undefined;
     },
-    [childrenGetter],
+    [childrenGetter]
   );
 
   // expanded state
@@ -195,11 +196,15 @@ export function Tree({
       walk(items);
       return set;
     },
-    [getKey, getChildren],
+    [getKey, getChildren]
   );
 
-  const [expandedKeys, setExpandedKeys] = useState<Set<string>>(() => collectExpanded(effectiveData));
-  const [loadedChildren, setLoadedChildren] = useState<Map<string, TreeItem[]>>(() => new Map());
+  const [expandedKeys, setExpandedKeys] = useState<Set<string>>(() =>
+    collectExpanded(effectiveData)
+  );
+  const [loadedChildren, setLoadedChildren] = useState<Map<string, TreeItem[]>>(
+    () => new Map()
+  );
   const [loadingKeys, setLoadingKeys] = useState<Set<string>>(() => new Set());
 
   // sync expanded if data changes and has expanded flags? Keep initial only
@@ -209,10 +214,13 @@ export function Tree({
   const controlledMultiple = selectedItems ?? SelectedItems;
   const isControlledSingle = controlledSingle !== undefined;
   const isControlledMultiple = controlledMultiple !== undefined;
-  const isControlled = effectiveSelectionMode === "multiple" ? isControlledMultiple : isControlledSingle;
+  const isControlled =
+    effectiveSelectionMode === 'multiple'
+      ? isControlledMultiple
+      : isControlledSingle;
 
   const buildInitialSelected = useCallback((): Set<string> => {
-    if (effectiveSelectionMode === "multiple") {
+    if (effectiveSelectionMode === 'multiple') {
       if (defaultSelectedItems && defaultSelectedItems.length > 0) {
         return new Set(defaultSelectedItems.map((it) => getKey(it)));
       }
@@ -246,12 +254,21 @@ export function Tree({
       if (found) return new Set([found]);
       return new Set();
     }
-  }, [effectiveSelectionMode, defaultSelectedItem, defaultSelectedItems, getKey, getChildren, effectiveData]);
+  }, [
+    effectiveSelectionMode,
+    defaultSelectedItem,
+    defaultSelectedItems,
+    getKey,
+    getChildren,
+    effectiveData,
+  ]);
 
-  const [internalSelectedKeys, setInternalSelectedKeys] = useState<Set<string>>(() => buildInitialSelected());
+  const [internalSelectedKeys, setInternalSelectedKeys] = useState<Set<string>>(
+    () => buildInitialSelected()
+  );
 
   const selectedKeys: Set<string> = useMemo(() => {
-    if (effectiveSelectionMode === "multiple") {
+    if (effectiveSelectionMode === 'multiple') {
       if (controlledMultiple !== undefined) {
         const arr = controlledMultiple as TreeItem[] | undefined;
         if (arr) return new Set(arr.map((it) => getKey(it)));
@@ -266,7 +283,13 @@ export function Tree({
       }
       return internalSelectedKeys;
     }
-  }, [effectiveSelectionMode, controlledMultiple, controlledSingle, internalSelectedKeys, getKey]);
+  }, [
+    effectiveSelectionMode,
+    controlledMultiple,
+    controlledSingle,
+    internalSelectedKeys,
+    getKey,
+  ]);
 
   // helper to find item by key in current data + loaded
   const findItemByKey = useCallback(
@@ -294,7 +317,7 @@ export function Tree({
       }
       return result;
     },
-    [effectiveData, loadedChildren, getKey, getChildren],
+    [effectiveData, loadedChildren, getKey, getChildren]
   );
 
   const getAllItemsForSelection = useCallback((): Map<string, TreeItem> => {
@@ -317,7 +340,7 @@ export function Tree({
       const key = getKey(item);
       const disabled = !!item.disabled;
       if (disabled) return;
-      if (effectiveSelectionMode === "multiple") {
+      if (effectiveSelectionMode === 'multiple') {
         // uncontrolled update if not controlled
         const next = new Set(selectedKeys);
         if (next.has(key)) next.delete(key);
@@ -352,7 +375,16 @@ export function Tree({
         }
       }
     },
-    [getKey, effectiveSelectionMode, selectedKeys, isControlled, onChange, Change, getAllItemsForSelection, findItemByKey],
+    [
+      getKey,
+      effectiveSelectionMode,
+      selectedKeys,
+      isControlled,
+      onChange,
+      Change,
+      getAllItemsForSelection,
+      findItemByKey,
+    ]
   );
 
   const handleToggleExpand = useCallback(
@@ -366,7 +398,8 @@ export function Tree({
       const ch = getChildren(item);
       const loaded = loadedChildren.get(key);
       const effectiveChildren = loaded ?? ch;
-      const hasChildData = effectiveChildren !== undefined && effectiveChildren.length > 0;
+      const hasChildData =
+        effectiveChildren !== undefined && effectiveChildren.length > 0;
       const isLazyCandidate = !hasChildData && effectiveLoadChildData != null;
 
       if (isExpanded) {
@@ -389,7 +422,9 @@ export function Tree({
           return next;
         });
         try {
-          const loader = effectiveLoadChildData as (item: TreeItem) => Promise<TreeItem[]>;
+          const loader = effectiveLoadChildData as (
+            item: TreeItem
+          ) => Promise<TreeItem[]>;
           const result = await loader(item);
           setLoadedChildren((prev) => {
             const next = new Map(prev);
@@ -422,7 +457,18 @@ export function Tree({
       });
       handlerExpand?.({ item });
     },
-    [getKey, expandedKeys, getChildren, loadedChildren, effectiveLoadChildData, loadingKeys, onExpand, Expand, onCollapse, Collapse],
+    [
+      getKey,
+      expandedKeys,
+      getChildren,
+      loadedChildren,
+      effectiveLoadChildData,
+      loadingKeys,
+      onExpand,
+      Expand,
+      onCollapse,
+      Collapse,
+    ]
   );
 
   // ---- Checkbox cascade (allowCheckBoxes) ----
@@ -442,7 +488,10 @@ export function Tree({
         const loaded = loadedChildren.get(k);
         const ch = loaded ?? getChildren(it);
         if (ch && ch.length > 0) {
-          childrenOf.set(k, ch.map((c) => getKey(c)));
+          childrenOf.set(
+            k,
+            ch.map((c) => getKey(c))
+          );
           walk(ch, k);
         }
       }
@@ -462,13 +511,14 @@ export function Tree({
       }
       return out;
     },
-    [hierarchy],
+    [hierarchy]
   );
 
   const [internalCheckedKeys, setInternalCheckedKeys] = useState<Set<string>>(
-    () => new Set(defaultCheckedKeys ?? []),
+    () => new Set(defaultCheckedKeys ?? [])
   );
-  const checkedSet: Set<string> = checkedKeys !== undefined ? new Set(checkedKeys) : internalCheckedKeys;
+  const checkedSet: Set<string> =
+    checkedKeys !== undefined ? new Set(checkedKeys) : internalCheckedKeys;
 
   // Cascade contract: toggleCheck never adds/removes disabled descendants,
   // so derivation ignores them too — a parent with an unchecked disabled
@@ -479,7 +529,7 @@ export function Tree({
       const disabled = hierarchy.disabledKeys;
       return descendantsOf(key).filter((k) => !disabled.has(k));
     },
-    [descendantsOf, hierarchy],
+    [descendantsOf, hierarchy]
   );
 
   const isChecked = useCallback(
@@ -489,18 +539,19 @@ export function Tree({
       const desc = enabledDescendantsOf(key);
       return desc.length > 0 && desc.every((k) => checkedSet.has(k));
     },
-    [checkedSet, allowCheckBoxes, allowCheckChildren, enabledDescendantsOf],
+    [checkedSet, allowCheckBoxes, allowCheckChildren, enabledDescendantsOf]
   );
 
   const isIndeterminate = useCallback(
     (key: string): boolean => {
-      if (!allowCheckBoxes || !allowCheckChildren || checkedSet.has(key)) return false;
+      if (!allowCheckBoxes || !allowCheckChildren || checkedSet.has(key))
+        return false;
       const desc = enabledDescendantsOf(key);
       if (desc.length === 0) return false;
       const count = desc.filter((k) => checkedSet.has(k)).length;
       return count > 0 && count < desc.length;
     },
-    [checkedSet, allowCheckBoxes, allowCheckChildren, enabledDescendantsOf],
+    [checkedSet, allowCheckBoxes, allowCheckChildren, enabledDescendantsOf]
   );
 
   const toggleCheck = useCallback(
@@ -533,13 +584,17 @@ export function Tree({
       getKey,
       isChecked,
       onCheckedChange,
-    ],
+    ]
   );
 
   // Build flat visible nodes list
   const visibleNodes: FlatNode[] = useMemo(() => {
     const result: FlatNode[] = [];
-    const walk = (list: TreeItem[], level: number, parentKey: string | null) => {
+    const walk = (
+      list: TreeItem[],
+      level: number,
+      parentKey: string | null
+    ) => {
       list.forEach((item, idx) => {
         const key = getKey(item);
         const text = getText(item);
@@ -582,11 +637,22 @@ export function Tree({
     };
     walk(effectiveData, 1, null);
     return result;
-  }, [effectiveData, getKey, getText, getChildren, loadedChildren, expandedKeys, effectiveLoadChildData, loadingKeys]);
+  }, [
+    effectiveData,
+    getKey,
+    getText,
+    getChildren,
+    loadedChildren,
+    expandedKeys,
+    effectiveLoadChildData,
+    loadingKeys,
+  ]);
 
   // Focus management
-  const [focusedKey, setFocusedKey] = useState<string | null>(() => visibleNodes[0]?.key ?? null);
-  const typeaheadRef = useRef<string>("");
+  const [focusedKey, setFocusedKey] = useState<string | null>(
+    () => visibleNodes[0]?.key ?? null
+  );
+  const typeaheadRef = useRef<string>('');
   const typeaheadTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const treeRef = useRef<HTMLDivElement>(null);
 
@@ -603,11 +669,16 @@ export function Tree({
 
   useEffect(() => {
     if (focusedKey) {
-      const el = treeRef.current?.querySelector<HTMLElement>(`[data-key="${CSS.escape(focusedKey)}"]`);
+      const el = treeRef.current?.querySelector<HTMLElement>(
+        `[data-key="${CSS.escape(focusedKey)}"]`
+      );
       // fallback without escape if not supported
       let fallbackEl: HTMLElement | null = null;
       if (!el) {
-        fallbackEl = treeRef.current?.querySelector<HTMLElement>(`[data-key="${focusedKey}"]`) ?? null;
+        fallbackEl =
+          treeRef.current?.querySelector<HTMLElement>(
+            `[data-key="${focusedKey}"]`
+          ) ?? null;
       }
       const target = (el ?? fallbackEl) as HTMLElement | null;
       if (target && document.activeElement !== target) {
@@ -620,36 +691,44 @@ export function Tree({
     }
   }, [focusedKey]);
 
-  const focusNode = useCallback(
-    (key: string) => {
-      setFocusedKey(key);
-      // focus DOM element if exists
-      requestAnimationFrame(() => {
-        const esc = typeof CSS !== "undefined" && typeof CSS.escape === "function" ? CSS.escape(key) : key;
-        let el = treeRef.current?.querySelector<HTMLElement>(`[data-key="${esc}"]`);
-        if (!el) el = treeRef.current?.querySelector<HTMLElement>(`[data-key="${key}"]`) ?? null;
-        el?.focus();
-      });
-    },
-    [],
-  );
+  const focusNode = useCallback((key: string) => {
+    setFocusedKey(key);
+    // focus DOM element if exists
+    requestAnimationFrame(() => {
+      const esc =
+        typeof CSS !== 'undefined' && typeof CSS.escape === 'function'
+          ? CSS.escape(key)
+          : key;
+      let el = treeRef.current?.querySelector<HTMLElement>(
+        `[data-key="${esc}"]`
+      );
+      if (!el)
+        el =
+          treeRef.current?.querySelector<HTMLElement>(`[data-key="${key}"]`) ??
+          null;
+      el?.focus();
+    });
+  }, []);
 
   const getParentKey = useCallback(
     (key: string): string | null => {
       const node = visibleNodes.find((n) => n.key === key);
       return node?.parentKey ?? null;
     },
-    [visibleNodes],
+    [visibleNodes]
   );
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLDivElement>) => {
       if (visibleNodes.length === 0) return;
-      const currentIdx = focusedKey ? visibleNodes.findIndex((n) => n.key === focusedKey) : -1;
-      const currentNode = currentIdx >= 0 ? visibleNodes[currentIdx] : undefined;
+      const currentIdx = focusedKey
+        ? visibleNodes.findIndex((n) => n.key === focusedKey)
+        : -1;
+      const currentNode =
+        currentIdx >= 0 ? visibleNodes[currentIdx] : undefined;
       let nextKey: string | null = null;
 
-      if (e.key === "ArrowDown") {
+      if (e.key === 'ArrowDown') {
         e.preventDefault();
         if (currentIdx === -1) {
           nextKey = visibleNodes[0]?.key ?? null;
@@ -661,20 +740,21 @@ export function Tree({
         if (nextKey) focusNode(nextKey);
         return;
       }
-      if (e.key === "ArrowUp") {
+      if (e.key === 'ArrowUp') {
         e.preventDefault();
         if (currentIdx === -1) {
           const last = visibleNodes[visibleNodes.length - 1];
           if (last) nextKey = last.key;
         } else {
-          const prevIdx = (currentIdx - 1 + visibleNodes.length) % visibleNodes.length;
+          const prevIdx =
+            (currentIdx - 1 + visibleNodes.length) % visibleNodes.length;
           const prv = visibleNodes[prevIdx];
           if (prv) nextKey = prv.key;
         }
         if (nextKey) focusNode(nextKey);
         return;
       }
-      if (e.key === "ArrowRight") {
+      if (e.key === 'ArrowRight') {
         e.preventDefault();
         if (!currentNode) return;
         if (currentNode.hasChildren && !currentNode.expanded) {
@@ -689,7 +769,7 @@ export function Tree({
         }
         return;
       }
-      if (e.key === "ArrowLeft") {
+      if (e.key === 'ArrowLeft') {
         e.preventDefault();
         if (!currentNode) return;
         if (currentNode.hasChildren && currentNode.expanded) {
@@ -700,28 +780,29 @@ export function Tree({
         }
         return;
       }
-      if (e.key === "Home") {
+      if (e.key === 'Home') {
         e.preventDefault();
         const first = visibleNodes[0];
         if (first) focusNode(first.key);
         return;
       }
-      if (e.key === "End") {
+      if (e.key === 'End') {
         e.preventDefault();
         const last = visibleNodes[visibleNodes.length - 1];
         if (last) focusNode(last.key);
         return;
       }
-      if (e.key === "Enter" || e.key === " ") {
+      if (e.key === 'Enter' || e.key === ' ') {
         // A focused checkbox handles Space natively via its own onChange —
         // return BEFORE preventDefault, which would cancel the native
         // toggle, and without toggling here (that would double-toggle).
-        if (e.key === " " && (e.target as HTMLElement)?.tagName === "INPUT") return;
+        if (e.key === ' ' && (e.target as HTMLElement)?.tagName === 'INPUT')
+          return;
         e.preventDefault();
         if (!currentNode) return;
         // With checkboxes, Space toggles the check (Radzen behavior) while
         // Enter keeps selecting; without them both keys select.
-        if (e.key === " " && allowCheckBoxes) {
+        if (e.key === ' ' && allowCheckBoxes) {
           const target = findItemByKey(currentNode.key);
           if (target) toggleCheck(target);
           return;
@@ -735,7 +816,7 @@ export function Tree({
         typeaheadRef.current = query;
         if (typeaheadTimer.current) clearTimeout(typeaheadTimer.current);
         typeaheadTimer.current = setTimeout(() => {
-          typeaheadRef.current = "";
+          typeaheadRef.current = '';
         }, 500);
         const startIdx = currentIdx >= 0 ? currentIdx + 1 : 0;
         const doubled = [...visibleNodes, ...visibleNodes];
@@ -745,7 +826,16 @@ export function Tree({
         return;
       }
     },
-    [visibleNodes, focusedKey, focusNode, handleToggleExpand, handleSelect, getParentKey, allowCheckBoxes, toggleCheck],
+    [
+      visibleNodes,
+      focusedKey,
+      focusNode,
+      handleToggleExpand,
+      handleSelect,
+      getParentKey,
+      allowCheckBoxes,
+      toggleCheck,
+    ]
   );
 
   const handleTreeFocus = useCallback(() => {
@@ -755,7 +845,11 @@ export function Tree({
     }
   }, [focusedKey, visibleNodes]);
 
-  const renderNodes = (nodes: TreeItem[], level: number, _parentKey: string | null): React.ReactNode => {
+  const renderNodes = (
+    nodes: TreeItem[],
+    level: number,
+    _parentKey: string | null
+  ): React.ReactNode => {
     return (
       <ul role="group" className={styles.group}>
         {nodes.map((item, idx) => {
@@ -808,7 +902,7 @@ export function Tree({
                   isFocused ? styles.focused : null,
                 ]
                   .filter(Boolean)
-                  .join(" ")}
+                  .join(' ')}
                 onClick={() => {
                   focusNode(key);
                   if (!isDisabled) handleSelect(item);
@@ -830,7 +924,7 @@ export function Tree({
                   <button
                     type="button"
                     className={styles.caret}
-                    aria-label={`${isExpanded ? "Collapse" : "Expand"} ${text}`}
+                    aria-label={`${isExpanded ? 'Collapse' : 'Expand'} ${text}`}
                     aria-expanded={isExpanded}
                     tabIndex={-1}
                     disabled={isDisabled}
@@ -840,12 +934,23 @@ export function Tree({
                       void handleToggleExpand(item);
                     }}
                   >
-                    <span aria-hidden="true" className={[styles.caretIcon, isExpanded ? styles.caretOpen : null].filter(Boolean).join(" ")}>
+                    <span
+                      aria-hidden="true"
+                      className={[
+                        styles.caretIcon,
+                        isExpanded ? styles.caretOpen : null,
+                      ]
+                        .filter(Boolean)
+                        .join(' ')}
+                    >
                       <Icon name="chevron-right" size={10} />
                     </span>
                   </button>
                 ) : (
-                  <span className={styles.caretPlaceholder} aria-hidden="true" />
+                  <span
+                    className={styles.caretPlaceholder}
+                    aria-hidden="true"
+                  />
                 )}
                 <span className={styles.label}>{content}</span>
                 {isLoading ? (
@@ -861,8 +966,13 @@ export function Tree({
                   </div>
                 ) : ch && ch.length > 0 ? (
                   renderNodes(ch, level + 1, key)
-                ) : loadedChildren.has(key) && (loadedChildren.get(key) as TreeItem[]).length > 0 ? (
-                  renderNodes(loadedChildren.get(key) as TreeItem[], level + 1, key)
+                ) : loadedChildren.has(key) &&
+                  (loadedChildren.get(key) as TreeItem[]).length > 0 ? (
+                  renderNodes(
+                    loadedChildren.get(key) as TreeItem[],
+                    level + 1,
+                    key
+                  )
                 ) : ch && ch.length === 0 ? null : null
               ) : null}
             </li>
@@ -879,9 +989,9 @@ export function Tree({
       ref={treeRef}
       role="tree"
       aria-label={effectiveAriaLabel}
-      aria-multiselectable={effectiveSelectionMode === "multiple" || undefined}
+      aria-multiselectable={effectiveSelectionMode === 'multiple' || undefined}
       tabIndex={0}
-      className={[styles.root, className].filter(Boolean).join(" ")}
+      className={[styles.root, className].filter(Boolean).join(' ')}
       onKeyDown={handleKeyDown}
       onFocus={handleTreeFocus}
     >

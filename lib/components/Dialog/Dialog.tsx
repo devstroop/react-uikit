@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useId, useRef, type ReactNode } from "react";
-import { Icon } from "../Icon/Icon";
-import styles from "./Dialog.module.css";
+import { useCallback, useEffect, useId, useRef, type ReactNode } from 'react';
+import { Icon } from '../Icon/Icon';
+import styles from './Dialog.module.css';
 
-export type DialogSize = "sm" | "md" | "lg";
+export type DialogSize = 'sm' | 'md' | 'lg';
 
 export interface DialogProps {
   open: boolean;
@@ -26,7 +26,7 @@ export function Dialog({
   description,
   children,
   footer,
-  size = "md",
+  size = 'md',
   width,
   height,
   className,
@@ -73,17 +73,21 @@ export function Dialog({
     if (open && !dialog.open) {
       // Remember the opener so focus can be restored on close; move focus
       // into the dialog (close button first) so AT enters the modal.
-      const opener = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+      const opener =
+        document.activeElement instanceof HTMLElement
+          ? document.activeElement
+          : null;
       dialog.showModal();
       // Prefer the close control so focus lands predictably regardless of
       // content order; fall back to the first button if titleless.
       const firstFocus =
-        dialog.querySelector<HTMLButtonElement>('button[aria-label="Close dialog"]') ??
-        dialog.querySelector<HTMLButtonElement>("button");
+        dialog.querySelector<HTMLButtonElement>(
+          'button[aria-label="Close dialog"]'
+        ) ?? dialog.querySelector<HTMLButtonElement>('button');
       firstFocus?.focus();
       // body scroll lock without layout shift
       const prev = document.body.style.overflow;
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = 'hidden';
       const onCancel = (e: Event) => {
         e.preventDefault();
         // Controlled close: notify once here and let the parent's `open`
@@ -91,9 +95,9 @@ export function Dialog({
         // would fire `onClose` a second time via the native handler.
         requestClose();
       };
-      dialog.addEventListener("cancel", onCancel);
+      dialog.addEventListener('cancel', onCancel);
       return () => {
-        dialog.removeEventListener("cancel", onCancel);
+        dialog.removeEventListener('cancel', onCancel);
         document.body.style.overflow = prev;
         opener?.focus({ preventScroll: true });
       };
@@ -113,11 +117,13 @@ export function Dialog({
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
     <dialog
       ref={ref}
-      className={[styles.dialog, styles[size], className].filter(Boolean).join(" ")}
+      className={[styles.dialog, styles[size], className]
+        .filter(Boolean)
+        .join(' ')}
       style={{
         width: width ?? undefined,
         // Explicit width escapes the size tier's max-width cap.
-        maxWidth: width != null ? "none" : undefined,
+        maxWidth: width != null ? 'none' : undefined,
         height: height ?? undefined,
       }}
       onClose={handleNativeClose}

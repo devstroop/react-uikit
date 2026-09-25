@@ -16,6 +16,9 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      # prettier ships no binary in this repo yet (see .prettierrc);
+      # pin the formatter via npx until the devDependency lands.
+      - run: npx --yes prettier@3 --check .
       - run: npm run lint
       - run: npm run typecheck
       - run: npm run test

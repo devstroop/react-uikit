@@ -1,6 +1,6 @@
-import { useCallback, useId, useState } from "react";
-import { Icon } from "../Icon/Icon";
-import styles from "./PanelMenu.module.css";
+import { useCallback, useId, useState } from 'react';
+import { Icon } from '../Icon/Icon';
+import styles from './PanelMenu.module.css';
 
 export interface PanelMenuItem {
   text: string;
@@ -25,9 +25,9 @@ export interface PanelMenuProps {
   showArrow?: boolean;
   /** @deprecated use showArrow */
   ShowArrow?: boolean;
-  displayStyle?: "icon" | "iconAndText";
+  displayStyle?: 'icon' | 'iconAndText';
   /** @deprecated use displayStyle */
-  DisplayStyle?: "icon" | "iconAndText";
+  DisplayStyle?: 'icon' | 'iconAndText';
   onClick?: (args: PanelMenuItemEventArgs) => void;
   /** @deprecated use onClick */
   Click?: (args: PanelMenuItemEventArgs) => void;
@@ -61,10 +61,10 @@ function NestedItem({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" || e.key === " ") {
+    if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
       handleClick();
-    } else if (e.key === "Escape" && open) {
+    } else if (e.key === 'Escape' && open) {
       e.preventDefault();
       setOpen(false);
     }
@@ -80,7 +80,9 @@ function NestedItem({
           aria-disabled={disabled || undefined}
           disabled={disabled}
           tabIndex={disabled ? -1 : 0}
-          className={[styles.nestedTrigger, disabled ? styles.disabled : null].filter(Boolean).join(" ")}
+          className={[styles.nestedTrigger, disabled ? styles.disabled : null]
+            .filter(Boolean)
+            .join(' ')}
           onClick={handleClick}
           onKeyDown={handleKeyDown}
         >
@@ -90,7 +92,12 @@ function NestedItem({
             </span>
           ) : null}
           <span className={styles.text}>{item.text}</span>
-          <span className={[styles.caret, open ? styles.open : null].filter(Boolean).join(" ")} aria-hidden="true">
+          <span
+            className={[styles.caret, open ? styles.open : null]
+              .filter(Boolean)
+              .join(' ')}
+            aria-hidden="true"
+          >
             <Icon name="chevron-down" size={10} />
           </span>
         </button>
@@ -104,17 +111,30 @@ function NestedItem({
                   role="menuitem"
                   aria-disabled={childDisabled || undefined}
                   tabIndex={childDisabled ? -1 : 0}
-                  className={[styles.submenuItem, childDisabled ? styles.disabled : null].filter(Boolean).join(" ")}
+                  className={[
+                    styles.submenuItem,
+                    childDisabled ? styles.disabled : null,
+                  ]
+                    .filter(Boolean)
+                    .join(' ')}
                   onClick={() => {
                     if (childDisabled) return;
                     if (child.children && child.children.length > 0) return;
-                    onEmit({ text: child.text, value: child.value, path: child.path });
+                    onEmit({
+                      text: child.text,
+                      value: child.value,
+                      path: child.path,
+                    });
                   }}
                   onKeyDown={(ev) => {
-                    if (ev.key === "Enter" || ev.key === " ") {
+                    if (ev.key === 'Enter' || ev.key === ' ') {
                       ev.preventDefault();
                       if (childDisabled) return;
-                      onEmit({ text: child.text, value: child.value, path: child.path });
+                      onEmit({
+                        text: child.text,
+                        value: child.value,
+                        path: child.path,
+                      });
                     }
                   }}
                 >
@@ -138,13 +158,15 @@ function NestedItem({
       role="menuitem"
       aria-disabled={disabled || undefined}
       tabIndex={disabled ? -1 : 0}
-      className={[styles.submenuItem, disabled ? styles.disabled : null].filter(Boolean).join(" ")}
+      className={[styles.submenuItem, disabled ? styles.disabled : null]
+        .filter(Boolean)
+        .join(' ')}
       onClick={() => {
         if (disabled) return;
         onEmit({ text: item.text, value: item.value, path: item.path });
       }}
       onKeyDown={(ev) => {
-        if (ev.key === "Enter" || ev.key === " ") {
+        if (ev.key === 'Enter' || ev.key === ' ') {
           ev.preventDefault();
           if (disabled) return;
           onEmit({ text: item.text, value: item.value, path: item.path });
@@ -171,23 +193,27 @@ export function PanelMenu({
   DisplayStyle,
   onClick,
   Click,
-  ariaLabel = "Panel menu",
+  ariaLabel = 'Panel menu',
   className,
 }: PanelMenuProps) {
   const baseId = useId();
   const effectiveMultiple = multiple ?? Multiple ?? false;
   const effectiveShowArrow = showArrow ?? ShowArrow ?? true;
-  const effectiveDisplayStyle = displayStyle ?? DisplayStyle ?? "iconAndText";
+  const effectiveDisplayStyle = displayStyle ?? DisplayStyle ?? 'iconAndText';
 
   const [expanded, setExpanded] = useState<number[]>([]);
 
   const emit = useCallback(
     (item: PanelMenuItem) => {
-      const args: PanelMenuItemEventArgs = { text: item.text, value: item.value, path: item.path };
+      const args: PanelMenuItemEventArgs = {
+        text: item.text,
+        value: item.value,
+        path: item.path,
+      };
       const handler = onClick ?? Click;
       handler?.(args);
     },
-    [onClick, Click],
+    [onClick, Click]
   );
 
   const toggle = (index: number, hasChildren: boolean, item: PanelMenuItem) => {
@@ -207,13 +233,13 @@ export function PanelMenu({
   const handleKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
     const target = event.target as HTMLElement;
     // Enter/Space handled by button itself, but ensure toggle for triggers
-    if (event.key === "Enter" || event.key === " ") {
+    if (event.key === 'Enter' || event.key === ' ') {
       // let button click handle; no extra
       return;
     }
-    if (event.key === "Escape") {
+    if (event.key === 'Escape') {
       // collapse current expanded
-      const triggerId = target.getAttribute("aria-controls");
+      const triggerId = target.getAttribute('aria-controls');
       if (triggerId) {
         // find index from id
         const match = triggerId.match(/-panel-(\d+)$/);
@@ -239,14 +265,20 @@ export function PanelMenu({
       event.preventDefault();
       return;
     }
-    if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
       const focusable = Array.from(
-        event.currentTarget.querySelectorAll<HTMLElement>('button, [role="menuitem"]'),
-      ).filter((el) => !el.hasAttribute("disabled") && el.getAttribute("aria-disabled") !== "true");
+        event.currentTarget.querySelectorAll<HTMLElement>(
+          'button, [role="menuitem"]'
+        )
+      ).filter(
+        (el) =>
+          !el.hasAttribute('disabled') &&
+          el.getAttribute('aria-disabled') !== 'true'
+      );
       const idx = focusable.indexOf(target as HTMLElement);
       if (idx === -1) return;
       event.preventDefault();
-      const dir = event.key === "ArrowDown" ? 1 : -1;
+      const dir = event.key === 'ArrowDown' ? 1 : -1;
       const next = focusable[(idx + dir + focusable.length) % focusable.length];
       next?.focus();
     }
@@ -257,11 +289,11 @@ export function PanelMenu({
       aria-label={ariaLabel}
       className={[
         styles.root,
-        effectiveDisplayStyle === "icon" ? styles.iconOnly : styles.iconAndText,
+        effectiveDisplayStyle === 'icon' ? styles.iconOnly : styles.iconAndText,
         className,
       ]
         .filter(Boolean)
-        .join(" ")}
+        .join(' ')}
       onKeyDown={handleKeyDown}
     >
       <div className={styles.list} role="presentation">
@@ -287,7 +319,7 @@ export function PanelMenu({
                   isOpen ? styles.expanded : null,
                 ]
                   .filter(Boolean)
-                  .join(" ")}
+                  .join(' ')}
                 onClick={() => toggle(index, hasChildren, item)}
               >
                 {item.icon ? (
@@ -295,7 +327,7 @@ export function PanelMenu({
                     {item.icon}
                   </span>
                 ) : null}
-                {effectiveDisplayStyle === "iconAndText" ? (
+                {effectiveDisplayStyle === 'iconAndText' ? (
                   <span className={styles.text}>{item.text}</span>
                 ) : (
                   <span className={styles.text} aria-label={item.text}>
@@ -303,13 +335,23 @@ export function PanelMenu({
                   </span>
                 )}
                 {hasChildren && effectiveShowArrow ? (
-                  <span className={[styles.caret, isOpen ? styles.open : null].filter(Boolean).join(" ")} aria-hidden="true">
+                  <span
+                    className={[styles.caret, isOpen ? styles.open : null]
+                      .filter(Boolean)
+                      .join(' ')}
+                    aria-hidden="true"
+                  >
                     <Icon name="chevron-down" size={10} />
                   </span>
                 ) : null}
               </button>
               {hasChildren && isOpen ? (
-                <div id={panelId} role="menu" className={styles.submenu} aria-labelledby={triggerId}>
+                <div
+                  id={panelId}
+                  role="menu"
+                  className={styles.submenu}
+                  aria-labelledby={triggerId}
+                >
                   {item.children?.map((child, childIndex) => (
                     <NestedItem
                       key={`${child.text}-${childIndex}`}

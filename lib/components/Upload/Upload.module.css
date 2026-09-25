@@ -52,7 +52,7 @@
   background-color: var(--dx-surface-color);
 }
 
-.row[data-state="error"] {
+.row[data-state='error'] {
   border-color: var(--dx-danger-color);
 }
 
@@ -88,11 +88,11 @@
   transition: width var(--dx-transition-fast);
 }
 
-.row[data-state="complete"] .fill {
+.row[data-state='complete'] .fill {
   background-color: var(--dx-success-color);
 }
 
-.row[data-state="error"] .fill {
+.row[data-state='error'] .fill {
   background-color: var(--dx-danger-color);
 }
 

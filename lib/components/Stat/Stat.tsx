@@ -1,8 +1,8 @@
-import { forwardRef, type HTMLAttributes, type ReactNode } from "react";
-import type { Severity } from "../../types/severity";
-import styles from "./Stat.module.css";
+import { forwardRef, type HTMLAttributes, type ReactNode } from 'react';
+import type { Severity } from '../../types/severity';
+import styles from './Stat.module.css';
 
-export type StatDeltaTone = Extract<Severity, "success" | "danger" | "neutral">;
+export type StatDeltaTone = Extract<Severity, 'success' | 'danger' | 'neutral'>;
 
 export interface StatProps extends HTMLAttributes<HTMLDivElement> {
   label: string;
@@ -13,16 +13,22 @@ export interface StatProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 export const Stat = forwardRef<HTMLDivElement, StatProps>(function Stat(
-  { label, value, delta, deltaTone = "neutral", hint, className, ...props },
-  ref,
+  { label, value, delta, deltaTone = 'neutral', hint, className, ...props },
+  ref
 ) {
   return (
-    <div ref={ref} className={[styles.stat, className].filter(Boolean).join(" ")} {...props}>
+    <div
+      ref={ref}
+      className={[styles.stat, className].filter(Boolean).join(' ')}
+      {...props}
+    >
       <div className={styles.label}>{label}</div>
       <div className={styles.row}>
         <div className={styles.value}>{value}</div>
         {delta != null && (
-          <div className={[styles.delta, styles[deltaTone]].join(" ")}>{delta}</div>
+          <div className={[styles.delta, styles[deltaTone]].join(' ')}>
+            {delta}
+          </div>
         )}
       </div>
       {hint != null && <div className={styles.hint}>{hint}</div>}

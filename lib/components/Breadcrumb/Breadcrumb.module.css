@@ -57,8 +57,8 @@
   font-weight: var(--dx-font-weight-medium);
 }
 
-.current[aria-disabled="true"],
-.link[aria-disabled="true"],
+.current[aria-disabled='true'],
+.link[aria-disabled='true'],
 .linkButton:disabled {
   opacity: 0.5;
   cursor: not-allowed;

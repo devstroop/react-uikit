@@ -1,10 +1,10 @@
-import { useMemo } from "react";
-import type { ComponentSize } from "../../sizes";
-import styles from "./Avatar.module.css";
+import { useMemo } from 'react';
+import type { ComponentSize } from '../../sizes';
+import styles from './Avatar.module.css';
 
 export type AvatarSize = ComponentSize;
 
-export type AvatarStatus = "online" | "offline" | "away";
+export type AvatarStatus = 'online' | 'offline' | 'away';
 
 export interface AvatarProps {
   name?: string;
@@ -16,12 +16,12 @@ export interface AvatarProps {
 }
 
 const PALETTE = [
-  "var(--dx-palette-0-color)",
-  "var(--dx-palette-1-color)",
-  "var(--dx-palette-2-color)",
-  "var(--dx-palette-3-color)",
-  "var(--dx-palette-4-color)",
-  "var(--dx-palette-5-color)",
+  'var(--dx-palette-0-color)',
+  'var(--dx-palette-1-color)',
+  'var(--dx-palette-2-color)',
+  'var(--dx-palette-3-color)',
+  'var(--dx-palette-4-color)',
+  'var(--dx-palette-5-color)',
 ];
 
 function initialsFor(name: string): string {
@@ -29,8 +29,8 @@ function initialsFor(name: string): string {
     .split(/\s+/)
     .filter(Boolean)
     .slice(0, 2)
-    .map((part) => part[0]?.toUpperCase() ?? "")
-    .join("");
+    .map((part) => part[0]?.toUpperCase() ?? '')
+    .join('');
 }
 
 function colorFor(name: string): string {
@@ -45,29 +45,33 @@ export function Avatar({
   name,
   src,
   alt,
-  size = "md",
+  size = 'md',
   status,
   className,
 }: AvatarProps) {
-  const initials = useMemo(() => (name ? initialsFor(name) : "?"), [name]);
+  const initials = useMemo(() => (name ? initialsFor(name) : '?'), [name]);
   const color = useMemo(() => (name ? colorFor(name) : PALETTE[0]), [name]);
   // Single announcement: with a photo the <img alt> carries the name and
   // the wrapper stays neutral; otherwise the wrapper is the image with
   // the status folded into its label (the dot itself stays aria-hidden).
   // An explicit alt="" stays decorative even with a status — the caller
   // opted out of announcement.
-  const decorative = src != null && alt === "";
-  const accessibleName = alt ?? name ?? "avatar";
+  const decorative = src != null && alt === '';
+  const accessibleName = alt ?? name ?? 'avatar';
   const labelled = status ? `${accessibleName}, ${status}` : accessibleName;
 
   const content = src ? (
     <img
       className={styles.image}
       src={src}
-      alt={decorative ? "" : status ? labelled : accessibleName}
+      alt={decorative ? '' : status ? labelled : accessibleName}
     />
   ) : (
-    <span aria-hidden="true" className={styles.initials} style={{ background: color }}>
+    <span
+      aria-hidden="true"
+      className={styles.initials}
+      style={{ background: color }}
+    >
       {initials}
     </span>
   );
@@ -81,8 +85,8 @@ export function Avatar({
         className,
       ]
         .filter(Boolean)
-        .join(" ")}
-      role={src ? undefined : "img"}
+        .join(' ')}
+      role={src ? undefined : 'img'}
       aria-label={src ? undefined : labelled}
     >
       {content}

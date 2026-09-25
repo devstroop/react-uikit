@@ -63,7 +63,7 @@
 }
 
 .checkbox::before {
-  content: "";
+  content: '';
   width: 10px;
   height: 10px;
   transform: scale(0);

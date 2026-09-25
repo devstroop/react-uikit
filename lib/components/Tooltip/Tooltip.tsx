@@ -6,10 +6,10 @@ import {
   useRef,
   useState,
   type ReactNode,
-} from "react";
-import styles from "./Tooltip.module.css";
+} from 'react';
+import styles from './Tooltip.module.css';
 
-export type TooltipPlacement = "top" | "right" | "bottom" | "left";
+export type TooltipPlacement = 'top' | 'right' | 'bottom' | 'left';
 
 export interface TooltipProps {
   content: ReactNode;
@@ -22,7 +22,7 @@ export interface TooltipProps {
 export function Tooltip({
   content,
   children,
-  placement = "top",
+  placement = 'top',
   delayMs = 300,
   className,
 }: TooltipProps) {
@@ -44,31 +44,29 @@ export function Tooltip({
   useEffect(() => {
     if (!open) return;
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
+      if (event.key === 'Escape') {
         hide();
       }
     };
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
   }, [open]);
 
   const trigger = isValidElement(children)
-    ? cloneElement(
-        children,
-        {
-          "aria-describedby": [
-            (children.props as Record<string, unknown>)["aria-describedby"],
+    ? cloneElement(children, {
+        'aria-describedby':
+          [
+            (children.props as Record<string, unknown>)['aria-describedby'],
             open ? id : null,
           ]
-            .filter((v): v is string => typeof v === "string")
-            .join(" ") || undefined,
-        } as Record<string, unknown>,
-      )
+            .filter((v): v is string => typeof v === 'string')
+            .join(' ') || undefined,
+      } as Record<string, unknown>)
     : children;
 
   return (
     <span
-      className={[styles.trigger, className].filter(Boolean).join(" ")}
+      className={[styles.trigger, className].filter(Boolean).join(' ')}
       onMouseEnter={show}
       onMouseLeave={hide}
       onFocus={show}
@@ -79,7 +77,9 @@ export function Tooltip({
         <span
           role="tooltip"
           id={id}
-          className={[styles.tooltip, styles[placement]].filter(Boolean).join(" ")}
+          className={[styles.tooltip, styles[placement]]
+            .filter(Boolean)
+            .join(' ')}
         >
           {content}
           <span className={styles.arrow} aria-hidden="true" />

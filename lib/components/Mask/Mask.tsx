@@ -4,17 +4,16 @@ import {
   type ChangeEvent,
   type InputHTMLAttributes,
   type KeyboardEvent,
-} from "react";
-import type { ComponentSize } from "../../sizes";
-import styles from "./Mask.module.css";
+} from 'react';
+import type { ComponentSize } from '../../sizes';
+import styles from './Mask.module.css';
 
 export type MaskSize = ComponentSize;
 
-export interface MaskProps
-  extends Omit<
-    InputHTMLAttributes<HTMLInputElement>,
-    "size" | "type" | "value" | "defaultValue" | "onChange"
-  > {
+export interface MaskProps extends Omit<
+  InputHTMLAttributes<HTMLInputElement>,
+  'size' | 'type' | 'value' | 'defaultValue' | 'onChange'
+> {
   size?: MaskSize;
   invalid?: boolean;
   mask: string;
@@ -24,12 +23,12 @@ export interface MaskProps
 }
 
 export function formatMasked(value: string, mask: string): string {
-  let digits = value.replace(/\D/g, "");
-  let out = "";
+  let digits = value.replace(/\D/g, '');
+  let out = '';
   for (const ch of mask) {
-    if (ch === "#") {
+    if (ch === '#') {
       if (digits.length === 0) break;
-      out += digits[0] ?? "";
+      out += digits[0] ?? '';
       digits = digits.slice(1);
     } else if (digits.length > 0) {
       out += ch;
@@ -42,21 +41,21 @@ export function formatMasked(value: string, mask: string): string {
 
 export const Mask = forwardRef<HTMLInputElement, MaskProps>(function Mask(
   {
-    size = "md",
+    size = 'md',
     invalid = false,
     mask,
     value,
-    defaultValue = "",
+    defaultValue = '',
     onChange,
     className,
     onKeyDown,
     ...props
   },
-  ref,
+  ref
 ) {
-  const [text, setText] = useState(defaultValue ?? "");
+  const [text, setText] = useState(defaultValue ?? '');
   const isControlled = value !== undefined;
-  const displayed = isControlled ? (value ?? "") : text;
+  const displayed = isControlled ? (value ?? '') : text;
 
   const commit = (raw: string) => {
     const next = formatMasked(raw, mask);
@@ -70,12 +69,12 @@ export const Mask = forwardRef<HTMLInputElement, MaskProps>(function Mask(
   };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Backspace") {
+    if (event.key === 'Backspace') {
       const caret = event.currentTarget.selectionStart ?? displayed.length;
       const before = displayed[caret - 1];
       if (before !== undefined && !/\d/.test(before)) {
         event.preventDefault();
-        const digits = displayed.replace(/\D/g, "");
+        const digits = displayed.replace(/\D/g, '');
         commit(formatMasked(digits.slice(0, -1), mask));
       }
     }
@@ -89,9 +88,14 @@ export const Mask = forwardRef<HTMLInputElement, MaskProps>(function Mask(
       value={displayed}
       onChange={handleChange}
       onKeyDown={handleKeyDown}
-      className={[styles.mask, styles[size], invalid ? styles.invalid : null, className]
+      className={[
+        styles.mask,
+        styles[size],
+        invalid ? styles.invalid : null,
+        className,
+      ]
         .filter(Boolean)
-        .join(" ")}
+        .join(' ')}
       aria-invalid={invalid || undefined}
       {...props}
     />

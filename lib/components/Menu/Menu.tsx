@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions -- item wrappers
    pre-open submenus for pointer users only; keyboard and touch operate
    entirely through the focusable menuitem buttons. */
-import { useCallback, useEffect, useId, useRef, useState } from "react";
-import { Icon } from "../Icon/Icon";
-import styles from "./Menu.module.css";
+import { useCallback, useEffect, useId, useRef, useState } from 'react';
+import { Icon } from '../Icon/Icon';
+import styles from './Menu.module.css';
 
 export interface MenuItem {
   text: string;
@@ -22,7 +22,7 @@ export interface MenuItemEventArgs {
 
 export interface MenuProps {
   items: MenuItem[];
-  orientation?: "horizontal" | "vertical";
+  orientation?: 'horizontal' | 'vertical';
   onClick?: (args: MenuItemEventArgs) => void;
   /** @deprecated use onClick */
   Click?: (args: MenuItemEventArgs) => void;
@@ -36,10 +36,10 @@ function isDisabled(item: MenuItem): boolean {
 
 export function Menu({
   items,
-  orientation = "horizontal",
+  orientation = 'horizontal',
   onClick,
   Click,
-  ariaLabel = "Menu",
+  ariaLabel = 'Menu',
   className,
 }: MenuProps) {
   const baseId = useId();
@@ -51,11 +51,15 @@ export function Menu({
 
   const emit = useCallback(
     (item: MenuItem) => {
-      const args: MenuItemEventArgs = { text: item.text, value: item.value, path: item.path };
+      const args: MenuItemEventArgs = {
+        text: item.text,
+        value: item.value,
+        path: item.path,
+      };
       const handler = onClick ?? Click;
       handler?.(args);
     },
-    [onClick, Click],
+    [onClick, Click]
   );
 
   const handleTopClick = useCallback(
@@ -74,7 +78,7 @@ export function Menu({
       emit(item);
       setOpenIndex(null);
     },
-    [emit, openIndex],
+    [emit, openIndex]
   );
 
   const handleChildClick = (item: MenuItem) => {
@@ -93,15 +97,20 @@ export function Menu({
         setOpenIndex(null);
       }
     };
-    document.addEventListener("mousedown", onMouseDown);
-    return () => document.removeEventListener("mousedown", onMouseDown);
+    document.addEventListener('mousedown', onMouseDown);
+    return () => document.removeEventListener('mousedown', onMouseDown);
   }, [openIndex]);
 
   useEffect(() => {
-    if (pendingFocusRef.current != null && openIndex === pendingFocusRef.current) {
+    if (
+      pendingFocusRef.current != null &&
+      openIndex === pendingFocusRef.current
+    ) {
       const submenuId = `${baseId}-submenu-${openIndex}`;
       const submenu = document.getElementById(submenuId);
-      const first = submenu?.querySelector<HTMLElement>('[role="menuitem"]:not([aria-disabled="true"])');
+      const first = submenu?.querySelector<HTMLElement>(
+        '[role="menuitem"]:not([aria-disabled="true"])'
+      );
       first?.focus();
       pendingFocusRef.current = null;
     }
@@ -111,21 +120,25 @@ export function Menu({
     const menubar = menubarRef.current;
     if (!menubar) return;
     const topButtons = Array.from(
-      menubar.querySelectorAll<HTMLElement>('[data-top="true"]'),
-    ).filter((el) => !el.hasAttribute("disabled") && el.getAttribute("aria-disabled") !== "true");
+      menubar.querySelectorAll<HTMLElement>('[data-top="true"]')
+    ).filter(
+      (el) =>
+        !el.hasAttribute('disabled') &&
+        el.getAttribute('aria-disabled') !== 'true'
+    );
 
     // If submenu is open, handle navigation inside submenu first
     if (openIndex != null) {
       const submenuId = `${baseId}-submenu-${openIndex}`;
       const submenu = document.getElementById(submenuId);
       if (submenu) {
-        const subItems = Array.from(submenu.querySelectorAll<HTMLElement>('[role="menuitem"]')).filter(
-          (el) => el.getAttribute("aria-disabled") !== "true",
-        );
+        const subItems = Array.from(
+          submenu.querySelectorAll<HTMLElement>('[role="menuitem"]')
+        ).filter((el) => el.getAttribute('aria-disabled') !== 'true');
         const active = document.activeElement as HTMLElement | null;
         const subIdx = active ? subItems.indexOf(active) : -1;
 
-        if (event.key === "ArrowDown") {
+        if (event.key === 'ArrowDown') {
           event.preventDefault();
           if (subIdx === -1) {
             subItems[0]?.focus();
@@ -135,30 +148,33 @@ export function Menu({
           }
           return;
         }
-        if (event.key === "ArrowUp") {
+        if (event.key === 'ArrowUp') {
           event.preventDefault();
           if (subIdx === -1) {
             subItems[subItems.length - 1]?.focus();
           } else {
-            const prev = subItems[(subIdx - 1 + subItems.length) % subItems.length];
+            const prev =
+              subItems[(subIdx - 1 + subItems.length) % subItems.length];
             prev?.focus();
           }
           return;
         }
-        if (event.key === "Escape") {
+        if (event.key === 'Escape') {
           event.preventDefault();
           setOpenIndex(null);
-          const trigger = menubar.querySelector<HTMLElement>(`[data-top="true"][data-index="${openIndex}"]`);
+          const trigger = menubar.querySelector<HTMLElement>(
+            `[data-top="true"][data-index="${openIndex}"]`
+          );
           trigger?.focus();
           return;
         }
-        if (event.key === "Enter" || event.key === " ") {
+        if (event.key === 'Enter' || event.key === ' ') {
           // let button handle click; prevent menubar handling
           return;
         }
       }
       // also handle closing submenu with Escape when focus is on trigger
-      if (event.key === "Escape") {
+      if (event.key === 'Escape') {
         event.preventDefault();
         setOpenIndex(null);
         return;
@@ -169,7 +185,10 @@ export function Menu({
     const focused = document.activeElement as HTMLElement | null;
     const idx = focused ? topButtons.indexOf(focused) : -1;
 
-    if (event.key === "ArrowRight" || (orientation === "vertical" && event.key === "ArrowDown")) {
+    if (
+      event.key === 'ArrowRight' ||
+      (orientation === 'vertical' && event.key === 'ArrowDown')
+    ) {
       event.preventDefault();
       if (topButtons.length === 0) return;
       const nextIdx = idx === -1 ? 0 : (idx + 1) % topButtons.length;
@@ -177,18 +196,24 @@ export function Menu({
       candidate?.focus();
       return;
     }
-    if (event.key === "ArrowLeft" || (orientation === "vertical" && event.key === "ArrowUp")) {
+    if (
+      event.key === 'ArrowLeft' ||
+      (orientation === 'vertical' && event.key === 'ArrowUp')
+    ) {
       event.preventDefault();
       if (topButtons.length === 0) return;
-      const prevIdx = idx === -1 ? topButtons.length - 1 : (idx - 1 + topButtons.length) % topButtons.length;
+      const prevIdx =
+        idx === -1
+          ? topButtons.length - 1
+          : (idx - 1 + topButtons.length) % topButtons.length;
       const candidate = topButtons[prevIdx];
       candidate?.focus();
       return;
     }
-    if (event.key === "ArrowDown") {
+    if (event.key === 'ArrowDown') {
       // open submenu if focused item has children
       if (idx >= 0) {
-        const itemIndexAttr = focused?.getAttribute("data-index");
+        const itemIndexAttr = focused?.getAttribute('data-index');
         const itemIndex = itemIndexAttr != null ? Number(itemIndexAttr) : -1;
         const item = itemIndex >= 0 ? items[itemIndex] : undefined;
         if (item?.children && item.children.length > 0 && !isDisabled(item)) {
@@ -199,12 +224,12 @@ export function Menu({
       }
       return;
     }
-    if (event.key === "Home") {
+    if (event.key === 'Home') {
       event.preventDefault();
       topButtons[0]?.focus();
       return;
     }
-    if (event.key === "End") {
+    if (event.key === 'End') {
       event.preventDefault();
       topButtons[topButtons.length - 1]?.focus();
       return;
@@ -215,7 +240,9 @@ export function Menu({
     <nav
       ref={rootRef}
       aria-label={ariaLabel}
-      className={[styles.root, styles[orientation], className].filter(Boolean).join(" ")}
+      className={[styles.root, styles[orientation], className]
+        .filter(Boolean)
+        .join(' ')}
     >
       {/* Roving focus lives on the item buttons (arrow-key nav below);
           the container stays unfocused so Tab enters the active item. */}
@@ -233,17 +260,18 @@ export function Menu({
           const disabled = isDisabled(item);
           const submenuId = `${baseId}-submenu-${index}`;
           return (
-          <div
-            key={`${item.text}-${index}`}
-            className={styles.itemWrapper}
+            <div
+              key={`${item.text}-${index}`}
+              className={styles.itemWrapper}
               onMouseEnter={() => {
-                if (orientation === "horizontal" && hasChildren && !disabled) {
+                if (orientation === 'horizontal' && hasChildren && !disabled) {
                   hoveredAtRef.current = Date.now();
                   setOpenIndex(index);
                 }
               }}
               onMouseLeave={() => {
-                if (orientation === "horizontal" && hasChildren) setOpenIndex((prev) => (prev === index ? null : prev));
+                if (orientation === 'horizontal' && hasChildren)
+                  setOpenIndex((prev) => (prev === index ? null : prev));
               }}
               data-dx-menu-item=""
             >
@@ -254,14 +282,18 @@ export function Menu({
                 data-index={index}
                 data-dx-menu-item=""
                 aria-disabled={disabled || undefined}
-                aria-haspopup={hasChildren ? "menu" : undefined}
+                aria-haspopup={hasChildren ? 'menu' : undefined}
                 aria-expanded={hasChildren ? isOpen : undefined}
                 aria-controls={hasChildren ? submenuId : undefined}
                 tabIndex={disabled ? -1 : 0}
                 disabled={disabled}
-                className={[styles.item, disabled ? styles.disabled : null, hasChildren ? styles.hasChildren : null]
+                className={[
+                  styles.item,
+                  disabled ? styles.disabled : null,
+                  hasChildren ? styles.hasChildren : null,
+                ]
                   .filter(Boolean)
-                  .join(" ")}
+                  .join(' ')}
                 onClick={() => handleTopClick(item, index)}
               >
                 {item.icon ? (
@@ -286,19 +318,23 @@ export function Menu({
                 >
                   {item.children?.map((child, childIndex) => {
                     const childDisabled = isDisabled(child);
-                    const nestedHasChildren = !!child.children && child.children.length > 0;
+                    const nestedHasChildren =
+                      !!child.children && child.children.length > 0;
                     return (
                       <button
                         key={`${child.text}-${childIndex}`}
                         type="button"
                         role="menuitem"
                         aria-disabled={childDisabled || undefined}
-                        aria-haspopup={nestedHasChildren ? "menu" : undefined}
+                        aria-haspopup={nestedHasChildren ? 'menu' : undefined}
                         tabIndex={childDisabled ? -1 : 0}
                         disabled={childDisabled}
-                        className={[styles.submenuItem, childDisabled ? styles.disabled : null]
+                        className={[
+                          styles.submenuItem,
+                          childDisabled ? styles.disabled : null,
+                        ]
                           .filter(Boolean)
-                          .join(" ")}
+                          .join(' ')}
                         onClick={() => handleChildClick(child)}
                       >
                         {child.icon ? (

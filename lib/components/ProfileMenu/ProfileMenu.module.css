@@ -32,7 +32,7 @@
   outline-offset: 1px;
 }
 
-.trigger[aria-expanded="true"] {
+.trigger[aria-expanded='true'] {
   background-color: var(--dx-surface-hover-color);
   border-color: var(--dx-border-color);
 }
@@ -85,7 +85,7 @@
   outline: none;
 }
 
-.item:hover:not(.disabled):not([aria-disabled="true"]) {
+.item:hover:not(.disabled):not([aria-disabled='true']) {
   background-color: var(--dx-surface-hover-color);
 }
 
@@ -99,7 +99,7 @@
 }
 
 .item.disabled,
-.item[aria-disabled="true"] {
+.item[aria-disabled='true'] {
   opacity: 0.5;
   cursor: not-allowed;
 }

@@ -1,12 +1,12 @@
-import { type ReactNode } from "react";
-import styles from "./Table.module.css";
+import { type ReactNode } from 'react';
+import styles from './Table.module.css';
 
-export type GridLines = "default" | "both" | "none" | "horizontal" | "vertical";
+export type GridLines = 'default' | 'both' | 'none' | 'horizontal' | 'vertical';
 
 export interface Column<T> {
   key: string;
   header: ReactNode;
-  align?: "start" | "center" | "end";
+  align?: 'start' | 'center' | 'end';
   render?: (row: T) => ReactNode;
 }
 
@@ -29,29 +29,36 @@ export function Table<T>({
   rowKey,
   empty,
   caption,
-  gridLines = "default",
+  gridLines = 'default',
   allowAlternatingRows = true,
   className,
   visible = true,
 }: TableProps<T>) {
   if (visible === false) return null;
-  const lineClass = gridLines === "default" || gridLines === "both" ? "" : styles[gridLines];
+  const lineClass =
+    gridLines === 'default' || gridLines === 'both' ? '' : styles[gridLines];
   return (
-    <div className={[styles.wrap, className].filter(Boolean).join(" ")}>
+    <div className={[styles.wrap, className].filter(Boolean).join(' ')}>
       <table
         className={[
           styles.table,
           lineClass,
-          allowAlternatingRows ? styles.alternating : "",
-        ].filter(Boolean).join(" ")}
+          allowAlternatingRows ? styles.alternating : '',
+        ]
+          .filter(Boolean)
+          .join(' ')}
       >
-        {caption != null && <caption className={styles.caption}>{caption}</caption>}
+        {caption != null && (
+          <caption className={styles.caption}>{caption}</caption>
+        )}
         <thead>
           <tr>
             {columns.map((column) => (
               <th
                 key={column.key}
-                className={column.align != null ? styles[column.align] : undefined}
+                className={
+                  column.align != null ? styles[column.align] : undefined
+                }
                 scope="col"
               >
                 {column.header}
@@ -65,16 +72,22 @@ export function Table<T>({
               {columns.map((column) => (
                 <td
                   key={column.key}
-                  className={column.align != null ? styles[column.align] : undefined}
+                  className={
+                    column.align != null ? styles[column.align] : undefined
+                  }
                 >
-                  {column.render != null ? column.render(row) : (row as Record<string, ReactNode>)[column.key]}
+                  {column.render != null
+                    ? column.render(row)
+                    : (row as Record<string, ReactNode>)[column.key]}
                 </td>
               ))}
             </tr>
           ))}
         </tbody>
       </table>
-      {rows.length === 0 && empty != null && <div className={styles.empty}>{empty}</div>}
+      {rows.length === 0 && empty != null && (
+        <div className={styles.empty}>{empty}</div>
+      )}
     </div>
   );
 }

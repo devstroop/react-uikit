@@ -1,0 +1,7 @@
+dist/
+preview/dist/
+test-results/
+*.min.js
+# Single-line-per-rule convention with byte-exact test contracts
+# (Utilities.test.tsx); prettier would explode it 3x with zero gain.
+lib/utilities.css

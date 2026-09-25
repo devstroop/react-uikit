@@ -10,16 +10,16 @@
 /* Self-hosted Source Sans 3 variable fonts (OFL) — first preference of
  * --dx-font-sans, so the stack resolves locally instead of falling back. */
 @font-face {
-  font-family: "Source Sans 3";
-  src: url("./fonts/SourceSans3VF-Upright.ttf.woff2") format("woff2");
+  font-family: 'Source Sans 3';
+  src: url('./fonts/SourceSans3VF-Upright.ttf.woff2') format('woff2');
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Source Sans 3";
-  src: url("./fonts/SourceSans3VF-Italic.ttf.woff2") format("woff2");
+  font-family: 'Source Sans 3';
+  src: url('./fonts/SourceSans3VF-Italic.ttf.woff2') format('woff2');
   font-weight: 100 900;
   font-style: italic;
   font-display: swap;
@@ -167,7 +167,9 @@
   --dx-space-12: 48px;
   --dx-space-05: 2px;
   /* font */
-  --dx-font-sans: "Source Sans 3", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --dx-font-sans:
+    'Source Sans 3', system-ui, -apple-system, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
   --dx-font-size-xs: 12px;
   --dx-font-size-sm: 14px;
   --dx-font-size-md: 16px;
@@ -208,16 +210,36 @@
   /* numbered elevation scale (Radzen material parity; identical in
    * Radzen light/dark material themes, so theme-independent) */
   --dx-shadow-0: none;
-  --dx-shadow-1: 0px 1px 1px rgb(0 0 0 / 0.14), 0px 2px 1px rgb(0 0 0 / 0.12), 0px 1px 3px rgb(0 0 0 / 0.14);
-  --dx-shadow-2: 0px 2px 2px rgb(0 0 0 / 0.14), 0px 3px 1px rgb(0 0 0 / 0.12), 0px 1px 5px rgb(0 0 0 / 0.14);
-  --dx-shadow-3: 0px 3px 4px rgb(0 0 0 / 0.14), 0px 3px 3px rgb(0 0 0 / 0.12), 0px 1px 8px rgb(0 0 0 / 0.14);
-  --dx-shadow-4: 0px 4px 5px rgb(0 0 0 / 0.14), 0px 1px 10px rgb(0 0 0 / 0.12), 0px 2px 4px rgb(0 0 0 / 0.14);
-  --dx-shadow-5: 0px 6px 10px rgb(0 0 0 / 0.14), 0px 1px 18px rgb(0 0 0 / 0.12), 0px 3px 5px rgb(0 0 0 / 0.14);
-  --dx-shadow-6: 0px 8px 10px rgb(0 0 0 / 0.14), 0px 3px 14px rgb(0 0 0 / 0.12), 0px 5px 5px rgb(0 0 0 / 0.14);
-  --dx-shadow-7: 0px 9px 12px rgb(0 0 0 / 0.14), 0px 3px 16px rgb(0 0 0 / 0.12), 0px 5px 6px rgb(0 0 0 / 0.14);
-  --dx-shadow-8: 0px 12px 17px rgb(0 0 0 / 0.14), 0px 5px 22px rgb(0 0 0 / 0.12), 0px 7px 8px rgb(0 0 0 / 0.14);
-  --dx-shadow-9: 0px 16px 24px rgb(0 0 0 / 0.14), 0px 6px 30px rgb(0 0 0 / 0.12), 0px 8px 10px rgb(0 0 0 / 0.14);
-  --dx-shadow-10: 0px 24px 38px rgb(0 0 0 / 0.14), 0px 9px 46px rgb(0 0 0 / 0.12), 0px 11px 15px rgb(0 0 0 / 0.14);
+  --dx-shadow-1:
+    0px 1px 1px rgb(0 0 0 / 0.14), 0px 2px 1px rgb(0 0 0 / 0.12),
+    0px 1px 3px rgb(0 0 0 / 0.14);
+  --dx-shadow-2:
+    0px 2px 2px rgb(0 0 0 / 0.14), 0px 3px 1px rgb(0 0 0 / 0.12),
+    0px 1px 5px rgb(0 0 0 / 0.14);
+  --dx-shadow-3:
+    0px 3px 4px rgb(0 0 0 / 0.14), 0px 3px 3px rgb(0 0 0 / 0.12),
+    0px 1px 8px rgb(0 0 0 / 0.14);
+  --dx-shadow-4:
+    0px 4px 5px rgb(0 0 0 / 0.14), 0px 1px 10px rgb(0 0 0 / 0.12),
+    0px 2px 4px rgb(0 0 0 / 0.14);
+  --dx-shadow-5:
+    0px 6px 10px rgb(0 0 0 / 0.14), 0px 1px 18px rgb(0 0 0 / 0.12),
+    0px 3px 5px rgb(0 0 0 / 0.14);
+  --dx-shadow-6:
+    0px 8px 10px rgb(0 0 0 / 0.14), 0px 3px 14px rgb(0 0 0 / 0.12),
+    0px 5px 5px rgb(0 0 0 / 0.14);
+  --dx-shadow-7:
+    0px 9px 12px rgb(0 0 0 / 0.14), 0px 3px 16px rgb(0 0 0 / 0.12),
+    0px 5px 6px rgb(0 0 0 / 0.14);
+  --dx-shadow-8:
+    0px 12px 17px rgb(0 0 0 / 0.14), 0px 5px 22px rgb(0 0 0 / 0.12),
+    0px 7px 8px rgb(0 0 0 / 0.14);
+  --dx-shadow-9:
+    0px 16px 24px rgb(0 0 0 / 0.14), 0px 6px 30px rgb(0 0 0 / 0.12),
+    0px 8px 10px rgb(0 0 0 / 0.14);
+  --dx-shadow-10:
+    0px 24px 38px rgb(0 0 0 / 0.14), 0px 9px 46px rgb(0 0 0 / 0.12),
+    0px 11px 15px rgb(0 0 0 / 0.14);
   /* ripple press duration (Radzen --rz-ripple-duration parity) */
   --dx-ripple-duration: 0.8s;
   /* geometry + interaction constants (theme-independent) */
@@ -407,7 +429,6 @@
   --dx-target-min: 40px;
 }
 
-
 /* Explicit theme wins outright — INTENTIONAL specificity (0,2,0).
  * A bare [data-theme="dark"] tied with consumer :root rules and lost
  * whenever the consumer stylesheet loaded later, so an explicit theme
@@ -416,7 +437,7 @@
  * `:root[data-theme="dark"] { --dx-surface-color: ...; }` placed after
  * this import, or set the token on a closer scope (component / subtree).
  * Plain `:root` overrides keep working for light mode only. */
-:root[data-theme="dark"] {
+:root[data-theme='dark'] {
   color-scheme: dark;
   /* color */
   --dx-bg-color: #0f172a;
@@ -684,261 +705,261 @@
  * doesn't define. Explicit data-theme still wins outright (:not fails). */
 @media (prefers-color-scheme: dark) {
   :where(:root):not([data-theme]) {
-  color-scheme: dark;
-  /* color */
-  --dx-bg-color: #0f172a;
-  --dx-surface-color: #1e293b;
-  --dx-surface-hover-color: #334155;
-  --dx-border-color: #334155;
-  --dx-border-strong-color: #627591;
-  --dx-text-color: #f1f5f9;
-  --dx-text-muted-color: #cbd5e1;
-  --dx-primary-color: #2563eb;
-  --dx-primary-hover-color: #1d4ed8;
-  --dx-primary-fg-color: #ffffff;
-  --dx-danger-color: #dc2626;
-  --dx-danger-hover-color: #b91c1c;
-  --dx-danger-fg-color: #ffffff;
-  --dx-success-color: #17a84c;
-  --dx-success-hover-color: #25ad57;
-  --dx-success-fg-color: #000000;
-  --dx-warning-color: #d97706;
-  --dx-warning-hover-color: #b45309;
-  --dx-warning-fg-color: #000000;
-  --dx-focus-color: rgb(59 130 246 / 0.4);
-  --dx-backdrop-color: rgb(0 0 0 / 0.6);
-  --dx-soft-color: #606f85;
-  --dx-soft-hover-color: #56677f;
-  --dx-soft-fg-color: #ffffff;
-  --dx-text-primary-color: #7098f2;
-  --dx-text-success-color: #19b552;
-  --dx-text-warning-color: #ed8207;
-  --dx-text-danger-color: #e87171;
-  --dx-palette-0-color: #628ef1;
-  --dx-palette-1-color: #a87bf3;
-  --dx-palette-2-color: #05a573;
-  --dx-palette-3-color: #d97706;
-  --dx-palette-4-color: #e76868;
-  --dx-palette-5-color: #0ea5e9;
-  --dx-info-color: #0b7caf;
-  --dx-info-hover-color: #086193;
-  --dx-info-fg-color: #ffffff;
-  --dx-text-info-color: #38bdf8;
-  --dx-secondary-color: #606f85;
-  --dx-secondary-hover-color: #606f85;
-  --dx-secondary-fg-color: #f1f5f9;
-  --dx-border-primary-color: #336dec;
-  --dx-border-primary-light-color: #3e70de;
-  --dx-border-primary-darker-color: #3c6fe0;
-  --dx-outline-primary-color: #336dec;
-  --dx-outline-primary-light-color: #3e70de;
-  --dx-outline-primary-darker-color: #3c6fe0;
-  --dx-border-secondary-color: #66768e;
-  --dx-border-secondary-light-color: #657794;
-  --dx-border-secondary-darker-color: #65758c;
-  --dx-outline-secondary-color: #66768e;
-  --dx-outline-secondary-light-color: #657794;
-  --dx-outline-secondary-darker-color: #65758c;
-  --dx-border-info-color: #0b7caf;
-  --dx-border-info-light-color: #107bb1;
-  --dx-border-info-darker-color: #0b7db0;
-  --dx-outline-info-color: #0b7caf;
-  --dx-outline-info-light-color: #107bb1;
-  --dx-outline-info-darker-color: #0b7db0;
-  --dx-border-success-color: #17a84c;
-  --dx-border-success-light-color: #168546;
-  --dx-border-success-darker-color: #13883e;
-  --dx-outline-success-color: #17a84c;
-  --dx-outline-success-light-color: #168546;
-  --dx-outline-success-darker-color: #13883e;
-  --dx-border-warning-color: #d97706;
-  --dx-border-warning-light-color: #aa6212;
-  --dx-border-warning-darker-color: #b06005;
-  --dx-outline-warning-color: #d97706;
-  --dx-outline-warning-light-color: #aa6212;
-  --dx-outline-warning-darker-color: #b06005;
-  --dx-border-danger-color: #dd2f2f;
-  --dx-border-danger-light-color: #d5383f;
-  --dx-border-danger-darker-color: #dc3232;
-  --dx-outline-danger-color: #dd2f2f;
-  --dx-outline-danger-light-color: #d5383f;
-  --dx-outline-danger-darker-color: #dc3232;
-  --dx-neutral-color: #606f85;
-  --dx-neutral-hover-color: #56677f;
-  --dx-neutral-fg-color: #f1f5f9;
-  --dx-base-color: #606f85;
-  --dx-base-hover-color: #56677f;
-  --dx-base-fg-color: #f1f5f9;
-  --dx-light-color: #e2e8f0;
-  --dx-light-hover-color: #cbd5e1;
-  --dx-light-fg-color: #0f172a;
-  --dx-dark-color: #1e293b;
-  --dx-dark-hover-color: #0f172a;
-  --dx-dark-fg-color: #f1f5f9;
-  --dx-text-neutral-color: #cbd5e1;
-  --dx-text-light-color: #cbd5e1;
-  --dx-text-dark-color: #f1f5f9;
-  --dx-border-neutral-color: #66768e;
-  --dx-border-neutral-light-color: #7a8ba3;
-  --dx-border-neutral-darker-color: #55647a;
-  --dx-outline-neutral-color: #66768e;
-  --dx-outline-neutral-light-color: #7a8ba3;
-  --dx-outline-neutral-darker-color: #55647a;
-  --dx-text-base-color: #cbd5e1;
-  --dx-border-base-color: #66768e;
-  --dx-border-base-light-color: #7a8ba3;
-  --dx-border-base-darker-color: #55647a;
-  --dx-outline-base-color: #66768e;
-  --dx-outline-base-light-color: #7a8ba3;
-  --dx-outline-base-darker-color: #55647a;
-  --dx-border-light-color: #7a8ba3;
-  --dx-border-light-light-color: #8fa0b8;
-  --dx-border-light-darker-color: #66768e;
-  --dx-outline-light-color: #7a8ba3;
-  --dx-outline-light-light-color: #8fa0b8;
-  --dx-outline-light-darker-color: #66768e;
-  --dx-border-dark-color: #55647a;
-  --dx-border-dark-light-color: #7a8ba3;
-  --dx-border-dark-darker-color: #3f4b5e;
-  --dx-outline-dark-color: #55647a;
-  --dx-outline-dark-light-color: #7a8ba3;
-  --dx-outline-dark-darker-color: #3f4b5e;
-  /* shadow */
-  --dx-shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
-  --dx-shadow-md: 0 4px 12px rgb(0 0 0 / 0.5);
-  --dx-shadow-lg: 0 12px 32px rgb(0 0 0 / 0.6);
+    color-scheme: dark;
+    /* color */
+    --dx-bg-color: #0f172a;
+    --dx-surface-color: #1e293b;
+    --dx-surface-hover-color: #334155;
+    --dx-border-color: #334155;
+    --dx-border-strong-color: #627591;
+    --dx-text-color: #f1f5f9;
+    --dx-text-muted-color: #cbd5e1;
+    --dx-primary-color: #2563eb;
+    --dx-primary-hover-color: #1d4ed8;
+    --dx-primary-fg-color: #ffffff;
+    --dx-danger-color: #dc2626;
+    --dx-danger-hover-color: #b91c1c;
+    --dx-danger-fg-color: #ffffff;
+    --dx-success-color: #17a84c;
+    --dx-success-hover-color: #25ad57;
+    --dx-success-fg-color: #000000;
+    --dx-warning-color: #d97706;
+    --dx-warning-hover-color: #b45309;
+    --dx-warning-fg-color: #000000;
+    --dx-focus-color: rgb(59 130 246 / 0.4);
+    --dx-backdrop-color: rgb(0 0 0 / 0.6);
+    --dx-soft-color: #606f85;
+    --dx-soft-hover-color: #56677f;
+    --dx-soft-fg-color: #ffffff;
+    --dx-text-primary-color: #7098f2;
+    --dx-text-success-color: #19b552;
+    --dx-text-warning-color: #ed8207;
+    --dx-text-danger-color: #e87171;
+    --dx-palette-0-color: #628ef1;
+    --dx-palette-1-color: #a87bf3;
+    --dx-palette-2-color: #05a573;
+    --dx-palette-3-color: #d97706;
+    --dx-palette-4-color: #e76868;
+    --dx-palette-5-color: #0ea5e9;
+    --dx-info-color: #0b7caf;
+    --dx-info-hover-color: #086193;
+    --dx-info-fg-color: #ffffff;
+    --dx-text-info-color: #38bdf8;
+    --dx-secondary-color: #606f85;
+    --dx-secondary-hover-color: #606f85;
+    --dx-secondary-fg-color: #f1f5f9;
+    --dx-border-primary-color: #336dec;
+    --dx-border-primary-light-color: #3e70de;
+    --dx-border-primary-darker-color: #3c6fe0;
+    --dx-outline-primary-color: #336dec;
+    --dx-outline-primary-light-color: #3e70de;
+    --dx-outline-primary-darker-color: #3c6fe0;
+    --dx-border-secondary-color: #66768e;
+    --dx-border-secondary-light-color: #657794;
+    --dx-border-secondary-darker-color: #65758c;
+    --dx-outline-secondary-color: #66768e;
+    --dx-outline-secondary-light-color: #657794;
+    --dx-outline-secondary-darker-color: #65758c;
+    --dx-border-info-color: #0b7caf;
+    --dx-border-info-light-color: #107bb1;
+    --dx-border-info-darker-color: #0b7db0;
+    --dx-outline-info-color: #0b7caf;
+    --dx-outline-info-light-color: #107bb1;
+    --dx-outline-info-darker-color: #0b7db0;
+    --dx-border-success-color: #17a84c;
+    --dx-border-success-light-color: #168546;
+    --dx-border-success-darker-color: #13883e;
+    --dx-outline-success-color: #17a84c;
+    --dx-outline-success-light-color: #168546;
+    --dx-outline-success-darker-color: #13883e;
+    --dx-border-warning-color: #d97706;
+    --dx-border-warning-light-color: #aa6212;
+    --dx-border-warning-darker-color: #b06005;
+    --dx-outline-warning-color: #d97706;
+    --dx-outline-warning-light-color: #aa6212;
+    --dx-outline-warning-darker-color: #b06005;
+    --dx-border-danger-color: #dd2f2f;
+    --dx-border-danger-light-color: #d5383f;
+    --dx-border-danger-darker-color: #dc3232;
+    --dx-outline-danger-color: #dd2f2f;
+    --dx-outline-danger-light-color: #d5383f;
+    --dx-outline-danger-darker-color: #dc3232;
+    --dx-neutral-color: #606f85;
+    --dx-neutral-hover-color: #56677f;
+    --dx-neutral-fg-color: #f1f5f9;
+    --dx-base-color: #606f85;
+    --dx-base-hover-color: #56677f;
+    --dx-base-fg-color: #f1f5f9;
+    --dx-light-color: #e2e8f0;
+    --dx-light-hover-color: #cbd5e1;
+    --dx-light-fg-color: #0f172a;
+    --dx-dark-color: #1e293b;
+    --dx-dark-hover-color: #0f172a;
+    --dx-dark-fg-color: #f1f5f9;
+    --dx-text-neutral-color: #cbd5e1;
+    --dx-text-light-color: #cbd5e1;
+    --dx-text-dark-color: #f1f5f9;
+    --dx-border-neutral-color: #66768e;
+    --dx-border-neutral-light-color: #7a8ba3;
+    --dx-border-neutral-darker-color: #55647a;
+    --dx-outline-neutral-color: #66768e;
+    --dx-outline-neutral-light-color: #7a8ba3;
+    --dx-outline-neutral-darker-color: #55647a;
+    --dx-text-base-color: #cbd5e1;
+    --dx-border-base-color: #66768e;
+    --dx-border-base-light-color: #7a8ba3;
+    --dx-border-base-darker-color: #55647a;
+    --dx-outline-base-color: #66768e;
+    --dx-outline-base-light-color: #7a8ba3;
+    --dx-outline-base-darker-color: #55647a;
+    --dx-border-light-color: #7a8ba3;
+    --dx-border-light-light-color: #8fa0b8;
+    --dx-border-light-darker-color: #66768e;
+    --dx-outline-light-color: #7a8ba3;
+    --dx-outline-light-light-color: #8fa0b8;
+    --dx-outline-light-darker-color: #66768e;
+    --dx-border-dark-color: #55647a;
+    --dx-border-dark-light-color: #7a8ba3;
+    --dx-border-dark-darker-color: #3f4b5e;
+    --dx-outline-dark-color: #55647a;
+    --dx-outline-dark-light-color: #7a8ba3;
+    --dx-outline-dark-darker-color: #3f4b5e;
+    /* shadow */
+    --dx-shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
+    --dx-shadow-md: 0 4px 12px rgb(0 0 0 / 0.5);
+    --dx-shadow-lg: 0 12px 32px rgb(0 0 0 / 0.6);
 
-  --dx-primary-container-color: #00513d;
-  --dx-on-primary-container-color: #78f2c2;
-  --dx-secondary-container-color: #354b41;
-  --dx-on-secondary-container-color: #cfe9da;
-  --dx-tertiary-color: #a4cde3;
-  --dx-on-tertiary-color: #073844;
-  --dx-tertiary-container-color: #254c5a;
-  --dx-on-tertiary-container-color: #c1e8fb;
-  --dx-error-container-color: #93000a;
-  --dx-on-error-container-color: #ffdad6;
-  --dx-warn-container-color: #5c4300;
-  --dx-on-warn-container-color: #ffdf9e;
-  --dx-success-container-color: #00513d;
-  --dx-on-success-container-color: #78f2c2;
-  --dx-info-container-color: #254c5a;
-  --dx-on-info-container-color: #c1e8fb;
-  /* Shade ramps — 5-step Radzen-Shade scale per chromatic hue. Hand-mixed
+    --dx-primary-container-color: #00513d;
+    --dx-on-primary-container-color: #78f2c2;
+    --dx-secondary-container-color: #354b41;
+    --dx-on-secondary-container-color: #cfe9da;
+    --dx-tertiary-color: #a4cde3;
+    --dx-on-tertiary-color: #073844;
+    --dx-tertiary-container-color: #254c5a;
+    --dx-on-tertiary-container-color: #c1e8fb;
+    --dx-error-container-color: #93000a;
+    --dx-on-error-container-color: #ffdad6;
+    --dx-warn-container-color: #5c4300;
+    --dx-on-warn-container-color: #ffdf9e;
+    --dx-success-container-color: #00513d;
+    --dx-on-success-container-color: #78f2c2;
+    --dx-info-container-color: #254c5a;
+    --dx-on-info-container-color: #c1e8fb;
+    /* Shade ramps — 5-step Radzen-Shade scale per chromatic hue. Hand-mixed
    * in sRGB from each base (lighter 45% white, light 30% white, dark 15%
    * black, darker 30% black); M3 approximations, AA-unverified like the
    * rest of this file. Border/outline lighter+dark complete those families. */
-  --dx-primary-lighter-color: #87a9f4;
-  --dx-primary-light-color: #6692f1;
-  --dx-primary-dark-color: #1f54c8;
-  --dx-primary-darker-color: #1a45a4;
-  --dx-secondary-lighter-color: #a8b0bc;
-  --dx-secondary-light-color: #909aaa;
-  --dx-secondary-dark-color: #525e71;
-  --dx-secondary-darker-color: #434e5d;
-  --dx-info-lighter-color: #79b7d3;
-  --dx-info-light-color: #54a3c7;
-  --dx-info-dark-color: #096995;
-  --dx-info-darker-color: #08577a;
-  --dx-success-lighter-color: #7fcf9d;
-  --dx-success-light-color: #5dc282;
-  --dx-success-dark-color: #148f41;
-  --dx-success-darker-color: #107635;
-  --dx-warning-lighter-color: #eab476;
-  --dx-warning-light-color: #e4a051;
-  --dx-warning-dark-color: #b86505;
-  --dx-warning-darker-color: #985304;
-  --dx-danger-lighter-color: #ec8d8d;
-  --dx-danger-light-color: #e76d6d;
-  --dx-danger-dark-color: #bc2828;
-  --dx-danger-darker-color: #9b2121;
-  --dx-light-lighter-color: #eff2f7;
-  --dx-light-light-color: #ebeff4;
-  --dx-light-dark-color: #c0c5cc;
-  --dx-light-darker-color: #9ea2a8;
-  --dx-base-lighter-color: #a8b0bc;
-  --dx-base-light-color: #909aaa;
-  --dx-base-dark-color: #525e71;
-  --dx-base-darker-color: #434e5d;
-  --dx-dark-lighter-color: #838993;
-  --dx-dark-light-color: #626976;
-  --dx-dark-dark-color: #1a2332;
-  --dx-dark-darker-color: #151d29;
-  /* Step foregrounds — var() aliases (drift-proof): pale steps take the
+    --dx-primary-lighter-color: #87a9f4;
+    --dx-primary-light-color: #6692f1;
+    --dx-primary-dark-color: #1f54c8;
+    --dx-primary-darker-color: #1a45a4;
+    --dx-secondary-lighter-color: #a8b0bc;
+    --dx-secondary-light-color: #909aaa;
+    --dx-secondary-dark-color: #525e71;
+    --dx-secondary-darker-color: #434e5d;
+    --dx-info-lighter-color: #79b7d3;
+    --dx-info-light-color: #54a3c7;
+    --dx-info-dark-color: #096995;
+    --dx-info-darker-color: #08577a;
+    --dx-success-lighter-color: #7fcf9d;
+    --dx-success-light-color: #5dc282;
+    --dx-success-dark-color: #148f41;
+    --dx-success-darker-color: #107635;
+    --dx-warning-lighter-color: #eab476;
+    --dx-warning-light-color: #e4a051;
+    --dx-warning-dark-color: #b86505;
+    --dx-warning-darker-color: #985304;
+    --dx-danger-lighter-color: #ec8d8d;
+    --dx-danger-light-color: #e76d6d;
+    --dx-danger-dark-color: #bc2828;
+    --dx-danger-darker-color: #9b2121;
+    --dx-light-lighter-color: #eff2f7;
+    --dx-light-light-color: #ebeff4;
+    --dx-light-dark-color: #c0c5cc;
+    --dx-light-darker-color: #9ea2a8;
+    --dx-base-lighter-color: #a8b0bc;
+    --dx-base-light-color: #909aaa;
+    --dx-base-dark-color: #525e71;
+    --dx-base-darker-color: #434e5d;
+    --dx-dark-lighter-color: #838993;
+    --dx-dark-light-color: #626976;
+    --dx-dark-dark-color: #1a2332;
+    --dx-dark-darker-color: #151d29;
+    /* Step foregrounds — var() aliases (drift-proof): pale steps take the
    * hue's darker ink, dark steps take light ink; near-white/-black hues
    * use the opposite body token. Consumed as --on-* per hue (see below). */
-  --dx-on-primary-lighter-color: var(--dx-primary-darker-color);
-  --dx-on-primary-light-color: var(--dx-primary-darker-color);
-  --dx-on-primary-dark-color: var(--dx-light-color);
-  --dx-on-primary-darker-color: var(--dx-primary-light-color);
-  --dx-on-secondary-lighter-color: var(--dx-secondary-darker-color);
-  --dx-on-secondary-light-color: var(--dx-secondary-darker-color);
-  --dx-on-secondary-dark-color: var(--dx-light-color);
-  --dx-on-secondary-darker-color: var(--dx-secondary-light-color);
-  --dx-on-info-lighter-color: var(--dx-info-darker-color);
-  --dx-on-info-light-color: var(--dx-info-darker-color);
-  --dx-on-info-dark-color: var(--dx-light-color);
-  --dx-on-info-darker-color: var(--dx-info-light-color);
-  --dx-on-success-lighter-color: var(--dx-success-darker-color);
-  --dx-on-success-light-color: var(--dx-success-darker-color);
-  --dx-on-success-dark-color: var(--dx-light-color);
-  --dx-on-success-darker-color: var(--dx-success-light-color);
-  --dx-on-warning-lighter-color: var(--dx-warning-darker-color);
-  --dx-on-warning-light-color: var(--dx-warning-darker-color);
-  --dx-on-warning-dark-color: var(--dx-light-color);
-  --dx-on-warning-darker-color: var(--dx-warning-light-color);
-  --dx-on-danger-lighter-color: var(--dx-danger-darker-color);
-  --dx-on-danger-light-color: var(--dx-danger-darker-color);
-  --dx-on-danger-dark-color: var(--dx-light-color);
-  --dx-on-danger-darker-color: var(--dx-danger-light-color);
-  --dx-on-light-lighter-color: var(--dx-dark-color);
-  --dx-on-light-light-color: var(--dx-dark-color);
-  --dx-on-light-dark-color: var(--dx-dark-color);
-  --dx-on-light-darker-color: var(--dx-dark-color);
-  --dx-on-base-lighter-color: var(--dx-base-darker-color);
-  --dx-on-base-light-color: var(--dx-base-darker-color);
-  --dx-on-base-dark-color: var(--dx-light-color);
-  --dx-on-base-darker-color: var(--dx-base-light-color);
-  --dx-on-dark-lighter-color: var(--dx-light-color);
-  --dx-on-dark-light-color: var(--dx-light-color);
-  --dx-on-dark-dark-color: var(--dx-light-color);
-  --dx-on-dark-darker-color: var(--dx-light-color);
-  --dx-border-primary-lighter-color: #8faff5;
-  --dx-border-primary-dark-color: #2b5dc9;
-  --dx-outline-primary-lighter-color: #8faff5;
-  --dx-outline-primary-dark-color: #2b5dc9;
-  --dx-border-secondary-lighter-color: #abb4c1;
-  --dx-border-secondary-dark-color: #576479;
-  --dx-outline-secondary-lighter-color: #abb4c1;
-  --dx-outline-secondary-dark-color: #576479;
-  --dx-border-info-lighter-color: #79b7d3;
-  --dx-border-info-dark-color: #096995;
-  --dx-outline-info-lighter-color: #79b7d3;
-  --dx-outline-info-dark-color: #096995;
-  --dx-border-success-lighter-color: #7fcf9d;
-  --dx-border-success-dark-color: #148f41;
-  --dx-outline-success-lighter-color: #7fcf9d;
-  --dx-outline-success-dark-color: #148f41;
-  --dx-border-warning-lighter-color: #eab476;
-  --dx-border-warning-dark-color: #b86505;
-  --dx-outline-warning-lighter-color: #eab476;
-  --dx-outline-warning-dark-color: #b86505;
-  --dx-border-danger-lighter-color: #ec8d8d;
-  --dx-border-danger-dark-color: #bc2828;
-  --dx-outline-danger-lighter-color: #ec8d8d;
-  --dx-outline-danger-dark-color: #bc2828;
-  --dx-surface-dim-color: #101413;
-  --dx-surface-bright-color: #363a37;
-  --dx-surface-lowest-color: #0b0e0d;
-  --dx-surface-low-color: #181d1b;
-  --dx-surface-container-lowest-color: #0b0e0d;
-  --dx-surface-container-low-color: #1e2421;
-  --dx-surface-container-color: #1c211f;
-  --dx-surface-container-high-color: #272b28;
-  --dx-surface-container-highest-color: #323633;
-  --dx-inverse-surface-color: #dfe4dd;
-  --dx-inverse-on-surface-color: #2e312d;
-  --dx-inverse-primary-color: #006b54;
-  --dx-accent-color: #e7bd4d;
+    --dx-on-primary-lighter-color: var(--dx-primary-darker-color);
+    --dx-on-primary-light-color: var(--dx-primary-darker-color);
+    --dx-on-primary-dark-color: var(--dx-light-color);
+    --dx-on-primary-darker-color: var(--dx-primary-light-color);
+    --dx-on-secondary-lighter-color: var(--dx-secondary-darker-color);
+    --dx-on-secondary-light-color: var(--dx-secondary-darker-color);
+    --dx-on-secondary-dark-color: var(--dx-light-color);
+    --dx-on-secondary-darker-color: var(--dx-secondary-light-color);
+    --dx-on-info-lighter-color: var(--dx-info-darker-color);
+    --dx-on-info-light-color: var(--dx-info-darker-color);
+    --dx-on-info-dark-color: var(--dx-light-color);
+    --dx-on-info-darker-color: var(--dx-info-light-color);
+    --dx-on-success-lighter-color: var(--dx-success-darker-color);
+    --dx-on-success-light-color: var(--dx-success-darker-color);
+    --dx-on-success-dark-color: var(--dx-light-color);
+    --dx-on-success-darker-color: var(--dx-success-light-color);
+    --dx-on-warning-lighter-color: var(--dx-warning-darker-color);
+    --dx-on-warning-light-color: var(--dx-warning-darker-color);
+    --dx-on-warning-dark-color: var(--dx-light-color);
+    --dx-on-warning-darker-color: var(--dx-warning-light-color);
+    --dx-on-danger-lighter-color: var(--dx-danger-darker-color);
+    --dx-on-danger-light-color: var(--dx-danger-darker-color);
+    --dx-on-danger-dark-color: var(--dx-light-color);
+    --dx-on-danger-darker-color: var(--dx-danger-light-color);
+    --dx-on-light-lighter-color: var(--dx-dark-color);
+    --dx-on-light-light-color: var(--dx-dark-color);
+    --dx-on-light-dark-color: var(--dx-dark-color);
+    --dx-on-light-darker-color: var(--dx-dark-color);
+    --dx-on-base-lighter-color: var(--dx-base-darker-color);
+    --dx-on-base-light-color: var(--dx-base-darker-color);
+    --dx-on-base-dark-color: var(--dx-light-color);
+    --dx-on-base-darker-color: var(--dx-base-light-color);
+    --dx-on-dark-lighter-color: var(--dx-light-color);
+    --dx-on-dark-light-color: var(--dx-light-color);
+    --dx-on-dark-dark-color: var(--dx-light-color);
+    --dx-on-dark-darker-color: var(--dx-light-color);
+    --dx-border-primary-lighter-color: #8faff5;
+    --dx-border-primary-dark-color: #2b5dc9;
+    --dx-outline-primary-lighter-color: #8faff5;
+    --dx-outline-primary-dark-color: #2b5dc9;
+    --dx-border-secondary-lighter-color: #abb4c1;
+    --dx-border-secondary-dark-color: #576479;
+    --dx-outline-secondary-lighter-color: #abb4c1;
+    --dx-outline-secondary-dark-color: #576479;
+    --dx-border-info-lighter-color: #79b7d3;
+    --dx-border-info-dark-color: #096995;
+    --dx-outline-info-lighter-color: #79b7d3;
+    --dx-outline-info-dark-color: #096995;
+    --dx-border-success-lighter-color: #7fcf9d;
+    --dx-border-success-dark-color: #148f41;
+    --dx-outline-success-lighter-color: #7fcf9d;
+    --dx-outline-success-dark-color: #148f41;
+    --dx-border-warning-lighter-color: #eab476;
+    --dx-border-warning-dark-color: #b86505;
+    --dx-outline-warning-lighter-color: #eab476;
+    --dx-outline-warning-dark-color: #b86505;
+    --dx-border-danger-lighter-color: #ec8d8d;
+    --dx-border-danger-dark-color: #bc2828;
+    --dx-outline-danger-lighter-color: #ec8d8d;
+    --dx-outline-danger-dark-color: #bc2828;
+    --dx-surface-dim-color: #101413;
+    --dx-surface-bright-color: #363a37;
+    --dx-surface-lowest-color: #0b0e0d;
+    --dx-surface-low-color: #181d1b;
+    --dx-surface-container-lowest-color: #0b0e0d;
+    --dx-surface-container-low-color: #1e2421;
+    --dx-surface-container-color: #1c211f;
+    --dx-surface-container-high-color: #272b28;
+    --dx-surface-container-highest-color: #323633;
+    --dx-inverse-surface-color: #dfe4dd;
+    --dx-inverse-on-surface-color: #2e312d;
+    --dx-inverse-primary-color: #006b54;
+    --dx-accent-color: #e7bd4d;
   }
 }

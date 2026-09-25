@@ -43,7 +43,8 @@
 .dx-datepicker-input-invalid,
 .dx-datepicker-input-invalid:focus-visible {
   border-color: var(--dx-danger-color);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--dx-danger-color) 25%, transparent);
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--dx-danger-color) 25%, transparent);
 }
 
 .dx-datepicker-input--xs {
@@ -245,7 +246,7 @@
     color var(--dx-transition-fast);
 }
 
-.dx-datepicker-day:hover:not([aria-disabled="true"]) {
+.dx-datepicker-day:hover:not([aria-disabled='true']) {
   background-color: var(--dx-surface-hover-color);
 }
 
@@ -264,7 +265,7 @@
   font-weight: var(--dx-font-weight-medium);
 }
 
-.dx-datepicker-day--selected:hover:not([aria-disabled="true"]) {
+.dx-datepicker-day--selected:hover:not([aria-disabled='true']) {
   background-color: var(--dx-primary-hover-color);
 }
 

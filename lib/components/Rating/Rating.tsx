@@ -1,6 +1,6 @@
-import { useCallback, useState, type KeyboardEvent } from "react";
-import { Icon } from "../Icon/Icon";
-import styles from "./Rating.module.css";
+import { useCallback, useState, type KeyboardEvent } from 'react';
+import { Icon } from '../Icon/Icon';
+import styles from './Rating.module.css';
 
 export interface RatingProps {
   value?: number;
@@ -21,9 +21,9 @@ export const Rating = ({
   stars = 5,
   readOnly = false,
   disabled = false,
-  ariaLabel = "Rating",
-  clearLabel = "Clear",
-  rateLabel = "Rate",
+  ariaLabel = 'Rating',
+  clearLabel = 'Clear',
+  rateLabel = 'Rate',
   tabIndex = 0,
   className,
   onChange,
@@ -33,7 +33,7 @@ export const Rating = ({
 
   const clamp = useCallback(
     (v: number): number => Math.min(stars, Math.max(1, v)),
-    [stars],
+    [stars]
   );
 
   const commit = useCallback(
@@ -41,7 +41,7 @@ export const Rating = ({
       onChange?.(v);
       onValueChange?.(v);
     },
-    [onChange, onValueChange],
+    [onChange, onValueChange]
   );
 
   const select = useCallback(
@@ -50,28 +50,28 @@ export const Rating = ({
       commit(v);
       setFocused(v);
     },
-    [readOnly, disabled, commit],
+    [readOnly, disabled, commit]
   );
 
   const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     if (readOnly || disabled) return;
     const base = focused > 0 ? focused : 1;
     switch (event.key) {
-      case "ArrowRight":
-      case "ArrowUp":
+      case 'ArrowRight':
+      case 'ArrowUp':
         event.preventDefault();
         select(clamp(base + 1));
         break;
-      case "ArrowLeft":
-      case "ArrowDown":
+      case 'ArrowLeft':
+      case 'ArrowDown':
         event.preventDefault();
         select(clamp(base - 1));
         break;
-      case "Home":
+      case 'Home':
         event.preventDefault();
         select(1);
         break;
-      case "End":
+      case 'End':
         event.preventDefault();
         select(stars);
         break;
@@ -86,19 +86,19 @@ export const Rating = ({
       aria-label={ariaLabel}
       aria-readonly={readOnly || undefined}
       className={[
-        styles["dx-rating"],
-        readOnly ? styles["dx-rating-readonly"] : null,
-        disabled ? styles["dx-rating-disabled"] : null,
+        styles['dx-rating'],
+        readOnly ? styles['dx-rating-readonly'] : null,
+        disabled ? styles['dx-rating-disabled'] : null,
         className,
       ]
         .filter(Boolean)
-        .join(" ")}
+        .join(' ')}
       onKeyDown={handleKeyDown}
     >
       {!readOnly && !disabled && (
         <button
           type="button"
-          className={styles["dx-rating-clear"]}
+          className={styles['dx-rating-clear']}
           aria-label={clearLabel}
           tabIndex={value === 0 ? tabIndex : -1}
           disabled={disabled}
@@ -123,18 +123,21 @@ export const Rating = ({
             aria-disabled={disabled || readOnly || undefined}
             disabled={disabled || readOnly}
             className={[
-              styles["dx-rating-item"],
-              filled ? styles["dx-rating-item-filled"] : null,
+              styles['dx-rating-item'],
+              filled ? styles['dx-rating-item-filled'] : null,
             ]
               .filter(Boolean)
-              .join(" ")}
+              .join(' ')}
             onClick={() => select(index)}
             onFocus={() => setFocused(index)}
           >
-            <span className={styles["dx-rating-icon-filled"]} aria-hidden="true">
+            <span
+              className={styles['dx-rating-icon-filled']}
+              aria-hidden="true"
+            >
               <Icon name="star" size={20} />
             </span>
-            <span className={styles["dx-rating-icon-empty"]} aria-hidden="true">
+            <span className={styles['dx-rating-icon-empty']} aria-hidden="true">
               <Icon name="star-outline" size={20} />
             </span>
           </button>

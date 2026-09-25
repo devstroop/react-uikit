@@ -1,6 +1,6 @@
-export type SkeletonVariant = "text" | "circle" | "rect";
+export type SkeletonVariant = 'text' | 'circle' | 'rect';
 
-import styles from "./Skeleton.module.css";
+import styles from './Skeleton.module.css';
 
 export interface SkeletonProps {
   variant?: SkeletonVariant;
@@ -10,23 +10,25 @@ export interface SkeletonProps {
 }
 
 export function Skeleton({
-  variant = "text",
+  variant = 'text',
   width,
   height,
   className,
 }: SkeletonProps) {
   const style: Record<string, string> = {};
   if (width !== undefined) {
-    style.width = typeof width === "number" ? `${width}px` : width;
+    style.width = typeof width === 'number' ? `${width}px` : width;
   }
   if (height !== undefined) {
-    style.height = typeof height === "number" ? `${height}px` : height;
+    style.height = typeof height === 'number' ? `${height}px` : height;
   }
 
   return (
     <span
       aria-hidden="true"
-      className={[styles.skeleton, styles[variant], className].filter(Boolean).join(" ")}
+      className={[styles.skeleton, styles[variant], className]
+        .filter(Boolean)
+        .join(' ')}
       style={style}
     />
   );

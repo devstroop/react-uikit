@@ -1,23 +1,25 @@
-import { render } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
-import { Footer } from "./Footer";
+import { render } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
+import { Footer } from './Footer';
 
-describe("Footer", () => {
-  it("renders a footer element with the footer class", () => {
+describe('Footer', () => {
+  it('renders a footer element with the footer class', () => {
     const { container } = render(<Footer>content</Footer>);
     const element = container.firstElementChild;
-    expect(element?.tagName).toBe("FOOTER");
-    expect(element?.className).toContain("footer");
+    expect(element?.tagName).toBe('FOOTER');
+    expect(element?.className).toContain('footer');
   });
 
-  it("spreads attributes onto the element", () => {
+  it('spreads attributes onto the element', () => {
     const { container } = render(<Footer id="f1" aria-label="Site" />);
-    expect(container.firstElementChild?.getAttribute("id")).toBe("f1");
-    expect(container.firstElementChild?.getAttribute("aria-label")).toBe("Site");
+    expect(container.firstElementChild?.getAttribute('id')).toBe('f1');
+    expect(container.firstElementChild?.getAttribute('aria-label')).toBe(
+      'Site'
+    );
   });
 
-  it("applies the sticky class when sticky is true", () => {
+  it('applies the sticky class when sticky is true', () => {
     const { container } = render(<Footer sticky>content</Footer>);
-    expect(container.firstElementChild?.className).toContain("sticky");
+    expect(container.firstElementChild?.className).toContain('sticky');
   });
 });

@@ -248,7 +248,11 @@
 }
 
 .selected {
-  background: color-mix(in srgb, var(--dx-primary-color, currentColor) 8%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--dx-primary-color, currentColor) 8%,
+    transparent
+  );
 }
 
 .resizeHandle {

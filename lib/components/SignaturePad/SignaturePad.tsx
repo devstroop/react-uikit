@@ -1,5 +1,5 @@
-import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
-import styles from "./SignaturePad.module.css";
+import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
+import styles from './SignaturePad.module.css';
 
 export interface SignaturePadHandle {
   clear: () => void;
@@ -26,16 +26,16 @@ export const SignaturePad = forwardRef<SignaturePadHandle, SignaturePadProps>(
       value,
       defaultValue,
       onChange,
-      penColor = "#1c1c1c",
+      penColor = '#1c1c1c',
       penWidth = 2.5,
-      clearLabel = "Clear",
-      ariaLabel = "Signature",
+      clearLabel = 'Clear',
+      ariaLabel = 'Signature',
       width,
       height = 140,
       disabled = false,
       className,
     },
-    ref,
+    ref
   ) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const drawing = useRef(false);
@@ -52,13 +52,13 @@ export const SignaturePad = forwardRef<SignaturePadHandle, SignaturePadProps>(
         canvas.width = w;
         canvas.height = h;
       }
-      const ctx = canvas.getContext("2d");
+      const ctx = canvas.getContext('2d');
       if (!ctx) return;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.lineWidth = penWidth;
       ctx.strokeStyle = penColor;
-      ctx.lineCap = "round";
-      ctx.lineJoin = "round";
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
       const source = value ?? defaultValue;
       if (source) {
         const img = new Image();
@@ -72,21 +72,22 @@ export const SignaturePad = forwardRef<SignaturePadHandle, SignaturePadProps>(
     const commit = () => {
       const canvas = canvasRef.current;
       if (!canvas) return;
-      const dataUrl = canvas.toDataURL("image/png");
+      const dataUrl = canvas.toDataURL('image/png');
       onChange?.(dataUrl);
     };
 
     const clear = () => {
       const canvas = canvasRef.current;
       if (!canvas) return;
-      const ctx = canvas.getContext("2d");
+      const ctx = canvas.getContext('2d');
       if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
-      onChange?.("");
+      onChange?.('');
     };
 
     useImperativeHandle(ref, () => ({
       clear,
-      toDataURL: (type = "image/png", quality) => canvasRef.current?.toDataURL(type, quality) ?? "",
+      toDataURL: (type = 'image/png', quality) =>
+        canvasRef.current?.toDataURL(type, quality) ?? '',
     }));
 
     const pointOf = (e: React.PointerEvent<HTMLCanvasElement>) => {
@@ -97,7 +98,7 @@ export const SignaturePad = forwardRef<SignaturePadHandle, SignaturePadProps>(
     const handlePointerDown = (e: React.PointerEvent<HTMLCanvasElement>) => {
       if (disabled) return;
       e.preventDefault();
-      if (typeof e.currentTarget.setPointerCapture === "function") {
+      if (typeof e.currentTarget.setPointerCapture === 'function') {
         e.currentTarget.setPointerCapture(e.pointerId);
       }
       drawing.current = true;
@@ -108,7 +109,7 @@ export const SignaturePad = forwardRef<SignaturePadHandle, SignaturePadProps>(
     const handlePointerMove = (e: React.PointerEvent<HTMLCanvasElement>) => {
       if (!drawing.current) return;
       e.preventDefault();
-      const ctx = e.currentTarget.getContext("2d");
+      const ctx = e.currentTarget.getContext('2d');
       if (!ctx) return;
       const cur = pointOf(e);
       ctx.beginPath();
@@ -127,10 +128,23 @@ export const SignaturePad = forwardRef<SignaturePadHandle, SignaturePadProps>(
     };
 
     return (
-      <div className={[styles.wrapper, className, disabled ? styles.disabled : null].filter(Boolean).join(" ")}>
+      <div
+        className={[
+          styles.wrapper,
+          className,
+          disabled ? styles.disabled : null,
+        ]
+          .filter(Boolean)
+          .join(' ')}
+      >
         <div className={styles.header}>
           <span className={styles.label}>{ariaLabel}</span>
-          <button type="button" className={styles.clear} onClick={clear} disabled={disabled}>
+          <button
+            type="button"
+            className={styles.clear}
+            onClick={clear}
+            disabled={disabled}
+          >
             {clearLabel}
           </button>
         </div>
@@ -139,7 +153,10 @@ export const SignaturePad = forwardRef<SignaturePadHandle, SignaturePadProps>(
           role="img"
           aria-label={ariaLabel}
           aria-disabled={disabled || undefined}
-          style={{ width: width ? `${width}px` : undefined, height: `${height}px` }}
+          style={{
+            width: width ? `${width}px` : undefined,
+            height: `${height}px`,
+          }}
           className={styles.canvas}
           onPointerDown={handlePointerDown}
           onPointerMove={handlePointerMove}
@@ -148,5 +165,5 @@ export const SignaturePad = forwardRef<SignaturePadHandle, SignaturePadProps>(
         />
       </div>
     );
-  },
+  }
 );

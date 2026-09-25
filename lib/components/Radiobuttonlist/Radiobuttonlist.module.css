@@ -63,7 +63,7 @@
 }
 
 .radio::before {
-  content: "";
+  content: '';
   width: 10px;
   height: 10px;
   border-radius: var(--dx-radius-full);

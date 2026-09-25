@@ -7,11 +7,11 @@ import {
   useState,
   type KeyboardEvent,
   type PointerEvent as ReactPointerEvent,
-} from "react";
-import { Icon } from "../Icon/Icon";
-import styles from "./Colorpicker.module.css";
+} from 'react';
+import { Icon } from '../Icon/Icon';
+import styles from './Colorpicker.module.css';
 
-export type ColorpickerSize = "xs" | "sm" | "md" | "lg" | "xl";
+export type ColorpickerSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 export interface ColorpickerProps {
   value?: string;
@@ -34,28 +34,28 @@ export interface ColorpickerProps {
 }
 
 export const DEFAULT_PALETTE = [
-  "#ff2800",
-  "#fe9300",
-  "#fefb00",
-  "#02f900",
-  "#00fdff",
-  "#0433ff",
-  "#ff40ff",
-  "#942292",
-  "#aa7942",
-  "#ffffff",
-  "#000000",
-  "#53d5fd",
-  "#73a7fe",
-  "#874efe",
-  "#d357fe",
-  "#ed719e",
-  "#ff8c82",
-  "#ffa57d",
-  "#ffc677",
-  "#fff995",
-  "#ebf38f",
-  "#b1dd8c",
+  '#ff2800',
+  '#fe9300',
+  '#fefb00',
+  '#02f900',
+  '#00fdff',
+  '#0433ff',
+  '#ff40ff',
+  '#942292',
+  '#aa7942',
+  '#ffffff',
+  '#000000',
+  '#53d5fd',
+  '#73a7fe',
+  '#874efe',
+  '#d357fe',
+  '#ed719e',
+  '#ff8c82',
+  '#ffa57d',
+  '#ffc677',
+  '#fff995',
+  '#ebf38f',
+  '#b1dd8c',
 ] as const;
 
 interface Rgb {
@@ -81,9 +81,9 @@ function hexToRgb(value: string): Rgb | null {
   let hex = match[1]!;
   if (hex.length === 3) {
     hex = hex
-      .split("")
+      .split('')
       .map((char) => char + char)
-      .join("");
+      .join('');
   }
   return {
     r: Number.parseInt(hex.slice(0, 2), 16),
@@ -94,7 +94,7 @@ function hexToRgb(value: string): Rgb | null {
 }
 
 function rgbToHex({ r, g, b }: Rgb): string {
-  const to2 = (v: number) => Math.round(v).toString(16).padStart(2, "0");
+  const to2 = (v: number) => Math.round(v).toString(16).padStart(2, '0');
   return `#${to2(r)}${to2(g)}${to2(b)}`;
 }
 
@@ -164,7 +164,7 @@ function parseCssColor(value: string): Rgb | null {
   if (hex) return hex;
   const match =
     /^rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})(?:\s*,\s*([\d.]+))?\s*\)$/i.exec(
-      value.trim(),
+      value.trim()
     );
   if (!match) return null;
   return {
@@ -181,7 +181,7 @@ function toCss({ r, g, b, a }: Rgb): string {
 }
 
 export const Colorpicker = ({
-  value = "#000000",
+  value = '#000000',
   showSaturation = true,
   showRgba = true,
   showPalette = true,
@@ -190,8 +190,8 @@ export const Colorpicker = ({
   showArrow = true,
   disabled = false,
   invalid = false,
-  placeholder = "",
-  size = "md",
+  placeholder = '',
+  size = 'md',
   tabIndex = 0,
   className,
   onChange,
@@ -205,11 +205,11 @@ export const Colorpicker = ({
   const hueRef = useRef<HTMLDivElement>(null);
   const alphaRef = useRef<HTMLDivElement>(null);
   const popupId = useId();
-  const dragging = useRef<"sat" | "hue" | "alpha" | null>(null);
+  const dragging = useRef<'sat' | 'hue' | 'alpha' | null>(null);
 
   const committed = useMemo<Rgb>(
     () => parseCssColor(value) ?? { r: 0, g: 0, b: 0, a: 1 },
-    [value],
+    [value]
   );
 
   const [open, setOpen] = useState(false);
@@ -224,7 +224,7 @@ export const Colorpicker = ({
       onChange?.(output);
       onValueChange?.(output);
     },
-    [onChange, onValueChange],
+    [onChange, onValueChange]
   );
 
   const applyStaged = useCallback(
@@ -232,7 +232,7 @@ export const Colorpicker = ({
       setStaged(rgb);
       if (immediate && !showButton) commit(rgb);
     },
-    [showButton, commit],
+    [showButton, commit]
   );
 
   const closePopup = useCallback(() => {
@@ -263,7 +263,7 @@ export const Colorpicker = ({
       const v = clamp(1 - (clientY - rect.top) / rect.height, 0, 1);
       return { h: hsv.h, s, v };
     },
-    [hsv],
+    [hsv]
   );
 
   const stripPointer = useCallback(
@@ -272,20 +272,20 @@ export const Colorpicker = ({
       const rect = el.getBoundingClientRect();
       return clamp((clientX - rect.left) / rect.width, 0, 1);
     },
-    [],
+    []
   );
 
   const handleSatPointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
     if (disabled) return;
     event.preventDefault();
     event.currentTarget.setPointerCapture(event.pointerId);
-    dragging.current = "sat";
+    dragging.current = 'sat';
     const next = satPointer(event.clientX, event.clientY);
     applyStaged({ ...hsvToRgb(next), a: current.a }, true);
   };
 
   const handleSatPointerMove = (event: ReactPointerEvent<HTMLDivElement>) => {
-    if (dragging.current !== "sat") return;
+    if (dragging.current !== 'sat') return;
     event.preventDefault();
     const next = satPointer(event.clientX, event.clientY);
     applyStaged({ ...hsvToRgb(next), a: current.a }, true);
@@ -295,29 +295,35 @@ export const Colorpicker = ({
     if (disabled) return;
     event.preventDefault();
     event.currentTarget.setPointerCapture(event.pointerId);
-    dragging.current = "hue";
+    dragging.current = 'hue';
     const ratio = stripPointer(event.clientX, hueRef.current);
-    applyStaged({ ...hsvToRgb({ ...hsv, h: ratio * 360 }), a: current.a }, true);
+    applyStaged(
+      { ...hsvToRgb({ ...hsv, h: ratio * 360 }), a: current.a },
+      true
+    );
   };
 
   const handleHuePointerMove = (event: ReactPointerEvent<HTMLDivElement>) => {
-    if (dragging.current !== "hue") return;
+    if (dragging.current !== 'hue') return;
     event.preventDefault();
     const ratio = stripPointer(event.clientX, hueRef.current);
-    applyStaged({ ...hsvToRgb({ ...hsv, h: ratio * 360 }), a: current.a }, true);
+    applyStaged(
+      { ...hsvToRgb({ ...hsv, h: ratio * 360 }), a: current.a },
+      true
+    );
   };
 
   const handleAlphaPointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
     if (disabled) return;
     event.preventDefault();
     event.currentTarget.setPointerCapture(event.pointerId);
-    dragging.current = "alpha";
+    dragging.current = 'alpha';
     const ratio = stripPointer(event.clientX, alphaRef.current);
     applyStaged({ ...current, a: ratio }, true);
   };
 
   const handleAlphaPointerMove = (event: ReactPointerEvent<HTMLDivElement>) => {
-    if (dragging.current !== "alpha") return;
+    if (dragging.current !== 'alpha') return;
     event.preventDefault();
     const ratio = stripPointer(event.clientX, alphaRef.current);
     applyStaged({ ...current, a: ratio }, true);
@@ -329,10 +335,14 @@ export const Colorpicker = ({
 
   const stepSaturation = useCallback(
     (dx: number, dy: number) => {
-      const next = { h: hsv.h, s: clamp(hsv.s + dx, 0, 1), v: clamp(hsv.v + dy, 0, 1) };
+      const next = {
+        h: hsv.h,
+        s: clamp(hsv.s + dx, 0, 1),
+        v: clamp(hsv.v + dy, 0, 1),
+      };
       applyStaged({ ...hsvToRgb(next), a: current.a }, true);
     },
-    [hsv, current.a, applyStaged],
+    [hsv, current.a, applyStaged]
   );
 
   const stepHue = useCallback(
@@ -340,35 +350,35 @@ export const Colorpicker = ({
       const h = (hsv.h + delta + 360) % 360;
       applyStaged({ ...hsvToRgb({ ...hsv, h }), a: current.a }, true);
     },
-    [hsv, current.a, applyStaged],
+    [hsv, current.a, applyStaged]
   );
 
   const stepAlpha = useCallback(
     (delta: number) => {
       applyStaged({ ...current, a: clamp(current.a + delta, 0, 1) }, true);
     },
-    [current, applyStaged],
+    [current, applyStaged]
   );
 
   const handleSatKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     switch (event.key) {
-      case "ArrowLeft":
+      case 'ArrowLeft':
         event.preventDefault();
         stepSaturation(-0.05, 0);
         break;
-      case "ArrowRight":
+      case 'ArrowRight':
         event.preventDefault();
         stepSaturation(0.05, 0);
         break;
-      case "ArrowUp":
+      case 'ArrowUp':
         event.preventDefault();
         stepSaturation(0, 0.05);
         break;
-      case "ArrowDown":
+      case 'ArrowDown':
         event.preventDefault();
         stepSaturation(0, -0.05);
         break;
-      case "Escape":
+      case 'Escape':
         event.preventDefault();
         closePopup();
         break;
@@ -377,42 +387,50 @@ export const Colorpicker = ({
 
   const handleStripKeyDown = (
     event: KeyboardEvent<HTMLDivElement>,
-    kind: "hue" | "alpha",
+    kind: 'hue' | 'alpha'
   ) => {
     switch (event.key) {
-      case "ArrowLeft":
+      case 'ArrowLeft':
         event.preventDefault();
-        if (kind === "hue") stepHue(-6);
+        if (kind === 'hue') stepHue(-6);
         else stepAlpha(-0.05);
         break;
-      case "ArrowRight":
+      case 'ArrowRight':
         event.preventDefault();
-        if (kind === "hue") stepHue(6);
+        if (kind === 'hue') stepHue(6);
         else stepAlpha(0.05);
         break;
-      case "Escape":
+      case 'Escape':
         event.preventDefault();
         closePopup();
         break;
     }
   };
 
-  const handleRgbaInput = (channel: "hex" | "r" | "g" | "b" | "a", raw: string) => {
-    if (channel === "hex") {
+  const handleRgbaInput = (
+    channel: 'hex' | 'r' | 'g' | 'b' | 'a',
+    raw: string
+  ) => {
+    if (channel === 'hex') {
       const parsed = hexToRgb(raw);
       if (parsed) applyStaged({ ...parsed, a: current.a }, true);
       return;
     }
-    const cleaned = raw.replace(/[^\d.]/g, "");
+    const cleaned = raw.replace(/[^\d.]/g, '');
     const number = Number.parseFloat(cleaned);
     if (Number.isNaN(number)) return;
-    if (channel === "a") {
-      const a = cleaned.includes(".") ? clamp(number, 0, 1) : clamp(number / 100, 0, 1);
+    if (channel === 'a') {
+      const a = cleaned.includes('.')
+        ? clamp(number, 0, 1)
+        : clamp(number / 100, 0, 1);
       applyStaged({ ...current, a }, true);
       return;
     }
-    const limit: Record<"r" | "g" | "b", number> = { r: 255, g: 255, b: 255 };
-    applyStaged({ ...current, [channel]: clamp(number, 0, limit[channel]) }, true);
+    const limit: Record<'r' | 'g' | 'b', number> = { r: 255, g: 255, b: 255 };
+    applyStaged(
+      { ...current, [channel]: clamp(number, 0, limit[channel]) },
+      true
+    );
   };
 
   const handleOk = () => {
@@ -432,29 +450,29 @@ export const Colorpicker = ({
         closePopup();
       }
     };
-    document.addEventListener("mousedown", onMouseDown);
-    return () => document.removeEventListener("mousedown", onMouseDown);
+    document.addEventListener('mousedown', onMouseDown);
+    return () => document.removeEventListener('mousedown', onMouseDown);
   }, [open, closePopup]);
 
   useEffect(() => {
     if (!open) return;
     const onKeyDown = (event: globalThis.KeyboardEvent) => {
-      if (event.key === "Escape") closePopup();
+      if (event.key === 'Escape') closePopup();
     };
-    document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
   }, [open, closePopup]);
 
   const sizeClass =
-    size === "xs"
-      ? styles["dx-colorpicker-trigger-xs"]
-      : size === "sm"
-        ? styles["dx-colorpicker-trigger-sm"]
-        : size === "lg"
-          ? styles["dx-colorpicker-trigger-lg"]
-          : size === "xl"
-            ? styles["dx-colorpicker-trigger-xl"]
-            : styles["dx-colorpicker-trigger"];
+    size === 'xs'
+      ? styles['dx-colorpicker-trigger-xs']
+      : size === 'sm'
+        ? styles['dx-colorpicker-trigger-sm']
+        : size === 'lg'
+          ? styles['dx-colorpicker-trigger-lg']
+          : size === 'xl'
+            ? styles['dx-colorpicker-trigger-xl']
+            : styles['dx-colorpicker-trigger'];
 
   const css = toCss(current);
   const hex = rgbToHex(current);
@@ -463,7 +481,7 @@ export const Colorpicker = ({
   const alphaPos = current.a * 100;
 
   const body = (
-    <div className={styles["dx-colorpicker-panel"]}>
+    <div className={styles['dx-colorpicker-panel']}>
       {showSaturation && (
         <div
           ref={satRef}
@@ -476,7 +494,7 @@ export const Colorpicker = ({
           aria-label="Color"
           aria-disabled={disabled || undefined}
           tabIndex={disabled ? -1 : tabIndex}
-          className={styles["dx-saturation-picker"]}
+          className={styles['dx-saturation-picker']}
           style={{
             background: `linear-gradient(to top, #000, transparent), linear-gradient(to right, #fff, transparent), hsl(${hsv.h}, 100%, 50%)`,
           }}
@@ -486,7 +504,7 @@ export const Colorpicker = ({
           onPointerUp={handlePointerUp}
         >
           <span
-            className={styles["dx-saturation-indicator"]}
+            className={styles['dx-saturation-indicator']}
             style={{ left: `${satPos.x}%`, top: `${satPos.y}%` }}
             aria-hidden="true"
           />
@@ -502,14 +520,14 @@ export const Colorpicker = ({
           aria-valuenow={Math.round(hsv.h)}
           aria-disabled={disabled || undefined}
           tabIndex={disabled ? -1 : tabIndex}
-          className={styles["dx-hue-picker"]}
-          onKeyDown={(event) => handleStripKeyDown(event, "hue")}
+          className={styles['dx-hue-picker']}
+          onKeyDown={(event) => handleStripKeyDown(event, 'hue')}
           onPointerDown={handleHuePointerDown}
           onPointerMove={handleHuePointerMove}
           onPointerUp={handlePointerUp}
         >
           <span
-            className={styles["dx-hue-indicator"]}
+            className={styles['dx-hue-indicator']}
             style={{ left: `${huePos}%` }}
             aria-hidden="true"
           />
@@ -525,92 +543,92 @@ export const Colorpicker = ({
           aria-valuenow={Math.round(alphaPos)}
           aria-disabled={disabled || undefined}
           tabIndex={disabled ? -1 : tabIndex}
-          className={styles["dx-alpha-picker"]}
+          className={styles['dx-alpha-picker']}
           style={{
             background: `repeating-conic-gradient(var(--dx-border-color) 0% 25%, var(--dx-surface-color) 0% 50%) 0 0 / 12px 12px, linear-gradient(to right, transparent, hsl(${hsv.h}, 100%, 50%))`,
           }}
-          onKeyDown={(event) => handleStripKeyDown(event, "alpha")}
+          onKeyDown={(event) => handleStripKeyDown(event, 'alpha')}
           onPointerDown={handleAlphaPointerDown}
           onPointerMove={handleAlphaPointerMove}
           onPointerUp={handlePointerUp}
         >
           <span
-            className={styles["dx-alpha-indicator"]}
+            className={styles['dx-alpha-indicator']}
             style={{ left: `${alphaPos}%` }}
             aria-hidden="true"
           />
         </div>
       )}
       {showRgba && (
-        <div className={styles["dx-colorpicker-rgba"]}>
-          <label className={styles["dx-colorpicker-rgba-field"]}>
-            <span className={styles["dx-colorpicker-rgba-label"]}>Hex</span>
+        <div className={styles['dx-colorpicker-rgba']}>
+          <label className={styles['dx-colorpicker-rgba-field']}>
+            <span className={styles['dx-colorpicker-rgba-label']}>Hex</span>
             <input
               type="text"
               maxLength={7}
-              className={styles["dx-colorpicker-rgba-input"]}
+              className={styles['dx-colorpicker-rgba-input']}
               aria-label="Hex"
               value={hex}
-              onChange={(event) => handleRgbaInput("hex", event.target.value)}
+              onChange={(event) => handleRgbaInput('hex', event.target.value)}
             />
           </label>
-          <label className={styles["dx-colorpicker-rgba-field"]}>
-            <span className={styles["dx-colorpicker-rgba-label"]}>R</span>
+          <label className={styles['dx-colorpicker-rgba-field']}>
+            <span className={styles['dx-colorpicker-rgba-label']}>R</span>
             <input
               type="text"
               inputMode="numeric"
               maxLength={3}
-              className={styles["dx-colorpicker-rgba-input"]}
+              className={styles['dx-colorpicker-rgba-input']}
               aria-label="Red"
               value={current.r}
-              onChange={(event) => handleRgbaInput("r", event.target.value)}
+              onChange={(event) => handleRgbaInput('r', event.target.value)}
             />
           </label>
-          <label className={styles["dx-colorpicker-rgba-field"]}>
-            <span className={styles["dx-colorpicker-rgba-label"]}>G</span>
+          <label className={styles['dx-colorpicker-rgba-field']}>
+            <span className={styles['dx-colorpicker-rgba-label']}>G</span>
             <input
               type="text"
               inputMode="numeric"
               maxLength={3}
-              className={styles["dx-colorpicker-rgba-input"]}
+              className={styles['dx-colorpicker-rgba-input']}
               aria-label="Green"
               value={current.g}
-              onChange={(event) => handleRgbaInput("g", event.target.value)}
+              onChange={(event) => handleRgbaInput('g', event.target.value)}
             />
           </label>
-          <label className={styles["dx-colorpicker-rgba-field"]}>
-            <span className={styles["dx-colorpicker-rgba-label"]}>B</span>
+          <label className={styles['dx-colorpicker-rgba-field']}>
+            <span className={styles['dx-colorpicker-rgba-label']}>B</span>
             <input
               type="text"
               inputMode="numeric"
               maxLength={3}
-              className={styles["dx-colorpicker-rgba-input"]}
+              className={styles['dx-colorpicker-rgba-input']}
               aria-label="Blue"
               value={current.b}
-              onChange={(event) => handleRgbaInput("b", event.target.value)}
+              onChange={(event) => handleRgbaInput('b', event.target.value)}
             />
           </label>
-          <label className={styles["dx-colorpicker-rgba-field"]}>
-            <span className={styles["dx-colorpicker-rgba-label"]}>A</span>
+          <label className={styles['dx-colorpicker-rgba-field']}>
+            <span className={styles['dx-colorpicker-rgba-label']}>A</span>
             <input
               type="text"
               inputMode="decimal"
               maxLength={4}
-              className={styles["dx-colorpicker-rgba-input"]}
+              className={styles['dx-colorpicker-rgba-input']}
               aria-label="Alpha"
               value={Math.round(current.a * 100)}
-              onChange={(event) => handleRgbaInput("a", event.target.value)}
+              onChange={(event) => handleRgbaInput('a', event.target.value)}
             />
           </label>
         </div>
       )}
       {showPalette && (
-        <div className={styles["dx-colorpicker-palette"]}>
+        <div className={styles['dx-colorpicker-palette']}>
           {palette.map((swatch) => (
             <button
               key={swatch}
               type="button"
-              className={styles["dx-colorpicker-swatch"]}
+              className={styles['dx-colorpicker-swatch']}
               aria-label={swatch}
               aria-disabled={disabled || undefined}
               tabIndex={disabled ? -1 : tabIndex}
@@ -632,10 +650,10 @@ export const Colorpicker = ({
         </div>
       )}
       {showButton && (
-        <div className={styles["dx-colorpicker-footer"]}>
+        <div className={styles['dx-colorpicker-footer']}>
           <button
             type="button"
-            className={styles["dx-colorpicker-ok"]}
+            className={styles['dx-colorpicker-ok']}
             onClick={handleOk}
           >
             OK
@@ -649,18 +667,18 @@ export const Colorpicker = ({
     <div
       ref={rootRef}
       className={[
-        styles["dx-colorpicker"],
-        open ? styles["dx-colorpicker-open"] : null,
-        invalid ? styles["dx-colorpicker-invalid"] : null,
+        styles['dx-colorpicker'],
+        open ? styles['dx-colorpicker-open'] : null,
+        invalid ? styles['dx-colorpicker-invalid'] : null,
         className,
       ]
         .filter(Boolean)
-        .join(" ")}
+        .join(' ')}
     >
       <button
         ref={triggerRef}
         type="button"
-        className={[styles["dx-colorpicker-trigger"], sizeClass].join(" ")}
+        className={[styles['dx-colorpicker-trigger'], sizeClass].join(' ')}
         aria-haspopup="dialog"
         aria-expanded={open}
         aria-controls={popupId}
@@ -670,20 +688,22 @@ export const Colorpicker = ({
         tabIndex={tabIndex}
         onClick={togglePopup}
         onKeyDown={(event) => {
-          if (event.key === "Escape" && open) {
+          if (event.key === 'Escape' && open) {
             event.preventDefault();
             closePopup();
           }
         }}
       >
         <span
-          className={styles["dx-colorpicker-value"]}
+          className={styles['dx-colorpicker-value']}
           style={{ backgroundColor: css }}
           aria-hidden="true"
         />
-        {placeholder && <span className={styles["dx-colorpicker-text"]}>{placeholder}</span>}
+        {placeholder && (
+          <span className={styles['dx-colorpicker-text']}>{placeholder}</span>
+        )}
         {showArrow && (
-          <span className={styles["dx-colorpicker-chevron"]} aria-hidden="true">
+          <span className={styles['dx-colorpicker-chevron']} aria-hidden="true">
             <Icon name="chevron-down" size={14} />
           </span>
         )}
@@ -693,7 +713,7 @@ export const Colorpicker = ({
           id={popupId}
           role="dialog"
           aria-label="Choose color"
-          className={styles["dx-colorpicker-popup"]}
+          className={styles['dx-colorpicker-popup']}
         >
           {body}
         </div>

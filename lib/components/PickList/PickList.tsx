@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Icon } from "../Icon/Icon";
-import styles from "./PickList.module.css";
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Icon } from '../Icon/Icon';
+import styles from './PickList.module.css';
 
 export interface PickListItem {
   id: string;
@@ -13,7 +13,8 @@ export interface PickListMoveArgs {
   source: PickListItem[];
   target: PickListItem[];
   moved: PickListItem[];
-  direction: "toTarget" | "toSource" | "up" | "down" | "allToTarget" | "allToSource";
+  direction:
+    'toTarget' | 'toSource' | 'up' | 'down' | 'allToTarget' | 'allToSource';
 }
 
 export interface PickListProps {
@@ -45,13 +46,13 @@ export interface PickListProps {
 function getKey(item: PickListItem, keyProp: string): string {
   const v = item[keyProp];
   if (v != null) return String(v);
-  return String(item.id ?? "");
+  return String(item.id ?? '');
 }
 
 function getText(item: PickListItem): string {
-  const t = item["text"];
+  const t = item['text'];
   if (t != null) return String(t);
-  return String(item.id ?? "");
+  return String(item.id ?? '');
 }
 
 export function PickList({
@@ -77,14 +78,19 @@ export function PickList({
   AriaLabel,
   className,
 }: PickListProps) {
-  const effectiveKeyProp = keyProperty ?? KeyProperty ?? "id";
-  const effectiveAriaLabel = ariaLabel ?? AriaLabel ?? "PickList";
+  const effectiveKeyProp = keyProperty ?? KeyProperty ?? 'id';
+  const effectiveAriaLabel = ariaLabel ?? AriaLabel ?? 'PickList';
 
-  const initialSource = source ?? Source ?? value ?? Value ?? data ?? Data ?? [];
+  const initialSource =
+    source ?? Source ?? value ?? Value ?? data ?? Data ?? [];
   const initialTarget = target ?? Target ?? targetValue ?? TargetValue ?? [];
 
-  const [sourceItems, setSourceItems] = useState<PickListItem[]>(() => [...initialSource]);
-  const [targetItems, setTargetItems] = useState<PickListItem[]>(() => [...initialTarget]);
+  const [sourceItems, setSourceItems] = useState<PickListItem[]>(() => [
+    ...initialSource,
+  ]);
+  const [targetItems, setTargetItems] = useState<PickListItem[]>(() => [
+    ...initialTarget,
+  ]);
 
   // sync when props change (controlled)
   useEffect(() => {
@@ -97,8 +103,12 @@ export function PickList({
     if (nextTarget !== undefined) setTargetItems([...nextTarget]);
   }, [target, Target, targetValue, TargetValue]);
 
-  const [sourceSelected, setSourceSelected] = useState<Set<string>>(() => new Set());
-  const [targetSelected, setTargetSelected] = useState<Set<string>>(() => new Set());
+  const [sourceSelected, setSourceSelected] = useState<Set<string>>(
+    () => new Set()
+  );
+  const [targetSelected, setTargetSelected] = useState<Set<string>>(
+    () => new Set()
+  );
 
   // active focus indexes for keyboard navigation
   const [sourceActive, setSourceActive] = useState<number>(() => {
@@ -110,15 +120,27 @@ export function PickList({
     return idx >= 0 ? idx : 0;
   });
 
-  const sourceEnabledIdxs = useMemo(() => sourceItems.map((it, i) => (!it.disabled ? i : -1)).filter((i) => i >= 0), [sourceItems]);
-  const targetEnabledIdxs = useMemo(() => targetItems.map((it, i) => (!it.disabled ? i : -1)).filter((i) => i >= 0), [targetItems]);
+  const sourceEnabledIdxs = useMemo(
+    () =>
+      sourceItems.map((it, i) => (!it.disabled ? i : -1)).filter((i) => i >= 0),
+    [sourceItems]
+  );
+  const targetEnabledIdxs = useMemo(
+    () =>
+      targetItems.map((it, i) => (!it.disabled ? i : -1)).filter((i) => i >= 0),
+    [targetItems]
+  );
 
   // Keep active indexes within bounds
   useEffect(() => {
     if (sourceActive >= sourceItems.length) {
       const lastEnabled = sourceEnabledIdxs[sourceEnabledIdxs.length - 1];
       setSourceActive(lastEnabled ?? 0);
-    } else if (sourceItems.length > 0 && sourceEnabledIdxs.length > 0 && !sourceEnabledIdxs.includes(sourceActive)) {
+    } else if (
+      sourceItems.length > 0 &&
+      sourceEnabledIdxs.length > 0 &&
+      !sourceEnabledIdxs.includes(sourceActive)
+    ) {
       const first = sourceEnabledIdxs[0];
       if (first !== undefined) setSourceActive(first);
     }
@@ -128,7 +150,11 @@ export function PickList({
     if (targetActive >= targetItems.length) {
       const lastEnabled = targetEnabledIdxs[targetEnabledIdxs.length - 1];
       setTargetActive(lastEnabled ?? 0);
-    } else if (targetItems.length > 0 && targetEnabledIdxs.length > 0 && !targetEnabledIdxs.includes(targetActive)) {
+    } else if (
+      targetItems.length > 0 &&
+      targetEnabledIdxs.length > 0 &&
+      !targetEnabledIdxs.includes(targetActive)
+    ) {
       const first = targetEnabledIdxs[0];
       if (first !== undefined) setTargetActive(first);
     }
@@ -139,7 +165,9 @@ export function PickList({
     setSourceSelected((prev) => {
       const next = new Set<string>();
       for (const k of prev) {
-        const exists = sourceItems.some((it) => getKey(it, effectiveKeyProp) === k && !it.disabled);
+        const exists = sourceItems.some(
+          (it) => getKey(it, effectiveKeyProp) === k && !it.disabled
+        );
         if (exists) next.add(k);
       }
       return next;
@@ -150,7 +178,9 @@ export function PickList({
     setTargetSelected((prev) => {
       const next = new Set<string>();
       for (const k of prev) {
-        const exists = targetItems.some((it) => getKey(it, effectiveKeyProp) === k && !it.disabled);
+        const exists = targetItems.some(
+          (it) => getKey(it, effectiveKeyProp) === k && !it.disabled
+        );
         if (exists) next.add(k);
       }
       return next;
@@ -162,7 +192,7 @@ export function PickList({
       const handler = onSourceChange ?? SourceChange;
       handler?.(next);
     },
-    [onSourceChange, SourceChange],
+    [onSourceChange, SourceChange]
   );
 
   const emitTargetChange = useCallback(
@@ -170,7 +200,7 @@ export function PickList({
       const handler = onTargetChange ?? TargetChange;
       handler?.(next);
     },
-    [onTargetChange, TargetChange],
+    [onTargetChange, TargetChange]
   );
 
   const emitMove = useCallback(
@@ -178,7 +208,7 @@ export function PickList({
       const handler = onMove ?? Move;
       handler?.(args);
     },
-    [onMove, Move],
+    [onMove, Move]
   );
 
   const toggleSourceSelect = useCallback(
@@ -194,7 +224,7 @@ export function PickList({
       });
       setSourceActive(index);
     },
-    [sourceItems, effectiveKeyProp],
+    [sourceItems, effectiveKeyProp]
   );
 
   const toggleTargetSelect = useCallback(
@@ -210,7 +240,7 @@ export function PickList({
       });
       setTargetActive(index);
     },
-    [targetItems, effectiveKeyProp],
+    [targetItems, effectiveKeyProp]
   );
 
   const moveSelectedToTarget = useCallback(() => {
@@ -232,8 +262,21 @@ export function PickList({
     setTargetSelected(movedKeys);
     emitSourceChange(nextSource);
     emitTargetChange(nextTarget);
-    emitMove({ source: nextSource, target: nextTarget, moved, direction: "toTarget" });
-  }, [sourceItems, targetItems, sourceSelected, effectiveKeyProp, emitSourceChange, emitTargetChange, emitMove]);
+    emitMove({
+      source: nextSource,
+      target: nextTarget,
+      moved,
+      direction: 'toTarget',
+    });
+  }, [
+    sourceItems,
+    targetItems,
+    sourceSelected,
+    effectiveKeyProp,
+    emitSourceChange,
+    emitTargetChange,
+    emitMove,
+  ]);
 
   const moveSelectedToSource = useCallback(() => {
     const moved: PickListItem[] = [];
@@ -253,8 +296,21 @@ export function PickList({
     setSourceSelected(movedKeys);
     emitSourceChange(nextSource);
     emitTargetChange(nextTarget);
-    emitMove({ source: nextSource, target: nextTarget, moved, direction: "toSource" });
-  }, [sourceItems, targetItems, targetSelected, effectiveKeyProp, emitSourceChange, emitTargetChange, emitMove]);
+    emitMove({
+      source: nextSource,
+      target: nextTarget,
+      moved,
+      direction: 'toSource',
+    });
+  }, [
+    sourceItems,
+    targetItems,
+    targetSelected,
+    effectiveKeyProp,
+    emitSourceChange,
+    emitTargetChange,
+    emitMove,
+  ]);
 
   const moveAllToTarget = useCallback(() => {
     const moved = sourceItems.filter((it) => !it.disabled);
@@ -266,8 +322,20 @@ export function PickList({
     setSourceSelected(new Set());
     emitSourceChange(nextSource);
     emitTargetChange(nextTarget);
-    emitMove({ source: nextSource, target: nextTarget, moved, direction: "allToTarget" });
-  }, [sourceItems, targetItems, effectiveKeyProp, emitSourceChange, emitTargetChange, emitMove]);
+    emitMove({
+      source: nextSource,
+      target: nextTarget,
+      moved,
+      direction: 'allToTarget',
+    });
+  }, [
+    sourceItems,
+    targetItems,
+    effectiveKeyProp,
+    emitSourceChange,
+    emitTargetChange,
+    emitMove,
+  ]);
 
   const moveAllToSource = useCallback(() => {
     const moved = targetItems.filter((it) => !it.disabled);
@@ -279,7 +347,12 @@ export function PickList({
     setTargetSelected(new Set());
     emitSourceChange(nextSource);
     emitTargetChange(nextTarget);
-    emitMove({ source: nextSource, target: nextTarget, moved, direction: "allToSource" });
+    emitMove({
+      source: nextSource,
+      target: nextTarget,
+      moved,
+      direction: 'allToSource',
+    });
   }, [sourceItems, targetItems, emitSourceChange, emitTargetChange, emitMove]);
 
   const moveUp = useCallback(() => {
@@ -295,7 +368,12 @@ export function PickList({
       if (!curr || !prev) continue;
       const currKey = getKey(curr, effectiveKeyProp);
       const prevKey = getKey(prev, effectiveKeyProp);
-      if (keys.has(currKey) && !keys.has(prevKey) && !curr.disabled && !prev.disabled) {
+      if (
+        keys.has(currKey) &&
+        !keys.has(prevKey) &&
+        !curr.disabled &&
+        !prev.disabled
+      ) {
         // swap
         next[i - 1] = curr;
         next[i] = prev;
@@ -307,14 +385,23 @@ export function PickList({
     // adjust active index to follow movement? keep same keys selected
     emitTargetChange(next);
     // emit source as unchanged for move event's source
-    emitMove({ source: sourceItems, target: next, moved, direction: "up" });
+    emitMove({ source: sourceItems, target: next, moved, direction: 'up' });
     // update active to first selected's new position
     const firstSelectedKey = Array.from(keys)[0];
     if (firstSelectedKey) {
-      const newIdx = next.findIndex((it) => getKey(it, effectiveKeyProp) === firstSelectedKey);
+      const newIdx = next.findIndex(
+        (it) => getKey(it, effectiveKeyProp) === firstSelectedKey
+      );
       if (newIdx >= 0) setTargetActive(newIdx);
     }
-  }, [targetItems, targetSelected, effectiveKeyProp, sourceItems, emitTargetChange, emitMove]);
+  }, [
+    targetItems,
+    targetSelected,
+    effectiveKeyProp,
+    sourceItems,
+    emitTargetChange,
+    emitMove,
+  ]);
 
   const moveDown = useCallback(() => {
     if (targetSelected.size === 0) return;
@@ -327,7 +414,12 @@ export function PickList({
       if (!curr || !nxt) continue;
       const currKey = getKey(curr, effectiveKeyProp);
       const nxtKey = getKey(nxt, effectiveKeyProp);
-      if (keys.has(currKey) && !keys.has(nxtKey) && !curr.disabled && !nxt.disabled) {
+      if (
+        keys.has(currKey) &&
+        !keys.has(nxtKey) &&
+        !curr.disabled &&
+        !nxt.disabled
+      ) {
         next[i] = nxt;
         next[i + 1] = curr;
         moved.push(curr);
@@ -336,44 +428,62 @@ export function PickList({
     if (moved.length === 0) return;
     setTargetItems(next);
     emitTargetChange(next);
-    emitMove({ source: sourceItems, target: next, moved, direction: "down" });
+    emitMove({ source: sourceItems, target: next, moved, direction: 'down' });
     const firstSelectedKey = Array.from(keys)[0];
     if (firstSelectedKey) {
-      const newIdx = next.findIndex((it) => getKey(it, effectiveKeyProp) === firstSelectedKey);
+      const newIdx = next.findIndex(
+        (it) => getKey(it, effectiveKeyProp) === firstSelectedKey
+      );
       if (newIdx >= 0) setTargetActive(newIdx);
     }
-  }, [targetItems, targetSelected, effectiveKeyProp, sourceItems, emitTargetChange, emitMove]);
+  }, [
+    targetItems,
+    targetSelected,
+    effectiveKeyProp,
+    sourceItems,
+    emitTargetChange,
+    emitMove,
+  ]);
 
   const sourceHasSelection = sourceSelected.size > 0;
   const targetHasSelection = targetSelected.size > 0;
 
-  const typeaheadSource = useRef<string>("");
-  const typeaheadSourceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const typeaheadTarget = useRef<string>("");
-  const typeaheadTargetTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const typeaheadSource = useRef<string>('');
+  const typeaheadSourceTimer = useRef<ReturnType<typeof setTimeout> | null>(
+    null
+  );
+  const typeaheadTarget = useRef<string>('');
+  const typeaheadTargetTimer = useRef<ReturnType<typeof setTimeout> | null>(
+    null
+  );
 
   const handleSourceKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLDivElement>) => {
       if (sourceItems.length === 0) return;
       const enabled = sourceEnabledIdxs;
       if (enabled.length === 0) return;
-      const current = enabled.includes(sourceActive) ? sourceActive : (enabled[0] ?? 0);
+      const current = enabled.includes(sourceActive)
+        ? sourceActive
+        : (enabled[0] ?? 0);
       let next = -1;
-      if (e.key === "ArrowDown") {
+      if (e.key === 'ArrowDown') {
         e.preventDefault();
         const idx = enabled.indexOf(current);
         next = enabled[(idx + 1) % enabled.length] ?? enabled[0] ?? 0;
-      } else if (e.key === "ArrowUp") {
+      } else if (e.key === 'ArrowUp') {
         e.preventDefault();
         const idx = enabled.indexOf(current);
-        next = enabled[(idx - 1 + enabled.length) % enabled.length] ?? enabled[0] ?? 0;
-      } else if (e.key === "Home") {
+        next =
+          enabled[(idx - 1 + enabled.length) % enabled.length] ??
+          enabled[0] ??
+          0;
+      } else if (e.key === 'Home') {
         e.preventDefault();
         next = enabled[0] ?? 0;
-      } else if (e.key === "End") {
+      } else if (e.key === 'End') {
         e.preventDefault();
         next = enabled[enabled.length - 1] ?? 0;
-      } else if (e.key === "Enter" || e.key === " ") {
+      } else if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
         toggleSourceSelect(current);
         return;
@@ -381,13 +491,18 @@ export function PickList({
         e.preventDefault();
         const query = (typeaheadSource.current + e.key).toLowerCase();
         typeaheadSource.current = query;
-        if (typeaheadSourceTimer.current) clearTimeout(typeaheadSourceTimer.current);
+        if (typeaheadSourceTimer.current)
+          clearTimeout(typeaheadSourceTimer.current);
         typeaheadSourceTimer.current = setTimeout(() => {
-          typeaheadSource.current = "";
+          typeaheadSource.current = '';
         }, 500);
         const doubled = [...enabled, ...enabled];
         const start = enabled.indexOf(current) + 1;
-        const hit = doubled.slice(start).find((idx) => getText(sourceItems[idx] as PickListItem).toLowerCase().startsWith(query));
+        const hit = doubled.slice(start).find((idx) =>
+          getText(sourceItems[idx] as PickListItem)
+            .toLowerCase()
+            .startsWith(query)
+        );
         if (hit != null) setSourceActive(hit);
         return;
       }
@@ -395,7 +510,7 @@ export function PickList({
         setSourceActive(next);
       }
     },
-    [sourceItems, sourceEnabledIdxs, sourceActive, toggleSourceSelect],
+    [sourceItems, sourceEnabledIdxs, sourceActive, toggleSourceSelect]
   );
 
   const handleTargetKeyDown = useCallback(
@@ -403,23 +518,28 @@ export function PickList({
       if (targetItems.length === 0) return;
       const enabled = targetEnabledIdxs;
       if (enabled.length === 0) return;
-      const current = enabled.includes(targetActive) ? targetActive : (enabled[0] ?? 0);
+      const current = enabled.includes(targetActive)
+        ? targetActive
+        : (enabled[0] ?? 0);
       let next = -1;
-      if (e.key === "ArrowDown") {
+      if (e.key === 'ArrowDown') {
         e.preventDefault();
         const idx = enabled.indexOf(current);
         next = enabled[(idx + 1) % enabled.length] ?? enabled[0] ?? 0;
-      } else if (e.key === "ArrowUp") {
+      } else if (e.key === 'ArrowUp') {
         e.preventDefault();
         const idx = enabled.indexOf(current);
-        next = enabled[(idx - 1 + enabled.length) % enabled.length] ?? enabled[0] ?? 0;
-      } else if (e.key === "Home") {
+        next =
+          enabled[(idx - 1 + enabled.length) % enabled.length] ??
+          enabled[0] ??
+          0;
+      } else if (e.key === 'Home') {
         e.preventDefault();
         next = enabled[0] ?? 0;
-      } else if (e.key === "End") {
+      } else if (e.key === 'End') {
         e.preventDefault();
         next = enabled[enabled.length - 1] ?? 0;
-      } else if (e.key === "Enter" || e.key === " ") {
+      } else if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
         toggleTargetSelect(current);
         return;
@@ -427,13 +547,18 @@ export function PickList({
         e.preventDefault();
         const query = (typeaheadTarget.current + e.key).toLowerCase();
         typeaheadTarget.current = query;
-        if (typeaheadTargetTimer.current) clearTimeout(typeaheadTargetTimer.current);
+        if (typeaheadTargetTimer.current)
+          clearTimeout(typeaheadTargetTimer.current);
         typeaheadTargetTimer.current = setTimeout(() => {
-          typeaheadTarget.current = "";
+          typeaheadTarget.current = '';
         }, 500);
         const doubled = [...enabled, ...enabled];
         const start = enabled.indexOf(current) + 1;
-        const hit = doubled.slice(start).find((idx) => getText(targetItems[idx] as PickListItem).toLowerCase().startsWith(query));
+        const hit = doubled.slice(start).find((idx) =>
+          getText(targetItems[idx] as PickListItem)
+            .toLowerCase()
+            .startsWith(query)
+        );
         if (hit != null) setTargetActive(hit);
         return;
       }
@@ -441,14 +566,17 @@ export function PickList({
         setTargetActive(next);
       }
     },
-    [targetItems, targetEnabledIdxs, targetActive, toggleTargetSelect],
+    [targetItems, targetEnabledIdxs, targetActive, toggleTargetSelect]
   );
 
   const listSourceRef = useRef<HTMLDivElement>(null);
   const listTargetRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div className={[styles.root, className].filter(Boolean).join(" ")} aria-label={effectiveAriaLabel}>
+    <div
+      className={[styles.root, className].filter(Boolean).join(' ')}
+      aria-label={effectiveAriaLabel}
+    >
       <div className={styles.panel}>
         <div className={styles.header}>Source</div>
         <div
@@ -483,7 +611,7 @@ export function PickList({
                     disabled ? styles.disabled : null,
                   ]
                     .filter(Boolean)
-                    .join(" ")}
+                    .join(' ')}
                   onClick={() => toggleSourceSelect(idx)}
                 >
                   {getText(item)}
@@ -509,7 +637,9 @@ export function PickList({
           type="button"
           className={styles.btn}
           aria-label="Move all to target"
-          aria-disabled={sourceItems.filter((it) => !it.disabled).length === 0 || undefined}
+          aria-disabled={
+            sourceItems.filter((it) => !it.disabled).length === 0 || undefined
+          }
           disabled={sourceItems.filter((it) => !it.disabled).length === 0}
           onClick={moveAllToTarget}
         >
@@ -519,7 +649,9 @@ export function PickList({
           type="button"
           className={styles.btn}
           aria-label="Move all"
-          aria-disabled={sourceItems.filter((it) => !it.disabled).length === 0 || undefined}
+          aria-disabled={
+            sourceItems.filter((it) => !it.disabled).length === 0 || undefined
+          }
           disabled={sourceItems.filter((it) => !it.disabled).length === 0}
           onClick={moveAllToTarget}
         >
@@ -539,7 +671,9 @@ export function PickList({
           type="button"
           className={styles.btn}
           aria-label="Move all to source"
-          aria-disabled={targetItems.filter((it) => !it.disabled).length === 0 || undefined}
+          aria-disabled={
+            targetItems.filter((it) => !it.disabled).length === 0 || undefined
+          }
           disabled={targetItems.filter((it) => !it.disabled).length === 0}
           onClick={moveAllToSource}
         >
@@ -581,7 +715,7 @@ export function PickList({
                     disabled ? styles.disabled : null,
                   ]
                     .filter(Boolean)
-                    .join(" ")}
+                    .join(' ')}
                   onClick={() => toggleTargetSelect(idx)}
                 >
                   {getText(item)}

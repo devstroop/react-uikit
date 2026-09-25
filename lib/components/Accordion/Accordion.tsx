@@ -1,6 +1,6 @@
-import { useId, useState, type ReactNode } from "react";
-import { Icon } from "../Icon/Icon";
-import styles from "./Accordion.module.css";
+import { useId, useState, type ReactNode } from 'react';
+import { Icon } from '../Icon/Icon';
+import styles from './Accordion.module.css';
 
 export interface AccordionItem {
   key: string;
@@ -27,7 +27,9 @@ export function Accordion({
   className,
 }: AccordionProps) {
   const baseId = useId();
-  const [internalValue, setInternalValue] = useState<string[]>(defaultValue ?? []);
+  const [internalValue, setInternalValue] = useState<string[]>(
+    defaultValue ?? []
+  );
   const activeKeys = value ?? internalValue;
 
   const toggle = (key: string) => {
@@ -41,7 +43,7 @@ export function Accordion({
   };
 
   return (
-    <div className={[styles.root, className].filter(Boolean).join(" ")}>
+    <div className={[styles.root, className].filter(Boolean).join(' ')}>
       {items.map((item) => {
         const open = activeKeys.includes(item.key);
         const contentId = `${baseId}-panel-${item.key}`;
@@ -60,11 +62,16 @@ export function Accordion({
                   item.disabled ? styles.disabled : null,
                 ]
                   .filter(Boolean)
-                  .join(" ")}
+                  .join(' ')}
                 onClick={() => toggle(item.key)}
               >
                 <span className={styles.title}>{item.title}</span>
-                <span className={[styles.chevron, open ? styles.open : null].filter(Boolean).join(" ")} aria-hidden="true">
+                <span
+                  className={[styles.chevron, open ? styles.open : null]
+                    .filter(Boolean)
+                    .join(' ')}
+                  aria-hidden="true"
+                >
                   <Icon name="chevron-down" size={12} />
                 </span>
               </button>

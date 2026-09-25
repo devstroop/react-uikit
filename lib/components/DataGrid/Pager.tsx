@@ -1,6 +1,6 @@
-import type { ReactNode } from "react";
-import { Pager as StandalonePager } from "../Pager/Pager";
-import type { PageEventArgs } from "../Pager/Pager";
+import type { ReactNode } from 'react';
+import { Pager as StandalonePager } from '../Pager/Pager';
+import type { PageEventArgs } from '../Pager/Pager';
 
 export interface PagerProps {
   pageNumber: number;
@@ -14,12 +14,17 @@ export interface PagerProps {
   className?: string;
   onPageChange?: (pageNumber: number) => void;
   onPageSizeChange?: (pageSize: number) => void;
-  summaryTemplate?: (context: { count: number; pageNumber: number; pageSize: number }) => ReactNode;
+  summaryTemplate?: (context: {
+    count: number;
+    pageNumber: number;
+    pageSize: number;
+  }) => ReactNode;
   ariaLabel?: string;
 }
 
 export function Pager(props: PagerProps) {
-  const { pageNumber, onPageChange, summaryTemplate, showSummary, ...rest } = props;
+  const { pageNumber, onPageChange, summaryTemplate, showSummary, ...rest } =
+    props;
   const handlePageChange = onPageChange
     ? (args: PageEventArgs) => onPageChange(args.page)
     : undefined;
@@ -33,7 +38,12 @@ export function Pager(props: PagerProps) {
       alwaysVisible
       pagingSummaryTemplate={
         summaryTemplate
-          ? (info) => summaryTemplate({ count: info.count, pageNumber: info.pageNumber, pageSize: info.pageSize })
+          ? (info) =>
+              summaryTemplate({
+                count: info.count,
+                pageNumber: info.pageNumber,
+                pageSize: info.pageSize,
+              })
           : undefined
       }
       onPageChange={handlePageChange}

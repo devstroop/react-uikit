@@ -1,74 +1,74 @@
-import { render } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import { describe, expect, it, vi } from "vitest";
-import { Sidebar } from "./Sidebar";
+import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { describe, expect, it, vi } from 'vitest';
+import { Sidebar } from './Sidebar';
 
-describe("Sidebar", () => {
-  it("renders an aside with the sidebar class, defaulting to left", () => {
+describe('Sidebar', () => {
+  it('renders an aside with the sidebar class, defaulting to left', () => {
     const { container } = render(<Sidebar>nav</Sidebar>);
-    const element = container.querySelector("aside");
-    expect(element?.tagName).toBe("ASIDE");
-    expect(element?.className).toContain("sidebar");
-    expect(element?.className).toContain("left");
-    expect(element?.className).not.toContain("right");
-    expect(element?.className).not.toContain("collapsed");
+    const element = container.querySelector('aside');
+    expect(element?.tagName).toBe('ASIDE');
+    expect(element?.className).toContain('sidebar');
+    expect(element?.className).toContain('left');
+    expect(element?.className).not.toContain('right');
+    expect(element?.className).not.toContain('collapsed');
   });
 
-  it("applies the right class for position right", () => {
+  it('applies the right class for position right', () => {
     const { container } = render(<Sidebar position="right" />);
-    const cls = container.querySelector("aside")?.className ?? "";
-    expect(cls).toContain("right");
-    expect(cls).not.toContain("left");
+    const cls = container.querySelector('aside')?.className ?? '';
+    expect(cls).toContain('right');
+    expect(cls).not.toContain('left');
   });
 
-  it("applies logical start/end classes", () => {
+  it('applies logical start/end classes', () => {
     const { container, rerender } = render(<Sidebar position="start" />);
-    expect(container.querySelector("aside")?.className).toContain("start");
+    expect(container.querySelector('aside')?.className).toContain('start');
     rerender(<Sidebar position="end" />);
-    const cls = container.querySelector("aside")?.className ?? "";
-    expect(cls).toContain("end");
-    expect(cls).not.toContain("start");
+    const cls = container.querySelector('aside')?.className ?? '';
+    expect(cls).toContain('end');
+    expect(cls).not.toContain('start');
   });
 
-  it("applies the fullHeight class for grid placement", () => {
+  it('applies the fullHeight class for grid placement', () => {
     const { container } = render(<Sidebar fullHeight />);
-    expect(container.querySelector("aside")?.className).toContain("fullHeight");
+    expect(container.querySelector('aside')?.className).toContain('fullHeight');
   });
 
-  it("applies the collapsed class when expanded is false", () => {
+  it('applies the collapsed class when expanded is false', () => {
     const { container } = render(<Sidebar expanded={false} />);
-    expect(container.querySelector("aside")?.className).toContain("collapsed");
+    expect(container.querySelector('aside')?.className).toContain('collapsed');
   });
 
-  it("applies the responsive class when responsive is true", () => {
+  it('applies the responsive class when responsive is true', () => {
     const { container } = render(<Sidebar responsive />);
-    expect(container.querySelector("aside")?.className).toContain("responsive");
+    expect(container.querySelector('aside')?.className).toContain('responsive');
   });
 
-  it("applies the overlay class and global hook when overlay is true", () => {
+  it('applies the overlay class and global hook when overlay is true', () => {
     const { container } = render(<Sidebar overlay />);
-    const cls = container.querySelector("aside")?.className ?? "";
-    expect(cls).toContain("overlay");
-    expect(cls).toContain("se-sidebar--overlay");
+    const cls = container.querySelector('aside')?.className ?? '';
+    expect(cls).toContain('overlay');
+    expect(cls).toContain('se-sidebar--overlay');
   });
 
-  it("renders an aria-hidden mask when overlay and expanded", () => {
+  it('renders an aria-hidden mask when overlay and expanded', () => {
     const { container } = render(<Sidebar overlay />);
     const mask = container.querySelector('[aria-hidden="true"]');
     expect(mask).not.toBeNull();
   });
 
-  it("renders no mask when overlay and collapsed", () => {
+  it('renders no mask when overlay and collapsed', () => {
     const { container } = render(<Sidebar overlay expanded={false} />);
     expect(container.querySelector('[aria-hidden="true"]')).toBeNull();
   });
 
-  it("renders no mask without overlay", () => {
+  it('renders no mask without overlay', () => {
     const { container } = render(<Sidebar />);
     expect(container.querySelector('[aria-hidden="true"]')).toBeNull();
   });
 
-  it("calls onClose when the mask is clicked", async () => {
+  it('calls onClose when the mask is clicked', async () => {
     const onClose = vi.fn();
     const { container } = render(<Sidebar overlay onClose={onClose} />);
     const mask = container.querySelector('[aria-hidden="true"]');
@@ -77,25 +77,27 @@ describe("Sidebar", () => {
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 
-  it("calls onClose on Escape while the drawer is open", async () => {
+  it('calls onClose on Escape while the drawer is open', async () => {
     const user = userEvent.setup();
     const onClose = vi.fn();
     render(<Sidebar overlay onClose={onClose} />);
-    await user.keyboard("{Escape}");
+    await user.keyboard('{Escape}');
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 
-  it("ignores Escape when the drawer is closed", async () => {
+  it('ignores Escape when the drawer is closed', async () => {
     const user = userEvent.setup();
     const onClose = vi.fn();
     render(<Sidebar overlay expanded={false} onClose={onClose} />);
-    await user.keyboard("{Escape}");
+    await user.keyboard('{Escape}');
     expect(onClose).not.toHaveBeenCalled();
   });
 
-  it("spreads attributes onto the element", () => {
+  it('spreads attributes onto the element', () => {
     const { container } = render(<Sidebar id="s1" aria-label="Nav" />);
-    expect(container.querySelector("aside")?.getAttribute("id")).toBe("s1");
-    expect(container.querySelector("aside")?.getAttribute("aria-label")).toBe("Nav");
+    expect(container.querySelector('aside')?.getAttribute('id')).toBe('s1');
+    expect(container.querySelector('aside')?.getAttribute('aria-label')).toBe(
+      'Nav'
+    );
   });
 });

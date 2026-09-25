@@ -50,7 +50,7 @@
     color var(--dx-transition-fast);
 }
 
-.step:hover:not(:disabled):not([aria-disabled="true"]) {
+.step:hover:not(:disabled):not([aria-disabled='true']) {
   background-color: var(--dx-surface-hover-color);
   border-color: var(--dx-border-color);
 }
@@ -61,7 +61,7 @@
 }
 
 .step:disabled,
-.step[aria-disabled="true"] {
+.step[aria-disabled='true'] {
   opacity: 0.5;
   cursor: not-allowed;
 }

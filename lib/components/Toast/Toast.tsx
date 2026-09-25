@@ -7,14 +7,18 @@ import {
   useRef,
   useState,
   type ReactNode,
-} from "react";
-import type { Severity } from "../../types/severity";
-import { Icon } from "../Icon/Icon";
-import styles from "./Toast.module.css";
+} from 'react';
+import type { Severity } from '../../types/severity';
+import { Icon } from '../Icon/Icon';
+import styles from './Toast.module.css';
 
-export type ToastTone = Extract<Severity, "info" | "success" | "warning" | "danger">;
+export type ToastTone = Extract<
+  Severity,
+  'info' | 'success' | 'warning' | 'danger'
+>;
 
-export type ToastPosition = "top-left" | "top-right" | "bottom-left" | "bottom-right";
+export type ToastPosition =
+  'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
 
 export interface ToastAction {
   label: ReactNode;
@@ -67,7 +71,7 @@ const ToastContext = createContext<ToastContextValue | null>(null);
 export function useToast(): ToastContextValue {
   const context = useContext(ToastContext);
   if (!context) {
-    throw new Error("useToast must be used within a <ToastProvider>");
+    throw new Error('useToast must be used within a <ToastProvider>');
   }
   return context;
 }
@@ -84,10 +88,10 @@ export interface ToastProviderProps {
 const EXIT_MS = 200;
 
 const positionClass: Record<ToastPosition, string> = {
-  "top-left": "topLeft",
-  "top-right": "topRight",
-  "bottom-left": "bottomLeft",
-  "bottom-right": "bottomRight",
+  'top-left': 'topLeft',
+  'top-right': 'topRight',
+  'bottom-left': 'bottomLeft',
+  'bottom-right': 'bottomRight',
 };
 
 interface TimerInfo {
@@ -99,7 +103,7 @@ interface TimerInfo {
 export function ToastProvider({
   children,
   durationMs = 4000,
-  position = "bottom-right",
+  position = 'bottom-right',
   pauseOnHover = true,
   className,
 }: ToastProviderProps) {
@@ -119,7 +123,10 @@ export function ToastProvider({
     const timer = timers.current.get(id);
     if (!timer) return;
     window.clearTimeout(timer.timeoutId);
-    timer.remaining = Math.max(0, timer.remaining - (Date.now() - timer.startedAt));
+    timer.remaining = Math.max(
+      0,
+      timer.remaining - (Date.now() - timer.startedAt)
+    );
   }, []);
 
   const stopTimer = useCallback((id: number | string) => {
@@ -139,7 +146,7 @@ export function ToastProvider({
         return next;
       });
     },
-    [stopTimer],
+    [stopTimer]
   );
 
   const expire = useCallback(
@@ -149,7 +156,7 @@ export function ToastProvider({
       item.onAutoClose?.();
       removeNow(id);
     },
-    [removeNow],
+    [removeNow]
   );
 
   const resume = useCallback(
@@ -159,7 +166,7 @@ export function ToastProvider({
       timer.startedAt = Date.now();
       timer.timeoutId = window.setTimeout(() => expire(id), timer.remaining);
     },
-    [expire],
+    [expire]
   );
 
   const pauseAll = useCallback(() => {
@@ -183,8 +190,8 @@ export function ToastProvider({
         resumeAll();
       }
     };
-    document.addEventListener("visibilitychange", onVisibility);
-    return () => document.removeEventListener("visibilitychange", onVisibility);
+    document.addEventListener('visibilitychange', onVisibility);
+    return () => document.removeEventListener('visibilitychange', onVisibility);
   }, [pauseOnHover, pauseAll, resumeAll]);
 
   const dismiss = useCallback(
@@ -193,13 +200,15 @@ export function ToastProvider({
       if (!item || item.leaving) return;
       item.onDismiss?.();
       setToasts((current) => {
-        const next = current.map((t) => (t.id === id ? { ...t, leaving: true } : t));
+        const next = current.map((t) =>
+          t.id === id ? { ...t, leaving: true } : t
+        );
         toastsRef.current = next;
         return next;
       });
       window.setTimeout(() => removeNow(id), EXIT_MS);
     },
-    [removeNow],
+    [removeNow]
   );
 
   const startTimer = useCallback(
@@ -215,7 +224,7 @@ export function ToastProvider({
         resume(item.id);
       }
     },
-    [resume],
+    [resume]
   );
 
   const toast = useCallback(
@@ -225,7 +234,7 @@ export function ToastProvider({
         id: options.id ?? ++nextId.current,
         title: options.title,
         description: options.description,
-        severity: options.severity ?? "info",
+        severity: options.severity ?? 'info',
         durationMs: options.durationMs ?? durationMs,
         action: options.action,
         cancel: options.cancel,
@@ -239,7 +248,9 @@ export function ToastProvider({
 
       setToasts((current) => {
         const next = existing
-          ? current.map((t) => (t.id === item.id ? { ...item, leaving: false } : t))
+          ? current.map((t) =>
+              t.id === item.id ? { ...item, leaving: false } : t
+            )
           : [...current, item];
         toastsRef.current = next;
         return next;
@@ -250,13 +261,13 @@ export function ToastProvider({
       }
       startTimer(item);
     },
-    [durationMs, position, startTimer, stopTimer],
+    [durationMs, position, startTimer, stopTimer]
   );
 
   const value = useMemo(() => ({ toast }), [toast]);
   const positions = useMemo(
     () => Array.from(new Set([position, ...toasts.map((t) => t.position)])),
-    [position, toasts],
+    [position, toasts]
   );
 
   const onViewportEnter = pauseOnHover ? pauseAll : undefined;
@@ -268,13 +279,9 @@ export function ToastProvider({
       {positions.map((pos) => (
         <div
           key={pos}
-          className={[
-            styles.viewport,
-            styles[positionClass[pos]],
-            className,
-          ]
+          className={[styles.viewport, styles[positionClass[pos]], className]
             .filter(Boolean)
-            .join(" ")}
+            .join(' ')}
           aria-live="polite"
           aria-atomic="false"
           onMouseEnter={onViewportEnter}
@@ -285,16 +292,16 @@ export function ToastProvider({
             .map((t) => (
               <div
                 key={t.id}
-                role={t.severity === "danger" ? "alert" : "status"}
-                data-paused={paused ? "true" : "false"}
-                data-clickable={t.closeOnClick ? "true" : "false"}
+                role={t.severity === 'danger' ? 'alert' : 'status'}
+                data-paused={paused ? 'true' : 'false'}
+                data-clickable={t.closeOnClick ? 'true' : 'false'}
                 className={[
                   styles.toast,
                   styles[t.severity],
-                  t.leaving ? styles.leaving : "",
+                  t.leaving ? styles.leaving : '',
                 ]
                   .filter(Boolean)
-                  .join(" ")}
+                  .join(' ')}
                 onClick={t.closeOnClick ? () => dismiss(t.id) : undefined}
               >
                 <div className={styles.content}>

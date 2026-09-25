@@ -1,5 +1,5 @@
-import { type HTMLAttributes } from "react";
-import styles from "./Footer.module.css";
+import { type HTMLAttributes } from 'react';
+import styles from './Footer.module.css';
 
 export interface FooterProps extends HTMLAttributes<HTMLElement> {
   children?: React.ReactNode;
@@ -7,10 +7,17 @@ export interface FooterProps extends HTMLAttributes<HTMLElement> {
   sticky?: boolean;
 }
 
-export function Footer({ sticky = false, className, children, ...props }: FooterProps) {
+export function Footer({
+  sticky = false,
+  className,
+  children,
+  ...props
+}: FooterProps) {
   return (
     <footer
-      className={[styles.footer, sticky ? styles.sticky : null, className].filter(Boolean).join(" ")}
+      className={[styles.footer, sticky ? styles.sticky : null, className]
+        .filter(Boolean)
+        .join(' ')}
       {...props}
     >
       {children}

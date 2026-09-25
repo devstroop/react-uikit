@@ -1,9 +1,9 @@
-import { useState, type ReactElement } from "react";
-import styles from "./Selectbar.module.css";
+import { useState, type ReactElement } from 'react';
+import styles from './Selectbar.module.css';
 
-export type SelectbarSize = "sm" | "md" | "lg";
+export type SelectbarSize = 'sm' | 'md' | 'lg';
 
-export type SelectbarOrientation = "horizontal" | "vertical";
+export type SelectbarOrientation = 'horizontal' | 'vertical';
 
 export interface SelectbarOption {
   value: string;
@@ -16,8 +16,8 @@ interface SelectbarBaseProps {
   orientation?: SelectbarOrientation;
   size?: SelectbarSize;
   className?: string;
-  "aria-label"?: string;
-  "aria-labelledby"?: string;
+  'aria-label'?: string;
+  'aria-labelledby'?: string;
 }
 
 export interface SelectbarSingleProps extends SelectbarBaseProps {
@@ -46,7 +46,8 @@ export interface SelectbarLooseProps extends SelectbarBaseProps {
   onChange?(value: string | string[]): void;
 }
 
-export type SelectbarProps = SelectbarSingleProps | SelectbarMultiProps | SelectbarLooseProps;
+export type SelectbarProps =
+  SelectbarSingleProps | SelectbarMultiProps | SelectbarLooseProps;
 
 function toArray(value: string | string[] | undefined): string[] {
   return value == null ? [] : Array.isArray(value) ? value : [value];
@@ -61,9 +62,9 @@ export function Selectbar(props: SelectbarLooseProps): ReactElement {
     value,
     defaultValue,
     multiple: multipleProp,
-    orientation = "horizontal",
+    orientation = 'horizontal',
     onChange,
-    size = "md",
+    size = 'md',
     className,
     ...ariaProps
   } = props as SelectbarBaseProps & {
@@ -73,9 +74,9 @@ export function Selectbar(props: SelectbarLooseProps): ReactElement {
     onChange?: (value: string | string[]) => void;
   };
   const multiple = multipleProp ?? false;
-  const [internalValue, setInternalValue] = useState<string | string[] | undefined>(
-    defaultValue ?? (multiple ? [] : options[0]?.value),
-  );
+  const [internalValue, setInternalValue] = useState<
+    string | string[] | undefined
+  >(defaultValue ?? (multiple ? [] : options[0]?.value));
   const resolved = value ?? internalValue;
   // An explicit `multiple` always wins: `multiple={false}` with an array
   // value stays single (selects nothing, heals to string on next click)
@@ -83,7 +84,9 @@ export function Selectbar(props: SelectbarLooseProps): ReactElement {
   // signature promises string. When `multiple` is omitted (loose
   // string|string[] usage), infer from the runtime value so a controlled
   // array keeps working as multi — the previous, non-breaking behavior.
-  const isMulti = multipleProp === true || (multipleProp === undefined && Array.isArray(resolved));
+  const isMulti =
+    multipleProp === true ||
+    (multipleProp === undefined && Array.isArray(resolved));
 
   const select = (optionValue: string) => {
     if (!isMulti) {
@@ -100,7 +103,9 @@ export function Selectbar(props: SelectbarLooseProps): ReactElement {
   };
 
   const isSelected = (optionValue: string) =>
-    isMulti ? toArray(resolved).includes(optionValue) : resolved === optionValue;
+    isMulti
+      ? toArray(resolved).includes(optionValue)
+      : resolved === optionValue;
 
   return (
     <div
@@ -108,11 +113,11 @@ export function Selectbar(props: SelectbarLooseProps): ReactElement {
       className={[
         styles.bar,
         styles[size],
-        orientation === "vertical" ? styles.vertical : null,
+        orientation === 'vertical' ? styles.vertical : null,
         className,
       ]
         .filter(Boolean)
-        .join(" ")}
+        .join(' ')}
       {...ariaProps}
     >
       {options.map((option) => {
@@ -129,7 +134,7 @@ export function Selectbar(props: SelectbarLooseProps): ReactElement {
               option.disabled ? styles.disabled : null,
             ]
               .filter(Boolean)
-              .join(" ")}
+              .join(' ')}
             onClick={() => select(option.value)}
           >
             {option.label}

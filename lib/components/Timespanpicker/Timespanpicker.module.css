@@ -43,7 +43,8 @@
 .dx-timespanpicker-input-invalid,
 .dx-timespanpicker-input-invalid:focus-visible {
   border-color: var(--dx-danger-color);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--dx-danger-color) 25%, transparent);
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--dx-danger-color) 25%, transparent);
 }
 
 .dx-timespanpicker-input--xs {

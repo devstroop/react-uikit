@@ -43,7 +43,7 @@
   cursor: default;
 }
 
-.toast[data-clickable="true"] {
+.toast[data-clickable='true'] {
   cursor: pointer;
 }
 
@@ -76,22 +76,38 @@
 
 .info {
   border-color: var(--dx-primary-color);
-  background-color: color-mix(in srgb, var(--dx-primary-color) 12%, var(--dx-surface-color));
+  background-color: color-mix(
+    in srgb,
+    var(--dx-primary-color) 12%,
+    var(--dx-surface-color)
+  );
 }
 
 .success {
   border-color: var(--dx-success-color);
-  background-color: color-mix(in srgb, var(--dx-success-color) 12%, var(--dx-surface-color));
+  background-color: color-mix(
+    in srgb,
+    var(--dx-success-color) 12%,
+    var(--dx-surface-color)
+  );
 }
 
 .warning {
   border-color: var(--dx-warning-color);
-  background-color: color-mix(in srgb, var(--dx-warning-color) 12%, var(--dx-surface-color));
+  background-color: color-mix(
+    in srgb,
+    var(--dx-warning-color) 12%,
+    var(--dx-surface-color)
+  );
 }
 
 .danger {
   border-color: var(--dx-danger-color);
-  background-color: color-mix(in srgb, var(--dx-danger-color) 12%, var(--dx-surface-color));
+  background-color: color-mix(
+    in srgb,
+    var(--dx-danger-color) 12%,
+    var(--dx-surface-color)
+  );
 }
 
 .content {
@@ -140,7 +156,9 @@
   font-size: var(--dx-font-size-md);
   line-height: 1;
   cursor: pointer;
-  transition: background var(--dx-transition-fast), color var(--dx-transition-fast);
+  transition:
+    background var(--dx-transition-fast),
+    color var(--dx-transition-fast);
 }
 
 .dismiss:hover {
@@ -164,7 +182,9 @@
   font-size: var(--dx-font-size-xs);
   font-weight: var(--dx-font-weight-bold);
   cursor: pointer;
-  transition: background var(--dx-transition-fast), color var(--dx-transition-fast);
+  transition:
+    background var(--dx-transition-fast),
+    color var(--dx-transition-fast);
 }
 
 .action {
@@ -204,7 +224,7 @@
   animation: se-toast-progress linear;
 }
 
-.toast[data-paused="true"] .progress {
+.toast[data-paused='true'] .progress {
   animation-play-state: paused;
 }
 

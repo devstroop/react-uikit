@@ -27,19 +27,19 @@ feedback/overlay layer explicitly deferred from the foundation
 
 ## Scope
 
-| # | Item | Notes |
-|---|------|-------|
-| #5 | Tokens extension | `--dt-z-*` (tooltip 1000 / popover 1500 / modal 2000 / toast 3000), `--dt-shadow-lg`, `--dt-color-backdrop`, `--dt-transition-base/slow`, `--dt-ease-out` |
-| #6 | Tooltip | hover+focus, `aria-describedby`, arrow, 4 positions |
-| #7 | Dialog | native `<dialog>`, 3 sizes, header/body/footer slots, backdrop, `onClose`, focus restore |
-| #8 | Toast | `ToastProvider` + `useToast()`, viewport, `aria-live`, 4 tones, auto-dismiss |
-| #9 | Alert | inline banner, 4 tones, dismiss, `role="alert"` |
-| #10 | Skeleton | shimmer, text/circle/rect variants |
-| #11 | Progress | determinate + indeterminate, `role="progressbar"` |
-| #12 | Avatar | initials fallback, status dot, name-hash background |
-| #13 | Tabs | roving tabindex, arrow keys, underline/pills variants |
-| #14 | Accordion | single/multiple, animated expand, aria wiring |
-| #15 | Textarea | matches Input/Select sizing, resize opt-in |
+| #   | Item             | Notes                                                                                                                                                     |
+| --- | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| #5  | Tokens extension | `--dt-z-*` (tooltip 1000 / popover 1500 / modal 2000 / toast 3000), `--dt-shadow-lg`, `--dt-color-backdrop`, `--dt-transition-base/slow`, `--dt-ease-out` |
+| #6  | Tooltip          | hover+focus, `aria-describedby`, arrow, 4 positions                                                                                                       |
+| #7  | Dialog           | native `<dialog>`, 3 sizes, header/body/footer slots, backdrop, `onClose`, focus restore                                                                  |
+| #8  | Toast            | `ToastProvider` + `useToast()`, viewport, `aria-live`, 4 tones, auto-dismiss                                                                              |
+| #9  | Alert            | inline banner, 4 tones, dismiss, `role="alert"`                                                                                                           |
+| #10 | Skeleton         | shimmer, text/circle/rect variants                                                                                                                        |
+| #11 | Progress         | determinate + indeterminate, `role="progressbar"`                                                                                                         |
+| #12 | Avatar           | initials fallback, status dot, name-hash background                                                                                                       |
+| #13 | Tabs             | roving tabindex, arrow keys, underline/pills variants                                                                                                     |
+| #14 | Accordion        | single/multiple, animated expand, aria wiring                                                                                                             |
+| #15 | Textarea         | matches Input/Select sizing, resize opt-in                                                                                                                |
 
 Implementation batches (one branch per batch):
 

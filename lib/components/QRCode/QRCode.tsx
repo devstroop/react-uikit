@@ -1,14 +1,14 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { useMediaQuery } from "../../hooks/useMediaQuery";
-import { qrcodegen } from "./qrcodegen";
-import styles from "./QRCode.module.css";
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMediaQuery } from '../../hooks/useMediaQuery';
+import { qrcodegen } from './qrcodegen';
+import styles from './QRCode.module.css';
 
-export type QRCodeErrorCorrection = "low" | "medium" | "quartile" | "high";
+export type QRCodeErrorCorrection = 'low' | 'medium' | 'quartile' | 'high';
 
 export interface QRCodeProps {
   value: string;
   size?: number;
-  render?: "svg" | "canvas";
+  render?: 'svg' | 'canvas';
   /** Error correction level (default medium). Higher survives more damage. */
   errorCorrection?: QRCodeErrorCorrection;
   /** Quiet-zone width in modules (default 4, the spec minimum). Clamped to >= 0. */
@@ -35,8 +35,8 @@ const ECL: Record<QRCodeErrorCorrection, qrcodegen.QrCode.Ecc> = {
 export function QRCode({
   value,
   size = 128,
-  render = "svg",
-  errorCorrection = "medium",
+  render = 'svg',
+  errorCorrection = 'medium',
   margin = 4,
   ariaLabel,
   className,
@@ -45,7 +45,7 @@ export function QRCode({
   const label = ariaLabel ?? `QR code for ${value}`;
   const canvasRef = useRef<HTMLCanvasElement>(null);
   // Theme change subscriptions for canvas art (no CSS to inherit it).
-  const osTheme = useMediaQuery("(prefers-color-scheme: dark)");
+  const osTheme = useMediaQuery('(prefers-color-scheme: dark)');
   const [attrTheme, setAttrTheme] = useState<string | null>(null);
   useEffect(() => {
     const root = document.documentElement;
@@ -53,7 +53,10 @@ export function QRCode({
     const observer = new MutationObserver(() => {
       setAttrTheme(root.dataset.theme ?? null);
     });
-    observer.observe(root, { attributes: true, attributeFilter: ["data-theme"] });
+    observer.observe(root, {
+      attributes: true,
+      attributeFilter: ['data-theme'],
+    });
     return () => observer.disconnect();
   }, []);
 
@@ -73,17 +76,26 @@ export function QRCode({
   // guards that duplicate). The guard resets on recovery so a later
   // bad→good→bad sequence re-reports, and it tracks the onError identity
   // so a changed host callback is still invoked for the same value.
-  const reported = useRef<{ value: string; onError?: (message: string) => void } | null>(null);
+  const reported = useRef<{
+    value: string;
+    onError?: (message: string) => void;
+  } | null>(null);
   useEffect(() => {
     if (qr !== null) {
       reported.current = null;
       return;
     }
     const message = `[QRCode] value too long to encode (${value.length} chars)`;
-    if (typeof process !== "undefined" && process.env?.NODE_ENV !== "production") {
+    if (
+      typeof process !== 'undefined' &&
+      process.env?.NODE_ENV !== 'production'
+    ) {
       console.error(message);
     }
-    if (reported.current?.value !== value || reported.current?.onError !== onError) {
+    if (
+      reported.current?.value !== value ||
+      reported.current?.onError !== onError
+    ) {
       reported.current = { value, onError };
       onError?.(message);
     }
@@ -92,19 +104,19 @@ export function QRCode({
   // Negative or fractional margins would shrink offsets below zero and
   // break the quiet zone; clamp once and use everywhere below.
   const safeMargin = Math.max(0, Math.floor(margin));
-  const cls = [styles.root, className].filter(Boolean).join(" ");
+  const cls = [styles.root, className].filter(Boolean).join(' ');
   useEffect(() => {
-    if (render !== "canvas" || qr === null) return;
+    if (render !== 'canvas' || qr === null) return;
     const canvas = canvasRef.current;
-    const ctx = canvas?.getContext("2d");
+    const ctx = canvas?.getContext('2d');
     if (!canvas || !ctx) return;
     // Theme subscriptions only re-trigger this effect; colors are read
     // fresh below so attribute/OS flips never leave stale art.
     void osTheme;
     void attrTheme;
     const cs = getComputedStyle(canvas);
-    const fg = cs.getPropertyValue("--dx-text-color").trim() || "#000";
-    const bg = cs.getPropertyValue("--dx-surface-color").trim() || "#fff";
+    const fg = cs.getPropertyValue('--dx-text-color').trim() || '#000';
+    const bg = cs.getPropertyValue('--dx-surface-color').trim() || '#fff';
     paint(ctx, qr, size, safeMargin, fg, bg);
   }, [render, qr, size, safeMargin, osTheme, attrTheme]);
 
@@ -112,13 +124,15 @@ export function QRCode({
   // silent null) so assistive tech and layouts still see the element.
   // (All hooks are above this return, so hook order stays stable.)
   if (qr === null) {
-    return <div className={cls} role="img" aria-label={label} data-qr-error="true" />;
+    return (
+      <div className={cls} role="img" aria-label={label} data-qr-error="true" />
+    );
   }
 
   const modules = qr.size + safeMargin * 2;
   const cellPx = size / modules;
 
-  if (render === "canvas") {
+  if (render === 'canvas') {
     return (
       <canvas
         ref={canvasRef}
@@ -143,7 +157,7 @@ export function QRCode({
             y={(y + safeMargin) * cellPx}
             width={cellPx + 0.5}
             height={cellPx + 0.5}
-          />,
+          />
         );
       }
     }
@@ -171,7 +185,7 @@ function paint(
   size: number,
   margin: number,
   fg: string,
-  bg: string,
+  bg: string
 ): void {
   const px = size / (qr.size + margin * 2);
   ctx.fillStyle = bg;

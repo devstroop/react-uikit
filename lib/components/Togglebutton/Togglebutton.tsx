@@ -1,10 +1,12 @@
-import { forwardRef, useState, type ButtonHTMLAttributes } from "react";
-import styles from "./Togglebutton.module.css";
+import { forwardRef, useState, type ButtonHTMLAttributes } from 'react';
+import styles from './Togglebutton.module.css';
 
-export type TogglebuttonSize = "sm" | "md" | "lg";
+export type TogglebuttonSize = 'sm' | 'md' | 'lg';
 
-export interface TogglebuttonProps
-  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "onChange"> {
+export interface TogglebuttonProps extends Omit<
+  ButtonHTMLAttributes<HTMLButtonElement>,
+  'onChange'
+> {
   pressed?: boolean;
   defaultPressed?: boolean;
   onChange?: (pressed: boolean) => void;
@@ -18,13 +20,13 @@ export const Togglebutton = forwardRef<HTMLButtonElement, TogglebuttonProps>(
       pressed,
       defaultPressed = false,
       onChange,
-      size = "md",
+      size = 'md',
       fullWidth = false,
       className,
-      type = "button",
+      type = 'button',
       ...props
     },
-    ref,
+    ref
   ) {
     const [internalPressed, setInternalPressed] = useState(defaultPressed);
     const isPressed = pressed ?? internalPressed;
@@ -48,10 +50,10 @@ export const Togglebutton = forwardRef<HTMLButtonElement, TogglebuttonProps>(
           className,
         ]
           .filter(Boolean)
-          .join(" ")}
+          .join(' ')}
         onClick={handleClick}
         {...props}
       />
     );
-  },
+  }
 );

@@ -10,18 +10,17 @@ import {
   type FocusEvent,
   type InputHTMLAttributes,
   type KeyboardEvent,
-} from "react";
-import { Icon } from "../Icon/Icon";
-import styles from "./Timespanpicker.module.css";
+} from 'react';
+import { Icon } from '../Icon/Icon';
+import styles from './Timespanpicker.module.css';
 
-export type TimespanpickerPrecision = "day" | "hour" | "minute" | "second";
-export type TimespanpickerSize = "xs" | "sm" | "md" | "lg" | "xl";
+export type TimespanpickerPrecision = 'day' | 'hour' | 'minute' | 'second';
+export type TimespanpickerSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
-export interface TimespanpickerProps
-  extends Omit<
-    InputHTMLAttributes<HTMLInputElement>,
-    "size" | "value" | "defaultValue" | "onChange"
-  > {
+export interface TimespanpickerProps extends Omit<
+  InputHTMLAttributes<HTMLInputElement>,
+  'size' | 'value' | 'defaultValue' | 'onChange'
+> {
   size?: TimespanpickerSize;
   invalid?: boolean;
   value?: string;
@@ -45,20 +44,20 @@ export interface TimespanpickerProps
   clearLabel?: string;
 }
 
-const TIMESPAN_MIN = "-10675199.02:48:05.4775808";
-const TIMESPAN_MAX = "10675199.02:48:05.4775808";
+const TIMESPAN_MIN = '-10675199.02:48:05.4775808';
+const TIMESPAN_MAX = '10675199.02:48:05.4775808';
 
 const SECONDS_PER_DAY = 86400;
 const SECONDS_PER_HOUR = 3600;
 const SECONDS_PER_MINUTE = 60;
 
-type TimeUnit = "days" | "hours" | "minutes" | "seconds";
+type TimeUnit = 'days' | 'hours' | 'minutes' | 'seconds';
 
 const UNIT_LABELS: Record<TimeUnit, string> = {
-  days: "Days",
-  hours: "Hours",
-  minutes: "Minutes",
-  seconds: "Seconds",
+  days: 'Days',
+  hours: 'Hours',
+  minutes: 'Minutes',
+  seconds: 'Seconds',
 };
 
 const UNIT_SECONDS: Record<TimeUnit, number> = {
@@ -83,7 +82,7 @@ interface TimeSpanParts {
 }
 
 function pad2(value: number): string {
-  return String(value).padStart(2, "0");
+  return String(value).padStart(2, '0');
 }
 
 export function parseTimeSpan(value: string): number | null {
@@ -91,16 +90,16 @@ export function parseTimeSpan(value: string): number | null {
   if (!text) return null;
   let sign = 1;
   let body = text;
-  if (body.startsWith("-")) {
+  if (body.startsWith('-')) {
     sign = -1;
     body = body.slice(1);
-  } else if (body.startsWith("+")) {
+  } else if (body.startsWith('+')) {
     body = body.slice(1);
   }
 
   const iso =
     /^P(?:(\d+(?:\.\d+)?)D)?(?:T(?:(\d+(?:\.\d+)?)H)?(?:(\d+(?:\.\d+)?)M)?(?:(\d+(?:\.\d+)?)S)?)?$/.exec(
-      body,
+      body
     );
   if (iso) {
     const hasComponent = iso.slice(1).some((part) => part != null);
@@ -111,12 +110,16 @@ export function parseTimeSpan(value: string): number | null {
     const seconds = iso[4] != null ? Number(iso[4]) : 0;
     return (
       sign *
-      (days * SECONDS_PER_DAY + hours * SECONDS_PER_HOUR + minutes * SECONDS_PER_MINUTE + seconds)
+      (days * SECONDS_PER_DAY +
+        hours * SECONDS_PER_HOUR +
+        minutes * SECONDS_PER_MINUTE +
+        seconds)
     );
   }
 
-  const net =
-    /^(?:(\d+)\.)?(\d{1,2}):(\d{2})(?::(\d{2})(?:\.(\d+))?)?$/.exec(body);
+  const net = /^(?:(\d+)\.)?(\d{1,2}):(\d{2})(?::(\d{2})(?:\.(\d+))?)?$/.exec(
+    body
+  );
   if (net) {
     const days = net[1] != null ? Number(net[1]) : 0;
     const hours = Number(net[2]);
@@ -157,32 +160,39 @@ function decompose(totalSeconds: number): TimeSpanParts {
   return { days, hours, minutes, seconds };
 }
 
-function formatSeconds(totalSeconds: number, precision: TimespanpickerPrecision): string {
+function formatSeconds(
+  totalSeconds: number,
+  precision: TimespanpickerPrecision
+): string {
   const negative = totalSeconds < 0;
   let magnitude = Math.abs(totalSeconds);
-  if (precision === "minute") magnitude = Math.round(magnitude / SECONDS_PER_MINUTE) * SECONDS_PER_MINUTE;
-  else if (precision === "hour") magnitude = Math.round(magnitude / SECONDS_PER_HOUR) * SECONDS_PER_HOUR;
-  else if (precision === "day") magnitude = Math.round(magnitude / SECONDS_PER_DAY) * SECONDS_PER_DAY;
+  if (precision === 'minute')
+    magnitude = Math.round(magnitude / SECONDS_PER_MINUTE) * SECONDS_PER_MINUTE;
+  else if (precision === 'hour')
+    magnitude = Math.round(magnitude / SECONDS_PER_HOUR) * SECONDS_PER_HOUR;
+  else if (precision === 'day')
+    magnitude = Math.round(magnitude / SECONDS_PER_DAY) * SECONDS_PER_DAY;
 
   let seconds = Math.round(magnitude % SECONDS_PER_MINUTE);
   const minutesFromSeconds = seconds === 60 ? 1 : 0;
   seconds = seconds === 60 ? 0 : seconds;
-  const totalMinutes = Math.floor(magnitude / SECONDS_PER_MINUTE) + minutesFromSeconds;
+  const totalMinutes =
+    Math.floor(magnitude / SECONDS_PER_MINUTE) + minutesFromSeconds;
   const minutes = totalMinutes % 60;
   const totalHours = Math.floor(totalMinutes / 60);
   const hours = totalHours % 24;
   const days = Math.floor(totalHours / 24);
 
-  const sign = negative ? "-" : "";
-  const dayPrefix = days > 0 ? `${days}.` : "";
+  const sign = negative ? '-' : '';
+  const dayPrefix = days > 0 ? `${days}.` : '';
   switch (precision) {
-    case "day":
-      return `${sign}${days} day${days === 1 ? "" : "s"}`;
-    case "hour":
+    case 'day':
+      return `${sign}${days} day${days === 1 ? '' : 's'}`;
+    case 'hour':
       return `${sign}${dayPrefix}${pad2(hours)}`;
-    case "minute":
+    case 'minute':
       return `${sign}${dayPrefix}${pad2(hours)}:${pad2(minutes)}`;
-    case "second":
+    case 'second':
     default:
       return `${sign}${dayPrefix}${pad2(hours)}:${pad2(minutes)}:${pad2(seconds)}`;
   }
@@ -195,10 +205,10 @@ function formatSeconds(totalSeconds: number, precision: TimespanpickerPrecision)
  */
 export function formatTimeSpan(
   value: string,
-  precision: TimespanpickerPrecision = "second",
+  precision: TimespanpickerPrecision = 'second'
 ): string {
   const total = parseTimeSpan(value);
-  if (total === null) return "";
+  if (total === null) return '';
   return formatSeconds(total, precision);
 }
 
@@ -209,14 +219,14 @@ function clampSeconds(value: number, min: number, max: number): number {
 export const Timespanpicker = forwardRef<HTMLInputElement, TimespanpickerProps>(
   function Timespanpicker(
     {
-      size = "md",
+      size = 'md',
       invalid = false,
       value,
       defaultValue,
       min = TIMESPAN_MIN,
       max = TIMESPAN_MAX,
-      step = "1",
-      precision = "second",
+      step = '1',
+      precision = 'second',
       showDays = true,
       showHours = true,
       showMinutes = true,
@@ -238,7 +248,7 @@ export const Timespanpicker = forwardRef<HTMLInputElement, TimespanpickerProps>(
       onKeyDown,
       ...props
     },
-    ref,
+    ref
   ) {
     const rootRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
@@ -247,19 +257,21 @@ export const Timespanpicker = forwardRef<HTMLInputElement, TimespanpickerProps>(
 
     const isControlled = value !== undefined;
     const [text, setText] = useState(() =>
-      defaultValue != null ? formatTimeSpan(defaultValue, precision) : "",
+      defaultValue != null ? formatTimeSpan(defaultValue, precision) : ''
     );
     const [open, setOpen] = useState(false);
     const [staged, setStaged] = useState<number | null>(null);
-    const [draft, setDraft] = useState<Partial<Record<TimeUnit, string>> | null>(null);
+    const [draft, setDraft] = useState<Partial<
+      Record<TimeUnit, string>
+    > | null>(null);
 
     const minSeconds = useMemo(
       () => parseTimeSpan(min) ?? -Number.MAX_SAFE_INTEGER,
-      [min],
+      [min]
     );
     const maxSeconds = useMemo(
       () => parseTimeSpan(max) ?? Number.MAX_SAFE_INTEGER,
-      [max],
+      [max]
     );
     const stepSeconds = useMemo(() => {
       const parsed = Number.parseFloat(step);
@@ -267,19 +279,19 @@ export const Timespanpicker = forwardRef<HTMLInputElement, TimespanpickerProps>(
     }, [step]);
 
     const currentSeconds = useMemo<number | null>(() => {
-      const raw = isControlled ? (value ?? "") : text;
+      const raw = isControlled ? (value ?? '') : text;
       if (!raw) return null;
       return parseTimeSpan(raw);
     }, [value, text, isControlled]);
 
     const commit = useCallback(
       (total: number | null) => {
-        const output = total === null ? "" : formatSeconds(total, precision);
+        const output = total === null ? '' : formatSeconds(total, precision);
         if (!isControlled) setText(output);
         onChange?.(output);
         onValueChange?.(output);
       },
-      [isControlled, precision, onChange, onValueChange],
+      [isControlled, precision, onChange, onValueChange]
     );
 
     const closePopup = useCallback(
@@ -291,7 +303,7 @@ export const Timespanpicker = forwardRef<HTMLInputElement, TimespanpickerProps>(
         onClose?.();
         if (!inline) triggerRef.current?.focus();
       },
-      [inline, staged, commit, onClose],
+      [inline, staged, commit, onClose]
     );
 
     const openPopup = useCallback(() => {
@@ -314,7 +326,7 @@ export const Timespanpicker = forwardRef<HTMLInputElement, TimespanpickerProps>(
           return clampSeconds(next, minSeconds, maxSeconds);
         });
       },
-      [currentSeconds, stepSeconds, minSeconds, maxSeconds],
+      [currentSeconds, stepSeconds, minSeconds, maxSeconds]
     );
 
     const commitDraft = useCallback(
@@ -333,36 +345,39 @@ export const Timespanpicker = forwardRef<HTMLInputElement, TimespanpickerProps>(
         });
         setDraft(null);
       },
-      [draft, currentSeconds, minSeconds, maxSeconds],
+      [draft, currentSeconds, minSeconds, maxSeconds]
     );
 
     const handleUnitChange = (unit: TimeUnit, raw: string) => {
       setDraft((previous) => ({ ...(previous ?? {}), [unit]: raw }));
     };
 
-    const handleUnitKeyDown = (unit: TimeUnit, event: KeyboardEvent<HTMLInputElement>) => {
+    const handleUnitKeyDown = (
+      unit: TimeUnit,
+      event: KeyboardEvent<HTMLInputElement>
+    ) => {
       switch (event.key) {
-        case "ArrowUp":
+        case 'ArrowUp':
           event.preventDefault();
           commitDraft(unit);
           stepUnit(unit, 1);
           break;
-        case "ArrowDown":
+        case 'ArrowDown':
           event.preventDefault();
           commitDraft(unit);
           stepUnit(unit, -1);
           break;
-        case "Home":
+        case 'Home':
           event.preventDefault();
           commitDraft(unit);
           setStaged(minSeconds);
           break;
-        case "End":
+        case 'End':
           event.preventDefault();
           commitDraft(unit);
           setStaged(maxSeconds);
           break;
-        case "Enter":
+        case 'Enter':
           event.preventDefault();
           commitDraft(unit);
           closePopup(true);
@@ -385,20 +400,20 @@ export const Timespanpicker = forwardRef<HTMLInputElement, TimespanpickerProps>(
     };
 
     const handleInputKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-      if (event.key === "Enter") {
+      if (event.key === 'Enter') {
         event.preventDefault();
         if (open) {
           closePopup(true);
         } else {
           commitFromText();
         }
-      } else if (event.key === "Escape" && open) {
+      } else if (event.key === 'Escape' && open) {
         event.preventDefault();
         closePopup(false);
-      } else if (event.key === "ArrowDown" && !open) {
+      } else if (event.key === 'ArrowDown' && !open) {
         event.preventDefault();
         openPopup();
-      } else if (event.key === "Tab" && open) {
+      } else if (event.key === 'Tab' && open) {
         setOpen(false);
       }
       onKeyDown?.(event);
@@ -410,30 +425,33 @@ export const Timespanpicker = forwardRef<HTMLInputElement, TimespanpickerProps>(
     };
 
     const handleClear = () => {
-      if (!isControlled) setText("");
-      onChange?.("");
-      onValueChange?.("");
+      if (!isControlled) setText('');
+      onChange?.('');
+      onValueChange?.('');
       inputRef.current?.focus();
     };
 
     useEffect(() => {
       if (!open) return;
       const onMouseDown = (event: MouseEvent) => {
-        if (rootRef.current && !rootRef.current.contains(event.target as Node)) {
+        if (
+          rootRef.current &&
+          !rootRef.current.contains(event.target as Node)
+        ) {
           closePopup(false);
         }
       };
-      document.addEventListener("mousedown", onMouseDown);
-      return () => document.removeEventListener("mousedown", onMouseDown);
+      document.addEventListener('mousedown', onMouseDown);
+      return () => document.removeEventListener('mousedown', onMouseDown);
     }, [open, closePopup]);
 
     useEffect(() => {
       if (!open) return;
       const onKeyDown = (event: globalThis.KeyboardEvent) => {
-        if (event.key === "Escape") closePopup(false);
+        if (event.key === 'Escape') closePopup(false);
       };
-      document.addEventListener("keydown", onKeyDown);
-      return () => document.removeEventListener("keydown", onKeyDown);
+      document.addEventListener('keydown', onKeyDown);
+      return () => document.removeEventListener('keydown', onKeyDown);
     }, [open, closePopup]);
 
     useEffect(() => {
@@ -448,19 +466,19 @@ export const Timespanpicker = forwardRef<HTMLInputElement, TimespanpickerProps>(
     const setInputRef = useCallback(
       (node: HTMLInputElement | null) => {
         inputRef.current = node;
-        if (typeof ref === "function") {
+        if (typeof ref === 'function') {
           ref(node);
         } else if (ref) {
           ref.current = node;
         }
       },
-      [ref],
+      [ref]
     );
 
     const displayedText = isControlled
       ? value
         ? formatTimeSpan(value, precision)
-        : ""
+        : ''
       : text;
     const hasValue = isControlled ? Boolean(value) : text.length > 0;
     const effectiveOpen = inline || open;
@@ -468,51 +486,53 @@ export const Timespanpicker = forwardRef<HTMLInputElement, TimespanpickerProps>(
     const stagedSeconds = staged ?? currentSeconds ?? 0;
     const parts = decompose(stagedSeconds);
     const precisionSeconds = PRECISION_SECONDS[precision];
-    const unitOrder: TimeUnit[] = ["days", "hours", "minutes", "seconds"];
+    const unitOrder: TimeUnit[] = ['days', 'hours', 'minutes', 'seconds'];
     const visibleUnits = unitOrder.filter(
       (unit) =>
         UNIT_SECONDS[unit] >= precisionSeconds &&
-        (unit === "days"
+        (unit === 'days'
           ? showDays
-          : unit === "hours"
+          : unit === 'hours'
             ? showHours
-            : unit === "minutes"
+            : unit === 'minutes'
               ? showMinutes
-              : showSeconds),
+              : showSeconds)
     );
 
     const sizeClass =
-      size === "xs"
-        ? styles["dx-timespanpicker-input--xs"]
-        : size === "sm"
-          ? styles["dx-timespanpicker-input--sm"]
-          : size === "lg"
-            ? styles["dx-timespanpicker-input--lg"]
-            : size === "xl"
-              ? styles["dx-timespanpicker-input--xl"]
-              : styles["dx-timespanpicker-input--md"];
+      size === 'xs'
+        ? styles['dx-timespanpicker-input--xs']
+        : size === 'sm'
+          ? styles['dx-timespanpicker-input--sm']
+          : size === 'lg'
+            ? styles['dx-timespanpicker-input--lg']
+            : size === 'xl'
+              ? styles['dx-timespanpicker-input--xl']
+              : styles['dx-timespanpicker-input--md'];
 
     const panel = (
-      <div className={styles["dx-timespanpicker-panel"]}>
-        <div className={styles["dx-timespanpicker-preview"]} aria-live="polite">
+      <div className={styles['dx-timespanpicker-panel']}>
+        <div className={styles['dx-timespanpicker-preview']} aria-live="polite">
           {formatSeconds(stagedSeconds, precision)}
         </div>
-        <div className={styles["dx-timespanpicker-units"]}>
+        <div className={styles['dx-timespanpicker-units']}>
           {visibleUnits.map((unit) => (
-            <label key={unit} className={styles["dx-timespanpicker-unit"]}>
-              <span className={styles["dx-timespanpicker-unit-label"]}>
+            <label key={unit} className={styles['dx-timespanpicker-unit']}>
+              <span className={styles['dx-timespanpicker-unit-label']}>
                 {UNIT_LABELS[unit]}
               </span>
-              <span className={styles["dx-timespanpicker-unit-control"]}>
+              <span className={styles['dx-timespanpicker-unit-control']}>
                 <input
-                  className={styles["dx-timespanpicker-unit-input"]}
+                  className={styles['dx-timespanpicker-unit-input']}
                   inputMode="decimal"
                   value={draft?.[unit] ?? String(parts[unit])}
-                  onChange={(event) => handleUnitChange(unit, event.target.value)}
+                  onChange={(event) =>
+                    handleUnitChange(unit, event.target.value)
+                  }
                   onKeyDown={(event) => handleUnitKeyDown(unit, event)}
                   onBlur={() => commitDraft(unit)}
                 />
-                <span className={styles["dx-timespanpicker-unit-buttons"]}>
+                <span className={styles['dx-timespanpicker-unit-buttons']}>
                   <button
                     type="button"
                     aria-label={`Increase ${UNIT_LABELS[unit].toLowerCase()}`}
@@ -538,10 +558,10 @@ export const Timespanpicker = forwardRef<HTMLInputElement, TimespanpickerProps>(
             </label>
           ))}
         </div>
-        <div className={styles["dx-timespanpicker-footer"]}>
+        <div className={styles['dx-timespanpicker-footer']}>
           <button
             type="button"
-            className={styles["dx-timespanpicker-ok"]}
+            className={styles['dx-timespanpicker-ok']}
             onClick={() => closePopup(true)}
           >
             OK
@@ -554,12 +574,12 @@ export const Timespanpicker = forwardRef<HTMLInputElement, TimespanpickerProps>(
       <div
         ref={rootRef}
         className={[
-          styles["dx-timespanpicker"],
-          inline ? styles["dx-timespanpicker-inline"] : null,
+          styles['dx-timespanpicker'],
+          inline ? styles['dx-timespanpicker-inline'] : null,
           className,
         ]
           .filter(Boolean)
-          .join(" ")}
+          .join(' ')}
       >
         {!inline && (
           <>
@@ -572,18 +592,18 @@ export const Timespanpicker = forwardRef<HTMLInputElement, TimespanpickerProps>(
               placeholder={placeholder}
               tabIndex={tabIndex}
               role="combobox"
-              aria-label={ariaLabel ?? "Time span"}
+              aria-label={ariaLabel ?? 'Time span'}
               aria-haspopup="dialog"
               aria-expanded={open}
               aria-controls={popupId}
               aria-invalid={invalid || undefined}
               className={[
-                styles["dx-timespanpicker-input"],
+                styles['dx-timespanpicker-input'],
                 sizeClass,
-                invalid ? styles["dx-timespanpicker-input-invalid"] : null,
+                invalid ? styles['dx-timespanpicker-input-invalid'] : null,
               ]
                 .filter(Boolean)
-                .join(" ")}
+                .join(' ')}
               onChange={handleInputChange}
               onKeyDown={handleInputKeyDown}
               onBlur={handleInputBlur}
@@ -592,8 +612,8 @@ export const Timespanpicker = forwardRef<HTMLInputElement, TimespanpickerProps>(
             {allowClear && !disabled && hasValue && (
               <button
                 type="button"
-                className={styles["dx-timespanpicker-clear"]}
-                aria-label={clearLabel ?? "Clear"}
+                className={styles['dx-timespanpicker-clear']}
+                aria-label={clearLabel ?? 'Clear'}
                 onClick={handleClear}
               >
                 <Icon name="close" size={14} />
@@ -602,12 +622,10 @@ export const Timespanpicker = forwardRef<HTMLInputElement, TimespanpickerProps>(
             <button
               ref={triggerRef}
               type="button"
-              className={[
-                styles["dx-timespanpicker-trigger"],
-              ]
+              className={[styles['dx-timespanpicker-trigger']]
                 .filter(Boolean)
-                .join(" ")}
-              aria-label={triggerLabel ?? "Open timespan picker"}
+                .join(' ')}
+              aria-label={triggerLabel ?? 'Open timespan picker'}
               aria-haspopup="dialog"
               aria-expanded={open}
               aria-controls={popupId}
@@ -621,14 +639,14 @@ export const Timespanpicker = forwardRef<HTMLInputElement, TimespanpickerProps>(
         {effectiveOpen && (
           <div
             id={popupId}
-            role={inline ? undefined : "dialog"}
-            aria-label={ariaLabel ?? "Time span picker"}
-            className={inline ? undefined : styles["dx-timespanpicker-popup"]}
+            role={inline ? undefined : 'dialog'}
+            aria-label={ariaLabel ?? 'Time span picker'}
+            className={inline ? undefined : styles['dx-timespanpicker-popup']}
           >
             {panel}
           </div>
         )}
       </div>
     );
-  },
+  }
 );

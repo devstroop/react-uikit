@@ -1,6 +1,6 @@
-import { useCallback, useRef, useState } from "react";
-import { Icon } from "../Icon/Icon";
-import styles from "./Steps.module.css";
+import { useCallback, useRef, useState } from 'react';
+import { Icon } from '../Icon/Icon';
+import styles from './Steps.module.css';
 
 export interface StepsItem {
   text: string;
@@ -32,7 +32,7 @@ export function Steps({
   onChange,
   Change,
   onSelectedIndexChange,
-  ariaLabel = "Steps",
+  ariaLabel = 'Steps',
   className,
 }: StepsProps) {
   const isLinear = linear ?? Linear ?? false;
@@ -42,19 +42,27 @@ export function Steps({
     const initial = controlledIndex ?? defaultIndex;
     return Math.min(Math.max(0, initial), Math.max(0, items.length - 1));
   });
-  const activeIndex = isControlled ? (controlledIndex as number) : internalIndex;
-  const clampedActive = Math.min(Math.max(0, activeIndex), Math.max(0, items.length - 1));
+  const activeIndex = isControlled
+    ? (controlledIndex as number)
+    : internalIndex;
+  const clampedActive = Math.min(
+    Math.max(0, activeIndex),
+    Math.max(0, items.length - 1)
+  );
 
   const listRef = useRef<HTMLOListElement>(null);
 
   const emitChange = useCallback(
     (next: number) => {
-      const clamped = Math.min(Math.max(0, next), Math.max(0, items.length - 1));
+      const clamped = Math.min(
+        Math.max(0, next),
+        Math.max(0, items.length - 1)
+      );
       if (!isControlled) setInternalIndex(clamped);
       const handler = onChange ?? Change ?? onSelectedIndexChange;
       handler?.(clamped);
     },
-    [isControlled, onChange, Change, onSelectedIndexChange, items.length],
+    [isControlled, onChange, Change, onSelectedIndexChange, items.length]
   );
 
   const isStepDisabled = useCallback(
@@ -63,31 +71,34 @@ export function Steps({
       if (isLinear && index > clampedActive + 1) return true;
       return false;
     },
-    [isLinear, clampedActive],
+    [isLinear, clampedActive]
   );
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
     const buttons = Array.from(
-      e.currentTarget.querySelectorAll<HTMLButtonElement>("button[data-step]"),
-    ).filter((b) => b.getAttribute("aria-disabled") !== "true" && !b.disabled);
+      e.currentTarget.querySelectorAll<HTMLButtonElement>('button[data-step]')
+    ).filter((b) => b.getAttribute('aria-disabled') !== 'true' && !b.disabled);
     const active = document.activeElement as HTMLButtonElement | null;
     const idx = active ? buttons.indexOf(active) : -1;
-    if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
       e.preventDefault();
       if (buttons.length === 0) return;
       const nextIdx = idx === -1 ? 0 : (idx + 1) % buttons.length;
       const next = buttons[nextIdx];
       if (next) next.focus();
-    } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
       e.preventDefault();
       if (buttons.length === 0) return;
-      const prevIdx = idx === -1 ? buttons.length - 1 : (idx - 1 + buttons.length) % buttons.length;
+      const prevIdx =
+        idx === -1
+          ? buttons.length - 1
+          : (idx - 1 + buttons.length) % buttons.length;
       const prev = buttons[prevIdx];
       if (prev) prev.focus();
-    } else if (e.key === "Home") {
+    } else if (e.key === 'Home') {
       e.preventDefault();
       buttons[0]?.focus();
-    } else if (e.key === "End") {
+    } else if (e.key === 'End') {
       e.preventDefault();
       buttons[buttons.length - 1]?.focus();
     }
@@ -96,7 +107,7 @@ export function Steps({
   return (
     <nav
       aria-label={ariaLabel}
-      className={[styles.root, className].filter(Boolean).join(" ")}
+      className={[styles.root, className].filter(Boolean).join(' ')}
       onKeyDown={handleKeyDown}
     >
       <ol ref={listRef} role="list" className={styles.list}>
@@ -105,15 +116,27 @@ export function Steps({
           const isCompleted = index < clampedActive;
           const disabled = isStepDisabled(index, item);
           return (
-            <li key={`${item.text}-${index}`} role="listitem" className={styles.item}>
+            <li
+              key={`${item.text}-${index}`}
+              role="listitem"
+              className={styles.item}
+            >
               {index > 0 ? (
-                <span className={[styles.connector, isCompleted ? styles.connectorCompleted : null].filter(Boolean).join(" ")} aria-hidden="true" />
+                <span
+                  className={[
+                    styles.connector,
+                    isCompleted ? styles.connectorCompleted : null,
+                  ]
+                    .filter(Boolean)
+                    .join(' ')}
+                  aria-hidden="true"
+                />
               ) : null}
               <button
                 type="button"
                 data-step={index}
-                aria-current={isActive ? "step" : undefined}
-                aria-disabled={disabled ? "true" : undefined}
+                aria-current={isActive ? 'step' : undefined}
+                aria-disabled={disabled ? 'true' : undefined}
                 disabled={disabled}
                 tabIndex={disabled ? -1 : 0}
                 className={[
@@ -123,7 +146,7 @@ export function Steps({
                   disabled ? styles.disabled : null,
                 ]
                   .filter(Boolean)
-                  .join(" ")}
+                  .join(' ')}
                 onClick={() => {
                   if (disabled) return;
                   emitChange(index);
@@ -131,7 +154,9 @@ export function Steps({
               >
                 <span className={styles.circle} aria-hidden="true">
                   {isCompleted ? (
-                    <span className={styles.check} aria-hidden="true"><Icon name="check" size="sm" /></span>
+                    <span className={styles.check} aria-hidden="true">
+                      <Icon name="check" size="sm" />
+                    </span>
                   ) : item.icon ? (
                     <span className={styles.icon}>{item.icon}</span>
                   ) : (

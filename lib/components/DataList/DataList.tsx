@@ -1,6 +1,6 @@
-import { useMemo, useState, type ReactNode } from "react";
-import styles from "./DataList.module.css";
-import { Pager } from "../DataGrid/Pager";
+import { useMemo, useState, type ReactNode } from 'react';
+import styles from './DataList.module.css';
+import { Pager } from '../DataGrid/Pager';
 
 export interface DataListProps<T> {
   data: readonly T[];
@@ -23,13 +23,13 @@ export function DataList<T>({
   pageSizeOptions,
   wrapItems = false,
   itemTemplate,
-  emptyMessage = "No records found",
+  emptyMessage = 'No records found',
   emptyTemplate,
   loadingTemplate,
   isLoading = false,
   showPageSizeSelector = true,
   className,
-  ariaLabel = "Data list",
+  ariaLabel = 'Data list',
 }: DataListProps<T>) {
   const [pageNumber, setPageNumber] = useState(1);
   const [size, setSize] = useState(pageSize);
@@ -44,7 +44,10 @@ export function DataList<T>({
   const containerClass = wrapItems ? styles.grid : styles.stacked;
 
   return (
-    <div className={[styles.wrap, className].filter(Boolean).join(" ")} aria-label={ariaLabel}>
+    <div
+      className={[styles.wrap, className].filter(Boolean).join(' ')}
+      aria-label={ariaLabel}
+    >
       {isLoading && loadingTemplate != null ? (
         loadingTemplate
       ) : count === 0 ? (

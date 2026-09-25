@@ -21,8 +21,8 @@ npm install
 Import the stylesheet once, then use components:
 
 ```tsx
-import "@devstroop/react-uikit/style.css";
-import { Button, Card, Field, Input } from "@devstroop/react-uikit";
+import '@devstroop/react-uikit/style.css';
+import { Button, Card, Field, Input } from '@devstroop/react-uikit';
 
 export function SignInForm() {
   return (
@@ -38,17 +38,17 @@ export function SignInForm() {
 
 ## Components
 
-| Component | Purpose |
-|---|---|
-| `Button` | variant (`primary`/`secondary`/`ghost`/`danger`/`success`/`info`), size (`xs`/`sm`/`md`/`lg`/`xl`), `fullWidth`, `iconOnly` (requires `aria-label`) |
-| `Card` | `elevated`/`outlined`/`interactive` with `header`/`footer` slots |
-| `Badge` | tone (`neutral`/`primary`/`success`/`warning`/`danger`) × variant (`soft`/`solid`/`outline`) |
-| `Icon` | 40 stroke icons — `name`, `size`, `strokeWidth` |
-| `Stat` | label + value + optional `delta`/`hint`; composes inside `Card` |
-| `Table` | generic controlled — `columns` + `rows` + `rowKey` + `empty` slot |
-| `EmptyState` | icon + title + description + action |
-| `Field` | label + control + `hint`/`error` wiring |
-| `Label` / `Input` / `Select` / `Checkbox` / `Switch` | form primitives |
+| Component                                            | Purpose                                                                                                                                             |
+| ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Button`                                             | variant (`primary`/`secondary`/`ghost`/`danger`/`success`/`info`), size (`xs`/`sm`/`md`/`lg`/`xl`), `fullWidth`, `iconOnly` (requires `aria-label`) |
+| `Card`                                               | `elevated`/`outlined`/`interactive` with `header`/`footer` slots                                                                                    |
+| `Badge`                                              | tone (`neutral`/`primary`/`success`/`warning`/`danger`) × variant (`soft`/`solid`/`outline`)                                                        |
+| `Icon`                                               | 40 stroke icons — `name`, `size`, `strokeWidth`                                                                                                     |
+| `Stat`                                               | label + value + optional `delta`/`hint`; composes inside `Card`                                                                                     |
+| `Table`                                              | generic controlled — `columns` + `rows` + `rowKey` + `empty` slot                                                                                   |
+| `EmptyState`                                         | icon + title + description + action                                                                                                                 |
+| `Field`                                              | label + control + `hint`/`error` wiring                                                                                                             |
+| `Label` / `Input` / `Select` / `Checkbox` / `Switch` | form primitives                                                                                                                                     |
 
 All interactive components: `forwardRef`, `className` passthrough, full DOM
 attribute support. A11y baseline: semantic elements, `aria-invalid` on invalid
@@ -77,13 +77,13 @@ Every chromatic hue (`primary`, `secondary`, `info`, `success`, `warning`, `dang
 achromatic hues (`light`, `base`, `dark`) ships a 5-step Radzen-Shade scale, each in light and
 dark themes:
 
-| Token | Meaning |
-|---|---|
-| `--dx-{hue}-color` | Default (base) step |
-| `--dx-{hue}-lighter-color` | 45% white mix |
-| `--dx-{hue}-light-color` | 30% white mix |
-| `--dx-{hue}-dark-color` | 15% black mix |
-| `--dx-{hue}-darker-color` | 30% black mix |
+| Token                        | Meaning                                                                                                                                              |
+| ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--dx-{hue}-color`           | Default (base) step                                                                                                                                  |
+| `--dx-{hue}-lighter-color`   | 45% white mix                                                                                                                                        |
+| `--dx-{hue}-light-color`     | 30% white mix                                                                                                                                        |
+| `--dx-{hue}-dark-color`      | 15% black mix                                                                                                                                        |
+| `--dx-{hue}-darker-color`    | 30% black mix                                                                                                                                        |
 | `--dx-on-{hue}-{step}-color` | Foreground for that step (`var()` alias, drift-proof: pale steps → darker ink, dark steps → light ink, near-white/-black hues → opposite body token) |
 
 `Button`, `Badge`, `Alert`, `Progress`, and `Splitbutton` consume these through their `shade`

@@ -120,7 +120,9 @@
   font-size: var(--dx-font-size-lg);
   line-height: var(--dx-leading-none);
   cursor: pointer;
-  transition: background var(--dx-transition-fast), color var(--dx-transition-fast);
+  transition:
+    background var(--dx-transition-fast),
+    color var(--dx-transition-fast);
 }
 
 .close > svg {

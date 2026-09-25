@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useId, useRef, useState } from "react";
-import styles from "./Carousel.module.css";
+import { useCallback, useEffect, useId, useRef, useState } from 'react';
+import styles from './Carousel.module.css';
 
 export interface CarouselProps {
   items: React.ReactNode[];
@@ -39,7 +39,7 @@ export function Carousel({
   ShowIndicators,
   onChange,
   Change,
-  ariaLabel = "Carousel",
+  ariaLabel = 'Carousel',
   className,
 }: CarouselProps) {
   const controlled = selectedIndex ?? SelectedIndex;
@@ -49,7 +49,10 @@ export function Carousel({
     return Math.min(Math.max(0, idx), Math.max(0, items.length - 1));
   });
   const activeIndex = isControlled ? (controlled as number) : internalIndex;
-  const clamped = items.length === 0 ? 0 : Math.min(Math.max(0, activeIndex), items.length - 1);
+  const clamped =
+    items.length === 0
+      ? 0
+      : Math.min(Math.max(0, activeIndex), items.length - 1);
 
   const isAuto = auto ?? Auto ?? false;
   const intervalMs = interval ?? Interval ?? 3000;
@@ -65,12 +68,15 @@ export function Carousel({
 
   const emitChange = useCallback(
     (next: number) => {
-      const clampedNext = items.length === 0 ? 0 : ((next % items.length) + items.length) % items.length;
+      const clampedNext =
+        items.length === 0
+          ? 0
+          : ((next % items.length) + items.length) % items.length;
       if (!isControlled) setInternalIndex(clampedNext);
       const handler = onChange ?? Change;
       handler?.(clampedNext);
     },
-    [isControlled, onChange, Change, items.length],
+    [isControlled, onChange, Change, items.length]
   );
 
   const goPrev = useCallback(() => {
@@ -85,7 +91,7 @@ export function Carousel({
     (idx: number) => {
       emitChange(idx);
     },
-    [emitChange],
+    [emitChange]
   );
 
   // auto play
@@ -99,16 +105,16 @@ export function Carousel({
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (items.length === 0) return;
-    if (e.key === "ArrowLeft") {
+    if (e.key === 'ArrowLeft') {
       e.preventDefault();
       goPrev();
-    } else if (e.key === "ArrowRight") {
+    } else if (e.key === 'ArrowRight') {
       e.preventDefault();
       goNext();
-    } else if (e.key === "Home") {
+    } else if (e.key === 'Home') {
       e.preventDefault();
       goTo(0);
-    } else if (e.key === "End") {
+    } else if (e.key === 'End') {
       e.preventDefault();
       goTo(items.length - 1);
     }
@@ -136,7 +142,7 @@ export function Carousel({
       aria-roledescription="carousel"
       aria-label={ariaLabel}
       tabIndex={0}
-      className={[styles.root, className].filter(Boolean).join(" ")}
+      className={[styles.root, className].filter(Boolean).join(' ')}
       onKeyDown={handleKeyDown}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -154,7 +160,9 @@ export function Carousel({
               aria-label={`Slide ${index + 1} of ${items.length}`}
               aria-hidden={isActive ? undefined : true}
               hidden={!isActive}
-              className={[styles.slide, isActive ? styles.active : null].filter(Boolean).join(" ")}
+              className={[styles.slide, isActive ? styles.active : null]
+                .filter(Boolean)
+                .join(' ')}
             >
               {child}
             </div>
@@ -166,7 +174,7 @@ export function Carousel({
         <>
           <button
             type="button"
-            className={[styles.arrow, styles.prev].filter(Boolean).join(" ")}
+            className={[styles.arrow, styles.prev].filter(Boolean).join(' ')}
             aria-label="Previous slide"
             aria-controls={slidesId}
             onClick={goPrev}
@@ -175,7 +183,7 @@ export function Carousel({
           </button>
           <button
             type="button"
-            className={[styles.arrow, styles.next].filter(Boolean).join(" ")}
+            className={[styles.arrow, styles.next].filter(Boolean).join(' ')}
             aria-label="Next slide"
             aria-controls={slidesId}
             onClick={goNext}
@@ -189,25 +197,34 @@ export function Carousel({
         <button
           type="button"
           className={styles.pauseBtn}
-          aria-label={manualPaused ? "Resume" : "Pause"}
+          aria-label={manualPaused ? 'Resume' : 'Pause'}
           aria-pressed={manualPaused}
           onClick={() => setManualPaused((p) => !p)}
         >
-          {manualPaused ? "▶" : "⏸"}
+          {manualPaused ? '▶' : '⏸'}
         </button>
       ) : null}
 
       {shouldShowIndicators && items.length > 1 ? (
-        <div className={styles.indicators} role="group" aria-label="Slide indicators">
+        <div
+          className={styles.indicators}
+          role="group"
+          aria-label="Slide indicators"
+        >
           {items.map((_, index) => {
             const isActive = index === clamped;
             return (
               <button
                 key={index}
                 type="button"
-                className={[styles.indicator, isActive ? styles.indicatorActive : null].filter(Boolean).join(" ")}
+                className={[
+                  styles.indicator,
+                  isActive ? styles.indicatorActive : null,
+                ]
+                  .filter(Boolean)
+                  .join(' ')}
                 aria-label={`Go to slide ${index + 1}`}
-                aria-current={isActive ? "true" : undefined}
+                aria-current={isActive ? 'true' : undefined}
                 aria-controls={slidesId}
                 onClick={() => goTo(index)}
               />

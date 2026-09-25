@@ -1,14 +1,20 @@
-import { type HTMLAttributes, type SVGAttributes } from "react";
-import type { ComponentSize } from "../../sizes";
-import type { Severity } from "../../types/severity";
-import type { Shade } from "../../types/shade";
-import styles from "./Progress.module.css";
+import { type HTMLAttributes, type SVGAttributes } from 'react';
+import type { ComponentSize } from '../../sizes';
+import type { Severity } from '../../types/severity';
+import type { Shade } from '../../types/shade';
+import styles from './Progress.module.css';
 
-export type ProgressTone = Extract<Severity, "primary" | "success" | "warning" | "danger">;
+export type ProgressTone = Extract<
+  Severity,
+  'primary' | 'success' | 'warning' | 'danger'
+>;
 export type ProgressShade = Shade;
-export type ProgressVariant = "linear" | "circular";
+export type ProgressVariant = 'linear' | 'circular';
 
-export interface ProgressProps extends Omit<HTMLAttributes<HTMLDivElement>, "role"> {
+export interface ProgressProps extends Omit<
+  HTMLAttributes<HTMLDivElement>,
+  'role'
+> {
   value?: number;
   max?: number;
   /**
@@ -27,11 +33,11 @@ export interface ProgressProps extends Omit<HTMLAttributes<HTMLDivElement>, "rol
 export function Progress({
   value = 0,
   max = 100,
-  severity = "primary",
+  severity = 'primary',
   shade,
   indeterminate = false,
-  variant = "linear",
-  size = "md",
+  variant = 'linear',
+  size = 'md',
   className,
   visible = true,
   ...props
@@ -40,8 +46,8 @@ export function Progress({
   const clamped = max > 0 ? Math.min(max, Math.max(0, value)) : 0;
   const percent = max > 0 ? (clamped / max) * 100 : 0;
 
-  if (variant === "circular") {
-    const tier = typeof size === "string";
+  if (variant === 'circular') {
+    const tier = typeof size === 'string';
     const stroke = 2;
     const radius = 10.5;
     const circumference = 2 * Math.PI * radius;
@@ -54,8 +60,8 @@ export function Progress({
         height={tier ? undefined : size}
         viewBox="0 0 24 24"
         role="progressbar"
-        aria-label={props["aria-label"]}
-        aria-labelledby={props["aria-labelledby"]}
+        aria-label={props['aria-label']}
+        aria-labelledby={props['aria-labelledby']}
         aria-valuenow={indeterminate ? undefined : Math.round(clamped)}
         aria-valuemin={0}
         aria-valuemax={max}
@@ -63,15 +69,21 @@ export function Progress({
         className={[
           styles.circular,
           styles[severity],
-          shade && shade !== "default" ? styles[`shade-${shade}`] : null,
+          shade && shade !== 'default' ? styles[`shade-${shade}`] : null,
           tier ? styles[`circular-${size}`] : null,
           indeterminate ? styles.indeterminate : null,
           className,
         ]
           .filter(Boolean)
-          .join(" ")}
+          .join(' ')}
       >
-        <circle className={styles.track} cx={12} cy={12} r={radius} strokeWidth={stroke} />
+        <circle
+          className={styles.track}
+          cx={12}
+          cy={12}
+          r={radius}
+          strokeWidth={stroke}
+        />
         <circle
           className={styles.fill}
           cx={12}
@@ -85,7 +97,7 @@ export function Progress({
     );
   }
 
-  const shadeCls = shade && shade !== "default" ? `shade-${shade}` : null;
+  const shadeCls = shade && shade !== 'default' ? `shade-${shade}` : null;
   return (
     <div
       role="progressbar"
@@ -96,12 +108,12 @@ export function Progress({
         styles.track,
         styles[severity],
         shadeCls ? styles[shadeCls] : null,
-        typeof size === "string" ? styles[`linear-${size}`] : null,
+        typeof size === 'string' ? styles[`linear-${size}`] : null,
         indeterminate ? styles.indeterminate : null,
         className,
       ]
         .filter(Boolean)
-        .join(" ")}
+        .join(' ')}
       {...props}
     >
       <div

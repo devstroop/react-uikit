@@ -1,4 +1,4 @@
-import styles from "./Breadcrumb.module.css";
+import styles from './Breadcrumb.module.css';
 
 export interface BreadcrumbItem {
   text: string;
@@ -21,7 +21,13 @@ export interface BreadcrumbProps {
   className?: string;
 }
 
-export function Breadcrumb({ items, onClick, Click, ariaLabel = "Breadcrumb", className }: BreadcrumbProps) {
+export function Breadcrumb({
+  items,
+  onClick,
+  Click,
+  ariaLabel = 'Breadcrumb',
+  className,
+}: BreadcrumbProps) {
   const handler = onClick ?? Click;
   const emit = (item: BreadcrumbItem) => {
     if (item.disabled) return;
@@ -29,7 +35,10 @@ export function Breadcrumb({ items, onClick, Click, ariaLabel = "Breadcrumb", cl
   };
 
   return (
-    <nav aria-label={ariaLabel} className={[styles.root, className].filter(Boolean).join(" ")}>
+    <nav
+      aria-label={ariaLabel}
+      className={[styles.root, className].filter(Boolean).join(' ')}
+    >
       <ol className={styles.list}>
         {items.map((item, index) => {
           const isLast = index === items.length - 1;
@@ -39,7 +48,9 @@ export function Breadcrumb({ items, onClick, Click, ariaLabel = "Breadcrumb", cl
               {isLast ? (
                 disabled ? (
                   <span
-                    className={[styles.current, styles.disabled].filter(Boolean).join(" ")}
+                    className={[styles.current, styles.disabled]
+                      .filter(Boolean)
+                      .join(' ')}
                     aria-current="page"
                     aria-disabled="true"
                     tabIndex={-1}
@@ -84,7 +95,9 @@ export function Breadcrumb({ items, onClick, Click, ariaLabel = "Breadcrumb", cl
                 )
               ) : disabled ? (
                 <span
-                  className={[styles.link, styles.disabled].filter(Boolean).join(" ")}
+                  className={[styles.link, styles.disabled]
+                    .filter(Boolean)
+                    .join(' ')}
                   aria-disabled="true"
                   tabIndex={-1}
                 >

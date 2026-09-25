@@ -1,57 +1,58 @@
-import { type CSSProperties, type HTMLAttributes } from "react";
-import { type ComponentSize } from "../../sizes";
-import styles from "./Row.module.css";
+import { type CSSProperties, type HTMLAttributes } from 'react';
+import { type ComponentSize } from '../../sizes';
+import styles from './Row.module.css';
 
-export type RowAlign = "start" | "center" | "end" | "stretch" | "baseline" | "normal";
+export type RowAlign =
+  'start' | 'center' | 'end' | 'stretch' | 'baseline' | 'normal';
 
 export type RowJustify =
-  | "start"
-  | "center"
-  | "end"
-  | "between"
-  | "around"
-  | "evenly"
-  | "normal"
-  | "left"
-  | "right"
-  | "stretch"
-  | "space-between"
-  | "space-around"
-  | "space-evenly";
+  | 'start'
+  | 'center'
+  | 'end'
+  | 'between'
+  | 'around'
+  | 'evenly'
+  | 'normal'
+  | 'left'
+  | 'right'
+  | 'stretch'
+  | 'space-between'
+  | 'space-around'
+  | 'space-evenly';
 
-export type RowWrap = boolean | "nowrap" | "wrap" | "wrap-reverse";
+export type RowWrap = boolean | 'nowrap' | 'wrap' | 'wrap-reverse';
 
 export type RowGap = ComponentSize | number | string;
 
 const GAP_TIERS: Record<ComponentSize, string> = {
-  xs: "gapXs",
-  sm: "gapSm",
-  md: "gapMd",
-  lg: "gapLg",
-  xl: "gapXl",
+  xs: 'gapXs',
+  sm: 'gapSm',
+  md: 'gapMd',
+  lg: 'gapLg',
+  xl: 'gapXl',
 };
 
 const GAP_ROW_TIERS: Record<ComponentSize, string> = {
-  xs: "gapRowXs",
-  sm: "gapRowSm",
-  md: "gapRowMd",
-  lg: "gapRowLg",
-  xl: "gapRowXl",
+  xs: 'gapRowXs',
+  sm: 'gapRowSm',
+  md: 'gapRowMd',
+  lg: 'gapRowLg',
+  xl: 'gapRowXl',
 };
 
 function gapClass(gap: RowGap | undefined): string | null {
-  if (typeof gap !== "string") return null;
+  if (typeof gap !== 'string') return null;
   return (GAP_TIERS as Record<string, string | undefined>)[gap] ?? null;
 }
 
 function gapRowClass(gap: RowGap | undefined): string | null {
-  if (typeof gap !== "string") return null;
+  if (typeof gap !== 'string') return null;
   return (GAP_ROW_TIERS as Record<string, string | undefined>)[gap] ?? null;
 }
 
 function resolveWrap(wrap: RowWrap | undefined): string | null {
-  if (wrap === false || wrap === "nowrap") return "noWrap";
-  if (wrap === "wrap-reverse") return "wrapReverse";
+  if (wrap === false || wrap === 'nowrap') return 'noWrap';
+  if (wrap === 'wrap-reverse') return 'wrapReverse';
   return null;
 }
 
@@ -66,8 +67,8 @@ export interface RowProps extends HTMLAttributes<HTMLDivElement> {
 export function Row({
   gap,
   rowGap,
-  align = "stretch",
-  justify = "start",
+  align = 'stretch',
+  justify = 'start',
   wrap = true,
   className,
   style,
@@ -76,15 +77,15 @@ export function Row({
   const tier = gapClass(gap);
   const rowTier = gapRowClass(rowGap);
   const arbitraryGap =
-    gap != null && !tier ? (typeof gap === "number" ? `${gap}px` : gap) : null;
+    gap != null && !tier ? (typeof gap === 'number' ? `${gap}px` : gap) : null;
   const mergedStyle: CSSProperties = {
     // Keep --dx-col-gap in sync so Column grid math compensates for
     // arbitrary (non-tier) gaps exactly like it does for tier classes.
     ...(arbitraryGap
-      ? ({ gap: arbitraryGap, "--dx-col-gap": arbitraryGap } as CSSProperties)
+      ? ({ gap: arbitraryGap, '--dx-col-gap': arbitraryGap } as CSSProperties)
       : {}),
     ...(rowGap != null && !rowTier
-      ? { rowGap: typeof rowGap === "number" ? `${rowGap}px` : rowGap }
+      ? { rowGap: typeof rowGap === 'number' ? `${rowGap}px` : rowGap }
       : {}),
     ...style,
   };
@@ -100,7 +101,7 @@ export function Row({
         className,
       ]
         .filter(Boolean)
-        .join(" ")}
+        .join(' ')}
       style={mergedStyle}
       {...props}
     />

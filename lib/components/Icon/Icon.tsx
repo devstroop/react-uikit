@@ -1,56 +1,56 @@
-import { forwardRef, type SVGProps } from "react";
-import type { ComponentSize } from "../../sizes";
-import styles from "./Icon.module.css";
+import { forwardRef, type SVGProps } from 'react';
+import type { ComponentSize } from '../../sizes';
+import styles from './Icon.module.css';
 
 export const iconNames = [
-  "check",
-  "close",
-  "chevron-down",
-  "chevron-left",
-  "chevron-right",
-  "chevron-up",
-  "search",
-  "plus",
-  "minus",
-  "alert",
-  "info",
-  "arrow-right",
-  "arrow-left",
-  "external-link",
-  "copy",
-  "trash",
-  "edit",
-  "settings",
-  "user",
-  "users",
-  "download",
-  "upload",
-  "menu",
-  "more-horizontal",
-  "mail",
-  "lock",
-  "eye",
-  "eye-off",
-  "refresh",
-  "calendar",
-  "clock",
-  "check-circle",
-  "x-circle",
-  "shield",
-  "globe",
-  "file",
-  "folder",
-  "home",
-  "key",
-  "link",
-  "star",
-  "star-outline",
-  "ban",
+  'check',
+  'close',
+  'chevron-down',
+  'chevron-left',
+  'chevron-right',
+  'chevron-up',
+  'search',
+  'plus',
+  'minus',
+  'alert',
+  'info',
+  'arrow-right',
+  'arrow-left',
+  'external-link',
+  'copy',
+  'trash',
+  'edit',
+  'settings',
+  'user',
+  'users',
+  'download',
+  'upload',
+  'menu',
+  'more-horizontal',
+  'mail',
+  'lock',
+  'eye',
+  'eye-off',
+  'refresh',
+  'calendar',
+  'clock',
+  'check-circle',
+  'x-circle',
+  'shield',
+  'globe',
+  'file',
+  'folder',
+  'home',
+  'key',
+  'link',
+  'star',
+  'star-outline',
+  'ban',
 ] as const;
 
 export type IconName = (typeof iconNames)[number];
 
-export interface IconProps extends Omit<SVGProps<SVGSVGElement>, "name"> {
+export interface IconProps extends Omit<SVGProps<SVGSVGElement>, 'name'> {
   name: IconName;
   size?: number | ComponentSize;
   strokeWidth?: number;
@@ -59,10 +59,10 @@ export interface IconProps extends Omit<SVGProps<SVGSVGElement>, "name"> {
 const paths: Record<IconName, React.ReactNode> = {
   check: <path d="M20 6L9 17l-5-5" />,
   close: <path d="M18 6L6 18M6 6l12 12" />,
-  "chevron-down": <path d="M6 9l6 6 6-6" />,
-  "chevron-left": <path d="M15 18l-6-6 6-6" />,
-  "chevron-right": <path d="M9 18l6-6-6-6" />,
-  "chevron-up": <path d="M18 15l-6-6-6 6" />,
+  'chevron-down': <path d="M6 9l6 6 6-6" />,
+  'chevron-left': <path d="M15 18l-6-6 6-6" />,
+  'chevron-right': <path d="M9 18l6-6-6-6" />,
+  'chevron-up': <path d="M18 15l-6-6-6 6" />,
   search: (
     <>
       <circle cx="11" cy="11" r="7" />
@@ -83,9 +83,9 @@ const paths: Record<IconName, React.ReactNode> = {
       <path d="M12 16v-4M12 8h.01" />
     </>
   ),
-  "arrow-right": <path d="M5 12h14M12 5l7 7-7 7" />,
-  "arrow-left": <path d="M19 12H5M12 19l-7-7 7-7" />,
-  "external-link": (
+  'arrow-right': <path d="M5 12h14M12 5l7 7-7 7" />,
+  'arrow-left': <path d="M19 12H5M12 19l-7-7 7-7" />,
+  'external-link': (
     <>
       <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
       <path d="M15 3h6v6M10 14L21 3" />
@@ -127,10 +127,14 @@ const paths: Record<IconName, React.ReactNode> = {
       <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" />
     </>
   ),
-  download: <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" />,
-  upload: <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" />,
+  download: (
+    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" />
+  ),
+  upload: (
+    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" />
+  ),
   menu: <path d="M3 12h18M3 6h18M3 18h18" />,
-  "more-horizontal": (
+  'more-horizontal': (
     <>
       <circle cx="12" cy="12" r="1" />
       <circle cx="19" cy="12" r="1" />
@@ -155,7 +159,7 @@ const paths: Record<IconName, React.ReactNode> = {
       <circle cx="12" cy="12" r="3" />
     </>
   ),
-  "eye-off": (
+  'eye-off': (
     <>
       <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19M14.12 14.12a3 3 0 11-4.24-4.24" />
       <path d="M1 1l22 22" />
@@ -179,13 +183,13 @@ const paths: Record<IconName, React.ReactNode> = {
       <path d="M12 6v6l4 2" />
     </>
   ),
-  "check-circle": (
+  'check-circle': (
     <>
       <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
       <path d="M22 4L12 14.01l-3-3" />
     </>
   ),
-  "x-circle": (
+  'x-circle': (
     <>
       <circle cx="12" cy="12" r="10" />
       <path d="M15 9l-6 6M9 9l6 6" />
@@ -229,9 +233,13 @@ const paths: Record<IconName, React.ReactNode> = {
     </>
   ),
   star: (
-    <path fill="currentColor" stroke="none" d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.54 5.82 22 7 14.14l-5-4.87 6.91-1.01L12 2z" />
+    <path
+      fill="currentColor"
+      stroke="none"
+      d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.54 5.82 22 7 14.14l-5-4.87 6.91-1.01L12 2z"
+    />
   ),
-  "star-outline": (
+  'star-outline': (
     <path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.54 5.82 22 7 14.14l-5-4.87 6.91-1.01L12 2z" />
   ),
   ban: (
@@ -243,14 +251,16 @@ const paths: Record<IconName, React.ReactNode> = {
 };
 
 export const Icon = forwardRef<SVGSVGElement, IconProps>(function Icon(
-  { name, size = "md", strokeWidth = 2, className, ...props },
-  ref,
+  { name, size = 'md', strokeWidth = 2, className, ...props },
+  ref
 ) {
-  const tier = typeof size === "string";
+  const tier = typeof size === 'string';
   return (
     <svg
       ref={ref}
-      className={[tier ? styles[size] : null, className].filter(Boolean).join(" ")}
+      className={[tier ? styles[size] : null, className]
+        .filter(Boolean)
+        .join(' ')}
       width={tier ? undefined : size}
       height={tier ? undefined : size}
       viewBox="0 0 24 24"

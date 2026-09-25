@@ -9,7 +9,9 @@
   font-size: var(--dx-font-size-sm);
   padding: var(--dx-space-2) var(--dx-space-3);
   line-height: 1.5;
-  transition: border-color var(--dx-transition-fast), box-shadow var(--dx-transition-fast);
+  transition:
+    border-color var(--dx-transition-fast),
+    box-shadow var(--dx-transition-fast);
 }
 
 .textarea::placeholder {
@@ -25,7 +27,8 @@
 .invalid,
 .invalid:focus-visible {
   border-color: var(--dx-danger-color);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--dx-danger-color) 25%, transparent);
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--dx-danger-color) 25%, transparent);
 }
 
 .xs {

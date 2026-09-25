@@ -27,6 +27,8 @@
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "preview:build": "vite build --config preview/vite.config.ts",
     "test:e2e": "playwright test"
   },

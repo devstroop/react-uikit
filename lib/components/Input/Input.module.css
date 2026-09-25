@@ -37,7 +37,8 @@
 .invalid,
 .invalid:focus-visible {
   border-color: var(--dx-danger-color);
-  box-shadow: 0 0 0 var(--dx-focus-ring-width) color-mix(in srgb, var(--dx-danger-color) 25%, transparent);
+  box-shadow: 0 0 0 var(--dx-focus-ring-width)
+    color-mix(in srgb, var(--dx-danger-color) 25%, transparent);
 }
 
 .xs {

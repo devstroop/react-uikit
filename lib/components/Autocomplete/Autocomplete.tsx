@@ -6,10 +6,10 @@ import {
   type ChangeEvent,
   type FocusEvent,
   type KeyboardEvent,
-} from "react";
-import type { ComponentSize } from "../../sizes";
-import { Icon } from "../Icon/Icon";
-import styles from "./Autocomplete.module.css";
+} from 'react';
+import type { ComponentSize } from '../../sizes';
+import { Icon } from '../Icon/Icon';
+import styles from './Autocomplete.module.css';
 
 export interface AutocompleteOption {
   value: string;
@@ -31,7 +31,7 @@ export interface AutocompleteProps {
   className?: string;
   name?: string;
   id?: string;
-  "aria-label"?: string;
+  'aria-label'?: string;
 }
 
 const defaultFilter = (option: AutocompleteOption, query: string) =>
@@ -40,11 +40,11 @@ const defaultFilter = (option: AutocompleteOption, query: string) =>
 export function Autocomplete({
   options = [],
   value,
-  defaultValue = "",
+  defaultValue = '',
   onChange,
   onSelect,
-  placeholder = "",
-  size = "md",
+  placeholder = '',
+  size = 'md',
   invalid = false,
   disabled = false,
   filter = defaultFilter,
@@ -61,10 +61,10 @@ export function Autocomplete({
 
   const filtered = useMemo(
     () =>
-      inputValue.trim() === ""
+      inputValue.trim() === ''
         ? [...options]
         : options.filter((option) => filter(option, inputValue)),
-    [options, inputValue, filter],
+    [options, inputValue, filter]
   );
 
   const enabledFilteredIndexes = filtered
@@ -108,11 +108,14 @@ export function Autocomplete({
 
   const handleFocus = () => {
     if (disabled) return;
-    if (inputValue !== "") setOpen(true);
+    if (inputValue !== '') setOpen(true);
   };
 
   const handleBlur = (event: FocusEvent<HTMLInputElement>) => {
-    if (rootRef.current && !rootRef.current.contains(event.relatedTarget as Node)) {
+    if (
+      rootRef.current &&
+      !rootRef.current.contains(event.relatedTarget as Node)
+    ) {
       setOpen(false);
     }
   };
@@ -120,7 +123,7 @@ export function Autocomplete({
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (disabled) return;
     switch (event.key) {
-      case "ArrowDown":
+      case 'ArrowDown':
         event.preventDefault();
         if (!open) {
           setOpen(true);
@@ -129,21 +132,21 @@ export function Autocomplete({
           move(1);
         }
         break;
-      case "ArrowUp":
+      case 'ArrowUp':
         event.preventDefault();
         if (open) move(-1);
         break;
-      case "Enter":
+      case 'Enter':
         event.preventDefault();
         if (open && activeIndex >= 0 && filtered[activeIndex]) {
           select(filtered[activeIndex] as AutocompleteOption);
         }
         break;
-      case "Escape":
+      case 'Escape':
         event.preventDefault();
         setOpen(false);
         break;
-      case "Tab":
+      case 'Tab':
         if (open && activeIndex >= 0 && filtered[activeIndex]) {
           select(filtered[activeIndex] as AutocompleteOption);
         }
@@ -153,15 +156,22 @@ export function Autocomplete({
   };
 
   const clear = () => {
-    setQuery("");
+    setQuery('');
     setActiveIndex(-1);
     setOpen(true);
     inputRef.current?.focus();
   };
 
   return (
-    <div ref={rootRef} className={[styles.root, className].filter(Boolean).join(" ")}>
-      <div className={[styles.wrap, styles[size], invalid ? styles.invalid : null].filter(Boolean).join(" ")}>
+    <div
+      ref={rootRef}
+      className={[styles.root, className].filter(Boolean).join(' ')}
+    >
+      <div
+        className={[styles.wrap, styles[size], invalid ? styles.invalid : null]
+          .filter(Boolean)
+          .join(' ')}
+      >
         <input
           ref={inputRef}
           type="text"
@@ -170,7 +180,9 @@ export function Autocomplete({
           aria-controls={listboxId}
           aria-autocomplete="list"
           aria-activedescendant={
-            open && activeIndex >= 0 ? `${baseId}-option-${activeIndex}` : undefined
+            open && activeIndex >= 0
+              ? `${baseId}-option-${activeIndex}`
+              : undefined
           }
           aria-invalid={invalid || undefined}
           disabled={disabled}
@@ -183,7 +195,7 @@ export function Autocomplete({
           onKeyDown={handleKeyDown}
           {...restProps}
         />
-        {inputValue !== "" && !disabled && (
+        {inputValue !== '' && !disabled && (
           <button
             type="button"
             className={styles.clear}
@@ -212,7 +224,7 @@ export function Autocomplete({
                   option.disabled ? styles.disabled : null,
                 ]
                   .filter(Boolean)
-                  .join(" ")}
+                  .join(' ')}
                 onClick={() => {
                   if (!option.disabled) select(option);
                 }}

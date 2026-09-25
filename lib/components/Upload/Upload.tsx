@@ -4,13 +4,13 @@ import {
   useRef,
   useState,
   type ReactNode,
-} from "react";
-import { Icon } from "../Icon/Icon";
-import styles from "./Upload.module.css";
+} from 'react';
+import { Icon } from '../Icon/Icon';
+import styles from './Upload.module.css';
 
 export interface UploadedFile {
   file: File;
-  state: "pending" | "uploading" | "complete" | "error";
+  state: 'pending' | 'uploading' | 'complete' | 'error';
   progress: number;
   message?: string;
 }
@@ -47,26 +47,28 @@ export const Upload = forwardRef<UploadHandle, UploadProps>(function Upload(
   {
     url,
     multiple = false,
-    parameterName = "files",
+    parameterName = 'files',
     auto = true,
     headers,
     accept,
     maxFileCount = Number.POSITIVE_INFINITY,
     maxFileSize,
-    chooseText = "Upload",
+    chooseText = 'Upload',
     children,
     onProgress,
     onComplete,
     onError,
   },
-  ref,
+  ref
 ) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [files, setFiles] = useState<UploadedFile[]>([]);
   const xhrs = useRef(new Map<string, XMLHttpRequest>());
 
   const updateFile = (name: string, patch: Partial<UploadedFile>) => {
-    setFiles((prev) => prev.map((f) => (f.file.name === name ? { ...f, ...patch } : f)));
+    setFiles((prev) =>
+      prev.map((f) => (f.file.name === name ? { ...f, ...patch } : f))
+    );
   };
 
   const startUpload = (entry: UploadedFile) => {
@@ -76,33 +78,36 @@ export const Upload = forwardRef<UploadHandle, UploadProps>(function Upload(
     const fd = new FormData();
     fd.append(parameterName, entry.file);
 
-    xhr.upload.addEventListener("progress", (e) => {
+    xhr.upload.addEventListener('progress', (e) => {
       if (!e.lengthComputable) return;
       const progress = Math.round((e.loaded / e.total) * 100);
-      updateFile(entry.file.name, { state: "uploading", progress });
+      updateFile(entry.file.name, { state: 'uploading', progress });
       onProgress?.(entry.file.name, progress);
     });
-    xhr.addEventListener("load", () => {
+    xhr.addEventListener('load', () => {
       if (xhr.status >= 200 && xhr.status < 300) {
-        updateFile(entry.file.name, { state: "complete", progress: 100 });
+        updateFile(entry.file.name, { state: 'complete', progress: 100 });
         onComplete?.(entry.file.name);
       } else {
-        updateFile(entry.file.name, { state: "error", message: `HTTP ${xhr.status}` });
+        updateFile(entry.file.name, {
+          state: 'error',
+          message: `HTTP ${xhr.status}`,
+        });
         onError?.(entry.file.name, `HTTP ${xhr.status}`);
       }
     });
-    xhr.addEventListener("error", () => {
-      updateFile(entry.file.name, { state: "error", message: "Network error" });
-      onError?.(entry.file.name, "Network error");
+    xhr.addEventListener('error', () => {
+      updateFile(entry.file.name, { state: 'error', message: 'Network error' });
+      onError?.(entry.file.name, 'Network error');
     });
     if (headers) {
       for (const [key, value] of Object.entries(headers)) {
         xhr.setRequestHeader(key, value);
       }
     }
-    xhr.open("POST", url);
+    xhr.open('POST', url);
     xhr.send(fd);
-    updateFile(entry.file.name, { state: "uploading", progress: 0 });
+    updateFile(entry.file.name, { state: 'uploading', progress: 0 });
   };
 
   const handleSelect = (list: FileList | null) => {
@@ -114,7 +119,10 @@ export const Upload = forwardRef<UploadHandle, UploadProps>(function Upload(
     let slots = Math.max(0, maxFileCount - files.length);
     for (const f of incoming) {
       if (maxFileSize != null && f.size > maxFileSize) {
-        onError?.(f.name, `File too large (maximum ${formatSize(maxFileSize)})`);
+        onError?.(
+          f.name,
+          `File too large (maximum ${formatSize(maxFileSize)})`
+        );
         continue;
       }
       if (slots <= 0) {
@@ -126,11 +134,11 @@ export const Upload = forwardRef<UploadHandle, UploadProps>(function Upload(
     }
     const selected = accepted.map<UploadedFile>((f) => ({
       file: f,
-      state: "pending",
+      state: 'pending',
       progress: 0,
     }));
     setFiles((prev) => [...prev, ...selected]);
-    if (inputRef.current) inputRef.current.value = "";
+    if (inputRef.current) inputRef.current.value = '';
     if (auto) selected.forEach(startUpload);
   };
 
@@ -142,7 +150,11 @@ export const Upload = forwardRef<UploadHandle, UploadProps>(function Upload(
   };
 
   const trigger = children ?? (
-    <button type="button" className={styles.trigger} onClick={() => inputRef.current?.click()}>
+    <button
+      type="button"
+      className={styles.trigger}
+      onClick={() => inputRef.current?.click()}
+    >
       <Icon name="upload" size={14} />
       {chooseText}
     </button>
@@ -150,7 +162,8 @@ export const Upload = forwardRef<UploadHandle, UploadProps>(function Upload(
 
   useImperativeHandle(ref, () => ({
     open: () => inputRef.current?.click(),
-    upload: () => files.forEach((f) => (f.state === "pending" ? startUpload(f) : null)),
+    upload: () =>
+      files.forEach((f) => (f.state === 'pending' ? startUpload(f) : null)),
   }));
 
   return (
@@ -168,7 +181,12 @@ export const Upload = forwardRef<UploadHandle, UploadProps>(function Upload(
       {!children && files.length > 0 && (
         <ul className={styles.list}>
           {files.map(({ file, state, progress, message }) => (
-            <li key={file.name} className={styles.row} data-state={state} data-testid="upload-row">
+            <li
+              key={file.name}
+              className={styles.row}
+              data-state={state}
+              data-testid="upload-row"
+            >
               <span className={styles.name}>{file.name}</span>
               <span className={styles.size}>{formatSize(file.size)}</span>
               <span
@@ -178,10 +196,19 @@ export const Upload = forwardRef<UploadHandle, UploadProps>(function Upload(
                 aria-valuemax={100}
                 aria-valuenow={progress}
               >
-                <span className={styles.fill} style={{ width: `${progress}%` }} />
+                <span
+                  className={styles.fill}
+                  style={{ width: `${progress}%` }}
+                />
               </span>
               <span className={styles.status} role="status">
-                {state === "uploading" ? "Uploading" : state === "complete" ? "Complete" : state === "error" ? (message ?? "Failed") : "Pending"}
+                {state === 'uploading'
+                  ? 'Uploading'
+                  : state === 'complete'
+                    ? 'Complete'
+                    : state === 'error'
+                      ? (message ?? 'Failed')
+                      : 'Pending'}
               </span>
               <button
                 type="button"

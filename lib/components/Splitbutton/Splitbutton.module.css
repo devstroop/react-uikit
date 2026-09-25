@@ -12,7 +12,11 @@
   --split-fill: var(--dx-primary-color);
   --split-hover: var(--dx-primary-hover-color);
   --split-fg: var(--dx-primary-fg-color);
-  --split-soft: color-mix(in srgb, var(--dx-primary-color) 14%, var(--dx-surface-color));
+  --split-soft: color-mix(
+    in srgb,
+    var(--dx-primary-color) 14%,
+    var(--dx-surface-color)
+  );
   --split-soft-fg: var(--dx-text-primary-color);
   --split-ol-fg: var(--dx-text-primary-color);
   --split-ol-border: var(--dx-border-primary-color);
@@ -52,7 +56,11 @@
   --split-fill: var(--dx-text-color);
   --split-hover: var(--dx-dark-hover-color);
   --split-fg: var(--dx-surface-color);
-  --split-soft: color-mix(in srgb, var(--dx-text-color) 14%, var(--dx-surface-color));
+  --split-soft: color-mix(
+    in srgb,
+    var(--dx-text-color) 14%,
+    var(--dx-surface-color)
+  );
   --split-soft-fg: var(--dx-text-color);
   --split-ol-fg: var(--dx-text-color);
   --split-ol-border: var(--dx-text-color);
@@ -62,7 +70,11 @@
   --split-fill: var(--dx-info-color);
   --split-hover: var(--dx-info-hover-color);
   --split-fg: var(--dx-info-fg-color);
-  --split-soft: color-mix(in srgb, var(--dx-info-color) 14%, var(--dx-surface-color));
+  --split-soft: color-mix(
+    in srgb,
+    var(--dx-info-color) 14%,
+    var(--dx-surface-color)
+  );
   --split-soft-fg: var(--dx-text-info-color);
   --split-ol-fg: var(--dx-text-info-color);
   --split-ol-border: var(--dx-info-color);
@@ -72,7 +84,11 @@
   --split-fill: var(--dx-success-color);
   --split-hover: var(--dx-success-hover-color);
   --split-fg: var(--dx-success-fg-color);
-  --split-soft: color-mix(in srgb, var(--dx-success-color) 14%, var(--dx-surface-color));
+  --split-soft: color-mix(
+    in srgb,
+    var(--dx-success-color) 14%,
+    var(--dx-surface-color)
+  );
   --split-soft-fg: var(--dx-text-success-color);
   --split-ol-fg: var(--dx-text-success-color);
   --split-ol-border: var(--dx-success-color);
@@ -82,7 +98,11 @@
   --split-fill: var(--dx-warning-color);
   --split-hover: var(--dx-warning-hover-color);
   --split-fg: var(--dx-warning-fg-color);
-  --split-soft: color-mix(in srgb, var(--dx-warning-color) 14%, var(--dx-surface-color));
+  --split-soft: color-mix(
+    in srgb,
+    var(--dx-warning-color) 14%,
+    var(--dx-surface-color)
+  );
   --split-soft-fg: var(--dx-text-warning-color);
   --split-ol-fg: var(--dx-text-warning-color);
   --split-ol-border: var(--dx-warning-color);
@@ -92,7 +112,11 @@
   --split-fill: var(--dx-danger-color);
   --split-hover: var(--dx-danger-hover-color);
   --split-fg: var(--dx-danger-fg-color);
-  --split-soft: color-mix(in srgb, var(--dx-danger-color) 14%, var(--dx-surface-color));
+  --split-soft: color-mix(
+    in srgb,
+    var(--dx-danger-color) 14%,
+    var(--dx-surface-color)
+  );
   --split-soft-fg: var(--dx-text-danger-color);
   --split-ol-fg: var(--dx-text-danger-color);
   --split-ol-border: var(--dx-danger-color);
@@ -103,90 +127,198 @@
    Fallbacks keep older token sets working (same sRGB ratios as tokens.css).
    Achromatic severities included so no brightness-filter fallback remains. */
 .style-primary {
-  --shade-lighter: var(--dx-primary-lighter-color, color-mix(in srgb, var(--dx-primary-color) 55%, white));
-  --shade-light: var(--dx-primary-light-color, color-mix(in srgb, var(--dx-primary-color) 70%, white));
-  --shade-dark: var(--dx-primary-dark-color, color-mix(in srgb, var(--dx-primary-color) 85%, black));
-  --shade-darker: var(--dx-primary-darker-color, color-mix(in srgb, var(--dx-primary-color) 70%, black));
+  --shade-lighter: var(
+    --dx-primary-lighter-color,
+    color-mix(in srgb, var(--dx-primary-color) 55%, white)
+  );
+  --shade-light: var(
+    --dx-primary-light-color,
+    color-mix(in srgb, var(--dx-primary-color) 70%, white)
+  );
+  --shade-dark: var(
+    --dx-primary-dark-color,
+    color-mix(in srgb, var(--dx-primary-color) 85%, black)
+  );
+  --shade-darker: var(
+    --dx-primary-darker-color,
+    color-mix(in srgb, var(--dx-primary-color) 70%, black)
+  );
   --on-lighter: var(--dx-on-primary-lighter-color);
   --on-light: var(--dx-on-primary-light-color);
   --on-dark: var(--dx-on-primary-dark-color);
   --on-darker: var(--dx-on-primary-darker-color);
 }
 .style-secondary {
-  --shade-lighter: var(--dx-secondary-lighter-color, color-mix(in srgb, var(--dx-secondary-color) 55%, white));
-  --shade-light: var(--dx-secondary-light-color, color-mix(in srgb, var(--dx-secondary-color) 70%, white));
-  --shade-dark: var(--dx-secondary-dark-color, color-mix(in srgb, var(--dx-secondary-color) 85%, black));
-  --shade-darker: var(--dx-secondary-darker-color, color-mix(in srgb, var(--dx-secondary-color) 70%, black));
+  --shade-lighter: var(
+    --dx-secondary-lighter-color,
+    color-mix(in srgb, var(--dx-secondary-color) 55%, white)
+  );
+  --shade-light: var(
+    --dx-secondary-light-color,
+    color-mix(in srgb, var(--dx-secondary-color) 70%, white)
+  );
+  --shade-dark: var(
+    --dx-secondary-dark-color,
+    color-mix(in srgb, var(--dx-secondary-color) 85%, black)
+  );
+  --shade-darker: var(
+    --dx-secondary-darker-color,
+    color-mix(in srgb, var(--dx-secondary-color) 70%, black)
+  );
   --on-lighter: var(--dx-on-secondary-lighter-color);
   --on-light: var(--dx-on-secondary-light-color);
   --on-dark: var(--dx-on-secondary-dark-color);
   --on-darker: var(--dx-on-secondary-darker-color);
 }
 .style-base {
-  --shade-lighter: var(--dx-base-lighter-color, color-mix(in srgb, var(--dx-base-color) 55%, white));
-  --shade-light: var(--dx-base-light-color, color-mix(in srgb, var(--dx-base-color) 70%, white));
-  --shade-dark: var(--dx-base-dark-color, color-mix(in srgb, var(--dx-base-color) 85%, black));
-  --shade-darker: var(--dx-base-darker-color, color-mix(in srgb, var(--dx-base-color) 70%, black));
+  --shade-lighter: var(
+    --dx-base-lighter-color,
+    color-mix(in srgb, var(--dx-base-color) 55%, white)
+  );
+  --shade-light: var(
+    --dx-base-light-color,
+    color-mix(in srgb, var(--dx-base-color) 70%, white)
+  );
+  --shade-dark: var(
+    --dx-base-dark-color,
+    color-mix(in srgb, var(--dx-base-color) 85%, black)
+  );
+  --shade-darker: var(
+    --dx-base-darker-color,
+    color-mix(in srgb, var(--dx-base-color) 70%, black)
+  );
   --on-lighter: var(--dx-on-base-lighter-color);
   --on-light: var(--dx-on-base-light-color);
   --on-dark: var(--dx-on-base-dark-color);
   --on-darker: var(--dx-on-base-darker-color);
 }
 .style-light {
-  --shade-lighter: var(--dx-light-lighter-color, color-mix(in srgb, var(--dx-light-color) 55%, white));
-  --shade-light: var(--dx-light-light-color, color-mix(in srgb, var(--dx-light-color) 70%, white));
-  --shade-dark: var(--dx-light-dark-color, color-mix(in srgb, var(--dx-light-color) 85%, black));
-  --shade-darker: var(--dx-light-darker-color, color-mix(in srgb, var(--dx-light-color) 70%, black));
+  --shade-lighter: var(
+    --dx-light-lighter-color,
+    color-mix(in srgb, var(--dx-light-color) 55%, white)
+  );
+  --shade-light: var(
+    --dx-light-light-color,
+    color-mix(in srgb, var(--dx-light-color) 70%, white)
+  );
+  --shade-dark: var(
+    --dx-light-dark-color,
+    color-mix(in srgb, var(--dx-light-color) 85%, black)
+  );
+  --shade-darker: var(
+    --dx-light-darker-color,
+    color-mix(in srgb, var(--dx-light-color) 70%, black)
+  );
   --on-lighter: var(--dx-on-light-lighter-color);
   --on-light: var(--dx-on-light-light-color);
   --on-dark: var(--dx-on-light-dark-color);
   --on-darker: var(--dx-on-light-darker-color);
 }
 .style-dark {
-  --shade-lighter: var(--dx-dark-lighter-color, color-mix(in srgb, var(--dx-dark-color) 55%, white));
-  --shade-light: var(--dx-dark-light-color, color-mix(in srgb, var(--dx-dark-color) 70%, white));
-  --shade-dark: var(--dx-dark-dark-color, color-mix(in srgb, var(--dx-dark-color) 85%, black));
-  --shade-darker: var(--dx-dark-darker-color, color-mix(in srgb, var(--dx-dark-color) 70%, black));
+  --shade-lighter: var(
+    --dx-dark-lighter-color,
+    color-mix(in srgb, var(--dx-dark-color) 55%, white)
+  );
+  --shade-light: var(
+    --dx-dark-light-color,
+    color-mix(in srgb, var(--dx-dark-color) 70%, white)
+  );
+  --shade-dark: var(
+    --dx-dark-dark-color,
+    color-mix(in srgb, var(--dx-dark-color) 85%, black)
+  );
+  --shade-darker: var(
+    --dx-dark-darker-color,
+    color-mix(in srgb, var(--dx-dark-color) 70%, black)
+  );
   --on-lighter: var(--dx-on-dark-lighter-color);
   --on-light: var(--dx-on-dark-light-color);
   --on-dark: var(--dx-on-dark-dark-color);
   --on-darker: var(--dx-on-dark-darker-color);
 }
 .style-info {
-  --shade-lighter: var(--dx-info-lighter-color, color-mix(in srgb, var(--dx-info-color) 55%, white));
-  --shade-light: var(--dx-info-light-color, color-mix(in srgb, var(--dx-info-color) 70%, white));
-  --shade-dark: var(--dx-info-dark-color, color-mix(in srgb, var(--dx-info-color) 85%, black));
-  --shade-darker: var(--dx-info-darker-color, color-mix(in srgb, var(--dx-info-color) 70%, black));
+  --shade-lighter: var(
+    --dx-info-lighter-color,
+    color-mix(in srgb, var(--dx-info-color) 55%, white)
+  );
+  --shade-light: var(
+    --dx-info-light-color,
+    color-mix(in srgb, var(--dx-info-color) 70%, white)
+  );
+  --shade-dark: var(
+    --dx-info-dark-color,
+    color-mix(in srgb, var(--dx-info-color) 85%, black)
+  );
+  --shade-darker: var(
+    --dx-info-darker-color,
+    color-mix(in srgb, var(--dx-info-color) 70%, black)
+  );
   --on-lighter: var(--dx-on-info-lighter-color);
   --on-light: var(--dx-on-info-light-color);
   --on-dark: var(--dx-on-info-dark-color);
   --on-darker: var(--dx-on-info-darker-color);
 }
 .style-success {
-  --shade-lighter: var(--dx-success-lighter-color, color-mix(in srgb, var(--dx-success-color) 55%, white));
-  --shade-light: var(--dx-success-light-color, color-mix(in srgb, var(--dx-success-color) 70%, white));
-  --shade-dark: var(--dx-success-dark-color, color-mix(in srgb, var(--dx-success-color) 85%, black));
-  --shade-darker: var(--dx-success-darker-color, color-mix(in srgb, var(--dx-success-color) 70%, black));
+  --shade-lighter: var(
+    --dx-success-lighter-color,
+    color-mix(in srgb, var(--dx-success-color) 55%, white)
+  );
+  --shade-light: var(
+    --dx-success-light-color,
+    color-mix(in srgb, var(--dx-success-color) 70%, white)
+  );
+  --shade-dark: var(
+    --dx-success-dark-color,
+    color-mix(in srgb, var(--dx-success-color) 85%, black)
+  );
+  --shade-darker: var(
+    --dx-success-darker-color,
+    color-mix(in srgb, var(--dx-success-color) 70%, black)
+  );
   --on-lighter: var(--dx-on-success-lighter-color);
   --on-light: var(--dx-on-success-light-color);
   --on-dark: var(--dx-on-success-dark-color);
   --on-darker: var(--dx-on-success-darker-color);
 }
 .style-warning {
-  --shade-lighter: var(--dx-warning-lighter-color, color-mix(in srgb, var(--dx-warning-color) 55%, white));
-  --shade-light: var(--dx-warning-light-color, color-mix(in srgb, var(--dx-warning-color) 70%, white));
-  --shade-dark: var(--dx-warning-dark-color, color-mix(in srgb, var(--dx-warning-color) 85%, black));
-  --shade-darker: var(--dx-warning-darker-color, color-mix(in srgb, var(--dx-warning-color) 70%, black));
+  --shade-lighter: var(
+    --dx-warning-lighter-color,
+    color-mix(in srgb, var(--dx-warning-color) 55%, white)
+  );
+  --shade-light: var(
+    --dx-warning-light-color,
+    color-mix(in srgb, var(--dx-warning-color) 70%, white)
+  );
+  --shade-dark: var(
+    --dx-warning-dark-color,
+    color-mix(in srgb, var(--dx-warning-color) 85%, black)
+  );
+  --shade-darker: var(
+    --dx-warning-darker-color,
+    color-mix(in srgb, var(--dx-warning-color) 70%, black)
+  );
   --on-lighter: var(--dx-on-warning-lighter-color);
   --on-light: var(--dx-on-warning-light-color);
   --on-dark: var(--dx-on-warning-dark-color);
   --on-darker: var(--dx-on-warning-darker-color);
 }
 .style-danger {
-  --shade-lighter: var(--dx-danger-lighter-color, color-mix(in srgb, var(--dx-danger-color) 55%, white));
-  --shade-light: var(--dx-danger-light-color, color-mix(in srgb, var(--dx-danger-color) 70%, white));
-  --shade-dark: var(--dx-danger-dark-color, color-mix(in srgb, var(--dx-danger-color) 85%, black));
-  --shade-darker: var(--dx-danger-darker-color, color-mix(in srgb, var(--dx-danger-color) 70%, black));
+  --shade-lighter: var(
+    --dx-danger-lighter-color,
+    color-mix(in srgb, var(--dx-danger-color) 55%, white)
+  );
+  --shade-light: var(
+    --dx-danger-light-color,
+    color-mix(in srgb, var(--dx-danger-color) 70%, white)
+  );
+  --shade-dark: var(
+    --dx-danger-dark-color,
+    color-mix(in srgb, var(--dx-danger-color) 85%, black)
+  );
+  --shade-darker: var(
+    --dx-danger-darker-color,
+    color-mix(in srgb, var(--dx-danger-color) 70%, black)
+  );
   --on-lighter: var(--dx-on-danger-lighter-color);
   --on-light: var(--dx-on-danger-light-color);
   --on-dark: var(--dx-on-danger-dark-color);
@@ -291,19 +423,35 @@
 }
 .shade-lighter.flat .action,
 .shade-lighter.flat .caret {
-  --split-bg: color-mix(in srgb, var(--shade-lighter) 14%, var(--dx-surface-color));
+  --split-bg: color-mix(
+    in srgb,
+    var(--shade-lighter) 14%,
+    var(--dx-surface-color)
+  );
 }
 .shade-light.flat .action,
 .shade-light.flat .caret {
-  --split-bg: color-mix(in srgb, var(--shade-light) 14%, var(--dx-surface-color));
+  --split-bg: color-mix(
+    in srgb,
+    var(--shade-light) 14%,
+    var(--dx-surface-color)
+  );
 }
 .shade-dark.flat .action,
 .shade-dark.flat .caret {
-  --split-bg: color-mix(in srgb, var(--shade-dark) 14%, var(--dx-surface-color));
+  --split-bg: color-mix(
+    in srgb,
+    var(--shade-dark) 14%,
+    var(--dx-surface-color)
+  );
 }
 .shade-darker.flat .action,
 .shade-darker.flat .caret {
-  --split-bg: color-mix(in srgb, var(--shade-darker) 14%, var(--dx-surface-color));
+  --split-bg: color-mix(
+    in srgb,
+    var(--shade-darker) 14%,
+    var(--dx-surface-color)
+  );
 }
 .shade-lighter.outlined .action,
 .shade-lighter.outlined .caret {

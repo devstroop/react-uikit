@@ -1,5 +1,5 @@
-import { useState, useCallback, type ReactNode } from "react";
-import styles from "./Pager.module.css";
+import { useState, useCallback, type ReactNode } from 'react';
+import styles from './Pager.module.css';
 
 export interface PageEventArgs {
   page: number;
@@ -26,7 +26,7 @@ export interface PagerProps {
   pageSizeOptions?: readonly number[];
   pageNumbersCount?: number;
   alwaysVisible?: boolean;
-  horizontalAlign?: "left" | "center" | "right" | "justify";
+  horizontalAlign?: 'left' | 'center' | 'right' | 'justify';
   showPagingSummary?: boolean;
   /** @deprecated use showPagingSummary */
   showSummary?: boolean;
@@ -34,7 +34,11 @@ export interface PagerProps {
   pagingSummaryFormat?: string;
   pagingSummaryTemplate?: (info: PagingInformation) => ReactNode;
   /** @deprecated use pagingSummaryTemplate */
-  summaryTemplate?: (ctx: { count: number; pageNumber: number; pageSize: number }) => ReactNode;
+  summaryTemplate?: (ctx: {
+    count: number;
+    pageNumber: number;
+    pageSize: number;
+  }) => ReactNode;
   pageSizeText?: string;
   firstPageTitle?: string;
   prevPageTitle?: string;
@@ -50,25 +54,38 @@ export interface PagerProps {
   visible?: boolean;
 }
 
-function formatSummary(template: string, page: number, pageCount: number, count: number): string {
-  return template.replace("{0}", String(page)).replace("{1}", String(pageCount)).replace("{2}", String(count));
+function formatSummary(
+  template: string,
+  page: number,
+  pageCount: number,
+  count: number
+): string {
+  return template
+    .replace('{0}', String(page))
+    .replace('{1}', String(pageCount))
+    .replace('{2}', String(count));
 }
 
 function formatPage(template: string, page: number): string {
-  return template.replace("{0}", String(page));
+  return template.replace('{0}', String(page));
 }
 
-function pageItems(current: number, pageCount: number, max: number): (number | "ellipsis")[] {
-  if (pageCount <= max) return Array.from({ length: pageCount }, (_, i) => i + 1);
+function pageItems(
+  current: number,
+  pageCount: number,
+  max: number
+): (number | 'ellipsis')[] {
+  if (pageCount <= max)
+    return Array.from({ length: pageCount }, (_, i) => i + 1);
   const half = Math.floor(max / 2);
   let start = Math.max(1, current - half);
   const end = Math.min(pageCount, start + max - 1);
   start = Math.max(1, end - max + 1);
-  const items: (number | "ellipsis")[] = [];
+  const items: (number | 'ellipsis')[] = [];
   for (let i = start; i <= end; i++) items.push(i);
-  if (start > 2) items.unshift("ellipsis");
+  if (start > 2) items.unshift('ellipsis');
   if (start > 1) items.unshift(1);
-  if (end < pageCount - 1) items.push("ellipsis");
+  if (end < pageCount - 1) items.push('ellipsis');
   if (end < pageCount) items.push(pageCount);
   return items;
 }
@@ -82,23 +99,23 @@ export function Pager({
   pageSizeOptions,
   pageNumbersCount = 5,
   alwaysVisible = false,
-  horizontalAlign = "left",
+  horizontalAlign = 'left',
   showPagingSummary,
   showSummary,
   showPageSizeSelector = true,
-  pagingSummaryFormat = "Page {0} of {1} ({2} items)",
+  pagingSummaryFormat = 'Page {0} of {1} ({2} items)',
   pagingSummaryTemplate,
   summaryTemplate,
-  pageSizeText = "Items per page",
-  firstPageTitle = "First page",
-  prevPageTitle = "Previous page",
-  nextPageTitle = "Next page",
-  lastPageTitle = "Last page",
-  pageTitleFormat = "Page {0}",
-  pageAriaLabelFormat = "Page {0}",
+  pageSizeText = 'Items per page',
+  firstPageTitle = 'First page',
+  prevPageTitle = 'Previous page',
+  nextPageTitle = 'Next page',
+  lastPageTitle = 'Last page',
+  pageTitleFormat = 'Page {0}',
+  pageAriaLabelFormat = 'Page {0}',
   onPageChange,
   onPageSizeChange,
-  ariaLabel = "Pagination",
+  ariaLabel = 'Pagination',
   className,
   visible = true,
 }: PagerProps) {
@@ -120,40 +137,55 @@ export function Pager({
       const clamped = Math.min(Math.max(1, nextPage), pageCount);
       if (!isControlled) setInternalPage(clamped);
       const skip = (clamped - 1) * pageSize;
-      onPageChange?.({ page: clamped, skip, top: pageSize, pageCount, pageSize });
+      onPageChange?.({
+        page: clamped,
+        skip,
+        top: pageSize,
+        pageCount,
+        pageSize,
+      });
     },
-    [isControlled, onPageChange, pageCount, pageSize],
+    [isControlled, onPageChange, pageCount, pageSize]
   );
 
   const alignClass =
-    horizontalAlign === "center"
+    horizontalAlign === 'center'
       ? styles.alignCenter
-      : horizontalAlign === "right"
+      : horizontalAlign === 'right'
         ? styles.alignRight
-        : horizontalAlign === "justify"
+        : horizontalAlign === 'justify'
           ? styles.alignJustify
           : styles.alignLeft;
 
-  const summaryInfo: PagingInformation = { count, pageNumber: current, pageSize, pageCount };
+  const summaryInfo: PagingInformation = {
+    count,
+    pageNumber: current,
+    pageSize,
+    pageCount,
+  };
 
   // Sync if controlled page changes externally — no effect needed, current derives from props
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    const buttons = Array.from(e.currentTarget.querySelectorAll<HTMLButtonElement>("button[data-pager-page]"));
+    const buttons = Array.from(
+      e.currentTarget.querySelectorAll<HTMLButtonElement>(
+        'button[data-pager-page]'
+      )
+    );
     const idx = buttons.indexOf(document.activeElement as HTMLButtonElement);
     if (idx === -1) return;
-    if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
       e.preventDefault();
       const next = buttons[idx + 1] ?? buttons[0];
       next?.focus();
-    } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
       e.preventDefault();
       const prev = buttons[idx - 1] ?? buttons[buttons.length - 1];
       prev?.focus();
-    } else if (e.key === "Home") {
+    } else if (e.key === 'Home') {
       e.preventDefault();
       buttons[0]?.focus();
-    } else if (e.key === "End") {
+    } else if (e.key === 'End') {
       e.preventDefault();
       buttons[buttons.length - 1]?.focus();
     }
@@ -162,7 +194,12 @@ export function Pager({
   if (visible === false || !showPager) return null;
 
   return (
-    <nav className={[styles.pager, alignClass, className].filter(Boolean).join(" ")} aria-label={ariaLabel}>
+    <nav
+      className={[styles.pager, alignClass, className]
+        .filter(Boolean)
+        .join(' ')}
+      aria-label={ariaLabel}
+    >
       {effectiveShowSummary && (
         <span className={styles.summary} aria-live="polite">
           {pagingSummaryTemplate
@@ -172,7 +209,12 @@ export function Pager({
               : formatSummary(pagingSummaryFormat, current, pageCount, count)}
         </span>
       )}
-      <div className={styles.controls} role="group" aria-label={ariaLabel} onKeyDown={handleKeyDown}>
+      <div
+        className={styles.controls}
+        role="group"
+        aria-label={ariaLabel}
+        onKeyDown={handleKeyDown}
+      >
         <button
           type="button"
           className={styles.button}
@@ -194,7 +236,7 @@ export function Pager({
           ‹
         </button>
         {items.map((item, i) =>
-          item === "ellipsis" ? (
+          item === 'ellipsis' ? (
             <span key={`e${i}`} className={styles.ellipsis} aria-hidden="true">
               …
             </span>
@@ -203,15 +245,17 @@ export function Pager({
               key={item}
               type="button"
               data-pager-page={item}
-              className={[styles.button, item === current ? styles.active : ""].filter(Boolean).join(" ")}
-              aria-current={item === current ? "page" : undefined}
+              className={[styles.button, item === current ? styles.active : '']
+                .filter(Boolean)
+                .join(' ')}
+              aria-current={item === current ? 'page' : undefined}
               aria-label={formatPage(pageAriaLabelFormat, item)}
               title={formatPage(pageTitleFormat, item)}
               onClick={() => emitPageChange(item)}
             >
               {item}
             </button>
-          ),
+          )
         )}
         <button
           type="button"
@@ -234,22 +278,24 @@ export function Pager({
           »
         </button>
       </div>
-      {showPageSizeSelector && pageSizeOptions && pageSizeOptions.length > 0 && (
-        <label className={styles.size}>
-          <span>{pageSizeText}</span>
-          <select
-            value={pageSize}
-            onChange={(e) => onPageSizeChange?.(Number(e.target.value))}
-            aria-label={pageSizeText}
-          >
-            {pageSizeOptions.map((size) => (
-              <option key={size} value={size}>
-                {size}
-              </option>
-            ))}
-          </select>
-        </label>
-      )}
+      {showPageSizeSelector &&
+        pageSizeOptions &&
+        pageSizeOptions.length > 0 && (
+          <label className={styles.size}>
+            <span>{pageSizeText}</span>
+            <select
+              value={pageSize}
+              onChange={(e) => onPageSizeChange?.(Number(e.target.value))}
+              aria-label={pageSizeText}
+            >
+              {pageSizeOptions.map((size) => (
+                <option key={size} value={size}>
+                  {size}
+                </option>
+              ))}
+            </select>
+          </label>
+        )}
     </nav>
   );
 }

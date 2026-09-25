@@ -7,16 +7,16 @@ import {
   useState,
   type KeyboardEvent,
   type ReactNode,
-} from "react";
-import type { Severity } from "../../types/severity";
-import type { Shade } from "../../types/shade";
-import { resolveVariant, type Variant } from "../../types/variant";
-import { Icon } from "../Icon/Icon";
-import styles from "./Splitbutton.module.css";
+} from 'react';
+import type { Severity } from '../../types/severity';
+import type { Shade } from '../../types/shade';
+import { resolveVariant, type Variant } from '../../types/variant';
+import { Icon } from '../Icon/Icon';
+import styles from './Splitbutton.module.css';
 
-export type SplitbuttonSize = "sm" | "md" | "lg";
+export type SplitbuttonSize = 'sm' | 'md' | 'lg';
 /** Severity axis — Radzen ButtonStyle parity (neutral excluded, like Button). */
-export type SplitbuttonSeverity = Exclude<Severity, "neutral">;
+export type SplitbuttonSeverity = Exclude<Severity, 'neutral'>;
 export type SplitbuttonVariant = Variant;
 export type SplitbuttonShade = Shade;
 
@@ -38,17 +38,17 @@ export interface SplitbuttonProps {
   size?: SplitbuttonSize;
   disabled?: boolean;
   className?: string;
-  "aria-label"?: string;
+  'aria-label'?: string;
 }
 
 export function Splitbutton({
   label,
   onClick,
   items = [],
-  severity = "primary",
-  variant = "filled",
-  shade = "default",
-  size = "md",
+  severity = 'primary',
+  variant = 'filled',
+  shade = 'default',
+  size = 'md',
   disabled = false,
   className,
   ...ariaProps
@@ -66,7 +66,7 @@ export function Splitbutton({
       items
         .map((item, index) => (item.disabled ? -1 : index))
         .filter((index) => index >= 0),
-    [items],
+    [items]
   );
 
   const openMenu = useCallback(() => {
@@ -87,8 +87,8 @@ export function Splitbutton({
         setOpen(false);
       }
     };
-    document.addEventListener("mousedown", onMouseDown);
-    return () => document.removeEventListener("mousedown", onMouseDown);
+    document.addEventListener('mousedown', onMouseDown);
+    return () => document.removeEventListener('mousedown', onMouseDown);
   }, [open]);
 
   // Move focus to the active item on open. Items are native buttons, so
@@ -133,9 +133,9 @@ export function Splitbutton({
     itemRefs.current[next]?.focus();
   };
 
-  const focusEdge = (edge: "first" | "last") => {
+  const focusEdge = (edge: 'first' | 'last') => {
     const index =
-      edge === "first"
+      edge === 'first'
         ? enabledIndexes[0]
         : enabledIndexes[enabledIndexes.length - 1];
     if (index == null) return;
@@ -147,27 +147,27 @@ export function Splitbutton({
   // Space are deliberately untouched: item buttons activate natively.
   const handleMenuKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     switch (event.key) {
-      case "ArrowDown":
+      case 'ArrowDown':
         event.preventDefault();
         move(1);
         break;
-      case "ArrowUp":
+      case 'ArrowUp':
         event.preventDefault();
         move(-1);
         break;
-      case "Home":
+      case 'Home':
         event.preventDefault();
-        focusEdge("first");
+        focusEdge('first');
         break;
-      case "End":
+      case 'End':
         event.preventDefault();
-        focusEdge("last");
+        focusEdge('last');
         break;
-      case "Escape":
+      case 'Escape':
         event.preventDefault();
         closeMenu();
         break;
-      case "Tab":
+      case 'Tab':
         setOpen(false);
         break;
     }
@@ -180,12 +180,12 @@ export function Splitbutton({
         styles.root,
         styles[size],
         styles[`style-${severity}`],
-        styles[resolveVariant(variant, "filled")],
-        shade !== "default" ? styles[`shade-${shade}`] : null,
+        styles[resolveVariant(variant, 'filled')],
+        shade !== 'default' ? styles[`shade-${shade}`] : null,
         className,
       ]
         .filter(Boolean)
-        .join(" ")}
+        .join(' ')}
     >
       <button
         type="button"
@@ -206,7 +206,7 @@ export function Splitbutton({
         disabled={disabled}
         onClick={() => (open ? setOpen(false) : openMenu())}
         onKeyDown={(event) => {
-          if (!open && event.key === "ArrowDown") {
+          if (!open && event.key === 'ArrowDown') {
             event.preventDefault();
             openMenu();
           }
@@ -240,7 +240,7 @@ export function Splitbutton({
                 item.disabled ? styles.disabled : null,
               ]
                 .filter(Boolean)
-                .join(" ")}
+                .join(' ')}
               onClick={() => activate(index)}
               onMouseEnter={() => {
                 if (!item.disabled) setActiveIndex(index);

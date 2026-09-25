@@ -1,5 +1,5 @@
-import { type HTMLAttributes } from "react";
-import styles from "./Header.module.css";
+import { type HTMLAttributes } from 'react';
+import styles from './Header.module.css';
 
 export interface HeaderProps extends HTMLAttributes<HTMLElement> {
   children?: React.ReactNode;
@@ -7,10 +7,17 @@ export interface HeaderProps extends HTMLAttributes<HTMLElement> {
   sticky?: boolean;
 }
 
-export function Header({ sticky = false, className, children, ...props }: HeaderProps) {
+export function Header({
+  sticky = false,
+  className,
+  children,
+  ...props
+}: HeaderProps) {
   return (
     <header
-      className={[styles.header, sticky ? styles.sticky : null, className].filter(Boolean).join(" ")}
+      className={[styles.header, sticky ? styles.sticky : null, className]
+        .filter(Boolean)
+        .join(' ')}
       {...props}
     >
       {children}

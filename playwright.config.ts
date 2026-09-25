@@ -1,18 +1,19 @@
-import { defineConfig } from "@playwright/test";
+import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
-  testDir: "./e2e",
+  testDir: './e2e',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
-  reporter: "list",
+  reporter: 'list',
   use: {
-    baseURL: "http://127.0.0.1:4199",
-    trace: "on-first-retry",
+    baseURL: 'http://127.0.0.1:4199',
+    trace: 'on-first-retry',
   },
   webServer: {
-    command: "npm run preview:build && npx vite preview preview --host 127.0.0.1 --port 4199 --strictPort",
-    url: "http://127.0.0.1:4199",
+    command:
+      'npm run preview:build && npx vite preview preview --host 127.0.0.1 --port 4199 --strictPort',
+    url: 'http://127.0.0.1:4199',
     reuseExistingServer: !process.env.CI,
     timeout: 60_000,
   },

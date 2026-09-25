@@ -73,7 +73,7 @@
   opacity: 0.6;
 }
 
-.treeitem[aria-disabled="true"] {
+.treeitem[aria-disabled='true'] {
   cursor: not-allowed;
 }
 

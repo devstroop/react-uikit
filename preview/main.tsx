@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { createRoot } from "react-dom/client";
-import "../lib/styles/tokens.css";
-import "../lib/utilities.css";
+import { useState } from 'react';
+import { createRoot } from 'react-dom/client';
+import '../lib/styles/tokens.css';
+import '../lib/utilities.css';
 import {
   Alert,
   Button,
@@ -10,7 +10,7 @@ import {
   Input,
   Text,
   Tooltip,
-} from "../lib/main";
+} from '../lib/main';
 
 /**
  * Minimal e2e target (NOT shipped): exercises the chrome the axe spec
@@ -19,27 +19,27 @@ import {
  * (B1.4) expands this entry.
  */
 const THEMES = [
-  "default",
-  "fluent",
-  "github",
-  "material",
-  "material-3",
-  "shadcn",
+  'default',
+  'fluent',
+  'github',
+  'material',
+  'material-3',
+  'shadcn',
 ] as const;
 
 function Preview() {
-  const [theme, setTheme] = useState<string>("default");
+  const [theme, setTheme] = useState<string>('default');
   const [dark, setDark] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [name, setName] = useState("");
+  const [name, setName] = useState('');
   const [touched, setTouched] = useState(false);
-  const error = touched && name.trim() === "" ? "Name is required." : null;
+  const error = touched && name.trim() === '' ? 'Name is required.' : null;
 
   return (
     <main
       data-preview-theme={theme}
-      data-theme={dark ? "dark" : undefined}
-      style={{ padding: 24, maxWidth: 720, margin: "0 auto" }}
+      data-theme={dark ? 'dark' : undefined}
+      style={{ padding: 24, maxWidth: 720, margin: '0 auto' }}
     >
       <Text textStyle="H1" tagName="H1">
         react-uikit preview
@@ -129,7 +129,7 @@ function Preview() {
   );
 }
 
-const root = document.getElementById("root");
+const root = document.getElementById('root');
 if (root) {
   createRoot(root).render(<Preview />);
 }

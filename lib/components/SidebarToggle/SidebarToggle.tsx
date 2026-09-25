@@ -1,6 +1,6 @@
-import { type ButtonHTMLAttributes } from "react";
-import { Icon, type IconName } from "../Icon/Icon";
-import styles from "./SidebarToggle.module.css";
+import { type ButtonHTMLAttributes } from 'react';
+import { Icon, type IconName } from '../Icon/Icon';
+import styles from './SidebarToggle.module.css';
 
 export interface SidebarToggleProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /** Icon glyph. Defaults to the menu (hamburger) glyph. */
@@ -15,10 +15,10 @@ export interface SidebarToggleProps extends ButtonHTMLAttributes<HTMLButtonEleme
  * placed in the Header.
  */
 export function SidebarToggle({
-  icon = "menu",
-  label = "Toggle sidebar",
+  icon = 'menu',
+  label = 'Toggle sidebar',
   className,
-  type = "button",
+  type = 'button',
   children,
   ...props
 }: SidebarToggleProps) {
@@ -26,7 +26,7 @@ export function SidebarToggle({
     <button
       type={type}
       aria-label={label}
-      className={[styles.toggle, className].filter(Boolean).join(" ")}
+      className={[styles.toggle, className].filter(Boolean).join(' ')}
       {...props}
     >
       {children ?? <Icon name={icon} size={20} />}
