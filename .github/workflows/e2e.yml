@@ -1,0 +1,26 @@
+name: e2e
+
+# Visual/browser verification runs on pull requests only — never on
+# pushes. Duplicate visual runs on the same commit stall in runner
+# provisioning and the stale check then blocks mergeability.
+on:
+  pull_request:
+
+jobs:
+  playwright:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ hashFiles('package-lock.json') }}
+      - run: npx playwright install chromium
+      - run: npm run test:e2e

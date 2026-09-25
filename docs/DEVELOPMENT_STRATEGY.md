@@ -160,7 +160,7 @@ Types: `feat` · `fix` · `chore` · `refactor` · `docs` · `ci` · `test` · `
 | typecheck | every PR + push to accumulators/develop | merge |
 | build | every PR + push to accumulators/develop | merge |
 | scripted tests (`test:*` package scripts) | every PR + push to accumulators/develop | merge |
-| **visual verification** | **pull_request only** (`visual.yml`) | merge |
+| **visual verification** | **pull_request only** (`e2e.yml`) | merge |
 | deploy | push to `master` (post-release) | — |
 
 The visual job lives in its own workflow triggered **only by pull_request**.
@@ -209,7 +209,7 @@ A workflow triggered on a branch that does not exist is a silent CI outage.
 |---|---|---|---|---|---|---|
 | **SoftEther-App** | Flutter + Zig (libsoftether) | GitHub | `master` | `fixes/` `features/` `chores/` `docs/` | `master` + PRs |
 | **SoftEther-Web** | React + Vite + Hono + Cloudflare Workers | GitHub | `master` | `fixes/` `features/` `chores/` `docs/` | `master` + PRs |
-| **react-uikit** | React UI library (vite lib mode) | Codeberg (`codeberg.org/devstroop/react-uikit`) | `master` | `fixes/` `features/` `chores/` `docs/` | `master` + PRs (Forgejo Actions, `.forgejo/workflows`) |
+| **react-uikit** | React UI library (vite lib mode) | GitHub | `main` (production) + `develop` (integration gate) | `fixes/` `features/` `chores/` `docs/` | PRs + pushes to `develop`/`master` (GitHub Actions, `.github/workflows`) |
 | **libsoftether** | Zig | GitHub | `master` | `fixes/` `features/` | `master` + PRs |
 
 > Note: legacy branches named `fix/…`, `feat/…` and `develop` exist in history;

@@ -27,6 +27,7 @@
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest",
+    "preview:build": "vite build --config preview/vite.config.ts",
     "test:e2e": "playwright test"
   },
   "peerDependencies": {

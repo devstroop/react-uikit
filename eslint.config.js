@@ -5,7 +5,17 @@ import jsxA11y from "eslint-plugin-jsx-a11y";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
-  { ignores: ["dist", "node_modules"] },
+  {
+    // Build output, test artifacts, deps — plus the vendored Nayuki QR
+    // generator, which is preserved byte-for-byte upstream style.
+    ignores: [
+      "dist",
+      "**/dist",
+      "test-results",
+      "node_modules",
+      "lib/components/QRCode/qrcodegen.ts",
+    ],
+  },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {

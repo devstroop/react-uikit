@@ -11,7 +11,7 @@ export default defineConfig({
     trace: "on-first-retry",
   },
   webServer: {
-    command: "npm run build && npx vite preview --port 4199 --strictPort",
+    command: "npm run preview:build && npx vite preview preview --host 127.0.0.1 --port 4199 --strictPort",
     url: "http://127.0.0.1:4199",
     reuseExistingServer: !process.env.CI,
     timeout: 60_000,
