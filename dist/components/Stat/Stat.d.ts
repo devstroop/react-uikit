@@ -2,7 +2,7 @@ import { HTMLAttributes, ReactNode } from 'react';
 import { Severity } from '../../types/severity';
 export type StatDeltaTone = Extract<Severity, 'success' | 'danger' | 'neutral'>;
 export interface StatProps extends HTMLAttributes<HTMLDivElement> {
-    label: string;
+    label: ReactNode;
     value: ReactNode;
     delta?: ReactNode;
     deltaTone?: StatDeltaTone;

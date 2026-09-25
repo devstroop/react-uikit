@@ -1,5 +1,5 @@
 export { Button } from './components/Button/Button';
-export type { ButtonProps, ButtonVariant, ButtonStyle, ButtonShade, ButtonSize, } from './components/Button/Button';
+export type { ButtonProps, ButtonBaseProps, ButtonButtonProps, ButtonAnchorProps, ButtonVariant, ButtonStyle, ButtonShade, ButtonSize, } from './components/Button/Button';
 export { Card } from './components/Card/Card';
 export type { CardProps, CardVariant } from './components/Card/Card';
 export { Badge } from './components/Badge/Badge';

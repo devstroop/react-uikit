@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes } from 'react';
+import { AnchorHTMLAttributes, ButtonHTMLAttributes } from 'react';
 import { ComponentSize } from '../../sizes';
 import { Severity } from '../../types/severity';
 import { Shade } from '../../types/shade';
@@ -13,7 +13,7 @@ export type ButtonVariant = Variant;
 export type ButtonStyle = Exclude<Severity, 'neutral'>;
 export type ButtonShade = Shade;
 export type ButtonSize = ComponentSize;
-export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonBaseProps {
     variant?: ButtonVariant;
     /**
      * Severity axis — the single severity prop (Radzen ButtonStyle parity).
@@ -29,4 +29,14 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     /** Render nothing when false. Defaults to true. */
     visible?: boolean;
 }
-export declare const Button: import('react').ForwardRefExoticComponent<ButtonProps & import('react').RefAttributes<HTMLButtonElement>>;
+export interface ButtonButtonProps extends ButtonBaseProps, ButtonHTMLAttributes<HTMLButtonElement> {
+    href?: undefined;
+}
+export interface ButtonAnchorProps extends ButtonBaseProps, Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> {
+    /** Renders an anchor instead of a button (navigation CTAs). */
+    href: string;
+    /** Anchors use aria-disabled + click suppression (no native disabled). */
+    disabled?: boolean;
+}
+export type ButtonProps = ButtonButtonProps | ButtonAnchorProps;
+export declare const Button: import('react').ForwardRefExoticComponent<ButtonProps & import('react').RefAttributes<HTMLElement>>;
