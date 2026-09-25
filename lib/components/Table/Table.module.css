@@ -1,6 +1,6 @@
 .wrap {
   font-family: var(--dx-font-sans);
-  border: 1px solid var(--dx-border-color);
+  border: var(--dx-border-width) solid var(--dx-border-color);
   border-radius: var(--dx-radius-md);
   overflow: hidden;
 }
@@ -19,7 +19,7 @@
   font-weight: var(--dx-font-weight-medium);
   color: var(--dx-text-muted-color);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: var(--dx-letterspacing-wide);
 }
 
 .table thead th {
@@ -29,15 +29,15 @@
   font-weight: var(--dx-font-weight-medium);
   font-size: var(--dx-font-size-xs);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: var(--dx-letterspacing-wide);
   padding: var(--dx-space-2) var(--dx-space-3);
-  border-bottom: 1px solid var(--dx-border-color);
+  border-bottom: var(--dx-border-width) solid var(--dx-border-color);
 }
 
 .table tbody td {
   padding: var(--dx-space-3);
   color: var(--dx-text-color);
-  border-bottom: 1px solid var(--dx-border-color);
+  border-bottom: var(--dx-border-width) solid var(--dx-border-color);
 }
 
 .table tbody tr:last-child td {
@@ -65,8 +65,8 @@
 }
 
 .table.vertical thead th {
-  border-bottom: 1px solid var(--dx-border-color);
-  border-right: 1px solid var(--dx-border-color);
+  border-bottom: var(--dx-border-width) solid var(--dx-border-color);
+  border-right: var(--dx-border-width) solid var(--dx-border-color);
 }
 
 .table.vertical thead th:last-child {
@@ -75,7 +75,7 @@
 
 .table.vertical tbody td {
   border-bottom: none;
-  border-right: 1px solid var(--dx-border-color);
+  border-right: var(--dx-border-width) solid var(--dx-border-color);
 }
 
 .table.vertical tbody td:last-child {

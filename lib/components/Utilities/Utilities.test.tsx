@@ -97,7 +97,10 @@ describe("Utilities parity (#75)", () => {
       ".dx-background-info-lighter",
       ".dx-background-danger",
       ".dx-border-info-light",
+      ".dx-border-primary-dark",
       ".dx-border-success",
+      ".dx-radius-md",
+      ".dx-flex-row",
     ]) {
       expect(set.has(cls), `missing ${cls}`).toBe(true);
     }
@@ -218,8 +221,33 @@ describe("Utilities parity (#75)", () => {
     expect(REACT_CSS).toContain(
       ".dx-background-danger { background-color: var(--dx-error-container-color) !important; }",
     );
-    expect(REACT_CSS).toContain(
-      ".dx-border-info-light { border-color: var(--dx-border-info-light-color) !important; }",
-    );
+    for (const tone of ["primary", "secondary", "success", "warning", "danger", "info"]) {
+      expect(REACT_CSS, `border ${tone}`).toContain(
+        `.dx-border-${tone} { border-color: var(--dx-border-${tone}-color) !important; }`,
+      );
+      for (const shade of ["lighter", "light", "dark", "darker"]) {
+        expect(REACT_CSS, `border ${tone} ${shade}`).toContain(
+          `.dx-border-${tone}-${shade} { border-color: var(--dx-border-${tone}-${shade}-color) !important; }`,
+        );
+      }
+    }
+  });
+
+  it("ships radius and flex-direction raw utilities", () => {
+    for (const tier of ["xs", "sm", "md", "lg", "xl", "full"]) {
+      expect(REACT_CSS, `radius ${tier}`).toContain(
+        `.dx-radius-${tier} { border-radius: var(--dx-radius-${tier}) !important; }`,
+      );
+    }
+    for (const [cls, value] of [
+      ["row", "row"],
+      ["row-reverse", "row-reverse"],
+      ["column", "column"],
+      ["column-reverse", "column-reverse"],
+    ]) {
+      expect(REACT_CSS, `flex ${cls}`).toContain(
+        `.dx-flex-${cls} { flex-direction: ${value} !important; }`,
+      );
+    }
   });
 });

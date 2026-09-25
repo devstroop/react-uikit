@@ -80,3 +80,47 @@ describe("shade ramp tokens", () => {
     }
   });
 });
+
+describe("foundation tokens", () => {
+  it("defines geometry and interaction constants", () => {
+    for (const [token, value] of [
+      ["--dx-border-width", "1px"],
+      ["--dx-outline-width", "2px"],
+      ["--dx-focus-ring-width", "3px"],
+      ["--dx-focus-ring-offset", "2px"],
+      ["--dx-disabled-opacity", "0.55"],
+    ]) {
+      expect(css, token).toContain(`${token}: ${value};`);
+    }
+  });
+
+  it("defines the leading scale with exact in-use values", () => {
+    for (const [token, value] of [
+      ["--dx-leading-none", "1"],
+      ["--dx-leading-tight", "1.25"],
+      ["--dx-leading-snug", "1.3"],
+      ["--dx-leading-normal", "1.35"],
+      ["--dx-leading-relaxed", "1.4"],
+      ["--dx-leading-text", "1.429"],
+      ["--dx-leading-body", "1.5"],
+      ["--dx-leading-loose", "1.6"],
+    ]) {
+      expect(css, token).toContain(`${token}: ${value};`);
+    }
+  });
+
+  it("defines letterspacing extras and link aliases", () => {
+    expect(css).toContain("--dx-letterspacing-button: 0.25px;");
+    expect(css).toContain("--dx-letterspacing-wide: 0.04em;");
+    expect(css).toContain("--dx-link-color: var(--dx-primary-color);");
+    expect(css).toContain("--dx-link-hover-color: var(--dx-primary-hover-color);");
+  });
+
+  it("self-hosts the Source Sans 3 variable fonts with swap", () => {
+    expect(css).toContain('font-family: "Source Sans 3";');
+    expect(css).toContain('url("./fonts/SourceSans3VF-Upright.ttf.woff2")');
+    expect(css).toContain('url("./fonts/SourceSans3VF-Italic.ttf.woff2")');
+    expect(css).toContain("font-display: swap;");
+    expect(css).toContain("font-weight: 100 900;");
+  });
+});

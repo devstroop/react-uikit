@@ -1,13 +1,20 @@
 .button {
+  /* Component namespace (Radzen --rz-button-* parity): per-size inline
+   * padding hooks; defaults preserve current geometry exactly. */
+  --dx-button-padding-xs: 0 8px;
+  --dx-button-padding-sm: 0 12px;
+  --dx-button-padding-md: 0 16px;
+  --dx-button-padding-lg: 0 20px;
+  --dx-button-padding-xl: 0 24px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--dx-space-2);
-  border: 1px solid transparent;
+  border: var(--dx-border-width) solid transparent;
   border-radius: var(--dx-radius-full);
   font-family: var(--dx-font-sans);
   font-weight: var(--dx-font-weight-medium);
-  line-height: 1;
+  line-height: var(--dx-leading-none);
   cursor: pointer;
   transition:
     background-color var(--dx-transition-fast),
@@ -16,12 +23,12 @@
 }
 
 .button:focus-visible {
-  outline: 2px solid var(--dx-outline-primary-color);
-  outline-offset: 2px;
+  outline: var(--dx-outline-width) solid var(--dx-outline-primary-color);
+  outline-offset: var(--dx-focus-ring-offset);
 }
 
 .button:disabled {
-  opacity: 0.55;
+  opacity: var(--dx-disabled-opacity);
   cursor: not-allowed;
 }
 
@@ -221,31 +228,31 @@
 /* Sizes */
 .xs {
   height: var(--dx-control-height-xs);
-  padding: 0 8px;
+  padding: var(--dx-button-padding-xs);
   font-size: var(--dx-font-size-xs);
 }
 
 .sm {
   height: var(--dx-control-height-sm);
-  padding: 0 12px;
+  padding: var(--dx-button-padding-sm);
   font-size: var(--dx-font-size-xs);
 }
 
 .md {
   height: var(--dx-control-height-md);
-  padding: 0 16px;
+  padding: var(--dx-button-padding-md);
   font-size: var(--dx-font-size-sm);
 }
 
 .lg {
   height: var(--dx-control-height-lg);
-  padding: 0 20px;
+  padding: var(--dx-button-padding-lg);
   font-size: var(--dx-font-size-md);
 }
 
 .xl {
   height: var(--dx-control-height-xl);
-  padding: 0 24px;
+  padding: var(--dx-button-padding-xl);
   font-size: var(--dx-font-size-lg);
 }
 

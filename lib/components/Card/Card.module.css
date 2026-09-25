@@ -7,20 +7,20 @@
 
 .elevated {
   box-shadow: var(--dx-shadow-md);
-  border: 1px solid var(--dx-border-color);
+  border: var(--dx-border-width) solid var(--dx-border-color);
 }
 
 .filled {
   box-shadow: var(--dx-shadow-md);
-  border: 1px solid var(--dx-border-color);
+  border: var(--dx-border-width) solid var(--dx-border-color);
 }
 
 .outlined {
-  border: 1px solid var(--dx-border-color);
+  border: var(--dx-border-width) solid var(--dx-border-color);
 }
 
 .interactive {
-  border: 1px solid var(--dx-border-color);
+  border: var(--dx-border-width) solid var(--dx-border-color);
   cursor: pointer;
   transition:
     border-color var(--dx-transition-fast),
@@ -39,8 +39,8 @@
 }
 
 .interactive:focus-visible {
-  outline: 2px solid var(--dx-focus-color);
-  outline-offset: 2px;
+  outline: var(--dx-outline-width) solid var(--dx-focus-color);
+  outline-offset: var(--dx-focus-ring-offset);
 }
 
 .header {

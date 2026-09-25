@@ -1,10 +1,16 @@
 .alert {
+  /* Component namespace (pilot): dismiss affordance per size tier. */
+  --dx-alert-dismiss-size-xs: 18px;
+  --dx-alert-dismiss-size-sm: 20px;
+  --dx-alert-dismiss-size-md: 22px;
+  --dx-alert-dismiss-size-lg: 26px;
+  --dx-alert-dismiss-size-xl: 30px;
   --alert-pad: var(--dx-space-3);
   --alert-gap: var(--dx-space-2);
   --alert-radius: var(--dx-radius-md);
   --alert-title-size: var(--dx-font-size-md);
   --alert-body-size: var(--dx-font-size-sm);
-  --alert-dismiss-size: 22px;
+  --alert-dismiss-size: var(--dx-alert-dismiss-size-md);
   --alert-dismiss-font: var(--dx-font-size-md);
   display: flex;
   align-items: flex-start;
@@ -12,7 +18,7 @@
   padding: var(--alert-pad);
   margin: 0 0 var(--dx-space-3);
   border-radius: var(--alert-radius);
-  border: 1px solid var(--dx-border-color);
+  border: var(--dx-border-width) solid var(--dx-border-color);
   background: var(--dx-surface-color);
   color: var(--dx-text-color);
   font-size: var(--dx-font-size-sm);
@@ -25,7 +31,7 @@
   --alert-radius: var(--dx-radius-sm);
   --alert-title-size: var(--dx-font-size-sm);
   --alert-body-size: var(--dx-font-size-xs);
-  --alert-dismiss-size: 18px;
+  --alert-dismiss-size: var(--dx-alert-dismiss-size-xs);
   --alert-dismiss-font: var(--dx-font-size-xs);
 }
 
@@ -35,7 +41,7 @@
   --alert-radius: var(--dx-radius-sm);
   --alert-title-size: var(--dx-font-size-sm);
   --alert-body-size: var(--dx-font-size-xs);
-  --alert-dismiss-size: 20px;
+  --alert-dismiss-size: var(--dx-alert-dismiss-size-sm);
   --alert-dismiss-font: var(--dx-font-size-sm);
 }
 
@@ -45,7 +51,7 @@
   --alert-radius: var(--dx-radius-lg);
   --alert-title-size: var(--dx-font-size-lg);
   --alert-body-size: var(--dx-font-size-sm);
-  --alert-dismiss-size: 26px;
+  --alert-dismiss-size: var(--dx-alert-dismiss-size-lg);
   --alert-dismiss-font: var(--dx-font-size-lg);
 }
 
@@ -55,7 +61,7 @@
   --alert-radius: var(--dx-radius-lg);
   --alert-title-size: var(--dx-font-size-lg);
   --alert-body-size: var(--dx-font-size-md);
-  --alert-dismiss-size: 30px;
+  --alert-dismiss-size: var(--dx-alert-dismiss-size-xl);
   --alert-dismiss-font: var(--dx-font-size-lg);
 }
 
@@ -191,13 +197,13 @@
 .title {
   font-size: var(--alert-title-size);
   font-weight: var(--dx-font-weight-bold);
-  line-height: 1.4;
+  line-height: var(--dx-leading-relaxed);
 }
 
 .body {
   margin-top: var(--dx-space-1);
   font-size: var(--alert-body-size);
-  line-height: 1.5;
+  line-height: var(--dx-leading-body);
 }
 
 .dismiss {
@@ -211,7 +217,7 @@
   background: transparent;
   color: var(--dx-text-muted-color);
   font-size: var(--alert-dismiss-font);
-  line-height: 1;
+  line-height: var(--dx-leading-none);
   cursor: pointer;
   transition: background var(--dx-transition-fast), color var(--dx-transition-fast);
 }
@@ -222,8 +228,8 @@
 }
 
 .dismiss:focus-visible {
-  outline: 2px solid var(--dx-focus-color);
-  outline-offset: 2px;
+  outline: var(--dx-outline-width) solid var(--dx-focus-color);
+  outline-offset: var(--dx-focus-ring-offset);
 }
 
 .filled .dismiss {

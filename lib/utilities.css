@@ -2578,3 +2578,30 @@
 .dx-border-info { border-color: var(--dx-border-info-color) !important; }
 .dx-border-info-light { border-color: var(--dx-border-info-light-color) !important; }
 .dx-border-info-darker { border-color: var(--dx-border-info-darker-color) !important; }
+.dx-border-primary-lighter { border-color: var(--dx-border-primary-lighter-color) !important; }
+.dx-border-primary-dark { border-color: var(--dx-border-primary-dark-color) !important; }
+.dx-border-secondary-lighter { border-color: var(--dx-border-secondary-lighter-color) !important; }
+.dx-border-secondary-dark { border-color: var(--dx-border-secondary-dark-color) !important; }
+.dx-border-success-lighter { border-color: var(--dx-border-success-lighter-color) !important; }
+.dx-border-success-dark { border-color: var(--dx-border-success-dark-color) !important; }
+.dx-border-warning-lighter { border-color: var(--dx-border-warning-lighter-color) !important; }
+.dx-border-warning-dark { border-color: var(--dx-border-warning-dark-color) !important; }
+.dx-border-danger-lighter { border-color: var(--dx-border-danger-lighter-color) !important; }
+.dx-border-danger-dark { border-color: var(--dx-border-danger-dark-color) !important; }
+.dx-border-info-lighter { border-color: var(--dx-border-info-lighter-color) !important; }
+.dx-border-info-dark { border-color: var(--dx-border-info-dark-color) !important; }
+
+/* Radius utilities off the radius tokens. */
+.dx-radius-xs { border-radius: var(--dx-radius-xs) !important; }
+.dx-radius-sm { border-radius: var(--dx-radius-sm) !important; }
+.dx-radius-md { border-radius: var(--dx-radius-md) !important; }
+.dx-radius-lg { border-radius: var(--dx-radius-lg) !important; }
+.dx-radius-xl { border-radius: var(--dx-radius-xl) !important; }
+.dx-radius-full { border-radius: var(--dx-radius-full) !important; }
+
+/* Flex-direction raw utilities (Radzen rz-flex-* parity; the Stack
+ * component covers the same ground for component-style layout). */
+.dx-flex-row { flex-direction: row !important; }
+.dx-flex-row-reverse { flex-direction: row-reverse !important; }
+.dx-flex-column { flex-direction: column !important; }
+.dx-flex-column-reverse { flex-direction: column-reverse !important; }
