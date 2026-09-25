@@ -20,25 +20,15 @@ export interface PagerProps {
   count: number;
   pageSize: number;
   page?: number;
-  /** @deprecated use `page` */
-  pageNumber?: number;
   defaultPage?: number;
   pageSizeOptions?: readonly number[];
   pageNumbersCount?: number;
   alwaysVisible?: boolean;
   horizontalAlign?: 'left' | 'center' | 'right' | 'justify';
   showPagingSummary?: boolean;
-  /** @deprecated use showPagingSummary */
-  showSummary?: boolean;
   showPageSizeSelector?: boolean;
   pagingSummaryFormat?: string;
   pagingSummaryTemplate?: (info: PagingInformation) => ReactNode;
-  /** @deprecated use pagingSummaryTemplate */
-  summaryTemplate?: (ctx: {
-    count: number;
-    pageNumber: number;
-    pageSize: number;
-  }) => ReactNode;
   pageSizeText?: string;
   firstPageTitle?: string;
   prevPageTitle?: string;
@@ -94,18 +84,15 @@ export function Pager({
   count,
   pageSize,
   page,
-  pageNumber,
   defaultPage = 1,
   pageSizeOptions,
   pageNumbersCount = 5,
   alwaysVisible = false,
   horizontalAlign = 'left',
   showPagingSummary,
-  showSummary,
   showPageSizeSelector = true,
   pagingSummaryFormat = 'Page {0} of {1} ({2} items)',
   pagingSummaryTemplate,
-  summaryTemplate,
   pageSizeText = 'Items per page',
   firstPageTitle = 'First page',
   prevPageTitle = 'Previous page',
@@ -119,14 +106,14 @@ export function Pager({
   className,
   visible = true,
 }: PagerProps) {
-  const rawPage = page ?? pageNumber ?? defaultPage;
+  const rawPage = page ?? defaultPage;
   const [internalPage, setInternalPage] = useState(rawPage);
-  const isControlled = page !== undefined || pageNumber !== undefined;
+  const isControlled = page !== undefined;
   const uncontrolledPage = isControlled ? rawPage : internalPage;
   const pageCount = Math.max(1, Math.ceil(count / pageSize));
   const current = Math.min(Math.max(1, uncontrolledPage), pageCount);
 
-  const effectiveShowSummary = showPagingSummary ?? showSummary ?? true;
+  const effectiveShowSummary = showPagingSummary ?? true;
 
   const showPager = alwaysVisible || pageCount > 1;
 
@@ -204,9 +191,7 @@ export function Pager({
         <span className={styles.summary} aria-live="polite">
           {pagingSummaryTemplate
             ? pagingSummaryTemplate(summaryInfo)
-            : summaryTemplate
-              ? summaryTemplate({ count, pageNumber: current, pageSize })
-              : formatSummary(pagingSummaryFormat, current, pageCount, count)}
+            : formatSummary(pagingSummaryFormat, current, pageCount, count)}
         </span>
       )}
       <div

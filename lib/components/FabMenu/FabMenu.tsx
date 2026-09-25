@@ -19,12 +19,8 @@ export type FabMenuPosition =
 export interface FabMenuProps {
   items: FabMenuItem[];
   position?: FabMenuPosition;
-  /** @deprecated use position */
-  Position?: FabMenuPosition;
   icon?: string;
   onClick?: (args: FabMenuItemEventArgs) => void;
-  /** @deprecated use onClick */
-  Click?: (args: FabMenuItemEventArgs) => void;
   ariaLabel?: string;
   className?: string;
 }
@@ -32,14 +28,12 @@ export interface FabMenuProps {
 export function FabMenu({
   items,
   position,
-  Position,
   icon = '+',
   onClick,
-  Click,
   ariaLabel = 'Open menu',
   className,
 }: FabMenuProps) {
-  const effectivePosition = position ?? Position ?? 'bottom-right';
+  const effectivePosition = position ?? 'bottom-right';
   const baseId = useId();
   const menuId = `${baseId}-menu`;
   const rootRef = useRef<HTMLDivElement>(null);
@@ -50,12 +44,12 @@ export function FabMenu({
     (item: FabMenuItem) => {
       if (item.disabled) return;
       const args: FabMenuItemEventArgs = { text: item.text, value: item.value };
-      const handler = onClick ?? Click;
+      const handler = onClick;
       handler?.(args);
       setOpen(false);
       mainBtnRef.current?.focus();
     },
-    [onClick, Click]
+    [onClick]
   );
 
   useEffect(() => {

@@ -109,16 +109,6 @@ describe('Breadcrumb', () => {
     expect(onClick).not.toHaveBeenCalled();
   });
 
-  it('supports Click alias', async () => {
-    const user = userEvent.setup();
-    const Click = vi.fn();
-    render(<Breadcrumb items={items} Click={Click} />);
-    await user.click(screen.getByRole('link', { name: /Home/ }));
-    expect(Click).toHaveBeenCalledWith(
-      expect.objectContaining({ text: 'Home' })
-    );
-  });
-
   it('handles click on item without path via button', async () => {
     const user = userEvent.setup();
     const onClick = vi.fn();

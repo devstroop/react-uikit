@@ -15,8 +15,6 @@ export interface BreadcrumbItemEventArgs {
 export interface BreadcrumbProps {
   items: BreadcrumbItem[];
   onClick?: (args: BreadcrumbItemEventArgs) => void;
-  /** @deprecated use onClick */
-  Click?: (args: BreadcrumbItemEventArgs) => void;
   ariaLabel?: string;
   className?: string;
 }
@@ -24,11 +22,10 @@ export interface BreadcrumbProps {
 export function Breadcrumb({
   items,
   onClick,
-  Click,
   ariaLabel = 'Breadcrumb',
   className,
 }: BreadcrumbProps) {
-  const handler = onClick ?? Click;
+  const handler = onClick;
   const emit = (item: BreadcrumbItem) => {
     if (item.disabled) return;
     handler?.({ text: item.text, path: item.path });

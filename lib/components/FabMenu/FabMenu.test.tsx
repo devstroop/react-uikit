@@ -73,17 +73,6 @@ describe('FabMenu', () => {
     expect(onClick).not.toHaveBeenCalled();
   });
 
-  it('supports Click alias', async () => {
-    const user = userEvent.setup();
-    const Click = vi.fn();
-    render(<FabMenu items={items} Click={Click} />);
-    await user.click(screen.getByRole('button', { name: 'Open menu' }));
-    await user.click(screen.getByRole('menuitem', { name: 'Edit' }));
-    expect(Click).toHaveBeenCalledWith(
-      expect.objectContaining({ text: 'Edit' })
-    );
-  });
-
   it('closes on Escape and returns focus to main', async () => {
     const user = userEvent.setup();
     render(<FabMenu items={items} />);
@@ -119,11 +108,6 @@ describe('FabMenu', () => {
     rerender(<FabMenu items={items} position="top-right" />);
     expect((container.firstChild as Element).className).toMatch(/topRight/);
     rerender(<FabMenu items={items} position="top-left" />);
-    expect((container.firstChild as Element).className).toMatch(/topLeft/);
-  });
-
-  it('supports deprecated Position alias', () => {
-    const { container } = render(<FabMenu items={items} Position="top-left" />);
     expect((container.firstChild as Element).className).toMatch(/topLeft/);
   });
 

@@ -23,11 +23,7 @@ export interface ProfileMenuItemEventArgs {
 export interface ProfileMenuProps {
   items: ProfileMenuItem[];
   trigger?: ReactNode;
-  /** @deprecated use trigger */
-  Template?: ReactNode;
   onClick?: (args: ProfileMenuItemEventArgs) => void;
-  /** @deprecated use onClick */
-  Click?: (args: ProfileMenuItemEventArgs) => void;
   ariaLabel?: string;
   className?: string;
 }
@@ -35,9 +31,7 @@ export interface ProfileMenuProps {
 export function ProfileMenu({
   items,
   trigger,
-  Template,
   onClick,
-  Click,
   ariaLabel = 'Profile menu',
   className,
 }: ProfileMenuProps) {
@@ -48,7 +42,7 @@ export function ProfileMenu({
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
 
-  const effectiveTrigger = trigger ?? Template;
+  const effectiveTrigger = trigger;
 
   const enabledIndexes = items
     .map((item, idx) => (!item.disabled ? idx : -1))
@@ -61,12 +55,12 @@ export function ProfileMenu({
         text: item.text,
         path: item.path,
       };
-      const handler = onClick ?? Click;
+      const handler = onClick;
       handler?.(args);
       setOpen(false);
       triggerRef.current?.focus();
     },
-    [onClick, Click]
+    [onClick]
   );
 
   const openMenu = useCallback(() => {

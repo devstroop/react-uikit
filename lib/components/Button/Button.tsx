@@ -15,14 +15,10 @@ export type ButtonVariant = Variant;
 export type ButtonStyle = Exclude<Severity, 'neutral'>;
 export type ButtonShade = Shade;
 
-/** @deprecated use `variant` × `buttonStyle` × `shade` (e.g. `variant="filled" buttonStyle="danger"`). */
-export type DeprecatedButtonVariant =
-  'primary' | 'secondary' | 'ghost' | 'danger' | 'success' | 'info';
-
 export type ButtonSize = ComponentSize;
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: ButtonVariant | DeprecatedButtonVariant;
+  variant?: ButtonVariant;
   /**
    * Severity axis — the single severity prop (Radzen ButtonStyle parity).
    * Native `style` is always plain CSS and never a hue.
@@ -38,36 +34,12 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   visible?: boolean;
 }
 
-const DEPRECATED_MAP: Record<
-  DeprecatedButtonVariant,
-  { variant: ButtonVariant; style: ButtonStyle }
-> = {
-  primary: { variant: 'filled', style: 'primary' },
-  secondary: { variant: 'outlined', style: 'secondary' },
-  // old .ghost was neutral transparent — keep no hue shift
-  ghost: { variant: 'text', style: 'secondary' },
-  danger: { variant: 'filled', style: 'danger' },
-  success: { variant: 'filled', style: 'success' },
-  info: { variant: 'filled', style: 'info' },
-};
-
 function resolveVariantStyle(
-  variant: ButtonVariant | DeprecatedButtonVariant | undefined,
+  variant: ButtonVariant | undefined,
   severity: ButtonStyle | undefined
 ): { variant: ButtonVariant; style: ButtonStyle } {
-  const isDeprecated =
-    variant === 'primary' ||
-    variant === 'secondary' ||
-    variant === 'ghost' ||
-    variant === 'danger' ||
-    variant === 'success' ||
-    variant === 'info';
   const picked = severity;
-  if (isDeprecated) {
-    const mapped = DEPRECATED_MAP[variant as DeprecatedButtonVariant];
-    return { variant: mapped.variant, style: picked ?? mapped.style };
-  }
-  const raw = (variant as ButtonVariant) ?? 'filled';
+  const raw = variant ?? 'filled';
   const canonical: ButtonVariant =
     raw === 'filled' || raw === 'flat' || raw === 'outlined' || raw === 'text'
       ? raw
@@ -108,8 +80,6 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       styles[`tone-${resolved.style}`],
       shadeCls ? styles[shadeCls] : null,
       styles[size],
-      // keep deprecated class for backwards-compat selectors (will be removed in 1.0)
-      variant && styles[variant as string] ? styles[variant as string] : null,
       fullWidth ? styles.fullWidth : null,
       iconOnly ? styles.iconOnly : null,
       loading ? styles.loading : null,

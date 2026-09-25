@@ -68,16 +68,6 @@ describe('Menu', () => {
     expect(onClick).not.toHaveBeenCalled();
   });
 
-  it('supports deprecated Click alias', async () => {
-    const user = userEvent.setup();
-    const Click = vi.fn();
-    render(<Menu items={items} Click={Click} />);
-    await user.click(screen.getByRole('menuitem', { name: /Home/ }));
-    expect(Click).toHaveBeenCalledWith(
-      expect.objectContaining({ text: 'Home' })
-    );
-  });
-
   it('toggles submenu on click and sets aria-expanded', async () => {
     const user = userEvent.setup();
     render(<Menu items={items} />);

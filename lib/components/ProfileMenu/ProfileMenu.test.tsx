@@ -23,11 +23,6 @@ describe('ProfileMenu', () => {
     expect(screen.getByText('Custom')).toBeInTheDocument();
   });
 
-  it('supports Template deprecated alias', () => {
-    render(<ProfileMenu items={items} Template={<span>Tpl</span>} />);
-    expect(screen.getByText('Tpl')).toBeInTheDocument();
-  });
-
   it('toggles menu on trigger click', async () => {
     const user = userEvent.setup();
     render(<ProfileMenu items={items} />);
@@ -74,15 +69,6 @@ describe('ProfileMenu', () => {
     await user.click(screen.getByRole('button', { name: /Profile menu/ }));
     await user.click(screen.getByRole('menuitem', { name: /Sign out/ }));
     expect(onClick).not.toHaveBeenCalled();
-  });
-
-  it('supports Click alias', async () => {
-    const user = userEvent.setup();
-    const Click = vi.fn();
-    render(<ProfileMenu items={items} Click={Click} />);
-    await user.click(screen.getByRole('button', { name: /Profile menu/ }));
-    await user.click(screen.getByRole('menuitem', { name: /Profile/ }));
-    expect(Click).toHaveBeenCalled();
   });
 
   it('closes on Escape and returns focus to trigger', async () => {

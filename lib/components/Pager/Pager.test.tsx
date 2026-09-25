@@ -137,14 +137,6 @@ describe('Pager', () => {
     expect(screen.getByRole('navigation')).toBeInTheDocument();
   });
 
-  it('supports backward compat pageNumber prop', () => {
-    render(<Pager pageNumber={2} pageSize={10} count={35} />);
-    expect(screen.getByRole('button', { name: 'Page 2' })).toHaveAttribute(
-      'aria-current',
-      'page'
-    );
-  });
-
   it('supports i18n titles', () => {
     render(
       <Pager

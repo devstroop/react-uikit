@@ -24,8 +24,6 @@ export interface MenuProps {
   items: MenuItem[];
   orientation?: 'horizontal' | 'vertical';
   onClick?: (args: MenuItemEventArgs) => void;
-  /** @deprecated use onClick */
-  Click?: (args: MenuItemEventArgs) => void;
   ariaLabel?: string;
   className?: string;
 }
@@ -38,7 +36,6 @@ export function Menu({
   items,
   orientation = 'horizontal',
   onClick,
-  Click,
   ariaLabel = 'Menu',
   className,
 }: MenuProps) {
@@ -56,10 +53,10 @@ export function Menu({
         value: item.value,
         path: item.path,
       };
-      const handler = onClick ?? Click;
+      const handler = onClick;
       handler?.(args);
     },
-    [onClick, Click]
+    [onClick]
   );
 
   const handleTopClick = useCallback(

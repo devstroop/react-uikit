@@ -10,8 +10,6 @@ export interface ThemeSwitcherProps {
   value?: ThemeName;
   /** Uncontrolled initial theme. Defaults to following the OS. */
   defaultValue?: ThemeName;
-  /** @deprecated alias for `defaultValue`. */
-  defaultTheme?: ThemeName;
   /**
    * localStorage key for the explicit choice. Set to `null` to disable
    * persistence. Defaults to `"dx-theme"`.
@@ -52,7 +50,6 @@ function writeStored(key: string | null | undefined, value: ThemeName): void {
 export function ThemeSwitcher({
   value,
   defaultValue,
-  defaultTheme,
   storageKey,
   onChange,
   label = 'Dark mode',
@@ -69,7 +66,6 @@ export function ThemeSwitcher({
     internal ??
     readStored(storageKey) ??
     defaultValue ??
-    defaultTheme ??
     'system';
   const effective =
     applicable === 'system' ? (systemDark ? 'dark' : 'light') : applicable;

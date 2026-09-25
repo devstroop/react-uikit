@@ -90,24 +90,6 @@ describe('PanelMenu', () => {
     expect(b).toHaveAttribute('aria-expanded', 'true');
   });
 
-  it('supports deprecated Multiple alias', async () => {
-    const user = userEvent.setup();
-    render(
-      <PanelMenu
-        Multiple
-        items={[
-          { text: 'A', children: [{ text: 'a1' }] },
-          { text: 'B', children: [{ text: 'b1' }] },
-        ]}
-      />
-    );
-    const a = screen.getByRole('button', { name: 'A' });
-    const b = screen.getByRole('button', { name: 'B' });
-    await user.click(a);
-    await user.click(b);
-    expect(a).toHaveAttribute('aria-expanded', 'true');
-  });
-
   it('fires onClick for leaf items', async () => {
     const user = userEvent.setup();
     const onClick = vi.fn();
@@ -162,14 +144,6 @@ describe('PanelMenu', () => {
       <PanelMenu items={items} displayStyle="icon" />
     );
     expect((container.firstChild as Element).className).toMatch(/iconOnly/);
-  });
-
-  it('supports Click alias', async () => {
-    const user = userEvent.setup();
-    const Click = vi.fn();
-    render(<PanelMenu items={[{ text: 'A' }]} Click={Click} />);
-    await user.click(screen.getByRole('button', { name: 'A' }));
-    expect(Click).toHaveBeenCalledWith(expect.objectContaining({ text: 'A' }));
   });
 
   it('keyboard Enter toggles expand', async () => {

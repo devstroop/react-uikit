@@ -16,29 +16,25 @@ describe('Button', () => {
 
   it('applies variant, size, and fullWidth classes', () => {
     render(
-      <Button variant="danger" size="lg" fullWidth>
+      <Button variant="filled" severity="danger" size="lg" fullWidth>
         Delete
       </Button>
     );
     const button = screen.getByRole('button', { name: 'Delete' });
-    expect(button.className).toContain('danger');
+    expect(button.className).toContain('style-danger');
     expect(button.className).toContain('lg');
     expect(button.className).toContain('fullWidth');
   });
 
-  it.each([
-    'primary',
-    'secondary',
-    'ghost',
-    'danger',
-    'success',
-    'info',
-  ] as const)('applies the %s variant class', (variant) => {
-    render(<Button variant={variant}>{variant}</Button>);
-    expect(screen.getByRole('button', { name: variant }).className).toContain(
-      variant
-    );
-  });
+  it.each(['filled', 'flat', 'outlined', 'text'] as const)(
+    'applies the %s variant class',
+    (variant) => {
+      render(<Button variant={variant}>{variant}</Button>);
+      expect(screen.getByRole('button', { name: variant }).className).toContain(
+        variant
+      );
+    }
+  );
 
   it('forwards the click handler and is disabled', async () => {
     const user = userEvent.setup();

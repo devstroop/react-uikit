@@ -20,17 +20,9 @@ export interface PanelMenuItemEventArgs {
 export interface PanelMenuProps {
   items: PanelMenuItem[];
   multiple?: boolean;
-  /** @deprecated use multiple */
-  Multiple?: boolean;
   showArrow?: boolean;
-  /** @deprecated use showArrow */
-  ShowArrow?: boolean;
   displayStyle?: 'icon' | 'iconAndText';
-  /** @deprecated use displayStyle */
-  DisplayStyle?: 'icon' | 'iconAndText';
   onClick?: (args: PanelMenuItemEventArgs) => void;
-  /** @deprecated use onClick */
-  Click?: (args: PanelMenuItemEventArgs) => void;
   ariaLabel?: string;
   className?: string;
 }
@@ -186,20 +178,16 @@ function NestedItem({
 export function PanelMenu({
   items,
   multiple,
-  Multiple,
   showArrow,
-  ShowArrow,
   displayStyle,
-  DisplayStyle,
   onClick,
-  Click,
   ariaLabel = 'Panel menu',
   className,
 }: PanelMenuProps) {
   const baseId = useId();
-  const effectiveMultiple = multiple ?? Multiple ?? false;
-  const effectiveShowArrow = showArrow ?? ShowArrow ?? true;
-  const effectiveDisplayStyle = displayStyle ?? DisplayStyle ?? 'iconAndText';
+  const effectiveMultiple = multiple ?? false;
+  const effectiveShowArrow = showArrow ?? true;
+  const effectiveDisplayStyle = displayStyle ?? 'iconAndText';
 
   const [expanded, setExpanded] = useState<number[]>([]);
 
@@ -210,10 +198,10 @@ export function PanelMenu({
         value: item.value,
         path: item.path,
       };
-      const handler = onClick ?? Click;
+      const handler = onClick;
       handler?.(args);
     },
-    [onClick, Click]
+    [onClick]
   );
 
   const toggle = (index: number, hasChildren: boolean, item: PanelMenuItem) => {
