@@ -100,4 +100,73 @@ describe('Dialog', () => {
       .dispatchEvent(new Event('cancel', { cancelable: true }));
     expect(second).toHaveBeenCalledTimes(1);
   });
+
+  it('ignores backdrop clicks when closeOnOverlayClick is false', async () => {
+    const user = userEvent.setup();
+    const onClose = vi.fn();
+    render(
+      <Dialog
+        open
+        onClose={onClose}
+        title="Settings"
+        closeOnOverlayClick={false}
+      >
+        Body
+      </Dialog>
+    );
+    // Clicking the backdrop element itself (target === dialog).
+    await user.click(screen.getByRole('dialog'));
+    expect(onClose).not.toHaveBeenCalled();
+  });
+
+  it('swallows ESC when closeOnEsc is false', () => {
+    const onClose = vi.fn();
+    render(
+      <Dialog open onClose={onClose} title="Settings" closeOnEsc={false} />
+    );
+    screen
+      .getByRole('dialog')
+      .dispatchEvent(new Event('cancel', { cancelable: true }));
+    expect(onClose).not.toHaveBeenCalled();
+  });
+
+  it('honors a sync canClose veto', async () => {
+    const user = userEvent.setup();
+    const onClose = vi.fn();
+    render(
+      <Dialog open onClose={onClose} title="Settings" canClose={() => false} />
+    );
+    await user.click(screen.getByRole('button', { name: 'Close dialog' }));
+    expect(onClose).not.toHaveBeenCalled();
+  });
+
+  it('honors an async canClose veto', async () => {
+    const user = userEvent.setup();
+    const onClose = vi.fn();
+    render(
+      <Dialog
+        open
+        onClose={onClose}
+        title="Settings"
+        canClose={async () => false}
+      />
+    );
+    await user.click(screen.getByRole('button', { name: 'Close dialog' }));
+    expect(onClose).not.toHaveBeenCalled();
+  });
+
+  it('closes when canClose allows', async () => {
+    const user = userEvent.setup();
+    const onClose = vi.fn();
+    render(
+      <Dialog open onClose={onClose} title="Settings" canClose={() => true} />
+    );
+    await user.click(screen.getByRole('button', { name: 'Close dialog' }));
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
+  it('applies the resizable class when resizable', () => {
+    render(<Dialog open onClose={() => {}} title="Settings" resizable />);
+    expect(screen.getByRole('dialog').className).toContain('resizable');
+  });
 });

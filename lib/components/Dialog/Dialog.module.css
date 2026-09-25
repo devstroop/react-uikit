@@ -73,6 +73,11 @@
   max-width: var(--dx-dialog-width-sm);
 }
 
+/* User-resizable via the native corner handle (Radzen Resizable
+ * parity). The clipping shell stretches; the body keeps scrolling. */
+.resizable {
+  resize: both;
+}
 .md {
   max-width: var(--dx-dialog-width-md);
 }

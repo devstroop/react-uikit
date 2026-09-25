@@ -67,3 +67,11 @@ the aliases is the only later break.
   (xs `0 4px` … xl `3px 12px`, icon gap `4px` → `2px`).
 - Selectbar options are borderless text buttons inside the single
   outer bar border (was double-bordered); selected stays primary fill.
+- Button renders an anchor when `href` is set (disabled via
+  `aria-disabled` + click suppression); `ref` widens to `HTMLElement`.
+  Every button now carries press feedback (`dx-ripple`).
+- Icon-only buttons never shrink below the 40px touch target.
+- `Stat label` accepts `ReactNode` (was `string`).
+- Dialog gains `closeOnOverlayClick` (default true), `closeOnEsc`
+  (default true, always preventDefault), `resizable`, and an async
+  `canClose` veto for gesture closes.
