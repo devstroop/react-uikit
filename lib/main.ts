@@ -44,6 +44,15 @@ export type { EmptyStateProps } from './components/EmptyState/EmptyState';
 export { Field } from './components/Field/Field';
 export type { FieldProps } from './components/Field/Field';
 
+export { FormField } from './components/FormField/FormField';
+export type {
+  FormFieldProps,
+  FormFieldVariant,
+} from './components/FormField/FormField';
+
+export { Fieldset } from './components/Fieldset/Fieldset';
+export type { FieldsetProps } from './components/Fieldset/Fieldset';
+
 export { Form, useFormContext } from './components/Form/Form';
 export type {
   FormProps,

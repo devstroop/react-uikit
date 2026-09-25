@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { describe, expect, it } from 'vitest';
@@ -7,11 +7,30 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 const css = (name: string) =>
   readFileSync(join(HERE, 'components', name, `${name}.module.css`), 'utf8');
 
+const allModuleCss = (): Array<{ name: string; content: string }> =>
+  readdirSync(join(HERE, 'components'), { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .flatMap((entry) => {
+      try {
+        return [
+          {
+            name: entry.name,
+            content: readFileSync(
+              join(HERE, 'components', entry.name, `${entry.name}.module.css`),
+              'utf8'
+            ),
+          },
+        ];
+      } catch {
+        return [];
+      }
+    });
+
 const SCOPE = [
   'Button',
   'Card',
   'Text',
-  'Input',
+  'Textbox',
   'Dialog',
   'Table',
   'Alert',
@@ -22,11 +41,11 @@ const SCOPE = [
 ] as const;
 
 describe('component namespaces (Radzen parity pilot)', () => {
-  it('exposes Button/Input/Dialog/Alert geometry hooks with exact defaults', () => {
+  it('exposes Button/Textbox/Dialog/Alert geometry hooks with exact defaults', () => {
     expect(css('Button')).toContain('--dx-button-padding-md: 0 16px;');
     expect(css('Button')).toContain('padding: var(--dx-button-padding-md);');
-    expect(css('Input')).toContain('--dx-input-padding-md: 8px 12px;');
-    expect(css('Input')).toContain('padding: var(--dx-input-padding-md);');
+    expect(css('Textbox')).toContain('--dx-textbox-padding-md: 8px 12px;');
+    expect(css('Textbox')).toContain('padding: var(--dx-textbox-padding-md);');
     expect(css('Dialog')).toContain('--dx-dialog-width-md: 520px;');
     expect(css('Dialog')).toContain('max-width: var(--dx-dialog-width-md);');
     expect(css('Dialog')).toContain('--dx-dialog-close-size: 28px;');
@@ -50,7 +69,9 @@ describe('component namespaces (Radzen parity pilot)', () => {
     expect(css('Card')).toContain(
       'border: var(--dx-outlined-border-width) solid var(--dx-border-color);'
     );
-    expect(css('Splitbutton')).toContain('border-width: var(--dx-outlined-border-width);');
+    expect(css('Splitbutton')).toContain(
+      'border-width: var(--dx-outlined-border-width);'
+    );
   });
 
   it('keeps no bare border/opacity/focus-ring literals in the pilot scope', () => {
@@ -120,5 +141,40 @@ describe('component namespaces (Radzen parity pilot)', () => {
     );
     expect(selectbar).not.toMatch(/\.selected\s*{[^}]*border-color:/);
     expect(selectbar).not.toMatch(/\.option\s*{[^}]*border:\s*1px/);
+  });
+
+  it('keeps module CSS scoped: no top-level bare element selectors', () => {
+    // Short class names (.row, .content, .label) are safe ONLY because
+    // the build hashes every module. What would leak even hashed: a
+    // top-level bare element selector (`button {`, `input {`), or a
+    // :global hook outside the documented list. Descendant element
+    // selectors under a class (`.foo button`) stay scoped — allowed.
+    // Allowed :global hooks (documented htmx idioms, keep in sync):
+    // - .se-sidebar--overlay (Layout row positioning context)
+    // - [data-se-sidebar-toggle] (drawer toggle above the scrim)
+    const allowedGlobals = ['.se-sidebar--overlay', '[data-se-sidebar-toggle]'];
+    const bareElement =
+      /^(a|button|div|span|input|textarea|select|p|h1|h2|h3|ul|ol|li|table)$/;
+    for (const { name, content } of allModuleCss()) {
+      const code = content.replace(/\/\*[\s\S]*?\*\//g, '');
+      for (const line of code.split('\n')) {
+        const selector = line.split('{')[0] ?? '';
+        if (selector.trim().startsWith('@') || selector.trim() === '') continue;
+        if (selector.includes(':global')) continue;
+        // An element WITH a class/id/attr/pseudo qualifier is scoped by
+        // the hash (e.g. `button.item`); only a lone element leaks.
+        for (const part of selector.split(',')) {
+          expect(part.trim(), `${name}: lone bare element`).not.toMatch(
+            bareElement
+          );
+        }
+      }
+      for (const match of code.matchAll(/:global\(([^)]+)\)/g)) {
+        expect(
+          allowedGlobals,
+          `${name}: unlisted :global(${(match[1] ?? '').trim()})`
+        ).toContain((match[1] ?? '').trim());
+      }
+    }
   });
 });

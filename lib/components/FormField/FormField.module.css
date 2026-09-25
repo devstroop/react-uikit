@@ -1,0 +1,161 @@
+.formfield {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dx-space-1);
+  font-family: var(--dx-font-sans);
+}
+
+.content {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  border: var(--dx-border-width) solid var(--dx-border-strong-color);
+  border-radius: var(--dx-radius-md);
+  background-color: var(--dx-surface-color);
+  transition:
+    border-color var(--dx-transition-fast),
+    box-shadow var(--dx-transition-fast);
+}
+
+.content:focus-within {
+  border-color: var(--dx-primary-color);
+  box-shadow: 0 0 0 var(--dx-focus-ring-width) var(--dx-outline-primary-color);
+}
+
+.content > input,
+.content > textarea,
+.content > select {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  padding: 20px 12px 6px;
+  font: inherit;
+  color: var(--dx-text-color);
+  outline: none;
+}
+
+.content > input::placeholder,
+.content > textarea::placeholder {
+  color: transparent;
+}
+
+.label {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: var(--dx-font-size-sm);
+  color: var(--dx-text-muted-color);
+  pointer-events: none;
+  transition:
+    top var(--dx-transition-fast),
+    font-size var(--dx-transition-fast),
+    color var(--dx-transition-fast);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: calc(100% - 24px);
+}
+
+/* A leading adornment occupies ~32px (12px pad + icon); keep the
+ * resting label clear of it. Approximation documented: custom wide
+ * start content should add its own label offset. */
+.floating .content:has(> .start) .label {
+  left: 40px;
+  max-width: calc(100% - 52px);
+}
+
+/* Floating triggers: focused box, or content that defeats
+ * :placeholder-shown (typed text, date values, selections). */
+.floating .content:focus-within .label,
+.floating .content:has(input:not(:placeholder-shown)) .label,
+.floating .content:has(textarea:not(:placeholder-shown)) .label,
+.floating .content:has(select) .label {
+  top: 8px;
+  transform: none;
+  font-size: var(--dx-font-size-xs);
+}
+
+/* Fixed-top variant: label renders above the box, classic style. */
+.formfield:not(.floating) > .label {
+  position: static;
+  transform: none;
+  pointer-events: auto;
+  max-width: none;
+  font-size: var(--dx-font-size-sm);
+  font-weight: var(--dx-font-weight-medium);
+  color: var(--dx-text-color);
+}
+
+.formfield:not(.floating) .content {
+  align-items: center;
+}
+
+.formfield:not(.floating) .content > input,
+.formfield:not(.floating) .content > textarea,
+.formfield:not(.floating) .content > select {
+  padding: 8px 12px;
+}
+
+.required {
+  color: var(--dx-text-danger-color);
+  margin-left: 2px;
+}
+
+.start,
+.end {
+  display: flex;
+  align-items: center;
+  flex: none;
+  color: var(--dx-text-muted-color);
+  white-space: nowrap;
+}
+
+.start {
+  padding-left: 12px;
+}
+
+.end {
+  padding-right: 12px;
+}
+
+/* Variants */
+.filled .content {
+  background-color: var(--dx-surface-hover-color);
+  border-color: transparent;
+  border-bottom: var(--dx-border-width) solid var(--dx-border-strong-color);
+  border-radius: var(--dx-radius-md) var(--dx-radius-md) 0 0;
+}
+
+.flat .content {
+  background-color: transparent;
+  border-color: transparent;
+  border-bottom: var(--dx-border-width) solid var(--dx-border-strong-color);
+  border-radius: 0;
+}
+
+.helper {
+  font-size: var(--dx-font-size-xs);
+  color: var(--dx-text-muted-color);
+}
+
+.invalid .content {
+  border-color: var(--dx-danger-color);
+}
+
+.invalid .helper {
+  color: var(--dx-text-danger-color);
+}
+
+/* Disabled state follows the control only: adornments live behind
+ * .start/.end wrappers, so a disabled button there must not dim the
+ * whole field. Custom composite controls style their own disabled
+ * state; only a directly disabled control dims the field. */
+.formfield:has(> .content > :disabled) {
+  opacity: var(--dx-disabled-opacity);
+}
+
+.formfield:has(> .content > :disabled) .label {
+  color: var(--dx-text-muted-color);
+}

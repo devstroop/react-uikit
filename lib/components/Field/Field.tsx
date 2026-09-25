@@ -1,6 +1,13 @@
 import { cloneElement, isValidElement, useId, type ReactNode } from 'react';
 import styles from './Field.module.css';
 
+/**
+ * Top-label field wrapper (label + hint + error with id/aria wiring).
+ *
+ * @deprecated Prefer `FormField` for new code — the material field box
+ * (floating label, start/end adornments, variants). `Field` keeps its
+ * exact rendering and will be removed in 3.0.
+ */
 export interface FieldProps {
   label?: ReactNode;
   htmlFor?: string;
