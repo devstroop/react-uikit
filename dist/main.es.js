@@ -561,11 +561,11 @@ function K2({
     c != null ? /* @__PURE__ */ n("div", { id: d, className: $n.error, "aria-live": "polite", children: c }) : a != null ? /* @__PURE__ */ n("div", { id: v, className: $n.hint, children: a }) : null
   ] });
 }
-const Eo = "_formfield_rv50o_1", Io = "_content_rv50o_8", jo = "_label_rv50o_55", Ao = "_floating_rv50o_76", To = "_start_rv50o_76", Lo = "_required_rv50o_113", Ro = "_end_rv50o_119", Po = "_filled_rv50o_136", Bo = "_flat_rv50o_143", Fo = "_helper_rv50o_150", qo = "_invalid_rv50o_155", Et = {
+const Eo = "_formfield_tmzwu_1", Io = "_content_tmzwu_8", jo = "_floating_tmzwu_43", Ao = "_label_tmzwu_111", To = "_start_tmzwu_132", Lo = "_required_tmzwu_169", Ro = "_end_tmzwu_175", Po = "_filled_tmzwu_192", Bo = "_flat_tmzwu_199", Fo = "_helper_tmzwu_206", qo = "_invalid_tmzwu_211", Et = {
   formfield: Eo,
   content: Io,
-  label: jo,
-  floating: Ao,
+  floating: jo,
+  label: Ao,
   start: To,
   required: Lo,
   end: Ro,
@@ -840,6 +840,7 @@ const Qo = "_select_1j4dh_1", el = "_invalid_1j4dh_33", tl = "_xs_1j4dh_40", nl 
       "select",
       {
         ref: r,
+        "data-size": t,
         className: [
           Qn.select,
           Qn[t],
@@ -2499,6 +2500,7 @@ const Wa = "_label_1qfpw_1", Xa = {
       {
         ref: r,
         type: c,
+        "data-size": t,
         className: [
           es.textbox,
           es[t],
@@ -4255,6 +4257,7 @@ const qp = "_textarea_1mu8y_1", Hp = "_invalid_1mu8y_27", Kp = "_xs_1mu8y_34", U
       "textarea",
       {
         ref: h,
+        "data-size": t,
         className: [
           Hn.textarea,
           Hn[t],
@@ -5203,36 +5206,39 @@ const Lg = "_wrapper_o4h13_1", Rg = "_input_o4h13_8", Pg = "_invalid_o4h13_38", 
     ...r
   }, l) {
     const [a, p] = V(!1);
-    return /* @__PURE__ */ O("div", { className: Mn.wrapper, children: [
-      /* @__PURE__ */ n(
-        "input",
-        {
-          ref: l,
-          type: a ? "text" : "password",
-          disabled: i,
-          className: [
-            Mn.input,
-            Mn[t],
-            s ? Mn.invalid : null,
-            o
-          ].filter(Boolean).join(" "),
-          "aria-invalid": s || void 0,
-          ...r
-        }
-      ),
-      /* @__PURE__ */ n(
-        "button",
-        {
-          type: "button",
-          className: Mn.toggle,
-          "aria-pressed": a,
-          "aria-label": a ? h : c,
-          disabled: i,
-          onClick: () => p((d) => !d),
-          children: /* @__PURE__ */ n(Se, { name: a ? "eye-off" : "eye", size: 16 })
-        }
-      )
-    ] });
+    return (
+      // Size hook for containers (FormField reads it to size the box).
+      /* @__PURE__ */ O("div", { className: Mn.wrapper, "data-size": t, children: [
+        /* @__PURE__ */ n(
+          "input",
+          {
+            ref: l,
+            type: a ? "text" : "password",
+            disabled: i,
+            className: [
+              Mn.input,
+              Mn[t],
+              s ? Mn.invalid : null,
+              o
+            ].filter(Boolean).join(" "),
+            "aria-invalid": s || void 0,
+            ...r
+          }
+        ),
+        /* @__PURE__ */ n(
+          "button",
+          {
+            type: "button",
+            className: Mn.toggle,
+            "aria-pressed": a,
+            "aria-label": a ? h : c,
+            disabled: i,
+            onClick: () => p((d) => !d),
+            children: /* @__PURE__ */ n(Se, { name: a ? "eye-off" : "eye", size: 16 })
+          }
+        )
+      ] })
+    );
   }
 ), Wg = "_mask_1tyy7_1", Xg = "_invalid_1tyy7_31", Vg = "_xs_1tyy7_38", Gg = "_sm_1tyy7_44", Yg = "_md_1tyy7_50", Zg = "_lg_1tyy7_56", Jg = "_xl_1tyy7_62", ns = {
   mask: Wg,
@@ -5275,6 +5281,7 @@ const Bv = We(function({
     {
       ref: p,
       type: "text",
+      "data-size": t,
       value: $,
       onChange: (u) => {
         k(u.target.value);
@@ -5368,52 +5375,55 @@ const Fv = We(
       const z = ls(N);
       z === null ? (x || u(""), r?.(null)) : S(tr(u0(z, l, p), l, a)), b?.(C);
     };
-    return /* @__PURE__ */ O("div", { className: Zt.wrapper, children: [
-      /* @__PURE__ */ n(
-        "input",
-        {
-          ref: f,
-          type: "text",
-          inputMode: "decimal",
-          autoComplete: "off",
-          value: N,
-          disabled: i,
-          onChange: w,
-          onKeyDown: E,
-          onBlur: I,
-          className: [
-            Zt.input,
-            Zt[t],
-            s ? Zt.invalid : null,
-            o
-          ].filter(Boolean).join(" "),
-          "aria-invalid": s || void 0,
-          ...k
-        }
-      ),
-      /* @__PURE__ */ n(
-        "button",
-        {
-          type: "button",
-          className: [Zt.button, Zt.up].join(" "),
-          "aria-label": d,
-          disabled: i,
-          onClick: () => y(1),
-          children: /* @__PURE__ */ n(Se, { name: "chevron-up", size: 14 })
-        }
-      ),
-      /* @__PURE__ */ n(
-        "button",
-        {
-          type: "button",
-          className: [Zt.button, Zt.down].join(" "),
-          "aria-label": v,
-          disabled: i,
-          onClick: () => y(-1),
-          children: /* @__PURE__ */ n(Se, { name: "chevron-down", size: 14 })
-        }
-      )
-    ] });
+    return (
+      // Size hook for containers (FormField reads it to size the box).
+      /* @__PURE__ */ O("div", { className: Zt.wrapper, "data-size": t, children: [
+        /* @__PURE__ */ n(
+          "input",
+          {
+            ref: f,
+            type: "text",
+            inputMode: "decimal",
+            autoComplete: "off",
+            value: N,
+            disabled: i,
+            onChange: w,
+            onKeyDown: E,
+            onBlur: I,
+            className: [
+              Zt.input,
+              Zt[t],
+              s ? Zt.invalid : null,
+              o
+            ].filter(Boolean).join(" "),
+            "aria-invalid": s || void 0,
+            ...k
+          }
+        ),
+        /* @__PURE__ */ n(
+          "button",
+          {
+            type: "button",
+            className: [Zt.button, Zt.up].join(" "),
+            "aria-label": d,
+            disabled: i,
+            onClick: () => y(1),
+            children: /* @__PURE__ */ n(Se, { name: "chevron-up", size: 14 })
+          }
+        ),
+        /* @__PURE__ */ n(
+          "button",
+          {
+            type: "button",
+            className: [Zt.button, Zt.down].join(" "),
+            "aria-label": v,
+            disabled: i,
+            onClick: () => y(-1),
+            children: /* @__PURE__ */ n(Se, { name: "chevron-down", size: 14 })
+          }
+        )
+      ] })
+    );
   }
 ), Oe = {
   "dx-colorpicker": "_dx-colorpicker_mmfdo_1",
