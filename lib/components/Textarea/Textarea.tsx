@@ -18,6 +18,8 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     return (
       <textarea
         ref={ref}
+        // Size hook for containers (FormField reads it to size the box).
+        data-size={size}
         className={[
           styles.textarea,
           styles[size],

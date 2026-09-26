@@ -20,6 +20,13 @@ describe('Textbox', () => {
     expect(screen.getByRole('textbox').className).toContain('lg');
   });
 
+  it('exposes size via data-size for container sizing', () => {
+    const { rerender } = render(<Textbox />);
+    expect(screen.getByRole('textbox')).toHaveAttribute('data-size', 'md');
+    rerender(<Textbox size="xl" />);
+    expect(screen.getByRole('textbox')).toHaveAttribute('data-size', 'xl');
+  });
+
   it('sets aria-invalid only when invalid', () => {
     const { rerender } = render(<Textbox />);
     expect(screen.getByRole('textbox')).not.toHaveAttribute('aria-invalid');

@@ -108,6 +108,13 @@ the aliases is the only later break.
   children never paint their own `:focus-visible` outline or shadow,
   so focus shows the single box ring instead of two nested rings.
   End adornments (buttons) keep their own focus rings.
+- `FormField` owns floating box height (Radzen filled-field parity):
+  `--dx-field-height-xs/sm/md/lg/xl` (`34/42/50/58/66px`, raw control
+  height + label zone) with asymmetric `--dx-field-padding-*`.
+  Inner `Textbox`/`Textarea`/`Select`/`Numeric`/`Password`/`Mask`
+  expose their size via `data-size` and surrender fixed heights inside
+  floating fields (the box grows instead of squeezing the text zone).
+  Non-floating fields keep raw control heights.
 
 - Outlined borders render at `--dx-outlined-border-width: 1px`
   on Badge, Button, Alert, Card, and Splitbutton; outlines at

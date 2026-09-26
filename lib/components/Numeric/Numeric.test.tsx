@@ -150,4 +150,9 @@ describe('Numeric', () => {
       screen.getByRole('button', { name: 'Take one' })
     ).toBeInTheDocument();
   });
+
+  it('exposes size via data-size on the wrapper for container sizing', () => {
+    const { container } = render(<Numeric aria-label="Amount" size="xl" />);
+    expect(container.firstElementChild).toHaveAttribute('data-size', 'xl');
+  });
 });

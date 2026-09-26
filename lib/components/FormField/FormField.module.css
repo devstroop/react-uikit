@@ -35,6 +35,62 @@
   outline: none;
 }
 
+/* Floating fields own the box height (label zone included): the box
+ * grows to --dx-field-height-* while inner controls surrender their
+ * fixed control heights (height:auto + stretch). Size follows the
+ * inner control's data-size hook (md default for bare elements);
+ * non-floating fields keep raw control heights (rule below). */
+.floating .content {
+  min-height: var(--dx-field-height-md);
+}
+
+.floating .content > input,
+.floating .content > textarea,
+.floating .content > select {
+  height: auto;
+  padding: var(--dx-field-padding-md);
+}
+
+.floating .content:has(> [data-size='xs']) {
+  min-height: var(--dx-field-height-xs);
+}
+
+.floating .content:has(> [data-size='xs']) > input,
+.floating .content:has(> [data-size='xs']) > textarea,
+.floating .content:has(> [data-size='xs']) > select {
+  padding: var(--dx-field-padding-xs);
+}
+
+.floating .content:has(> [data-size='sm']) {
+  min-height: var(--dx-field-height-sm);
+}
+
+.floating .content:has(> [data-size='sm']) > input,
+.floating .content:has(> [data-size='sm']) > textarea,
+.floating .content:has(> [data-size='sm']) > select {
+  padding: var(--dx-field-padding-sm);
+}
+
+.floating .content:has(> [data-size='lg']) {
+  min-height: var(--dx-field-height-lg);
+}
+
+.floating .content:has(> [data-size='lg']) > input,
+.floating .content:has(> [data-size='lg']) > textarea,
+.floating .content:has(> [data-size='lg']) > select {
+  padding: var(--dx-field-padding-lg);
+}
+
+.floating .content:has(> [data-size='xl']) {
+  min-height: var(--dx-field-height-xl);
+}
+
+.floating .content:has(> [data-size='xl']) > input,
+.floating .content:has(> [data-size='xl']) > textarea,
+.floating .content:has(> [data-size='xl']) > select {
+  padding: var(--dx-field-padding-xl);
+}
+
 .content > input::placeholder,
 .content > textarea::placeholder {
   color: transparent;

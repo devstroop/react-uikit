@@ -28,6 +28,8 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
     return (
       <select
         ref={ref}
+        // Size hook for containers (FormField reads it to size the box).
+        data-size={size}
         className={[
           styles.select,
           styles[size],

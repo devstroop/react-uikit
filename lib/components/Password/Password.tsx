@@ -30,7 +30,8 @@ export const Password = forwardRef<HTMLInputElement, PasswordProps>(
   ) {
     const [visible, setVisible] = useState(false);
     return (
-      <div className={styles.wrapper}>
+      // Size hook for containers (FormField reads it to size the box).
+      <div className={styles.wrapper} data-size={size}>
         <input
           ref={ref}
           type={visible ? 'text' : 'password'}

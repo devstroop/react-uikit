@@ -36,4 +36,9 @@ describe('Textarea', () => {
     render(<Textarea className="custom" aria-label="Notes" />);
     expect(screen.getByLabelText('Notes').className).toContain('custom');
   });
+
+  it('exposes size via data-size for container sizing', () => {
+    render(<Textarea aria-label="Notes" size="sm" />);
+    expect(screen.getByLabelText('Notes')).toHaveAttribute('data-size', 'sm');
+  });
 });

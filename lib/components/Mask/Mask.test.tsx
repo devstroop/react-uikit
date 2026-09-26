@@ -26,6 +26,14 @@ describe('Mask', () => {
     expect(input).toHaveAttribute('type', 'text');
   });
 
+  it('exposes size via data-size for container sizing', () => {
+    render(<Mask mask={PHONE} aria-label="Phone" size="sm" />);
+    expect(screen.getByRole('textbox', { name: 'Phone' })).toHaveAttribute(
+      'data-size',
+      'sm'
+    );
+  });
+
   it('formats digits as they are typed', async () => {
     const user = userEvent.setup();
     render(<Mask mask={PHONE} aria-label="Phone" />);

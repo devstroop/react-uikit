@@ -109,4 +109,12 @@ describe('Select', () => {
     expect(onChange).toHaveBeenCalledTimes(1);
     expect(screen.getByRole('combobox', { name: 'Region' })).toHaveValue('eu');
   });
+
+  it('exposes size via data-size for container sizing', () => {
+    render(<Select aria-label="Region" size="lg" options={[]} />);
+    expect(screen.getByRole('combobox', { name: 'Region' })).toHaveAttribute(
+      'data-size',
+      'lg'
+    );
+  });
 });

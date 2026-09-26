@@ -1,6 +1,11 @@
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { FormField } from './FormField';
+
+const HERE = dirname(fileURLToPath(import.meta.url));
 
 describe('FormField', () => {
   it('renders text, control, and helper', () => {
@@ -209,5 +214,28 @@ describe('FormField', () => {
     );
     expect(screen.getByText('Password')).toHaveAttribute('for', 'pw');
     expect(screen.getByLabelText('Password').getAttribute('id')).toBe('pw');
+  });
+
+  it('owns floating box height per inner data-size', () => {
+    // Sizing contract (Radzen filled-field parity): the box grows to a
+    // field token while inner controls surrender fixed heights.
+    const css = readFileSync(join(HERE, 'FormField.module.css'), 'utf8');
+    const tokens = readFileSync(
+      join(HERE, '..', '..', 'styles', 'tokens.css'),
+      'utf8'
+    );
+    for (const size of ['xs', 'sm', 'md', 'lg', 'xl']) {
+      expect(tokens).toContain(`--dx-field-height-${size}:`);
+      expect(tokens).toContain(`--dx-field-padding-${size}:`);
+    }
+    // md is the default (base rules, no qualifier); other tiers key
+    // off the inner control's data-size hook.
+    for (const size of ['xs', 'sm', 'lg', 'xl']) {
+      expect(css).toContain(`[data-size='${size}']`);
+    }
+    expect(css).toContain('min-height: var(--dx-field-height-md)');
+    expect(css).toMatch(
+      /\.floating \.content > input,\s*\.floating \.content > textarea,\s*\.floating \.content > select\s*{[^}]*height: auto/
+    );
   });
 });

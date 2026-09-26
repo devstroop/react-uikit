@@ -128,6 +128,12 @@ export function FormDemos({ slug }: { slug: string }) {
           <FormField text="Amount" invalid helper="Must be positive.">
             <Textbox id="demo-amount" />
           </FormField>
+          <FormField text="Small" helper="Size sm follows the field.">
+            <Textbox id="demo-small" size="sm" />
+          </FormField>
+          <FormField text="Large" helper="Size lg grows the box.">
+            <Textbox id="demo-large" size="lg" />
+          </FormField>
         </DemoSection>
       );
     case 'fieldset':

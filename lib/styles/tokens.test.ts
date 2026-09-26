@@ -116,6 +116,16 @@ describe('foundation tokens', () => {
       ['--dx-focus-ring-width', '2px'],
       ['--dx-focus-ring-offset', '2px'],
       ['--dx-disabled-opacity', '0.55'],
+      ['--dx-field-height-xs', '34px'],
+      ['--dx-field-height-sm', '42px'],
+      ['--dx-field-height-md', '50px'],
+      ['--dx-field-height-lg', '58px'],
+      ['--dx-field-height-xl', '66px'],
+      ['--dx-field-padding-xs', '12px 12px 4px'],
+      ['--dx-field-padding-sm', '16px 12px 4px'],
+      ['--dx-field-padding-md', '20px 12px 6px'],
+      ['--dx-field-padding-lg', '24px 12px 8px'],
+      ['--dx-field-padding-xl', '28px 12px 8px'],
     ]) {
       expect(css, token).toContain(`${token}: ${value};`);
     }

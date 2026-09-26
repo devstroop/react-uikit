@@ -166,7 +166,8 @@ export const Numeric = forwardRef<HTMLInputElement, NumericProps>(
     };
 
     return (
-      <div className={styles.wrapper}>
+      // Size hook for containers (FormField reads it to size the box).
+      <div className={styles.wrapper} data-size={size}>
         <input
           ref={ref}
           type="text"

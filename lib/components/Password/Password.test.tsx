@@ -60,4 +60,9 @@ describe('Password', () => {
       screen.getByRole('button', { name: 'Show password' })
     ).toBeDisabled();
   });
+
+  it('exposes size via data-size on the wrapper for container sizing', () => {
+    const { container } = render(<Password aria-label="Password" size="sm" />);
+    expect(container.firstElementChild).toHaveAttribute('data-size', 'sm');
+  });
 });

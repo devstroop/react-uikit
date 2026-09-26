@@ -280,6 +280,20 @@
   --dx-control-height-md: 36px;
   --dx-control-height-lg: 44px;
   --dx-control-height-xl: 52px;
+  /* floating field boxes: raw control height + label zone (cf. Radzen
+   * filled fields at +12-14px over raw inputs). Inner inputs surrender
+   * their fixed heights inside floating fields; the box grows instead.
+   * Padding is asymmetric: top reserves the floated-label zone. */
+  --dx-field-height-xs: 34px;
+  --dx-field-height-sm: 42px;
+  --dx-field-height-md: 50px;
+  --dx-field-height-lg: 58px;
+  --dx-field-height-xl: 66px;
+  --dx-field-padding-xs: 12px 12px 4px;
+  --dx-field-padding-sm: 16px 12px 4px;
+  --dx-field-padding-md: 20px 12px 6px;
+  --dx-field-padding-lg: 24px 12px 8px;
+  --dx-field-padding-xl: 28px 12px 8px;
 
   /* container roles (M3 system; defaults follow the console palette) */
   --dx-primary-container-color: #78f2c2;

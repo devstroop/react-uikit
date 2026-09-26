@@ -85,6 +85,8 @@ export const Mask = forwardRef<HTMLInputElement, MaskProps>(function Mask(
     <input
       ref={ref}
       type="text"
+      // Size hook for containers (FormField reads it to size the box).
+      data-size={size}
       value={displayed}
       onChange={handleChange}
       onKeyDown={handleKeyDown}
