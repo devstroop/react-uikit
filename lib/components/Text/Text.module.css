@@ -1,5 +1,8 @@
 .typography {
   font-family: var(--dx-font-sans);
+  /* A Text component owns its box: UA h1-h6/p margins never leak.
+   * Spacing around text is the parent's job (Stack gap, dx-mt-*). */
+  margin: 0;
 }
 
 .display-1 {

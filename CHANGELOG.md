@@ -89,6 +89,12 @@ the aliases is the only later break.
 
 ### Changed
 
+- `Text` owns its box: `.typography` sets `margin: 0`, so UA `h1–h6`/`p`
+  margins never leak. Spacing around text is the parent's job (`Stack`
+  gap, `dx-mt-*`). Deletes a class of margin-reset overrides in
+  consumers; any layout that relied on UA text margins needs an
+  explicit gap.
+
 - Outlined borders render at `--dx-outlined-border-width: 1px`
   on Badge, Button, Alert, Card, and Splitbutton; outlines at
   `--dx-outline-width: 1px`, focus rings at
