@@ -131,6 +131,19 @@ describe('foundation tokens', () => {
     }
   });
 
+  it('derives radius roles from the base tiers', () => {
+    // Geometry families (Radzen derivation parity): components consume
+    // roles, never raw tiers — a theme retunes by re-pointing a role.
+    for (const [token, value] of [
+      ['--dx-radius-input', 'var(--dx-radius-md)'],
+      ['--dx-radius-button', 'var(--dx-radius-full)'],
+      ['--dx-radius-checkbox', 'var(--dx-radius-sm)'],
+      ['--dx-radius-surface', 'var(--dx-radius-lg)'],
+    ]) {
+      expect(css, token).toContain(`${token}: ${value};`);
+    }
+  });
+
   it('defines the leading scale with exact in-use values', () => {
     for (const [token, value] of [
       ['--dx-leading-none', '1'],

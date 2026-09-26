@@ -128,7 +128,7 @@
 }
 
 .pills .tab {
-  border-radius: var(--dx-radius-full);
+  border-radius: var(--dx-radius-button);
 }
 
 .pills .tab.active {

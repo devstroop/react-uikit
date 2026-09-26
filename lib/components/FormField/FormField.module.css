@@ -10,7 +10,7 @@
   display: flex;
   align-items: stretch;
   border: var(--dx-border-width) solid var(--dx-border-strong-color);
-  border-radius: var(--dx-radius-md);
+  border-radius: var(--dx-radius-input);
   background-color: var(--dx-surface-color);
   transition:
     border-color var(--dx-transition-fast),
@@ -193,7 +193,7 @@
   background-color: var(--dx-surface-hover-color);
   border-color: transparent;
   border-bottom: var(--dx-border-width) solid var(--dx-border-strong-color);
-  border-radius: var(--dx-radius-md) var(--dx-radius-md) 0 0;
+  border-radius: var(--dx-radius-input) var(--dx-radius-md) 0 0;
 }
 
 .flat .content {

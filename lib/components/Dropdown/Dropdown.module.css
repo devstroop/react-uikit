@@ -15,7 +15,7 @@
   min-width: 0;
   box-sizing: border-box;
   border: 1px solid var(--dx-border-strong-color);
-  border-radius: var(--dx-radius-md);
+  border-radius: var(--dx-radius-input);
   background-color: var(--dx-surface-color);
   color: var(--dx-text-color);
   font-family: inherit;
@@ -78,7 +78,7 @@
   right: 0;
   z-index: var(--dx-z-popover);
   border: 1px solid var(--dx-border-strong-color);
-  border-radius: var(--dx-radius-md);
+  border-radius: var(--dx-radius-input);
   background-color: var(--dx-surface-color);
   box-shadow: var(--dx-shadow-md);
   padding: var(--dx-space-1);
@@ -90,7 +90,7 @@
   display: flex;
   align-items: center;
   padding: var(--dx-space-2) var(--dx-space-3);
-  border-radius: var(--dx-radius-md);
+  border-radius: var(--dx-radius-input);
   color: var(--dx-text-color);
   font-size: var(--dx-font-size-sm);
   cursor: pointer;

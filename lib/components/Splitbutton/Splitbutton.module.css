@@ -332,7 +332,7 @@
   gap: var(--dx-space-2);
   border: var(--dx-border-width) solid var(--split-border, var(--split-fill));
   border-right: none;
-  border-radius: var(--dx-radius-md) 0 0 var(--dx-radius-md);
+  border-radius: var(--dx-radius-input) 0 0 var(--dx-radius-md);
   background-color: var(--split-bg, var(--split-fill));
   color: var(--split-foreground);
   font-family: inherit;
@@ -536,7 +536,7 @@
   z-index: var(--dx-z-popover);
   min-width: 100%;
   border: var(--dx-border-width) solid var(--dx-border-strong-color);
-  border-radius: var(--dx-radius-md);
+  border-radius: var(--dx-radius-input);
   background-color: var(--dx-surface-color);
   box-shadow: var(--dx-shadow-md);
   padding: var(--dx-space-1);
@@ -546,7 +546,7 @@
   display: flex;
   align-items: center;
   padding: var(--dx-space-2) var(--dx-space-3);
-  border-radius: var(--dx-radius-md);
+  border-radius: var(--dx-radius-input);
   color: var(--dx-text-color);
   font-size: var(--dx-font-size-sm);
   white-space: nowrap;

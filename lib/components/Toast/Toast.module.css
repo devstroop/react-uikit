@@ -33,7 +33,7 @@
   align-items: flex-start;
   gap: var(--dx-space-3);
   padding: var(--dx-space-3) var(--dx-space-4);
-  border-radius: var(--dx-radius-md);
+  border-radius: var(--dx-radius-input);
   border: 1px solid var(--dx-border-color);
   background: var(--dx-surface-color);
   color: var(--dx-text-color);
@@ -150,7 +150,7 @@
   width: 22px;
   height: 22px;
   border: none;
-  border-radius: var(--dx-radius-sm);
+  border-radius: var(--dx-radius-checkbox);
   background: transparent;
   color: var(--dx-text-muted-color);
   font-size: var(--dx-font-size-md);
@@ -176,7 +176,7 @@
 .action,
 .cancel {
   border: none;
-  border-radius: var(--dx-radius-sm);
+  border-radius: var(--dx-radius-checkbox);
   padding: var(--dx-space-1) var(--dx-space-2);
   background: transparent;
   font-size: var(--dx-font-size-xs);
@@ -218,7 +218,7 @@
   right: 0;
   bottom: 0;
   height: 3px;
-  border-radius: 0 0 var(--dx-radius-md) var(--dx-radius-md);
+  border-radius: 0 0 var(--dx-radius-input) var(--dx-radius-input);
   background-color: var(--dx-primary-color);
   transform-origin: left;
   animation: se-toast-progress linear;

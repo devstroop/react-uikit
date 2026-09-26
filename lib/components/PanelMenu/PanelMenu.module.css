@@ -2,7 +2,7 @@
   font-family: var(--dx-font-sans);
   background-color: var(--dx-surface-color);
   border: 1px solid var(--dx-border-color);
-  border-radius: var(--dx-radius-md);
+  border-radius: var(--dx-radius-input);
   overflow: hidden;
 }
 
@@ -95,7 +95,7 @@
   align-items: center;
   gap: var(--dx-space-2);
   padding: var(--dx-space-1) var(--dx-space-2);
-  border-radius: var(--dx-radius-sm);
+  border-radius: var(--dx-radius-checkbox);
   color: var(--dx-text-color);
   font-size: var(--dx-font-size-sm);
   font-weight: var(--dx-font-weight-medium);
@@ -131,7 +131,7 @@
   width: 100%;
   padding: var(--dx-space-1) var(--dx-space-2);
   border: none;
-  border-radius: var(--dx-radius-sm);
+  border-radius: var(--dx-radius-checkbox);
   background: transparent;
   color: var(--dx-text-color);
   font-size: var(--dx-font-size-sm);

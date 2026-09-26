@@ -63,6 +63,12 @@ the aliases is the only later break.
 
 ### Added
 
+- Radius role tokens (Radzen derivation parity): `--dx-radius-input`
+  (base), `--dx-radius-button` (pill, brand), `--dx-radius-checkbox`
+  (half step), `--dx-radius-surface` (step up). Every component
+  consumes roles, never raw tiers — pixel-identical output; themes
+  retune by re-pointing a role. Documented in CONTRIBUTING (rule 7).
+
 - `Avatar` accepts `email` for Gravatar resolution (RadzenGravatar
   parity, folded into `Avatar` instead of a separate component):
   precedence is explicit `src`, then Gravatar, then palette initials.

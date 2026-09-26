@@ -16,7 +16,7 @@
   min-width: 0;
   box-sizing: border-box;
   border: 1px solid var(--dx-border-strong-color);
-  border-radius: var(--dx-radius-md);
+  border-radius: var(--dx-radius-input);
   background-color: var(--dx-surface-color);
   color: var(--dx-text-color);
   font-family: inherit;
@@ -88,7 +88,7 @@
   width: 30px;
   height: calc(100% - 8px);
   border: none;
-  border-radius: var(--dx-radius-sm);
+  border-radius: var(--dx-radius-checkbox);
   background-color: transparent;
   color: var(--dx-text-muted-color);
   cursor: pointer;
@@ -123,7 +123,7 @@
   width: 24px;
   height: 24px;
   border: none;
-  border-radius: var(--dx-radius-sm);
+  border-radius: var(--dx-radius-checkbox);
   background-color: transparent;
   color: var(--dx-text-muted-color);
   cursor: pointer;
@@ -148,7 +148,7 @@
   left: 0;
   z-index: var(--dx-z-popover);
   border: 1px solid var(--dx-border-strong-color);
-  border-radius: var(--dx-radius-md);
+  border-radius: var(--dx-radius-input);
   background-color: var(--dx-surface-color);
   box-shadow: var(--dx-shadow-lg);
   padding: var(--dx-space-3);
@@ -196,7 +196,7 @@
   height: 30px;
   box-sizing: border-box;
   border: 1px solid var(--dx-border-strong-color);
-  border-radius: var(--dx-radius-sm);
+  border-radius: var(--dx-radius-checkbox);
   background-color: var(--dx-surface-color);
   color: var(--dx-text-color);
   font-family: inherit;
@@ -251,7 +251,7 @@
   height: var(--dx-control-height-sm);
   padding: 0 var(--dx-space-4);
   border: none;
-  border-radius: var(--dx-radius-md);
+  border-radius: var(--dx-radius-input);
   background-color: var(--dx-primary-color);
   color: var(--dx-primary-foreground-color);
   font-family: inherit;

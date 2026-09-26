@@ -16,7 +16,7 @@
   padding: 0 var(--dx-space-2);
   height: 24px;
   border: 1px solid var(--dx-border-color);
-  border-radius: var(--dx-radius-sm);
+  border-radius: var(--dx-radius-checkbox);
   background-color: var(--dx-surface-color);
   color: var(--dx-text-color);
   font-size: var(--dx-font-size-sm);

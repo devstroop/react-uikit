@@ -1,7 +1,7 @@
 .root {
   display: block;
   border: 1px solid var(--dx-border-color);
-  border-radius: var(--dx-radius-md);
+  border-radius: var(--dx-radius-input);
   background-color: var(--dx-surface-color);
   color: var(--dx-text-color);
   font-family: var(--dx-font-sans);
@@ -37,7 +37,7 @@
   gap: var(--dx-space-1);
   padding: var(--dx-space-1) var(--dx-space-2);
   border: 1px solid transparent;
-  border-radius: var(--dx-radius-sm);
+  border-radius: var(--dx-radius-checkbox);
   cursor: pointer;
   transition:
     background-color var(--dx-transition-fast),
@@ -84,7 +84,7 @@
   width: 20px;
   height: 20px;
   border: none;
-  border-radius: var(--dx-radius-sm);
+  border-radius: var(--dx-radius-checkbox);
   background: transparent;
   color: var(--dx-text-muted-color);
   cursor: pointer;

@@ -1,5 +1,5 @@
 .card {
-  border-radius: var(--dx-radius-lg);
+  border-radius: var(--dx-radius-surface);
   background-color: var(--dx-surface-color);
   font-family: var(--dx-font-sans);
   overflow: hidden;

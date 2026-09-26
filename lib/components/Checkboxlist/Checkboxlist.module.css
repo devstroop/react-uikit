@@ -52,7 +52,7 @@
   margin: 0;
   flex-shrink: 0;
   border: 1px solid var(--dx-border-strong-color);
-  border-radius: var(--dx-radius-sm);
+  border-radius: var(--dx-radius-checkbox);
   background-color: var(--dx-surface-color);
   cursor: pointer;
   display: inline-grid;

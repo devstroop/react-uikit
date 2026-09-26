@@ -1,7 +1,7 @@
 .root {
   font-family: var(--dx-font-sans);
   border: 1px solid var(--dx-border-color);
-  border-radius: var(--dx-radius-md);
+  border-radius: var(--dx-radius-input);
   background-color: var(--dx-surface-color);
   overflow: hidden;
 }
@@ -44,7 +44,7 @@
   flex: 1;
   height: 20px;
   border: 1px solid var(--dx-primary-color);
-  border-radius: var(--dx-radius-sm);
+  border-radius: var(--dx-radius-checkbox);
   background-color: var(--dx-surface-color);
   position: relative;
   cursor: pointer;
@@ -56,7 +56,7 @@
 .progress {
   height: 100%;
   background-color: var(--dx-primary-color);
-  border-radius: var(--dx-radius-sm);
+  border-radius: var(--dx-radius-checkbox);
 }
 .dep {
   width: 20px;

@@ -4,7 +4,7 @@
   width: 100%;
   overflow: hidden;
   border: 1px solid var(--dx-border-color);
-  border-radius: var(--dx-radius-md);
+  border-radius: var(--dx-radius-input);
   background-color: var(--dx-surface-color);
   font-family: var(--dx-font-sans);
 }
@@ -44,7 +44,7 @@
   width: 36px;
   height: 36px;
   border: 1px solid var(--dx-border-color);
-  border-radius: var(--dx-radius-md);
+  border-radius: var(--dx-radius-input);
   background-color: var(--dx-surface-color);
   color: var(--dx-text-color);
   font-size: 20px;
@@ -86,7 +86,7 @@
   width: 28px;
   height: 28px;
   border: 1px solid var(--dx-border-color);
-  border-radius: var(--dx-radius-md);
+  border-radius: var(--dx-radius-input);
   background-color: var(--dx-surface-color);
   color: var(--dx-text-muted-color);
   font-size: 12px;
@@ -121,7 +121,7 @@
 .indicator {
   width: 10px;
   height: 10px;
-  border-radius: var(--dx-radius-full);
+  border-radius: var(--dx-radius-button);
   border: 1px solid var(--dx-border-color);
   background-color: var(--dx-surface-color);
   cursor: pointer;

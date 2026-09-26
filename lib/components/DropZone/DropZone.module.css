@@ -8,7 +8,7 @@
   box-sizing: border-box;
   padding: var(--dx-space-4);
   border: 1px dashed var(--dx-border-strong-color);
-  border-radius: var(--dx-radius-md);
+  border-radius: var(--dx-radius-input);
   background-color: var(--dx-surface-color);
   transition:
     border-color var(--dx-transition-fast),
@@ -41,7 +41,7 @@
   display: inline-flex;
   align-items: center;
   border: none;
-  border-radius: var(--dx-radius-sm);
+  border-radius: var(--dx-radius-checkbox);
   background-color: transparent;
   color: var(--dx-text-primary-color);
   font-family: var(--dx-font-sans);

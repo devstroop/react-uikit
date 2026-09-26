@@ -11,7 +11,7 @@
   justify-content: center;
   gap: var(--dx-space-2);
   border: var(--dx-border-width) solid transparent;
-  border-radius: var(--dx-radius-full);
+  border-radius: var(--dx-radius-button);
   font-family: var(--dx-font-sans);
   font-weight: var(--dx-font-weight-medium);
   line-height: var(--dx-leading-none);
@@ -587,7 +587,7 @@
 .iconOnly {
   padding: 0;
   aspect-ratio: 1;
-  border-radius: var(--dx-radius-full);
+  border-radius: var(--dx-radius-button);
   /* Icon buttons never shrink below the 40px touch target, whatever
    * the tier maps to (xs–md tiers are smaller). */
   min-width: var(--dx-target-min);

@@ -22,6 +22,14 @@
    the short names unhashed); never add a lone bare-element selector
    or an unlisted `:global()` hook — `namespaces.test.ts` enforces the
    scoping half (no top-level bare elements, `:global` allowlist).
+7. **Radius is derived, never hardcoded.** Components consume geometry
+   roles (`--dx-radius-input/button/checkbox/surface`), never raw
+   tiers — a theme retunes geometry by re-pointing a role, and every
+   role value stays pixel-identical to the tier it derives from.
+   Bare `50%`/`0` is geometric (round/sharp), not a role; the `xs`
+   tier survives only for sub-checkbox micro detail. Site CSS owns no
+   radius on uikit internals — per-instance `className` is the only
+   sanctioned seam (plus the `dx-radius-*` escape utilities).
 
 ## Workflow
 

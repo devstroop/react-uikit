@@ -4,7 +4,7 @@
   padding: 0;
   min-width: 0;
   border: var(--dx-border-width) solid var(--dx-border-color);
-  border-radius: var(--dx-radius-md);
+  border-radius: var(--dx-radius-input);
   font-family: var(--dx-font-sans);
 }
 
@@ -27,7 +27,7 @@
   gap: 8px;
   padding: 2px 8px;
   border: 0;
-  border-radius: var(--dx-radius-sm);
+  border-radius: var(--dx-radius-checkbox);
   background: transparent;
   font: inherit;
   color: inherit;

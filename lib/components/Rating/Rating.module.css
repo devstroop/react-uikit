@@ -11,7 +11,7 @@
   justify-content: center;
   padding: var(--dx-space-05);
   border: none;
-  border-radius: var(--dx-radius-sm);
+  border-radius: var(--dx-radius-checkbox);
   background-color: transparent;
   color: var(--dx-text-muted-color);
   cursor: pointer;
@@ -59,7 +59,7 @@
   margin-right: var(--dx-space-1);
   padding: var(--dx-space-05);
   border: none;
-  border-radius: var(--dx-radius-sm);
+  border-radius: var(--dx-radius-checkbox);
   background-color: transparent;
   color: var(--dx-text-muted-color);
   cursor: pointer;

@@ -1,7 +1,7 @@
 .root {
   font-family: var(--dx-font-sans);
   border: 1px solid var(--dx-border-color);
-  border-radius: var(--dx-radius-md);
+  border-radius: var(--dx-radius-input);
   background-color: var(--dx-surface-color);
   overflow: hidden;
 }
@@ -24,7 +24,7 @@
   width: 28px;
   height: 28px;
   border: 1px solid var(--dx-border-color);
-  border-radius: var(--dx-radius-sm);
+  border-radius: var(--dx-radius-checkbox);
   background-color: var(--dx-surface-color);
   color: var(--dx-text-color);
   cursor: pointer;
@@ -81,7 +81,7 @@
 .slot {
   height: 24px;
   border: 1px solid var(--dx-border-color);
-  border-radius: var(--dx-radius-sm);
+  border-radius: var(--dx-radius-checkbox);
   background-color: var(--dx-surface-color);
 }
 .slot:focus-visible {
@@ -91,7 +91,7 @@
 .event {
   padding: var(--dx-space-1);
   border: 1px solid var(--dx-primary-color);
-  border-radius: var(--dx-radius-sm);
+  border-radius: var(--dx-radius-checkbox);
   background-color: var(--dx-primary-color);
   color: var(--dx-primary-foreground-color);
   font-size: var(--dx-font-size-sm);

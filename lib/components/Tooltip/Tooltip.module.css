@@ -13,7 +13,7 @@
   font-weight: var(--dx-font-weight-medium);
   line-height: 1.4;
   padding: var(--dx-space-1) var(--dx-space-2);
-  border-radius: var(--dx-radius-sm);
+  border-radius: var(--dx-radius-checkbox);
   box-shadow: var(--dx-shadow-md);
   white-space: nowrap;
   pointer-events: none;

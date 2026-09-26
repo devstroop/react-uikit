@@ -9,7 +9,7 @@
   padding: var(--dx-space-1);
   background-color: var(--dx-surface-color);
   border: 1px solid var(--dx-border-color);
-  border-radius: var(--dx-radius-md);
+  border-radius: var(--dx-radius-input);
 }
 
 .horizontal .menubar {
@@ -34,7 +34,7 @@
   gap: var(--dx-space-1);
   padding: var(--dx-space-1) var(--dx-space-3);
   border: 1px solid transparent;
-  border-radius: var(--dx-radius-sm);
+  border-radius: var(--dx-radius-checkbox);
   background-color: transparent;
   color: var(--dx-text-color);
   font-family: var(--dx-font-sans);
@@ -102,7 +102,7 @@
   padding: var(--dx-space-1);
   background-color: var(--dx-surface-color);
   border: 1px solid var(--dx-border-color);
-  border-radius: var(--dx-radius-md);
+  border-radius: var(--dx-radius-input);
   box-shadow: var(--dx-shadow-sm);
   z-index: 10;
 }
@@ -121,7 +121,7 @@
   gap: var(--dx-space-2);
   padding: var(--dx-space-1) var(--dx-space-2);
   border: 1px solid transparent;
-  border-radius: var(--dx-radius-sm);
+  border-radius: var(--dx-radius-checkbox);
   background: transparent;
   color: var(--dx-text-color);
   font-family: var(--dx-font-sans);

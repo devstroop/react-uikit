@@ -3,7 +3,7 @@
   align-items: center;
   gap: var(--dx-space-1);
   border: var(--dx-border-width) solid var(--dx-border-strong-color);
-  border-radius: var(--dx-radius-md);
+  border-radius: var(--dx-radius-input);
   background-color: var(--dx-surface-color);
   padding: var(--dx-space-1);
   font-family: var(--dx-font-sans);
@@ -21,7 +21,7 @@
   /* Borderless by design: the bar carries the single outer border;
    * options are text buttons, selected is the primary fill. */
   border: none;
-  border-radius: var(--dx-radius-md);
+  border-radius: var(--dx-radius-input);
   background-color: transparent;
   color: var(--dx-text-color);
   font-family: inherit;

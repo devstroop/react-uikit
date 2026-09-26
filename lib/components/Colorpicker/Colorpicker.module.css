@@ -18,7 +18,7 @@
   min-width: 72px;
   box-sizing: border-box;
   border: 1px solid var(--dx-border-strong-color);
-  border-radius: var(--dx-radius-md);
+  border-radius: var(--dx-radius-input);
   background-color: var(--dx-surface-color);
   cursor: pointer;
   padding: 4px 8px 4px 4px;
@@ -68,7 +68,7 @@
   height: 22px;
   box-sizing: border-box;
   border: 1px solid var(--dx-border-color);
-  border-radius: var(--dx-radius-sm);
+  border-radius: var(--dx-radius-checkbox);
   background-color: var(--dx-primary-color);
   flex-shrink: 0;
 }
@@ -124,7 +124,7 @@
   width: 256px;
   box-sizing: border-box;
   border: 1px solid var(--dx-border-strong-color);
-  border-radius: var(--dx-radius-md);
+  border-radius: var(--dx-radius-input);
   background-color: var(--dx-surface-color);
   box-shadow: var(--dx-shadow-lg);
   padding: var(--dx-space-3);
@@ -140,7 +140,7 @@
   width: 100%;
   height: 140px;
   border: 1px solid var(--dx-border-color);
-  border-radius: var(--dx-radius-md);
+  border-radius: var(--dx-radius-input);
   cursor: crosshair;
   touch-action: none;
 }
@@ -158,7 +158,7 @@
   height: 14px;
   box-sizing: border-box;
   border: 2px solid var(--dx-surface-color);
-  border-radius: var(--dx-radius-full);
+  border-radius: var(--dx-radius-button);
   box-shadow:
     0 0 0 1px var(--dx-border-strong-color),
     var(--dx-shadow-sm);
@@ -172,7 +172,7 @@
   height: 14px;
   margin-top: var(--dx-space-3);
   border: 1px solid var(--dx-border-color);
-  border-radius: var(--dx-radius-full);
+  border-radius: var(--dx-radius-button);
   cursor: pointer;
   touch-action: none;
 }
@@ -184,7 +184,7 @@
   height: 20px;
   box-sizing: border-box;
   border: 2px solid var(--dx-surface-color);
-  border-radius: var(--dx-radius-sm);
+  border-radius: var(--dx-radius-checkbox);
   box-shadow: 0 0 0 1px var(--dx-border-strong-color);
   transform: translate(-50%, -50%);
   pointer-events: none;
@@ -196,7 +196,7 @@
   height: 14px;
   margin-top: var(--dx-space-2);
   border: 1px solid var(--dx-border-color);
-  border-radius: var(--dx-radius-full);
+  border-radius: var(--dx-radius-button);
   cursor: pointer;
   touch-action: none;
 }
@@ -208,7 +208,7 @@
   height: 20px;
   box-sizing: border-box;
   border: 2px solid var(--dx-surface-color);
-  border-radius: var(--dx-radius-sm);
+  border-radius: var(--dx-radius-checkbox);
   box-shadow: 0 0 0 1px var(--dx-border-strong-color);
   transform: translate(-50%, -50%);
   pointer-events: none;
@@ -238,7 +238,7 @@
   min-width: 0;
   box-sizing: border-box;
   border: 1px solid var(--dx-border-strong-color);
-  border-radius: var(--dx-radius-sm);
+  border-radius: var(--dx-radius-checkbox);
   background-color: var(--dx-surface-color);
   color: var(--dx-text-color);
   font-family: inherit;
@@ -265,7 +265,7 @@
   width: 100%;
   padding: 0;
   border: 1px solid var(--dx-border-color);
-  border-radius: var(--dx-radius-sm);
+  border-radius: var(--dx-radius-checkbox);
   background-color: var(--dx-surface-color);
   cursor: pointer;
   transition:
@@ -301,7 +301,7 @@
   height: var(--dx-control-height-sm);
   padding: 0 var(--dx-space-4);
   border: none;
-  border-radius: var(--dx-radius-md);
+  border-radius: var(--dx-radius-input);
   background-color: var(--dx-primary-color);
   color: var(--dx-primary-foreground-color);
   font-family: inherit;

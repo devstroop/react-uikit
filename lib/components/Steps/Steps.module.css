@@ -37,7 +37,7 @@
   gap: var(--dx-space-2);
   padding: var(--dx-space-1) var(--dx-space-2);
   border: 1px solid transparent;
-  border-radius: var(--dx-radius-md);
+  border-radius: var(--dx-radius-input);
   background-color: var(--dx-surface-color);
   color: var(--dx-text-color);
   font-family: var(--dx-font-sans);
@@ -82,7 +82,7 @@
   justify-content: center;
   width: 28px;
   height: 28px;
-  border-radius: var(--dx-radius-full);
+  border-radius: var(--dx-radius-button);
   border: 1px solid var(--dx-border-color);
   background-color: var(--dx-surface-color);
   color: var(--dx-text-muted-color);

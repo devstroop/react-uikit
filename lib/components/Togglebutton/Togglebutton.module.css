@@ -4,7 +4,7 @@
   justify-content: center;
   gap: var(--dx-space-2);
   border: 1px solid var(--dx-border-strong-color);
-  border-radius: var(--dx-radius-md);
+  border-radius: var(--dx-radius-input);
   background-color: var(--dx-surface-color);
   color: var(--dx-text-color);
   font-family: var(--dx-font-sans);

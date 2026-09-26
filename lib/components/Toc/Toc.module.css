@@ -37,7 +37,7 @@
   font-size: var(--dx-font-size-sm);
   font-weight: var(--dx-font-weight-medium);
   text-decoration: none;
-  border-radius: var(--dx-radius-md);
+  border-radius: var(--dx-radius-input);
   transition:
     color var(--dx-transition-fast),
     background-color var(--dx-transition-fast);

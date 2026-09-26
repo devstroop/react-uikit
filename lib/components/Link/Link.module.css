@@ -4,7 +4,7 @@
   gap: var(--dx-space-1);
   padding: 0;
   border: 0;
-  border-radius: var(--dx-radius-sm);
+  border-radius: var(--dx-radius-checkbox);
   background: transparent;
   color: var(--dx-link-color);
   font: inherit;

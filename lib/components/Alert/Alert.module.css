@@ -7,7 +7,7 @@
   --dx-alert-dismiss-size-xl: 30px;
   --alert-pad: var(--dx-space-3);
   --alert-gap: var(--dx-space-2);
-  --alert-radius: var(--dx-radius-md);
+  --alert-radius: var(--dx-radius-input);
   --alert-title-size: var(--dx-font-size-md);
   --alert-body-size: var(--dx-font-size-sm);
   --alert-dismiss-size: var(--dx-alert-dismiss-size-md);
@@ -28,7 +28,7 @@
 .xs {
   --alert-pad: var(--dx-space-2);
   --alert-gap: var(--dx-space-1);
-  --alert-radius: var(--dx-radius-sm);
+  --alert-radius: var(--dx-radius-checkbox);
   --alert-title-size: var(--dx-font-size-sm);
   --alert-body-size: var(--dx-font-size-xs);
   --alert-dismiss-size: var(--dx-alert-dismiss-size-xs);
@@ -38,7 +38,7 @@
 .sm {
   --alert-pad: var(--dx-space-2);
   --alert-gap: var(--dx-space-1);
-  --alert-radius: var(--dx-radius-sm);
+  --alert-radius: var(--dx-radius-checkbox);
   --alert-title-size: var(--dx-font-size-sm);
   --alert-body-size: var(--dx-font-size-xs);
   --alert-dismiss-size: var(--dx-alert-dismiss-size-sm);
@@ -213,7 +213,7 @@
   margin-top: calc(-1 * var(--alert-pad) / 2);
   margin-right: calc(-1 * var(--alert-gap));
   border: none;
-  border-radius: var(--dx-radius-md);
+  border-radius: var(--dx-radius-input);
   background: transparent;
   color: var(--dx-text-muted-color);
   font-size: var(--alert-dismiss-font);

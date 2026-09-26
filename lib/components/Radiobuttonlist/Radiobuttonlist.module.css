@@ -52,7 +52,7 @@
   margin: 0;
   flex-shrink: 0;
   border: 1px solid var(--dx-border-strong-color);
-  border-radius: var(--dx-radius-full);
+  border-radius: var(--dx-radius-button);
   background-color: var(--dx-surface-color);
   cursor: pointer;
   display: inline-grid;
@@ -66,7 +66,7 @@
   content: '';
   width: 10px;
   height: 10px;
-  border-radius: var(--dx-radius-full);
+  border-radius: var(--dx-radius-button);
   transform: scale(0);
   transition: transform var(--dx-transition-fast);
   background-color: var(--dx-primary-foreground-color);

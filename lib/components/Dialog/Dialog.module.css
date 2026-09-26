@@ -10,7 +10,7 @@
   --dx-dialog-close-size: 28px;
   z-index: var(--dx-z-modal);
   border: var(--dx-border-width) solid var(--dx-border-color);
-  border-radius: var(--dx-radius-lg);
+  border-radius: var(--dx-radius-surface);
   background: var(--dx-surface-color);
   color: var(--dx-text-color);
   box-shadow: var(--dx-shadow-lg);
@@ -120,7 +120,7 @@
   height: var(--dx-dialog-close-size);
   padding: 0;
   border: none;
-  border-radius: var(--dx-radius-sm);
+  border-radius: var(--dx-radius-checkbox);
   background: transparent;
   color: var(--dx-text-muted-color);
   font-size: var(--dx-font-size-lg);

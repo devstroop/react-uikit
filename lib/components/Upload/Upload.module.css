@@ -9,7 +9,7 @@
   align-items: center;
   gap: var(--dx-space-1);
   border: 1px solid var(--dx-border-strong-color);
-  border-radius: var(--dx-radius-md);
+  border-radius: var(--dx-radius-input);
   background-color: var(--dx-surface-color);
   color: var(--dx-text-color);
   font-family: var(--dx-font-sans);
@@ -48,7 +48,7 @@
   gap: var(--dx-space-2);
   padding: var(--dx-space-1) var(--dx-space-2);
   border: 1px solid var(--dx-border-color);
-  border-radius: var(--dx-radius-sm);
+  border-radius: var(--dx-radius-checkbox);
   background-color: var(--dx-surface-color);
 }
 
@@ -74,7 +74,7 @@
 .progress {
   display: block;
   height: 6px;
-  border-radius: var(--dx-radius-full);
+  border-radius: var(--dx-radius-button);
   background-color: var(--dx-surface-hover-color);
   overflow: hidden;
 }
@@ -83,7 +83,7 @@
   display: block;
   height: 100%;
   width: 0;
-  border-radius: var(--dx-radius-full);
+  border-radius: var(--dx-radius-button);
   background-color: var(--dx-primary-color);
   transition: width var(--dx-transition-fast);
 }
@@ -110,7 +110,7 @@
   width: 24px;
   height: 24px;
   border: none;
-  border-radius: var(--dx-radius-sm);
+  border-radius: var(--dx-radius-checkbox);
   background-color: transparent;
   color: var(--dx-text-muted-color);
   cursor: pointer;

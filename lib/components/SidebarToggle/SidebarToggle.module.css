@@ -7,7 +7,7 @@
   height: var(--dx-target-min);
   padding: 0;
   border: 0;
-  border-radius: var(--dx-radius-full);
+  border-radius: var(--dx-radius-button);
   background: transparent;
   color: inherit;
   cursor: pointer;

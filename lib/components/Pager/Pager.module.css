@@ -42,7 +42,7 @@
   height: var(--dx-control-height-sm);
   padding: 0 var(--dx-space-2);
   border: var(--dx-border-width) solid var(--dx-border-color);
-  border-radius: var(--dx-radius-sm);
+  border-radius: var(--dx-radius-checkbox);
   background-color: var(--dx-surface-color);
   color: var(--dx-text-color);
   font-family: var(--dx-font-sans);
@@ -101,7 +101,7 @@
   background-color: var(--dx-surface-color);
   color: var(--dx-text-color);
   padding: var(--dx-space-1) var(--dx-space-2);
-  border-radius: var(--dx-radius-sm);
+  border-radius: var(--dx-radius-checkbox);
   font-family: var(--dx-font-sans);
   font-size: var(--dx-font-size-sm);
   height: var(--dx-control-height-sm);

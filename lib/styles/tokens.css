@@ -151,6 +151,15 @@
   --dx-radius-md: 8px;
   --dx-radius-lg: 12px;
   --dx-radius-full: 9999px;
+  /* radius roles (Radzen derivation parity): components consume roles,
+   * never raw tiers — a theme retunes geometry by re-pointing a role.
+   * Entry controls share the base; emphasis goes pill; tiny controls
+   * take the half step (cf. Radzen checkbox 2px vs 4px base); surfaces
+   * step up one; round/sharp stay geometric (50%/0). */
+  --dx-radius-input: var(--dx-radius-md);
+  --dx-radius-button: var(--dx-radius-full);
+  --dx-radius-checkbox: var(--dx-radius-sm);
+  --dx-radius-surface: var(--dx-radius-lg);
   /* space */
   --dx-space-0: 0px;
   --dx-space-1: 4px;
