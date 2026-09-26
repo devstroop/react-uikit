@@ -34,7 +34,16 @@ export function DisplayDemos({ slug }: { slug: string }) {
         <Row align="center" gap="md">
           <Avatar name="Ada Lovelace" />
           <Avatar name="Grace Hopper" status="online" />
+          <Avatar
+            name="Katherine Johnson"
+            email="katherine.johnson@nasa.gov"
+            status="away"
+          />
         </Row>
+        <Text textStyle="Body1" className="dx-text-muted">
+          Email resolves a Gravatar (retro default); a broken photo falls back
+          to initials.
+        </Text>
       </DemoSection>
     );
   }

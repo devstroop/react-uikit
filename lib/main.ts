@@ -269,6 +269,8 @@ export type {
   AvatarProps,
   AvatarSize,
   AvatarStatus,
+  GravatarDefault,
+  GravatarRating,
 } from './components/Avatar/Avatar';
 
 export { Tabs } from './components/Tabs/Tabs';

@@ -63,6 +63,18 @@ the aliases is the only later break.
 
 ### Added
 
+- `Avatar` accepts `email` for Gravatar resolution (RadzenGravatar
+  parity, folded into `Avatar` instead of a separate component):
+  precedence is explicit `src`, then Gravatar, then palette initials.
+  Tier `size` maps to exact `s=` pixels (20/28/36/44/52);
+  `gravatarDefault` (default `retro`) and `gravatarRating` (default
+  `g`) tune the request. Emails are normalized (trim + lowercase —
+  Radzen hashes them raw) and hashed locally with a vendored MD5
+  (browsers exclude MD5 from `crypto.subtle`; no new dependency).
+  Passing `email` discloses its hash to gravatar.com — usage is the
+  opt-in. Broken photos (explicit or Gravatar) fall back to the
+  initials tile via `onError`.
+
 - `Link` — RadzenLink parity minus router coupling: `href` renders a
   real anchor (`target`, `rel`, `icon`, children passthrough); without
   `href` it renders `<button type="button">` with identical link
