@@ -62,6 +62,8 @@ export { Column } from './components/Column/Column';
 export type { ColumnProps, ColumnSize, ColumnOffset, ColumnOrder, } from './components/Column/Column';
 export { Stack } from './components/Stack/Stack';
 export type { StackProps, StackOrientation, StackWrap, StackGap, } from './components/Stack/Stack';
+export { AutoGrid } from './components/AutoGrid/AutoGrid';
+export type { AutoGridProps, AutoGridGap, } from './components/AutoGrid/AutoGrid';
 export { Layout } from './components/Layout/Layout';
 export type { LayoutProps } from './components/Layout/Layout';
 export { Header } from './components/Header/Header';
