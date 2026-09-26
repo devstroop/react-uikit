@@ -1,0 +1,28 @@
+.autogrid {
+  display: grid;
+  gap: var(--dx-space-3);
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(min(100%, var(--dx-autogrid-min, 240px)), 1fr)
+  );
+}
+
+.gapXs {
+  gap: var(--dx-space-1);
+}
+
+.gapSm {
+  gap: var(--dx-space-2);
+}
+
+.gapMd {
+  gap: var(--dx-space-3);
+}
+
+.gapLg {
+  gap: var(--dx-space-4);
+}
+
+.gapXl {
+  gap: var(--dx-space-5);
+}

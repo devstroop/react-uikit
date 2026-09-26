@@ -1,4 +1,5 @@
 import {
+  AutoGrid,
   Body,
   Column,
   Footer,
@@ -67,6 +68,21 @@ export function LayoutDemos({ slug }: { slug: string }) {
           <span>col a</span>
           <span>col b</span>
         </Stack>
+      </DemoSection>
+    );
+  }
+  if (slug === 'autogrid') {
+    return (
+      <DemoSection title="AutoGrid">
+        <AutoGrid min={160} gap="md">
+          <span>fills</span>
+          <span>wraps</span>
+          <span>auto-fit</span>
+        </AutoGrid>
+        <AutoGrid min="20ch" gap="lg">
+          <span>ch min</span>
+          <span>custom track</span>
+        </AutoGrid>
       </DemoSection>
     );
   }

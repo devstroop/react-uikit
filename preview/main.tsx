@@ -43,6 +43,7 @@ function DemoForRoute({ slug }: { slug: string }) {
     case 'row':
     case 'column':
     case 'stack':
+    case 'autogrid':
       return <LayoutDemos slug={slug} />;
     case 'text':
     case 'icon':

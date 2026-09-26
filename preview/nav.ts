@@ -22,6 +22,7 @@ export const DEMO_GROUPS: DemoGroup[] = [
       { slug: 'row', title: 'Row' },
       { slug: 'column', title: 'Column' },
       { slug: 'stack', title: 'Stack' },
+      { slug: 'autogrid', title: 'AutoGrid' },
     ],
   },
   {

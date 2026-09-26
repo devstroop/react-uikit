@@ -63,6 +63,12 @@ the aliases is the only later break.
 
 ### Added
 
+- `AutoGrid` — responsive auto-fit grid without breakpoints:
+  `repeat(auto-fit, minmax(min(100%, min), 1fr))` with `min` (px number
+  or CSS length, default `240`) via `--dx-autogrid-min` and tier/numeric
+  `gap` (default `md`). For card tiles, stat grids, and form splits
+  that wrap by width instead of snapping at tiers.
+
 - `FormField` — Radzen `FormFieldComponent` parity: `text`, `start`/`end`
   adornments, `helper`, `component` (explicit id), `allowFloatingLabel`
   (default true, CSS-only `:placeholder-shown`), `invalid` (wires
