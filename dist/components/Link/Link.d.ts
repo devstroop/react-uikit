@@ -27,5 +27,5 @@ export type LinkProps = LinkAnchorProps | LinkButtonProps;
  * semantics and keyboard behavior. Active-route matching is
  * deliberately absent: the library ships no router.
  */
-export declare const Link: import('react').ForwardRefExoticComponent<LinkProps & import('react').RefAttributes<HTMLButtonElement | HTMLAnchorElement>>;
+export declare const Link: import('react').ForwardRefExoticComponent<LinkProps & import('react').RefAttributes<HTMLElement>>;
 export {};
