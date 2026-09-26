@@ -148,6 +148,8 @@ export { FabMenu } from './components/FabMenu/FabMenu';
 export type { FabMenuProps, FabMenuItem, FabMenuItemEventArgs, FabMenuPosition, } from './components/FabMenu/FabMenu';
 export { Breadcrumb } from './components/Breadcrumb/Breadcrumb';
 export type { BreadcrumbProps, BreadcrumbItem, BreadcrumbItemEventArgs, } from './components/Breadcrumb/Breadcrumb';
+export { Link } from './components/Link/Link';
+export type { LinkProps, LinkAnchorProps, LinkButtonProps, } from './components/Link/Link';
 export { Steps } from './components/Steps/Steps';
 export type { StepsProps, StepsItem } from './components/Steps/Steps';
 export { Splitter } from './components/Splitter/Splitter';
