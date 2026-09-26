@@ -95,8 +95,6 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
       styles.button,
       styles[resolved.variant],
       styles[`style-${resolved.style}`],
-      // backwards-compat: tone-* still emitted
-      styles[`tone-${resolved.style}`],
       shadeCls ? styles[shadeCls] : null,
       styles[size],
       fullWidth ? styles.fullWidth : null,

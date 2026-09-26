@@ -50,13 +50,11 @@
 }
 
 /* style fills — filled + flat carry bg, outlined/text are text+border only */
-.filled.style-primary,
-.filled.tone-primary {
+.filled.style-primary {
   background-color: var(--dx-primary-color);
   color: var(--dx-primary-foreground-color);
 }
-.filled.style-primary:hover:not(:disabled),
-.filled.tone-primary:hover:not(:disabled) {
+.filled.style-primary:hover:not(:disabled):hover:not(:disabled) {
   background-color: var(--dx-primary-hover-color);
 }
 .flat.style-primary {
@@ -67,35 +65,29 @@
   );
   color: var(--dx-text-primary-color);
 }
-.outlined.style-primary,
-.outlined.tone-primary {
+.outlined.style-primary {
   color: var(--dx-text-primary-color);
   border-color: var(--dx-border-primary-color);
 }
-.text.style-primary,
-.text.tone-primary {
+.text.style-primary {
   color: var(--dx-text-primary-color);
 }
 
-.filled.style-secondary,
-.filled.tone-secondary {
+.filled.style-secondary {
   background-color: var(--dx-secondary-color);
   color: var(--dx-secondary-foreground-color);
 }
-.filled.style-secondary:hover:not(:disabled),
-.filled.tone-secondary:hover:not(:disabled) {
+.filled.style-secondary:hover:not(:disabled):hover:not(:disabled) {
   background-color: var(--dx-secondary-hover-color);
 }
 .flat.style-secondary {
   background-color: var(--dx-surface-hover-color);
   color: var(--dx-text-color);
 }
-.outlined.style-secondary,
-.outlined.tone-secondary {
+.outlined.style-secondary {
   color: var(--dx-text-color);
 }
-.text.style-secondary,
-.text.tone-secondary {
+.text.style-secondary {
   color: var(--dx-text-color);
 }
 
@@ -159,13 +151,11 @@
   color: var(--dx-text-color);
 }
 
-.filled.style-danger,
-.filled.tone-danger {
+.filled.style-danger {
   background-color: var(--dx-danger-color);
   color: var(--dx-danger-foreground-color);
 }
-.filled.style-danger:hover:not(:disabled),
-.filled.tone-danger:hover:not(:disabled) {
+.filled.style-danger:hover:not(:disabled):hover:not(:disabled) {
   background-color: var(--dx-danger-hover-color);
 }
 .flat.style-danger {
@@ -176,23 +166,19 @@
   );
   color: var(--dx-text-danger-color);
 }
-.outlined.style-danger,
-.outlined.tone-danger {
+.outlined.style-danger {
   color: var(--dx-text-danger-color);
   border-color: var(--dx-danger-color);
 }
-.text.style-danger,
-.text.tone-danger {
+.text.style-danger {
   color: var(--dx-text-danger-color);
 }
 
-.filled.style-success,
-.filled.tone-success {
+.filled.style-success {
   background-color: var(--dx-success-color);
   color: var(--dx-success-foreground-color);
 }
-.filled.style-success:hover:not(:disabled),
-.filled.tone-success:hover:not(:disabled) {
+.filled.style-success:hover:not(:disabled):hover:not(:disabled) {
   background-color: var(--dx-success-hover-color);
 }
 .flat.style-success {
@@ -203,23 +189,19 @@
   );
   color: var(--dx-text-success-color);
 }
-.outlined.style-success,
-.outlined.tone-success {
+.outlined.style-success {
   color: var(--dx-text-success-color);
   border-color: var(--dx-success-color);
 }
-.text.style-success,
-.text.tone-success {
+.text.style-success {
   color: var(--dx-text-success-color);
 }
 
-.filled.style-warning,
-.filled.tone-warning {
+.filled.style-warning {
   background-color: var(--dx-warning-color);
   color: var(--dx-warning-foreground-color);
 }
-.filled.style-warning:hover:not(:disabled),
-.filled.tone-warning:hover:not(:disabled) {
+.filled.style-warning:hover:not(:disabled):hover:not(:disabled) {
   background-color: var(--dx-warning-hover-color);
 }
 .flat.style-warning {
@@ -230,23 +212,19 @@
   );
   color: var(--dx-text-warning-color);
 }
-.outlined.style-warning,
-.outlined.tone-warning {
+.outlined.style-warning {
   color: var(--dx-text-warning-color);
   border-color: var(--dx-warning-color);
 }
-.text.style-warning,
-.text.tone-warning {
+.text.style-warning {
   color: var(--dx-text-warning-color);
 }
 
-.filled.style-info,
-.filled.tone-info {
+.filled.style-info {
   background-color: var(--dx-info-color);
   color: var(--dx-info-foreground-color);
 }
-.filled.style-info:hover:not(:disabled),
-.filled.tone-info:hover:not(:disabled) {
+.filled.style-info:hover:not(:disabled):hover:not(:disabled) {
   background-color: var(--dx-info-hover-color);
 }
 .flat.style-info {
@@ -257,21 +235,18 @@
   );
   color: var(--dx-text-info-color);
 }
-.outlined.style-info,
-.outlined.tone-info {
+.outlined.style-info {
   color: var(--dx-text-info-color);
   border-color: var(--dx-info-color);
 }
-.text.style-info,
-.text.tone-info {
+.text.style-info {
   color: var(--dx-text-info-color);
 }
 
 /* Shade steps per Style — consumed by the hue-agnostic shade rules below.
    Fallbacks keep older token sets working (same sRGB ratios as tokens.css).
    Light/Dark deliberately excluded (Radzen: those styles have no Shades). */
-.style-primary,
-.tone-primary {
+.style-primary {
   --shade-lighter: var(
     --dx-primary-lighter-color,
     color-mix(in srgb, var(--dx-primary-color) 55%, white)
@@ -293,8 +268,7 @@
   --on-dark: var(--dx-on-primary-dark-color);
   --on-darker: var(--dx-on-primary-darker-color);
 }
-.style-secondary,
-.tone-secondary {
+.style-secondary {
   --shade-lighter: var(
     --dx-secondary-lighter-color,
     color-mix(in srgb, var(--dx-secondary-color) 55%, white)
@@ -340,8 +314,7 @@
 }
 /* No shade steps for Light/Dark (Radzen parity: those styles don't
    have Shades — Button.tsx never emits the shade class for them). */
-.style-danger,
-.tone-danger {
+.style-danger {
   --shade-lighter: var(
     --dx-danger-lighter-color,
     color-mix(in srgb, var(--dx-danger-color) 55%, white)
@@ -363,8 +336,7 @@
   --on-dark: var(--dx-on-danger-dark-color);
   --on-darker: var(--dx-on-danger-darker-color);
 }
-.style-success,
-.tone-success {
+.style-success {
   --shade-lighter: var(
     --dx-success-lighter-color,
     color-mix(in srgb, var(--dx-success-color) 55%, white)
@@ -386,8 +358,7 @@
   --on-dark: var(--dx-on-success-dark-color);
   --on-darker: var(--dx-on-success-darker-color);
 }
-.style-warning,
-.tone-warning {
+.style-warning {
   --shade-lighter: var(
     --dx-warning-lighter-color,
     color-mix(in srgb, var(--dx-warning-color) 55%, white)
@@ -409,8 +380,7 @@
   --on-dark: var(--dx-on-warning-dark-color);
   --on-darker: var(--dx-on-warning-darker-color);
 }
-.style-info,
-.tone-info {
+.style-info {
   --shade-lighter: var(
     --dx-info-lighter-color,
     color-mix(in srgb, var(--dx-info-color) 55%, white)
@@ -509,28 +479,22 @@
 }
 
 /* focus rings per style */
-.style-primary:focus-visible,
-.tone-primary:focus-visible {
+.style-primary:focus-visible:focus-visible {
   outline-color: var(--dx-outline-primary-color);
 }
-.style-secondary:focus-visible,
-.tone-secondary:focus-visible {
+.style-secondary:focus-visible:focus-visible {
   outline-color: var(--dx-outline-secondary-color);
 }
-.style-danger:focus-visible,
-.tone-danger:focus-visible {
+.style-danger:focus-visible:focus-visible {
   outline-color: var(--dx-outline-danger-color);
 }
-.style-success:focus-visible,
-.tone-success:focus-visible {
+.style-success:focus-visible:focus-visible {
   outline-color: var(--dx-outline-success-color);
 }
-.style-warning:focus-visible,
-.tone-warning:focus-visible {
+.style-warning:focus-visible:focus-visible {
   outline-color: var(--dx-outline-warning-color);
 }
-.style-info:focus-visible,
-.tone-info:focus-visible {
+.style-info:focus-visible:focus-visible {
   outline-color: var(--dx-outline-info-color);
 }
 

@@ -6,6 +6,13 @@ Versioning follows the release flow in `docs/DEVELOPMENT_STRATEGY.md`
 
 ## [Unreleased] — toward 2.0.0
 
+### Removed — legacy `tone-*` classes (breaking for custom CSS)
+
+Button no longer emits the backwards-compat `tone-*` classes
+(`tone-primary`, `tone-danger`, …) alongside `style-*`. Target
+`style-*` instead — same values, single system. No app in this
+workspace referenced them.
+
 ### Removed — deprecated prop aliases (breaking)
 
 The `@deprecated` aliases carried since 0.x are removed. Every removal
