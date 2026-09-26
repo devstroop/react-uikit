@@ -119,6 +119,10 @@ the aliases is the only later break.
 
 ### Changed
 
+- Dialog headers are borderless (Radzen parity: title border defaults
+  to none). The `footer` slot and its top border are retained as API;
+  in-content trailing actions are the recommended pattern.
+
 - `Text` owns its box: `.typography` sets `margin: 0`, so UA `h1–h6`/`p`
   margins never leak. Spacing around text is the parent's job (`Stack`
   gap, `dx-mt-*`). Deletes a class of margin-reset overrides in
