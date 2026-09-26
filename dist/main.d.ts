@@ -87,7 +87,7 @@ export { resolveVariant } from './types/variant';
 export { ThemeSwitcher } from './components/ThemeSwitcher/ThemeSwitcher';
 export type { ThemeSwitcherProps, ThemeName, } from './components/ThemeSwitcher/ThemeSwitcher';
 export { Avatar } from './components/Avatar/Avatar';
-export type { AvatarProps, AvatarSize, AvatarStatus, } from './components/Avatar/Avatar';
+export type { AvatarProps, AvatarSize, AvatarStatus, GravatarDefault, GravatarRating, } from './components/Avatar/Avatar';
 export { Tabs } from './components/Tabs/Tabs';
 export type { TabsProps, TabsVariant, TabItem } from './components/Tabs/Tabs';
 export { Accordion } from './components/Accordion/Accordion';
