@@ -89,6 +89,7 @@ export const DEMO_GROUPS: DemoGroup[] = [
     title: 'Navigation',
     routes: [
       { slug: 'breadcrumb', title: 'Breadcrumb' },
+      { slug: 'link', title: 'Link' },
       { slug: 'menu', title: 'Menu' },
       { slug: 'panelmenu', title: 'PanelMenu' },
       { slug: 'profilemenu', title: 'ProfileMenu' },

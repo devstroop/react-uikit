@@ -1,0 +1,36 @@
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dx-space-1);
+  padding: 0;
+  border: 0;
+  border-radius: var(--dx-radius-sm);
+  background: transparent;
+  color: var(--dx-link-color);
+  font: inherit;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.link:hover {
+  color: var(--dx-link-hover-color);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.link:focus-visible {
+  outline: var(--dx-outline-width) solid var(--dx-focus-color);
+  outline-offset: var(--dx-focus-ring-offset);
+}
+
+.link:disabled,
+.link[aria-disabled='true'] {
+  opacity: var(--dx-disabled-opacity);
+  cursor: not-allowed;
+  text-decoration: none;
+}
+
+.link svg {
+  display: block;
+  flex: none;
+}

@@ -452,6 +452,13 @@ export type {
   BreadcrumbItemEventArgs,
 } from './components/Breadcrumb/Breadcrumb';
 
+export { Link } from './components/Link/Link';
+export type {
+  LinkProps,
+  LinkAnchorProps,
+  LinkButtonProps,
+} from './components/Link/Link';
+
 export { Steps } from './components/Steps/Steps';
 export type { StepsProps, StepsItem } from './components/Steps/Steps';
 

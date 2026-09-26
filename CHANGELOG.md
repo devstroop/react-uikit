@@ -63,6 +63,14 @@ the aliases is the only later break.
 
 ### Added
 
+- `Link` — RadzenLink parity minus router coupling: `href` renders a
+  real anchor (`target`, `rel`, `icon`, children passthrough); without
+  `href` it renders `<button type="button">` with identical link
+  styling for actions that must read as links (disclosures) while
+  keeping button semantics. Hover underlines via `--dx-link-color` /
+  `--dx-link-hover-color`. No active-route matching — the library
+  ships no router; SPA interception stays app-side.
+
 - `AutoGrid` — responsive auto-fit grid without breakpoints:
   `repeat(auto-fit, minmax(min(100%, min), 1fr))` with `min` (px number
   or CSS length, default `240`) via `--dx-autogrid-min` and tier/numeric

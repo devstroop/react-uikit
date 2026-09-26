@@ -1,5 +1,6 @@
 import {
   Breadcrumb,
+  Link,
   Menu,
   Pager,
   PanelMenu,
@@ -12,6 +13,25 @@ import {
 import { DemoSection } from './section';
 
 export function NavigationDemos({ slug }: { slug: string }) {
+  if (slug === 'link') {
+    return (
+      <DemoSection title="Link">
+        <Text>
+          Read the <Link href="#/link">documentation</Link> first.
+        </Text>
+        <Link href="https://example.com" target="_blank" icon="external-link">
+          External with icon
+        </Link>
+        <Link
+          onClick={() => undefined}
+          aria-expanded={false}
+          aria-label="Disclosure action without navigation"
+        >
+          Action styled as link
+        </Link>
+      </DemoSection>
+    );
+  }
   if (slug === 'menu') {
     return (
       <DemoSection title="Menu">

@@ -90,6 +90,7 @@ function DemoForRoute({ slug }: { slug: string }) {
     case 'tooltip':
       return <FeedbackDemos slug={slug} />;
     case 'breadcrumb':
+    case 'link':
     case 'menu':
     case 'panelmenu':
     case 'profilemenu':
