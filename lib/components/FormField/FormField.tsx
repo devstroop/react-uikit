@@ -83,19 +83,35 @@ export function FormField({
     typeof childProps?.['id'] === 'string'
       ? (childProps['id'] as string)
       : undefined;
+  const childTag =
+    isDomChild && isValidElement(resolvedChildren)
+      ? (resolvedChildren.type as string).toLowerCase()
+      : null;
+  // Only labelable elements (HTML spec: button, input except hidden,
+  // meter, output, progress, select, textarea) can carry the association
+  // target — backfilling an id onto a wrapper span/div would duplicate
+  // (or dangle) the label target instead of focusing the control.
+  // Wrappers must use the `component` prop with an explicit control id.
+  const isLabelable =
+    childTag != null &&
+    (childTag === 'input'
+      ? typeof childProps?.['type'] !== 'string' ||
+        (childProps['type'] as string).toLowerCase() !== 'hidden'
+      : childTag === 'button' ||
+        childTag === 'meter' ||
+        childTag === 'output' ||
+        childTag === 'progress' ||
+        childTag === 'select' ||
+        childTag === 'textarea');
   const needsClone =
     isCloneTarget &&
-    (helper != null || invalid || (childId == null && isDomChild));
+    (helper != null || invalid || (childId == null && isLabelable));
   // The label may only point at an id that will exist in the DOM:
   // an explicit child id, an explicit `component` the caller wires
   // themselves, or a generated id we actually backfill via clone.
   // Otherwise the label carries no `htmlFor` — a dangling one breaks
   // click-focus and AT association worse than no association.
   const idApplied = childId != null || component != null || needsClone;
-  const childTag =
-    isDomChild && isValidElement(resolvedChildren)
-      ? (resolvedChildren.type as string).toLowerCase()
-      : null;
   // Blank placeholder drives the CSS float trigger
   // (:placeholder-shown) — but only on text-like controls. An
   // explicit placeholder always wins; checkboxes, radios, dates,

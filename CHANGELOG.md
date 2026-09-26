@@ -80,6 +80,10 @@ the aliases is the only later break.
   never overrides explicit placeholders. Fragments are never cloned,
   so multi-control children carry no label association; custom
   components receive helper/invalid wiring only if they forward props.
+  Id backfill targets labelable elements only (`input` except hidden,
+  `select`, `textarea`, `button`, …) — wrapper spans/divs are never
+  cloned for ids, so labels can't duplicate or dangle; wrappers pair
+  with the `component` prop and an explicit control id instead.
 - `Fieldset` — Radzen `FieldsetComponent` parity: `text`, `icon` +
   `iconColor`, `allowCollapse`, `summary`, `headerTemplate` rendered
   beside (never inside) the toggle, controlled `collapsed` +

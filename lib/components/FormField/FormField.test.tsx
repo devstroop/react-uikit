@@ -184,4 +184,30 @@ describe('FormField', () => {
     );
     expect(container).toBeEmptyDOMElement();
   });
+
+  it('never backfills ids onto wrapper elements', () => {
+    const { container } = render(
+      <FormField text="Password">
+        <span className="field-control">
+          <input type="password" />
+        </span>
+      </FormField>
+    );
+    // No duplicate/dangling target: the wrapper carries no id, and the
+    // label carries no htmlFor without an explicit `component` id.
+    expect(container.querySelector('.field-control')).not.toHaveAttribute('id');
+    expect(screen.getByText('Password')).not.toHaveAttribute('for');
+  });
+
+  it('associates wrappers via an explicit component id', () => {
+    render(
+      <FormField text="Password" component="pw">
+        <span className="field-control">
+          <input type="password" id="pw" />
+        </span>
+      </FormField>
+    );
+    expect(screen.getByText('Password')).toHaveAttribute('for', 'pw');
+    expect(screen.getByLabelText('Password').getAttribute('id')).toBe('pw');
+  });
 });

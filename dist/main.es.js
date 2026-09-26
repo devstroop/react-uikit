@@ -592,7 +592,7 @@ function U2({
   if (d === !1) return null;
   const $ = i ?? v, k = typeof a == "function" ? a({
     inputId: $
-  }) : a, f = Rt(k) ? k.type : null, _ = typeof f == "string", u = Rt(k) && typeof f != "symbol", x = Rt(k) ? k.props : null, N = typeof x?.id == "string" ? x.id : void 0, g = u && (o != null || r || N == null && _), S = N != null || i != null || g, y = _ && Rt(k) ? k.type.toLowerCase() : null, w = y === "input" && typeof x?.type == "string" ? x.type.toLowerCase() : null, E = y === "textarea" || y === "input" && (w == null || [
+  }) : a, f = Rt(k) ? k.type : null, _ = typeof f == "string", u = Rt(k) && typeof f != "symbol", x = Rt(k) ? k.props : null, N = typeof x?.id == "string" ? x.id : void 0, g = _ && Rt(k) ? k.type.toLowerCase() : null, S = g != null && (g === "input" ? typeof x?.type != "string" || x.type.toLowerCase() !== "hidden" : g === "button" || g === "meter" || g === "output" || g === "progress" || g === "select" || g === "textarea"), y = u && (o != null || r || N == null && S), w = N != null || i != null || y, E = g === "input" && typeof x?.type == "string" ? x.type.toLowerCase() : null, I = g === "textarea" || g === "input" && (E == null || [
     "text",
     "search",
     "url",
@@ -600,26 +600,26 @@ function U2({
     "email",
     "password",
     "number"
-  ].includes(w)), I = g && Rt(k) ? ds(
+  ].includes(E)), C = y && Rt(k) ? ds(
     k,
     {
       id: N ?? $,
-      ...c && E && x?.placeholder == null ? { placeholder: " " } : {},
+      ...c && I && x?.placeholder == null ? { placeholder: " " } : {},
       ...o != null ? {
         "aria-describedby": [
           x?.["aria-describedby"],
           b
-        ].filter((z) => typeof z == "string").join(" ")
+        ].filter((m) => typeof m == "string").join(" ")
       } : {},
       ...r ? {
         "aria-invalid": !0
       } : {}
     }
-  ) : k, C = e != null ? /* @__PURE__ */ O(
+  ) : k, z = e != null ? /* @__PURE__ */ O(
     "label",
     {
       className: Et.label,
-      htmlFor: S ? N ?? $ : void 0,
+      htmlFor: w ? N ?? $ : void 0,
       children: [
         e,
         l === !0 && /* @__PURE__ */ n("span", { className: Et.required, "aria-hidden": "true", children: "*" })
@@ -637,11 +637,11 @@ function U2({
         h
       ].filter(Boolean).join(" "),
       children: [
-        c ? null : C,
+        c ? null : z,
         /* @__PURE__ */ O("div", { className: Et.content, children: [
           t != null && /* @__PURE__ */ n("div", { className: Et.start, children: t }),
-          I,
-          c ? C : null,
+          C,
+          c ? z : null,
           s != null && /* @__PURE__ */ n("div", { className: Et.end, children: s })
         ] }),
         o != null && /* @__PURE__ */ n("div", { id: b, className: Et.helper, children: o })
