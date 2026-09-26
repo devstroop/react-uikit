@@ -40,6 +40,18 @@
   color: transparent;
 }
 
+/* The box owns focus indication (the :focus-within ring above):
+ * inner controls must never paint their own outline or shadow, or
+ * focus shows two nested rings. Scoped to form controls only — end
+ * adornments (buttons) keep their own :focus-visible rings.
+ * Specificity (0,2,1) beats control-level :focus-visible rules (0,2,0). */
+.content > input:focus-visible,
+.content > textarea:focus-visible,
+.content > select:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
 .label {
   position: absolute;
   left: 12px;

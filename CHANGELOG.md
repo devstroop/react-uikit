@@ -104,6 +104,10 @@ the aliases is the only later break.
   gap, `dx-mt-*`). Deletes a class of margin-reset overrides in
   consumers; any layout that relied on UA text margins needs an
   explicit gap.
+- `FormField` owns focus indication: direct `input`/`textarea`/`select`
+  children never paint their own `:focus-visible` outline or shadow,
+  so focus shows the single box ring instead of two nested rings.
+  End adornments (buttons) keep their own focus rings.
 
 - Outlined borders render at `--dx-outlined-border-width: 1px`
   on Badge, Button, Alert, Card, and Splitbutton; outlines at
