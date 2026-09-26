@@ -2,6 +2,7 @@ import {
   forwardRef,
   type AnchorHTMLAttributes,
   type ButtonHTMLAttributes,
+  type Ref,
 } from 'react';
 import { Icon, type IconName } from '../Icon/Icon';
 import styles from './Link.module.css';
@@ -43,10 +44,10 @@ export type LinkProps = LinkAnchorProps | LinkButtonProps;
  * semantics and keyboard behavior. Active-route matching is
  * deliberately absent: the library ships no router.
  */
-export const Link = forwardRef<
-  HTMLAnchorElement | HTMLButtonElement,
-  LinkProps
->(function Link({ children, icon, visible = true, className, ...props }, ref) {
+export const Link = forwardRef<HTMLElement, LinkProps>(function Link(
+  { children, icon, visible = true, className, ...props },
+  ref
+) {
   if (visible === false) return null;
   const content = (
     <>
@@ -59,7 +60,7 @@ export const Link = forwardRef<
     const { href, ...anchorProps } = props as LinkAnchorProps;
     return (
       <a
-        ref={ref as React.Ref<HTMLAnchorElement>}
+        ref={ref as Ref<HTMLAnchorElement>}
         className={cls}
         href={href}
         {...anchorProps}
@@ -71,7 +72,7 @@ export const Link = forwardRef<
   const buttonProps = props as LinkButtonProps;
   return (
     <button
-      ref={ref as React.Ref<HTMLButtonElement>}
+      ref={ref as Ref<HTMLButtonElement>}
       type="button"
       className={cls}
       {...buttonProps}
