@@ -45,6 +45,24 @@ describe('Sidebar', () => {
     expect(container.querySelector('aside')?.className).toContain('responsive');
   });
 
+  it('applies the sticky class when sticky is true, not with overlay', () => {
+    const { container } = render(<Sidebar sticky />);
+    expect(container.querySelector('aside')?.className).toContain('sticky');
+    const { container: overlaid } = render(
+      <Sidebar sticky overlay onClose={() => undefined} />
+    );
+    expect(overlaid.querySelector('aside')?.className ?? '').not.toContain(
+      'sticky'
+    );
+  });
+
+  it('ignores sticky with fullHeight (spanning sidebar cannot stick)', () => {
+    const { container } = render(<Sidebar sticky fullHeight />);
+    expect(container.querySelector('aside')?.className ?? '').not.toContain(
+      'sticky'
+    );
+  });
+
   it('applies the overlay class and global hook when overlay is true', () => {
     const { container } = render(<Sidebar overlay />);
     const cls = container.querySelector('aside')?.className ?? '';

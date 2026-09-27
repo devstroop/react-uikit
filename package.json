@@ -23,6 +23,7 @@
   ],
   "scripts": {
     "build": "vite build",
+    "dev": "vite --config preview/vite.config.ts --port 5199 --strictPort",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "test": "vitest run",

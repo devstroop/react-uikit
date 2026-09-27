@@ -58,6 +58,16 @@ describe('Button', () => {
     }
   );
 
+  it.each(['default', 'medium'] as const)(
+    'emits no shade class for %s (medium pins to default)',
+    (shade) => {
+      render(<Button shade={shade}>Save</Button>);
+      expect(
+        screen.getByRole('button', { name: 'Save' }).className
+      ).not.toMatch(/shade-/);
+    }
+  );
+
   it.each(['light', 'dark'] as const)(
     'ignores shade on %s severity (Radzen: Light/Dark have no Shades)',
     (severity) => {

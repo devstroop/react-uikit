@@ -37,7 +37,20 @@
   border-color: transparent;
   /* Filled carries resting elevation (Radzen material parity); flat,
    * outlined and text are unelevated by design. */
-  box-shadow: var(--dx-shadow-2);
+  box-shadow: var(--dx-shadow-1);
+}
+
+/* Interactive elevation ramp (Radzen material parity: rest 1, hover 3,
+ * press 6). Focus keeps the outline ring over resting elevation —
+ * deliberate divergence from Radzen's focus shadow (better visibility).
+ * Generic rules: per-style :hover rules below own background-color,
+ * these own box-shadow, so they compose without conflicts. */
+.filled:hover:not(:disabled) {
+  box-shadow: var(--dx-shadow-3);
+}
+
+.filled:active:not(:disabled) {
+  box-shadow: var(--dx-shadow-6);
 }
 .flat {
   border-color: transparent;
@@ -52,30 +65,30 @@
   border-color: transparent;
 }
 
-/* Hover wash for the chromeless variants (Radzen parity: hover fills
- * with a wash; filled keeps its bg shift below). One rule — the black
- * overlay adapts to any base, no per-hue duplication. */
+/* Hover feedback for the unelevated variants (Radzen parity: hover lays
+ * a wash over the base; filled keeps its bg shift below). One rule —
+ * the black overlay adapts to any base, no per-hue duplication. Flat is
+ * solid like filled, so the wash reads as a hover darkening. */
 .text:hover:not(:disabled),
 .outlined:hover:not(:disabled),
 .flat:hover:not(:disabled) {
   background-image: linear-gradient(rgb(0 0 0 / 0.06), rgb(0 0 0 / 0.06));
 }
 
-/* style fills — filled + flat carry bg, outlined/text are text+border only */
+/* style fills — filled + flat carry solid severity backgrounds
+ * (Radzen parity: flat differs from filled by shadow only — the
+ * .filled elevation ramp above; flat is unelevated by design),
+ * outlined/text are text+border only */
 .filled.style-primary {
   background-color: var(--dx-primary-color);
-  color: var(--dx-primary-foreground-color);
+  color: var(--dx-on-primary-color);
 }
 .filled.style-primary:hover:not(:disabled) {
   background-color: var(--dx-primary-hover-color);
 }
 .flat.style-primary {
-  background-color: color-mix(
-    in srgb,
-    var(--dx-primary-color) 14%,
-    var(--dx-surface-color)
-  );
-  color: var(--dx-text-primary-color);
+  background-color: var(--dx-primary-color);
+  color: var(--dx-on-primary-color);
 }
 .outlined.style-primary {
   color: var(--dx-text-primary-color);
@@ -87,14 +100,14 @@
 
 .filled.style-secondary {
   background-color: var(--dx-secondary-color);
-  color: var(--dx-secondary-foreground-color);
+  color: var(--dx-on-secondary-color);
 }
 .filled.style-secondary:hover:not(:disabled) {
   background-color: var(--dx-secondary-hover-color);
 }
 .flat.style-secondary {
-  background-color: var(--dx-surface-hover-color);
-  color: var(--dx-text-color);
+  background-color: var(--dx-secondary-color);
+  color: var(--dx-on-secondary-color);
 }
 .outlined.style-secondary {
   color: var(--dx-text-color);
@@ -112,8 +125,9 @@
   background-color: var(--dx-surface-hover-color);
 }
 .flat.style-base {
-  background-color: var(--dx-surface-hover-color);
+  background-color: var(--dx-surface-color);
   color: var(--dx-text-color);
+  border-color: var(--dx-border-color);
 }
 .outlined.style-base {
   color: var(--dx-text-color);
@@ -130,7 +144,7 @@
   background-color: var(--dx-surface-hover-color);
 }
 .flat.style-light {
-  background-color: var(--dx-surface-hover-color);
+  background-color: var(--dx-surface-color);
   color: var(--dx-text-color);
 }
 .outlined.style-light {
@@ -148,12 +162,8 @@
   background-color: var(--dx-dark-hover-color);
 }
 .flat.style-dark {
-  background-color: color-mix(
-    in srgb,
-    var(--dx-text-color) 14%,
-    var(--dx-surface-color)
-  );
-  color: var(--dx-text-color);
+  background-color: var(--dx-text-color);
+  color: var(--dx-surface-color);
 }
 .outlined.style-dark {
   color: var(--dx-text-color);
@@ -165,18 +175,14 @@
 
 .filled.style-danger {
   background-color: var(--dx-danger-color);
-  color: var(--dx-danger-foreground-color);
+  color: var(--dx-on-danger-color);
 }
 .filled.style-danger:hover:not(:disabled) {
   background-color: var(--dx-danger-hover-color);
 }
 .flat.style-danger {
-  background-color: color-mix(
-    in srgb,
-    var(--dx-danger-color) 14%,
-    var(--dx-surface-color)
-  );
-  color: var(--dx-text-danger-color);
+  background-color: var(--dx-danger-color);
+  color: var(--dx-on-danger-color);
 }
 .outlined.style-danger {
   color: var(--dx-text-danger-color);
@@ -188,18 +194,14 @@
 
 .filled.style-success {
   background-color: var(--dx-success-color);
-  color: var(--dx-success-foreground-color);
+  color: var(--dx-on-success-color);
 }
 .filled.style-success:hover:not(:disabled) {
   background-color: var(--dx-success-hover-color);
 }
 .flat.style-success {
-  background-color: color-mix(
-    in srgb,
-    var(--dx-success-color) 14%,
-    var(--dx-surface-color)
-  );
-  color: var(--dx-text-success-color);
+  background-color: var(--dx-success-color);
+  color: var(--dx-on-success-color);
 }
 .outlined.style-success {
   color: var(--dx-text-success-color);
@@ -211,18 +213,14 @@
 
 .filled.style-warning {
   background-color: var(--dx-warning-color);
-  color: var(--dx-warning-foreground-color);
+  color: var(--dx-on-warning-color);
 }
 .filled.style-warning:hover:not(:disabled) {
   background-color: var(--dx-warning-hover-color);
 }
 .flat.style-warning {
-  background-color: color-mix(
-    in srgb,
-    var(--dx-warning-color) 14%,
-    var(--dx-surface-color)
-  );
-  color: var(--dx-text-warning-color);
+  background-color: var(--dx-warning-color);
+  color: var(--dx-on-warning-color);
 }
 .outlined.style-warning {
   color: var(--dx-text-warning-color);
@@ -234,18 +232,14 @@
 
 .filled.style-info {
   background-color: var(--dx-info-color);
-  color: var(--dx-info-foreground-color);
+  color: var(--dx-on-info-color);
 }
 .filled.style-info:hover:not(:disabled) {
   background-color: var(--dx-info-hover-color);
 }
 .flat.style-info {
-  background-color: color-mix(
-    in srgb,
-    var(--dx-info-color) 14%,
-    var(--dx-surface-color)
-  );
-  color: var(--dx-text-info-color);
+  background-color: var(--dx-info-color);
+  color: var(--dx-on-info-color);
 }
 .outlined.style-info {
   color: var(--dx-text-info-color);
@@ -438,44 +432,40 @@
   border-color: transparent;
 }
 .flat.shade-lighter {
-  background-color: color-mix(
-    in srgb,
-    var(--shade-lighter) 14%,
-    var(--dx-surface-color)
-  );
+  background-color: var(--shade-lighter);
+  border-color: transparent;
+  color: var(--on-lighter);
 }
 .flat.shade-light {
-  background-color: color-mix(
-    in srgb,
-    var(--shade-light) 14%,
-    var(--dx-surface-color)
-  );
+  background-color: var(--shade-light);
+  border-color: transparent;
+  color: var(--on-light);
 }
 .flat.shade-dark {
-  background-color: color-mix(
-    in srgb,
-    var(--shade-dark) 14%,
-    var(--dx-surface-color)
-  );
+  background-color: var(--shade-dark);
+  border-color: transparent;
+  color: var(--on-dark);
 }
 .flat.shade-darker {
-  background-color: color-mix(
-    in srgb,
-    var(--shade-darker) 14%,
-    var(--dx-surface-color)
-  );
+  background-color: var(--shade-darker);
+  border-color: transparent;
+  color: var(--on-darker);
 }
 .outlined.shade-lighter {
   border-color: var(--shade-lighter);
+  color: var(--shade-lighter);
 }
 .outlined.shade-light {
   border-color: var(--shade-light);
+  color: var(--shade-light);
 }
 .outlined.shade-dark {
   border-color: var(--shade-dark);
+  color: var(--shade-dark);
 }
 .outlined.shade-darker {
   border-color: var(--shade-darker);
+  color: var(--shade-darker);
 }
 .text.shade-lighter {
   color: var(--shade-lighter);
@@ -491,22 +481,22 @@
 }
 
 /* focus rings per style */
-.style-primary:focus-visible:focus-visible {
+.style-primary:focus-visible {
   outline-color: var(--dx-outline-primary-color);
 }
-.style-secondary:focus-visible:focus-visible {
+.style-secondary:focus-visible {
   outline-color: var(--dx-outline-secondary-color);
 }
-.style-danger:focus-visible:focus-visible {
+.style-danger:focus-visible {
   outline-color: var(--dx-outline-danger-color);
 }
-.style-success:focus-visible:focus-visible {
+.style-success:focus-visible {
   outline-color: var(--dx-outline-success-color);
 }
-.style-warning:focus-visible:focus-visible {
+.style-warning:focus-visible {
   outline-color: var(--dx-outline-warning-color);
 }
-.style-info:focus-visible:focus-visible {
+.style-info:focus-visible {
   outline-color: var(--dx-outline-info-color);
 }
 

@@ -6,18 +6,11 @@
 }
 
 /* ── Radzen axes: Variant (filled | flat | outlined | text) × Severity × Shade.
- * Per-severity roles mirror Button.module.css values exactly (including its
- * secondary/base quirks); variants consume them generically. */
+ * Per-severity fill/hover/foreground roles mirror Button.module.css. */
 .style-primary {
   --split-fill: var(--dx-primary-color);
   --split-hover: var(--dx-primary-hover-color);
-  --split-foreground: var(--dx-primary-foreground-color);
-  --split-soft: color-mix(
-    in srgb,
-    var(--dx-primary-color) 14%,
-    var(--dx-surface-color)
-  );
-  --split-soft-foreground: var(--dx-text-primary-color);
+  --split-foreground: var(--dx-on-primary-color);
   --split-ol-foreground: var(--dx-text-primary-color);
   --split-ol-border: var(--dx-border-primary-color);
   --split-outline: var(--dx-outline-primary-color);
@@ -25,9 +18,7 @@
 .style-secondary {
   --split-fill: var(--dx-secondary-color);
   --split-hover: var(--dx-secondary-hover-color);
-  --split-foreground: var(--dx-secondary-foreground-color);
-  --split-soft: var(--dx-surface-hover-color);
-  --split-soft-foreground: var(--dx-text-color);
+  --split-foreground: var(--dx-on-secondary-color);
   --split-ol-foreground: var(--dx-text-color);
   --split-ol-border: var(--dx-border-strong-color);
   --split-outline: var(--dx-outline-secondary-color);
@@ -36,8 +27,6 @@
   --split-fill: var(--dx-surface-color);
   --split-hover: var(--dx-surface-hover-color);
   --split-foreground: var(--dx-text-color);
-  --split-soft: var(--dx-surface-hover-color);
-  --split-soft-foreground: var(--dx-text-color);
   --split-ol-foreground: var(--dx-text-color);
   --split-ol-border: var(--dx-border-color);
   --split-outline: var(--dx-outline-primary-color);
@@ -46,8 +35,6 @@
   --split-fill: var(--dx-surface-color);
   --split-hover: var(--dx-surface-hover-color);
   --split-foreground: var(--dx-text-color);
-  --split-soft: var(--dx-surface-hover-color);
-  --split-soft-foreground: var(--dx-text-color);
   --split-ol-foreground: var(--dx-text-color);
   --split-ol-border: var(--dx-border-color);
   --split-outline: var(--dx-outline-primary-color);
@@ -56,12 +43,6 @@
   --split-fill: var(--dx-text-color);
   --split-hover: var(--dx-dark-hover-color);
   --split-foreground: var(--dx-surface-color);
-  --split-soft: color-mix(
-    in srgb,
-    var(--dx-text-color) 14%,
-    var(--dx-surface-color)
-  );
-  --split-soft-foreground: var(--dx-text-color);
   --split-ol-foreground: var(--dx-text-color);
   --split-ol-border: var(--dx-text-color);
   --split-outline: var(--dx-outline-primary-color);
@@ -69,13 +50,7 @@
 .style-info {
   --split-fill: var(--dx-info-color);
   --split-hover: var(--dx-info-hover-color);
-  --split-foreground: var(--dx-info-foreground-color);
-  --split-soft: color-mix(
-    in srgb,
-    var(--dx-info-color) 14%,
-    var(--dx-surface-color)
-  );
-  --split-soft-foreground: var(--dx-text-info-color);
+  --split-foreground: var(--dx-on-info-color);
   --split-ol-foreground: var(--dx-text-info-color);
   --split-ol-border: var(--dx-info-color);
   --split-outline: var(--dx-outline-info-color);
@@ -83,13 +58,7 @@
 .style-success {
   --split-fill: var(--dx-success-color);
   --split-hover: var(--dx-success-hover-color);
-  --split-foreground: var(--dx-success-foreground-color);
-  --split-soft: color-mix(
-    in srgb,
-    var(--dx-success-color) 14%,
-    var(--dx-surface-color)
-  );
-  --split-soft-foreground: var(--dx-text-success-color);
+  --split-foreground: var(--dx-on-success-color);
   --split-ol-foreground: var(--dx-text-success-color);
   --split-ol-border: var(--dx-success-color);
   --split-outline: var(--dx-outline-success-color);
@@ -97,13 +66,7 @@
 .style-warning {
   --split-fill: var(--dx-warning-color);
   --split-hover: var(--dx-warning-hover-color);
-  --split-foreground: var(--dx-warning-foreground-color);
-  --split-soft: color-mix(
-    in srgb,
-    var(--dx-warning-color) 14%,
-    var(--dx-surface-color)
-  );
-  --split-soft-foreground: var(--dx-text-warning-color);
+  --split-foreground: var(--dx-on-warning-color);
   --split-ol-foreground: var(--dx-text-warning-color);
   --split-ol-border: var(--dx-warning-color);
   --split-outline: var(--dx-outline-warning-color);
@@ -111,13 +74,7 @@
 .style-danger {
   --split-fill: var(--dx-danger-color);
   --split-hover: var(--dx-danger-hover-color);
-  --split-foreground: var(--dx-danger-foreground-color);
-  --split-soft: color-mix(
-    in srgb,
-    var(--dx-danger-color) 14%,
-    var(--dx-surface-color)
-  );
-  --split-soft-foreground: var(--dx-text-danger-color);
+  --split-foreground: var(--dx-on-danger-color);
   --split-ol-foreground: var(--dx-text-danger-color);
   --split-ol-border: var(--dx-danger-color);
   --split-outline: var(--dx-outline-danger-color);
@@ -369,12 +326,17 @@
   background-color: var(--split-hover);
 }
 
-/* flat: soft tint, no border (Button flat parity — no hover shift) */
+/* flat: solid severity fill like Button (flat differs from filled by
+ * shadow only); hover lays the Button-parity wash over the base */
 .flat .action,
 .flat .caret {
-  --split-bg: var(--split-soft);
+  --split-bg: var(--split-fill);
   --split-border: transparent;
-  color: var(--split-soft-foreground);
+  color: var(--split-foreground);
+}
+.flat .action:hover:not(:disabled),
+.flat .caret:hover:not(:disabled) {
+  background-image: linear-gradient(rgb(0 0 0 / 0.06), rgb(0 0 0 / 0.06));
 }
 
 /* outlined: transparent fill, severity border + text */
@@ -396,7 +358,8 @@
 
 .action:focus-visible,
 .caret:focus-visible {
-  outline: var(--dx-outline-width) solid var(--split-outline, var(--dx-outline-primary-color));
+  outline: var(--dx-outline-width) solid
+    var(--split-outline, var(--dx-outline-primary-color));
   outline-offset: var(--dx-focus-ring-offset);
   z-index: 1;
 }
@@ -424,51 +387,43 @@
 }
 .shade-lighter.flat .action,
 .shade-lighter.flat .caret {
-  --split-bg: color-mix(
-    in srgb,
-    var(--shade-lighter) 14%,
-    var(--dx-surface-color)
-  );
+  --split-bg: var(--shade-lighter);
+  color: var(--on-lighter);
 }
 .shade-light.flat .action,
 .shade-light.flat .caret {
-  --split-bg: color-mix(
-    in srgb,
-    var(--shade-light) 14%,
-    var(--dx-surface-color)
-  );
+  --split-bg: var(--shade-light);
+  color: var(--on-light);
 }
 .shade-dark.flat .action,
 .shade-dark.flat .caret {
-  --split-bg: color-mix(
-    in srgb,
-    var(--shade-dark) 14%,
-    var(--dx-surface-color)
-  );
+  --split-bg: var(--shade-dark);
+  color: var(--on-dark);
 }
 .shade-darker.flat .action,
 .shade-darker.flat .caret {
-  --split-bg: color-mix(
-    in srgb,
-    var(--shade-darker) 14%,
-    var(--dx-surface-color)
-  );
+  --split-bg: var(--shade-darker);
+  color: var(--on-darker);
 }
 .shade-lighter.outlined .action,
 .shade-lighter.outlined .caret {
   --split-border: var(--shade-lighter);
+  color: var(--shade-lighter);
 }
 .shade-light.outlined .action,
 .shade-light.outlined .caret {
   --split-border: var(--shade-light);
+  color: var(--shade-light);
 }
 .shade-dark.outlined .action,
 .shade-dark.outlined .caret {
   --split-border: var(--shade-dark);
+  color: var(--shade-dark);
 }
 .shade-darker.outlined .action,
 .shade-darker.outlined .caret {
   --split-border: var(--shade-darker);
+  color: var(--shade-darker);
 }
 .shade-lighter.text .action,
 .shade-lighter.text .caret {
@@ -569,7 +524,7 @@ button.item {
 
 .item.active {
   background-color: var(--dx-primary-color);
-  color: var(--dx-primary-foreground-color);
+  color: var(--dx-on-primary-color);
 }
 
 .item.active:hover:not(.disabled) {
@@ -583,7 +538,7 @@ button.item {
 .item.danger.active,
 .item.danger.active:hover:not(.disabled) {
   background-color: var(--dx-danger-hover-color);
-  color: var(--dx-primary-foreground-color);
+  color: var(--dx-on-primary-color);
 }
 
 .item:focus-visible {

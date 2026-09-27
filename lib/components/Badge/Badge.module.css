@@ -65,7 +65,7 @@
 
 .light {
   background-color: var(--dx-light-color);
-  color: var(--dx-light-foreground-color);
+  color: var(--dx-on-light-color);
 }
 
 .base {
@@ -75,7 +75,7 @@
 
 .dark {
   background-color: var(--dx-dark-color);
-  color: var(--dx-dark-foreground-color);
+  color: var(--dx-on-dark-color);
 }
 
 .info {
@@ -110,7 +110,7 @@
    Flat is the default severity tint above — no extra rule needed. */
 .filled {
   background-color: var(--dx-primary-color);
-  color: var(--dx-primary-foreground-color);
+  color: var(--dx-on-primary-color);
 }
 
 .filled.neutral {
@@ -120,42 +120,42 @@
 
 .filled.secondary {
   background-color: var(--dx-secondary-color);
-  color: var(--dx-secondary-foreground-color);
+  color: var(--dx-on-secondary-color);
 }
 
 .filled.light {
   background-color: var(--dx-light-color);
-  color: var(--dx-light-foreground-color);
+  color: var(--dx-on-light-color);
 }
 
 .filled.base {
   background-color: var(--dx-base-color);
-  color: var(--dx-base-foreground-color);
+  color: var(--dx-on-base-color);
 }
 
 .filled.dark {
   background-color: var(--dx-dark-color);
-  color: var(--dx-dark-foreground-color);
+  color: var(--dx-on-dark-color);
 }
 
 .filled.info {
   background-color: var(--dx-info-color);
-  color: var(--dx-info-foreground-color);
+  color: var(--dx-on-info-color);
 }
 
 .filled.success {
   background-color: var(--dx-success-color);
-  color: var(--dx-success-foreground-color);
+  color: var(--dx-on-success-color);
 }
 
 .filled.warning {
   background-color: var(--dx-warning-color);
-  color: var(--dx-warning-foreground-color);
+  color: var(--dx-on-warning-color);
 }
 
 .filled.danger {
   background-color: var(--dx-danger-color);
-  color: var(--dx-danger-foreground-color);
+  color: var(--dx-on-danger-color);
 }
 
 .outlined {
@@ -176,7 +176,7 @@
 
 .outlined.light {
   border-color: var(--dx-border-light-color);
-  color: var(--dx-light-foreground-color);
+  color: var(--dx-on-light-color);
 }
 
 .outlined.base {
@@ -225,7 +225,7 @@
 }
 
 .text.light {
-  color: var(--dx-light-foreground-color);
+  color: var(--dx-on-light-color);
 }
 
 .text.base {

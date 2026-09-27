@@ -177,4 +177,19 @@ describe('component namespaces (Radzen parity pilot)', () => {
       }
     }
   });
+
+  it('reserves shade-medium as unstyled (default pins to medium)', () => {
+    // The Shade range reads lighter, light, medium, dark, darker with
+    // default pinned to medium. The pin is explicit: shadeClass maps
+    // both to null, so no shade-medium class is ever emitted. This
+    // test additionally guards that no shade-medium rules exist —
+    // anyone styling medium on purpose must update this test
+    // consciously.
+    for (const { name, content } of allModuleCss()) {
+      const code = content.replace(/\/\*[\s\S]*?\*\//g, '');
+      expect(code, `${name}: shade-medium rule`).not.toMatch(
+        /\.shade-medium\b/
+      );
+    }
+  });
 });

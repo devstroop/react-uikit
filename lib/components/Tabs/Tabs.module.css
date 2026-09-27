@@ -133,7 +133,7 @@
 
 .pills .tab.active {
   background: var(--dx-primary-color);
-  color: var(--dx-primary-foreground-color);
+  color: var(--dx-on-primary-color);
 }
 
 .tab:hover:not(.disabled):not(.active) {

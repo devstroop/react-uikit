@@ -6,7 +6,7 @@ import {
 } from 'react';
 import type { ComponentSize } from '../../sizes';
 import type { Severity } from '../../types/severity';
-import type { Shade } from '../../types/shade';
+import { shadeClass, type Shade } from '../../types/shade';
 import type { Variant } from '../../types/variant';
 import styles from './Button.module.css';
 
@@ -90,7 +90,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
     // Radzen parity: Light and Dark button styles don't have Shades —
     // a shade prop on them is ignored, never rendered.
     const unshaded = resolved.style === 'light' || resolved.style === 'dark';
-    const shadeCls = !unshaded && shade !== 'default' ? `shade-${shade}` : null;
+    const shadeCls = !unshaded ? shadeClass(shade) : null;
     const classNames = [
       styles.button,
       styles[resolved.variant],

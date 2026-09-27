@@ -9,7 +9,7 @@ import {
   type ReactNode,
 } from 'react';
 import type { Severity } from '../../types/severity';
-import type { Shade } from '../../types/shade';
+import { shadeClass, type Shade } from '../../types/shade';
 import { resolveVariant, type Variant } from '../../types/variant';
 import { Icon } from '../Icon/Icon';
 import styles from './Splitbutton.module.css';
@@ -173,6 +173,7 @@ export function Splitbutton({
     }
   };
 
+  const shadeCls = shadeClass(shade);
   return (
     <div
       ref={rootRef}
@@ -181,7 +182,7 @@ export function Splitbutton({
         styles[size],
         styles[`style-${severity}`],
         styles[resolveVariant(variant, 'filled')],
-        shade !== 'default' ? styles[`shade-${shade}`] : null,
+        shadeCls ? styles[shadeCls] : null,
         className,
       ]
         .filter(Boolean)

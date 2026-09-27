@@ -6,6 +6,19 @@ Versioning follows the release flow in `docs/DEVELOPMENT_STRATEGY.md`
 
 ## [Unreleased] — toward 2.0.0
 
+### Changed — `flat` variant is now solid (breaking visually)
+
+Button and Splitbutton `variant="flat"` previously rendered a soft
+14% severity tint with `text-*` foreground. It now renders the solid
+severity fill with `on-*` foreground — Radzen parity, where flat
+differs from filled by shadow only (filled carries resting elevation,
+flat is unelevated). Hover lays a darkening wash over the base in
+both. If you relied on the tinted low-emphasis look, switch to
+`variant="text"` (transparent) or pin the previous mix in your own
+CSS. Flat shades are likewise absolute now (`shade-*` background +
+`on-*` ink, identical to filled minus shadow); outlined shades set
+both border and text color.
+
 ### Removed — legacy `tone-*` classes (breaking for custom CSS)
 
 Button no longer emits the backwards-compat `tone-*` classes
@@ -60,7 +73,7 @@ Notes:
 ### Removed — abbreviated background/foreground tokens (breaking)
 
 `--dx-bg-color` → `--dx-background-color`,
-`--dx-{tone}-fg-color` → `--dx-{tone}-foreground-color` (primary,
+`--dx-{tone}-fg-color` → `--dx-on-{tone}-color` (primary,
 secondary, success, danger, warning, info, light, base, dark, neutral,
 soft). Values are unchanged, only renamed.
 
@@ -69,6 +82,27 @@ so unmigrated stylesheets keep resolving. Migrate at leisure; dropping
 the aliases is the only later break.
 
 ### Added
+
+- `Shade` gains an explicit `medium` step, completing the range
+  lighter, light, medium, dark, darker with `default` pinned to it:
+  both map to no class and render the base look (explicit in
+  `shadeClass`, locked by test; no `shade-medium` CSS rules exist).
+  All emitters (Button, Badge, Alert, Splitbutton, Progress) now share
+  the `shadeClass` helper instead of duplicating the gate.
+
+- Scrollbar system (Radzen parity): slim floating-thumb bars replace
+  OS defaults globally, unless the page opts out with
+  `dx-default-scrollbars` on `<body>`; `.dx-scrollbars` forces the
+  treatment on a subtree. 12px, not Radzen's 16px, with Firefox
+  thin/colored bars (Radzen is webkit-only). Tokens
+  `--dx-scrollbar-color` (secondary tone, both themes adapt) and
+  `--dx-scrollbar-size`.
+
+- `Sidebar` accepts `sticky` for independent scrolling (Radzen fixed
+  sidebar parity, without leaving flow): pins to the viewport top,
+  capped at viewport height, so long nav scrolls inside while the
+  body scrolls the page. Pairs with a sticky `Header` (paints above
+  via `z-sticky`). No-op with `overlay`.
 
 - Radius role tokens (Radzen derivation parity): `--dx-radius-input`
   (base), `--dx-radius-button` (pill, brand), `--dx-radius-checkbox`
@@ -133,9 +167,13 @@ the aliases is the only later break.
 ### Changed
 
 - Button treatment (Radzen material parity): `filled` carries resting
-  elevation (`--dx-shadow-2`); `flat`/`outlined`/`text` share one
+  elevation (`--dx-shadow-1`) with an interactive ramp (hover
+  `--dx-shadow-3`, press `--dx-shadow-6`); focus keeps the outline
+  ring over resting elevation. `flat`/`outlined`/`text` share one
   hover wash (6% black overlay, no per-hue rules). Showcase rebuilt
   as the Variant × Style × Shade matrix.
+- Dialog backdrop is a neutral-gray veil (Radzen dialog-mask parity),
+  replacing the blue-black cast.
 
 - Dialog headers are borderless (Radzen parity: title border defaults
   to none). The `footer` slot and its top border are retained as API;

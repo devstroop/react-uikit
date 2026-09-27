@@ -78,7 +78,7 @@
 
 .light {
   --alert-tone: var(--dx-light-color);
-  --alert-fg: var(--dx-light-foreground-color);
+  --alert-fg: var(--dx-on-light-color);
 }
 
 .base {
@@ -143,39 +143,39 @@
 }
 
 .filled.info {
-  color: var(--dx-info-foreground-color);
+  color: var(--dx-on-info-color);
 }
 
 .filled.primary {
-  color: var(--dx-primary-foreground-color);
+  color: var(--dx-on-primary-color);
 }
 
 .filled.success {
-  color: var(--dx-success-foreground-color);
+  color: var(--dx-on-success-color);
 }
 
 .filled.warning {
-  color: var(--dx-warning-foreground-color);
+  color: var(--dx-on-warning-color);
 }
 
 .filled.secondary {
-  color: var(--dx-secondary-foreground-color);
+  color: var(--dx-on-secondary-color);
 }
 
 .filled.light {
-  color: var(--dx-light-foreground-color);
+  color: var(--dx-on-light-color);
 }
 
 .filled.base {
-  color: var(--dx-base-foreground-color);
+  color: var(--dx-on-base-color);
 }
 
 .filled.dark {
-  color: var(--dx-dark-foreground-color);
+  color: var(--dx-on-dark-color);
 }
 
 .filled.danger {
-  color: var(--dx-danger-foreground-color);
+  color: var(--dx-on-danger-color);
 }
 
 .icon {

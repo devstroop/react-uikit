@@ -1,7 +1,7 @@
 import { useState, type ReactNode } from 'react';
 import type { ComponentSize } from '../../sizes';
 import type { Severity } from '../../types/severity';
-import type { Shade } from '../../types/shade';
+import { shadeClass, type Shade } from '../../types/shade';
 import { resolveVariant, type Variant } from '../../types/variant';
 import { Icon, type IconName } from '../Icon/Icon';
 import styles from './Alert.module.css';
@@ -109,7 +109,7 @@ export function Alert({
 
   const t = severity as string;
   const v = resolveVariant(variant, 'filled');
-  const shadeCls = shade && shade !== 'default' ? `shade-${shade}` : null;
+  const shadeCls = shadeClass(shade);
   const shownIcon =
     icon ?? (showIcon ? <Icon name={ALERT_ICON[severity]} /> : null);
   return (

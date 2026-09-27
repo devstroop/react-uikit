@@ -116,6 +116,9 @@ describe('foundation tokens', () => {
       ['--dx-focus-ring-width', '2px'],
       ['--dx-focus-ring-offset', '2px'],
       ['--dx-disabled-opacity', '0.55'],
+      ['--dx-backdrop-color', 'rgb(66 66 66 / 0.5)'],
+      ['--dx-scrollbar-color', 'var(--dx-secondary-color)'],
+      ['--dx-scrollbar-size', '12px'],
       ['--dx-field-height-xs', '34px'],
       ['--dx-field-height-sm', '42px'],
       ['--dx-field-height-md', '50px'],
@@ -201,8 +204,49 @@ describe('foundation tokens', () => {
       'soft',
     ]) {
       expect(css, tone).toContain(
-        `--dx-${tone}-fg-color: var(--dx-${tone}-foreground-color);`
+        `--dx-${tone}-fg-color: var(--dx-on-${tone}-color);`
       );
+    }
+  });
+
+  it('keeps deprecated full-length foreground names pointing at on-*', () => {
+    for (const tone of [
+      'primary',
+      'secondary',
+      'success',
+      'danger',
+      'warning',
+      'info',
+      'light',
+      'base',
+      'dark',
+      'neutral',
+      'soft',
+    ]) {
+      expect(css, tone).toContain(
+        `--dx-${tone}-foreground-color: var(--dx-on-${tone}-color);`
+      );
+    }
+  });
+
+  it('defines on-* tone foregrounds in all three theme blocks', () => {
+    for (const tone of [
+      'primary',
+      'secondary',
+      'success',
+      'danger',
+      'warning',
+      'info',
+      'light',
+      'base',
+      'dark',
+      'neutral',
+      'soft',
+    ]) {
+      const matches = css.match(
+        new RegExp(`--dx-on-${tone}-color:\\s*#[0-9a-f]{6};`, 'g')
+      );
+      expect(matches, `on-${tone}`).toHaveLength(3);
     }
   });
 });

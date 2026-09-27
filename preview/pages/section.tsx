@@ -9,7 +9,7 @@ export function DemoSection({
   children: ReactNode;
 }) {
   return (
-    <section aria-label={title} style={{ marginBottom: 32 }}>
+    <section aria-label={title} className="dx-mb-8">
       <Text textStyle="H2" tagName="H1">
         {title}
       </Text>

@@ -9,6 +9,17 @@ export interface SidebarProps extends HTMLAttributes<HTMLElement> {
   responsive?: boolean;
   overlay?: boolean;
   /**
+   * Pin to the viewport top with independent scrolling (Radzen fixed
+   * sidebar parity, without leaving flow): `position: sticky` capped
+   * at viewport height, so long nav scrolls inside while the body
+   * scrolls the page. Pairs with a sticky Header, which paints above
+   * via `z-sticky` — but set `--dx-sidebar-sticky-top` to the header
+   * height so the sidebar stops below it instead of sliding under.
+   * No-op with `overlay` or `fullHeight` (a spanning sidebar
+   * stretches the grid row, so sticking can never engage).
+   */
+  sticky?: boolean;
+  /**
    * Span the full layout height (header through footer) instead of the
    * body row. Only honored for a single fullHeight sidebar — Layout
    * switches to grid placement for it (Radzen FullHeight parity).
@@ -24,6 +35,7 @@ export function Sidebar({
   responsive = false,
   overlay = false,
   fullHeight = false,
+  sticky = false,
   onClose,
   className,
   children,
@@ -55,6 +67,7 @@ export function Sidebar({
           responsive ? styles.responsive : null,
           overlay ? [styles.overlay, 'se-sidebar--overlay'] : null,
           fullHeight ? styles.fullHeight : null,
+          sticky && !overlay && !fullHeight ? styles.sticky : null,
           className,
         ]
           .flat()

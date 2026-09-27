@@ -303,7 +303,7 @@
   border: none;
   border-radius: var(--dx-radius-input);
   background-color: var(--dx-primary-color);
-  color: var(--dx-primary-foreground-color);
+  color: var(--dx-on-primary-color);
   font-family: inherit;
   font-size: var(--dx-font-size-xs);
   font-weight: var(--dx-font-weight-medium);

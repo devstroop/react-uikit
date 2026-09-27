@@ -6,6 +6,38 @@
   overflow-y: auto;
 }
 
+/* Independent scroll (app-shell pattern): pin to the viewport top and
+ * cap at viewport height so long nav scrolls inside the sidebar while
+ * the body scrolls the page. align-self unstretches the flex item —
+ * without it the box fills the row and sticking never engages.
+ * z-index stays auto: a sticky Header (z-sticky) paints above.
+ * box-sizing is pinned to content-box so the cap math below holds
+ * under consumer resets (e.g. Tailwind preflight): the cap subtracts
+ * vertical padding because padding sits outside the content box —
+ * without it the total box would overshoot the viewport and the
+ * sidebar could only trailing-stick, hiding its top.
+ * Offset from the viewport top is `--dx-sidebar-sticky-top` (default
+ * 0): apps pairing this with a sticky Header should set it to the
+ * header height, otherwise the sidebar bottom extends that far below
+ * the viewport while sliding under the header. */
+.sticky {
+  position: sticky;
+  top: var(--dx-sidebar-sticky-top, 0);
+  align-self: flex-start;
+  box-sizing: content-box;
+  max-height: calc(
+    100vh - var(--dx-sidebar-sticky-top, 0px) - 2 * var(--dx-space-4)
+  );
+}
+
+@supports (max-height: 100dvh) {
+  .sticky {
+    max-height: calc(
+      100dvh - var(--dx-sidebar-sticky-top, 0px) - 2 * var(--dx-space-4)
+    );
+  }
+}
+
 .left {
   border-right: var(--dx-border-width) solid var(--dx-border-color);
 }

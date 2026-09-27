@@ -1,7 +1,7 @@
 import { type HTMLAttributes, type SVGAttributes } from 'react';
 import type { ComponentSize } from '../../sizes';
 import type { Severity } from '../../types/severity';
-import type { Shade } from '../../types/shade';
+import { shadeClass, type Shade } from '../../types/shade';
 import styles from './Progress.module.css';
 
 export type ProgressTone = Extract<
@@ -54,6 +54,7 @@ export function Progress({
     const dashLength = circumference * (indeterminate ? 0.75 : 1);
     const offset = indeterminate ? 0 : circumference * (1 - percent / 100);
 
+    const shadeCls = shadeClass(shade);
     return (
       <svg
         width={tier ? undefined : size}
@@ -69,7 +70,7 @@ export function Progress({
         className={[
           styles.circular,
           styles[severity],
-          shade && shade !== 'default' ? styles[`shade-${shade}`] : null,
+          shadeCls ? styles[shadeCls] : null,
           tier ? styles[`circular-${size}`] : null,
           indeterminate ? styles.indeterminate : null,
           className,
@@ -97,7 +98,7 @@ export function Progress({
     );
   }
 
-  const shadeCls = shade && shade !== 'default' ? `shade-${shade}` : null;
+  const shadeCls = shadeClass(shade);
   return (
     <div
       role="progressbar"

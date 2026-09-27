@@ -27,7 +27,7 @@
 .selected,
 .selected:hover:not(.disabled) {
   background-color: var(--dx-primary-color);
-  color: var(--dx-primary-foreground-color);
+  color: var(--dx-on-primary-color);
 }
 
 .active {

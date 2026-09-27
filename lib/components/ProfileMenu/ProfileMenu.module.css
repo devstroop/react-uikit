@@ -51,7 +51,7 @@
   height: 28px;
   border-radius: var(--dx-radius-button);
   background-color: var(--dx-primary-color);
-  color: var(--dx-primary-foreground-color);
+  color: var(--dx-on-primary-color);
   font-size: var(--dx-font-size-sm);
 }
 
