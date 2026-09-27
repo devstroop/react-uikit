@@ -2,6 +2,7 @@
    pre-open submenus for pointer users only; keyboard and touch operate
    entirely through the focusable menuitem buttons/links. */
 import {
+  Fragment,
   createContext,
   useCallback,
   useContext,
@@ -138,8 +139,12 @@ function ItemIcon({ icon, iconColor, image, imageAlt }: Pick<MenuItemProps, 'ico
   return null;
 }
 
-function MenuItemNode({ itemKey, props }: { itemKey: string; props: MenuItemProps }) {
-  const ctx = useContext(MenuContext);
+/** Non-item children (e.g. `<hr />` separators, Radzen demo parity) render verbatim. */
+function isMenuItem(child: unknown): boolean {
+  return isValidElement(child) && (child as React.ReactElement).type === MenuItem;
+}
+
+function MenuItemNode({ itemKey, props }: { itemKey: string; props: MenuItemProps }) {  const ctx = useContext(MenuContext);
   if (!ctx) throw new Error('MenuItem must be used inside <Menu>');
   const { text, value, path, disabled, template } = props;
   const childItems = useMemo(
@@ -293,13 +298,18 @@ function MenuItemNode({ itemKey, props }: { itemKey: string; props: MenuItemProp
             onKeyDown={handleSubmenuKeyDown}
           >
             <MenuContext.Provider value={nestedCtx}>
-              {childItems.map((child, i) => (
-                <MenuItemNode
-                  key={`${itemKey}-${i}`}
-                  itemKey={`${itemKey}-${i}`}
-                  props={(child as React.ReactElement<MenuItemProps>).props}
-                />
-              ))}
+              {childItems.map((child, i) =>
+                isMenuItem(child) ? (
+                  <MenuItemNode
+                    key={`${itemKey}-${i}`}
+                    itemKey={`${itemKey}-${i}`}
+                    props={(child as React.ReactElement<MenuItemProps>).props}
+                  />
+                ) : (
+                  // Separators / custom content (Radzen `<hr />` parity) render verbatim.
+                  <Fragment key={`${itemKey}-custom-${i}`}>{child}</Fragment>
+                )
+              )}
             </MenuContext.Provider>
           </div>
         ) : null}
@@ -569,13 +579,17 @@ export function Menu({
         onKeyDown={handleMenubarKeyDown}
       >
         <MenuContext.Provider value={ctx}>
-          {topItems.map((child, i) => (
-            <MenuItemNode
-              key={`top-${i}`}
-              itemKey={String(i)}
-              props={(child as React.ReactElement<MenuItemProps>).props}
-            />
-          ))}
+          {topItems.map((child, i) =>
+            isMenuItem(child) ? (
+              <MenuItemNode
+                key={`top-${i}`}
+                itemKey={String(i)}
+                props={(child as React.ReactElement<MenuItemProps>).props}
+              />
+            ) : (
+              <Fragment key={`top-custom-${i}`}>{child}</Fragment>
+            )
+          )}
         </MenuContext.Provider>
       </div>
     </nav>

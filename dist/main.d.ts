@@ -140,6 +140,8 @@ export { DropZone } from './components/DropZone/DropZone';
 export type { DropZoneProps, DropZoneHandle, } from './components/DropZone/DropZone';
 export { Menu, MenuItem } from './components/Menu/Menu';
 export type { MenuProps, MenuItemProps, MenuItemEventArgs, MenuMatch, } from './components/Menu/Menu';
+export { ContextMenuProvider, useContextMenu } from './components/ContextMenu/ContextMenu';
+export type { ContextMenuApi, ContextMenuItem, ContextMenuOpenOptions, } from './components/ContextMenu/ContextMenu';
 export { PanelMenu, PanelMenuItem } from './components/PanelMenu/PanelMenu';
 export type { PanelMenuProps, PanelMenuItemProps, PanelMenuItemEventArgs, PanelMenuMatch, PanelMenuDisplayStyle, PanelMenuRenderMode, } from './components/PanelMenu/PanelMenu';
 export { ProfileMenu } from './components/ProfileMenu/ProfileMenu';

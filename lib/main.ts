@@ -426,6 +426,13 @@ export type {
   MenuMatch,
 } from './components/Menu/Menu';
 
+export { ContextMenuProvider, useContextMenu } from './components/ContextMenu/ContextMenu';
+export type {
+  ContextMenuApi,
+  ContextMenuItem,
+  ContextMenuOpenOptions,
+} from './components/ContextMenu/ContextMenu';
+
 export { PanelMenu, PanelMenuItem } from './components/PanelMenu/PanelMenu';
 export type {
   PanelMenuProps,

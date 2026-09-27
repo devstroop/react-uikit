@@ -6,6 +6,19 @@ Versioning follows the release flow in `docs/DEVELOPMENT_STRATEGY.md`
 
 ## [Unreleased] — toward 2.0.0
 
+### Added — `ContextMenu` provider + hook (Radzen ContextMenu parity)
+
+`ContextMenuProvider` (app root) + `useContextMenu()` (`open(event,
+options)` / `close()` / `isOpen`) mirror `ContextMenuService` without
+DI: data mode (`items`, nestable — beating Radzen's flat
+`ContextMenuItem` list) or content mode (`content`, e.g. `<Menu>` with
+`<hr />` separators — `Menu` passes non-item children through
+verbatim). No auto-close — handlers call `menu.close()` like Radzen,
+so parents with submenus stay open. Fixed overlay (`z-index: 1001`)
+with viewport clamping, focus moved into the menu on open and
+restored to the invoker on close; dismiss on outside pointer,
+`Escape`, resize, and route change.
+
 ### Changed — `Menu` / `PanelMenu` are compound components (breaking)
 
 Radzen parity: `items={[...]}` is removed. Nest `<MenuItem>` /

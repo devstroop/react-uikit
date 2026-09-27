@@ -2,6 +2,7 @@ import { useState } from 'react';
 import {
   Breadcrumb,
   Checkbox,
+  ContextMenuProvider,
   Link,
   Menu,
   MenuItem,
@@ -14,6 +15,7 @@ import {
   Tabs,
   Text,
   Toc,
+  useContextMenu,
   type PanelMenuDisplayStyle,
 } from '../../lib/main';
 import { DemoPage } from './demo-page';
@@ -37,6 +39,52 @@ function EventLog({ events }: { events: string[] }) {
         ))
       )}
     </div>
+  );
+}
+
+function ContextClickArea({ onLog }: { onLog: (msg: string) => void }) {
+  const menu = useContextMenu();
+  return (
+    <div
+      onContextMenu={(e) =>
+        menu.open(e, {
+          items: [
+            { text: 'Cut', value: 'cut' },
+            { text: 'Copy', value: 'copy' },
+            {
+              text: 'More',
+              value: 'more',
+              children: [
+                { text: 'Sub action', value: 'sub' },
+                { text: 'Disabled', value: 'off', disabled: true },
+              ],
+            },
+          ],
+          onClick: (a) => {
+            onLog(`${a.text} clicked`);
+            menu.close();
+          },
+        })
+      }
+      style={{
+        border: '1px dashed var(--dx-border-strong-color)',
+        borderRadius: 8,
+        padding: 24,
+        textAlign: 'center',
+      }}
+    >
+      <Text textStyle="Body1">Right-click me</Text>
+    </div>
+  );
+}
+
+function ContextClickDemo() {
+  const [events, setEvents] = useState<string[]>([]);
+  return (
+    <ContextMenuProvider>
+      <ContextClickArea onLog={(m) => setEvents((prev) => [...prev, m])} />
+      <EventLog events={events} />
+    </ContextMenuProvider>
   );
 }
 
@@ -134,6 +182,13 @@ function MenuDemos() {
               <MenuItem text="Paste" disabled />
             </Menu>
           ),
+        },
+        {
+          id: 'menu-context-click',
+          title: 'Right-click popup',
+          description:
+            'useContextMenu opens a cursor-positioned popup (hook + provider parity with Radzen ContextMenuService). No auto-close — the handler calls menu.close().',
+          content: <ContextClickDemo />,
         },
       ]}
     />

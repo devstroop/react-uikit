@@ -355,6 +355,19 @@ describe('Menu', () => {
     expect(screen.queryByRole('menu', { name: 'Products' })).not.toBeInTheDocument();
   });
 
+  it('renders non-item children (separators) verbatim', () => {
+    render(
+      <Menu>
+        <MenuItem text="One" />
+        <hr data-testid="sep" />
+        <MenuItem text="Two" />
+      </Menu>
+    );
+    expect(screen.getByTestId('sep').tagName).toBe('HR');
+    expect(screen.getByRole('menuitem', { name: 'One' })).toBeInTheDocument();
+    expect(screen.getByRole('menuitem', { name: 'Two' })).toBeInTheDocument();
+  });
+
   it('forwards rest props to the nav element', () => {
     const onMouseOver = vi.fn();
     render(
