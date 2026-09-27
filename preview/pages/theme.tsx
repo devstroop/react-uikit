@@ -1,15 +1,19 @@
-import { Text, ThemeSwitcher } from '../../lib/main';
-import { DemoSection } from './section';
+import { ThemeSwitcher } from '../../lib/main';
+import { DemoPage } from './demo-page';
 
 export function ThemeDemos({ slug }: { slug: string }) {
   if (slug === 'themeswitcher') {
     return (
-      <DemoSection title="ThemeSwitcher">
-        <ThemeSwitcher storageKey={null} />
-        <Text textStyle="Body1" className="dx-text-muted">
-          Uncontrolled, persistence off for the showcase.
-        </Text>
-      </DemoSection>
+      <DemoPage
+        title="ThemeSwitcher"
+        description="Uncontrolled, persistence off for the showcase."
+        sections={[
+          {
+            id: 'themeswitcher-basic',
+            content: <ThemeSwitcher storageKey={null} />,
+          },
+        ]}
+      />
     );
   }
   return null;

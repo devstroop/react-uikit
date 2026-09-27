@@ -32,7 +32,7 @@ import {
   required,
   useFormField,
 } from '../../lib/main';
-import { DemoSection } from './section';
+import { DemoPage } from './demo-page';
 
 const PAIR_OPTIONS = [
   { value: 'a', label: 'Alpha' },
@@ -73,270 +73,522 @@ export function FormDemos({ slug }: { slug: string }) {
   switch (slug) {
     case 'form':
       return (
-        <DemoSection title="Form">
-          <FormDemo />
-          <Text textStyle="Body1" className="dx-text-muted">
-            Validators live in Validators (required shown above).
-          </Text>
-        </DemoSection>
+        <DemoPage
+          title="Form"
+          description="Validators live in Validators (required shown above)."
+          sections={[{ id: 'form-basic', content: <FormDemo /> }]}
+        />
       );
     case 'field':
       return (
-        <DemoSection title="Field">
-          <Text textStyle="Body1" className="dx-text-muted">
-            Deprecated — prefer FormField for new code.
-          </Text>
-          <Field label="Email" supporting="We never share it.">
-            {({ inputId }) => (
-              <Textbox id={inputId} placeholder="you@zone.app" />
-            )}
-          </Field>
-          <Field label="Broken" error="Fix this field.">
-            {({ inputId }) => <Textbox id={inputId} />}
-          </Field>
-        </DemoSection>
+        <DemoPage
+          title="Field"
+          description="Deprecated — prefer FormField for new code."
+          sections={[
+            {
+              id: 'field-states',
+              content: (
+                <Stack orientation="vertical" gap="md">
+                  <Field label="Email" supporting="We never share it.">
+                    {({ inputId }) => (
+                      <Textbox id={inputId} placeholder="you@zone.app" />
+                    )}
+                  </Field>
+                  <Field label="Broken" error="Fix this field.">
+                    {({ inputId }) => <Textbox id={inputId} />}
+                  </Field>
+                </Stack>
+              ),
+            },
+          ]}
+        />
       );
     case 'formfield':
       return (
-        <DemoSection title="FormField">
-          <Text textStyle="Body1" className="dx-text-muted">
-            Custom controls carry explicit ids — FormField cannot backfill ids
-            it cannot see, so the label points at the id you pass.
-          </Text>
-          <FormField text="Email" helper="We never share it.">
-            <Textbox id="demo-email" placeholder="you@zone.app" />
-          </FormField>
-          <FormField
-            text="Search"
-            variant="filled"
-            start={<span aria-hidden="true">S</span>}
-            end={
-              <button type="button" aria-label="Clear">
-                ×
-              </button>
-            }
-          >
-            <Textbox id="demo-search" />
-          </FormField>
-          <FormField
-            text="Bio"
-            allowFloatingLabel={false}
-            helper="A sentence or two."
-          >
-            <Textarea id="demo-bio" rows={2} />
-          </FormField>
-          <FormField text="Amount" invalid helper="Must be positive.">
-            <Textbox id="demo-amount" />
-          </FormField>
-          <FormField text="Small" helper="Size sm follows the field.">
-            <Textbox id="demo-small" size="sm" />
-          </FormField>
-          <FormField text="Large" helper="Size lg grows the box.">
-            <Textbox id="demo-large" size="lg" />
-          </FormField>
-        </DemoSection>
+        <DemoPage
+          title="FormField"
+          description="Custom controls carry explicit ids — FormField cannot backfill ids it cannot see, so the label points at the id you pass."
+          sections={[
+            {
+              id: 'formfield-labels',
+              title: 'Labels and Helpers',
+              content: (
+                <Stack orientation="vertical" gap="md">
+                  <FormField text="Email" helper="We never share it.">
+                    <Textbox id="demo-email" placeholder="you@zone.app" />
+                  </FormField>
+                  <FormField
+                    text="Bio"
+                    allowFloatingLabel={false}
+                    helper="A sentence or two."
+                  >
+                    <Textarea id="demo-bio" rows={2} />
+                  </FormField>
+                </Stack>
+              ),
+            },
+            {
+              id: 'formfield-adornments',
+              title: 'Adornments',
+              description: 'Start and end slots for icons and actions.',
+              content: (
+                <FormField
+                  text="Search"
+                  variant="filled"
+                  start={<span aria-hidden="true">S</span>}
+                  end={
+                    <button type="button" aria-label="Clear">
+                      ×
+                    </button>
+                  }
+                >
+                  <Textbox id="demo-search" />
+                </FormField>
+              ),
+            },
+            {
+              id: 'formfield-sizes',
+              title: 'Sizes',
+              description: 'Size follows the field control.',
+              content: (
+                <Stack orientation="vertical" gap="md">
+                  <FormField text="Small" helper="Size sm follows the field.">
+                    <Textbox id="demo-small" size="sm" />
+                  </FormField>
+                  <FormField text="Large" helper="Size lg grows the box.">
+                    <Textbox id="demo-large" size="lg" />
+                  </FormField>
+                </Stack>
+              ),
+            },
+            {
+              id: 'formfield-validation',
+              title: 'Validation',
+              content: (
+                <FormField text="Amount" invalid helper="Must be positive.">
+                  <Textbox id="demo-amount" />
+                </FormField>
+              ),
+            },
+          ]}
+        />
       );
     case 'fieldset':
       return (
-        <DemoSection title="Fieldset">
-          <Fieldset text="Address">
-            <FormField text="Street">
-              <Textbox id="demo-street" />
-            </FormField>
-            <FormField text="Town">
-              <Textbox id="demo-town" />
-            </FormField>
-          </Fieldset>
-          <Fieldset text="Advanced" allowCollapse summary="2 of 5 set">
-            <FormField text="Code">
-              <Textbox id="demo-code" />
-            </FormField>
-          </Fieldset>
-        </DemoSection>
+        <DemoPage
+          title="Fieldset"
+          description="Grouped fields with optional collapse."
+          sections={[
+            {
+              id: 'fieldset-basic',
+              title: 'Grouped',
+              content: (
+                <Fieldset text="Address">
+                  <FormField text="Street">
+                    <Textbox id="demo-street" />
+                  </FormField>
+                  <FormField text="Town">
+                    <Textbox id="demo-town" />
+                  </FormField>
+                </Fieldset>
+              ),
+            },
+            {
+              id: 'fieldset-collapse',
+              title: 'Collapsible',
+              content: (
+                <Fieldset text="Advanced" allowCollapse summary="2 of 5 set">
+                  <FormField text="Code">
+                    <Textbox id="demo-code" />
+                  </FormField>
+                </Fieldset>
+              ),
+            },
+          ]}
+        />
       );
     case 'input':
       return (
-        <DemoSection title="Input">
-          <Text textStyle="Body1" className="dx-text-muted">
-            Deprecated alias of Textbox — identical rendering.
-          </Text>
-          <Stack orientation="vertical" gap="sm">
-            <Input placeholder="Default" aria-label="Default input" />
-            <Input placeholder="Disabled" disabled aria-label="Disabled" />
-          </Stack>
-        </DemoSection>
+        <DemoPage
+          title="Input"
+          description="Deprecated alias of Textbox — identical rendering."
+          sections={[
+            {
+              id: 'input-states',
+              content: (
+                <Stack orientation="vertical" gap="sm">
+                  <Input placeholder="Default" aria-label="Default input" />
+                  <Input
+                    placeholder="Disabled"
+                    disabled
+                    aria-label="Disabled"
+                  />
+                </Stack>
+              ),
+            },
+          ]}
+        />
       );
     case 'textbox':
       return (
-        <DemoSection title="Textbox">
-          <Textbox placeholder="Textbox" aria-label="Textbox" />
-          <Textbox placeholder="Invalid" invalid aria-label="Invalid" />
-        </DemoSection>
+        <DemoPage
+          title="Textbox"
+          sections={[
+            {
+              id: 'textbox-states',
+              content: (
+                <Stack orientation="vertical" gap="sm">
+                  <Textbox placeholder="Textbox" aria-label="Textbox" />
+                  <Textbox placeholder="Invalid" invalid aria-label="Invalid" />
+                </Stack>
+              ),
+            },
+          ]}
+        />
       );
     case 'textarea':
       return (
-        <DemoSection title="Textarea">
-          <Textarea rows={3} placeholder="Long text" aria-label="Long text" />
-        </DemoSection>
+        <DemoPage
+          title="Textarea"
+          sections={[
+            {
+              id: 'textarea-basic',
+              content: (
+                <Textarea
+                  rows={3}
+                  placeholder="Long text"
+                  aria-label="Long text"
+                />
+              ),
+            },
+          ]}
+        />
       );
     case 'password':
       return (
-        <DemoSection title="Password">
-          <Password placeholder="Password" aria-label="Password" />
-        </DemoSection>
+        <DemoPage
+          title="Password"
+          sections={[
+            {
+              id: 'password-basic',
+              content: (
+                <Password placeholder="Password" aria-label="Password" />
+              ),
+            },
+          ]}
+        />
       );
     case 'mask':
       return (
-        <DemoSection title="Mask">
-          <Mask mask="000-000" placeholder="000-000" aria-label="Masked" />
-        </DemoSection>
+        <DemoPage
+          title="Mask"
+          sections={[
+            {
+              id: 'mask-basic',
+              content: (
+                <Mask
+                  mask="000-000"
+                  placeholder="000-000"
+                  aria-label="Masked"
+                />
+              ),
+            },
+          ]}
+        />
       );
     case 'numeric':
       return (
-        <DemoSection title="Numeric">
-          <Numeric placeholder="0" aria-label="Numeric" />
-        </DemoSection>
+        <DemoPage
+          title="Numeric"
+          sections={[
+            {
+              id: 'numeric-basic',
+              content: <Numeric placeholder="0" aria-label="Numeric" />,
+            },
+          ]}
+        />
       );
     case 'select':
       return (
-        <DemoSection title="Select">
-          <Select aria-label="Select" options={PAIR_OPTIONS} defaultValue="a" />
-        </DemoSection>
+        <DemoPage
+          title="Select"
+          sections={[
+            {
+              id: 'select-basic',
+              content: (
+                <Select
+                  aria-label="Select"
+                  options={PAIR_OPTIONS}
+                  defaultValue="a"
+                />
+              ),
+            },
+          ]}
+        />
       );
     case 'dropdown':
       return (
-        <DemoSection title="Dropdown">
-          <Dropdown options={PAIR_OPTIONS} aria-label="Dropdown" />
-        </DemoSection>
+        <DemoPage
+          title="Dropdown"
+          sections={[
+            {
+              id: 'dropdown-basic',
+              content: (
+                <Dropdown options={PAIR_OPTIONS} aria-label="Dropdown" />
+              ),
+            },
+          ]}
+        />
       );
     case 'autocomplete':
       return (
-        <DemoSection title="Autocomplete">
-          <Autocomplete options={PAIR_OPTIONS} aria-label="Autocomplete" />
-        </DemoSection>
+        <DemoPage
+          title="Autocomplete"
+          sections={[
+            {
+              id: 'autocomplete-basic',
+              content: (
+                <Autocomplete
+                  options={PAIR_OPTIONS}
+                  aria-label="Autocomplete"
+                />
+              ),
+            },
+          ]}
+        />
       );
     case 'listbox':
       return (
-        <DemoSection title="Listbox">
-          <Listbox options={PAIR_OPTIONS} aria-label="Listbox" />
-        </DemoSection>
+        <DemoPage
+          title="Listbox"
+          sections={[
+            {
+              id: 'listbox-basic',
+              content: <Listbox options={PAIR_OPTIONS} aria-label="Listbox" />,
+            },
+          ]}
+        />
       );
     case 'checkbox':
       return (
-        <DemoSection title="Checkbox">
-          <label>
-            <Checkbox
-              checked={checked}
-              onChange={(e) => setChecked(e.target.checked)}
-            />{' '}
-            Accept
-          </label>
-        </DemoSection>
+        <DemoPage
+          title="Checkbox"
+          sections={[
+            {
+              id: 'checkbox-basic',
+              content: (
+                <label>
+                  <Checkbox
+                    checked={checked}
+                    onChange={(e) => setChecked(e.target.checked)}
+                  />{' '}
+                  Accept
+                </label>
+              ),
+            },
+          ]}
+        />
       );
     case 'checkboxlist':
       return (
-        <DemoSection title="Checkboxlist">
-          <Checkboxlist options={PAIR_OPTIONS} aria-label="Checkboxlist" />
-        </DemoSection>
+        <DemoPage
+          title="Checkboxlist"
+          sections={[
+            {
+              id: 'checkboxlist-basic',
+              content: (
+                <Checkboxlist
+                  options={PAIR_OPTIONS}
+                  aria-label="Checkboxlist"
+                />
+              ),
+            },
+          ]}
+        />
       );
     case 'radiobuttonlist':
       return (
-        <DemoSection title="Radiobuttonlist">
-          <Radiobuttonlist
-            options={PAIR_OPTIONS}
-            name="choice"
-            aria-label="Choices"
-          />
-        </DemoSection>
+        <DemoPage
+          title="Radiobuttonlist"
+          sections={[
+            {
+              id: 'radiobuttonlist-basic',
+              content: (
+                <Radiobuttonlist
+                  options={PAIR_OPTIONS}
+                  name="choice"
+                  aria-label="Choices"
+                />
+              ),
+            },
+          ]}
+        />
       );
     case 'switch':
       return (
-        <DemoSection title="Switch">
-          <label>
-            <Switch
-              checked={checked}
-              onChange={(e) => setChecked(e.target.checked)}
-            />{' '}
-            Enabled
-          </label>
-        </DemoSection>
+        <DemoPage
+          title="Switch"
+          sections={[
+            {
+              id: 'switch-basic',
+              content: (
+                <label>
+                  <Switch
+                    checked={checked}
+                    onChange={(e) => setChecked(e.target.checked)}
+                  />{' '}
+                  Enabled
+                </label>
+              ),
+            },
+          ]}
+        />
       );
     case 'slider':
       return (
-        <DemoSection title="Slider">
-          <Slider
-            value={slider}
-            min={0}
-            max={100}
-            label="Level"
-            onChange={(v) => {
-              if (typeof v === 'number') setSlider(v);
-            }}
-          />
-          <Text textStyle="Body1">{slider}</Text>
-        </DemoSection>
+        <DemoPage
+          title="Slider"
+          sections={[
+            {
+              id: 'slider-basic',
+              content: (
+                <>
+                  <Slider
+                    value={slider}
+                    min={0}
+                    max={100}
+                    label="Level"
+                    onChange={(v) => {
+                      if (typeof v === 'number') setSlider(v);
+                    }}
+                  />
+                  <Text textStyle="Body1">{slider}</Text>
+                </>
+              ),
+            },
+          ]}
+        />
       );
     case 'rating':
       return (
-        <DemoSection title="Rating">
-          <Rating value={rating} onChange={setRating} ariaLabel="Rating" />
-          <Rating value={4} readOnly ariaLabel="Read-only rating" />
-        </DemoSection>
+        <DemoPage
+          title="Rating"
+          sections={[
+            {
+              id: 'rating-states',
+              content: (
+                <Stack orientation="vertical" gap="sm">
+                  <Rating
+                    value={rating}
+                    onChange={setRating}
+                    ariaLabel="Rating"
+                  />
+                  <Rating value={4} readOnly ariaLabel="Read-only rating" />
+                </Stack>
+              ),
+            },
+          ]}
+        />
       );
     case 'colorpicker':
       return (
-        <DemoSection title="Colorpicker">
-          <Colorpicker value="#2563eb" aria-label="Color" />
-        </DemoSection>
+        <DemoPage
+          title="Colorpicker"
+          sections={[
+            {
+              id: 'colorpicker-basic',
+              content: <Colorpicker value="#2563eb" aria-label="Color" />,
+            },
+          ]}
+        />
       );
     case 'datepicker':
       return (
-        <DemoSection title="Datepicker">
-          <Datepicker aria-label="Date" />
-        </DemoSection>
+        <DemoPage
+          title="Datepicker"
+          sections={[
+            {
+              id: 'datepicker-basic',
+              content: <Datepicker aria-label="Date" />,
+            },
+          ]}
+        />
       );
     case 'timespanpicker':
       return (
-        <DemoSection title="Timespanpicker">
-          <Timespanpicker aria-label="Duration" />
-        </DemoSection>
+        <DemoPage
+          title="Timespanpicker"
+          sections={[
+            {
+              id: 'timespanpicker-basic',
+              content: <Timespanpicker aria-label="Duration" />,
+            },
+          ]}
+        />
       );
     case 'securitycode':
       return (
-        <DemoSection title="SecurityCode">
-          <SecurityCode
-            length={4}
-            value={code}
-            onChange={setCode}
-            aria-label="Code"
-          />
-        </DemoSection>
+        <DemoPage
+          title="SecurityCode"
+          sections={[
+            {
+              id: 'securitycode-basic',
+              content: (
+                <SecurityCode
+                  length={4}
+                  value={code}
+                  onChange={setCode}
+                  aria-label="Code"
+                />
+              ),
+            },
+          ]}
+        />
       );
     case 'upload':
       return (
-        <DemoSection title="Upload">
-          <Upload url="/upload" />
-        </DemoSection>
+        <DemoPage
+          title="Upload"
+          sections={[{ id: 'upload-basic', content: <Upload url="/upload" /> }]}
+        />
       );
     case 'selectbar':
       return (
-        <DemoSection title="Selectbar">
-          <Selectbar
-            options={[
-              { value: 'rider', label: 'Rider' },
-              { value: 'driver', label: 'Driver' },
-            ]}
-            defaultValue="driver"
-            aria-label="Role"
-          />
-        </DemoSection>
+        <DemoPage
+          title="Selectbar"
+          sections={[
+            {
+              id: 'selectbar-basic',
+              content: (
+                <Selectbar
+                  options={[
+                    { value: 'rider', label: 'Rider' },
+                    { value: 'driver', label: 'Driver' },
+                  ]}
+                  defaultValue="driver"
+                  aria-label="Role"
+                />
+              ),
+            },
+          ]}
+        />
       );
     case 'label':
       return (
-        <DemoSection title="Label">
-          <Label htmlFor="demo-label-target">Plain label</Label>
-          <Input id="demo-label-target" placeholder="Labeled" />
-        </DemoSection>
+        <DemoPage
+          title="Label"
+          sections={[
+            {
+              id: 'label-basic',
+              content: (
+                <>
+                  <Label htmlFor="demo-label-target">Plain label</Label>
+                  <Input id="demo-label-target" placeholder="Labeled" />
+                </>
+              ),
+            },
+          ]}
+        />
       );
     default:
       return null;

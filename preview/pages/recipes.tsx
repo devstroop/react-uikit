@@ -11,7 +11,7 @@ import {
   Row,
   Text,
 } from '../../lib/main';
-import { DemoSection } from './section';
+import { DemoPage } from './demo-page';
 
 function LoginRecipe() {
   const [user, setUser] = useState('');
@@ -72,22 +72,18 @@ function NotFoundRecipe() {
 export function RecipeDemos({ slug }: { slug: string }) {
   if (slug === 'recipe-login') {
     return (
-      <DemoSection title="Login split card">
-        <LoginRecipe />
-        <Text textStyle="Body1" className="dx-text-muted">
-          Pattern, not a component: branded panel + form column. Wrap in your
-          own auth shell; the submit handler is yours.
-        </Text>
-      </DemoSection>
+      <DemoPage
+        title="Login split card"
+        description="Pattern, not a component: branded panel + form column. Wrap in your own auth shell; the submit handler is yours."
+        sections={[{ id: 'recipe-login-demo', content: <LoginRecipe /> }]}
+      />
     );
   }
   return (
-    <DemoSection title="Bare 404">
-      <NotFoundRecipe />
-      <Text textStyle="Body1" className="dx-text-muted">
-        Layout bare renders children with no wrapper — the deliberate no-chrome
-        pattern for error pages.
-      </Text>
-    </DemoSection>
+    <DemoPage
+      title="Bare 404"
+      description="Layout bare renders children with no wrapper — the deliberate no-chrome pattern for error pages."
+      sections={[{ id: 'recipe-404-demo', content: <NotFoundRecipe /> }]}
+    />
   );
 }

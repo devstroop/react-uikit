@@ -1,21 +1,18 @@
 import { useState } from 'react';
 import {
   Button,
-  Card,
-  Column,
   FabMenu,
   Icon,
   Row,
   Splitbutton,
   Stack,
   Text,
-  Toc,
   Togglebutton,
   type ButtonShade,
   type ButtonVariant,
   type IconName,
 } from '../../lib/main';
-import { DemoSection } from './section';
+import { DemoPage } from './demo-page';
 
 const BUTTON_STYLES = [
   'primary',
@@ -56,29 +53,13 @@ const VARIANT_BLURB: Record<ButtonVariant, string> = {
   text: 'Use variant="text" for the text button variant.',
 };
 
-const BUTTON_TOC = [
-  { text: 'Filled Buttons', selector: '#filled-buttons' },
-  { text: 'Flat Buttons', selector: '#flat-buttons' },
-  { text: 'Outlined Buttons', selector: '#outlined-buttons' },
-  { text: 'Text Buttons', selector: '#text-buttons' },
-  { text: 'Content in Buttons', selector: '#content-in-buttons' },
-  { text: 'Button Sizes', selector: '#button-sizes' },
-  { text: 'Button States', selector: '#button-states' },
-];
-
 function capitalize(value: string): string {
   return value.charAt(0).toUpperCase() + value.slice(1);
 }
 
-function VariantCard({ variant }: { variant: ButtonVariant }) {
+function VariantBody({ variant }: { variant: ButtonVariant }) {
   return (
-    <Card id={`${variant}-buttons`}>
-      <Text textStyle="H5" tagName="H2">
-        {capitalize(variant)} Buttons
-      </Text>
-      <Text textStyle="Body1" className="dx-text-muted dx-mb-4">
-        {VARIANT_BLURB[variant]}
-      </Text>
+    <>
       <Row align="center" gap="md" wrap>
         {BUTTON_STYLES.map((style) => (
           <Button
@@ -125,7 +106,7 @@ function VariantCard({ variant }: { variant: ButtonVariant }) {
           Dark
         </Button>
       </Row>
-    </Card>
+    </>
   );
 }
 
@@ -133,63 +114,89 @@ export function ButtonDemos({ slug }: { slug: string }) {
   const [pressed, setPressed] = useState(false);
   if (slug === 'togglebutton') {
     return (
-      <DemoSection title="Togglebutton">
-        <Togglebutton pressed={pressed} onChange={setPressed}>
-          {pressed ? 'On' : 'Off'}
-        </Togglebutton>
-        <Togglebutton defaultPressed>Default on</Togglebutton>
-      </DemoSection>
+      <DemoPage
+        title="Togglebutton"
+        sections={[
+          {
+            id: 'togglebutton-basic',
+            content: (
+              <Row align="center" gap="md" wrap>
+                <Togglebutton pressed={pressed} onChange={setPressed}>
+                  {pressed ? 'On' : 'Off'}
+                </Togglebutton>
+                <Togglebutton defaultPressed>Default on</Togglebutton>
+              </Row>
+            ),
+          },
+        ]}
+      />
     );
   }
   if (slug === 'splitbutton') {
     return (
-      <DemoSection title="Splitbutton">
-        <Splitbutton
-          label="Save"
-          onClick={() => undefined}
-          items={[{ key: 'as', label: 'Save as' }]}
-        />
-        <Splitbutton
-          label="Delete"
-          severity="danger"
-          variant="outlined"
-          onClick={() => undefined}
-          items={[{ key: 'force', label: 'Force delete' }]}
-        />
-      </DemoSection>
+      <DemoPage
+        title="Splitbutton"
+        sections={[
+          {
+            id: 'splitbutton-basic',
+            content: (
+              <Row align="center" gap="md" wrap>
+                <Splitbutton
+                  label="Save"
+                  onClick={() => undefined}
+                  items={[{ key: 'as', label: 'Save as' }]}
+                />
+                <Splitbutton
+                  label="Delete"
+                  severity="danger"
+                  variant="outlined"
+                  onClick={() => undefined}
+                  items={[{ key: 'force', label: 'Force delete' }]}
+                />
+              </Row>
+            ),
+          },
+        ]}
+      />
     );
   }
   if (slug === 'fabmenu') {
     return (
-      <DemoSection title="FabMenu">
-        <FabMenu
-          items={[
-            { text: 'Edit', value: 'edit' },
-            { text: 'Delete', value: 'delete' },
-          ]}
-        />
-      </DemoSection>
+      <DemoPage
+        title="FabMenu"
+        sections={[
+          {
+            id: 'fabmenu-basic',
+            content: (
+              <FabMenu
+                items={[
+                  { text: 'Edit', value: 'edit' },
+                  { text: 'Delete', value: 'delete' },
+                ]}
+              />
+            ),
+          },
+        ]}
+      />
     );
   }
   return (
-    <DemoSection title="Button">
-      <Text textStyle="Subtitle1" className="dx-text-muted dx-pb-4">
-        The Button comes in filled, flat, outlined, and text variants, with
-        sizes, icons, shades, loading and disabled states, and click handling.
-      </Text>
-      <Row gap="lg" align="start">
-        <Column size={12} sizeMd={9}>
-          <Stack orientation="vertical" gap="lg">
-            {BUTTON_VARIANTS.map((variant) => (
-              <VariantCard key={variant} variant={variant} />
-            ))}
-            <Card id="content-in-buttons">
-              <Text textStyle="H5" tagName="H2">
-                Content in Buttons
-              </Text>
-              <Text textStyle="Body1" className="dx-text-muted dx-mb-4">
-                Text, icons and images can be added to a button.
-              </Text>
+    <DemoPage
+      title="Button"
+      description="The Button comes in filled, flat, outlined, and text variants, with sizes, icons, shades, loading and disabled states, and click handling."
+      sections={[
+        ...BUTTON_VARIANTS.map((variant) => ({
+          id: `${variant}-buttons`,
+          title: `${capitalize(variant)} Buttons`,
+          description: VARIANT_BLURB[variant],
+          content: <VariantBody variant={variant} />,
+        })),
+        {
+          id: 'content-in-buttons',
+          title: 'Content in Buttons',
+          description: 'Text, icons and images can be added to a button.',
+          content: (
+            <>
               <Text textStyle="Subtitle1" tagName="H3">
                 Icon only
               </Text>
@@ -225,33 +232,33 @@ export function ButtonDemos({ slug }: { slug: string }) {
                   </Button>
                 ))}
               </Row>
-            </Card>
-            <Card id="button-sizes">
-              <Text textStyle="H5" tagName="H2">
-                Button Sizes
-              </Text>
-              <Text textStyle="Body1" className="dx-text-muted dx-mb-4">
-                Use the size property to set button size. Available sizes are
-                Small, Medium (default), and Large.
-              </Text>
-              <Row align="center" gap="md" wrap>
-                <Button size="sm" onClick={() => undefined}>
-                  Small
-                </Button>
-                <Button onClick={() => undefined}>Medium</Button>
-                <Button size="lg" onClick={() => undefined}>
-                  Large
-                </Button>
-              </Row>
-            </Card>
-            <Card id="button-states">
-              <Text textStyle="H5" tagName="H2">
-                Button States
-              </Text>
-              <Text textStyle="Body1" className="dx-text-muted dx-mb-4">
-                Loading shows a spinner, disabled blocks interaction, and full
-                width stretches to its container.
-              </Text>
+            </>
+          ),
+        },
+        {
+          id: 'button-sizes',
+          title: 'Button Sizes',
+          description:
+            'Use the size property to set button size. Available sizes are Small, Medium (default), and Large.',
+          content: (
+            <Row align="center" gap="md" wrap>
+              <Button size="sm" onClick={() => undefined}>
+                Small
+              </Button>
+              <Button onClick={() => undefined}>Medium</Button>
+              <Button size="lg" onClick={() => undefined}>
+                Large
+              </Button>
+            </Row>
+          ),
+        },
+        {
+          id: 'button-states',
+          title: 'Button States',
+          description:
+            'Loading shows a spinner, disabled blocks interaction, and full width stretches to its container.',
+          content: (
+            <>
               <Row align="center" gap="md" wrap>
                 <Button loading>Loading</Button>
                 <Button disabled>Disabled</Button>
@@ -261,22 +268,10 @@ export function ButtonDemos({ slug }: { slug: string }) {
                   Full width
                 </Button>
               </div>
-            </Card>
-          </Stack>
-        </Column>
-        <Column
-          size={12}
-          sizeMd={3}
-          className="dx-display-none dx-display-md-block"
-        >
-          <div style={{ position: 'sticky', top: 0 }}>
-            <Text textStyle="H6" tagName="P" className="dx-mb-4">
-              On this page
-            </Text>
-            <Toc items={BUTTON_TOC} />
-          </div>
-        </Column>
-      </Row>
-    </DemoSection>
+            </>
+          ),
+        },
+      ]}
+    />
   );
 }

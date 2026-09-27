@@ -7,12 +7,13 @@ import {
   Progress,
   Row,
   Skeleton,
+  Stack,
   Text,
   ToastProvider,
   Tooltip,
   useToast,
 } from '../../lib/main';
-import { DemoSection } from './section';
+import { DemoPage } from './demo-page';
 
 function ToastDemo() {
   const { toast } = useToast();
@@ -50,65 +51,140 @@ function DialogDemo() {
 export function FeedbackDemos({ slug }: { slug: string }) {
   if (slug === 'progress') {
     return (
-      <DemoSection title="Progress">
-        <Progress value={40} max={100} />
-        <Progress indeterminate aria-label="Loading" />
-      </DemoSection>
+      <DemoPage
+        title="Progress"
+        description="Determinate bars and indeterminate spinners."
+        sections={[
+          {
+            id: 'progress-determinate',
+            title: 'Determinate',
+            content: <Progress value={40} max={100} />,
+          },
+          {
+            id: 'progress-indeterminate',
+            title: 'Indeterminate',
+            content: <Progress indeterminate aria-label="Loading" />,
+          },
+        ]}
+      />
     );
   }
   if (slug === 'skeleton') {
     return (
-      <DemoSection title="Skeleton">
-        <Skeleton width="60%" />
-        <Skeleton width="40%" />
-      </DemoSection>
+      <DemoPage
+        title="Skeleton"
+        description="Placeholder bars while content loads."
+        sections={[
+          {
+            id: 'skeleton-widths',
+            content: (
+              <Stack orientation="vertical" gap="sm">
+                <Skeleton width="60%" />
+                <Skeleton width="40%" />
+              </Stack>
+            ),
+          },
+        ]}
+      />
     );
   }
   if (slug === 'emptystate') {
     return (
-      <DemoSection title="EmptyState">
-        <EmptyState
-          title="Nothing here"
-          description="Try a different filter."
-        />
-      </DemoSection>
+      <DemoPage
+        title="EmptyState"
+        description="Friendly placeholder for empty collections."
+        sections={[
+          {
+            id: 'emptystate-basic',
+            content: (
+              <EmptyState
+                title="Nothing here"
+                description="Try a different filter."
+              />
+            ),
+          },
+        ]}
+      />
     );
   }
   if (slug === 'toast') {
     return (
-      <DemoSection title="Toast">
-        <ToastProvider position="bottom-left">
-          <ToastDemo />
-        </ToastProvider>
-      </DemoSection>
+      <DemoPage
+        title="Toast"
+        description="Transient notifications via the toast provider."
+        sections={[
+          {
+            id: 'toast-basic',
+            content: (
+              <ToastProvider position="bottom-left">
+                <ToastDemo />
+              </ToastProvider>
+            ),
+          },
+        ]}
+      />
     );
   }
   if (slug === 'dialog') {
     return (
-      <DemoSection title="Dialog">
-        <DialogDemo />
-      </DemoSection>
+      <DemoPage
+        title="Dialog"
+        description="Content-sized modal with focus trap and edge-to-edge scroll."
+        sections={[
+          {
+            id: 'dialog-basic',
+            content: <DialogDemo />,
+          },
+        ]}
+      />
     );
   }
   if (slug === 'tooltip') {
     return (
-      <DemoSection title="Tooltip">
-        <Tooltip content="Helpful hint">
-          <span>Hover me</span>
-        </Tooltip>
-      </DemoSection>
+      <DemoPage
+        title="Tooltip"
+        description="Hover hint with delay and keyboard dismissal."
+        sections={[
+          {
+            id: 'tooltip-basic',
+            content: (
+              <Tooltip content="Helpful hint">
+                <span>Hover me</span>
+              </Tooltip>
+            ),
+          },
+        ]}
+      />
     );
   }
   return (
-    <DemoSection title="Alert">
-      <Alert severity="info" title="Heads up" />
-      <Alert severity="success" title="Saved" dismissible />
-      <Alert severity="warning" title="Check this" />
-      <Alert severity="danger" title="Failed" visible={false} />
-      <Row align="center" gap="md">
-        <Alert severity="info" title="Outlined" variant="outlined" />
-        <Alert severity="danger" title="Flat" variant="flat" />
-      </Row>
-    </DemoSection>
+    <DemoPage
+      title="Alert"
+      description="Severity banners with flat, filled and outlined variants."
+      sections={[
+        {
+          id: 'alert-severities',
+          title: 'Severities',
+          content: (
+            <Stack orientation="vertical" gap="md">
+              <Alert severity="info" title="Heads up" />
+              <Alert severity="success" title="Saved" dismissible />
+              <Alert severity="warning" title="Check this" />
+              <Alert severity="danger" title="Failed" visible={false} />
+            </Stack>
+          ),
+        },
+        {
+          id: 'alert-variants',
+          title: 'Variants',
+          content: (
+            <Row align="center" gap="md" wrap>
+              <Alert severity="info" title="Outlined" variant="outlined" />
+              <Alert severity="danger" title="Flat" variant="flat" />
+            </Row>
+          ),
+        },
+      ]}
+    />
   );
 }
