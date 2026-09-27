@@ -132,6 +132,11 @@ the aliases is the only later break.
 
 ### Changed
 
+- Button treatment (Radzen material parity): `filled` carries resting
+  elevation (`--dx-shadow-2`); `flat`/`outlined`/`text` share one
+  hover wash (6% black overlay, no per-hue rules). Showcase rebuilt
+  as the Variant × Style × Shade matrix.
+
 - Dialog headers are borderless (Radzen parity: title border defaults
   to none). The `footer` slot and its top border are retained as API;
   in-content trailing actions are the recommended pattern.

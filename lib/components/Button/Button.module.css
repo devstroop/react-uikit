@@ -35,6 +35,9 @@
 /* ── Radzen axes: Variant (filled | flat | outlined | text) × Style (color) × Shade ── */
 .filled {
   border-color: transparent;
+  /* Filled carries resting elevation (Radzen material parity); flat,
+   * outlined and text are unelevated by design. */
+  box-shadow: var(--dx-shadow-2);
 }
 .flat {
   border-color: transparent;
@@ -49,12 +52,21 @@
   border-color: transparent;
 }
 
+/* Hover wash for the chromeless variants (Radzen parity: hover fills
+ * with a wash; filled keeps its bg shift below). One rule — the black
+ * overlay adapts to any base, no per-hue duplication. */
+.text:hover:not(:disabled),
+.outlined:hover:not(:disabled),
+.flat:hover:not(:disabled) {
+  background-image: linear-gradient(rgb(0 0 0 / 0.06), rgb(0 0 0 / 0.06));
+}
+
 /* style fills — filled + flat carry bg, outlined/text are text+border only */
 .filled.style-primary {
   background-color: var(--dx-primary-color);
   color: var(--dx-primary-foreground-color);
 }
-.filled.style-primary:hover:not(:disabled):hover:not(:disabled) {
+.filled.style-primary:hover:not(:disabled) {
   background-color: var(--dx-primary-hover-color);
 }
 .flat.style-primary {
@@ -77,7 +89,7 @@
   background-color: var(--dx-secondary-color);
   color: var(--dx-secondary-foreground-color);
 }
-.filled.style-secondary:hover:not(:disabled):hover:not(:disabled) {
+.filled.style-secondary:hover:not(:disabled) {
   background-color: var(--dx-secondary-hover-color);
 }
 .flat.style-secondary {
@@ -155,7 +167,7 @@
   background-color: var(--dx-danger-color);
   color: var(--dx-danger-foreground-color);
 }
-.filled.style-danger:hover:not(:disabled):hover:not(:disabled) {
+.filled.style-danger:hover:not(:disabled) {
   background-color: var(--dx-danger-hover-color);
 }
 .flat.style-danger {
@@ -178,7 +190,7 @@
   background-color: var(--dx-success-color);
   color: var(--dx-success-foreground-color);
 }
-.filled.style-success:hover:not(:disabled):hover:not(:disabled) {
+.filled.style-success:hover:not(:disabled) {
   background-color: var(--dx-success-hover-color);
 }
 .flat.style-success {
@@ -201,7 +213,7 @@
   background-color: var(--dx-warning-color);
   color: var(--dx-warning-foreground-color);
 }
-.filled.style-warning:hover:not(:disabled):hover:not(:disabled) {
+.filled.style-warning:hover:not(:disabled) {
   background-color: var(--dx-warning-hover-color);
 }
 .flat.style-warning {
@@ -224,7 +236,7 @@
   background-color: var(--dx-info-color);
   color: var(--dx-info-foreground-color);
 }
-.filled.style-info:hover:not(:disabled):hover:not(:disabled) {
+.filled.style-info:hover:not(:disabled) {
   background-color: var(--dx-info-hover-color);
 }
 .flat.style-info {
