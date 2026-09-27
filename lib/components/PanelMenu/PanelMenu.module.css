@@ -96,6 +96,12 @@
   border-top: 1px solid var(--dx-border-color);
 }
 
+/* Author display rules override the UA [hidden] style, so collapsed
+   (client render-mode) branches need an explicit hide. */
+.submenu[hidden] {
+  display: none;
+}
+
 .submenuItem {
   display: flex;
   align-items: center;

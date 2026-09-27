@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import { Card, Column, Row, Stack, Text, Toc } from '../../lib/main';
 import { DemoSection } from './section';
 
@@ -9,6 +9,9 @@ export interface DemoPageSection {
   title?: string;
   description?: string;
   content: ReactNode;
+  /** Escape hatch for overlay demos (Menu, Dialog): cards clip with
+   * overflow hidden by design, which cuts absolutely-positioned popups. */
+  cardStyle?: CSSProperties;
 }
 
 /**
@@ -37,7 +40,7 @@ export function DemoPage({
             {description}
           </Text>
         )}
-        <Card id={only?.id}>
+        <Card id={only?.id} style={only?.cardStyle}>
           {only?.title != null && (
             <Text textStyle="H5" tagName="H2">
               {only.title}
@@ -64,7 +67,7 @@ export function DemoPage({
         <Column size={12} sizeMd={9}>
           <Stack orientation="vertical" gap="lg">
             {sections.map((s) => (
-              <Card key={s.id} id={s.id}>
+              <Card key={s.id} id={s.id} style={s.cardStyle}>
                 <Text textStyle="H5" tagName="H2">
                   {s.title ?? title}
                 </Text>

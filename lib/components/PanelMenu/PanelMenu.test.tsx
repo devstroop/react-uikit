@@ -1,4 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { useState } from 'react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi, beforeEach } from 'vitest';
@@ -270,6 +272,14 @@ describe('PanelMenu', () => {
     );
     const profile = screen.getByText('Profile');
     expect(profile.closest('[role="menu"]')).toHaveAttribute('hidden');
+  });
+
+  it('collapses submenus visually: stylesheet hides [hidden] branches', () => {
+    // Regression guard: author `display: flex` beats the UA `[hidden]`
+    // style, so collapsed client-mode branches need an explicit rule —
+    // otherwise aria-expanded flips while everything stays visible.
+    const css = readFileSync(join(import.meta.dirname, 'PanelMenu.module.css'), 'utf8');
+    expect(css).toMatch(/\.submenu\[hidden\]\s*\{[^}]*display\s*:\s*none/);
   });
 
   it('showArrow false hides caret', () => {

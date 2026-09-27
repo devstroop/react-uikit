@@ -50,11 +50,12 @@ function MenuDemos() {
   return (
     <DemoPage
       title="Menu"
-      description="Horizontal menubar with nested submenus. Parent onClick fires before the item onClick; path leaves render anchors that still emit."
+      description="Horizontal menubar with nested submenus. Parent onClick fires before the item onClick; path leaves render anchors that still emit. Submenus are overlay popups — keep them out of overflow-hidden containers."
       sections={[
         {
           id: 'menu-basic',
           title: 'Basic with events',
+          cardStyle: { overflow: 'visible' },
           content: (
             <>
               <Menu onClick={(a) => logParent(a.text)}>
@@ -81,6 +82,7 @@ function MenuDemos() {
           id: 'menu-modes',
           title: 'Open modes',
           description: 'Flyout cascades nested submenus sideways; click-to-open off opens on hover.',
+          cardStyle: { overflow: 'visible' },
           content: (
             <>
               <div style={{ display: 'flex', gap: 16, marginBottom: 12 }}>
@@ -105,6 +107,7 @@ function MenuDemos() {
         {
           id: 'menu-nesting',
           title: 'Deep nesting',
+          cardStyle: { overflow: 'visible' },
           content: (
             <Menu flyout>
               <MenuItem text="More">
