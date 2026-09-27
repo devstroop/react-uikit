@@ -418,18 +418,22 @@ export type {
   DropZoneHandle,
 } from './components/DropZone/DropZone';
 
-export { Menu } from './components/Menu/Menu';
+export { Menu, MenuItem } from './components/Menu/Menu';
 export type {
   MenuProps,
-  MenuItem,
+  MenuItemProps,
   MenuItemEventArgs,
+  MenuMatch,
 } from './components/Menu/Menu';
 
-export { PanelMenu } from './components/PanelMenu/PanelMenu';
+export { PanelMenu, PanelMenuItem } from './components/PanelMenu/PanelMenu';
 export type {
   PanelMenuProps,
-  PanelMenuItem,
+  PanelMenuItemProps,
   PanelMenuItemEventArgs,
+  PanelMenuMatch,
+  PanelMenuDisplayStyle,
+  PanelMenuRenderMode,
 } from './components/PanelMenu/PanelMenu';
 
 export { ProfileMenu } from './components/ProfileMenu/ProfileMenu';

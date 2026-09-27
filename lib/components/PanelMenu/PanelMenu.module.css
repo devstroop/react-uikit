@@ -28,6 +28,7 @@
   font-size: var(--dx-font-size-sm);
   font-weight: var(--dx-font-weight-medium);
   text-align: left;
+  text-decoration: none;
   cursor: pointer;
   transition: background var(--dx-transition-fast);
 }
@@ -50,6 +51,11 @@
 
 .trigger.expanded {
   background-color: var(--dx-surface-hover-color);
+}
+
+.trigger.selected,
+.trigger[aria-current='page'] {
+  color: var(--dx-primary-color);
 }
 
 .icon {
@@ -172,4 +178,31 @@
 
 .iconOnly .submenu .text {
   display: none;
+}
+
+/* Level indent (Radzen --rz-navigation-item-level parity). */
+.item {
+  --dx-panelmenu-level: 0;
+}
+
+.submenu .trigger {
+  padding-left: calc(var(--dx-space-3) + var(--dx-panelmenu-level, 0) * var(--dx-space-3));
+}
+
+/* Stacked display style: icon-over-text rail (Radzen IconAndTextStacked parity). */
+.stacked .trigger {
+  flex-direction: column;
+  gap: var(--dx-space-1);
+  justify-content: center;
+  text-align: center;
+  padding: var(--dx-space-3) var(--dx-space-2);
+}
+
+.stacked .text {
+  white-space: normal;
+  text-align: center;
+}
+
+.stacked .submenu .trigger {
+  padding-left: var(--dx-space-2);
 }

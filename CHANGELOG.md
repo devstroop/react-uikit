@@ -6,6 +6,55 @@ Versioning follows the release flow in `docs/DEVELOPMENT_STRATEGY.md`
 
 ## [Unreleased] — toward 2.0.0
 
+### Changed — `Menu` / `PanelMenu` are compound components (breaking)
+
+Radzen parity: `items={[...]}` is removed. Nest `<MenuItem>` /
+`<PanelMenuItem>` as JSX children instead — this is what unlocks
+per-item `onClick`, arbitrary-depth nesting, `@bind-Expanded`-style
+controlled state, and model-driven lists (`data.map(...)`):
+
+```tsx
+// Before
+<Menu items={[{ text: 'Products', children: [{ text: 'A' }] }]} onClick={h} />
+// After
+<Menu onClick={parentH}>
+  <MenuItem text="Products">
+    <MenuItem text="A" />
+  </MenuItem>
+</Menu>
+```
+
+Also breaking in the same pass:
+
+- `Menu` loses `orientation` (the menubar is horizontal; `isContextMenu`
+  covers the vertical popup) and gains `clickToOpen` (default `true`),
+  `flyout` (default `false`), `responsive` (default `true`, hamburger
+  under 768px), `isContextMenu`, and `onClose`.
+- Item `icon` is now `IconName` (was an arbitrary string); use `template`
+  for fully custom rows. New item props: `iconColor`, `image`,
+  `target`, `match`, per-item `onClick` (fires after the parent
+  `onClick`), controlled `open` / `onOpenChange` (Menu).
+- `PanelMenu` `multiple` default flips `false` → `true` (Radzen default);
+  pass `multiple={false}` for single-expand. New: `displayStyle="stacked"`
+  rail, `renderMode` (`client` default / `server`), per-item `expanded` /
+  `onExpandedChange` and `selected` / `onSelectedChange` (unbound
+  `Selected` syncs from the URL like Radzen, expanding ancestors).
+- `path` is anchor+emit: leaves with `path` render `<a href>` and still
+  fire click events (parent `onClick` first, then the item `onClick`).
+  Hash paths (`path="#/button"`) just work. Client-side routers return
+  `false` from either handler to cancel navigation:
+
+```tsx
+<MenuItem text="Buttons" path="/buttons" />
+<Menu onClick={(args) => {
+  router.navigate(args.path); // your router
+  return false; // cancel the anchor default
+}}>
+```
+
+- Event args are unchanged (`{ text, value?, path? }`), so parent
+  `onClick` handlers survive the migration untouched.
+
 ### Changed — `flat` variant is now solid (breaking visually)
 
 Button and Splitbutton `variant="flat"` previously rendered a soft
