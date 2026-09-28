@@ -46,6 +46,12 @@ const BUTTON_ICONS: Record<
   danger: { icon: 'ban', label: 'Report' },
 };
 
+const SPLIT_ITEMS = [
+  { key: 'edit', label: 'Edit', icon: 'edit' as const },
+  { key: 'duplicate', label: 'Duplicate', icon: 'copy' as const },
+  { key: 'download', label: 'Download', icon: 'download' as const },
+];
+
 const VARIANT_BLURB: Record<ButtonVariant, string> = {
   filled: 'These are the default buttons.',
   flat: 'Use variant="flat" for the flat button variant.',
@@ -116,16 +122,157 @@ export function ButtonDemos({ slug }: { slug: string }) {
     return (
       <DemoPage
         title="Togglebutton"
+        description="A Button that keeps its pressed state — aria-pressed plus the Radzen toggle axis (toggleVariant, toggleSeverity, toggleShade) applied while pressed."
         sections={[
           {
             id: 'togglebutton-basic',
+            title: 'Basic',
+            description:
+              'Controlled with pressed/onChange, or uncontrolled with defaultPressed.',
             content: (
               <Row align="center" gap="md" wrap>
                 <Togglebutton pressed={pressed} onChange={setPressed}>
                   {pressed ? 'On' : 'Off'}
                 </Togglebutton>
                 <Togglebutton defaultPressed>Default on</Togglebutton>
+                <Togglebutton disabled>Disabled</Togglebutton>
               </Row>
+            ),
+          },
+          {
+            id: 'togglebutton-variants',
+            title: 'Variants',
+            description:
+              'Every Button variant works; the pressed state adds a darker shade and the state layer (Radzen ToggleShade=Darker default).',
+            content: (
+              <Row align="center" gap="md" wrap>
+                {BUTTON_VARIANTS.map((variant) => (
+                  <Row key={variant} align="center" gap="sm">
+                    <Togglebutton variant={variant}>
+                      {capitalize(variant)}
+                    </Togglebutton>
+                    <Togglebutton variant={variant} defaultPressed>
+                      {capitalize(variant)}
+                    </Togglebutton>
+                  </Row>
+                ))}
+              </Row>
+            ),
+          },
+          {
+            id: 'togglebutton-toggle-axis',
+            title: 'Toggle axis',
+            description:
+              'toggleVariant, toggleSeverity and toggleShade replace the base axis while pressed (Radzen ToggleVariant/ToggleButtonStyle/ToggleShade parity).',
+            content: (
+              <Row align="center" gap="md" wrap>
+                <Row align="center" gap="sm">
+                  <Togglebutton
+                    variant="text"
+                    severity="base"
+                    toggleVariant="flat"
+                    toggleSeverity="primary"
+                    toggleShade="lighter"
+                  >
+                    Text → Flat
+                  </Togglebutton>
+                  <Togglebutton
+                    defaultPressed
+                    variant="text"
+                    severity="base"
+                    toggleVariant="flat"
+                    toggleSeverity="primary"
+                    toggleShade="lighter"
+                  >
+                    Text → Flat
+                  </Togglebutton>
+                </Row>
+                <Row align="center" gap="sm">
+                  <Togglebutton variant="outlined" severity="success">
+                    Pinned hue
+                  </Togglebutton>
+                  <Togglebutton
+                    defaultPressed
+                    variant="outlined"
+                    severity="success"
+                    toggleSeverity="success"
+                    toggleShade="darker"
+                  >
+                    Pinned hue
+                  </Togglebutton>
+                </Row>
+                <Row align="center" gap="sm">
+                  <Togglebutton variant="filled" severity="warning">
+                    Filled → lighter
+                  </Togglebutton>
+                  <Togglebutton
+                    defaultPressed
+                    variant="filled"
+                    severity="warning"
+                    toggleSeverity="warning"
+                    toggleShade="light"
+                  >
+                    Filled → lighter
+                  </Togglebutton>
+                </Row>
+              </Row>
+            ),
+          },
+          {
+            id: 'togglebutton-toggle-content',
+            title: 'Toggle content',
+            description:
+              'toggleContent replaces children while pressed — the Radzen ToggleIcon pattern for swapping glyph or text.',
+            content: (
+              <Row align="center" gap="md" wrap>
+                <Row align="center" gap="sm">
+                  <Togglebutton
+                    iconOnly
+                    toggleContent={
+                      <Icon name="check" size={20} aria-hidden="true" />
+                    }
+                    aria-label="Published"
+                  >
+                    <Icon name="eye" size={20} aria-hidden="true" />
+                  </Togglebutton>
+                  <Togglebutton
+                    iconOnly
+                    defaultPressed
+                    toggleContent={
+                      <Icon name="check" size={20} aria-hidden="true" />
+                    }
+                    aria-label="Published"
+                  >
+                    <Icon name="eye" size={20} aria-hidden="true" />
+                  </Togglebutton>
+                </Row>
+                <Togglebutton defaultPressed toggleContent="On">
+                  Off
+                </Togglebutton>
+              </Row>
+            ),
+          },
+          {
+            id: 'togglebutton-states',
+            title: 'Sizes and states',
+            content: (
+              <>
+                <Row align="center" gap="md" wrap>
+                  <Togglebutton size="sm">Small</Togglebutton>
+                  <Togglebutton size="md">Medium</Togglebutton>
+                  <Togglebutton size="lg">Large</Togglebutton>
+                  <Togglebutton loading>Saving</Togglebutton>
+                </Row>
+                <div className="dx-mt-4">
+                  <Togglebutton
+                    fullWidth
+                    pressed={pressed}
+                    onChange={setPressed}
+                  >
+                    {pressed ? 'On (full width)' : 'Off (full width)'}
+                  </Togglebutton>
+                </div>
+              </>
             ),
           },
         ]}
@@ -136,24 +283,129 @@ export function ButtonDemos({ slug }: { slug: string }) {
     return (
       <DemoPage
         title="Splitbutton"
+        description="A primary action plus a caret that opens a menu — both halves render Button, so the variant, severity and shade axes behave exactly like Button."
         sections={[
           {
             id: 'splitbutton-basic',
+            title: 'Basic',
+            description:
+              'aria-label names the action button; openAriaLabel names the caret and menu (Radzen ButtonAriaLabel/OpenAriaLabel parity).',
             content: (
               <Row align="center" gap="md" wrap>
                 <Splitbutton
                   label="Save"
                   onClick={() => undefined}
-                  items={[{ key: 'as', label: 'Save as' }]}
+                  items={[
+                    { key: 'as', label: 'Save as' },
+                    { key: 'template', label: 'Save as template' },
+                  ]}
                 />
                 <Splitbutton
                   label="Delete"
                   severity="danger"
                   variant="outlined"
+                  aria-label="Delete record"
+                  openAriaLabel="More delete options"
                   onClick={() => undefined}
                   items={[{ key: 'force', label: 'Force delete' }]}
                 />
               </Row>
+            ),
+          },
+          {
+            id: 'splitbutton-variants',
+            title: 'Variants and severities',
+            content: (
+              <>
+                <Row align="center" gap="md" wrap>
+                  {BUTTON_VARIANTS.map((variant) => (
+                    <Splitbutton
+                      key={variant}
+                      variant={variant}
+                      label={capitalize(variant)}
+                      items={[
+                        { key: variant, label: `${capitalize(variant)} extra` },
+                      ]}
+                    />
+                  ))}
+                </Row>
+                <Row align="center" gap="md" wrap className="dx-mt-4">
+                  {BUTTON_STYLES.map((style) => (
+                    <Splitbutton
+                      key={style}
+                      severity={style}
+                      label={capitalize(style)}
+                      items={[
+                        { key: style, label: `${capitalize(style)} extra` },
+                      ]}
+                    />
+                  ))}
+                </Row>
+                <Row align="center" gap="md" wrap className="dx-mt-4">
+                  {BUTTON_SHADES.map((shade) => (
+                    <Splitbutton
+                      key={shade}
+                      shade={shade}
+                      label={capitalize(shade)}
+                      items={[
+                        { key: shade, label: `${capitalize(shade)} extra` },
+                      ]}
+                    />
+                  ))}
+                </Row>
+              </>
+            ),
+          },
+          {
+            id: 'splitbutton-items',
+            title: 'Menu items',
+            description:
+              'Items carry an icon (Radzen SplitButtonItem.Icon parity), plus danger and disabled states.',
+            content: (
+              <Splitbutton
+                label="Export"
+                items={[
+                  { key: 'pdf', label: 'Export as PDF', icon: 'file' },
+                  { key: 'csv', label: 'Export as CSV', icon: 'download' },
+                  { key: 'preview', label: 'Preview', icon: 'eye' },
+                  {
+                    key: 'share',
+                    label: 'Share',
+                    icon: 'link',
+                    disabled: true,
+                  },
+                  {
+                    key: 'archive',
+                    label: 'Archive',
+                    icon: 'trash',
+                    danger: true,
+                  },
+                ]}
+              />
+            ),
+          },
+          {
+            id: 'splitbutton-states',
+            title: 'Sizes and states',
+            content: (
+              <>
+                <Row align="center" gap="md" wrap>
+                  <Splitbutton size="sm" label="Small" items={SPLIT_ITEMS} />
+                  <Splitbutton size="md" label="Medium" items={SPLIT_ITEMS} />
+                  <Splitbutton size="lg" label="Large" items={SPLIT_ITEMS} />
+                </Row>
+                <Row align="center" gap="md" wrap className="dx-mt-4">
+                  <Splitbutton label="Saving" loading items={SPLIT_ITEMS} />
+                  <Splitbutton label="Disabled" disabled items={SPLIT_ITEMS} />
+                </Row>
+                <div className="dx-mt-4">
+                  <Splitbutton
+                    label="Full width"
+                    fullWidth
+                    items={SPLIT_ITEMS}
+                  />
+                </div>
+              </>
             ),
           },
         ]}
