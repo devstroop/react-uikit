@@ -6,11 +6,20 @@ building blocks that any app styles through design tokens.
 
 ## Install
 
-Git-tagged distribution (no npm registry). Pin an exact release tag:
+Git-tagged distribution (no npm registry). Releases are tagged `vX.Y.Z` on the
+release PR (see `docs/DEVELOPMENT_STRATEGY.md`):
 
 ```json
 "dependencies": {
-  "@devstroop/react-uikit": "github:devstroop/react-uikit#v0.1.0"
+  "@devstroop/react-uikit": "github:devstroop/react-uikit#vX.Y.Z"
+}
+```
+
+Until the first tag is cut, pin a branch or an exact commit:
+
+```json
+"dependencies": {
+  "@devstroop/react-uikit": "github:devstroop/react-uikit#main"
 }
 ```
 
@@ -22,14 +31,14 @@ Import the stylesheet once, then use components:
 
 ```tsx
 import '@devstroop/react-uikit/style.css';
-import { Button, Card, Field, Input } from '@devstroop/react-uikit';
+import { Button, Card, FormField, Textbox } from '@devstroop/react-uikit';
 
 export function SignInForm() {
   return (
     <Card header="Sign in">
-      <Field label="Email" htmlFor="email" required>
-        <Input id="email" type="email" />
-      </Field>
+      <FormField text="Email" helper="We never share it.">
+        <Textbox id="email" type="email" />
+      </FormField>
       <Button type="submit">Continue</Button>
     </Card>
   );
@@ -38,17 +47,72 @@ export function SignInForm() {
 
 ## Components
 
-| Component                                            | Purpose                                                                                                                                             |
-| ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Button`                                             | variant (`primary`/`secondary`/`ghost`/`danger`/`success`/`info`), size (`xs`/`sm`/`md`/`lg`/`xl`), `fullWidth`, `iconOnly` (requires `aria-label`) |
-| `Card`                                               | `elevated`/`outlined`/`interactive` with `header`/`footer` slots                                                                                    |
-| `Badge`                                              | tone (`neutral`/`primary`/`success`/`warning`/`danger`) × variant (`soft`/`solid`/`outline`)                                                        |
-| `Icon`                                               | 40 stroke icons — `name`, `size`, `strokeWidth`                                                                                                     |
-| `Stat`                                               | label + value + optional `delta`/`hint`; composes inside `Card`                                                                                     |
-| `Table`                                              | generic controlled — `columns` + `rows` + `rowKey` + `empty` slot                                                                                   |
-| `EmptyState`                                         | icon + title + description + action                                                                                                                 |
-| `Field`                                              | label + control + `hint`/`error` wiring                                                                                                             |
-| `Label` / `Input` / `Select` / `Checkbox` / `Switch` | form primitives                                                                                                                                     |
+Every component below is exported from `@devstroop/react-uikit`; most are
+demoed in the preview app (`npm run dev` → `:5199`). Props are documented as
+JSDoc on each export in the published types.
+
+### Layout
+
+`Layout` · `Header` · `Body` · `Footer` · `Sidebar` · `SidebarToggle` ·
+`Row` · `Column` · `Stack` · `AutoGrid`
+
+### Typography
+
+`Text` (full RadzenText hierarchy — see [Text](#text-radzentext-parity)) ·
+`Icon` (40 stroke icons, `name`/`size`/`strokeWidth`)
+
+### Buttons
+
+`Button` (variant `primary|secondary|ghost|danger|success|info`, size
+`xs..xl`, `fullWidth`, `iconOnly`) · `Togglebutton` · `Splitbutton` ·
+`FabMenu`
+
+### Forms
+
+`Form` · `FormField` · `Fieldset` · `Textbox` · `Textarea` · `Password` ·
+`Mask` · `Numeric` · `Select` · `Dropdown` · `Autocomplete` · `Listbox` ·
+`Checkbox` · `Checkboxlist` · `Radiobuttonlist` · `Switch` · `Slider` ·
+`Rating` · `Colorpicker` · `Datepicker` · `Timespanpicker` · `SecurityCode` ·
+`Upload` · `Selectbar` · `Label` · `DropZone`
+
+Validation: `Form` + `useFormField` with validator helpers (`required`,
+`email`, `pattern`, `minLength`, `maxLength`, `range`, `compare`,
+`requiredTrue`, `custom`, `runValidators`). `Field` and `Input` remain
+exported but are **deprecated** — prefer `FormField` and `Textbox`.
+
+### Feedback
+
+`Alert` · `Progress` · `Skeleton` · `EmptyState` · `Toast` (via
+`ToastProvider` + `useToast`) · `Dialog` · `Tooltip`
+
+### Navigation
+
+`Breadcrumb` · `Link` · `Menu` · `PanelMenu` · `ProfileMenu` · `Tabs` ·
+`Steps` · `Toc` · `Pager` · context menus via `ContextMenuProvider` +
+`useContextMenu()`
+
+### Data
+
+`Table` · `DataGrid` (sorting, filtering, grouping, editing, paging, frozen
+columns, column picker/reorder/resize) · `DataList` · `VirtualGrid` · `Tree` ·
+`PickList` · `Pivot` · `Chart` (line, area, bar, column, scatter, bubble,
+pie, donut) · `Gantt` · `Scheduler` · `Timeline` · `DataFilter` · `QRCode` ·
+`Barcode`
+
+### Display
+
+`Card` · `Badge` · `Avatar` · `Stat` · `Accordion` · `Carousel` ·
+`Splitter`
+
+### Theme
+
+`ThemeSwitcher` (light/dark/system with persistence) · tokens below in
+[Theming](#theming)
+
+### Hooks & utilities
+
+`useFormContext` · `useFormField` · `useToast` · `useContextMenu` ·
+`useMediaQuery` · `formatMasked` · `getByPath`
 
 All interactive components: `forwardRef`, `className` passthrough, full DOM
 attribute support. A11y baseline: semantic elements, `aria-invalid` on invalid
@@ -114,10 +178,13 @@ See `docs/DEVELOPMENT_STRATEGY.md` for branch/PR/release protocol.
 
 ```bash
 npm install
-npm run lint      # eslint
-npm run typecheck # tsc --noEmit
-npm test          # vitest
-npm run build     # vite lib build → dist/ (es + cjs + d.ts + style.css)
+npm run lint          # eslint
+npm run typecheck     # tsc --noEmit (includes e2e/)
+npm test              # vitest
+npm run build         # vite lib build → dist/ (es + cjs + d.ts + style.css)
+npm run format        # prettier --write .
+npm run dev           # preview app on :5199
+npm run test:e2e      # playwright + axe against the preview build
 ```
 
 ## License
