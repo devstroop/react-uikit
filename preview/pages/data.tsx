@@ -283,6 +283,7 @@ export function DataDemos({ slug }: { slug: string }) {
           sections={[
             {
               id: 'chart-basic',
+              title: 'Column',
               content: (
                 <Chart
                   width={560}
@@ -294,6 +295,152 @@ export function DataDemos({ slug }: { slug: string }) {
                       categoryProperty: 'zone',
                       valueProperty: 'amount',
                       title: 'Sales',
+                    },
+                  ]}
+                />
+              ),
+            },
+            {
+              id: 'chart-stacked',
+              title: 'Stacked columns',
+              description: 'Shared stack name accumulates per category.',
+              content: (
+                <Chart
+                  width={560}
+                  height={240}
+                  series={[
+                    {
+                      type: 'column',
+                      stack: 'q',
+                      title: 'Closed',
+                      data: [
+                        { zone: 'North', v: 70 },
+                        { zone: 'South', v: 50 },
+                        { zone: 'East', v: 40 },
+                      ],
+                      categoryProperty: 'zone',
+                      valueProperty: 'v',
+                    },
+                    {
+                      type: 'column',
+                      stack: 'q',
+                      title: 'Open',
+                      data: [
+                        { zone: 'North', v: 30 },
+                        { zone: 'South', v: 40 },
+                        { zone: 'East', v: 25 },
+                      ],
+                      categoryProperty: 'zone',
+                      valueProperty: 'v',
+                    },
+                  ]}
+                />
+              ),
+            },
+            {
+              id: 'chart-gauge',
+              title: 'Gauge',
+              description: 'Single metric against the value axis range.',
+              content: (
+                <Chart
+                  width={320}
+                  height={240}
+                  valueAxis={{ max: 100 }}
+                  series={[
+                    {
+                      type: 'gauge',
+                      title: 'Capacity',
+                      data: [{ q: 'Q1', v: 65 }],
+                      categoryProperty: 'q',
+                      valueProperty: 'v',
+                    },
+                  ]}
+                />
+              ),
+            },
+            {
+              id: 'chart-radar',
+              title: 'Radar (spider)',
+              content: (
+                <Chart
+                  width={420}
+                  height={300}
+                  series={[
+                    {
+                      type: 'radar',
+                      title: 'Engine A',
+                      data: [
+                        { s: 'Speed', v: 8 },
+                        { s: 'Power', v: 6 },
+                        { s: 'Control', v: 9 },
+                        { s: 'Range', v: 5 },
+                      ],
+                      categoryProperty: 's',
+                      valueProperty: 'v',
+                    },
+                    {
+                      type: 'radar',
+                      title: 'Engine B',
+                      data: [
+                        { s: 'Speed', v: 5 },
+                        { s: 'Power', v: 9 },
+                        { s: 'Control', v: 6 },
+                        { s: 'Range', v: 8 },
+                      ],
+                      categoryProperty: 's',
+                      valueProperty: 'v',
+                    },
+                  ]}
+                />
+              ),
+            },
+            {
+              id: 'chart-funnel',
+              title: 'Funnel',
+              content: (
+                <Chart
+                  width={560}
+                  height={260}
+                  series={[
+                    {
+                      type: 'funnel',
+                      title: 'Pipeline',
+                      data: [
+                        { stage: 'Visits', v: 1200 },
+                        { stage: 'Signups', v: 480 },
+                        { stage: 'Trials', v: 210 },
+                        { stage: 'Paid', v: 95 },
+                      ],
+                      categoryProperty: 'stage',
+                      valueProperty: 'v',
+                    },
+                  ]}
+                />
+              ),
+            },
+            {
+              id: 'chart-heatmap',
+              title: 'Heatmap',
+              description: 'rowProperty drives the second (y) dimension.',
+              content: (
+                <Chart
+                  width={560}
+                  height={240}
+                  series={[
+                    {
+                      type: 'heatmap',
+                      title: 'Requests',
+                      rowProperty: 'region',
+                      data: [
+                        { region: 'EU', day: 'Mon', v: 12 },
+                        { region: 'EU', day: 'Tue', v: 30 },
+                        { region: 'EU', day: 'Wed', v: 24 },
+                        { region: 'US', day: 'Mon', v: 28 },
+                        { region: 'US', day: 'Tue', v: 9 },
+                        { region: 'US', day: 'Wed', v: 17 },
+                      ],
+                      categoryProperty: 'day',
+                      valueProperty: 'v',
                     },
                   ]}
                 />
