@@ -117,8 +117,10 @@ pie, donut, gauge, radar, funnel, heatmap; stacked series via `stack`) ·
 
 ### Theme
 
-`ThemeSwitcher` (light/dark/system with persistence) · tokens below in
-[Theming](#theming)
+`ThemeSwitcher` (theme-picker dropdown — default, fluent, github,
+material, material-3, shadcn; applies `data-palette`) · `ThemeToggle`
+(light/dark/system appearance with persistence, applies `data-theme`) ·
+tokens below in [Theming](#theming)
 
 ### Hooks & utilities
 
@@ -134,7 +136,7 @@ controls, `role="switch"` for `Switch`, keyboard focus-visible rings.
 Components consume design tokens exclusively — no hardcoded values. Tokens are hand-maintained in `lib/styles/tokens.css` (`--dx-*`), bundled into the published `style.css` (imported once via `lib/main.ts`):
 
 - Light defaults on `:root`; dark values under `[data-theme="dark"]` on `<html>`. Hosts without an explicit `data-theme` get an OS-dark fallback via `@media (prefers-color-scheme: dark)` (specificity-capped with `:where()` so app `:root` rules win ties).
-- Toggle at runtime with the `ThemeSwitcher` component, or set `document.documentElement.dataset.theme` to `"light"` / `"dark"` yourself.
+- Toggle at runtime with the `ThemeToggle` component, or set `document.documentElement.dataset.theme` to `"light"` / `"dark"` yourself.
 
 Override any subset on your `:root` (or a scoped container) — later rules win:
 

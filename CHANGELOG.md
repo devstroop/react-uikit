@@ -6,6 +6,28 @@ Versioning follows the release flow in `docs/DEVELOPMENT_STRATEGY.md`
 
 ## [Unreleased] — toward 2.0.0
 
+### Changed — `ThemeSwitcher` is now the theme picker (breaking)
+
+It picked light/dark before; it now renders a dropdown of theme names —
+`DEFAULT_THEMES` (`default`, `fluent`, `github`, `material`,
+`material-3`, `shadcn`, exported) or your own `themes` list — persists
+the choice under `dx-palette`, and in uncontrolled mode applies it as
+`<html data-palette>` (`attribute` prop overrides the name). Nothing is
+applied until an explicit choice exists, and controlled mode never
+writes the document or storage, so the parent stays the single writer.
+Migrating a dark-mode switch: rename the import to `ThemeToggle` — and
+mind that both components are now pure UI in controlled mode (neither
+writes its document attribute while `value` is set). The preview
+header now uses both components.
+
+### Added — `ThemeToggle` appearance switch
+
+The former `ThemeSwitcher` behavior, renamed: `value`/`defaultValue`
+(`light` | `dark` | `system`), persistence under `dx-theme`,
+`data-theme` on `<html>`, and `system` still leaves the attribute to
+the OS fallback. New `id` prop forwards to the switch input.
+Controlled mode no longer touches the document or storage — pure UI.
+
 ### Added — `Icon` multi-set library (16 collections, 674 glyphs)
 
 Namespaced names (`<Icon name="mdi:home" />`, `ph:user`,
