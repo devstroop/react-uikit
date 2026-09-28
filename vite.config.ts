@@ -26,14 +26,19 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['./vitest.setup.ts'],
     exclude: ['e2e/**', 'node_modules/**', 'dist/**', 'preview/dist/**'],
-    // Coverage stays opt-in (enabled:false): @vitest/coverage-v8 is not
-    // installed (npm arborist failures on this tree) so no script wires
-    // --coverage yet. Install the provider, flip enabled, then set
-    // thresholds at measured levels — raise, never lower.
+    // Coverage provider installed (@vitest/coverage-v8, version-matched to
+    // vitest) and enforced on every run. Thresholds sit at measured levels
+    // (measured 2026-09-28: 82.25/74.96/89.02/84.16) — raise, never lower.
     coverage: {
       provider: 'v8',
-      enabled: false,
+      enabled: true,
       reporter: ['text', 'lcov'],
+      thresholds: {
+        statements: 80,
+        branches: 74,
+        functions: 88,
+        lines: 84,
+      },
     },
   },
 });
