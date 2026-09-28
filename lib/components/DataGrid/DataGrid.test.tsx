@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { DataGrid } from './DataGrid';
 import type { GridColumn } from './grid';
 
@@ -384,5 +384,245 @@ describe('DataGrid', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Cancel' }));
     expect(onRowUpdate).not.toHaveBeenCalled();
     expect(screen.queryByLabelText('Name (edit)')).not.toBeInTheDocument();
+  });
+});
+
+describe('DataGrid — multi-level grouping', () => {
+  it('nests a second group level with per-level chips', () => {
+    renderGrid({ allowGrouping: true });
+    const panel = document.querySelector(
+      '[data-dx-grid-group-panel]'
+    ) as HTMLElement;
+    fireEvent.dragStart(screen.getByRole('columnheader', { name: /Role/ }));
+    fireEvent.drop(panel);
+    fireEvent.dragStart(screen.getByRole('columnheader', { name: /Age/ }));
+    fireEvent.drop(panel);
+    expect(
+      screen.getByRole('button', { name: 'Remove group by Role' })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'Remove group by Age' })
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole('columnheader', { name: /Role/ })
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('columnheader', { name: /Age/ })
+    ).not.toBeInTheDocument();
+    expect(screen.getByText(/Role: editor \(2\)/)).toBeInTheDocument();
+    expect(screen.getByText(/Age: 25 \(1\)/)).toBeInTheDocument();
+    expect(screen.getByText(/Age: 40 \(1\)/)).toBeInTheDocument();
+  });
+
+  it('removes one level without clearing the other', () => {
+    renderGrid({ allowGrouping: true });
+    const panel = document.querySelector(
+      '[data-dx-grid-group-panel]'
+    ) as HTMLElement;
+    fireEvent.dragStart(screen.getByRole('columnheader', { name: /Role/ }));
+    fireEvent.drop(panel);
+    fireEvent.dragStart(screen.getByRole('columnheader', { name: /Age/ }));
+    fireEvent.drop(panel);
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Remove group by Age' })
+    );
+    expect(
+      screen.getByRole('columnheader', { name: /Age/ })
+    ).toBeInTheDocument();
+    expect(screen.queryByText(/Age: 25/)).not.toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'Remove group by Role' })
+    ).toBeInTheDocument();
+    expect(screen.getByText(/Role: editor \(2\)/)).toBeInTheDocument();
+  });
+});
+
+describe('DataGrid — footer aggregates', () => {
+  it('renders sum and count over the full filtered set', () => {
+    renderGrid({
+      aggregates: [
+        { property: 'age', type: 'sum', title: 'Total age' },
+        { property: 'name', type: 'count', title: 'Rows' },
+      ],
+      allowPaging: true,
+      pageSize: 2,
+    });
+    expect(screen.getByText('Total age: 152')).toBeInTheDocument();
+    expect(screen.getByText('Rows: 5')).toBeInTheDocument();
+    expect(screen.getAllByRole('row')).toHaveLength(4);
+  });
+
+  it('aggregates the filtered rows, not the raw data', () => {
+    renderGrid({
+      aggregates: [{ property: 'age', type: 'sum', title: 'Total age' }],
+      allowFiltering: true,
+    });
+    fireEvent.change(screen.getByLabelText('Role value'), {
+      target: { value: 'editor' },
+    });
+    expect(screen.getByText('Total age: 47')).toBeInTheDocument();
+  });
+});
+
+describe('DataGrid — CSV export', () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it('exports visible columns of the filtered set as CSV', async () => {
+    const blobs: Blob[] = [];
+    URL.createObjectURL = vi.fn((blob: Blob) => {
+      blobs.push(blob);
+      return 'blob:grid';
+    });
+    URL.revokeObjectURL = vi.fn();
+    vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(
+      () => undefined
+    );
+
+    renderGrid({ showExportButton: true, exportFileName: 'people' });
+    fireEvent.click(screen.getByRole('button', { name: 'Export CSV' }));
+
+    expect(URL.createObjectURL).toHaveBeenCalledTimes(1);
+    expect(URL.revokeObjectURL).toHaveBeenCalledWith('blob:grid');
+    expect(blobs[0]).toBeDefined();
+    expect(blobs[0]!.type).toBe('text/csv;charset=utf-8');
+    const text = await blobs[0]!.text();
+    expect(text).toContain('Name,Age,Role\r\n');
+    expect(text).toContain('John,30,admin\r\n');
+    expect(text).toContain('Charlie,35,viewer\r\n');
+    expect(vi.mocked(HTMLAnchorElement.prototype.click)).toHaveBeenCalledTimes(
+      1
+    );
+  });
+});
+
+describe('DataGrid — server mode (onRangeChange)', () => {
+  it('reports the requested range on mount, page, sort, and filter', () => {
+    const onRangeChange = vi.fn();
+    renderGrid({
+      serverMode: true,
+      totalCount: 1000,
+      allowPaging: true,
+      pageSize: 10,
+      allowSorting: true,
+      allowFiltering: true,
+      onRangeChange,
+    });
+    expect(onRangeChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        start: 0,
+        count: 10,
+        pageNumber: 1,
+        pageSize: 10,
+        sorts: [],
+        filters: [],
+        logicalOperator: 'And',
+      })
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: '2' }));
+    expect(onRangeChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ start: 10, pageNumber: 2 })
+    );
+
+    fireEvent.click(
+      screen.getByRole('button', { name: /Sort Name ascending/ })
+    );
+    expect(onRangeChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        sorts: [{ property: 'name', sortOrder: 'Ascending' }],
+      })
+    );
+
+    fireEvent.change(screen.getByLabelText('Role value'), {
+      target: { value: 'edit' },
+    });
+    expect(onRangeChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        filters: [{ property: 'role', operator: 'Contains', value: 'edit' }],
+      })
+    );
+  });
+
+  it('renders rows as returned and skips client-side filtering', () => {
+    renderGrid({
+      serverMode: true,
+      allowFiltering: true,
+      allowPaging: true,
+      pageSize: 2,
+      totalCount: 50,
+    });
+    // header + filter row + 5 server-returned rows
+    expect(screen.getAllByRole('row')).toHaveLength(7);
+    fireEvent.change(screen.getByLabelText('Role value'), {
+      target: { value: 'zzz' },
+    });
+    expect(screen.getAllByRole('row')).toHaveLength(7);
+    expect(screen.getByText('Page 1 of 25')).toBeInTheDocument();
+  });
+});
+
+describe('DataGrid — row virtualization', () => {
+  const many = Array.from({ length: 1000 }, (_, i) => ({
+    id: i,
+    name: `N${i}`,
+    age: i,
+    role: 'x',
+  }));
+
+  it('renders only the visible window with spacer rows', () => {
+    renderGrid({
+      rows: many,
+      virtualize: true,
+      virtualRowHeight: 40,
+      virtualHeight: 400,
+    });
+    expect(screen.getByRole('grid')).toHaveAttribute('aria-rowcount', '1001');
+    expect(screen.getByText('N0')).toBeInTheDocument();
+    expect(screen.queryByText('N20')).not.toBeInTheDocument();
+    // header + 20 virtual rows; spacer rows are aria-hidden
+    expect(screen.getAllByRole('row')).toHaveLength(21);
+    const scroller = screen.getByRole('grid').parentElement as HTMLElement;
+    expect(scroller).toHaveStyle('max-height: 400px');
+    const bottomSpacer = scroller.querySelector('td[style*="height"]');
+    expect(bottomSpacer).toHaveStyle('height: 39200px');
+  });
+
+  it('shifts the window on scroll with aria-rowindex', () => {
+    const { container } = renderGrid({
+      rows: many,
+      virtualize: true,
+      virtualRowHeight: 40,
+      virtualHeight: 400,
+    });
+    const scroller = screen.getByRole('grid').parentElement as HTMLElement;
+    Object.defineProperty(scroller, 'scrollTop', {
+      value: 4000,
+      configurable: true,
+      writable: true,
+    });
+    Object.defineProperty(scroller, 'clientHeight', {
+      value: 400,
+      configurable: true,
+      writable: true,
+    });
+    fireEvent.scroll(scroller);
+    expect(screen.queryByText('N0')).not.toBeInTheDocument();
+    expect(screen.getByText('N95')).toBeInTheDocument();
+    expect(screen.getByText('N114')).toBeInTheDocument();
+    expect(screen.queryByText('N115')).not.toBeInTheDocument();
+    const firstVisible = screen.getByText('N95').closest('tr');
+    expect(firstVisible).toHaveAttribute('aria-rowindex', '97');
+    expect(container.querySelectorAll('td[style*="height"]')).toHaveLength(2);
+  });
+
+  it('renders every row when virtualization is off', () => {
+    renderGrid({ rows: many.slice(0, 150) });
+    expect(screen.getByText('N149')).toBeInTheDocument();
+    expect(screen.getAllByRole('row')).toHaveLength(151);
+    expect(screen.getByText('N0').closest('tr')).not.toHaveAttribute(
+      'aria-rowindex'
+    );
   });
 });
