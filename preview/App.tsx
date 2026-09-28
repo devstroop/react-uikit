@@ -10,6 +10,29 @@ function routeFromHash(): string {
 }
 
 /**
+ * Palette stylesheets per theme — dynamically imported so only the
+ * selected palette ships its ~35k lines. Each theme's styles are scoped
+ * to `[data-palette='X']` (vendored fluent/material3 files carry a light
+ * + dark twin; hand-authored github/material/shadcn files carry both
+ * blocks in one file). `document.documentElement.dataset.palette` is set
+ * only after every stylesheet resolves, so attribute presence === CSS
+ * live (the e2e axe matrix polls it).
+ */
+const PALETTE_LOADERS: Record<string, (() => Promise<unknown>)[]> = {
+  fluent: [
+    () => import('./styles/fluent-base.css'),
+    () => import('./styles/fluent-dark-base.css'),
+  ],
+  github: [() => import('./styles/github.css')],
+  material: [() => import('./styles/material.css')],
+  'material-3': [
+    () => import('./styles/material3-base.css'),
+    () => import('./styles/material3-dark-base.css'),
+  ],
+  shadcn: [() => import('./styles/shadcn.css')],
+};
+
+/**
  * Preview shell: layout-agnostic app root (Blazor `Routes.razor` parity).
  * Owns routing state (hash slug), global theme/dark state, and layout
  * selection — no layout chrome of its own. Every known slug renders
@@ -30,6 +53,22 @@ export function App() {
   useEffect(() => {
     document.documentElement.dataset.theme = dark ? 'dark' : '';
   }, [dark]);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    // Delete first: the attribute must never outlive its CSS, and the
+    // e2e poll treats a stale value from the previous palette as a hang.
+    delete root.dataset.palette;
+    const loaders = PALETTE_LOADERS[theme];
+    if (!loaders) return;
+    let cancelled = false;
+    void Promise.all(loaders.map((load) => load())).then(() => {
+      if (!cancelled) root.dataset.palette = theme;
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [theme]);
 
   const Page = resolveRoute(route);
   if (Page == null) {
