@@ -53,5 +53,12 @@ export default tseslint.config(
       'jsx-a11y/no-autofocus': 'warn',
       'jsx-a11y/role-supports-aria-props': 'warn',
     },
+  },
+  {
+    // Node tooling scripts (extract-palettes, etc.)
+    files: ['**/*.mjs'],
+    languageOptions: {
+      globals: { ...globals.node },
+    },
   }
 );
