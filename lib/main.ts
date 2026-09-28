@@ -168,6 +168,13 @@ export type {
 
 export { Dialog } from './components/Dialog/Dialog';
 export type { DialogProps, DialogSize } from './components/Dialog/Dialog';
+export { DialogProvider, useDialog } from './components/Dialog/DialogProvider';
+export type {
+  DialogApi,
+  DialogProviderProps,
+  ConfirmOptions,
+  AlertOptions,
+} from './components/Dialog/DialogProvider';
 
 export { ToastProvider, useToast } from './components/Toast/Toast';
 export type {
