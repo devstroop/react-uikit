@@ -39,6 +39,7 @@ export interface GridGroup {
   property: string;
   title: string;
   count: number;
+  level: number;
 }
 
 export interface GridGroupedItem<TItem = unknown> {
@@ -47,40 +48,100 @@ export interface GridGroupedItem<TItem = unknown> {
   row?: TItem;
 }
 
+/** Joins per-level values into a unique expansion key per group node. */
+const GROUP_KEY_SEP = String.fromCharCode(31);
+
 export function groupItems<TItem>(
   items: readonly TItem[],
-  groupBy: string | undefined,
-  column: GridColumn<TItem> | undefined,
+  groupBy: readonly string[],
+  columns: readonly GridColumn<TItem>[],
   expanded: ReadonlySet<string>,
-  getValue: (row: TItem, property: string) => unknown,
-  format: (value: unknown) => string
+  getValue: (row: TItem, property: string) => unknown
 ): GridGroupedItem<TItem>[] {
-  if (!groupBy || !column) return items.map((row) => ({ type: 'row', row }));
-  const map = new Map<string, TItem[]>();
-  items.forEach((row) => {
-    const key = String(getValue(row, groupBy) ?? '');
-    const bucket = map.get(key);
-    if (bucket) bucket.push(row);
-    else map.set(key, [row]);
-  });
-  const flattened: GridGroupedItem<TItem>[] = [];
-  map.forEach((rows, key) => {
-    const first = rows[0];
-    const value = first != null ? getValue(first, groupBy) : undefined;
-    flattened.push({
-      type: 'group',
-      group: {
-        key,
-        display: format(value),
-        property: groupBy,
-        title: column.title ?? groupBy,
-        count: rows.length,
-      },
+  if (groupBy.length === 0) return items.map((row) => ({ type: 'row', row }));
+
+  const findColumn = (property: string) =>
+    columns.find((c) => c.property === property);
+
+  const build = (
+    rows: readonly TItem[],
+    level: number,
+    path: readonly string[]
+  ): GridGroupedItem<TItem>[] => {
+    const property = groupBy[level];
+    if (property === undefined)
+      return rows.map((row) => ({ type: 'row', row }));
+    const column = findColumn(property);
+    const map = new Map<string, TItem[]>();
+    const order: string[] = [];
+    rows.forEach((row) => {
+      const part = String(getValue(row, property) ?? '');
+      const bucket = map.get(part);
+      if (bucket) bucket.push(row);
+      else {
+        map.set(part, [row]);
+        order.push(part);
+      }
     });
-    if (expanded.has(key))
-      rows.forEach((row) => flattened.push({ type: 'row', row }));
-  });
-  return flattened;
+    const flattened: GridGroupedItem<TItem>[] = [];
+    order.forEach((part) => {
+      const bucket = map.get(part) as TItem[];
+      const key = [...path, part].join(GROUP_KEY_SEP);
+      const first = bucket[0];
+      const value = first !== undefined ? getValue(first, property) : undefined;
+      flattened.push({
+        type: 'group',
+        group: {
+          key,
+          display: formatValue(value, column?.format),
+          property,
+          title: column?.title ?? property,
+          count: bucket.length,
+          level,
+        },
+      });
+      if (expanded.has(key))
+        flattened.push(...build(bucket, level + 1, [...path, part]));
+    });
+    return flattened;
+  };
+
+  return build(items, 0, []);
+}
+
+/** Collects every group node key in the data (for default-expanded state). */
+export function collectGroupKeys<TItem>(
+  items: readonly TItem[],
+  groupBy: readonly string[],
+  getValue: (row: TItem, property: string) => unknown
+): Set<string> {
+  const keys = new Set<string>();
+  const walk = (
+    rows: readonly TItem[],
+    level: number,
+    path: readonly string[]
+  ): void => {
+    const property = groupBy[level];
+    if (property === undefined || rows.length === 0) return;
+    const map = new Map<string, TItem[]>();
+    const order: string[] = [];
+    rows.forEach((row) => {
+      const part = String(getValue(row, property) ?? '');
+      const bucket = map.get(part);
+      if (bucket) bucket.push(row);
+      else {
+        map.set(part, [row]);
+        order.push(part);
+      }
+    });
+    order.forEach((part) => {
+      const key = [...path, part].join(GROUP_KEY_SEP);
+      keys.add(key);
+      walk(map.get(part) as TItem[], level + 1, [...path, part]);
+    });
+  };
+  walk(items, 0, []);
+  return keys;
 }
 
 export function gridColumnKey<TItem = unknown>(
@@ -223,6 +284,8 @@ export function paginate<T>(
 }
 
 export interface GridView<T> extends PageResult<T> {
+  /** Filtered + sorted rows before pagination (aggregate/export source). */
+  filtered: T[];
   sorts: readonly SortDescriptor[];
   filters: ReadonlyMap<string, GridFilterState>;
   pageSize: number;
@@ -261,6 +324,7 @@ export function applyGridState<T>(
   const page = paginate(sorted, state.pageNumber, state.pageSize);
   return {
     ...page,
+    filtered: sorted,
     sorts: state.sorts,
     filters: state.filters,
     pageSize: state.pageSize,
@@ -270,4 +334,88 @@ export function applyGridState<T>(
 export function defaultOperatorForType(type: string): FilterOperator {
   if (type === 'number' || type === 'date') return 'Equals';
   return 'Contains';
+}
+
+export type GridAggregateType =
+  'count' | 'sum' | 'avg' | 'min' | 'max' | 'custom';
+
+export interface GridAggregate<TItem = unknown> {
+  property: string;
+  type: GridAggregateType;
+  format?: string;
+  title?: string;
+  compute?: (rows: readonly TItem[]) => unknown;
+}
+
+/**
+ * Footer aggregate over a row set. sum/avg/min/max coerce numeric values
+ * and ignore the rest; an empty numeric set yields undefined (renders '').
+ */
+export function aggregateValue<TItem>(
+  rows: readonly TItem[],
+  aggregate: GridAggregate<TItem>,
+  getValue: (row: TItem, property: string) => unknown
+): unknown {
+  if (aggregate.type === 'custom') return aggregate.compute?.(rows);
+  if (aggregate.type === 'count') return rows.length;
+  const numbers: number[] = [];
+  rows.forEach((row) => {
+    const value = getValue(row, aggregate.property);
+    if (value == null || value === '') return;
+    const n = Number(value);
+    if (Number.isFinite(n)) numbers.push(n);
+  });
+  switch (aggregate.type) {
+    case 'sum':
+      return numbers.length > 0
+        ? numbers.reduce((total, n) => total + n, 0)
+        : undefined;
+    case 'avg':
+      return numbers.length > 0
+        ? numbers.reduce((total, n) => total + n, 0) / numbers.length
+        : undefined;
+    case 'min':
+      return numbers.length > 0 ? Math.min(...numbers) : undefined;
+    case 'max':
+      return numbers.length > 0 ? Math.max(...numbers) : undefined;
+    default:
+      return undefined;
+  }
+}
+
+/** RFC 4180 CSV with CRLF rows; quotes fields containing comma/quote/newline. */
+export function toCsv<TItem>(
+  rows: readonly TItem[],
+  columns: readonly GridColumn<TItem>[],
+  getValue: (row: TItem, property?: string) => unknown = columnValue
+): string {
+  const escape = (value: string): string =>
+    /["\r\n,]/.test(value) ? `"${value.replace(/"/g, '""')}"` : value;
+  const lines: string[] = [
+    columns.map((c) => escape(c.title ?? c.property ?? '')).join(','),
+  ];
+  rows.forEach((row) => {
+    lines.push(
+      columns
+        .map((c) => escape(formatValue(getValue(row, c.property), c.format)))
+        .join(',')
+    );
+  });
+  return `${lines.join('\r\n')}\r\n`;
+}
+
+export interface GridRange {
+  /** Zero-based index of the first requested row. */
+  start: number;
+  /** Number of rows requested (current page size). */
+  count: number;
+  pageNumber: number;
+  pageSize: number;
+  sorts: readonly SortDescriptor[];
+  filters: readonly {
+    property: string;
+    operator: FilterOperator;
+    value: string;
+  }[];
+  logicalOperator: LogicalFilterOperator;
 }

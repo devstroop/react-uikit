@@ -87,17 +87,26 @@ export type {
 export { DataList } from './components/DataList/DataList';
 export type { DataListProps } from './components/DataList/DataList';
 export {
+  aggregateValue,
   applyGridState,
+  collectGroupKeys,
   cycleSort,
   sortedItems,
+  groupItems,
   paginate,
   columnValue,
   formatValue,
   defaultOperatorForType,
+  toCsv,
 } from './components/DataGrid/grid';
 export type {
+  GridAggregate,
+  GridAggregateType,
   GridColumn,
   GridFilterState,
+  GridGroup,
+  GridRange,
+  GridSelectionMode,
   GridState,
   GridStateOptions,
   GridTextAlign,
