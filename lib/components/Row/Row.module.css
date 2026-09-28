@@ -3,35 +3,34 @@
   display: flex;
   flex-wrap: wrap;
   /* Column grid math (Column.module.css) compensates for this gap so
-   * exact-sum rows never wrap. Keep the var and gap in sync: tier
-   * classes below set both, arbitrary gaps arrive inline from Row.tsx. */
+   * exact-sum rows never wrap. --dx-col-gap is the single source: both
+   * gap longhands below read it, tier gap classes only override the var
+   * (arbitrary gaps set it inline from Row.tsx), and Column reads it. */
   --dx-col-gap: var(--dx-space-4);
-  gap: var(--dx-col-gap);
+  column-gap: var(--dx-col-gap);
+  row-gap: var(--dx-col-gap);
 }
 
-.gapXs {
+/* .row. prefix keeps these winning over .row's declarations regardless
+ * of rule order in this file (equal specificity would be order-dependent). */
+.row.gapXs {
   --dx-col-gap: var(--dx-space-1);
-  gap: var(--dx-space-1);
 }
 
-.gapSm {
+.row.gapSm {
   --dx-col-gap: var(--dx-space-2);
-  gap: var(--dx-space-2);
 }
 
-.gapMd {
+.row.gapMd {
   --dx-col-gap: var(--dx-space-3);
-  gap: var(--dx-space-3);
 }
 
-.gapLg {
+.row.gapLg {
   --dx-col-gap: var(--dx-space-4);
-  gap: var(--dx-space-4);
 }
 
-.gapXl {
+.row.gapXl {
   --dx-col-gap: var(--dx-space-5);
-  gap: var(--dx-space-5);
 }
 
 .start {
@@ -52,6 +51,10 @@
 
 .baseline {
   align-items: baseline;
+}
+
+.normal {
+  align-items: normal;
 }
 
 .justify-start {
@@ -114,22 +117,22 @@
   flex-wrap: wrap-reverse;
 }
 
-.gapRowXs {
+.row.gapRowXs {
   row-gap: var(--dx-space-1);
 }
 
-.gapRowSm {
+.row.gapRowSm {
   row-gap: var(--dx-space-2);
 }
 
-.gapRowMd {
+.row.gapRowMd {
   row-gap: var(--dx-space-3);
 }
 
-.gapRowLg {
+.row.gapRowLg {
   row-gap: var(--dx-space-4);
 }
 
-.gapRowXl {
+.row.gapRowXl {
   row-gap: var(--dx-space-5);
 }

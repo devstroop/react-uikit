@@ -21,11 +21,27 @@ describe('Row', () => {
   it('turns numeric gap into px and passes strings through', () => {
     const { container, rerender } = render(<Row gap={24} />);
     expect(container.firstElementChild?.getAttribute('style')).toContain(
-      'gap: 24px'
+      'column-gap: 24px'
     );
     rerender(<Row gap="2rem" />);
     expect(container.firstElementChild?.getAttribute('style')).toContain(
-      'gap: 2rem'
+      'column-gap: 2rem'
+    );
+  });
+
+  it('does not put an inline gap shorthand on the row (rowGap tiers must win)', () => {
+    const { container } = render(<Row gap="0.5rem" rowGap="xl" />);
+    const style = container.firstElementChild?.getAttribute('style') ?? '';
+    expect(style).toContain('column-gap: 0.5rem');
+    expect(style).not.toMatch(/(^|;\s*)gap:/);
+    expect(container.firstElementChild?.className).toContain('gapRowXl');
+  });
+
+  it('maps align="normal" to its class', () => {
+    const { container } = render(<Row align="normal" />);
+    expect(container.firstElementChild?.className).toContain('normal');
+    expect(container.firstElementChild?.className).not.toContain(
+      'justify-normal'
     );
   });
 

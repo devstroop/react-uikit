@@ -6,6 +6,19 @@ Versioning follows the release flow in `docs/DEVELOPMENT_STRATEGY.md`
 
 ## [Unreleased] — toward 2.0.0
 
+### Fixed — `Row` `rowGap` lost with arbitrary `gap`
+
+An arbitrary `gap` (`0.5rem`, `10`, …) was applied as an inline `gap`
+shorthand, which also pinned `row-gap` inline and beat a tier `rowGap`
+class (`gapRowXl` rendered 8px instead of 20px). Arbitrary gaps now set
+`columnGap` + `--dx-col-gap`, so tier `rowGap` classes apply while
+Column's gap-compensated grid math keeps exact-sum rows on one line.
+Tier gap rules were also re-specified (`.row.gapX*` / `.row.gapRow*`)
+so the result no longer depends on rule order inside the stylesheet.
+(`align="normal"` now maps to an explicit class; its computed value was
+already `normal`, so that part has no visual effect.) Verified against
+Radzen's Row/Column demo set across all six breakpoints.
+
 ### Added — `ContextMenu` provider + hook (Radzen ContextMenu parity)
 
 `ContextMenuProvider` (app root) + `useContextMenu()` (`open(event,

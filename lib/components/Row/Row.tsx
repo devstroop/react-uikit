@@ -81,8 +81,13 @@ export function Row({
   const mergedStyle: CSSProperties = {
     // Keep --dx-col-gap in sync so Column grid math compensates for
     // arbitrary (non-tier) gaps exactly like it does for tier classes.
+    // Set columnGap (not the gap shorthand): an inline `gap` would also
+    // fix row-gap inline and clobber a tier rowGap class like gapRowXl.
     ...(arbitraryGap
-      ? ({ gap: arbitraryGap, '--dx-col-gap': arbitraryGap } as CSSProperties)
+      ? ({
+          columnGap: arbitraryGap,
+          '--dx-col-gap': arbitraryGap,
+        } as CSSProperties)
       : {}),
     ...(rowGap != null && !rowTier
       ? { rowGap: typeof rowGap === 'number' ? `${rowGap}px` : rowGap }
