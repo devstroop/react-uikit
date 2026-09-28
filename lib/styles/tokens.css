@@ -475,6 +475,11 @@
   --dx-text-muted-color: #cbd5e1;
   --dx-primary-color: #2563eb;
   --dx-primary-hover-color: #1d4ed8;
+  /* links stay decoupled from primary in dark: #2563eb on #1e293b is
+   * only 2.83:1 (axe color-contrast). #93c5fd → 8.1:1 on surface,
+   * 5.7:1 on surface-hover; buttons keep white-on-blue primary. */
+  --dx-link-color: #93c5fd;
+  --dx-link-hover-color: #bfdbfe;
   --dx-on-primary-color: #ffffff;
   --dx-danger-color: #dc2626;
   --dx-danger-hover-color: #b91c1c;
@@ -742,6 +747,9 @@
     --dx-text-muted-color: #cbd5e1;
     --dx-primary-color: #2563eb;
     --dx-primary-hover-color: #1d4ed8;
+    /* keep identical to the :root[data-theme="dark"] block above */
+    --dx-link-color: #93c5fd;
+    --dx-link-hover-color: #bfdbfe;
     --dx-on-primary-color: #ffffff;
     --dx-danger-color: #dc2626;
     --dx-danger-hover-color: #b91c1c;
