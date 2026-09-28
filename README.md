@@ -104,7 +104,8 @@ column picker/reorder/resize, multi-level grouping, footer aggregates,
 row virtualization, CSV export, server-side `onRangeChange` ranges) ·
 `DataList` · `VirtualGrid` · `Tree` ·
 `PickList` · `Pivot` · `Chart` (line, area, bar, column, scatter, bubble,
-pie, donut) · `Gantt` · `Scheduler` · `Timeline` · `DataFilter` · `QRCode` ·
+pie, donut, gauge, radar, funnel, heatmap; stacked series via `stack`) ·
+`Gantt` · `Scheduler` · `Timeline` · `DataFilter` · `QRCode` ·
 `Barcode`
 
 ### Display
