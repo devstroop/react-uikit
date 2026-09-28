@@ -102,6 +102,7 @@ export const ROUTE_COMPONENTS: Record<string, (props: DemoProps) => ReactNode> =
     carousel: DisplayDemos,
     splitter: DisplayDemos,
     themeswitcher: ThemeDemos,
+    themetoggle: ThemeDemos,
     'recipe-login': RecipeDemos,
     'recipe-404': RecipeDemos,
   };

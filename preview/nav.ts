@@ -131,7 +131,10 @@ export const DEMO_GROUPS: DemoGroup[] = [
   },
   {
     title: 'Theme',
-    routes: [{ slug: 'themeswitcher', title: 'ThemeSwitcher' }],
+    routes: [
+      { slug: 'themeswitcher', title: 'ThemeSwitcher' },
+      { slug: 'themetoggle', title: 'ThemeToggle' },
+    ],
   },
   {
     title: 'Recipes',

@@ -3,27 +3,17 @@ import {
   Badge,
   Body,
   Header,
-  Label,
   Layout,
   Link,
-  Select,
   Sidebar,
   SidebarToggle,
   Stack,
-  Switch,
   Text,
   Textbox,
+  ThemeSwitcher,
+  ThemeToggle,
 } from '../../lib/main';
 import { DEMO_GROUPS } from '../nav';
-
-export const THEMES = [
-  'default',
-  'fluent',
-  'github',
-  'material',
-  'material-3',
-  'shadcn',
-] as const;
 
 /**
  * Docs layout: the preview app's chrome (Blazor `MainLayout` parity).
@@ -89,22 +79,17 @@ export function DocsLayout({
           align="center"
           style={{ marginLeft: 'auto' }}
         >
-          <Label htmlFor="preview-theme">Theme</Label>
-          <Select
+          <ThemeSwitcher
             size="sm"
             id="preview-theme"
             value={theme}
-            onChange={(e) => onThemeChange(e.target.value)}
-            options={THEMES.map((t) => ({ value: t, label: t }))}
+            onChange={onThemeChange}
           />
-          <Label htmlFor="preview-dark">
-            <Switch
-              id="preview-dark"
-              checked={dark}
-              onChange={(e) => onDarkChange(e.target.checked)}
-            />
-            Dark mode
-          </Label>
+          <ThemeToggle
+            id="preview-dark"
+            value={dark ? 'dark' : 'light'}
+            onChange={(next) => onDarkChange(next === 'dark')}
+          />
         </Stack>
       </Header>
       <Sidebar expanded={sidebarOpen} sticky>
