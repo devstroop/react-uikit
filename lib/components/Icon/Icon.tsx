@@ -1,5 +1,6 @@
 import { forwardRef, type SVGProps } from 'react';
 import type { ComponentSize } from '../../sizes';
+import { iconSets, type IconSetPrefix } from './sets';
 import styles from './Icon.module.css';
 
 export const iconNames = [
@@ -48,7 +49,10 @@ export const iconNames = [
   'ban',
 ] as const;
 
-export type IconName = (typeof iconNames)[number];
+type LegacyIconName = (typeof iconNames)[number];
+
+/** Built-in legacy glyph, or a namespaced set glyph (`mdi:home`, `ph:user`, ...). */
+export type IconName = LegacyIconName | `${IconSetPrefix}:${string}`;
 
 export interface IconProps extends Omit<SVGProps<SVGSVGElement>, 'name'> {
   name: IconName;
@@ -56,7 +60,7 @@ export interface IconProps extends Omit<SVGProps<SVGSVGElement>, 'name'> {
   strokeWidth?: number;
 }
 
-const paths: Record<IconName, React.ReactNode> = {
+const paths: Record<LegacyIconName, React.ReactNode> = {
   check: <path d="M20 6L9 17l-5-5" />,
   close: <path d="M18 6L6 18M6 6l12 12" />,
   'chevron-down': <path d="M6 9l6 6 6-6" />,
@@ -251,10 +255,19 @@ const paths: Record<IconName, React.ReactNode> = {
 };
 
 export const Icon = forwardRef<SVGSVGElement, IconProps>(function Icon(
-  { name, size = 'md', strokeWidth = 2, className, ...props },
+  { name, size = 'md', strokeWidth, className, ...props },
   ref
 ) {
   const tier = typeof size === 'string';
+  const sep = name.indexOf(':');
+  const set =
+    sep >= 0 ? iconSets[name.slice(0, sep) as IconSetPrefix] : undefined;
+  const glyph = sep >= 0 ? name.slice(sep + 1) : '';
+  const isFill = set?.style === 'fill';
+  const setInner =
+    set !== undefined
+      ? { dangerouslySetInnerHTML: { __html: set.icons[glyph] ?? '' } }
+      : {};
   return (
     <svg
       ref={ref}
@@ -263,17 +276,22 @@ export const Icon = forwardRef<SVGSVGElement, IconProps>(function Icon(
         .join(' ')}
       width={tier ? undefined : size}
       height={tier ? undefined : size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={strokeWidth}
+      viewBox={
+        set !== undefined
+          ? (set.viewBoxBy?.[glyph] ?? set.viewBox)
+          : '0 0 24 24'
+      }
+      fill={isFill ? 'currentColor' : 'none'}
+      stroke={isFill ? 'none' : 'currentColor'}
+      strokeWidth={strokeWidth ?? set?.strokeWidth ?? 2}
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden="true"
       focusable="false"
       {...props}
+      {...setInner}
     >
-      {paths[name]}
+      {set !== undefined ? null : paths[name as LegacyIconName]}
     </svg>
   );
 });

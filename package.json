@@ -30,6 +30,7 @@
     "test:watch": "vitest",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "icons:ingest": "node scripts/ingest-icons.mjs && prettier --write \"lib/components/Icon/sets\"",
     "preview:build": "vite build --config preview/vite.config.ts",
     "test:e2e": "playwright test"
   },

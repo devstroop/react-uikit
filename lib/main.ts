@@ -27,6 +27,8 @@ export type {
 
 export { Icon, iconNames } from './components/Icon/Icon';
 export type { IconProps, IconName } from './components/Icon/Icon';
+export { iconSets, iconSetNames } from './components/Icon/sets';
+export type { IconSetPrefix, IconSetDef } from './components/Icon/sets';
 
 export { Stat } from './components/Stat/Stat';
 export type { StatProps, StatDeltaTone } from './components/Stat/Stat';
