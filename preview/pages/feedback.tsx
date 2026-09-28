@@ -3,6 +3,7 @@ import {
   Alert,
   Button,
   Dialog,
+  DialogProvider,
   EmptyState,
   Progress,
   Row,
@@ -11,6 +12,7 @@ import {
   Text,
   ToastProvider,
   Tooltip,
+  useDialog,
   useToast,
 } from '../../lib/main';
 import { DemoPage } from './demo-page';
@@ -45,6 +47,59 @@ function DialogDemo() {
         <Text textStyle="Body1">Dialog body content.</Text>
       </Dialog>
     </>
+  );
+}
+
+function ImperativeDialogDemo() {
+  const { confirm, alert } = useDialog();
+  const [result, setResult] = useState('');
+  return (
+    <DialogProvider>
+      <Stack orientation="horizontal" gap="md" wrap>
+        <Button
+          severity="danger"
+          variant="outlined"
+          onClick={async () => {
+            const confirmed = await confirm({
+              title: 'Delete zone?',
+              message: 'This removes the zone and its 3 tasks.',
+              confirmText: 'Delete',
+              tone: 'danger',
+            });
+            setResult(confirmed ? 'Deleted.' : 'Kept.');
+          }}
+        >
+          Request confirm
+        </Button>
+        <Button
+          onClick={async () => {
+            await alert({ message: 'Everything is saved.' });
+            setResult('Alert acknowledged.');
+          }}
+        >
+          Request alert
+        </Button>
+      </Stack>
+      {result && (
+        <Text textStyle="Body2" className="dx-mt-2">
+          Last result: {result}
+        </Text>
+      )}
+    </DialogProvider>
+  );
+}
+
+function TargetTooltipDemo() {
+  return (
+    <Stack orientation="horizontal" gap="md" wrap>
+      <Tooltip
+        targetSelector="[data-preview-tip]"
+        content="Delegated hint — one tooltip, many targets"
+        delayMs={0}
+      />
+      <Button data-preview-tip>First target</Button>
+      <Button data-preview-tip>Second target</Button>
+    </Stack>
   );
 }
 
@@ -135,6 +190,13 @@ export function FeedbackDemos({ slug }: { slug: string }) {
             id: 'dialog-basic',
             content: <DialogDemo />,
           },
+          {
+            id: 'dialog-imperative',
+            title: 'Imperative confirm & alert',
+            description:
+              'DialogProvider + useDialog(): promises resolve on confirm, cancel or Escape; concurrent calls queue.',
+            content: <ImperativeDialogDemo />,
+          },
         ]}
       />
     );
@@ -152,6 +214,13 @@ export function FeedbackDemos({ slug }: { slug: string }) {
                 <span>Hover me</span>
               </Tooltip>
             ),
+          },
+          {
+            id: 'tooltip-target',
+            title: 'Target selector',
+            description:
+              'One tooltip delegates to every element matching a CSS selector; Escape or scroll dismisses it.',
+            content: <TargetTooltipDemo />,
           },
         ]}
       />

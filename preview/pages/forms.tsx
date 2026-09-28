@@ -40,6 +40,46 @@ const PAIR_OPTIONS = [
   { value: 'c', label: 'Gamma', disabled: true },
 ];
 
+const SELECT_ALL_ITEMS = ['Alpha', 'Beta', 'Gamma'];
+
+/** Tri-state "Select all" — the canonical indeterminate checkbox demo. */
+function SelectAllDemo() {
+  const [selected, setSelected] = useState<string[]>(['Alpha']);
+  const all = selected.length === SELECT_ALL_ITEMS.length;
+  const none = selected.length === 0;
+  return (
+    <Stack orientation="vertical" gap="sm">
+      <label>
+        <Checkbox
+          checked={all}
+          indeterminate={!all && !none}
+          onChange={(e) =>
+            setSelected(e.target.checked ? [...SELECT_ALL_ITEMS] : [])
+          }
+        />{' '}
+        Select all
+      </label>
+      <Stack orientation="horizontal" gap="md">
+        {SELECT_ALL_ITEMS.map((item) => (
+          <label key={item}>
+            <Checkbox
+              checked={selected.includes(item)}
+              onChange={(e) =>
+                setSelected((prev) =>
+                  e.target.checked
+                    ? [...prev, item]
+                    : prev.filter((value) => value !== item)
+                )
+              }
+            />{' '}
+            {item}
+          </label>
+        ))}
+      </Stack>
+    </Stack>
+  );
+}
+
 function NameField() {
   const name = useFormField('name', {
     validate: [required('Name is required.')],
@@ -385,6 +425,13 @@ export function FormDemos({ slug }: { slug: string }) {
                   Accept
                 </label>
               ),
+            },
+            {
+              id: 'checkbox-indeterminate',
+              title: 'Indeterminate',
+              description:
+                'The mixed state renders a dash; browsers expose it to assistive tech as aria-checked=mixed.',
+              content: <SelectAllDemo />,
             },
           ]}
         />
