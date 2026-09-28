@@ -75,6 +75,9 @@ JSDoc on each export in the published types.
 `Rating` · `Colorpicker` · `Datepicker` · `Timespanpicker` · `SecurityCode` ·
 `Upload` · `Selectbar` · `Label` · `DropZone`
 
+`Checkbox` also exposes an `indeterminate` (mixed) prop — the browser-native
+partially-checked state, wired for pointer and keyboard.
+
 Validation: `Form` + `useFormField` with validator helpers (`required`,
 `email`, `pattern`, `minLength`, `maxLength`, `range`, `compare`,
 `requiredTrue`, `custom`, `runValidators`). `Field` and `Input` remain
@@ -83,7 +86,10 @@ exported but are **deprecated** — prefer `FormField` and `Textbox`.
 ### Feedback
 
 `Alert` · `Progress` · `Skeleton` · `EmptyState` · `Toast` (via
-`ToastProvider` + `useToast`) · `Dialog` · `Tooltip`
+`ToastProvider` + `useToast`) · `Dialog` (declarative, or imperative via
+`DialogProvider` + `useDialog()` → `confirm()` / `alert()` promises) ·
+`Tooltip` (wrapper, or document-wide delegation via `targetSelector`,
+optional `durationMs` auto-dismiss)
 
 ### Navigation
 
@@ -111,8 +117,8 @@ pie, donut) · `Gantt` · `Scheduler` · `Timeline` · `DataFilter` · `QRCode` 
 
 ### Hooks & utilities
 
-`useFormContext` · `useFormField` · `useToast` · `useContextMenu` ·
-`useMediaQuery` · `formatMasked` · `getByPath`
+`useFormContext` · `useFormField` · `useToast` · `useDialog` ·
+`useContextMenu` · `useMediaQuery` · `formatMasked` · `getByPath`
 
 All interactive components: `forwardRef`, `className` passthrough, full DOM
 attribute support. A11y baseline: semantic elements, `aria-invalid` on invalid
@@ -158,6 +164,34 @@ surfaces. Hover states fall back to the base-hue hover token. Values are M3 appr
 in sync when overriding.
 
 See `lib/styles/tokens.css` for the full list (color, radius, space, font, shadow, transition/motion, z-index, control heights).
+
+### Preview palettes (`data-palette`)
+
+The **preview app only** (not the published package) ships five brand
+palettes — `fluent`, `material-3`, `github`, `material`, `shadcn` — that
+re-map the same `--dx-*` tokens onto each brand's look:
+
+```html
+<html data-palette="github" data-theme="dark"></html>
+```
+
+- Styles live in `preview/styles/` (`fluent` and `material-3` sheets are
+  generated from upstream source by `scripts/extract-palettes.mjs`; the rest
+  are hand-authored token sheets). They are **not** bundled into `style.css`,
+  so consumers get them by copying those files (or the transform script) into
+  their own app — `data-palette` is only a scoping convention.
+- Load the sheet(s) first, then set `document.documentElement.dataset.palette`;
+  remove the attribute to fall back to the default tokens. Dark variants work
+  through the usual `data-theme="dark"` blocks (see the preview's
+  `PALETTE_LOADERS` for the pattern).
+
+```css
+/* after copying preview/styles/github.css into your app */
+:root[data-palette='github'] {
+  --dx-primary-color: #0969da;
+  /* … */
+}
+```
 
 ### Text (RadzenText parity)
 
