@@ -28,7 +28,10 @@ export interface MenuItemEventArgs {
 /** Radzen `NavLinkMatch` parity: exact vs prefix active-path matching. */
 export type MenuMatch = 'exact' | 'prefix';
 
-export interface MenuProps extends Omit<HTMLAttributes<HTMLElement>, 'onClick'> {
+export interface MenuProps extends Omit<
+  HTMLAttributes<HTMLElement>,
+  'onClick'
+> {
   children: ReactNode;
   /** Open submenus on click (true, default) or on hover (false). Radzen `ClickToOpen` parity. */
   clickToOpen?: boolean;
@@ -87,7 +90,10 @@ interface MenuContextValue {
 
 const MenuContext = createContext<MenuContextValue | null>(null);
 
-function activePath(path: string | undefined, match: MenuMatch | undefined): boolean {
+function activePath(
+  path: string | undefined,
+  match: MenuMatch | undefined
+): boolean {
   if (!path || typeof window === 'undefined') return false;
   const hash = window.location.hash.replace(/^#\/?/, '');
   const norm = path.replace(/^#?\/?/, '');
@@ -121,7 +127,12 @@ function useDisclosure(
   return [open, set];
 }
 
-function ItemIcon({ icon, iconColor, image, imageAlt }: Pick<MenuItemProps, 'icon' | 'iconColor' | 'image' | 'imageAlt'>) {
+function ItemIcon({
+  icon,
+  iconColor,
+  image,
+  imageAlt,
+}: Pick<MenuItemProps, 'icon' | 'iconColor' | 'image' | 'imageAlt'>) {
   if (image) {
     return (
       <span className={styles.icon} aria-hidden="true">
@@ -131,7 +142,11 @@ function ItemIcon({ icon, iconColor, image, imageAlt }: Pick<MenuItemProps, 'ico
   }
   if (icon) {
     return (
-      <span className={styles.icon} aria-hidden="true" style={iconColor ? { color: iconColor } : undefined}>
+      <span
+        className={styles.icon}
+        aria-hidden="true"
+        style={iconColor ? { color: iconColor } : undefined}
+      >
         <Icon name={icon} size={16} />
       </span>
     );
@@ -141,10 +156,19 @@ function ItemIcon({ icon, iconColor, image, imageAlt }: Pick<MenuItemProps, 'ico
 
 /** Non-item children (e.g. `<hr />` separators, Radzen demo parity) render verbatim. */
 function isMenuItem(child: unknown): boolean {
-  return isValidElement(child) && (child as React.ReactElement).type === MenuItem;
+  return (
+    isValidElement(child) && (child as React.ReactElement).type === MenuItem
+  );
 }
 
-function MenuItemNode({ itemKey, props }: { itemKey: string; props: MenuItemProps }) {  const ctx = useContext(MenuContext);
+function MenuItemNode({
+  itemKey,
+  props,
+}: {
+  itemKey: string;
+  props: MenuItemProps;
+}) {
+  const ctx = useContext(MenuContext);
   if (!ctx) throw new Error('MenuItem must be used inside <Menu>');
   const { text, value, path, disabled, template } = props;
   const childItems = useMemo(
@@ -154,7 +178,13 @@ function MenuItemNode({ itemKey, props }: { itemKey: string; props: MenuItemProp
   const hasChildren = childItems.length > 0;
   const isDisabled = !!disabled;
   const controlled = props.open !== undefined;
-  const [ownOpen, setOwnOpen] = useDisclosure(controlled, props.open, props.defaultOpen ?? false, props.onOpenChange, ctx.closeSignal);
+  const [ownOpen, setOwnOpen] = useDisclosure(
+    controlled,
+    props.open,
+    props.defaultOpen ?? false,
+    props.onOpenChange,
+    ctx.closeSignal
+  );
   const isTopLevel = ctx.level === 0;
   // Hover intent is per-trigger: a hover-open immediately followed by a
   // click on the same trigger keeps the submenu open.
@@ -206,7 +236,10 @@ function MenuItemNode({ itemKey, props }: { itemKey: string; props: MenuItemProp
     // Click-vs-hover race: a click immediately after a hover-open keeps the
     // submenu open instead of toggling it shut. In hover mode (clickToOpen
     // false) clicking an open trigger is always a no-op.
-    if (groupOpen && (Date.now() - hoveredAt.current < 600 || !ctx.clickToOpen)) {
+    if (
+      groupOpen &&
+      (Date.now() - hoveredAt.current < 600 || !ctx.clickToOpen)
+    ) {
       hoveredAt.current = 0;
       return;
     }
@@ -247,13 +280,21 @@ function MenuItemNode({ itemKey, props }: { itemKey: string; props: MenuItemProp
 
   const caret = hasChildren ? (
     <span className={styles.caret} aria-hidden="true">
-      <Icon name={ctx.flyout && !isTopLevel ? 'chevron-right' : 'chevron-down'} size={10} />
+      <Icon
+        name={ctx.flyout && !isTopLevel ? 'chevron-right' : 'chevron-down'}
+        size={10}
+      />
     </span>
   ) : null;
 
   const content = template ?? (
     <>
-      <ItemIcon icon={props.icon} iconColor={props.iconColor} image={props.image} imageAlt={props.imageAlt} />
+      <ItemIcon
+        icon={props.icon}
+        iconColor={props.iconColor}
+        image={props.image}
+        imageAlt={props.imageAlt}
+      />
       <span className={styles.text}>{text}</span>
       {caret}
     </>
@@ -279,7 +320,11 @@ function MenuItemNode({ itemKey, props }: { itemKey: string; props: MenuItemProp
           aria-controls={submenuId}
           tabIndex={isDisabled ? -1 : 0}
           disabled={isDisabled}
-          className={[styles.item, isDisabled ? styles.disabled : null, styles.hasChildren]
+          className={[
+            styles.item,
+            isDisabled ? styles.disabled : null,
+            styles.hasChildren,
+          ]
             .filter(Boolean)
             .join(' ')}
           onClick={handleTriggerClick}
@@ -291,7 +336,10 @@ function MenuItemNode({ itemKey, props }: { itemKey: string; props: MenuItemProp
             id={submenuId}
             role="menu"
             aria-label={text}
-            className={[styles.submenu, ctx.flyout && !isTopLevel ? styles.flyout : null]
+            className={[
+              styles.submenu,
+              ctx.flyout && !isTopLevel ? styles.flyout : null,
+            ]
               .filter(Boolean)
               .join(' ')}
             data-dx-menu-submenu=""
@@ -322,7 +370,9 @@ function MenuItemNode({ itemKey, props }: { itemKey: string; props: MenuItemProp
         .map((child) => child.querySelector<HTMLElement>('[role="menuitem"]'))
         .filter(
           (el): el is HTMLElement =>
-            el != null && el.getAttribute('aria-disabled') !== 'true' && !el.hasAttribute('disabled')
+            el != null &&
+            el.getAttribute('aria-disabled') !== 'true' &&
+            !el.hasAttribute('disabled')
         );
       const active = document.activeElement as HTMLElement | null;
       const idx = active ? items.indexOf(active) : -1;
@@ -334,14 +384,20 @@ function MenuItemNode({ itemKey, props }: { itemKey: string; props: MenuItemProp
       } else if (event.key === 'ArrowUp') {
         event.preventDefault();
         event.stopPropagation();
-        (idx === -1 ? items[items.length - 1] : items[(idx - 1 + items.length) % items.length])?.focus();
+        (idx === -1
+          ? items[items.length - 1]
+          : items[(idx - 1 + items.length) % items.length]
+        )?.focus();
       } else if (event.key === 'ArrowRight') {
         // Open a nested flyout from the focused trigger.
         if (active?.getAttribute('aria-haspopup') === 'menu') {
           event.preventDefault();
           event.stopPropagation();
-          if (active.getAttribute('aria-expanded') !== 'true') (active as HTMLButtonElement).click();
-          const nested = document.getElementById(active.getAttribute('aria-controls') ?? '');
+          if (active.getAttribute('aria-expanded') !== 'true')
+            (active as HTMLButtonElement).click();
+          const nested = document.getElementById(
+            active.getAttribute('aria-controls') ?? ''
+          );
           nested?.querySelector<HTMLElement>('[role="menuitem"]')?.focus();
         }
       } else if (event.key === 'ArrowLeft' || event.key === 'Escape') {
@@ -358,7 +414,9 @@ function MenuItemNode({ itemKey, props }: { itemKey: string; props: MenuItemProp
     'aria-current': isActive ? ('page' as const) : undefined,
     tabIndex: isDisabled ? -1 : 0,
     'data-dx-menu-item': '',
-    className: [styles.submenuItem, isDisabled ? styles.disabled : null].filter(Boolean).join(' '),
+    className: [styles.submenuItem, isDisabled ? styles.disabled : null]
+      .filter(Boolean)
+      .join(' '),
     onClick: fire,
   };
   if (path && !isDisabled) {
@@ -429,21 +487,39 @@ export function Menu({
   }, [openKey, closeAll]);
 
   useEffect(() => {
-    if (pendingFocusRef.current != null && openKey === pendingFocusRef.current) {
+    if (
+      pendingFocusRef.current != null &&
+      openKey === pendingFocusRef.current
+    ) {
       const submenu = document.getElementById(`${baseId}-submenu-${openKey}`);
       submenu
-        ?.querySelector<HTMLElement>('[role="menuitem"]:not([aria-disabled="true"])')
+        ?.querySelector<HTMLElement>(
+          '[role="menuitem"]:not([aria-disabled="true"])'
+        )
         ?.focus();
       pendingFocusRef.current = null;
     }
   }, [openKey, baseId]);
 
   const ctx = useMemo<MenuContextValue>(
-    () => ({ baseId, flyout, clickToOpen, level: 0, closeSignal, emit, closeAll, openKey, setOpenKey }),
+    () => ({
+      baseId,
+      flyout,
+      clickToOpen,
+      level: 0,
+      closeSignal,
+      emit,
+      closeAll,
+      openKey,
+      setOpenKey,
+    }),
     [baseId, flyout, clickToOpen, closeSignal, emit, closeAll, openKey]
   );
 
-  const topItems = useMemo(() => Children.toArray(children).filter(isValidElement), [children]);
+  const topItems = useMemo(
+    () => Children.toArray(children).filter(isValidElement),
+    [children]
+  );
 
   const handleMenubarKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     const menubar = menubarRef.current;
@@ -453,32 +529,46 @@ export function Menu({
       .map((child) => child.querySelector<HTMLElement>('[role="menuitem"]'))
       .filter(
         (el): el is HTMLElement =>
-          el != null && !el.hasAttribute('disabled') && el.getAttribute('aria-disabled') !== 'true'
+          el != null &&
+          !el.hasAttribute('disabled') &&
+          el.getAttribute('aria-disabled') !== 'true'
       );
 
     if (openKey != null) {
       const submenu = document.getElementById(`${baseId}-submenu-${openKey}`);
       if (submenu) {
-        const subItems = Array.from(submenu.querySelectorAll<HTMLElement>('[role="menuitem"]')).filter(
-          (el) => el.getAttribute('aria-disabled') !== 'true' && !el.hasAttribute('disabled')
+        const subItems = Array.from(
+          submenu.querySelectorAll<HTMLElement>('[role="menuitem"]')
+        ).filter(
+          (el) =>
+            el.getAttribute('aria-disabled') !== 'true' &&
+            !el.hasAttribute('disabled')
         );
         const active = document.activeElement as HTMLElement | null;
         const subIdx = active ? subItems.indexOf(active) : -1;
         if (event.key === 'ArrowDown') {
           event.preventDefault();
-          (subIdx === -1 ? subItems[0] : subItems[(subIdx + 1) % subItems.length])?.focus();
+          (subIdx === -1
+            ? subItems[0]
+            : subItems[(subIdx + 1) % subItems.length]
+          )?.focus();
           return;
         }
         if (event.key === 'ArrowUp') {
           event.preventDefault();
-          (subIdx === -1 ? subItems[subItems.length - 1] : subItems[(subIdx - 1 + subItems.length) % subItems.length])?.focus();
+          (subIdx === -1
+            ? subItems[subItems.length - 1]
+            : subItems[(subIdx - 1 + subItems.length) % subItems.length]
+          )?.focus();
           return;
         }
         if (event.key === 'Escape') {
           event.preventDefault();
           closeAll();
           onClose?.();
-          menubar.querySelector<HTMLElement>(`[data-index="${openKey}"]`)?.focus();
+          menubar
+            .querySelector<HTMLElement>(`[data-index="${openKey}"]`)
+            ?.focus();
           return;
         }
         if (event.key === 'Enter' || event.key === ' ') return; // let control activate
@@ -502,14 +592,20 @@ export function Menu({
     if (event.key === 'ArrowLeft') {
       event.preventDefault();
       if (topButtons.length === 0) return;
-      topButtons[idx === -1 ? topButtons.length - 1 : (idx - 1 + topButtons.length) % topButtons.length]?.focus();
+      topButtons[
+        idx === -1
+          ? topButtons.length - 1
+          : (idx - 1 + topButtons.length) % topButtons.length
+      ]?.focus();
       return;
     }
     if (event.key === 'ArrowDown') {
       if (idx >= 0) {
         const keyAttr = focused?.getAttribute('data-index');
         if (keyAttr == null) return;
-        const trigger = menubar.querySelector<HTMLElement>(`[data-index="${keyAttr}"]`);
+        const trigger = menubar.querySelector<HTMLElement>(
+          `[data-index="${keyAttr}"]`
+        );
         if (trigger?.getAttribute('aria-haspopup') === 'menu') {
           event.preventDefault();
           pendingFocusRef.current = keyAttr;

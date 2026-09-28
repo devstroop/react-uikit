@@ -314,7 +314,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: color-mix(in srgb, var(--dx-background-color, white) 70%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--dx-background-color, white) 70%,
+    transparent
+  );
   color: var(--dx-foreground-color, inherit);
 }
 

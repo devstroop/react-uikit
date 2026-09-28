@@ -1,14 +1,20 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
-import { ContextMenuProvider, useContextMenu, type ContextMenuOpenOptions } from './ContextMenu';
+import {
+  ContextMenuProvider,
+  useContextMenu,
+  type ContextMenuOpenOptions,
+} from './ContextMenu';
 import { Menu, MenuItem } from '../Menu/Menu';
 
 function Trigger({ options }: { options?: ContextMenuOpenOptions }) {
   const menu = useContextMenu();
   return (
     <button
-      onContextMenu={(e) => menu.open(e, options ?? { items: [{ text: 'Cut' }, { text: 'Copy' }] })}
+      onContextMenu={(e) =>
+        menu.open(e, options ?? { items: [{ text: 'Cut' }, { text: 'Copy' }] })
+      }
     >
       Right click me
     </button>
@@ -26,7 +32,12 @@ function Harness({ options }: { options?: ContextMenuOpenOptions }) {
 function rightClick(target: Element, x = 100, y = 120) {
   // cancelable: jsdom MouseEvent init defaults cancelable:false, which would
   // swallow the preventDefault under test (real browsers cancel contextmenu).
-  return fireEvent.contextMenu(target, { clientX: x, clientY: y, button: 2, cancelable: true });
+  return fireEvent.contextMenu(target, {
+    clientX: x,
+    clientY: y,
+    button: 2,
+    cancelable: true,
+  });
 }
 
 describe('ContextMenu', () => {
@@ -45,7 +56,10 @@ describe('ContextMenu', () => {
     expect(notPrevented).toBe(false);
     const popup = screen.getByRole('menu', { name: 'Context menu' });
     expect(popup).toBeInTheDocument();
-    expect(document.querySelector('[data-dx-contextmenu-popup]')).toHaveStyle({ left: '100px', top: '120px' });
+    expect(document.querySelector('[data-dx-contextmenu-popup]')).toHaveStyle({
+      left: '100px',
+      top: '120px',
+    });
   });
 
   it('renders data items with nesting and disabled state', () => {
@@ -53,14 +67,20 @@ describe('ContextMenu', () => {
       <Harness
         options={{
           items: [
-            { text: 'File', children: [{ text: 'New' }, { text: 'Open', disabled: true }] },
+            {
+              text: 'File',
+              children: [{ text: 'New' }, { text: 'Open', disabled: true }],
+            },
             { text: 'Edit' },
           ],
         }}
       />
     );
     rightClick(screen.getByRole('button', { name: 'Right click me' }));
-    expect(screen.getByRole('menuitem', { name: 'File' })).toHaveAttribute('aria-haspopup', 'menu');
+    expect(screen.getByRole('menuitem', { name: 'File' })).toHaveAttribute(
+      'aria-haspopup',
+      'menu'
+    );
     expect(screen.getByRole('menuitem', { name: 'Edit' })).toBeInTheDocument();
   });
 
@@ -92,8 +112,12 @@ describe('ContextMenu', () => {
     );
     rightClick(screen.getByRole('button', { name: 'Right click me' }));
     await user.click(screen.getByRole('menuitem', { name: 'Save' }));
-    expect(onClick).toHaveBeenCalledWith(expect.objectContaining({ text: 'Save', value: 'save' }));
-    expect(screen.queryByRole('menu', { name: 'Context menu' })).not.toBeInTheDocument();
+    expect(onClick).toHaveBeenCalledWith(
+      expect.objectContaining({ text: 'Save', value: 'save' })
+    );
+    expect(
+      screen.queryByRole('menu', { name: 'Context menu' })
+    ).not.toBeInTheDocument();
   });
 
   it('renders custom content mode', () => {
@@ -133,26 +157,44 @@ describe('ContextMenu', () => {
     const trigger = screen.getByRole('button', { name: 'Right click me' });
     trigger.focus();
     rightClick(trigger);
-    expect(screen.getByRole('menu', { name: 'Context menu' })).toBeInTheDocument();
+    expect(
+      screen.getByRole('menu', { name: 'Context menu' })
+    ).toBeInTheDocument();
     await user.keyboard('{Escape}');
-    expect(screen.queryByRole('menu', { name: 'Context menu' })).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('menu', { name: 'Context menu' })
+    ).not.toBeInTheDocument();
     expect(trigger).toHaveFocus();
   });
 
   it('dismisses on outside pointerdown', () => {
     render(<Harness />);
     rightClick(screen.getByRole('button', { name: 'Right click me' }));
-    expect(screen.getByRole('menu', { name: 'Context menu' })).toBeInTheDocument();
+    expect(
+      screen.getByRole('menu', { name: 'Context menu' })
+    ).toBeInTheDocument();
     fireEvent.pointerDown(document.body);
-    expect(screen.queryByRole('menu', { name: 'Context menu' })).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('menu', { name: 'Context menu' })
+    ).not.toBeInTheDocument();
   });
 
   it('clamps to the viewport near the edge', () => {
     render(<Harness />);
-    rightClick(screen.getByRole('button', { name: 'Right click me' }), 5000, 5000);
-    const frame = document.querySelector('[data-dx-contextmenu-popup]') as HTMLElement;
-    expect(Number.parseFloat(frame.style.left)).toBeLessThanOrEqual(window.innerWidth);
-    expect(Number.parseFloat(frame.style.top)).toBeLessThanOrEqual(window.innerHeight);
+    rightClick(
+      screen.getByRole('button', { name: 'Right click me' }),
+      5000,
+      5000
+    );
+    const frame = document.querySelector(
+      '[data-dx-contextmenu-popup]'
+    ) as HTMLElement;
+    expect(Number.parseFloat(frame.style.left)).toBeLessThanOrEqual(
+      window.innerWidth
+    );
+    expect(Number.parseFloat(frame.style.top)).toBeLessThanOrEqual(
+      window.innerHeight
+    );
   });
 
   it('moves focus into the menu on open', () => {

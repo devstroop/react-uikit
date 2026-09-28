@@ -192,7 +192,9 @@
 }
 
 .submenu .trigger {
-  padding-left: calc(var(--dx-space-3) + var(--dx-panelmenu-level, 0) * var(--dx-space-3));
+  padding-left: calc(
+    var(--dx-space-3) + var(--dx-panelmenu-level, 0) * var(--dx-space-3)
+  );
 }
 
 /* Stacked display style: icon-over-text rail (Radzen IconAndTextStacked parity). */

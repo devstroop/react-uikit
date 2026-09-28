@@ -426,7 +426,10 @@ export type {
   MenuMatch,
 } from './components/Menu/Menu';
 
-export { ContextMenuProvider, useContextMenu } from './components/ContextMenu/ContextMenu';
+export {
+  ContextMenuProvider,
+  useContextMenu,
+} from './components/ContextMenu/ContextMenu';
 export type {
   ContextMenuApi,
   ContextMenuItem,

@@ -31,7 +31,10 @@ export type PanelMenuDisplayStyle = 'icon' | 'iconAndText' | 'stacked';
  * (collapsed branches hidden); server mounts collapsed branches on expand. */
 export type PanelMenuRenderMode = 'client' | 'server';
 
-export interface PanelMenuProps extends Omit<HTMLAttributes<HTMLElement>, 'onClick'> {
+export interface PanelMenuProps extends Omit<
+  HTMLAttributes<HTMLElement>,
+  'onClick'
+> {
   children: ReactNode;
   /** Allow multiple expanded items (default true). Radzen `Multiple` parity. */
   multiple?: boolean;
@@ -112,7 +115,11 @@ function pathMatches(path: string, match: PanelMenuMatch): boolean {
   return hash === norm;
 }
 
-function ItemIcon({ icon, iconColor, image }: Pick<PanelMenuItemProps, 'icon' | 'iconColor' | 'image' | 'imageAlt'>) {
+function ItemIcon({
+  icon,
+  iconColor,
+  image,
+}: Pick<PanelMenuItemProps, 'icon' | 'iconColor' | 'image' | 'imageAlt'>) {
   if (image) {
     return (
       <span className={styles.icon} aria-hidden="true">
@@ -122,7 +129,11 @@ function ItemIcon({ icon, iconColor, image }: Pick<PanelMenuItemProps, 'icon' | 
   }
   if (icon) {
     return (
-      <span className={styles.icon} aria-hidden="true" style={iconColor ? { color: iconColor } : undefined}>
+      <span
+        className={styles.icon}
+        aria-hidden="true"
+        style={iconColor ? { color: iconColor } : undefined}
+      >
         <Icon name={icon} size={16} />
       </span>
     );
@@ -130,17 +141,30 @@ function ItemIcon({ icon, iconColor, image }: Pick<PanelMenuItemProps, 'icon' | 
   return null;
 }
 
-function PanelMenuItemNode({ itemKey, ancestors, props }: { itemKey: string; ancestors: string[]; props: PanelMenuItemProps }) {
+function PanelMenuItemNode({
+  itemKey,
+  ancestors,
+  props,
+}: {
+  itemKey: string;
+  ancestors: string[];
+  props: PanelMenuItemProps;
+}) {
   const ctx = useContext(PanelMenuContext);
   if (!ctx) throw new Error('PanelMenuItem must be used inside <PanelMenu>');
   const { text, value, path, disabled } = props;
-  const childItems = useMemo(() => Children.toArray(props.children).filter(isValidElement), [props.children]);
+  const childItems = useMemo(
+    () => Children.toArray(props.children).filter(isValidElement),
+    [props.children]
+  );
   const hasChildren = childItems.length > 0;
   const isDisabled = !!disabled;
   const match = props.match ?? ctx.match;
 
   const expandedControlled = props.expanded !== undefined;
-  const [internalOpen, setInternalOpen] = useState(props.defaultExpanded ?? false);
+  const [internalOpen, setInternalOpen] = useState(
+    props.defaultExpanded ?? false
+  );
   const open = expandedControlled ? (props.expanded ?? false) : internalOpen;
   const setOpen = useCallback(
     (next: boolean) => {
@@ -159,10 +183,16 @@ function PanelMenuItemNode({ itemKey, ancestors, props }: { itemKey: string; anc
     // eslint-disable-next-line react-hooks/exhaustive-deps -- signal trigger only
   }, [ctx.collapseSignal]);
 
-  const selectedControlled = props.onSelectedChange !== undefined || props.selected !== undefined;
-  const [internalSelected, setInternalSelected] = useState(props.defaultSelected ?? false);
-  const urlSelected = !selectedControlled && path ? pathMatches(path, match) : false;
-  const selected = props.selected ?? (selectedControlled ? internalSelected : urlSelected || internalSelected);
+  const selectedControlled =
+    props.onSelectedChange !== undefined || props.selected !== undefined;
+  const [internalSelected, setInternalSelected] = useState(
+    props.defaultSelected ?? false
+  );
+  const urlSelected =
+    !selectedControlled && path ? pathMatches(path, match) : false;
+  const selected =
+    props.selected ??
+    (selectedControlled ? internalSelected : urlSelected || internalSelected);
 
   const [, forceHash] = useState(0);
   useEffect(() => {
@@ -237,14 +267,24 @@ function PanelMenuItemNode({ itemKey, ancestors, props }: { itemKey: string; anc
 
   const caret =
     hasChildren && ctx.showArrow ? (
-      <span className={[styles.caret, open ? styles.open : null].filter(Boolean).join(' ')} aria-hidden="true">
+      <span
+        className={[styles.caret, open ? styles.open : null]
+          .filter(Boolean)
+          .join(' ')}
+        aria-hidden="true"
+      >
         <Icon name="chevron-down" size={10} />
       </span>
     ) : null;
 
   const content = props.template ?? (
     <>
-      <ItemIcon icon={props.icon} iconColor={props.iconColor} image={props.image} imageAlt={props.imageAlt} />
+      <ItemIcon
+        icon={props.icon}
+        iconColor={props.iconColor}
+        image={props.image}
+        imageAlt={props.imageAlt}
+      />
       {ctx.displayStyle === 'icon' ? (
         <span className={styles.text} aria-label={text}>
           {props.icon || props.image ? null : text.slice(0, 1)}
@@ -258,7 +298,12 @@ function PanelMenuItemNode({ itemKey, ancestors, props }: { itemKey: string; anc
 
   const panelId = `${ctx.baseId}-panel-${itemKey}`;
   const triggerId = `${ctx.baseId}-trigger-${itemKey}`;
-  const triggerClass = [styles.trigger, isDisabled ? styles.disabled : null, open ? styles.expanded : null, selected ? styles.selected : null]
+  const triggerClass = [
+    styles.trigger,
+    isDisabled ? styles.disabled : null,
+    open ? styles.expanded : null,
+    selected ? styles.selected : null,
+  ]
     .filter(Boolean)
     .join(' ');
 
@@ -348,7 +393,9 @@ export function PanelMenuItem(props: PanelMenuItemProps) {
   // only type-checks standalone usage but always lives under panel-menu context.
   const ctx = useContext(PanelMenuContext);
   if (!ctx) throw new Error('PanelMenuItem must be used inside <PanelMenu>');
-  return <PanelMenuItemNode itemKey={props.text} ancestors={[]} props={props} />;
+  return (
+    <PanelMenuItemNode itemKey={props.text} ancestors={[]} props={props} />
+  );
 }
 
 export function PanelMenu({
@@ -367,7 +414,10 @@ export function PanelMenu({
   const [collapseSignal, setCollapseSignal] = useState(0);
   const collapseSkipRef = useRef<Set<string>>(new Set());
 
-  const emit = useCallback((args: PanelMenuItemEventArgs) => onClick?.(args), [onClick]);
+  const emit = useCallback(
+    (args: PanelMenuItemEventArgs) => onClick?.(args),
+    [onClick]
+  );
 
   const notifyOpened = useCallback(
     (id: string, ancestors: string[]) => {
@@ -380,7 +430,9 @@ export function PanelMenu({
 
   // Focus skips collapsed (hidden) branches and disabled items.
   const visibleFocusable = (root: HTMLElement): HTMLElement[] =>
-    Array.from(root.querySelectorAll<HTMLElement>('button, a[href], [role="menuitem"]')).filter(
+    Array.from(
+      root.querySelectorAll<HTMLElement>('button, a[href], [role="menuitem"]')
+    ).filter(
       (el) =>
         !el.hasAttribute('disabled') &&
         el.getAttribute('aria-disabled') !== 'true' &&
@@ -400,7 +452,10 @@ export function PanelMenu({
     } else if (event.key === 'Home' || event.key === 'End') {
       const focusable = visibleFocusable(event.currentTarget);
       event.preventDefault();
-      (event.key === 'Home' ? focusable[0] : focusable[focusable.length - 1])?.focus();
+      (event.key === 'Home'
+        ? focusable[0]
+        : focusable[focusable.length - 1]
+      )?.focus();
     }
   };
 
@@ -419,10 +474,23 @@ export function PanelMenu({
       notifyOpened,
       openAncestors: () => undefined,
     }),
-    [baseId, multiple, displayStyle, showArrow, renderMode, match, collapseSignal, emit, notifyOpened]
+    [
+      baseId,
+      multiple,
+      displayStyle,
+      showArrow,
+      renderMode,
+      match,
+      collapseSignal,
+      emit,
+      notifyOpened,
+    ]
   );
 
-  const topItems = useMemo(() => Children.toArray(children).filter(isValidElement), [children]);
+  const topItems = useMemo(
+    () => Children.toArray(children).filter(isValidElement),
+    [children]
+  );
 
   return (
     <nav

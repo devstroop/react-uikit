@@ -9,7 +9,12 @@ import {
   useState,
   type ReactNode,
 } from 'react';
-import { Menu, MenuItem, type MenuItemEventArgs, type MenuItemProps } from '../Menu/Menu';
+import {
+  Menu,
+  MenuItem,
+  type MenuItemEventArgs,
+  type MenuItemProps,
+} from '../Menu/Menu';
 import styles from './ContextMenu.module.css';
 
 export interface ContextMenuOpenOptions {
@@ -29,7 +34,10 @@ export interface ContextMenuOpenOptions {
 export interface ContextMenuApi {
   /** Open at the cursor: `open(event, options)` from an `onContextMenu`
    * handler. Prevents the native menu. */
-  open: (event: React.MouseEvent | MouseEvent, options: ContextMenuOpenOptions) => void;
+  open: (
+    event: React.MouseEvent | MouseEvent,
+    options: ContextMenuOpenOptions
+  ) => void;
   close: () => void;
   isOpen: boolean;
 }
@@ -38,7 +46,8 @@ const ContextMenuContext = createContext<ContextMenuApi | null>(null);
 
 export function useContextMenu(): ContextMenuApi {
   const api = useContext(ContextMenuContext);
-  if (!api) throw new Error('useContextMenu must be used inside <ContextMenuProvider>');
+  if (!api)
+    throw new Error('useContextMenu must be used inside <ContextMenuProvider>');
   return api;
 }
 
@@ -50,7 +59,10 @@ interface PopupState {
 }
 
 /** Data-mode item: `MenuItem` props with nestable data children. */
-export interface ContextMenuItem extends Omit<MenuItemProps, 'children' | 'onClick'> {
+export interface ContextMenuItem extends Omit<
+  MenuItemProps,
+  'children' | 'onClick'
+> {
   children?: ContextMenuItem[];
   onClick?: (args: MenuItemEventArgs) => unknown;
 }
@@ -87,7 +99,9 @@ function Popup({ state, onClose }: { state: PopupState; onClose: () => void }) {
   // Focus into the menu on open (Radzen openContextMenu parity).
   useEffect(() => {
     boxRef.current
-      ?.querySelector<HTMLElement>('[role="menuitem"]:not([aria-disabled="true"])')
+      ?.querySelector<HTMLElement>(
+        '[role="menuitem"]:not([aria-disabled="true"])'
+      )
       ?.focus();
   }, []);
 
@@ -136,11 +150,15 @@ export function ContextMenuProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
-  const open = useCallback((event: React.MouseEvent | MouseEvent, options: ContextMenuOpenOptions) => {
-    event.preventDefault();
-    const invoker = (event.currentTarget ?? event.target) as HTMLElement | null;
-    setPopup({ x: event.clientX, y: event.clientY, invoker, options });
-  }, []);
+  const open = useCallback(
+    (event: React.MouseEvent | MouseEvent, options: ContextMenuOpenOptions) => {
+      event.preventDefault();
+      const invoker = (event.currentTarget ??
+        event.target) as HTMLElement | null;
+      setPopup({ x: event.clientX, y: event.clientY, invoker, options });
+    },
+    []
+  );
 
   // Dismiss: outside pointer, Escape, viewport resize, route change
   // (Radzen closePopup / CloseMenu / OnNavigate parity).

@@ -6,7 +6,10 @@ import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi, beforeEach } from 'vitest';
 import { PanelMenu, PanelMenuItem } from './PanelMenu';
 
-function BasicPanel(props?: { onClick?: (args: { text: string }) => void; multiple?: boolean }) {
+function BasicPanel(props?: {
+  onClick?: (args: { text: string }) => void;
+  multiple?: boolean;
+}) {
   return (
     <PanelMenu onClick={props?.onClick} multiple={props?.multiple}>
       <PanelMenuItem text="Dashboard" icon="home" value="dash" />
@@ -31,7 +34,9 @@ beforeEach(() => {
 describe('PanelMenu', () => {
   it('renders nav landmark with ariaLabel', () => {
     render(<BasicPanel />);
-    expect(screen.getByRole('navigation', { name: 'Panel menu' })).toBeInTheDocument();
+    expect(
+      screen.getByRole('navigation', { name: 'Panel menu' })
+    ).toBeInTheDocument();
   });
 
   it('renders top-level triggers with aria-expanded false initially', () => {
@@ -95,8 +100,14 @@ describe('PanelMenu', () => {
     );
     await user.click(screen.getByRole('button', { name: 'A' }));
     await user.click(screen.getByRole('button', { name: 'B' }));
-    expect(screen.getByRole('button', { name: 'A' })).toHaveAttribute('aria-expanded', 'true');
-    expect(screen.getByRole('button', { name: 'B' })).toHaveAttribute('aria-expanded', 'true');
+    expect(screen.getByRole('button', { name: 'A' })).toHaveAttribute(
+      'aria-expanded',
+      'true'
+    );
+    expect(screen.getByRole('button', { name: 'B' })).toHaveAttribute(
+      'aria-expanded',
+      'true'
+    );
   });
 
   it('fires parent onClick before the item onClick for leaf items', async () => {
@@ -105,7 +116,11 @@ describe('PanelMenu', () => {
     render(
       <PanelMenu onClick={() => order.push('parent')}>
         <PanelMenuItem text="Settings">
-          <PanelMenuItem text="Profile" value="profile" onClick={() => order.push('child')} />
+          <PanelMenuItem
+            text="Profile"
+            value="profile"
+            onClick={() => order.push('child')}
+          />
         </PanelMenuItem>
       </PanelMenu>
     );
@@ -120,7 +135,9 @@ describe('PanelMenu', () => {
     render(<BasicPanel onClick={onClick} />);
     await user.click(screen.getByRole('button', { name: /Settings/ }));
     await user.click(screen.getByText('Profile'));
-    expect(onClick).toHaveBeenCalledWith(expect.objectContaining({ text: 'Profile', value: 'profile' }));
+    expect(onClick).toHaveBeenCalledWith(
+      expect.objectContaining({ text: 'Profile', value: 'profile' })
+    );
   });
 
   it('does not fire for disabled leaf', async () => {
@@ -147,7 +164,12 @@ describe('PanelMenu', () => {
     const onClick = vi.fn();
     render(
       <PanelMenu onClick={onClick}>
-        <PanelMenuItem text="Buttons" path="#/buttons" icon="home" target="_blank" />
+        <PanelMenuItem
+          text="Buttons"
+          path="#/buttons"
+          icon="home"
+          target="_blank"
+        />
       </PanelMenu>
     );
     const link = screen.getByRole('link', { name: /Buttons/ });
@@ -155,7 +177,9 @@ describe('PanelMenu', () => {
     expect(link).toHaveAttribute('target', '_blank');
     // Anchor+emit: the click still emits (jsdom does not perform navigation).
     await user.click(link);
-    expect(onClick).toHaveBeenCalledWith(expect.objectContaining({ text: 'Buttons', path: '#/buttons' }));
+    expect(onClick).toHaveBeenCalledWith(
+      expect.objectContaining({ text: 'Buttons', path: '#/buttons' })
+    );
   });
 
   it('returning false from onClick cancels anchor navigation', () => {
@@ -165,7 +189,9 @@ describe('PanelMenu', () => {
       </PanelMenu>
     );
     // fireEvent returns false when the event was default-prevented.
-    expect(fireEvent.click(screen.getByRole('link', { name: /Buttons/ }))).toBe(false);
+    expect(fireEvent.click(screen.getByRole('link', { name: /Buttons/ }))).toBe(
+      false
+    );
   });
 
   it('syncs Selected from the URL and marks aria-current', () => {
@@ -176,8 +202,13 @@ describe('PanelMenu', () => {
         <PanelMenuItem text="Other" path="#/other" />
       </PanelMenu>
     );
-    expect(screen.getByRole('link', { name: /Buttons/ })).toHaveAttribute('aria-current', 'page');
-    expect(screen.getByRole('link', { name: /Other/ })).not.toHaveAttribute('aria-current');
+    expect(screen.getByRole('link', { name: /Buttons/ })).toHaveAttribute(
+      'aria-current',
+      'page'
+    );
+    expect(screen.getByRole('link', { name: /Other/ })).not.toHaveAttribute(
+      'aria-current'
+    );
   });
 
   it('expands ancestors of a URL-selected deep item', () => {
@@ -191,7 +222,10 @@ describe('PanelMenu', () => {
         </PanelMenuItem>
       </PanelMenu>
     );
-    expect(screen.getByRole('button', { name: /Settings/ })).toHaveAttribute('aria-expanded', 'true');
+    expect(screen.getByRole('button', { name: /Settings/ })).toHaveAttribute(
+      'aria-expanded',
+      'true'
+    );
     expect(screen.getByRole('link', { name: 'Deep' })).toBeInTheDocument();
   });
 
@@ -205,7 +239,10 @@ describe('PanelMenu', () => {
           <PanelMenuItem
             text="Settings"
             expanded={expanded}
-            onExpandedChange={(v) => { onExpandedChange(v); setExpanded(v); }}
+            onExpandedChange={(v) => {
+              onExpandedChange(v);
+              setExpanded(v);
+            }}
           >
             <PanelMenuItem text="Profile" />
           </PanelMenuItem>
@@ -233,7 +270,9 @@ describe('PanelMenu', () => {
               key={m.text}
               text={m.text}
               expanded={expanded[i]}
-              onExpandedChange={(v) => setExpanded((prev) => prev.map((e, j) => (j === i ? v : e)))}
+              onExpandedChange={(v) =>
+                setExpanded((prev) => prev.map((e, j) => (j === i ? v : e)))
+              }
             >
               {m.items.map((s) => (
                 <PanelMenuItem key={s} text={s} />
@@ -278,7 +317,10 @@ describe('PanelMenu', () => {
     // Regression guard: author `display: flex` beats the UA `[hidden]`
     // style, so collapsed client-mode branches need an explicit rule —
     // otherwise aria-expanded flips while everything stays visible.
-    const css = readFileSync(join(import.meta.dirname, 'PanelMenu.module.css'), 'utf8');
+    const css = readFileSync(
+      join(import.meta.dirname, 'PanelMenu.module.css'),
+      'utf8'
+    );
     expect(css).toMatch(/\.submenu\[hidden\]\s*\{[^}]*display\s*:\s*none/);
   });
 
@@ -290,12 +332,16 @@ describe('PanelMenu', () => {
         </PanelMenuItem>
       </PanelMenu>
     );
-    expect(screen.getByRole('button', { name: /Settings/ }).querySelector('svg')).not.toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /Settings/ }).querySelector('svg')
+    ).not.toBeInTheDocument();
   });
 
   it('showArrow true shows caret', () => {
     render(<BasicPanel />);
-    expect(screen.getByRole('button', { name: /Settings/ }).querySelector('svg')).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /Settings/ }).querySelector('svg')
+    ).toBeInTheDocument();
   });
 
   it('displayStyle icon and stacked apply layout classes', () => {
@@ -317,7 +363,9 @@ describe('PanelMenu', () => {
     const user = userEvent.setup();
     render(<BasicPanel />);
     await user.click(screen.getByRole('button', { name: /Settings/ }));
-    const profile = screen.getByText('Profile').closest('[data-dx-panelmenu-item]');
+    const profile = screen
+      .getByText('Profile')
+      .closest('[data-dx-panelmenu-item]');
     expect(profile).toHaveAttribute('data-level', '1');
     expect(profile?.getAttribute('style')).toContain('--dx-panelmenu-level');
   });
@@ -343,7 +391,9 @@ describe('PanelMenu', () => {
     );
     screen.getByRole('button', { name: 'Leaf' }).focus();
     await user.keyboard(' ');
-    expect(onClick).toHaveBeenCalledWith(expect.objectContaining({ text: 'Leaf' }));
+    expect(onClick).toHaveBeenCalledWith(
+      expect.objectContaining({ text: 'Leaf' })
+    );
   });
 
   it('keyboard ArrowDown/Up/Home/End moves focus', async () => {
@@ -405,20 +455,29 @@ describe('PanelMenu', () => {
       <PanelMenu>
         <PanelMenuItem text="Dashboard" icon="home" iconColor="#00ff00" />
         <PanelMenuItem text="Pic" image="/pic.png" />
-        <PanelMenuItem text="Custom" template={<span data-testid="ptpl">P</span>} />
+        <PanelMenuItem
+          text="Custom"
+          template={<span data-testid="ptpl">P</span>}
+        />
       </PanelMenu>
     );
     expect(screen.getByTestId('ptpl')).toBeInTheDocument();
     expect(container.querySelector('img[src="/pic.png"]')).toBeInTheDocument();
     const dash = screen.getByRole('button', { name: /Dashboard/ });
     expect(dash.querySelector('svg')).toBeInTheDocument();
-    expect(dash.querySelector('[aria-hidden="true"]')).toHaveStyle({ color: '#00ff00' });
+    expect(dash.querySelector('[aria-hidden="true"]')).toHaveStyle({
+      color: '#00ff00',
+    });
   });
 
   it('forwards rest props (style, mouse handlers) to the nav element', () => {
     const onMouseOver = vi.fn();
     render(
-      <PanelMenu data-testid="pm" style={{ width: 300 }} onMouseOver={onMouseOver}>
+      <PanelMenu
+        data-testid="pm"
+        style={{ width: 300 }}
+        onMouseOver={onMouseOver}
+      >
         <PanelMenuItem text="A" />
       </PanelMenu>
     );

@@ -24,7 +24,9 @@ beforeEach(() => {
 describe('Menu', () => {
   it('renders nav landmark with ariaLabel and menubar role', () => {
     render(<BasicMenu />);
-    expect(screen.getByRole('navigation', { name: 'Main menu' })).toBeInTheDocument();
+    expect(
+      screen.getByRole('navigation', { name: 'Main menu' })
+    ).toBeInTheDocument();
     expect(screen.getByRole('menubar')).toBeInTheDocument();
   });
 
@@ -34,7 +36,9 @@ describe('Menu', () => {
         <MenuItem text="Home" />
       </Menu>
     );
-    expect(screen.getByRole('navigation', { name: 'Menu' })).toBeInTheDocument();
+    expect(
+      screen.getByRole('navigation', { name: 'Menu' })
+    ).toBeInTheDocument();
   });
 
   it('renders as a vertical context menu with isContextMenu', () => {
@@ -71,7 +75,11 @@ describe('Menu', () => {
     const onClick = vi.fn();
     render(<BasicMenu onClick={onClick} />);
     await user.click(screen.getByRole('menuitem', { name: /Home/ }));
-    expect(onClick).toHaveBeenCalledWith({ text: 'Home', value: 'home', path: '#/home' });
+    expect(onClick).toHaveBeenCalledWith({
+      text: 'Home',
+      value: 'home',
+      path: '#/home',
+    });
   });
 
   it('fires parent onClick before the item onClick', async () => {
@@ -106,7 +114,9 @@ describe('Menu', () => {
     expect(screen.getByText('A')).toBeInTheDocument();
     await user.click(products);
     expect(products).toHaveAttribute('aria-expanded', 'false');
-    expect(screen.queryByRole('menu', { name: 'Products' })).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('menu', { name: 'Products' })
+    ).not.toBeInTheDocument();
   });
 
   it('opens submenu on hover when clickToOpen is false', () => {
@@ -156,7 +166,9 @@ describe('Menu', () => {
     const b = screen.getByRole('menuitem', { name: 'B' });
     expect(b).toHaveAttribute('aria-disabled', 'true');
     fireEvent.click(a);
-    expect(onClick).toHaveBeenCalledWith(expect.objectContaining({ text: 'A' }));
+    expect(onClick).toHaveBeenCalledWith(
+      expect.objectContaining({ text: 'A' })
+    );
     await user.click(screen.getByRole('menuitem', { name: /Products/ }));
     fireEvent.click(await screen.findByRole('menuitem', { name: 'B' }));
     expect(onClick).toHaveBeenCalledTimes(1);
@@ -177,11 +189,17 @@ describe('Menu', () => {
     );
     await user.click(screen.getByRole('menuitem', { name: 'More' }));
     const submenu = screen.getByRole('menu', { name: 'More' });
-    await user.click(within(submenu).getByRole('menuitem', { name: 'More items' }));
+    await user.click(
+      within(submenu).getByRole('menuitem', { name: 'More items' })
+    );
     const nested = screen.getByRole('menu', { name: 'More items' });
     expect(nested.className).toMatch(/flyout/);
-    await user.click(within(nested).getByRole('menuitem', { name: 'More sub items' }));
-    expect(screen.getByRole('menu', { name: 'More sub items' })).toBeInTheDocument();
+    await user.click(
+      within(nested).getByRole('menuitem', { name: 'More sub items' })
+    );
+    expect(
+      screen.getByRole('menu', { name: 'More sub items' })
+    ).toBeInTheDocument();
     expect(screen.getByRole('menuitem', { name: 'Item1' })).toBeInTheDocument();
   });
 
@@ -192,7 +210,14 @@ describe('Menu', () => {
       const [open, setOpen] = useState(false);
       return (
         <Menu>
-          <MenuItem text="Products" open={open} onOpenChange={(v) => { onOpenChange(v); setOpen(v); }}>
+          <MenuItem
+            text="Products"
+            open={open}
+            onOpenChange={(v) => {
+              onOpenChange(v);
+              setOpen(v);
+            }}
+          >
             <MenuItem text="A" />
           </MenuItem>
         </Menu>
@@ -217,10 +242,14 @@ describe('Menu', () => {
     expect(link.tagName).toBe('A');
     expect(link).toHaveAttribute('href', '#/buttons');
     expect(link).toHaveAttribute('target', '_blank');
-    expect(screen.getByRole('menuitem', { name: 'NoPath' }).tagName).toBe('BUTTON');
+    expect(screen.getByRole('menuitem', { name: 'NoPath' }).tagName).toBe(
+      'BUTTON'
+    );
     // Anchor+emit: the click still emits (jsdom does not perform navigation).
     await user.click(link);
-    expect(onClick).toHaveBeenCalledWith(expect.objectContaining({ text: 'Buttons', path: '#/buttons' }));
+    expect(onClick).toHaveBeenCalledWith(
+      expect.objectContaining({ text: 'Buttons', path: '#/buttons' })
+    );
   });
 
   it('returning false from onClick cancels anchor navigation', () => {
@@ -230,7 +259,9 @@ describe('Menu', () => {
       </Menu>
     );
     // fireEvent returns false when the event was default-prevented.
-    expect(fireEvent.click(screen.getByRole('menuitem', { name: 'Buttons' }))).toBe(false);
+    expect(
+      fireEvent.click(screen.getByRole('menuitem', { name: 'Buttons' }))
+    ).toBe(false);
   });
 
   it('marks aria-current when the hash matches path', () => {
@@ -241,8 +272,13 @@ describe('Menu', () => {
         <MenuItem text="Other" path="#/other" />
       </Menu>
     );
-    expect(screen.getByRole('menuitem', { name: 'Buttons' })).toHaveAttribute('aria-current', 'page');
-    expect(screen.getByRole('menuitem', { name: 'Other' })).not.toHaveAttribute('aria-current');
+    expect(screen.getByRole('menuitem', { name: 'Buttons' })).toHaveAttribute(
+      'aria-current',
+      'page'
+    );
+    expect(screen.getByRole('menuitem', { name: 'Other' })).not.toHaveAttribute(
+      'aria-current'
+    );
   });
 
   it('renders icon, iconColor, image and template', () => {
@@ -256,7 +292,9 @@ describe('Menu', () => {
     expect(screen.getByTestId('tpl')).toBeInTheDocument();
     expect(container.querySelector('img[src="/pic.png"]')).toBeInTheDocument();
     expect(container.querySelector('svg')).toBeInTheDocument();
-    const iconWrap = screen.getByRole('menuitem', { name: /Home/ }).querySelector('[aria-hidden="true"]');
+    const iconWrap = screen
+      .getByRole('menuitem', { name: /Home/ })
+      .querySelector('[aria-hidden="true"]');
     expect(iconWrap).toHaveStyle({ color: '#ff0000' });
   });
 
@@ -308,7 +346,9 @@ describe('Menu', () => {
     const products = screen.getByRole('menuitem', { name: /Products/ });
     await user.click(products);
     await user.keyboard('{Escape}');
-    expect(screen.queryByRole('menu', { name: 'Products' })).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('menu', { name: 'Products' })
+    ).not.toBeInTheDocument();
     expect(products).toHaveFocus();
     expect(onClose).toHaveBeenCalled();
   });
@@ -352,7 +392,9 @@ describe('Menu', () => {
     await user.click(screen.getByRole('menuitem', { name: /Products/ }));
     expect(screen.getByRole('menu', { name: 'Products' })).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: 'outside' }));
-    expect(screen.queryByRole('menu', { name: 'Products' })).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('menu', { name: 'Products' })
+    ).not.toBeInTheDocument();
   });
 
   it('renders non-item children (separators) verbatim', () => {

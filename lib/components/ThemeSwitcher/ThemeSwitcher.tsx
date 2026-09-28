@@ -62,11 +62,7 @@ export function ThemeSwitcher({
   // initial default. Absent all three the OS is followed and nothing
   // is written, so the stylesheet fallback stays in charge.
   const applicable =
-    value ??
-    internal ??
-    readStored(storageKey) ??
-    defaultValue ??
-    'system';
+    value ?? internal ?? readStored(storageKey) ?? defaultValue ?? 'system';
   const effective =
     applicable === 'system' ? (systemDark ? 'dark' : 'light') : applicable;
 

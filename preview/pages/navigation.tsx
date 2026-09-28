@@ -92,8 +92,10 @@ function MenuDemos() {
   const [events, setEvents] = useState<string[]>([]);
   const [flyout, setFlyout] = useState(false);
   const [clickToOpen, setClickToOpen] = useState(true);
-  const logParent = (text: string) => setEvents((prev) => [...prev, `${text} clicked from parent`]);
-  const logChild = (text: string) => setEvents((prev) => [...prev, `${text} from child clicked`]);
+  const logParent = (text: string) =>
+    setEvents((prev) => [...prev, `${text} clicked from parent`]);
+  const logChild = (text: string) =>
+    setEvents((prev) => [...prev, `${text} from child clicked`]);
 
   return (
     <DemoPage
@@ -110,7 +112,12 @@ function MenuDemos() {
                 <MenuItem text="General" icon="home">
                   <MenuItem text="Buttons" path="#/button" icon="plus" />
                   <MenuItem text="Menu" path="#/menu" icon="menu" disabled />
-                  <MenuItem text="ChildClick" icon="file" onClick={(a) => logChild(a.text)} disabled />
+                  <MenuItem
+                    text="ChildClick"
+                    icon="file"
+                    onClick={(a) => logChild(a.text)}
+                    disabled
+                  />
                   <MenuItem text="Dialog" path="#/dialog" icon="copy" />
                 </MenuItem>
                 <MenuItem text="Inputs" icon="settings" disabled>
@@ -129,14 +136,23 @@ function MenuDemos() {
         {
           id: 'menu-modes',
           title: 'Open modes',
-          description: 'Flyout cascades nested submenus sideways; click-to-open off opens on hover.',
+          description:
+            'Flyout cascades nested submenus sideways; click-to-open off opens on hover.',
           cardStyle: { overflow: 'visible' },
           content: (
             <>
               <div style={{ display: 'flex', gap: 16, marginBottom: 12 }}>
-                <Checkbox id="menu-flyout" checked={flyout} onChange={(e) => setFlyout(e.target.checked)} />
+                <Checkbox
+                  id="menu-flyout"
+                  checked={flyout}
+                  onChange={(e) => setFlyout(e.target.checked)}
+                />
                 <label htmlFor="menu-flyout">Flyout nested submenus</label>
-                <Checkbox id="menu-click" checked={clickToOpen} onChange={(e) => setClickToOpen(e.target.checked)} />
+                <Checkbox
+                  id="menu-click"
+                  checked={clickToOpen}
+                  onChange={(e) => setClickToOpen(e.target.checked)}
+                />
                 <label htmlFor="menu-click">Click to open</label>
               </div>
               <Menu flyout={flyout} clickToOpen={clickToOpen}>
@@ -198,10 +214,13 @@ function MenuDemos() {
 function PanelMenuDemos() {
   const [events, setEvents] = useState<string[]>([]);
   const [multiple, setMultiple] = useState(true);
-  const [displayStyle, setDisplayStyle] = useState<PanelMenuDisplayStyle>('iconAndText');
+  const [displayStyle, setDisplayStyle] =
+    useState<PanelMenuDisplayStyle>('iconAndText');
   const [showArrow, setShowArrow] = useState(true);
-  const logParent = (text: string) => setEvents((prev) => [...prev, `${text} clicked from parent`]);
-  const logChild = (text: string) => setEvents((prev) => [...prev, `${text} from child clicked`]);
+  const logParent = (text: string) =>
+    setEvents((prev) => [...prev, `${text} clicked from parent`]);
+  const logChild = (text: string) =>
+    setEvents((prev) => [...prev, `${text} from child clicked`]);
 
   return (
     <DemoPage
@@ -213,10 +232,17 @@ function PanelMenuDemos() {
           title: 'Basic with multiple toggle',
           content: (
             <>
-              <Checkbox id="panelmenu-multiple" checked={multiple} onChange={(e) => setMultiple(e.target.checked)} />
+              <Checkbox
+                id="panelmenu-multiple"
+                checked={multiple}
+                onChange={(e) => setMultiple(e.target.checked)}
+              />
               <label htmlFor="panelmenu-multiple">Allow multiple expand</label>
               <div style={{ width: 300, marginTop: 8 }}>
-                <PanelMenu onClick={(a) => logParent(a.text)} multiple={multiple}>
+                <PanelMenu
+                  onClick={(a) => logParent(a.text)}
+                  multiple={multiple}
+                >
                   <PanelMenuItem text="General" icon="home">
                     <PanelMenuItem text="Buttons" path="#/button" icon="plus" />
                     <PanelMenuItem text="Menu" path="#/menu" icon="menu" />
@@ -227,12 +253,24 @@ function PanelMenuDemos() {
                     <PanelMenuItem text="TextBox" path="#/textbox" />
                   </PanelMenuItem>
                   <PanelMenuItem text="More">
-                    <PanelMenuItem text="Item1" onClick={(a) => logChild(a.text)} />
-                    <PanelMenuItem text="Item2" onClick={(a) => logChild(a.text)} />
+                    <PanelMenuItem
+                      text="Item1"
+                      onClick={(a) => logChild(a.text)}
+                    />
+                    <PanelMenuItem
+                      text="Item2"
+                      onClick={(a) => logChild(a.text)}
+                    />
                     <PanelMenuItem text="More items">
                       <PanelMenuItem text="More sub items">
-                        <PanelMenuItem text="Item3" onClick={(a) => logChild(a.text)} />
-                        <PanelMenuItem text="Item4" onClick={(a) => logChild(a.text)} />
+                        <PanelMenuItem
+                          text="Item3"
+                          onClick={(a) => logChild(a.text)}
+                        />
+                        <PanelMenuItem
+                          text="Item4"
+                          onClick={(a) => logChild(a.text)}
+                        />
                       </PanelMenuItem>
                     </PanelMenuItem>
                   </PanelMenuItem>
@@ -246,10 +284,18 @@ function PanelMenuDemos() {
         {
           id: 'panelmenu-display',
           title: 'Display styles',
-          description: 'Icon, icon-and-text, and stacked rail with optional arrow.',
+          description:
+            'Icon, icon-and-text, and stacked rail with optional arrow.',
           content: (
             <>
-              <div style={{ display: 'flex', gap: 16, marginBottom: 12, alignItems: 'center' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  gap: 16,
+                  marginBottom: 12,
+                  alignItems: 'center',
+                }}
+              >
                 <Selectbar
                   aria-label="Display style"
                   options={[
@@ -259,14 +305,23 @@ function PanelMenuDemos() {
                   ]}
                   value={displayStyle}
                   onChange={(v) => {
-                    if (typeof v === 'string') setDisplayStyle(v as PanelMenuDisplayStyle);
+                    if (typeof v === 'string')
+                      setDisplayStyle(v as PanelMenuDisplayStyle);
                   }}
                 />
-                <Checkbox id="panelmenu-arrow" checked={showArrow} onChange={(e) => setShowArrow(e.target.checked)} />
+                <Checkbox
+                  id="panelmenu-arrow"
+                  checked={showArrow}
+                  onChange={(e) => setShowArrow(e.target.checked)}
+                />
                 <label htmlFor="panelmenu-arrow">Show arrow</label>
               </div>
               <div style={{ width: 300 }}>
-                <PanelMenu displayStyle={displayStyle} showArrow={showArrow} multiple={false}>
+                <PanelMenu
+                  displayStyle={displayStyle}
+                  showArrow={showArrow}
+                  multiple={false}
+                >
                   <PanelMenuItem text="General" icon="home">
                     <PanelMenuItem text="Buttons" path="#/button" icon="plus" />
                     <PanelMenuItem text="Menu" path="#/menu" icon="menu" />
@@ -286,7 +341,11 @@ function PanelMenuDemos() {
           content: (
             <div style={{ width: '10rem' }}>
               <PanelMenu displayStyle="stacked" multiple={false}>
-                <PanelMenuItem text="Resources" icon="folder" path="#/resources" />
+                <PanelMenuItem
+                  text="Resources"
+                  icon="folder"
+                  path="#/resources"
+                />
                 <PanelMenuItem text="Console" icon="file" path="#/console" />
                 <PanelMenuItem text="Logs" icon="copy" path="#/logs" />
               </PanelMenu>
