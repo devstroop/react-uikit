@@ -65,8 +65,12 @@ the built-in set or `set:glyph` for any bundled collection,
 
 ### Buttons
 
-`Button` (variant `primary|secondary|ghost|danger|success|info`, size
-`xs..xl`, `fullWidth`, `iconOnly`) · `Togglebutton` · `Splitbutton` ·
+`Button` (variant `filled|flat|outlined|text`, `severity` × `shade`
+axes, size `xs..xl`, `fullWidth`, `iconOnly`, `loading`, `visible`) ·
+`Togglebutton` (Button parity + `pressed`/`defaultPressed` and the
+Radzen toggle axis `toggleVariant`/`toggleSeverity`/`toggleShade`/
+`toggleContent`) · `Splitbutton` (Button-rendered halves, `items` menu
+with `icon`, `loading`/`fullWidth`/`openAriaLabel`) ·
 `FabMenu`
 
 ### Forms
@@ -163,8 +167,8 @@ dark themes:
 | `--dx-{hue}-darker-color`    | 30% black mix                                                                                                                                        |
 | `--dx-on-{hue}-{step}-color` | Foreground for that step (`var()` alias, drift-proof: pale steps → darker ink, dark steps → light ink, near-white/-black hues → opposite body token) |
 
-`Button`, `Badge`, `Alert`, `Progress`, and `Splitbutton` consume these through their `shade`
-prop (`lighter | light | dark | darker`) on every variant — no `brightness()` filters. Pale
+`Button`, `Badge`, `Alert`, `Progress`, `Splitbutton`, and `Togglebutton`
+consume these through their `shade` prop (`lighter | light | dark | darker`) on every variant — no `brightness()` filters. Pale
 filled steps pair with dark text automatically; lighter/light `text`-variant steps suit dark
 surfaces. Hover states fall back to the base-hue hover token. Values are M3 approximations
 (AA-unverified); keep the three theme blocks (`:root`, `:root[data-theme="dark"]`, OS fallback)

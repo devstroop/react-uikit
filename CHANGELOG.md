@@ -6,6 +6,45 @@ Versioning follows the release flow in `docs/DEVELOPMENT_STRATEGY.md`
 
 ## [Unreleased] — toward 2.0.0
 
+### Changed — `Togglebutton` rebuilt on `Button` (Radzen toggle axis)
+
+The toggle rendered its own button chrome (bespoke CSS with a bare
+`1px` border and an unconditional primary fill when pressed) and
+dropped any consumer `onClick` to spread order. It now renders
+`Button`, so the whole Button surface applies — `variant`, `severity`,
+`shade`, `size`, `fullWidth`, `iconOnly`, `loading`, `visible`,
+`dx-ripple` — and adds the Radzen toggle axis: `toggleVariant`,
+`toggleSeverity` (default `primary`, like Radzen's
+`ToggleButtonStyle`), and `toggleShade` (default `darker`, like
+`ToggleShade`) replace the base axis while pressed, and
+`toggleContent` swaps the content while pressed (`ToggleIcon`
+parity). Pressed renders a 10% state layer (`rz-state-active`
+parity); `aria-pressed` and the merged `onChange`/`onClick` handlers
+are unchanged. Visual change: the default look now follows Button's
+axis (released = `filled`/`primary`, pressed = primary `darker` +
+state layer) instead of the bespoke outlined-box-plus-fill.
+
+### Changed — `Splitbutton` halves now render `Button`
+
+Both halves previously carried a ~350-line duplicate of Button's
+variant/severity/shade CSS that drifted from the source (e.g. a
+different light/dark shade rule, a divergent shade resolver). Both
+now render `Button`, so classes, shades, focus rings, and hover
+behavior are the shared implementation, with only the "glue" (seam
+overlap, radius truncation, pair-level shadow handling) left in the
+component stylesheet. Added: `loading` (spinner + `aria-busy` on the
+action, both halves disable), `visible`, `fullWidth`, `icon` on
+`SplitbuttonItem` (Radzen `SplitButtonItem.Icon` parity), ArrowUp
+opens the menu, and the root forwards a ref. An open menu now also
+closes when the control becomes busy (`loading`/`disabled`), when
+`visible` turns false, and when the action button is clicked — it can
+no longer stay stranded open with `aria-expanded` stuck true.
+**`aria-label` moved**:
+it now names the _action_ button (it used to land on the open menu;
+Radzen `ButtonAriaLabel` parity) — the new `openAriaLabel` (default
+`More actions`, Radzen `OpenAriaLabel` parity) names both the caret
+and the menu.
+
 ### Changed — `ThemeSwitcher` is now the theme picker (breaking)
 
 It picked light/dark before; it now renders a dropdown of theme names —
