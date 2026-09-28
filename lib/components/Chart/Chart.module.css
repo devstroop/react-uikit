@@ -37,6 +37,13 @@
   font-weight: var(--dx-font-weight-medium);
 }
 
+.gaugeValue {
+  fill: var(--dx-text-color);
+  font-family: var(--dx-font-sans);
+  font-size: 1.35rem;
+  font-weight: var(--dx-font-weight-bold, 700);
+}
+
 .legend {
   display: flex;
   flex-wrap: wrap;
