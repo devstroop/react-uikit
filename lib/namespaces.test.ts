@@ -37,6 +37,7 @@ const SCOPE = [
   'Pager',
   'Badge',
   'Splitbutton',
+  'Togglebutton',
   'Selectbar',
 ] as const;
 
@@ -69,9 +70,9 @@ describe('component namespaces (Radzen parity pilot)', () => {
     expect(css('Card')).toContain(
       'border: var(--dx-outlined-border-width) solid var(--dx-border-color);'
     );
-    expect(css('Splitbutton')).toContain(
-      'border-width: var(--dx-outlined-border-width);'
-    );
+    // Splitbutton's halves render Button, so the outlined width rule
+    // lives in Button.module.css (covered above), not in Splitbutton.
+    expect(css('Splitbutton')).not.toContain('--split-');
   });
 
   it('keeps no bare border/opacity/focus-ring literals in the pilot scope', () => {
