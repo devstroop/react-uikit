@@ -2,7 +2,7 @@
 
 All notable changes to `@devstroop/react-uikit` are documented here.
 Versioning follows the release flow in `docs/DEVELOPMENT_STRATEGY.md`
-(`develop` → `master` release PR, tag `vX.Y.Z`).
+(`develop` → `main` release PR, tag `vX.Y.Z`).
 
 ## [Unreleased] — toward 2.0.0
 
