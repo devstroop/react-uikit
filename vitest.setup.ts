@@ -67,6 +67,42 @@ beforeAll(() => {
   }
 });
 
+beforeAll(() => {
+  // Node >=24 ships an experimental globalThis.localStorage that only
+  // works with --localstorage-file; in the jsdom env window ===
+  // globalThis, so that broken stub shadows jsdom's Storage and bare
+  // localStorage access comes back undefined. Install an in-memory
+  // fallback so tests behave the same on any Node version (no-op where
+  // jsdom's storage is intact, e.g. CI's pinned Node 22).
+  if (typeof localStorage !== 'undefined') return;
+  const store = new Map<string, string>();
+  const memory: Storage = {
+    get length() {
+      return store.size;
+    },
+    clear() {
+      store.clear();
+    },
+    getItem(key: string) {
+      return store.get(key) ?? null;
+    },
+    key(index: number) {
+      return [...store.keys()][index] ?? null;
+    },
+    removeItem(key: string) {
+      store.delete(key);
+    },
+    setItem(key: string, value: string) {
+      store.set(key, String(value));
+    },
+  };
+  Object.defineProperty(globalThis, 'localStorage', {
+    value: memory,
+    configurable: true,
+    writable: true,
+  });
+});
+
 afterEach(() => {
   cleanup();
 });
