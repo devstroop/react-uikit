@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import {
+  applyGridState,
   Barcode,
   Chart,
   DataFilter,
@@ -14,6 +16,7 @@ import {
   Timeline,
   Tree,
 } from '../../lib/main';
+import type { GridRange } from '../../lib/main';
 import { DemoPage } from './demo-page';
 
 type Person = { id: string; name: string; zone: string };
@@ -22,6 +25,77 @@ const PEOPLE: Person[] = [
   { id: 'a', name: 'Ada', zone: 'North' },
   { id: 'b', name: 'Grace', zone: 'South' },
 ];
+
+type Route = { id: string; name: string; zone: string; amount: number };
+
+const ZONES = ['North', 'South', 'East', 'West'];
+
+const ROUTES: Route[] = Array.from({ length: 500 }, (_, i) => ({
+  id: `r${i}`,
+  name: `Route ${i}`,
+  zone: ZONES[i % ZONES.length] as string,
+  amount: (i * 7) % 250,
+}));
+
+const ROUTE_COLUMNS = [
+  { property: 'name', title: 'Name', sortable: true },
+  { property: 'zone', title: 'Zone', sortable: true },
+  {
+    property: 'amount',
+    title: 'Amount',
+    align: 'right' as const,
+    sortable: true,
+  },
+];
+
+/**
+ * Server-mode demo: an in-memory stand-in applies the requested range
+ * exactly the way a backend would.
+ */
+function ServerGridDemo() {
+  const [range, setRange] = useState<GridRange | null>(null);
+  const [rows, setRows] = useState<Route[]>(() => ROUTES.slice(0, 10));
+  const [total, setTotal] = useState(ROUTES.length);
+
+  const handleRange = (next: GridRange) => {
+    setRange(next);
+    const view = applyGridState(ROUTES, {
+      sorts: next.sorts,
+      filters: new Map(
+        next.filters.map((f) => [
+          f.property,
+          { operator: f.operator, value: f.value },
+        ])
+      ),
+      pageNumber: next.pageNumber,
+      pageSize: next.pageSize,
+    });
+    setRows(view.items);
+    setTotal(view.total);
+  };
+
+  return (
+    <>
+      <DataGrid<Route>
+        columns={ROUTE_COLUMNS}
+        rows={rows}
+        rowKey={(r) => r.id}
+        serverMode
+        totalCount={total}
+        onRangeChange={handleRange}
+        allowSorting
+        allowFiltering
+        allowPaging
+        pageSize={10}
+      />
+      <Text textStyle="Caption" className="dx-mt-2">
+        {range
+          ? `Requested rows ${range.start}–${range.start + range.count - 1} of ${total} · sorts: ${range.sorts.map((s) => `${s.property} ${s.sortOrder}`).join(', ') || 'none'}`
+          : 'No range requested yet'}
+      </Text>
+    </>
+  );
+}
 
 const SALES = [
   { zone: 'North', amount: 120 },
@@ -52,6 +126,58 @@ export function DataDemos({ slug }: { slug: string }) {
                   pageSize={10}
                 />
               ),
+            },
+            {
+              id: 'datagrid-features',
+              title: 'Aggregates, grouping & CSV',
+              description:
+                'Footer sums run over the full filtered set; Export CSV downloads the visible columns.',
+              content: (
+                <DataGrid<Route>
+                  columns={ROUTE_COLUMNS}
+                  rows={ROUTES}
+                  rowKey={(r) => r.id}
+                  allowSorting
+                  allowGrouping
+                  allowPaging
+                  pageSize={10}
+                  showExportButton
+                  aggregates={[
+                    { property: 'amount', type: 'sum', title: 'Total' },
+                    {
+                      property: 'amount',
+                      type: 'avg',
+                      title: 'Avg',
+                      format: 'N1',
+                    },
+                    { property: 'name', type: 'count', title: 'Rows' },
+                  ]}
+                />
+              ),
+            },
+            {
+              id: 'datagrid-virtual',
+              title: 'Row virtualization',
+              description:
+                '500 rows; only the visible window (plus overscan) stays in the DOM.',
+              content: (
+                <DataGrid<Route>
+                  columns={ROUTE_COLUMNS}
+                  rows={ROUTES}
+                  rowKey={(r) => r.id}
+                  allowSorting
+                  virtualize
+                  virtualHeight={360}
+                  virtualRowHeight={40}
+                />
+              ),
+            },
+            {
+              id: 'datagrid-server',
+              title: 'Server mode (onRangeChange)',
+              description:
+                'The grid reports start/count/sorts/filters; the mock server answers with the window.',
+              content: <ServerGridDemo />,
             },
           ]}
         />
