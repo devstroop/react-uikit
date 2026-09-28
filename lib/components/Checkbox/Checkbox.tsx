@@ -1,13 +1,30 @@
-import { forwardRef, type InputHTMLAttributes } from 'react';
+import { forwardRef, useEffect, useRef, type InputHTMLAttributes } from 'react';
 import styles from './Checkbox.module.css';
 
-export type CheckboxProps = InputHTMLAttributes<HTMLInputElement>;
+export interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
+  /**
+   * Mixed state. `indeterminate` is a DOM property, not an HTML
+   * attribute, so it is applied imperatively; browsers expose the mixed
+   * state to assistive tech and render the dash via `:indeterminate`.
+   */
+  indeterminate?: boolean;
+}
 
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
-  function Checkbox({ className, ...props }, ref) {
+  function Checkbox({ className, indeterminate = false, ...props }, ref) {
+    const innerRef = useRef<HTMLInputElement | null>(null);
+    useEffect(() => {
+      if (innerRef.current) {
+        innerRef.current.indeterminate = indeterminate;
+      }
+    }, [indeterminate]);
     return (
       <input
-        ref={ref}
+        ref={(node) => {
+          innerRef.current = node;
+          if (typeof ref === 'function') ref(node);
+          else if (ref) ref.current = node;
+        }}
         type="checkbox"
         className={[styles.checkbox, className].filter(Boolean).join(' ')}
         {...props}

@@ -42,3 +42,19 @@
   opacity: 0.55;
   cursor: not-allowed;
 }
+
+/* Mixed state: primary fill with a dash. Placed after :checked so a
+   checkbox that is both checked and indeterminate shows the dash —
+   matching the DOM property semantics. */
+.checkbox:indeterminate {
+  background-color: var(--dx-primary-color);
+  border-color: var(--dx-primary-color);
+}
+
+.checkbox:indeterminate::before {
+  transform: scale(1);
+  clip-path: none;
+  width: 10px;
+  height: 2px;
+  border-radius: 1px;
+}

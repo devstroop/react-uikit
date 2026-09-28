@@ -51,4 +51,24 @@ describe('Checkbox', () => {
     render(<Checkbox ref={ref} aria-label="Ref" />);
     expect(ref.current).toBe(screen.getByRole('checkbox'));
   });
+
+  it('applies the indeterminate DOM property on mount', () => {
+    render(<Checkbox aria-label="Mixed" indeterminate readOnly />);
+    expect(screen.getByRole('checkbox')).toBePartiallyChecked();
+  });
+
+  it('clears indeterminate when the prop flips to false', async () => {
+    const { rerender } = render(
+      <Checkbox aria-label="Mixed" indeterminate readOnly />
+    );
+    const checkbox = screen.getByRole('checkbox');
+    expect(checkbox).toBePartiallyChecked();
+    rerender(<Checkbox aria-label="Mixed" indeterminate={false} readOnly />);
+    expect(checkbox).not.toBePartiallyChecked();
+  });
+
+  it('stays unchecked without the prop by default', () => {
+    render(<Checkbox aria-label="Plain" readOnly />);
+    expect(screen.getByRole('checkbox')).not.toBePartiallyChecked();
+  });
 });
