@@ -276,11 +276,16 @@ export { shadeClass } from './types/shade';
 export type { Variant } from './types/variant';
 export { resolveVariant } from './types/variant';
 
-export { ThemeSwitcher } from './components/ThemeSwitcher/ThemeSwitcher';
-export type {
-  ThemeSwitcherProps,
-  ThemeName,
+export {
+  ThemeSwitcher,
+  DEFAULT_THEMES,
 } from './components/ThemeSwitcher/ThemeSwitcher';
+export type { ThemeSwitcherProps } from './components/ThemeSwitcher/ThemeSwitcher';
+export { ThemeToggle } from './components/ThemeToggle/ThemeToggle';
+export type {
+  ThemeToggleProps,
+  ThemeName,
+} from './components/ThemeToggle/ThemeToggle';
 
 export { Avatar } from './components/Avatar/Avatar';
 export type {
