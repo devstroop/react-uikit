@@ -79,26 +79,19 @@ test.describe('keyboard & a11y — core primitives', () => {
 
   test('Tooltip — hover shows, Esc hides', async ({ page }) => {
     await page.goto('/');
-    const trigger = page.locator('[aria-describedby]').first();
-    if (!(await trigger.count())) {
-      // fallback: find tooltip demo text
-      const t = page.getByText(/tooltip/i).first();
-      if (!(await t.count())) test.skip();
-      await t.hover();
-    } else {
-      await trigger.hover();
-    }
+    // The trigger only carries aria-describedby while open, and the index
+    // page's closed Dialog always matches [aria-describedby] first (and is
+    // invisible) — so target the curated Tooltip section's demo text.
+    const trigger = page
+      .locator('section[aria-label="Tooltip"]')
+      .getByText('Hover for tooltip');
+    if (!(await trigger.count())) test.skip();
+    await trigger.hover();
     const tooltip = page.locator("[role='tooltip']").first();
-    // tooltip may appear after delayMs=300
-    await expect(tooltip)
-      .toBeVisible({ timeout: 2000 })
-      .catch(() => {});
-    if (await tooltip.isVisible()) {
-      await page.keyboard.press('Escape');
-      await expect(tooltip)
-        .toBeHidden({ timeout: 1000 })
-        .catch(() => {});
-    }
+    // tooltip appears after delayMs=300
+    await expect(tooltip).toBeVisible({ timeout: 2000 });
+    await page.keyboard.press('Escape');
+    await expect(tooltip).toBeHidden({ timeout: 1000 });
   });
 
   test('Field — error links via aria-describedby & aria-live', async ({
