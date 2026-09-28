@@ -63,6 +63,31 @@
   transform: rotate(45deg);
 }
 
+/* targetSelector mode: position fixed next to the target. `inset: auto`
+   cancels the placement rules' relative geometry (inline styles then
+   place the box); the entrance animation is opacity-only so keyframe
+   transforms don't fight the positioning transform. */
+.floating {
+  animation: se-floating-tooltip-in var(--dx-transition-fast) ease-out;
+}
+
+.floating.top,
+.floating.right,
+.floating.bottom,
+.floating.left {
+  inset: auto;
+  transform: none;
+}
+
+@keyframes se-floating-tooltip-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .top .arrow {
   top: 100%;
   left: 50%;
