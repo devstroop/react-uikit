@@ -28,6 +28,15 @@ async function applyChromeState(
   await select.selectOption(theme);
   await expect(select).toHaveValue(theme);
 
+  // App.tsx imports the palette's stylesheets and only then sets
+  // <html data-palette> (null for the default theme, which ships no
+  // extra stylesheet) — poll it so axe runs against the loaded CSS.
+  await expect
+    .poll(() =>
+      page.evaluate(() => document.documentElement.dataset.palette ?? null)
+    )
+    .toBe(theme === 'default' ? null : theme);
+
   const darkToggle = page.locator('#preview-dark');
   await expect(darkToggle).toBeVisible();
   if (dark) await darkToggle.check();
