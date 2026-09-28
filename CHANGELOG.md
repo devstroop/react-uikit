@@ -6,6 +6,25 @@ Versioning follows the release flow in `docs/DEVELOPMENT_STRATEGY.md`
 
 ## [Unreleased] — toward 2.0.0
 
+### Added — `Icon` multi-set library (16 collections, 674 glyphs)
+
+Namespaced names (`<Icon name="mdi:home" />`, `ph:user`,
+`simple-icons:github`) select any bundled Iconify collection; bare
+names keep the built-in feather-style set unchanged. Sets ship as
+bundled SVG bodies (zero runtime dependencies, no fetches,
+`npm run icons:ingest` to regenerate): feather, lucide, tabler,
+heroicons, ph, ri, carbon, ion, octicon, mdi, fa6-solid, bi, fluent,
+material-symbols, simple-icons, fa6-brands. The root `<svg>` adapts
+per set — stroke sets inherit `stroke="currentColor"` with the set's
+stroke width (heroicons 1.5), fill sets render
+`fill="currentColor" stroke="none"` — and per-glyph `viewBox`
+overrides cover mixed grids (fa6, fluent). Unknown glyphs render an
+empty shell; `iconSets`, `iconSetNames`, `IconSetPrefix`, and
+`IconSetDef` are exported for gallery/tooling use. Bundling all sets
+costs about 79 KB gzipped on the main bundle — consumers who only use
+the built-in glyphs already pay that, since the sets are part of the
+static `Icon` import.
+
 ### Fixed — `Row` `rowGap` lost with arbitrary `gap`
 
 An arbitrary `gap` (`0.5rem`, `10`, …) was applied as an inline `gap`

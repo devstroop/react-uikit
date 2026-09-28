@@ -59,7 +59,9 @@ JSDoc on each export in the published types.
 ### Typography
 
 `Text` (full RadzenText hierarchy — see [Text](#text-radzentext-parity)) ·
-`Icon` (40 stroke icons, `name`/`size`/`strokeWidth`)
+`Icon` (674 glyphs across 16 bundled sets — `name` takes a bare name for
+the built-in set or `set:glyph` for any bundled collection,
+`size`/`strokeWidth`)
 
 ### Buttons
 
