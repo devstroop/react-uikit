@@ -8883,6 +8883,7 @@ const D_ = q1(
     return /* @__PURE__ */ L(
       "div",
       {
+        "aria-disabled": u || void 0,
         className: [
           Tt.wrapper,
           h,
@@ -9125,6 +9126,7 @@ const I_ = q1(
       {
         role: "region",
         "aria-label": s,
+        "aria-disabled": o || void 0,
         className: [
           Jt.zone,
           h ? Jt.dragging : null,
