@@ -7,7 +7,8 @@ export interface DemoPageSection {
   id: string;
   /** Card heading (H5). Omit the heading when it would repeat the page title. */
   title?: string;
-  description?: string;
+  /** Card blurb; ReactNode so props can render as inline <Code>. */
+  description?: ReactNode;
   content: ReactNode;
   /** Escape hatch for overlay demos (Menu, Dialog): cards clip with
    * overflow hidden by design, which cuts absolutely-positioned popups. */

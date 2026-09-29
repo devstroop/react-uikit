@@ -34,8 +34,9 @@ const EXCEPTIONS: Record<string, number> = {
 };
 
 /**
- * Slugs below the standard as of Phase 0 (59 STUB + 12 BASIC). Seed only:
- * entries are removed per phase and must never come back.
+ * Slugs below the demo standard. Seeded at 71 (Phase 0); the Display
+ * pilot took it to 64. Shrink-only: entries are removed per phase and
+ * must never come back.
  */
 const KNOWN_GAPS = new Set([
   // Layout / chrome
@@ -106,14 +107,6 @@ const KNOWN_GAPS = new Set([
   'datafilter',
   'qrcode',
   'barcode',
-  // Display
-  'card',
-  'badge',
-  'avatar',
-  'stat',
-  'accordion',
-  'carousel',
-  'splitter',
   // Theme (BASIC)
   'themeswitcher',
   'themetoggle',
