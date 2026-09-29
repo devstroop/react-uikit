@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import {
   Button,
-  Card,
   Column,
   EmptyState,
   Field,
@@ -9,6 +8,7 @@ import {
   Layout,
   Password,
   Row,
+  Stack,
   Text,
 } from '../../lib/main';
 import { DemoPage } from './demo-page';
@@ -18,14 +18,14 @@ function LoginRecipe() {
   return (
     <Row align="center" gap="md">
       <Column size={12} sizeMd={6}>
-        <Card variant="filled">
+        <Stack>
           <Text textStyle="H2" tagName="H2">
             Welcome back
           </Text>
           <Text textStyle="Body1" className="dx-text-muted">
             Sign in to continue to your zones.
           </Text>
-        </Card>
+        </Stack>
       </Column>
       <Column size={12} sizeMd={6}>
         <form
