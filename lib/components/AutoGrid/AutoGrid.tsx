@@ -1,21 +1,9 @@
 import { type CSSProperties, type HTMLAttributes } from 'react';
-import { type ComponentSize } from '../../sizes';
+import { resolveGap } from '../../utils/gap';
 import styles from './AutoGrid.module.css';
 
-export type AutoGridGap = ComponentSize | number | string;
-
-const GAP_TIERS: Record<ComponentSize, string> = {
-  xs: 'gapXs',
-  sm: 'gapSm',
-  md: 'gapMd',
-  lg: 'gapLg',
-  xl: 'gapXl',
-};
-
-function gapClass(gap: AutoGridGap | undefined): string | null {
-  if (typeof gap !== 'string') return null;
-  return (GAP_TIERS as Record<string, string | undefined>)[gap] ?? null;
-}
+/** Gap: px number (unitless = pixels) or CSS length; digits-only strings are px. */
+export type AutoGridGap = number | string;
 
 export interface AutoGridProps extends HTMLAttributes<HTMLDivElement> {
   /**
@@ -25,8 +13,8 @@ export interface AutoGridProps extends HTMLAttributes<HTMLDivElement> {
    */
   min?: number | string;
   /**
-   * Gap between tracks — tier name, px number, or CSS value.
-   * Defaults to 'md'.
+   * Gap between tracks — px number (unitless = pixels) or CSS length.
+   * Defaults to 12.
    */
   gap?: AutoGridGap;
   className?: string;
@@ -37,27 +25,22 @@ export interface AutoGridProps extends HTMLAttributes<HTMLDivElement> {
 
 export function AutoGrid({
   min = 240,
-  gap = 'md',
+  gap = 12,
   className,
   style,
   visible = true,
   ...props
 }: AutoGridProps) {
   if (visible === false) return null;
-  const tier = gapClass(gap);
   const mergedStyle: CSSProperties = {
     // Keep --dx-autogrid-min in sync so the track math follows the prop.
     '--dx-autogrid-min': typeof min === 'number' ? `${min}px` : (min as string),
-    ...(gap != null && !tier
-      ? { gap: typeof gap === 'number' ? `${gap}px` : gap }
-      : {}),
+    ...(gap != null ? { gap: resolveGap(gap) } : {}),
     ...style,
   } as CSSProperties;
   return (
     <div
-      className={[styles.autogrid, tier ? styles[tier] : null, className]
-        .filter(Boolean)
-        .join(' ')}
+      className={[styles.autogrid, className].filter(Boolean).join(' ')}
       style={mergedStyle}
       {...props}
     />

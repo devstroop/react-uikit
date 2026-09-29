@@ -5,7 +5,7 @@ import { DemoPage } from './demo-page';
 function ControlledThemeDemo() {
   const [theme, setTheme] = useState('material-3');
   return (
-    <Stack orientation="vertical" align="start" gap="sm">
+    <Stack orientation="vertical" align="start" gap={8}>
       <ThemeSwitcher value={theme} onChange={setTheme} />
       <Text textStyle="Caption" className="dx-text-muted">
         value: {theme} — controlled mode never writes data-palette
@@ -17,7 +17,7 @@ function ControlledThemeDemo() {
 function ControlledToggleDemo() {
   const [appearance, setAppearance] = useState<'light' | 'dark'>('light');
   return (
-    <Stack orientation="vertical" align="start" gap="sm">
+    <Stack orientation="vertical" align="start" gap={8}>
       <ThemeToggle
         value={appearance}
         onChange={setAppearance}

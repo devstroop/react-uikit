@@ -64,7 +64,7 @@ function SelectAllDemo() {
   const all = selected.length === SELECT_ALL_ITEMS.length;
   const none = selected.length === 0;
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <label>
         <Checkbox
           checked={all}
@@ -75,7 +75,7 @@ function SelectAllDemo() {
         />{' '}
         Select all
       </label>
-      <Stack orientation="horizontal" gap="md">
+      <Stack orientation="horizontal" gap={12}>
         {SELECT_ALL_ITEMS.map((item) => (
           <label key={item}>
             <Checkbox
@@ -152,7 +152,7 @@ function LoginFormBody() {
         ])
       }
     >
-      <Stack orientation="vertical" gap="md">
+      <Stack orientation="vertical" gap={12}>
         <LoginFormFields />
         <Button type="submit">Sign in</Button>
         <EventLog
@@ -222,7 +222,7 @@ function ValidatorsFormBody() {
         ])
       }
     >
-      <Stack orientation="vertical" gap="md">
+      <Stack orientation="vertical" gap={12}>
         <ValidatorsFormFields />
         <Button type="submit">Validate</Button>
         <EventLog
@@ -269,7 +269,7 @@ function FormStateBody() {
   const count = () => setSubmits((n) => n + 1);
   return (
     <Form model={{}} onSubmit={count} onInvalidSubmit={count}>
-      <Stack orientation="vertical" gap="sm">
+      <Stack orientation="vertical" gap={8}>
         <FormStateField submits={submits} />
       </Stack>
     </Form>
@@ -292,7 +292,7 @@ const FORM_KEYS = [
 function FieldLabelDemo() {
   const [events, setEvents] = useState<string[]>([]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <Field label="Email" hint="We never share it.">
         {({ inputId }) => (
           <Textbox
@@ -320,7 +320,7 @@ function FieldErrorDemo() {
   const error =
     value.length > 0 && value.length < 5 ? 'Use at least 5 characters.' : null;
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <Field label="Display name" error={error}>
         {({ inputId }) => (
           <Textbox
@@ -351,7 +351,7 @@ function FieldsetControlledDemo() {
   const [collapsed, setCollapsed] = useState(false);
   const [events, setEvents] = useState<string[]>([]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <Fieldset
         text="Advanced settings"
         allowCollapse
@@ -363,7 +363,7 @@ function FieldsetControlledDemo() {
           {({ inputId }) => <Textbox id={inputId} placeholder="eu-west-1" />}
         </FormField>
       </Fieldset>
-      <Stack orientation="horizontal" gap="sm">
+      <Stack orientation="horizontal" gap={8}>
         <Button onClick={() => setCollapsed(true)}>Collapse</Button>
         <Button onClick={() => setCollapsed(false)}>Expand</Button>
       </Stack>
@@ -383,7 +383,7 @@ function InputBasicDemo() {
   const [value, setValue] = useState('');
   const [events, setEvents] = useState<string[]>([]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <Input
         aria-label="Alias demo"
         value={value}
@@ -407,7 +407,7 @@ function TextboxBasicDemo() {
   const [value, setValue] = useState('');
   const [events, setEvents] = useState<string[]>([]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <Textbox
         aria-label="Username"
         maxLength={40}
@@ -444,7 +444,7 @@ function PasswordBasicDemo() {
   const [value, setValue] = useState('');
   const [events, setEvents] = useState<string[]>([]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <Password
         aria-label="Password"
         autoComplete="new-password"
@@ -485,7 +485,7 @@ function MaskBasicDemo() {
   const [value, setValue] = useState('');
   const [events, setEvents] = useState<string[]>([]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <Mask
         mask="(###) ###-####"
         placeholder="(555) 000-0000"
@@ -524,7 +524,7 @@ const MASK_KEYS = [
 function LabelBasicDemo() {
   const [events, setEvents] = useState<string[]>([]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <Label htmlFor="demo-label-target">Email address</Label>
       <Input
         id="demo-label-target"
@@ -554,7 +554,7 @@ function CheckboxBasicDemo() {
   const [checked, setChecked] = useState(false);
   const [events, setEvents] = useState<string[]>([]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <label>
         <Checkbox
           checked={checked}
@@ -583,7 +583,7 @@ function CheckboxlistDemo() {
   const [values, setValues] = useState<string[]>(['a']);
   const [events, setEvents] = useState<string[]>([]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <Checkboxlist
         legend="Toppings"
         name="toppings"
@@ -618,7 +618,7 @@ function RadiobuttonlistDemo() {
   const [value, setValue] = useState('a');
   const [events, setEvents] = useState<string[]>([]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <Radiobuttonlist
         legend="Plan"
         name="plan-basic"
@@ -647,7 +647,7 @@ function SwitchBasicDemo() {
   const [on, setOn] = useState(true);
   const [events, setEvents] = useState<string[]>([]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <label>
         <Switch
           checked={on}
@@ -675,7 +675,7 @@ function SliderBasicDemo() {
   const [value, setValue] = useState(40);
   const [events, setEvents] = useState<string[]>([]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <Slider
         label="Level"
         value={value}
@@ -701,7 +701,7 @@ function SliderRangeDemo() {
   const [range, setRange] = useState({ min: 20, max: 80 });
   const [events, setEvents] = useState<string[]>([]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <Slider
         range
         label="From"
@@ -737,7 +737,7 @@ function RatingBasicDemo() {
   const [value, setValue] = useState(3);
   const [events, setEvents] = useState<string[]>([]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <Rating
         ariaLabel="How was the build?"
         value={value}
@@ -773,7 +773,7 @@ function SelectbarSingleDemo() {
   const [value, setValue] = useState('driver');
   const [events, setEvents] = useState<string[]>([]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <Selectbar
         aria-label="Role"
         options={SELECTBAR_ROLES}
@@ -796,7 +796,7 @@ function SelectbarMultiDemo() {
   const [values, setValues] = useState<string[]>(['rider']);
   const [events, setEvents] = useState<string[]>([]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <Selectbar
         multiple
         aria-label="Skills"
@@ -831,7 +831,7 @@ function NumericBasicDemo() {
   const [value, setValue] = useState<number | null>(1);
   const [events, setEvents] = useState<string[]>([]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <Numeric
         aria-label="Quantity"
         value={value}
@@ -855,7 +855,7 @@ function NumericBasicDemo() {
 function NumericLimitsDemo() {
   const [value, setValue] = useState<number | null>(2.5);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <Numeric
         aria-label="Zoom"
         value={value}
@@ -883,7 +883,7 @@ function SecurityCodeDemo() {
   const [code, setCode] = useState('');
   const [events, setEvents] = useState<string[]>([]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <SecurityCode
         length={4}
         label="One-time code"
@@ -922,7 +922,7 @@ function TimespanBasicDemo() {
   const [value, setValue] = useState('01:30:00');
   const [events, setEvents] = useState<string[]>([]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <Timespanpicker
         ariaLabel="Time spent"
         value={value}
@@ -944,7 +944,7 @@ function TimespanPrecisionDemo() {
   const [value, setValue] = useState('02:15:00');
   const [events, setEvents] = useState<string[]>([]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <Timespanpicker
         ariaLabel="Standup window"
         precision="minute"
@@ -981,7 +981,7 @@ function DatepickerBasicDemo() {
   const [value, setValue] = useState('2024-03-10');
   const [events, setEvents] = useState<string[]>([]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <Datepicker
         aria-label="Start date"
         showButton
@@ -1004,7 +1004,7 @@ function DatepickerBasicDemo() {
 function DatepickerBoundsDemo() {
   const [value, setValue] = useState('2024-03-10');
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <Datepicker
         aria-label="Delivery day"
         showButton
@@ -1027,7 +1027,7 @@ function DatepickerDateTimeDemo() {
   const [value, setValue] = useState('2024-03-10 09:30');
   const [events, setEvents] = useState<string[]>([]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <Datepicker
         aria-label="Deploy at"
         showTime
@@ -1061,8 +1061,8 @@ function ColorpickerBasicDemo() {
   const [value, setValue] = useState('#2563eb');
   const [events, setEvents] = useState<string[]>([]);
   return (
-    <Stack orientation="vertical" gap="sm">
-      <Stack orientation="horizontal" gap="md" align="center">
+    <Stack orientation="vertical" gap={8}>
+      <Stack orientation="horizontal" gap={12} align="center">
         <Colorpicker
           value={value}
           onChange={(next) => {
@@ -1102,8 +1102,8 @@ function ColorpickerVariantDemo({
   const [value, setValue] = useState(initial);
   const [events, setEvents] = useState<string[]>([]);
   return (
-    <Stack orientation="vertical" gap="sm">
-      <Stack orientation="horizontal" gap="md" align="center">
+    <Stack orientation="vertical" gap={8}>
+      <Stack orientation="horizontal" gap={12} align="center">
         <Colorpicker
           {...pickerProps}
           value={value}
@@ -1128,7 +1128,7 @@ function ColorpickerVariantDemo({
 function UploadBasicDemo() {
   const [events, setEvents] = useState<string[]>([]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <Upload
         url="/upload"
         multiple
@@ -1153,7 +1153,7 @@ function UploadBasicDemo() {
 function UploadLimitsDemo() {
   const [events, setEvents] = useState<string[]>([]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <Upload
         auto={false}
         multiple
@@ -1179,7 +1179,7 @@ function UploadHandleDemo() {
   const handle = useRef<UploadHandle>(null);
   const [events, setEvents] = useState<string[]>([]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <Upload
         ref={handle}
         url="/upload"
@@ -1193,7 +1193,7 @@ function UploadHandleDemo() {
           setEvents((prev) => [...prev, `onError: ${name} — ${message}`])
         }
       />
-      <Stack orientation="horizontal" gap="sm">
+      <Stack orientation="horizontal" gap={8}>
         <Button onClick={() => handle.current?.open()}>open() via ref</Button>
         <Button onClick={() => handle.current?.upload()}>
           upload() via ref
@@ -1220,7 +1220,7 @@ function SelectBasicDemo() {
   const [value, setValue] = useState('a');
   const [events, setEvents] = useState<string[]>([]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <Label htmlFor="demo-select">Pairing</Label>
       <Select
         id="demo-select"
@@ -1250,7 +1250,7 @@ function DropdownBasicDemo() {
   const [value, setValue] = useState('a');
   const [events, setEvents] = useState<string[]>([]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <Dropdown
         aria-label="Pairing"
         options={PAIR_OPTIONS}
@@ -1282,7 +1282,7 @@ function AutocompleteBasicDemo() {
   const [value, setValue] = useState('');
   const [events, setEvents] = useState<string[]>([]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <Autocomplete
         aria-label="Pairing"
         options={PAIR_OPTIONS}
@@ -1308,7 +1308,7 @@ function AutocompleteBasicDemo() {
 function AutocompleteFilterDemo() {
   const [events, setEvents] = useState<string[]>([]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <Autocomplete
         aria-label="Starts-with filter"
         options={PAIR_OPTIONS}
@@ -1340,7 +1340,7 @@ function ListboxSingleDemo() {
   const [value, setValue] = useState('a');
   const [events, setEvents] = useState<string[]>([]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <Listbox
         aria-label="Pairing"
         options={PAIR_OPTIONS}
@@ -1364,7 +1364,7 @@ function ListboxMultiDemo() {
   const [values, setValues] = useState<string[]>(['a']);
   const [events, setEvents] = useState<string[]>([]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <Listbox
         multiple
         aria-label="Pick several"
@@ -1489,8 +1489,8 @@ function SignaturePenDemo() {
   const [color, setColor] = useState('#1c1c1c');
   const [width, setWidth] = useState('2.5');
   return (
-    <Stack orientation="vertical" gap="sm">
-      <Stack orientation="horizontal" gap="md" align="center" wrap>
+    <Stack orientation="vertical" gap={8}>
+      <Stack orientation="horizontal" gap={12} align="center" wrap>
         <Text textStyle="Caption">Pen color</Text>
         <Selectbar
           aria-label="Pen color"
@@ -1523,9 +1523,9 @@ function SignatureExportDemo() {
   const padRef = useRef<SignaturePadHandle>(null);
   const [dataUrl, setDataUrl] = useState('');
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <SignaturePad ariaLabel="Export signature" />
-      <Stack orientation="horizontal" gap="sm" wrap>
+      <Stack orientation="horizontal" gap={8} wrap>
         <Button onClick={() => setDataUrl(padRef.current?.toDataURL() ?? '')}>
           Export PNG
         </Button>
@@ -1794,7 +1794,7 @@ function InputDemosPage() {
           title: 'Sizes',
           description: 'The five-step component scale: xs → xl.',
           content: (
-            <Stack orientation="vertical" gap="sm">
+            <Stack orientation="vertical" gap={8}>
               {INPUT_SIZES.map((size) => (
                 <Input
                   key={size}
@@ -1812,7 +1812,7 @@ function InputDemosPage() {
           description:
             'invalid sets aria-invalid and the danger border; disabled blocks focus and typing.',
           content: (
-            <Stack orientation="vertical" gap="sm">
+            <Stack orientation="vertical" gap={8}>
               <Input invalid aria-label="Invalid input" defaultValue="Oops" />
               <Input
                 disabled
@@ -1851,7 +1851,7 @@ function TextboxDemosPage() {
             </>
           ),
           content: (
-            <Stack orientation="vertical" gap="sm">
+            <Stack orientation="vertical" gap={8}>
               {TEXTBOX_TYPES.map((t) => (
                 <Textbox
                   key={t.type}
@@ -1869,7 +1869,7 @@ function TextboxDemosPage() {
           description:
             'aria-invalid marks validation failures; readOnly shows a value without allowing edits.',
           content: (
-            <Stack orientation="vertical" gap="sm">
+            <Stack orientation="vertical" gap={8}>
               <Textbox
                 invalid
                 aria-label="Invalid username"
@@ -1903,7 +1903,7 @@ function TextareaDemosPage() {
           description:
             'maxLength=200 with a live counter — onChange lands in the log as you write.',
           content: (
-            <Stack orientation="vertical" gap="sm">
+            <Stack orientation="vertical" gap={8}>
               <Textarea
                 aria-label="Release notes"
                 rows={3}
@@ -1928,7 +1928,7 @@ function TextareaDemosPage() {
           description:
             'resize picks which axes the grab handle exposes — none is the safe default inside forms.',
           content: (
-            <Stack orientation="vertical" gap="sm">
+            <Stack orientation="vertical" gap={8}>
               <Textarea
                 resize="none"
                 rows={2}
@@ -1955,7 +1955,7 @@ function TextareaDemosPage() {
           title: 'Invalid & disabled',
           description: 'Same invalid/disabled contract as Textbox.',
           content: (
-            <Stack orientation="vertical" gap="sm">
+            <Stack orientation="vertical" gap={8}>
               <Textarea
                 invalid
                 rows={2}
@@ -1999,7 +1999,7 @@ function PasswordDemosPage() {
             </>
           ),
           content: (
-            <Stack orientation="vertical" gap="sm">
+            <Stack orientation="vertical" gap={8}>
               <Password
                 aria-label="Choose a password"
                 showLabel="Reveal"
@@ -2043,7 +2043,7 @@ function MaskDemosPage() {
           description:
             'Grouping literals differ per format; digits-only input stays constant.',
           content: (
-            <Stack orientation="vertical" gap="sm">
+            <Stack orientation="vertical" gap={8}>
               <Mask
                 mask="#### #### #### ####"
                 placeholder="0000 0000 0000 0000"
@@ -2059,7 +2059,7 @@ function MaskDemosPage() {
           description:
             'Size follows the component scale; invalid marks a failed format check.',
           content: (
-            <Stack orientation="vertical" gap="sm">
+            <Stack orientation="vertical" gap={8}>
               <Mask size="sm" mask="(###) ###-####" aria-label="Small phone" />
               <Mask
                 invalid
@@ -2099,7 +2099,7 @@ function LabelDemosPage() {
           description:
             'The same text without htmlFor is inert — clicking it does nothing, and assistive tech gains no association. The input keeps its own aria-label so this demo stays accessible.',
           content: (
-            <Stack orientation="vertical" gap="sm">
+            <Stack orientation="vertical" gap={8}>
               <Label>Detached text</Label>
               <Input aria-label="Unassociated input" placeholder="Type here" />
             </Stack>
@@ -2141,7 +2141,7 @@ function CheckboxDemosPage() {
           description:
             'Disabled checkboxes are skipped by Tab and announce as dimmed/disabled to AT.',
           content: (
-            <Stack orientation="vertical" gap="sm">
+            <Stack orientation="vertical" gap={8}>
               <label htmlFor="forms-checkbox-disabled-off">
                 <Checkbox id="forms-checkbox-disabled-off" disabled /> Disabled
                 off
@@ -2255,7 +2255,7 @@ function SwitchDemosPage() {
           description:
             'Wrap in a label for the accessible name; disabled switches are skipped by Tab.',
           content: (
-            <Stack orientation="vertical" gap="sm">
+            <Stack orientation="vertical" gap={8}>
               <label htmlFor="forms-switch-dark-mode">
                 <Switch id="forms-switch-dark-mode" defaultChecked /> Dark mode
               </label>
@@ -2305,11 +2305,11 @@ function SliderDemosPage() {
           description:
             'orientation="vertical" exposes aria-orientation; a disabled handle is unfocusable and reports aria-disabled.',
           content: (
-            <Stack orientation="horizontal" gap="lg" align="start">
+            <Stack orientation="horizontal" gap={16} align="start">
               <div style={{ height: 160 }}>
                 <Slider value={70} orientation="vertical" label="Volume" />
               </div>
-              <Stack orientation="vertical" gap="sm">
+              <Stack orientation="vertical" gap={8}>
                 <Slider value={35} disabled label="Disabled level" />
                 <Text textStyle="Body2" className="dx-text-muted">
                   Vertical handle height follows the container.
@@ -2347,7 +2347,7 @@ function RatingDemosPage() {
           description:
             'readOnly keeps the value visible (aria-readonly, no Clear); disabled unfocuses every star.',
           content: (
-            <Stack orientation="vertical" gap="sm">
+            <Stack orientation="vertical" gap={8}>
               <Rating value={4} readOnly ariaLabel="Read-only rating" />
               <Rating value={2} disabled ariaLabel="Disabled rating" />
             </Stack>
@@ -2389,7 +2389,7 @@ function SelectbarDemosPage() {
           description:
             'orientation="vertical" stacks the buttons; a disabled option can never be pressed.',
           content: (
-            <Stack orientation="vertical" gap="sm">
+            <Stack orientation="vertical" gap={8}>
               <Selectbar
                 orientation="vertical"
                 aria-label="Mode"
@@ -2443,7 +2443,7 @@ function NumericDemosPage() {
           description:
             'invalid marks an out-of-range edit; the scale runs xs → xl.',
           content: (
-            <Stack orientation="vertical" gap="sm">
+            <Stack orientation="vertical" gap={8}>
               <Numeric invalid aria-label="Invalid amount" defaultValue={120} />
               <Numeric disabled aria-label="Locked amount" defaultValue={5} />
               <Numeric size="sm" aria-label="Small amount" defaultValue={1} />
@@ -2479,7 +2479,7 @@ function SecurityCodeDemosPage() {
           description:
             'The default length is 6; invalid marks mismatched cells, disabled locks every cell.',
           content: (
-            <Stack orientation="vertical" gap="sm">
+            <Stack orientation="vertical" gap={8}>
               <SecurityCode label="Six-digit code" defaultValue="482915" />
               <SecurityCode invalid label="Rejected code" defaultValue="12" />
               <SecurityCode disabled label="Locked code" defaultValue="99" />
@@ -2592,7 +2592,7 @@ function ColorpickerDemosPage() {
           description:
             'showSaturation/showRgba/showPalette filter the popup — palette-only vs sliders-only.',
           content: (
-            <Stack orientation="vertical" gap="md">
+            <Stack orientation="vertical" gap={12}>
               <ColorpickerVariantDemo
                 initial="#ff2800"
                 caption="Palette only"
@@ -2709,7 +2709,7 @@ function SelectDemosPage() {
           description:
             'size runs the component scale; invalid marks a failed choice.',
           content: (
-            <Stack orientation="vertical" gap="sm">
+            <Stack orientation="vertical" gap={8}>
               <Select
                 size="sm"
                 aria-label="Small select"
@@ -2760,7 +2760,7 @@ function DropdownDemosPage() {
           description:
             'placeholder shows until a value is chosen; a disabled trigger never opens.',
           content: (
-            <Stack orientation="vertical" gap="sm">
+            <Stack orientation="vertical" gap={8}>
               <Dropdown
                 aria-label="Pick a pairing"
                 options={PAIR_OPTIONS}
@@ -2868,7 +2868,7 @@ export function FormDemos({ slug }: { slug: string }) {
               id: 'formfield-labels',
               title: 'Labels and Helpers',
               content: (
-                <Stack orientation="vertical" gap="md">
+                <Stack orientation="vertical" gap={12}>
                   <FormField text="Email" helper="We never share it.">
                     <Textbox id="demo-email" placeholder="you@zone.app" />
                   </FormField>
@@ -2906,7 +2906,7 @@ export function FormDemos({ slug }: { slug: string }) {
               title: 'Sizes',
               description: 'Size follows the field control.',
               content: (
-                <Stack orientation="vertical" gap="md">
+                <Stack orientation="vertical" gap={12}>
                   <FormField text="Small" helper="Size sm follows the field.">
                     <Textbox id="demo-small" size="sm" />
                   </FormField>

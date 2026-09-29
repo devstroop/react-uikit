@@ -51,8 +51,8 @@ function AlertDismissDemo() {
   const [events, setEvents] = useState<string[]>([]);
   const log = (message: string) => setEvents((prev) => [message, ...prev]);
   return (
-    <Stack orientation="vertical" gap="md">
-      <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={12}>
+      <Stack orientation="vertical" gap={8}>
         <Text textStyle="Body2" className="dx-text-muted">
           Uncontrolled — dismissal latches and the alert unmounts.
         </Text>
@@ -64,7 +64,7 @@ function AlertDismissDemo() {
           Press the × to remove it for good.
         </Alert>
       </Stack>
-      <Stack orientation="vertical" gap="sm">
+      <Stack orientation="vertical" gap={8}>
         <Text textStyle="Body2" className="dx-text-muted">
           Controlled visible — stays mounted and notifies instead, so it can be
           shown again.
@@ -80,7 +80,7 @@ function AlertDismissDemo() {
         >
           Toggle it back with the buttons below.
         </Alert>
-        <Row gap="sm" wrap>
+        <Row gap={8} wrap>
           <Button size="sm" onClick={() => setVisible(true)}>
             Show
           </Button>
@@ -111,7 +111,7 @@ const PROGRESS_TONES = ['primary', 'success', 'warning', 'danger'] as const;
 function ProgressValueDemo() {
   const [upload, setUpload] = useState(40);
   return (
-    <Stack orientation="vertical" gap="md">
+    <Stack orientation="vertical" gap={12}>
       <Slider
         label="Upload progress"
         value={upload}
@@ -133,11 +133,11 @@ function ProgressValueDemo() {
 function SkeletonLoadDemo() {
   const [loading, setLoading] = useState(true);
   return (
-    <Stack orientation="vertical" gap="md">
+    <Stack orientation="vertical" gap={12}>
       <div aria-busy={loading} style={{ minHeight: 96 }}>
         {loading ? (
-          <Stack orientation="vertical" gap="sm">
-            <Row align="center" gap="md">
+          <Stack orientation="vertical" gap={8}>
+            <Row align="center" gap={12}>
               <Skeleton variant="circle" width={40} height={40} />
               <Skeleton width="45%" />
             </Row>
@@ -152,7 +152,7 @@ function SkeletonLoadDemo() {
       <Text textStyle="Body2" role="status" className="dx-text-muted">
         {loading ? 'Loading messages…' : '3 messages ready'}
       </Text>
-      <Row gap="sm" wrap>
+      <Row gap={8} wrap>
         <Button size="sm" onClick={() => setLoading((prev) => !prev)}>
           {loading ? 'Finish loading' : 'Simulate reload'}
         </Button>
@@ -176,7 +176,7 @@ const EMPTYSTATE_KEYS: KeyboardBinding[] = [
 function EmptyStateActionDemo() {
   const [events, setEvents] = useState<string[]>([]);
   return (
-    <Stack orientation="vertical" gap="md">
+    <Stack orientation="vertical" gap={12}>
       <EmptyState
         icon={<Icon name="mail" size="xl" />}
         title="Your inbox is empty"
@@ -224,7 +224,7 @@ const TOAST_KEYS: KeyboardBinding[] = [
 function ToastSeveritiesDemo() {
   const { toast } = useToast();
   return (
-    <Row gap="sm" wrap>
+    <Row gap={8} wrap>
       {TOAST_SEVERITIES.map((severity) => (
         <Button
           key={severity}
@@ -250,7 +250,7 @@ function ToastSeveritiesDemo() {
 function ToastPositionsDemo() {
   const { toast } = useToast();
   return (
-    <Row gap="sm" wrap>
+    <Row gap={8} wrap>
       {TOAST_POSITIONS.map(([position, label]) => (
         <Button
           key={position}
@@ -275,7 +275,7 @@ function ToastPositionsDemo() {
 function ToastDurationDemo() {
   const { toast } = useToast();
   return (
-    <Row gap="sm" wrap>
+    <Row gap={8} wrap>
       <Button
         size="sm"
         onClick={() =>
@@ -323,8 +323,8 @@ function ToastActionsDemo() {
   const [events, setEvents] = useState<string[]>([]);
   const log = (message: string) => setEvents((prev) => [message, ...prev]);
   return (
-    <Stack orientation="vertical" gap="md">
-      <Row gap="sm" wrap>
+    <Stack orientation="vertical" gap={12}>
+      <Row gap={8} wrap>
         <Button
           size="sm"
           onClick={() =>
@@ -417,8 +417,8 @@ function DialogSizesDemo() {
     setOpen(true);
   };
   return (
-    <Stack orientation="vertical" gap="md">
-      <Row gap="sm" wrap>
+    <Stack orientation="vertical" gap={12}>
+      <Row gap={8} wrap>
         {(['sm', 'md', 'lg'] as const).map((tier) => (
           <Button
             key={tier}
@@ -470,8 +470,8 @@ function DialogGuardsDemo() {
   const [events, setEvents] = useState<string[]>([]);
   const log = (message: string) => setEvents((prev) => [message, ...prev]);
   return (
-    <Stack orientation="vertical" gap="md">
-      <Row gap="md" wrap>
+    <Stack orientation="vertical" gap={12}>
+      <Row gap={12} wrap>
         <label htmlFor="dialog-guard-dirty">
           <Checkbox
             id="dialog-guard-dirty"
@@ -497,7 +497,7 @@ function DialogGuardsDemo() {
           closeOnOverlayClick
         </label>
       </Row>
-      <Row gap="sm" wrap>
+      <Row gap={8} wrap>
         <Button onClick={() => setOpen(true)}>Open guarded dialog</Button>
       </Row>
       <Dialog
@@ -556,8 +556,8 @@ function ImperativeDialogDemoInner() {
   const [events, setEvents] = useState<string[]>([]);
   const log = (message: string) => setEvents((prev) => [message, ...prev]);
   return (
-    <Stack orientation="vertical" gap="md">
-      <Stack orientation="horizontal" gap="md" wrap>
+    <Stack orientation="vertical" gap={12}>
+      <Stack orientation="horizontal" gap={12} wrap>
         <Button
           severity="danger"
           variant="outlined"
@@ -630,7 +630,7 @@ const TOOLTIP_KEYS: KeyboardBinding[] = [
 
 function TargetTooltipDemo() {
   return (
-    <Stack orientation="horizontal" gap="md" wrap>
+    <Stack orientation="horizontal" gap={12} wrap>
       <Tooltip
         targetSelector="[data-preview-tip]"
         content="Delegated hint — one tooltip, many targets"
@@ -710,9 +710,9 @@ export function FeedbackDemos({ slug }: { slug: string }) {
             description:
               'Indeterminate mode drops aria-valuenow entirely (tests: renders indeterminate without aria-valuenow) — linear bar and circular svg side by side.',
             content: (
-              <Stack orientation="vertical" gap="md">
+              <Stack orientation="vertical" gap={12}>
                 <Progress indeterminate aria-label="Loading" />
-                <Row align="center" gap="md" wrap>
+                <Row align="center" gap={12} wrap>
                   <Progress
                     indeterminate
                     variant="circular"
@@ -732,10 +732,10 @@ export function FeedbackDemos({ slug }: { slug: string }) {
             description:
               'size tiers xs–xl map to linear thickness classes and circular diameter classes (tests: maps size tiers to linear/circular classes).',
             content: (
-              <Stack orientation="vertical" gap="md">
-                <Stack orientation="vertical" gap="sm">
+              <Stack orientation="vertical" gap={12}>
+                <Stack orientation="vertical" gap={8}>
                   {PROGRESS_TIERS.map((tier) => (
-                    <Stack key={tier} orientation="vertical" gap="xs">
+                    <Stack key={tier} orientation="vertical" gap={4}>
                       <Text textStyle="Body2" className="dx-text-muted">
                         linear {tier}
                       </Text>
@@ -747,7 +747,7 @@ export function FeedbackDemos({ slug }: { slug: string }) {
                     </Stack>
                   ))}
                 </Stack>
-                <Row align="center" gap="md" wrap>
+                <Row align="center" gap={12} wrap>
                   {PROGRESS_TIERS.map((tier) => (
                     <Progress
                       key={tier}
@@ -767,9 +767,9 @@ export function FeedbackDemos({ slug }: { slug: string }) {
             description:
               'Four tones — primary, success, warning, danger — same aria contract for every tone (test: applies the tone class).',
             content: (
-              <Stack orientation="vertical" gap="sm">
+              <Stack orientation="vertical" gap={8}>
                 {PROGRESS_TONES.map((tone) => (
-                  <Stack key={tone} orientation="vertical" gap="xs">
+                  <Stack key={tone} orientation="vertical" gap={4}>
                     <Text textStyle="Body2" className="dx-text-muted">
                       {tone}
                     </Text>
@@ -795,24 +795,24 @@ export function FeedbackDemos({ slug }: { slug: string }) {
             description:
               'text (default, height 1em), circle and rect — a single aria-hidden span each (test: renders with text variant by default and is aria-hidden).',
             content: (
-              <Stack orientation="vertical" gap="md">
-                <Stack orientation="vertical" gap="xs">
+              <Stack orientation="vertical" gap={12}>
+                <Stack orientation="vertical" gap={4}>
                   <Text textStyle="Body2" className="dx-text-muted">
                     text
                   </Text>
                   <Skeleton width="60%" />
                   <Skeleton width="40%" />
                 </Stack>
-                <Stack orientation="vertical" gap="xs">
+                <Stack orientation="vertical" gap={4}>
                   <Text textStyle="Body2" className="dx-text-muted">
                     circle + text row
                   </Text>
-                  <Row align="center" gap="md">
+                  <Row align="center" gap={12}>
                     <Skeleton variant="circle" width={40} height={40} />
                     <Skeleton width="45%" />
                   </Row>
                 </Stack>
-                <Stack orientation="vertical" gap="xs">
+                <Stack orientation="vertical" gap={4}>
                   <Text textStyle="Body2" className="dx-text-muted">
                     rect
                   </Text>
@@ -827,11 +827,11 @@ export function FeedbackDemos({ slug }: { slug: string }) {
             description:
               'width/height take pixel numbers (rendered as px) or CSS strings passed straight through (test: applies variant, width, and height).',
             content: (
-              <Stack orientation="vertical" gap="sm">
+              <Stack orientation="vertical" gap={8}>
                 <Skeleton width="90%" />
                 <Skeleton width="70%" />
                 <Skeleton width="45%" />
-                <Row align="center" gap="md">
+                <Row align="center" gap={12}>
                   <Skeleton variant="circle" width={72} height={72} />
                   <Skeleton variant="circle" width={40} height={40} />
                   <Skeleton variant="circle" width={24} height={24} />
@@ -846,10 +846,10 @@ export function FeedbackDemos({ slug }: { slug: string }) {
             description:
               'Stack variants into list, avatar or image placeholders — nothing interactive, nothing announced (skeletons stay decorative).',
             content: (
-              <Stack orientation="vertical" gap="sm">
-                <Row align="center" gap="md">
+              <Stack orientation="vertical" gap={8}>
+                <Row align="center" gap={12}>
                   <Skeleton variant="circle" width={48} height={48} />
-                  <Stack orientation="vertical" gap="xs">
+                  <Stack orientation="vertical" gap={4}>
                     <Skeleton width={160} />
                     <Skeleton width={96} />
                   </Stack>
@@ -883,7 +883,7 @@ export function FeedbackDemos({ slug }: { slug: string }) {
             description:
               'title is required; description is optional. The title renders as a plain div, not a heading, so it never disturbs the page heading order.',
             content: (
-              <Stack orientation="vertical" gap="md">
+              <Stack orientation="vertical" gap={12}>
                 <EmptyState title="Nothing here" />
                 <EmptyState
                   title="No results"
@@ -898,7 +898,7 @@ export function FeedbackDemos({ slug }: { slug: string }) {
             description:
               'Slots render in a fixed order — icon, title, description, action (test: renders slots in fixed order) — and any node fits the icon slot.',
             content: (
-              <Stack orientation="vertical" gap="md">
+              <Stack orientation="vertical" gap={12}>
                 <EmptyState
                   icon={<Icon name="search" size="xl" />}
                   title="No files match “quarterly”"
@@ -992,7 +992,7 @@ export function FeedbackDemos({ slug }: { slug: string }) {
               'Wrapper mode shows on hover and on keyboard focus, wires role="tooltip" plus aria-describedby while open, and preserves any consumer-supplied describedby (tests: shows on hover with role=tooltip, wires aria-describedby, preserves a consumer-supplied aria-describedby).',
             cardStyle: TOOLTIP_CARD,
             content: (
-              <Stack orientation="horizontal" gap="md" wrap>
+              <Stack orientation="horizontal" gap={12} wrap>
                 <Tooltip content="Helpful hint">
                   <Button>Hover or focus me</Button>
                 </Tooltip>
@@ -1012,7 +1012,7 @@ export function FeedbackDemos({ slug }: { slug: string }) {
               'Four fixed sides — top (default), right, bottom, left. delayMs 0 here so the demo reacts instantly.',
             cardStyle: TOOLTIP_CARD,
             content: (
-              <Row gap="sm" wrap>
+              <Row gap={8} wrap>
                 <Tooltip content="top" delayMs={0}>
                   <Button size="sm" variant="outlined">
                     top
@@ -1043,7 +1043,7 @@ export function FeedbackDemos({ slug }: { slug: string }) {
               'delayMs defaults to 300; durationMs unset keeps the tip sticky, set to auto-dismiss it while still hovered (test: auto-dismisses after durationMs while still hovered).',
             cardStyle: TOOLTIP_CARD,
             content: (
-              <Row gap="sm" wrap>
+              <Row gap={8} wrap>
                 <Tooltip
                   content="Default 300ms delay, sticky until blur"
                   delayMs={300}
@@ -1091,7 +1091,7 @@ export function FeedbackDemos({ slug }: { slug: string }) {
           description:
             'Every banner renders role="alert" and puts the decorative icon aria-hidden ahead of the content (tests: renders with role=alert and content, renders the icon aria-hidden before the content).',
           content: (
-            <Stack orientation="vertical" gap="md">
+            <Stack orientation="vertical" gap={12}>
               {ALERT_SEVERITIES.map((severity) => (
                 <Alert key={severity} severity={severity} title={severity} />
               ))}
@@ -1104,7 +1104,7 @@ export function FeedbackDemos({ slug }: { slug: string }) {
           description:
             'One severity across all four variants — filled is the default (test: applies the %s variant class for filled/flat/outlined/text).',
           content: (
-            <Stack orientation="vertical" gap="md">
+            <Stack orientation="vertical" gap={12}>
               {ALERT_VARIANTS.map((variant) => (
                 <Alert
                   key={variant}
@@ -1122,7 +1122,7 @@ export function FeedbackDemos({ slug }: { slug: string }) {
           description:
             'xs–xl padding and type ramp on the same banner (test: applies the %s size class).',
           content: (
-            <Stack orientation="vertical" gap="sm">
+            <Stack orientation="vertical" gap={8}>
               {ALERT_SIZES.map((size) => (
                 <Alert
                   key={size}

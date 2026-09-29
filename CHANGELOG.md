@@ -76,6 +76,22 @@ Versioning follows the release flow in `docs/DEVELOPMENT_STRATEGY.md`
   unchanged. A new Playwright spec (`e2e/layout-width.spec.ts`) locks
   the sampled routes to a zero content gap.
 
+### Changed — `Row`/`Stack`/`AutoGrid` `gap` is numeric (breaking)
+
+- `gap` (and `rowGap` on `Row`) drop the `xs|sm|md|lg|xl` token
+  vocabulary. A number is pixels (`gap={16}` → 16px); a CSS length
+  passes through verbatim (`gap="0.5rem"`), following Radzen's `Gap`
+  (unitless values get `px` appended — digits-only strings like
+  `"16"` included, so raw `<select>` values are safe to pass through).
+  Migration: `xs→4`, `sm→8`, `md→12`, `lg→16`, `xl→20`.
+- The tier gap classes (`.gapSm`, `.gapRowXl`, …) are removed from
+  `Row.module.css`, `Stack.module.css` and `AutoGrid.module.css`; an
+  explicit gap now always renders inline. Default values are unchanged
+  in effect: `Stack` 8 (was `'sm'`), `AutoGrid` 12 (was `'md'`),
+  `Row` 16 via the `--dx-space-4` stylesheet default.
+- A ratchet test (`preview/gap-api.test.ts`) fails if a tier token
+  returns to any `gap`/`rowGap` prop.
+
 ### Changed — `Togglebutton` rebuilt on `Button` (Radzen toggle axis)
 
 The toggle rendered its own button chrome (bespoke CSS with a bare

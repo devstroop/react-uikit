@@ -401,7 +401,7 @@ function TreeBasicDemo() {
   const [events, setEvents] = useState<string[]>([]);
   const log = (message: string) => setEvents((prev) => [message, ...prev]);
   return (
-    <Stack orientation="vertical" gap="md">
+    <Stack orientation="vertical" gap={12}>
       <Tree
         data={TREE_DATA}
         ariaLabel="Fleet zones"
@@ -421,9 +421,9 @@ function TreeSelectionDemo() {
   const [events, setEvents] = useState<string[]>([]);
   const log = (message: string) => setEvents((prev) => [message, ...prev]);
   return (
-    <Stack orientation="vertical" gap="md">
-      <Row gap="md" wrap>
-        <Stack orientation="vertical" gap="xs">
+    <Stack orientation="vertical" gap={12}>
+      <Row gap={12} wrap>
+        <Stack orientation="vertical" gap={4}>
           <Text textStyle="Body2" className="dx-text-muted">
             single
           </Text>
@@ -433,7 +433,7 @@ function TreeSelectionDemo() {
             onChange={(args) => log(`single → ${args.item.text}`)}
           />
         </Stack>
-        <Stack orientation="vertical" gap="xs">
+        <Stack orientation="vertical" gap={4}>
           <Text textStyle="Body2" className="dx-text-muted">
             multiple (aria-multiselectable)
           </Text>
@@ -461,7 +461,7 @@ function TreeCheckboxDemo() {
   const [events, setEvents] = useState<string[]>([]);
   const log = (message: string) => setEvents((prev) => [message, ...prev]);
   return (
-    <Stack orientation="vertical" gap="md">
+    <Stack orientation="vertical" gap={12}>
       <Tree
         data={TREE_DATA}
         ariaLabel="Checkable zones"
@@ -482,7 +482,7 @@ function TreeLazyDemo() {
   const [events, setEvents] = useState<string[]>([]);
   const log = (message: string) => setEvents((prev) => [message, ...prev]);
   return (
-    <Stack orientation="vertical" gap="md">
+    <Stack orientation="vertical" gap={12}>
       <Tree
         data={[{ id: 'regions', text: 'Regions (loads on expand)' }]}
         ariaLabel="Lazy regions"
@@ -514,7 +514,7 @@ function PickListDemo() {
   const [events, setEvents] = useState<string[]>([]);
   const log = (message: string) => setEvents((prev) => [message, ...prev]);
   return (
-    <Stack orientation="vertical" gap="md">
+    <Stack orientation="vertical" gap={12}>
       <PickList
         ariaLabel="Route crews"
         source={source}
@@ -551,7 +551,7 @@ function PivotFieldsDemo() {
   const [events, setEvents] = useState<string[]>([]);
   const log = (message: string) => setEvents((prev) => [message, ...prev]);
   return (
-    <Stack orientation="vertical" gap="md">
+    <Stack orientation="vertical" gap={12}>
       <Pivot
         ariaLabel="Controlled pivot"
         data={PIVOT_SALES}
@@ -604,7 +604,7 @@ function GanttTasksDemo() {
   const [events, setEvents] = useState<string[]>([]);
   const log = (message: string) => setEvents((prev) => [message, ...prev]);
   return (
-    <Stack orientation="vertical" gap="md">
+    <Stack orientation="vertical" gap={12}>
       <Gantt
         tasks={GANTT_TASKS}
         onTaskClick={({ task }) =>
@@ -622,8 +622,8 @@ function GanttTasksDemo() {
 function GanttViewDemo() {
   const [view, setView] = useState<'day' | 'week'>('week');
   return (
-    <Stack orientation="vertical" gap="md">
-      <Row gap="sm" wrap>
+    <Stack orientation="vertical" gap={12}>
+      <Row gap={8} wrap>
         <Button
           size="sm"
           variant={view === 'day' ? 'filled' : 'outlined'}
@@ -675,8 +675,8 @@ function SchedulerNavDemo() {
   const [events, setEvents] = useState<string[]>([]);
   const log = (message: string) => setEvents((prev) => [message, ...prev]);
   return (
-    <Stack orientation="vertical" gap="md">
-      <Row gap="sm" wrap>
+    <Stack orientation="vertical" gap={12}>
+      <Row gap={8} wrap>
         {(['day', 'week', 'month'] as const).map((mode) => (
           <Button
             key={mode}
@@ -708,7 +708,7 @@ function SchedulerEventsDemo() {
   const [events, setEvents] = useState<string[]>([]);
   const log = (message: string) => setEvents((prev) => [message, ...prev]);
   return (
-    <Stack orientation="vertical" gap="md">
+    <Stack orientation="vertical" gap={12}>
       <Scheduler
         view="week"
         date={new Date(2026, 8, 25)}
@@ -727,8 +727,8 @@ function SchedulerEventsDemo() {
 function DataListStatesDemo() {
   const [loading, setLoading] = useState(true);
   return (
-    <Stack orientation="vertical" gap="md">
-      <Row gap="sm" wrap>
+    <Stack orientation="vertical" gap={12}>
+      <Row gap={8} wrap>
         <Button size="sm" onClick={() => setLoading((prev) => !prev)}>
           {loading ? 'Finish loading' : 'Simulate loading'}
         </Button>
@@ -749,7 +749,7 @@ function DataFilterResultDemo() {
   const [matched, setMatched] = useState<readonly Crew[]>(CREWS);
   const log = (message: string) => setEvents((prev) => [message, ...prev]);
   return (
-    <Stack orientation="vertical" gap="md">
+    <Stack orientation="vertical" gap={12}>
       <DataFilter<Crew>
         properties={FILTER_PROPERTIES}
         items={CREWS}
@@ -775,8 +775,8 @@ function QRCodeErrorDemo() {
   const log = (message: string) => setEvents((prev) => [message, ...prev]);
   const tooLong = value.length > 4000;
   return (
-    <Stack orientation="vertical" gap="md">
-      <Row gap="sm" wrap>
+    <Stack orientation="vertical" gap={12}>
+      <Row gap={8} wrap>
         <Button
           size="sm"
           variant={tooLong ? 'outlined' : 'filled'}
@@ -1438,14 +1438,14 @@ export function DataDemos({ slug }: { slug: string }) {
               description:
                 'size sets width/height in px (default 128); errorCorrection trades density for resilience — low/medium/quartile/high, medium by default (tests: supports custom label and size, grows the symbol for longer payloads, leaves the quiet zone empty).',
               content: (
-                <Row gap="md" align="start" wrap>
-                  <Stack orientation="vertical" gap="xs" align="center">
+                <Row gap={12} align="start" wrap>
+                  <Stack orientation="vertical" gap={4} align="center">
                     <QRCode value="https://1km.app/zone/north" size={96} />
                     <Text textStyle="Caption" className="dx-text-muted">
                       96px
                     </Text>
                   </Stack>
-                  <Stack orientation="vertical" gap="xs" align="center">
+                  <Stack orientation="vertical" gap={4} align="center">
                     <QRCode
                       value="https://1km.app/zone/north"
                       size={160}
@@ -1455,7 +1455,7 @@ export function DataDemos({ slug }: { slug: string }) {
                       160px · high
                     </Text>
                   </Stack>
-                  <Stack orientation="vertical" gap="xs" align="center">
+                  <Stack orientation="vertical" gap={4} align="center">
                     <QRCode
                       value="https://1km.app/zone/north"
                       size={160}
@@ -1474,14 +1474,14 @@ export function DataDemos({ slug }: { slug: string }) {
               description:
                 'svg (default) stays crisp at any zoom; canvas repaints itself when the theme changes so bars always match the surface (test: renders a labelled canvas when render is canvas). Both carry role="img" and data-value.',
               content: (
-                <Row gap="md" align="start" wrap>
-                  <Stack orientation="vertical" gap="xs" align="center">
+                <Row gap={12} align="start" wrap>
+                  <Stack orientation="vertical" gap={4} align="center">
                     <QRCode value="https://1km.app/zone/south" size={144} />
                     <Text textStyle="Caption" className="dx-text-muted">
                       render="svg"
                     </Text>
                   </Stack>
-                  <Stack orientation="vertical" gap="xs" align="center">
+                  <Stack orientation="vertical" gap={4} align="center">
                     <QRCode
                       value="https://1km.app/zone/south"
                       size={144}
@@ -1523,7 +1523,7 @@ export function DataDemos({ slug }: { slug: string }) {
               description:
                 'height sets the bar height in px (default 60); width fills the container — the viewBox scales with preserveAspectRatio="none".',
               content: (
-                <Stack orientation="vertical" gap="md">
+                <Stack orientation="vertical" gap={12}>
                   <Barcode value="1KM-2026-0001" height={40} />
                   <Barcode value="1KM-2026-0001" height={80} />
                 </Stack>
@@ -1535,7 +1535,7 @@ export function DataDemos({ slug }: { slug: string }) {
               description:
                 'showValue prints the payload under the bars (test: shows value when showValue); printable ASCII 32–126 encodes faithfully in Code 128 — anything else collapses to a placeholder pattern.',
               content: (
-                <Stack orientation="vertical" gap="md">
+                <Stack orientation="vertical" gap={12}>
                   <Barcode value="1KM-2026-0001" showValue />
                   <Barcode value="1KM-2026-0001" />
                 </Stack>
@@ -1596,7 +1596,7 @@ export function DataDemos({ slug }: { slug: string }) {
               description:
                 'gridLines switches the rule pattern (default/both/none/horizontal/vertical — test: switches grid line variants) and caption renders a real <caption> (test: renders a caption and scope=col headers); alternating rows are on by default (test).',
               content: (
-                <Stack orientation="vertical" gap="md">
+                <Stack orientation="vertical" gap={12}>
                   <Table<Route>
                     caption="Routes — gridLines both"
                     gridLines="both"

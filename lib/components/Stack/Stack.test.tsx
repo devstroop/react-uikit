@@ -32,12 +32,21 @@ describe('Stack', () => {
     expect(container.firstElementChild?.className).not.toMatch(/wrap-/);
   });
 
-  it('maps gap tiers to token classes and inline styles otherwise', () => {
-    const { container, rerender } = render(<Stack gap="lg" />);
-    expect(container.firstElementChild?.className).toContain('gapLg');
-    rerender(<Stack gap={16} />);
+  it('applies gap as inline px for numbers and CSS lengths', () => {
+    const { container, rerender } = render(<Stack gap={16} />);
     expect(container.firstElementChild?.getAttribute('style')).toContain(
       'gap: 16px'
+    );
+    rerender(<Stack gap="0.5rem" />);
+    expect(container.firstElementChild?.getAttribute('style')).toContain(
+      'gap: 0.5rem'
+    );
+  });
+
+  it('defaults the gap to 8px', () => {
+    const { container } = render(<Stack />);
+    expect(container.firstElementChild?.getAttribute('style')).toContain(
+      'gap: 8px'
     );
   });
 

@@ -130,7 +130,7 @@ function CarouselEventsDemo() {
   const [events, setEvents] = useState<string[]>([]);
   return (
     <>
-      <Row gap="sm" wrap className="dx-mb-2">
+      <Row gap={8} wrap className="dx-mb-2">
         {slides.map((_, i) => (
           <Button
             key={i}
@@ -216,7 +216,7 @@ export function DisplayDemos({ slug }: { slug: string }) {
               </>
             ),
             content: (
-              <Row align="center" gap="md" wrap>
+              <Row align="center" gap={12} wrap>
                 {SEVERITIES.map((severity) => (
                   <Badge key={severity} severity={severity}>
                     {capitalize(severity)}
@@ -235,7 +235,7 @@ export function DisplayDemos({ slug }: { slug: string }) {
               </>
             ),
             content: (
-              <Row align="center" gap="md" wrap>
+              <Row align="center" gap={12} wrap>
                 {VARIANTS.map((variant) => (
                   <Badge key={variant} variant={variant}>
                     {capitalize(variant)}
@@ -254,9 +254,9 @@ export function DisplayDemos({ slug }: { slug: string }) {
               </>
             ),
             content: (
-              <Stack orientation="vertical" gap="sm">
+              <Stack orientation="vertical" gap={8}>
                 {SEVERITIES.map((severity) => (
-                  <Row key={severity} align="center" gap="sm" wrap>
+                  <Row key={severity} align="center" gap={8} wrap>
                     {SHADES.map((shade) => (
                       <Badge key={shade} severity={severity} shade={shade}>
                         {capitalize(severity)} {capitalize(shade)}
@@ -276,7 +276,7 @@ export function DisplayDemos({ slug }: { slug: string }) {
               </>
             ),
             content: (
-              <Row align="center" gap="md" wrap>
+              <Row align="center" gap={12} wrap>
                 {SIZES.map((size) => (
                   <Badge key={size} severity="primary" size={size}>
                     {size}
@@ -306,7 +306,7 @@ export function DisplayDemos({ slug }: { slug: string }) {
               </>
             ),
             content: (
-              <Row align="center" gap="md" wrap>
+              <Row align="center" gap={12} wrap>
                 <Avatar name="Ada Lovelace" />
                 <Avatar name="Ada Lovelace" src={PHOTO} alt="Ada Lovelace" />
                 <Avatar
@@ -325,7 +325,7 @@ export function DisplayDemos({ slug }: { slug: string }) {
               </>
             ),
             content: (
-              <Row align="center" gap="md" wrap>
+              <Row align="center" gap={12} wrap>
                 {SIZES.map((size) => (
                   <Avatar key={size} name="Grace Hopper" size={size} />
                 ))}
@@ -341,7 +341,7 @@ export function DisplayDemos({ slug }: { slug: string }) {
               </>
             ),
             content: (
-              <Row align="center" gap="md" wrap>
+              <Row align="center" gap={12} wrap>
                 <Avatar name="Online" status="online" />
                 <Avatar name="Away" status="away" />
                 <Avatar name="Offline" status="offline" />
@@ -353,7 +353,7 @@ export function DisplayDemos({ slug }: { slug: string }) {
             title: 'Composition',
             description: 'Avatar beside identity text and a role pill.',
             content: (
-              <Row align="center" gap="md" wrap>
+              <Row align="center" gap={12} wrap>
                 <Avatar name="Grace Hopper" src={PHOTO} alt="Grace Hopper" />
                 <Stack orientation="vertical" gap="0">
                   <Text textStyle="Subtitle2" tagName="P">
@@ -382,7 +382,7 @@ export function DisplayDemos({ slug }: { slug: string }) {
             title: 'Basic',
             description: 'A label over a prominent value.',
             content: (
-              <Row align="start" gap="lg" wrap>
+              <Row align="start" gap={16} wrap>
                 <Stat label="Active" value="128" />
                 <Stat label="Open incidents" value="7" />
               </Row>
@@ -398,7 +398,7 @@ export function DisplayDemos({ slug }: { slug: string }) {
               </>
             ),
             content: (
-              <Row align="start" gap="lg" wrap>
+              <Row align="start" gap={16} wrap>
                 <Stat
                   label="Churn"
                   value="3.2%"
@@ -429,7 +429,7 @@ export function DisplayDemos({ slug }: { slug: string }) {
               </>
             ),
             content: (
-              <Row align="start" gap="lg" wrap>
+              <Row align="start" gap={16} wrap>
                 <Stat label="Latency" value="142 ms" hint="p95, last hour" />
                 <Stat label="Storage" value="68%" hint="of 2 TB quota" />
               </Row>
@@ -441,7 +441,7 @@ export function DisplayDemos({ slug }: { slug: string }) {
             description: 'A row of stats inside a Card — dashboard KPIs.',
             content: (
               <Card variant="outlined">
-                <Row gap="lg" wrap>
+                <Row gap={16} wrap>
                   <Stat
                     label="Revenue"
                     value="$48.2k"
@@ -608,8 +608,8 @@ export function DisplayDemos({ slug }: { slug: string }) {
               </>
             ),
             content: (
-              <Stack orientation="vertical" gap="lg">
-                <Stack orientation="vertical" gap="sm">
+              <Stack orientation="vertical" gap={16}>
+                <Stack orientation="vertical" gap={8}>
                   <Text textStyle="Caption" className="dx-text-muted">
                     Default controls
                   </Text>
@@ -621,7 +621,7 @@ export function DisplayDemos({ slug }: { slug: string }) {
                     ]}
                   />
                 </Stack>
-                <Stack orientation="vertical" gap="sm">
+                <Stack orientation="vertical" gap={8}>
                   <Text textStyle="Caption" className="dx-text-muted">
                     No arrows, no indicators
                   </Text>
@@ -635,7 +635,7 @@ export function DisplayDemos({ slug }: { slug: string }) {
                     ]}
                   />
                 </Stack>
-                <Stack orientation="vertical" gap="sm">
+                <Stack orientation="vertical" gap={8}>
                   <Text textStyle="Caption" className="dx-text-muted">
                     Autoplay every 2s, paused while hovered
                   </Text>
@@ -703,7 +703,7 @@ export function DisplayDemos({ slug }: { slug: string }) {
               </>
             ),
             content: (
-              <Stack orientation="vertical" gap="lg">
+              <Stack orientation="vertical" gap={16}>
                 <Splitter
                   panes={[
                     { size: '30%', children: <Text>Left</Text> },
@@ -781,7 +781,7 @@ export function DisplayDemos({ slug }: { slug: string }) {
             </>
           ),
           content: (
-            <Row align="start" gap="md" wrap>
+            <Row align="start" gap={12} wrap>
               <Card variant="elevated" header={<Text>Elevated</Text>}>
                 <Text textStyle="Body1">Card body.</Text>
               </Card>
@@ -803,7 +803,7 @@ export function DisplayDemos({ slug }: { slug: string }) {
             </>
           ),
           content: (
-            <Row align="start" gap="md" wrap>
+            <Row align="start" gap={12} wrap>
               <Card
                 header={
                   <Text textStyle="Subtitle2" tagName="P">
@@ -838,7 +838,7 @@ export function DisplayDemos({ slug }: { slug: string }) {
             <Card
               variant="outlined"
               header={
-                <Row align="center" gap="md">
+                <Row align="center" gap={12}>
                   <Avatar name="Ada Lovelace" src={PHOTO} alt="Ada Lovelace" />
                   <Stack orientation="vertical" gap="0">
                     <Text textStyle="Subtitle2" tagName="P">

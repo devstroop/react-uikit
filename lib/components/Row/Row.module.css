@@ -4,33 +4,11 @@
   flex-wrap: wrap;
   /* Column grid math (Column.module.css) compensates for this gap so
    * exact-sum rows never wrap. --dx-col-gap is the single source: both
-   * gap longhands below read it, tier gap classes only override the var
-   * (arbitrary gaps set it inline from Row.tsx), and Column reads it. */
+   * gap longhands below read it (Row.tsx sets it inline for an explicit
+   * gap prop) and Column reads it. */
   --dx-col-gap: var(--dx-space-4);
   column-gap: var(--dx-col-gap);
   row-gap: var(--dx-col-gap);
-}
-
-/* .row. prefix keeps these winning over .row's declarations regardless
- * of rule order in this file (equal specificity would be order-dependent). */
-.row.gapXs {
-  --dx-col-gap: var(--dx-space-1);
-}
-
-.row.gapSm {
-  --dx-col-gap: var(--dx-space-2);
-}
-
-.row.gapMd {
-  --dx-col-gap: var(--dx-space-3);
-}
-
-.row.gapLg {
-  --dx-col-gap: var(--dx-space-4);
-}
-
-.row.gapXl {
-  --dx-col-gap: var(--dx-space-5);
 }
 
 .start {
@@ -115,24 +93,4 @@
 
 .wrapReverse {
   flex-wrap: wrap-reverse;
-}
-
-.row.gapRowXs {
-  row-gap: var(--dx-space-1);
-}
-
-.row.gapRowSm {
-  row-gap: var(--dx-space-2);
-}
-
-.row.gapRowMd {
-  row-gap: var(--dx-space-3);
-}
-
-.row.gapRowLg {
-  row-gap: var(--dx-space-4);
-}
-
-.row.gapRowXl {
-  row-gap: var(--dx-space-5);
 }

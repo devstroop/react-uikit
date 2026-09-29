@@ -77,15 +77,15 @@ const JUSTIFY_OPTIONS: readonly RowJustify[] = [
   'around',
   'evenly',
 ];
-const GAP_OPTIONS = ['md', 'xs', 'sm', 'lg', 'xl', '8px', '32px'];
+const GAP_OPTIONS = ['4px', '8px', '12px', '16px', '20px', '32px'];
 
 function RowPlayground() {
   const [align, setAlign] = useState<RowAlign>('start');
   const [justify, setJustify] = useState<RowJustify>('start');
-  const [gap, setGap] = useState('md');
+  const [gap, setGap] = useState('12px');
   return (
-    <Stack orientation="vertical" gap="sm">
-      <Stack orientation="horizontal" gap="md" wrap>
+    <Stack orientation="vertical" gap={8}>
+      <Stack orientation="horizontal" gap={12} wrap>
         <Stack orientation="vertical" gap={2}>
           <Text textStyle="Caption">Align</Text>
           <Select
@@ -154,7 +154,7 @@ const STACK_REVERSE = ['no', 'yes'] as const;
 function StackPlayground() {
   const [orientation, setOrientation] =
     useState<(typeof STACK_ORIENTATIONS)[number]>('horizontal');
-  const [gap, setGap] = useState('md');
+  const [gap, setGap] = useState('12px');
   const [align, setAlign] = useState<(typeof STACK_ALIGNS)[number]>('start');
   const [justify, setJustify] =
     useState<(typeof STACK_JUSTIFIES)[number]>('start');
@@ -176,8 +176,8 @@ function StackPlayground() {
     </Stack>
   );
   return (
-    <Stack orientation="vertical" gap="sm">
-      <Stack orientation="horizontal" gap="md">
+    <Stack orientation="vertical" gap={8}>
+      <Stack orientation="horizontal" gap={12}>
         {control(
           'Orientation',
           orientation,
@@ -233,8 +233,8 @@ function StackPlayground() {
 function AutoGridVisibilityDemo() {
   const [visible, setVisible] = useState(true);
   return (
-    <Stack orientation="vertical" gap="sm">
-      <Row align="center" gap="sm">
+    <Stack orientation="vertical" gap={8}>
+      <Row align="center" gap={8}>
         <Button size="sm" onClick={() => setVisible((v) => !v)}>
           Toggle grid
         </Button>
@@ -242,7 +242,7 @@ function AutoGridVisibilityDemo() {
           visible: {String(visible)}
         </Text>
       </Row>
-      <AutoGrid min={160} gap="md" visible={visible}>
+      <AutoGrid min={160} gap={12} visible={visible}>
         <Cell i={0} h={64}>
           one
         </Cell>
@@ -261,9 +261,9 @@ function HeaderToolbarDemo() {
   const [events, setEvents] = useState<string[]>([]);
   const log = (message: string) => setEvents((prev) => [message, ...prev]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <Header aria-label="Toolbar demo header">
-        <Row align="center" justify="between" gap="sm">
+        <Row align="center" justify="between" gap={8}>
           <SidebarToggle
             label="Open navigation"
             data-se-sidebar-toggle
@@ -286,8 +286,8 @@ function HeaderToolbarDemo() {
 function BodyStatesDemo() {
   const [padded, setPadded] = useState(true);
   return (
-    <Stack orientation="vertical" gap="sm">
-      <Row align="center" gap="sm">
+    <Stack orientation="vertical" gap={8}>
+      <Row align="center" gap={8}>
         <Button size="sm" onClick={() => setPadded((v) => !v)}>
           Toggle padding
         </Button>
@@ -310,9 +310,9 @@ function FooterLinksDemo() {
   const [events, setEvents] = useState<string[]>([]);
   const log = (message: string) => setEvents((prev) => [message, ...prev]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <Footer aria-label="Links demo footer">
-        <Row gap="md" wrap>
+        <Row gap={12} wrap>
           <Link
             href="#/footer"
             onClick={(e) => {
@@ -356,7 +356,7 @@ function SidebarOverlayDemo() {
   const [events, setEvents] = useState<string[]>([]);
   const log = (message: string) => setEvents((prev) => [message, ...prev]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <div style={{ position: 'relative', minHeight: 140, ...demoRow }}>
         <Sidebar
           aria-label="Overlay demo sidebar"
@@ -399,7 +399,7 @@ function SidebartoggleShellDemo() {
   const [events, setEvents] = useState<string[]>([]);
   const log = (message: string) => setEvents((prev) => [message, ...prev]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <Layout
         style={{
           minHeight: 260,
@@ -408,7 +408,7 @@ function SidebartoggleShellDemo() {
         }}
       >
         <Header aria-label="Shell demo header">
-          <Row align="center" gap="sm">
+          <Row align="center" gap={8}>
             <SidebarToggle
               aria-expanded={open}
               label={open ? 'Collapse sidebar' : 'Expand sidebar'}
@@ -422,7 +422,7 @@ function SidebartoggleShellDemo() {
           </Row>
         </Header>
         <Sidebar aria-label="Shell demo sidebar" expanded={open}>
-          <Stack orientation="vertical" gap="xs">
+          <Stack orientation="vertical" gap={4}>
             <Text>Nav one</Text>
             <Text>Nav two</Text>
           </Stack>
@@ -444,7 +444,7 @@ function LayoutRegionsDemo() {
   const [events, setEvents] = useState<string[]>([]);
   const log = (message: string) => setEvents((prev) => [message, ...prev]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <Layout
         style={{
           minHeight: 260,
@@ -462,7 +462,7 @@ function LayoutRegionsDemo() {
           <Text>Sidebar nav</Text>
         </Sidebar>
         <Header aria-label="Regions demo header">
-          <Row align="center" gap="sm">
+          <Row align="center" gap={8}>
             <SidebarToggle
               aria-expanded={open}
               label={open ? 'Hide sidebar' : 'Show sidebar'}
@@ -506,11 +506,11 @@ export function LayoutDemos({ slug }: { slug: string }) {
             description:
               'align: start, center, end, stretch, baseline, normal.',
             content: (
-              <Stack orientation="vertical" gap="md">
+              <Stack orientation="vertical" gap={12}>
                 {ALIGN_OPTIONS.map((a) => (
                   <div key={a}>
                     <Text textStyle="Caption">align="{a}"</Text>
-                    <Row align={a} gap="sm" style={demoRow}>
+                    <Row align={a} gap={8} style={demoRow}>
                       <Cell
                         i={0}
                         h={a === 'baseline' ? undefined : 36}
@@ -553,11 +553,11 @@ export function LayoutDemos({ slug }: { slug: string }) {
             description:
               'justify: start, center, end, between, around, evenly.',
             content: (
-              <Stack orientation="vertical" gap="md">
+              <Stack orientation="vertical" gap={12}>
                 {JUSTIFY_OPTIONS.map((j) => (
                   <div key={j}>
                     <Text textStyle="Caption">justify="{j}"</Text>
-                    <Row justify={j} gap="sm" style={demoRow}>
+                    <Row justify={j} gap={8} style={demoRow}>
                       <Cell i={0} h={40} w={100}>
                         1
                       </Cell>
@@ -577,12 +577,12 @@ export function LayoutDemos({ slug }: { slug: string }) {
             id: 'row-gaps',
             title: 'Gaps',
             description:
-              'Gap tiers, arbitrary gaps and rowGap on wrapped column sets.',
+              'Px numbers, CSS lengths and rowGap on wrapped column sets.',
             content: (
-              <Stack orientation="vertical" gap="md">
-                {(['xs', 'sm', 'md', 'lg', 'xl'] as const).map((g) => (
+              <Stack orientation="vertical" gap={12}>
+                {[4, 8, 12, 16, 20].map((g) => (
                   <div key={g}>
-                    <Text textStyle="Caption">gap="{g}"</Text>
+                    <Text textStyle="Caption">{'gap={' + g + '}'}</Text>
                     <Row gap={g} style={demoRow}>
                       {[0, 1, 2, 3].map((i) => (
                         <Column key={i} size={6}>
@@ -596,9 +596,9 @@ export function LayoutDemos({ slug }: { slug: string }) {
                 ))}
                 <div>
                   <Text textStyle="Caption">
-                    gap="0.5rem" rowGap="xl" (column gap vs row gap)
+                    gap="0.5rem" rowGap={20} (column gap vs row gap)
                   </Text>
-                  <Row gap="0.5rem" rowGap="xl" style={demoRow}>
+                  <Row gap="0.5rem" rowGap={20} style={demoRow}>
                     {[0, 1, 2, 3].map((i) => (
                       <Column key={i} size={6}>
                         <Cell i={i} h={40}>
@@ -630,10 +630,10 @@ export function LayoutDemos({ slug }: { slug: string }) {
             title: 'Wrapping',
             description: 'wrap: true, false (nowrap), wrap-reverse.',
             content: (
-              <Stack orientation="vertical" gap="md">
+              <Stack orientation="vertical" gap={12}>
                 <div>
                   <Text textStyle="Caption">wrap (default)</Text>
-                  <Row gap="sm" style={demoRow}>
+                  <Row gap={8} style={demoRow}>
                     {[0, 1, 2, 3].map((i) => (
                       <Column key={i} size={4}>
                         <Cell i={i} h={40}>
@@ -646,7 +646,7 @@ export function LayoutDemos({ slug }: { slug: string }) {
                 <div>
                   <Text textStyle="Caption">wrap=false (nowrap)</Text>
                   <Row
-                    gap="sm"
+                    gap={8}
                     wrap={false}
                     style={{ ...demoRow, overflow: 'hidden' }}
                   >
@@ -661,7 +661,7 @@ export function LayoutDemos({ slug }: { slug: string }) {
                 </div>
                 <div>
                   <Text textStyle="Caption">wrap="wrap-reverse"</Text>
-                  <Row gap="sm" wrap="wrap-reverse" style={demoRow}>
+                  <Row gap={8} wrap="wrap-reverse" style={demoRow}>
                     {[0, 1, 2, 3].map((i) => (
                       <Column key={i} size={4}>
                         <Cell i={i} h={40}>
@@ -678,12 +678,12 @@ export function LayoutDemos({ slug }: { slug: string }) {
             id: 'row-columns',
             title: 'With Columns',
             content: (
-              <Stack orientation="vertical" gap="md">
-                <Row justify="space-between" align="center" gap="md">
+              <Stack orientation="vertical" gap={12}>
+                <Row justify="space-between" align="center" gap={12}>
                   <Column size={6}>size 6</Column>
                   <Column size={6}>size 6</Column>
                 </Row>
-                <Row justify="space-between" align="center" gap="md">
+                <Row justify="space-between" align="center" gap={12}>
                   <Column size={12} sizeMd={4}>
                     12 → md 4
                   </Column>
@@ -709,7 +709,7 @@ export function LayoutDemos({ slug }: { slug: string }) {
             title: 'Auto-layout columns',
             description: 'Without a size the free space is shared equally.',
             content: (
-              <Row gap="md" style={demoRow}>
+              <Row gap={12} style={demoRow}>
                 {['1 of 4', '2 of 4', '3 of 4', '4 of 4'].map((t, i) => (
                   <Column key={i}>
                     <Cell i={i} h={48}>
@@ -726,10 +726,10 @@ export function LayoutDemos({ slug }: { slug: string }) {
             description:
               'Mixed sized + auto columns; sums up to 12 share one line, sums above 12 wrap.',
             content: (
-              <Stack orientation="vertical" gap="md">
+              <Stack orientation="vertical" gap={12}>
                 <div>
                   <Text textStyle="Caption">Size 4 + auto + auto</Text>
-                  <Row gap="md" style={demoRow}>
+                  <Row gap={12} style={demoRow}>
                     <Column size={4}>
                       <Cell i={0} h={48}>
                         size 4
@@ -749,7 +749,7 @@ export function LayoutDemos({ slug }: { slug: string }) {
                 </div>
                 <div>
                   <Text textStyle="Caption">Size 4 + 5 + 3</Text>
-                  <Row gap="md" style={demoRow}>
+                  <Row gap={12} style={demoRow}>
                     <Column size={4}>
                       <Cell i={0} h={48}>
                         4
@@ -771,7 +771,7 @@ export function LayoutDemos({ slug }: { slug: string }) {
                   <Text textStyle="Caption">
                     Size 8 + 8 (sum overflows → wraps)
                   </Text>
-                  <Row gap="md" style={demoRow}>
+                  <Row gap={12} style={demoRow}>
                     <Column size={8}>
                       <Cell i={3} h={48}>
                         8
@@ -793,8 +793,8 @@ export function LayoutDemos({ slug }: { slug: string }) {
             description:
               'One column stepping 12 → 11 → 10 → 9 → 8 → 7 → 6 across breakpoints, plus a practical stacked grid.',
             content: (
-              <Stack orientation="vertical" gap="md">
-                <Row gap="md" style={demoRow}>
+              <Stack orientation="vertical" gap={12}>
+                <Row gap={12} style={demoRow}>
                   <Column
                     size={12}
                     sizeXs={11}
@@ -809,7 +809,7 @@ export function LayoutDemos({ slug }: { slug: string }) {
                     </Cell>
                   </Column>
                 </Row>
-                <Row gap="md" style={demoRow}>
+                <Row gap={12} style={demoRow}>
                   <Column size={12} sizeSm={6} sizeMd={4}>
                     <Cell i={1} h={48}>
                       12 → sm 6 → md 4
@@ -835,7 +835,7 @@ export function LayoutDemos({ slug }: { slug: string }) {
             description:
               'Four Size-6 columns on two lines; gap spaces them horizontally, rowGap vertically.',
             content: (
-              <Stack orientation="vertical" gap="md">
+              <Stack orientation="vertical" gap={12}>
                 <Row gap="0.5rem" rowGap="0.5rem" style={demoRow}>
                   {[0, 1, 2, 3].map((i) => (
                     <Column key={i} size={6}>
@@ -847,9 +847,9 @@ export function LayoutDemos({ slug }: { slug: string }) {
                 </Row>
                 <div>
                   <Text textStyle="Caption">
-                    gap="0.5rem" rowGap="xl" — distinct vertical spacing
+                    gap="0.5rem" rowGap={20} — distinct vertical spacing
                   </Text>
-                  <Row gap="0.5rem" rowGap="xl" style={demoRow}>
+                  <Row gap="0.5rem" rowGap={20} style={demoRow}>
                     {[0, 1, 2, 3].map((i) => (
                       <Column key={i} size={6}>
                         <Cell i={i} h={48}>
@@ -868,15 +868,15 @@ export function LayoutDemos({ slug }: { slug: string }) {
             description:
               'offset shifts a column rightward on the 12-column grid.',
             content: (
-              <Stack orientation="vertical" gap="md">
-                <Row gap="md" style={demoRow}>
+              <Stack orientation="vertical" gap={12}>
+                <Row gap={12} style={demoRow}>
                   <Column size={6} offset={3}>
                     <Cell i={0} h={48}>
                       size 6, offset 3
                     </Cell>
                   </Column>
                 </Row>
-                <Row gap="md" style={demoRow}>
+                <Row gap={12} style={demoRow}>
                   <Column size={3} offset={9}>
                     <Cell i={1} h={48}>
                       size 3, offset 9 (flush right)
@@ -890,7 +890,7 @@ export function LayoutDemos({ slug }: { slug: string }) {
             id: 'column-responsive-offset',
             title: 'Responsive offset',
             content: (
-              <Row gap="md" style={demoRow}>
+              <Row gap={12} style={demoRow}>
                 <Column
                   offset={0}
                   offsetXs={1}
@@ -911,7 +911,7 @@ export function LayoutDemos({ slug }: { slug: string }) {
             id: 'column-order',
             title: 'Column order',
             content: (
-              <Row gap="md" style={demoRow}>
+              <Row gap={12} style={demoRow}>
                 <Column size={4} order={3}>
                   <Cell i={0} h={48}>
                     order 3
@@ -935,7 +935,7 @@ export function LayoutDemos({ slug }: { slug: string }) {
             title: 'Responsive order',
             description: 'First column reorders to 4 at md, 6 at lg, 8 at xl.',
             content: (
-              <Row gap="md" style={demoRow}>
+              <Row gap={12} style={demoRow}>
                 <Column order={1} orderMd={4} orderLg={6} orderXl={8}>
                   <Cell i={3} h={48}>
                     order 1 / md 4 / lg 6 / xl 8
@@ -964,22 +964,22 @@ export function LayoutDemos({ slug }: { slug: string }) {
             title: 'Nested layouts',
             description: 'Rows nest inside columns three levels deep.',
             content: (
-              <Stack orientation="vertical" gap="md">
-                <Row gap="md" style={demoRow}>
+              <Stack orientation="vertical" gap={12}>
+                <Row gap={12} style={demoRow}>
                   <Column>
                     <Cell i={0} h={56}>
                       Level 1
                     </Cell>
                   </Column>
                   <Column>
-                    <Row gap="sm">
+                    <Row gap={8}>
                       <Column>
                         <Cell i={1} h={44}>
                           Level 2
                         </Cell>
                       </Column>
                       <Column>
-                        <Row gap="xs">
+                        <Row gap={4}>
                           <Column>
                             <Cell i={2} h={32}>
                               Level 3
@@ -1000,7 +1000,7 @@ export function LayoutDemos({ slug }: { slug: string }) {
                     </Row>
                   </Column>
                 </Row>
-                <Row gap="md" style={demoRow}>
+                <Row gap={12} style={demoRow}>
                   <Column size={3}>
                     <Cell i={5} h={56}>
                       size 3
@@ -1009,7 +1009,7 @@ export function LayoutDemos({ slug }: { slug: string }) {
                   <Column>
                     <Cell i={0} h={56}>
                       auto size
-                      <Row gap="sm" style={{ marginTop: 8 }}>
+                      <Row gap={8} style={{ marginTop: 8 }}>
                         <Column size={3}>
                           <Cell i={1} h={40}>
                             3
@@ -1038,7 +1038,7 @@ export function LayoutDemos({ slug }: { slug: string }) {
             description:
               'Tight gutters: twelve auto columns without wrapping, plus a three-column row.',
             content: (
-              <Stack orientation="vertical" gap="md">
+              <Stack orientation="vertical" gap={12}>
                 <Row wrap={false} gap={10} style={demoRow}>
                   {Array.from({ length: 12 }, (_, i) => (
                     <Column key={i}>
@@ -1076,21 +1076,16 @@ export function LayoutDemos({ slug }: { slug: string }) {
             description:
               'Vertical is the default; horizontal lays children out in a row and reverse flips the flow order (tests: renders a column stack by default, switches orientation and reverse direction).',
             content: (
-              <Stack orientation="vertical" gap="md">
-                <Stack orientation="vertical" gap="xs" style={demoRow}>
+              <Stack orientation="vertical" gap={12}>
+                <Stack orientation="vertical" gap={4} style={demoRow}>
                   <Cell i={0}>vertical · first</Cell>
                   <Cell i={1}>vertical · second</Cell>
                 </Stack>
-                <Stack orientation="horizontal" gap="xs" style={demoRow}>
+                <Stack orientation="horizontal" gap={4} style={demoRow}>
                   <Cell i={2}>horizontal · first</Cell>
                   <Cell i={3}>horizontal · second</Cell>
                 </Stack>
-                <Stack
-                  orientation="horizontal"
-                  reverse
-                  gap="xs"
-                  style={demoRow}
-                >
+                <Stack orientation="horizontal" reverse gap={4} style={demoRow}>
                   <Cell i={4}>reversed · first</Cell>
                   <Cell i={5}>reversed · second</Cell>
                 </Stack>
@@ -1101,10 +1096,10 @@ export function LayoutDemos({ slug }: { slug: string }) {
             id: 'stack-gaps',
             title: 'Gaps',
             description:
-              'Tier gaps (xs–xl) map to space-token classes, numeric gaps become inline px, and a style.gap wins over both (test: maps gap tiers to token classes and inline styles otherwise).',
+              'Px numbers and CSS lengths render as inline gap on the element (test: applies gap as inline px for numbers and CSS lengths).',
             content: (
-              <Stack orientation="vertical" gap="md">
-                {(['xs', 'sm', 'md', 'lg', 'xl'] as const).map((gap) => (
+              <Stack orientation="vertical" gap={12}>
+                {[4, 8, 12, 16, 20].map((gap) => (
                   <Stack
                     key={gap}
                     orientation="horizontal"
@@ -1112,7 +1107,7 @@ export function LayoutDemos({ slug }: { slug: string }) {
                     style={demoRow}
                   >
                     <Cell i={0} w={96}>
-                      gap {gap}
+                      gap {gap}px
                     </Cell>
                     <Cell i={1} w={48}>
                       ·
@@ -1122,9 +1117,9 @@ export function LayoutDemos({ slug }: { slug: string }) {
                     </Cell>
                   </Stack>
                 ))}
-                <Stack orientation="horizontal" gap={12} style={demoRow}>
+                <Stack orientation="horizontal" gap="2rem" style={demoRow}>
                   <Cell i={3} w={96}>
-                    gap 12
+                    gap 2rem
                   </Cell>
                   <Cell i={4} w={48}>
                     ·
@@ -1144,7 +1139,7 @@ export function LayoutDemos({ slug }: { slug: string }) {
             content: (
               <Stack
                 orientation="horizontal"
-                gap="xs"
+                gap={4}
                 wrap="wrap-reverse"
                 style={demoRow}
               >
@@ -1164,7 +1159,7 @@ export function LayoutDemos({ slug }: { slug: string }) {
             id: 'stack-playground',
             title: 'Playground',
             description:
-              'Drive orientation, gap, align, justify and reverse from the selects — every combination lands as classes, never inline styles, except the numeric gap (tests: applies align and justify modifier classes).',
+              'Drive orientation, gap, align, justify and reverse from the selects — orientation, align and justify land as classes; gap always renders inline (tests: applies align and justify modifier classes, applies gap as inline px for numbers and CSS lengths).',
             content: <StackPlayground />,
           },
         ]}
@@ -1181,10 +1176,10 @@ export function LayoutDemos({ slug }: { slug: string }) {
             id: 'autogrid-minimum',
             title: 'Minimum track size',
             description:
-              'min accepts a px number or any CSS length; tracks auto-fit to the container width (tests: renders children in an auto-fit grid with default min, applies numeric min as px and tier gaps as classes).',
+              'min accepts a px number or any CSS length; tracks auto-fit to the container width (tests: renders children in an auto-fit grid with default min, applies numeric min as px and numeric gaps as inline px).',
             content: (
-              <Stack orientation="vertical" gap="md">
-                <AutoGrid min={160} gap="md">
+              <Stack orientation="vertical" gap={12}>
+                <AutoGrid min={160} gap={12}>
                   <Cell i={0} h={64}>
                     160px min
                   </Cell>
@@ -1195,7 +1190,7 @@ export function LayoutDemos({ slug }: { slug: string }) {
                     one column each
                   </Cell>
                 </AutoGrid>
-                <AutoGrid min="20ch" gap="lg">
+                <AutoGrid min="20ch" gap={16}>
                   <Cell i={3} h={64}>
                     20ch min
                   </Cell>
@@ -1210,18 +1205,18 @@ export function LayoutDemos({ slug }: { slug: string }) {
             id: 'autogrid-gaps',
             title: 'Gaps',
             description:
-              'Gap tiers render as token classes; numeric gaps become inline px on the custom property (test: applies numeric gaps as inline px and string mins verbatim).',
+              'Gap is a px number rendered inline (tests: applies numeric gaps as inline px and string mins verbatim, defaults the gap to 12px).',
             content: (
-              <Stack orientation="vertical" gap="md">
-                <AutoGrid min={140} gap="xl">
+              <Stack orientation="vertical" gap={12}>
+                <AutoGrid min={140} gap={20}>
                   <Cell i={0} h={48}>
-                    gap xl
+                    gap 20px
                   </Cell>
                   <Cell i={1} h={48}>
-                    gap xl
+                    gap 20px
                   </Cell>
                   <Cell i={2} h={48}>
-                    gap xl
+                    gap 20px
                   </Cell>
                 </AutoGrid>
                 <AutoGrid min={140} gap={4}>
@@ -1261,7 +1256,7 @@ export function LayoutDemos({ slug }: { slug: string }) {
             description:
               'A <header> element with the header class; sticky adds position: sticky top: 0 so it pins while its scrollport moves (tests: renders a header element with the header class, applies the sticky class when sticky is true). Sticky needs a scrollport that is not clipped — a card with overflow hidden swallows the pin.',
             content: (
-              <Stack orientation="vertical" gap="md">
+              <Stack orientation="vertical" gap={12}>
                 <Header>
                   <Text>Default header — scrolls away with the page</Text>
                 </Header>
@@ -1305,7 +1300,7 @@ export function LayoutDemos({ slug }: { slug: string }) {
             description:
               'padded is on by default (space-4 on every edge); bare drops the padding for edge-to-edge content (test: removes padding when padded is false).',
             content: (
-              <Stack orientation="vertical" gap="md">
+              <Stack orientation="vertical" gap={12}>
                 <Body as="div">
                   <Text>Padded body (default)</Text>
                 </Body>
@@ -1352,7 +1347,7 @@ export function LayoutDemos({ slug }: { slug: string }) {
             description:
               'A <footer> element with the footer class; sticky adds position: sticky bottom: 0 so it stays reachable while its scrollport moves (tests: renders a footer element with the footer class, applies the sticky class when sticky is true).',
             content: (
-              <Stack orientation="vertical" gap="md">
+              <Stack orientation="vertical" gap={12}>
                 <Footer>
                   <Text>Default footer — scrolls away with the page</Text>
                 </Footer>
@@ -1398,7 +1393,7 @@ export function LayoutDemos({ slug }: { slug: string }) {
             description:
               'left/right are physical, start/end are logical and flip with direction (tests: renders an aside with the sidebar class, defaulting to left, applies the right class for position right, applies logical start/end classes).',
             content: (
-              <Row gap="md" wrap>
+              <Row gap={12} wrap>
                 <Sidebar aria-label="Left position demo">
                   <Text>left</Text>
                 </Sidebar>
@@ -1420,7 +1415,7 @@ export function LayoutDemos({ slug }: { slug: string }) {
             description:
               'expanded={false} zeroes the width and keeps the content mounted — there is no inert on our collapsed sidebar, so hide what you do not want read out by conditionally rendering it too (tests: applies the collapsed class when expanded is false, applies the responsive class when responsive is true). responsive collapses below 768px like Radzen.',
             content: (
-              <Row gap="md" wrap>
+              <Row gap={12} wrap>
                 <Sidebar aria-label="Expanded demo">
                   <Text>expanded</Text>
                 </Sidebar>
@@ -1504,7 +1499,7 @@ export function LayoutDemos({ slug }: { slug: string }) {
             description:
               'Defaults to aria-label="Toggle sidebar" with the menu icon; both are props (tests: renders a button with the default label and menu icon, accepts a custom icon and label).',
             content: (
-              <Row align="center" gap="md" wrap>
+              <Row align="center" gap={12} wrap>
                 <SidebarToggle />
                 <SidebarToggle label="Collapse navigation" />
                 <SidebarToggle label="Settings" icon="settings" />
@@ -1517,7 +1512,7 @@ export function LayoutDemos({ slug }: { slug: string }) {
             description:
               'The button is a plain type="button" — clicks and attributes forward to the DOM, so aria-expanded from the parent state lands on it (test: forwards clicks and attributes).',
             content: (
-              <Row align="center" gap="md" wrap>
+              <Row align="center" gap={12} wrap>
                 <SidebarToggle
                   aria-expanded={false}
                   label="Log a click"
@@ -1574,7 +1569,7 @@ export function LayoutDemos({ slug }: { slug: string }) {
           description:
             'position="right" lands after the body; the logical "end" position routes the same way in RTL layouts (tests: places right sidebars after the body, routes logical end position after the body).',
           content: (
-            <Row gap="md" wrap>
+            <Row gap={12} wrap>
               <Layout
                 style={{
                   flex: 1,

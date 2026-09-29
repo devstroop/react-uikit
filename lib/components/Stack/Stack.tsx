@@ -1,25 +1,13 @@
 import { type CSSProperties, type HTMLAttributes } from 'react';
-import { type ComponentSize } from '../../sizes';
+import { resolveGap } from '../../utils/gap';
 import styles from './Stack.module.css';
 
 export type StackOrientation = 'horizontal' | 'vertical';
 
 export type StackWrap = boolean | 'nowrap' | 'wrap' | 'wrap-reverse';
 
-export type StackGap = ComponentSize | number | string;
-
-const GAP_TIERS: Record<ComponentSize, string> = {
-  xs: 'gapXs',
-  sm: 'gapSm',
-  md: 'gapMd',
-  lg: 'gapLg',
-  xl: 'gapXl',
-};
-
-function gapClass(gap: StackGap | undefined): string | null {
-  if (typeof gap !== 'string') return null;
-  return (GAP_TIERS as Record<string, string | undefined>)[gap] ?? null;
-}
+/** Gap: px number (unitless = pixels) or CSS length; digits-only strings are px. */
+export type StackGap = number | string;
 
 function wrapValue(wrap: StackWrap | undefined): string {
   if (wrap === false || wrap === 'nowrap') return 'nowrap';
@@ -31,6 +19,7 @@ export interface StackProps extends HTMLAttributes<HTMLDivElement> {
   orientation?: StackOrientation;
   reverse?: boolean;
   wrap?: StackWrap;
+  /** Spacing between children — px number (unitless = pixels) or CSS length. Defaults to 8. */
   gap?: StackGap;
   align?: 'start' | 'center' | 'end' | 'stretch' | 'baseline' | 'normal';
   justify?:
@@ -52,14 +41,13 @@ export function Stack({
   orientation = 'vertical',
   reverse = false,
   wrap = true,
-  gap = 'sm',
+  gap = 8,
   align,
   justify,
   className,
   style,
   ...props
 }: StackProps) {
-  const tier = gapClass(gap);
   const direction =
     orientation === 'horizontal'
       ? reverse
@@ -69,9 +57,7 @@ export function Stack({
         ? 'column-reverse'
         : 'column';
   const mergedStyle: CSSProperties = {
-    ...(gap != null && !tier
-      ? { gap: typeof gap === 'number' ? `${gap}px` : gap }
-      : {}),
+    ...(gap != null ? { gap: resolveGap(gap) } : {}),
     ...style,
   };
   return (
@@ -82,7 +68,6 @@ export function Stack({
         wrapValue(wrap) !== 'wrap' ? styles[`wrap-${wrapValue(wrap)}`] : null,
         align != null ? styles[`align-${align}`] : null,
         justify != null ? styles[`justify-${justify}`] : null,
-        tier ? styles[tier] : null,
         className,
       ]
         .filter(Boolean)

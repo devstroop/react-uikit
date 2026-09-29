@@ -63,7 +63,7 @@ export function DocsLayout({
   return (
     <Layout>
       <Header sticky>
-        <Stack orientation="horizontal" gap="md" align="center">
+        <Stack orientation="horizontal" gap={12} align="center">
           <SidebarToggle
             onClick={() => setSidebarOpen((v) => !v)}
             aria-expanded={sidebarOpen}
@@ -79,7 +79,7 @@ export function DocsLayout({
         </Stack>
         <Stack
           orientation="horizontal"
-          gap="md"
+          gap={12}
           align="center"
           style={{ marginLeft: 'auto' }}
         >
@@ -118,7 +118,7 @@ export function DocsLayout({
               No components match “{query.trim()}”.
             </Text>
           ) : (
-            <Stack orientation="vertical" gap="lg">
+            <Stack orientation="vertical" gap={16}>
               {visibleGroups.map((group) => (
                 <div key={group.title}>
                   <Text textStyle="Overline" tagName="P">

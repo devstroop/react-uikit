@@ -72,9 +72,9 @@ export function DemoPage({ title, description, sections }: DemoPageProps) {
           {description}
         </Text>
       )}
-      <Row gap="lg" align="start">
+      <Row gap={16} align="start">
         <Column size={12} sizeMd={9}>
-          <Stack orientation="vertical" gap="lg">
+          <Stack orientation="vertical" gap={16}>
             {sections.map((s) => (
               <Card key={s.id} id={s.id} style={s.cardStyle}>
                 <Text textStyle="H5" tagName="H2">

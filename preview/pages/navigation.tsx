@@ -450,7 +450,7 @@ function LinkActionDemo() {
   const [events, setEvents] = useState<string[]>([]);
   const log = (message: string) => setEvents((prev) => [message, ...prev]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <Link onClick={() => log('Preview action clicked')}>Run preview</Link>
       <EventLog events={events} emptyText="Click the link-styled button." />
     </Stack>
@@ -460,8 +460,8 @@ function LinkActionDemo() {
 function LinkVisibilityDemo() {
   const [visible, setVisible] = useState(true);
   return (
-    <Stack orientation="vertical" gap="sm">
-      <Row align="center" gap="sm">
+    <Stack orientation="vertical" gap={8}>
+      <Row align="center" gap={8}>
         <label>
           <Checkbox
             checked={visible}
@@ -484,7 +484,7 @@ function ProfileMenuBasicDemo() {
   const [events, setEvents] = useState<string[]>([]);
   const log = (message: string) => setEvents((prev) => [message, ...prev]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <ProfileMenu
         ariaLabel="Basic profile menu"
         trigger={<span>Profile</span>}
@@ -509,7 +509,7 @@ function ProfileMenuStatesDemo() {
   const [events, setEvents] = useState<string[]>([]);
   const log = (message: string) => setEvents((prev) => [message, ...prev]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <ProfileMenu
         ariaLabel="States profile menu"
         items={[
@@ -531,7 +531,7 @@ function TabsBasicDemo() {
   const [events, setEvents] = useState<string[]>([]);
   const log = (message: string) => setEvents((prev) => [message, ...prev]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <Tabs
         items={[
           {
@@ -554,7 +554,7 @@ function TabsControlledDemo() {
   const [events, setEvents] = useState<string[]>([]);
   const log = (message: string) => setEvents((prev) => [message, ...prev]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <Text textStyle="Caption" className="dx-text-muted">
         value: {value}
       </Text>
@@ -592,7 +592,7 @@ function StepsBasicDemo() {
   const [events, setEvents] = useState<string[]>([]);
   const log = (message: string) => setEvents((prev) => [message, ...prev]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <Steps
         ariaLabel="Basic steps demo"
         selectedIndex={index}
@@ -617,7 +617,7 @@ function StepsLinearDemo() {
   const [events, setEvents] = useState<string[]>([]);
   const log = (message: string) => setEvents((prev) => [message, ...prev]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <Steps
         ariaLabel="Linear steps demo"
         linear
@@ -645,7 +645,7 @@ function TocClickDemo() {
   const [events, setEvents] = useState<string[]>([]);
   const log = (message: string) => setEvents((prev) => [message, ...prev]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <Toc
         ariaLabel="Click demo contents"
         items={[
@@ -670,7 +670,7 @@ function PagerBasicDemo() {
   const [events, setEvents] = useState<string[]>([]);
   const log = (message: string) => setEvents((prev) => [message, ...prev]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <Pager
         ariaLabel="Orders pager"
         count={100}
@@ -695,7 +695,7 @@ function PagerPageSizeDemo() {
   const [events, setEvents] = useState<string[]>([]);
   const log = (message: string) => setEvents((prev) => [message, ...prev]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <Pager
         ariaLabel="Roster pager"
         count={96}
@@ -717,8 +717,8 @@ function PagerPageSizeDemo() {
 function PagerVisibilityDemo() {
   const [big, setBig] = useState(false);
   return (
-    <Stack orientation="vertical" gap="sm">
-      <Row align="center" gap="sm">
+    <Stack orientation="vertical" gap={8}>
+      <Row align="center" gap={8}>
         <Button size="sm" onClick={() => setBig((v) => !v)}>
           {big ? 'Shrink to one page' : 'Grow to five pages'}
         </Button>
@@ -745,7 +745,7 @@ function BreadcrumbClickDemo() {
   const [events, setEvents] = useState<string[]>([]);
   const log = (message: string) => setEvents((prev) => [message, ...prev]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <Breadcrumb
         ariaLabel="Tracked breadcrumb"
         items={[
@@ -777,7 +777,7 @@ export function NavigationDemos({ slug }: { slug: string }) {
             description:
               'With an href the component renders a real <a>; icon and aria attributes spread onto it (tests: renders an anchor when href is set, forwards icon and aria attributes). The external link opens a new tab.',
             content: (
-              <Stack orientation="vertical" gap="sm">
+              <Stack orientation="vertical" gap={8}>
                 <Text>
                   Read the <Link href="#/link">documentation</Link> first.
                 </Text>
@@ -902,7 +902,7 @@ export function NavigationDemos({ slug }: { slug: string }) {
             description:
               'variant switches underline/pills; position places the tablist left/right for vertical layouts, where Up/Down join the arrow keys (tests: applies the position class to root and tablist, uses Up/Down arrows for the left position).',
             content: (
-              <Stack orientation="vertical" gap="lg">
+              <Stack orientation="vertical" gap={16}>
                 <Tabs
                   variant="pills"
                   items={[
@@ -1060,7 +1060,7 @@ export function NavigationDemos({ slug }: { slug: string }) {
             description:
               'The first item starts active with aria-current="location"; scrolling this page keeps the highlight in sync (tests: marks first item as active initially with aria-current location, updates active on scroll via scroll handler). The label is unique so it does not collide with this page’s own TOC.',
             content: (
-              <Stack orientation="vertical" gap="sm">
+              <Stack orientation="vertical" gap={8}>
                 <Toc
                   ariaLabel="Vertical demo contents"
                   items={[
@@ -1163,7 +1163,7 @@ export function NavigationDemos({ slug }: { slug: string }) {
             description:
               'pagingSummaryFormat takes {0} page {1} pages {2} items placeholders; pagingSummaryTemplate replaces it entirely with a function (tests: formats pagingSummaryFormat, renders custom summary template).',
             content: (
-              <Stack orientation="vertical" gap="md">
+              <Stack orientation="vertical" gap={12}>
                 <Pager
                   ariaLabel="Format demo pager"
                   count={230}

@@ -51,7 +51,7 @@ const VARIANT_BLURB: Record<ButtonVariant, string> = {
 function VariantBody({ variant }: { variant: ButtonVariant }) {
   return (
     <>
-      <Row align="center" gap="md" wrap>
+      <Row align="center" gap={12} wrap>
         {BUTTON_STYLES.map((style) => (
           <Button
             key={style}
@@ -66,9 +66,9 @@ function VariantBody({ variant }: { variant: ButtonVariant }) {
       <Text textStyle="Subtitle1" tagName="H3" className="dx-mt-4">
         {capitalize(variant)} Shades
       </Text>
-      <Stack orientation="vertical" gap="md" className="dx-mt-2">
+      <Stack orientation="vertical" gap={12} className="dx-mt-2">
         {BUTTON_SHADES.map((shade) => (
-          <Row key={shade} align="center" gap="md" wrap>
+          <Row key={shade} align="center" gap={12} wrap>
             {BUTTON_STYLES.map((style) => (
               <Button
                 key={style}
@@ -89,7 +89,7 @@ function VariantBody({ variant }: { variant: ButtonVariant }) {
       <Text textStyle="Body1" className="dx-text-muted dx-mb-2">
         Light and Dark button styles don&apos;t have Shades
       </Text>
-      <Row align="center" gap="md" wrap>
+      <Row align="center" gap={12} wrap>
         <Button variant={variant} severity="light" onClick={() => undefined}>
           Light
         </Button>
@@ -112,7 +112,7 @@ function FabMenuBasicDemo() {
   const [events, setEvents] = useState<string[]>([]);
   const log = (message: string) => setEvents((prev) => [message, ...prev]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <FabMenu
         ariaLabel="Quick actions"
         items={[
@@ -142,8 +142,8 @@ function FabMenuPositionDemo() {
   const [events, setEvents] = useState<string[]>([]);
   const log = (message: string) => setEvents((prev) => [message, ...prev]);
   return (
-    <Stack orientation="vertical" gap="sm">
-      <Stack orientation="horizontal" gap="sm" align="center">
+    <Stack orientation="vertical" gap={8}>
+      <Stack orientation="horizontal" gap={8} align="center">
         <Text textStyle="Caption">position</Text>
         <Select
           aria-label="FAB position"
@@ -174,7 +174,7 @@ function FabMenuStatesDemo() {
   const [events, setEvents] = useState<string[]>([]);
   const log = (message: string) => setEvents((prev) => [message, ...prev]);
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <FabMenu
         position="top-left"
         ariaLabel="Overflow actions"
@@ -214,7 +214,7 @@ export function ButtonDemos({ slug }: { slug: string }) {
             description:
               'Controlled with pressed/onChange, or uncontrolled with defaultPressed.',
             content: (
-              <Row align="center" gap="md" wrap>
+              <Row align="center" gap={12} wrap>
                 <Togglebutton pressed={pressed} onChange={setPressed}>
                   {pressed ? 'On' : 'Off'}
                 </Togglebutton>
@@ -229,9 +229,9 @@ export function ButtonDemos({ slug }: { slug: string }) {
             description:
               'Every Button variant works; the pressed state adds a darker shade and the state layer (Radzen ToggleShade=Darker default).',
             content: (
-              <Row align="center" gap="md" wrap>
+              <Row align="center" gap={12} wrap>
                 {BUTTON_VARIANTS.map((variant) => (
-                  <Row key={variant} align="center" gap="sm">
+                  <Row key={variant} align="center" gap={8}>
                     <Togglebutton variant={variant}>
                       {capitalize(variant)}
                     </Togglebutton>
@@ -249,8 +249,8 @@ export function ButtonDemos({ slug }: { slug: string }) {
             description:
               'toggleVariant, toggleSeverity and toggleShade replace the base axis while pressed (Radzen ToggleVariant/ToggleButtonStyle/ToggleShade parity).',
             content: (
-              <Row align="center" gap="md" wrap>
-                <Row align="center" gap="sm">
+              <Row align="center" gap={12} wrap>
+                <Row align="center" gap={8}>
                   <Togglebutton
                     variant="text"
                     severity="base"
@@ -271,7 +271,7 @@ export function ButtonDemos({ slug }: { slug: string }) {
                     Text → Flat
                   </Togglebutton>
                 </Row>
-                <Row align="center" gap="sm">
+                <Row align="center" gap={8}>
                   <Togglebutton variant="outlined" severity="success">
                     Pinned hue
                   </Togglebutton>
@@ -285,7 +285,7 @@ export function ButtonDemos({ slug }: { slug: string }) {
                     Pinned hue
                   </Togglebutton>
                 </Row>
-                <Row align="center" gap="sm">
+                <Row align="center" gap={8}>
                   <Togglebutton variant="filled" severity="warning">
                     Filled → lighter
                   </Togglebutton>
@@ -308,8 +308,8 @@ export function ButtonDemos({ slug }: { slug: string }) {
             description:
               'toggleContent replaces children while pressed — the Radzen ToggleIcon pattern for swapping glyph or text.',
             content: (
-              <Row align="center" gap="md" wrap>
-                <Row align="center" gap="sm">
+              <Row align="center" gap={12} wrap>
+                <Row align="center" gap={8}>
                   <Togglebutton
                     iconOnly
                     toggleContent={
@@ -341,7 +341,7 @@ export function ButtonDemos({ slug }: { slug: string }) {
             title: 'Sizes and states',
             content: (
               <>
-                <Row align="center" gap="md" wrap>
+                <Row align="center" gap={12} wrap>
                   <Togglebutton size="sm">Small</Togglebutton>
                   <Togglebutton size="md">Medium</Togglebutton>
                   <Togglebutton size="lg">Large</Togglebutton>
@@ -375,7 +375,7 @@ export function ButtonDemos({ slug }: { slug: string }) {
             description:
               'aria-label names the action button; openAriaLabel names the caret and menu (Radzen ButtonAriaLabel/OpenAriaLabel parity).',
             content: (
-              <Row align="center" gap="md" wrap>
+              <Row align="center" gap={12} wrap>
                 <Splitbutton
                   label="Save"
                   onClick={() => undefined}
@@ -401,7 +401,7 @@ export function ButtonDemos({ slug }: { slug: string }) {
             title: 'Variants and severities',
             content: (
               <>
-                <Row align="center" gap="md" wrap>
+                <Row align="center" gap={12} wrap>
                   {BUTTON_VARIANTS.map((variant) => (
                     <Splitbutton
                       key={variant}
@@ -413,7 +413,7 @@ export function ButtonDemos({ slug }: { slug: string }) {
                     />
                   ))}
                 </Row>
-                <Row align="center" gap="md" wrap className="dx-mt-4">
+                <Row align="center" gap={12} wrap className="dx-mt-4">
                   {BUTTON_STYLES.map((style) => (
                     <Splitbutton
                       key={style}
@@ -425,7 +425,7 @@ export function ButtonDemos({ slug }: { slug: string }) {
                     />
                   ))}
                 </Row>
-                <Row align="center" gap="md" wrap className="dx-mt-4">
+                <Row align="center" gap={12} wrap className="dx-mt-4">
                   {BUTTON_SHADES.map((shade) => (
                     <Splitbutton
                       key={shade}
@@ -473,12 +473,12 @@ export function ButtonDemos({ slug }: { slug: string }) {
             title: 'Sizes and states',
             content: (
               <>
-                <Row align="center" gap="md" wrap>
+                <Row align="center" gap={12} wrap>
                   <Splitbutton size="sm" label="Small" items={SPLIT_ITEMS} />
                   <Splitbutton size="md" label="Medium" items={SPLIT_ITEMS} />
                   <Splitbutton size="lg" label="Large" items={SPLIT_ITEMS} />
                 </Row>
-                <Row align="center" gap="md" wrap className="dx-mt-4">
+                <Row align="center" gap={12} wrap className="dx-mt-4">
                   <Splitbutton label="Saving" loading items={SPLIT_ITEMS} />
                   <Splitbutton label="Disabled" disabled items={SPLIT_ITEMS} />
                 </Row>
@@ -576,7 +576,7 @@ export function ButtonDemos({ slug }: { slug: string }) {
               <Text textStyle="Subtitle1" tagName="H3">
                 Icon only
               </Text>
-              <Row align="center" gap="md" wrap className="dx-mt-2">
+              <Row align="center" gap={12} wrap className="dx-mt-2">
                 {BUTTON_STYLES.map((style) => (
                   <Button
                     key={style}
@@ -592,7 +592,7 @@ export function ButtonDemos({ slug }: { slug: string }) {
               <Text textStyle="Subtitle1" tagName="H3" className="dx-mt-4">
                 Icon and text
               </Text>
-              <Row align="center" gap="md" wrap className="dx-mt-2">
+              <Row align="center" gap={12} wrap className="dx-mt-2">
                 {BUTTON_STYLES.map((style) => (
                   <Button
                     key={style}
@@ -617,7 +617,7 @@ export function ButtonDemos({ slug }: { slug: string }) {
           description:
             'Use the size property to set button size. Available sizes are Small, Medium (default), and Large.',
           content: (
-            <Row align="center" gap="md" wrap>
+            <Row align="center" gap={12} wrap>
               <Button size="sm" onClick={() => undefined}>
                 Small
               </Button>
@@ -635,7 +635,7 @@ export function ButtonDemos({ slug }: { slug: string }) {
             'Loading shows a spinner, disabled blocks interaction, and full width stretches to its container.',
           content: (
             <>
-              <Row align="center" gap="md" wrap>
+              <Row align="center" gap={12} wrap>
                 <Button loading>Loading</Button>
                 <Button disabled>Disabled</Button>
               </Row>

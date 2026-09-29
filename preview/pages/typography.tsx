@@ -13,7 +13,7 @@ import { DemoPage } from './demo-page';
 function IconGlyphGrid({ prefix }: { prefix: IconSetPrefix }) {
   const set = iconSets[prefix];
   return (
-    <Stack orientation="vertical" gap="sm">
+    <Stack orientation="vertical" gap={8}>
       <Text textStyle="H5" tagName="H3">
         {prefix}
       </Text>
@@ -52,7 +52,7 @@ export function TypographyDemos({ slug }: { slug: string }) {
             id: 'icon-sizes',
             title: 'Sizes',
             content: (
-              <Row align="center" gap="md" wrap>
+              <Row align="center" gap={12} wrap>
                 <Icon name="check" />
                 <Icon name="close" />
                 <Icon name="search" />
@@ -67,8 +67,8 @@ export function TypographyDemos({ slug }: { slug: string }) {
             description:
               'Every glyph in every bundled set, same concept vocabulary across sets.',
             content: (
-              <Stack orientation="vertical" gap="lg">
-                <Stack orientation="vertical" gap="sm">
+              <Stack orientation="vertical" gap={16}>
+                <Stack orientation="vertical" gap={8}>
                   <Text textStyle="H5" tagName="H3">
                     default
                   </Text>
@@ -116,7 +116,7 @@ export function TypographyDemos({ slug }: { slug: string }) {
           title: 'Display Styles',
           description: 'Large display ramp for hero copy.',
           content: (
-            <Stack orientation="vertical" gap="sm">
+            <Stack orientation="vertical" gap={8}>
               {(['DisplayH1', 'DisplayH5'] as const).map((s) => (
                 <Text key={s} textStyle={s}>
                   {s} — The quick brown fox
@@ -130,7 +130,7 @@ export function TypographyDemos({ slug }: { slug: string }) {
           title: 'Headings',
           description: 'Standard H1–H3 headings.',
           content: (
-            <Stack orientation="vertical" gap="sm">
+            <Stack orientation="vertical" gap={8}>
               {(['H1', 'H2', 'H3'] as const).map((s) => (
                 <Text key={s} textStyle={s}>
                   {s} — The quick brown fox
@@ -144,7 +144,7 @@ export function TypographyDemos({ slug }: { slug: string }) {
           title: 'Body Text',
           description: 'Subtitles, body copy, captions and overlines.',
           content: (
-            <Stack orientation="vertical" gap="sm">
+            <Stack orientation="vertical" gap={8}>
               {(
                 [
                   'Subtitle1',

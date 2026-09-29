@@ -29,12 +29,12 @@ describe('Row', () => {
     );
   });
 
-  it('does not put an inline gap shorthand on the row (rowGap tiers must win)', () => {
-    const { container } = render(<Row gap="0.5rem" rowGap="xl" />);
+  it('does not put an inline gap shorthand on the row (rowGap stays independent)', () => {
+    const { container } = render(<Row gap="0.5rem" rowGap={20} />);
     const style = container.firstElementChild?.getAttribute('style') ?? '';
     expect(style).toContain('column-gap: 0.5rem');
     expect(style).not.toMatch(/(^|;\s*)gap:/);
-    expect(container.firstElementChild?.className).toContain('gapRowXl');
+    expect(style).toContain('row-gap: 20px');
   });
 
   it('maps align="normal" to its class', () => {
@@ -45,15 +45,15 @@ describe('Row', () => {
     );
   });
 
-  it('maps xs–xl gap tiers to token classes', () => {
-    const { container, rerender } = render(<Row gap="sm" />);
+  it('treats digits-only strings as px (Radzen Gap parity)', () => {
+    const { container, rerender } = render(<Row gap="16" />);
     const element = container.firstElementChild as HTMLElement;
-    expect(element.className).toContain('gapSm');
-    expect(element.getAttribute('style')).toBeNull();
-    rerender(<Row gap="xl" />);
-    expect((container.firstElementChild as HTMLElement).className).toContain(
-      'gapXl'
-    );
+    expect(element.getAttribute('style')).toContain('column-gap: 16px');
+    expect(element.className).not.toContain('gap');
+    rerender(<Row gap="2rem" />);
+    expect(
+      (container.firstElementChild as HTMLElement).getAttribute('style')
+    ).toContain('column-gap: 2rem');
   });
 
   it('applies no-wrap when wrap is false', () => {
@@ -87,17 +87,19 @@ describe('Row flex parity (#108)', () => {
     expect(container.firstElementChild?.className).toContain('justify-normal');
   });
 
-  it('applies rowGap as inline style or tier class', () => {
+  it('applies rowGap as inline style', () => {
     const { container, rerender } = render(<Row rowGap={8} />);
     expect(container.firstElementChild?.getAttribute('style')).toContain(
       'row-gap: 8px'
     );
-    rerender(<Row rowGap="md" />);
-    expect(container.firstElementChild?.className).toContain('gapRowMd');
+    rerender(<Row rowGap="12" />);
+    expect(container.firstElementChild?.getAttribute('style')).toContain(
+      'row-gap: 12px'
+    );
   });
 });
 describe('Row column-gap variable (grid parity)', () => {
-  it('syncs --dx-col-gap inline for arbitrary gaps', () => {
+  it('syncs --dx-col-gap inline for explicit gaps', () => {
     const { container, rerender } = render(<Row gap={24} />);
     expect(container.firstElementChild?.getAttribute('style')).toContain(
       '--dx-col-gap: 24px'
@@ -108,10 +110,10 @@ describe('Row column-gap variable (grid parity)', () => {
     );
   });
 
-  it('leaves --dx-col-gap to the tier class for token gaps', () => {
-    const { container } = render(<Row gap="sm" />);
+  it('leaves --dx-col-gap to the stylesheet when gap is unset', () => {
+    const { container } = render(<Row />);
     const element = container.firstElementChild as HTMLElement;
-    expect(element.className).toContain('gapSm');
+    expect(element.className).toContain('row');
     expect(element.getAttribute('style')).toBeNull();
   });
 });

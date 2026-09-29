@@ -15,15 +15,25 @@ describe('AutoGrid', () => {
     expect(screen.getByText('a')).toBeInTheDocument();
   });
 
-  it('applies numeric min as px and tier gaps as classes', () => {
+  it('applies numeric min as px and numeric gaps as inline px', () => {
     const { container } = render(
-      <AutoGrid min={160} gap="lg">
+      <AutoGrid min={160} gap={16}>
         <span>a</span>
       </AutoGrid>
     );
     const grid = container.firstElementChild as HTMLElement;
     expect(grid.style.getPropertyValue('--dx-autogrid-min')).toBe('160px');
-    expect(grid.className).toMatch(/gapLg/);
+    expect(grid.style.gap).toBe('16px');
+  });
+
+  it('defaults the gap to 12px', () => {
+    const { container } = render(
+      <AutoGrid>
+        <span>a</span>
+      </AutoGrid>
+    );
+    const grid = container.firstElementChild as HTMLElement;
+    expect(grid.style.gap).toBe('12px');
   });
 
   it('applies numeric gaps as inline px and string mins verbatim', () => {

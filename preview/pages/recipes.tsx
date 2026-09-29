@@ -16,7 +16,7 @@ import { DemoPage } from './demo-page';
 function LoginRecipe() {
   const [user, setUser] = useState('');
   return (
-    <Row align="center" gap="md">
+    <Row align="center" gap={12}>
       <Column size={12} sizeMd={6}>
         <Stack>
           <Text textStyle="H2" tagName="H2">
