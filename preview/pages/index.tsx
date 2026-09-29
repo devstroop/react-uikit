@@ -18,12 +18,12 @@ export function IndexPage() {
   const error = touched && name.trim() === '' ? 'Name is required.' : null;
 
   return (
-    <div style={{ maxWidth: 720 }}>
-      <Text textStyle="H1" tagName="H1">
+    <>
+      <Text textStyle="H1" tagName="H1" className="dx-mb-4">
         react-uikit preview
       </Text>
 
-      <section aria-label="Button">
+      <section aria-label="Button" className="dx-mb-8">
         <Text textStyle="H2" tagName="H2">
           Button
         </Text>
@@ -36,7 +36,7 @@ export function IndexPage() {
         </Button>
       </section>
 
-      <section aria-label="Tooltip">
+      <section aria-label="Tooltip" className="dx-mb-8">
         <Text textStyle="H2" tagName="H2">
           Tooltip
         </Text>
@@ -45,7 +45,7 @@ export function IndexPage() {
         </Tooltip>
       </section>
 
-      <section aria-label="Forms">
+      <section aria-label="Forms" className="dx-mb-8">
         <Text textStyle="H2" tagName="H2">
           Field
         </Text>
@@ -77,6 +77,6 @@ export function IndexPage() {
       >
         <Alert severity="info" title="Axe runs against this dialog too" />
       </Dialog>
-    </div>
+    </>
   );
 }

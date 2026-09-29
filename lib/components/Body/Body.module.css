@@ -1,5 +1,7 @@
+/* Block flow, not flex (Radzen `.rz-body` parity): as a flex container
+ * each child became a content-sized flex item, so pages never stretched
+ * to the space right of the sidebar. */
 .body {
-  display: flex;
   flex: 1;
   min-width: 0;
   min-height: 0;

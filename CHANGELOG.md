@@ -64,6 +64,18 @@ Versioning follows the release flow in `docs/DEVELOPMENT_STRATEGY.md`
   message text or nothing at all; with no options there is no listbox
   to own.
 
+### Fixed — `Body` content fills the space right of the sidebar
+
+- `Body` no longer lays its children out as a flex row. Each child was
+  a content-sized flex item, so page content stopped wherever its
+  fit-content width landed instead of using the space right of the
+  sidebar (measured gaps of 60–590px on 38 of 87 preview routes —
+  `#/row` ended 586px early). Children now flow as normal blocks at
+  full available width, matching Radzen's `.rz-body` (a plain block);
+  `flex: 1`, `padded`/`bare`, scrolling and Layout slot sizing are
+  unchanged. A new Playwright spec (`e2e/layout-width.spec.ts`) locks
+  the sampled routes to a zero content gap.
+
 ### Changed — `Togglebutton` rebuilt on `Button` (Radzen toggle axis)
 
 The toggle rendered its own button chrome (bespoke CSS with a bare
