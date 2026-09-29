@@ -95,6 +95,7 @@ export const DropZone = forwardRef<DropZoneHandle, DropZoneProps>(
       <div
         role="region"
         aria-label={label}
+        aria-disabled={disabled || undefined}
         className={[
           styles.zone,
           dragging ? styles.dragging : null,

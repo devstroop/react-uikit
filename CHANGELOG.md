@@ -30,6 +30,12 @@ Versioning follows the release flow in `docs/DEVELOPMENT_STRATEGY.md`
   steps, flat 12% tints and tokens are unchanged. The same latent
   pairing on `#/button` is axe-invisible (ripple pseudo-element makes
   the background indeterminate) but is fixed by the same rules.
+- `DropZone` (disabled region) and `SignaturePad` (disabled wrapper)
+  now set `aria-disabled` — the visual `opacity: 0.55` dimming drops
+  their inner caption/label text below 4.5:1 (axe `color-contrast` on
+  the new demo routes), and WCAG exempts inactive UI components once
+  they are marked disabled. Native disabled controls already carried
+  the exemption; these two rendered their text in plain elements.
 
 ### Changed — `Togglebutton` rebuilt on `Button` (Radzen toggle axis)
 

@@ -129,6 +129,7 @@ export const SignaturePad = forwardRef<SignaturePadHandle, SignaturePadProps>(
 
     return (
       <div
+        aria-disabled={disabled || undefined}
         className={[
           styles.wrapper,
           className,
