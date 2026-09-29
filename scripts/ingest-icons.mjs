@@ -76,6 +76,8 @@ const SETS = {
       star: 'star',
       'star-outline': 'star',
       ban: 'slash',
+      sun: 'sun',
+      moon: 'moon',
     },
   },
   lucide: {
@@ -125,6 +127,8 @@ const SETS = {
       star: 'star',
       'star-outline': 'star',
       ban: 'ban',
+      sun: 'sun',
+      moon: 'moon',
     },
   },
   tabler: {
@@ -174,6 +178,8 @@ const SETS = {
       star: 'star',
       'star-outline': 'star',
       ban: 'ban',
+      sun: 'sun',
+      moon: 'moon',
     },
   },
   heroicons: {
@@ -223,6 +229,8 @@ const SETS = {
       star: 'star-solid',
       'star-outline': 'star',
       ban: 'no-symbol',
+      sun: 'sun',
+      moon: 'moon',
     },
   },
   ph: {
@@ -271,6 +279,8 @@ const SETS = {
       star: 'star-fill',
       'star-outline': 'star',
       ban: 'prohibit',
+      sun: 'sun',
+      moon: 'moon',
     },
   },
   ri: {
@@ -319,6 +329,8 @@ const SETS = {
       star: 'star-fill',
       'star-outline': 'star-line',
       ban: 'forbid-line',
+      sun: 'sun-line',
+      moon: 'moon-line',
     },
   },
   carbon: {
@@ -367,6 +379,8 @@ const SETS = {
       star: 'star-filled',
       'star-outline': 'star',
       ban: 'square-slash',
+      sun: 'sun',
+      moon: 'moon',
     },
   },
   ion: {
@@ -415,6 +429,8 @@ const SETS = {
       star: 'star',
       'star-outline': 'star-outline',
       ban: 'ban',
+      sun: 'sunny',
+      moon: 'moon',
     },
   },
   octicon: {
@@ -506,6 +522,8 @@ const SETS = {
       star: 'star',
       'star-outline': 'star-outline',
       ban: 'do-not-disturb',
+      sun: 'weather-sunny',
+      moon: 'weather-night',
     },
   },
   'fa6-solid': {
@@ -553,6 +571,8 @@ const SETS = {
       link: 'link',
       star: 'star',
       ban: 'ban',
+      sun: 'sun',
+      moon: 'moon',
     },
   },
   bi: {
@@ -601,6 +621,8 @@ const SETS = {
       star: 'star-fill',
       'star-outline': 'star',
       ban: 'ban',
+      sun: 'sun',
+      moon: 'moon',
     },
   },
   fluent: {
@@ -649,6 +671,8 @@ const SETS = {
       star: 'star-24-filled',
       'star-outline': 'star-24-regular',
       ban: 'prohibited-24-regular',
+      sun: 'weather-sunny-24-regular',
+      moon: 'weather-moon-24-regular',
     },
   },
   'material-symbols': {
@@ -697,6 +721,8 @@ const SETS = {
       star: 'star',
       'star-outline': 'star-outline',
       ban: 'block',
+      sun: 'light-mode',
+      moon: 'dark-mode',
     },
   },
   'simple-icons': {

@@ -47,6 +47,8 @@ export const iconNames = [
   'star',
   'star-outline',
   'ban',
+  'sun',
+  'moon',
 ] as const;
 
 type LegacyIconName = (typeof iconNames)[number];
@@ -252,6 +254,13 @@ const paths: Record<LegacyIconName, React.ReactNode> = {
       <path d="M4.93 4.93l14.14 14.14" />
     </>
   ),
+  sun: (
+    <>
+      <circle cx="12" cy="12" r="5" />
+      <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+    </>
+  ),
+  moon: <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />,
 };
 
 export const Icon = forwardRef<SVGSVGElement, IconProps>(function Icon(
