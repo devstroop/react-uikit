@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import {
   Autocomplete,
+  Button,
   Checkbox,
   Checkboxlist,
   Colorpicker,
   Datepicker,
+  DropZone,
   Dropdown,
   Field,
   Fieldset,
@@ -21,6 +23,8 @@ import {
   Select,
   Selectbar,
   SecurityCode,
+  SignaturePad,
+  type SignaturePadHandle,
   Slider,
   Stack,
   Switch,
@@ -33,6 +37,8 @@ import {
   useFormField,
 } from '../../lib/main';
 import { DemoPage } from './demo-page';
+import { EventLog } from './shared/EventLog';
+import { KeyboardTable } from './shared/KeyboardTable';
 
 const PAIR_OPTIONS = [
   { value: 'a', label: 'Alpha' },
@@ -102,6 +108,241 @@ function FormDemo() {
     <Form model={{}} onSubmit={() => undefined}>
       <NameField />
     </Form>
+  );
+}
+
+const DROPZONE_EMPTY = 'Dropped files land here.';
+const SIGNATURE_EMPTY = 'Draw or clear to see onChange.';
+
+function DropZoneBasicDemo() {
+  const [events, setEvents] = useState<string[]>([]);
+  const logFiles = (files: FileList) =>
+    setEvents((prev) => [
+      ...prev,
+      ...Array.from(files).map(
+        (f) => `${f.name} · ${f.type || 'unknown'} · ${f.size} B`
+      ),
+    ]);
+  return (
+    <>
+      <DropZone onDrop={logFiles} />
+      <EventLog events={events} emptyText={DROPZONE_EMPTY} />
+    </>
+  );
+}
+
+function DropZoneAcceptDemo() {
+  const [events, setEvents] = useState<string[]>([]);
+  const logFiles = (files: FileList) =>
+    setEvents((prev) => [
+      ...prev,
+      ...Array.from(files).map((f) => `${f.name} accepted (image/*)`),
+    ]);
+  return (
+    <>
+      <DropZone
+        label="Drop images here (png, jpeg, webp, gif)"
+        dragLabel="Drop images to attach"
+        browseText="Choose image"
+        accept="image/*"
+        multiple
+        onDrop={logFiles}
+      />
+      <EventLog events={events} emptyText="Matching images land here." />
+    </>
+  );
+}
+
+const DROPZONE_KEYS = [
+  { keys: 'Tab', action: 'Focus the Browse button inside the zone' },
+  { keys: 'Enter / Space', action: 'Open the file picker (Browse button)' },
+] as const;
+
+const SIGNATURE_KEYS = [
+  { keys: 'Tab', action: 'Focus the Clear button (canvas is pointer-draw)' },
+  { keys: 'Enter / Space', action: 'Clear the canvas (emits onChange)' },
+] as const;
+
+const PEN_COLORS = [
+  { value: '#1c1c1c', label: 'Ink' },
+  { value: '#1d4ed8', label: 'Blue' },
+  { value: '#b91c1c', label: 'Red' },
+];
+
+function SignatureBasicDemo() {
+  const [events, setEvents] = useState<string[]>([]);
+  const [value, setValue] = useState('');
+  return (
+    <>
+      <SignaturePad
+        ariaLabel="Basic signature"
+        onChange={(v) => {
+          setValue(v);
+          setEvents((prev) => [
+            ...prev,
+            v
+              ? 'onChange: stroke committed (PNG data URL)'
+              : 'onChange: cleared',
+          ]);
+        }}
+      />
+      <Text textStyle="Body1" className="dx-mt-2">
+        {value
+          ? 'Stroke captured — value holds a PNG data URL.'
+          : 'Draw a stroke: onChange fires on pointer-up.'}
+      </Text>
+      <EventLog events={events} emptyText={SIGNATURE_EMPTY} />
+    </>
+  );
+}
+
+function SignaturePenDemo() {
+  const [color, setColor] = useState('#1c1c1c');
+  const [width, setWidth] = useState('2.5');
+  return (
+    <Stack orientation="vertical" gap="sm">
+      <Stack orientation="horizontal" gap="md" align="center" wrap>
+        <Text textStyle="Caption">Pen color</Text>
+        <Selectbar
+          aria-label="Pen color"
+          options={PEN_COLORS}
+          value={color}
+          onChange={setColor}
+        />
+        <Text textStyle="Caption">Pen width</Text>
+        <Select
+          aria-label="Pen width"
+          value={width}
+          onChange={(e) => setWidth(e.target.value)}
+          options={[
+            { value: '1.5', label: '1.5 px' },
+            { value: '2.5', label: '2.5 px' },
+            { value: '5', label: '5 px' },
+          ]}
+        />
+      </Stack>
+      <SignaturePad
+        ariaLabel="Pen options signature"
+        penColor={color}
+        penWidth={Number(width)}
+      />
+    </Stack>
+  );
+}
+
+function SignatureExportDemo() {
+  const padRef = useRef<SignaturePadHandle>(null);
+  const [dataUrl, setDataUrl] = useState('');
+  return (
+    <Stack orientation="vertical" gap="sm">
+      <SignaturePad ariaLabel="Export signature" />
+      <Stack orientation="horizontal" gap="sm" wrap>
+        <Button onClick={() => setDataUrl(padRef.current?.toDataURL() ?? '')}>
+          Export PNG
+        </Button>
+        <Button
+          variant="outlined"
+          onClick={() => {
+            padRef.current?.clear();
+            setDataUrl('');
+          }}
+        >
+          Clear via ref
+        </Button>
+      </Stack>
+      {dataUrl ? (
+        <img
+          src={dataUrl}
+          alt="Exported signature preview"
+          style={{ maxWidth: 320, border: '1px solid var(--dx-border-color)' }}
+        />
+      ) : (
+        <Text textStyle="Body1" className="dx-text-muted">
+          Export renders the canvas as a PNG data URL.
+        </Text>
+      )}
+    </Stack>
+  );
+}
+
+function DropZoneDemos() {
+  return (
+    <DemoPage
+      title="DropZone"
+      description="Drag-and-drop file target with a keyboard-operable Browse button (Radzen DropZone parity). accept filters before onDrop; the zone is a labelled region so screen readers land on it."
+      sections={[
+        {
+          id: 'dropzone-basic',
+          title: 'Basic',
+          description:
+            'Drop files onto the zone or press Browse — the accepted FileList lands in the event log.',
+          content: <DropZoneBasicDemo />,
+        },
+        {
+          id: 'dropzone-accept',
+          title: 'Accept filter & labels',
+          description:
+            'accept="image/*" with multiple; non-matching files are filtered before onDrop (drop a .txt and nothing lands). label, dragLabel and browseText customize the copy.',
+          content: <DropZoneAcceptDemo />,
+        },
+        {
+          id: 'dropzone-states',
+          title: 'Disabled',
+          description:
+            'A disabled zone hides the Browse button and ignores drag events.',
+          content: <DropZone disabled label="Uploads are disabled here" />,
+        },
+        {
+          id: 'dropzone-keyboard',
+          title: 'Keyboard',
+          content: <KeyboardTable bindings={DROPZONE_KEYS} />,
+        },
+      ]}
+    />
+  );
+}
+
+function SignaturePadDemos() {
+  return (
+    <DemoPage
+      title="SignaturePad"
+      description="Pointer-drawn signature canvas with a labelled surface, a Clear button and an imperative handle for export (Radzen SignaturePad parity)."
+      sections={[
+        {
+          id: 'signaturepad-basic',
+          title: 'Basic with events',
+          description:
+            'The built-in Clear button resets the canvas; onChange emits the PNG data URL on every committed stroke.',
+          content: <SignatureBasicDemo />,
+        },
+        {
+          id: 'signaturepad-pen',
+          title: 'Pen options',
+          description:
+            'penColor and penWidth are plain props — switch them live over the same pad.',
+          content: <SignaturePenDemo />,
+        },
+        {
+          id: 'signaturepad-export',
+          title: 'Export & clear via ref',
+          description:
+            'The handle exposes toDataURL() and clear() for imperative export flows.',
+          content: <SignatureExportDemo />,
+        },
+        {
+          id: 'signaturepad-states',
+          title: 'Disabled',
+          description:
+            'A disabled pad sets aria-disabled on the canvas and disables Clear.',
+          content: <SignaturePad disabled ariaLabel="Disabled signature" />,
+        },
+        {
+          id: 'signaturepad-keyboard',
+          title: 'Keyboard',
+          content: <KeyboardTable bindings={SIGNATURE_KEYS} />,
+        },
+      ]}
+    />
   );
 }
 
@@ -637,6 +878,10 @@ export function FormDemos({ slug }: { slug: string }) {
           ]}
         />
       );
+    case 'dropzone':
+      return <DropZoneDemos />;
+    case 'signaturepad':
+      return <SignaturePadDemos />;
     default:
       return null;
   }

@@ -20,6 +20,7 @@ import {
 } from '../../lib/main';
 import { DemoPage } from './demo-page';
 import { EventLog } from './shared/EventLog';
+import { KeyboardTable } from './shared/KeyboardTable';
 
 const MENU_EMPTY_LOG = 'Click a menu item to log events.';
 
@@ -29,6 +30,7 @@ function ContextClickArea({ onLog }: { onLog: (msg: string) => void }) {
     <div
       onContextMenu={(e) =>
         menu.open(e, {
+          ariaLabel: 'Item actions menu',
           items: [
             { text: 'Cut', value: 'cut' },
             { text: 'Copy', value: 'copy' },
@@ -66,6 +68,105 @@ function ContextClickDemo() {
       <ContextClickArea onLog={(m) => setEvents((prev) => [...prev, m])} />
       <EventLog events={events} emptyText={MENU_EMPTY_LOG} />
     </ContextMenuProvider>
+  );
+}
+
+function ContextContentArea({ onLog }: { onLog: (msg: string) => void }) {
+  const menu = useContextMenu();
+  return (
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- right-click surface: the native contextmenu gesture is the only input here; the popup itself is fully keyboard-driven
+    <div
+      onContextMenu={(e) =>
+        menu.open(e, {
+          ariaLabel: 'Content mode menu',
+          content: (
+            <>
+              <Text textStyle="Caption" className="dx-text-muted">
+                Custom popup content (content mode)
+              </Text>
+              <Menu
+                isContextMenu
+                responsive={false}
+                ariaLabel="Quick actions"
+                onClick={(a) => {
+                  onLog(`${a.text} clicked from content menu`);
+                  menu.close();
+                }}
+              >
+                <MenuItem text="Refresh" icon="refresh" />
+                <MenuItem text="Copy link" icon="copy" />
+                <MenuItem text="Pin" icon="star" disabled />
+              </Menu>
+            </>
+          ),
+        })
+      }
+      style={{
+        border: '1px dashed var(--dx-border-strong-color)',
+        borderRadius: 8,
+        padding: 24,
+        textAlign: 'center',
+      }}
+    >
+      <Text textStyle="Body1">Right-click me for content mode</Text>
+    </div>
+  );
+}
+
+function ContextContentDemo() {
+  const [events, setEvents] = useState<string[]>([]);
+  return (
+    <ContextMenuProvider>
+      <ContextContentArea onLog={(m) => setEvents((prev) => [...prev, m])} />
+      <EventLog events={events} emptyText={MENU_EMPTY_LOG} />
+    </ContextMenuProvider>
+  );
+}
+
+const CONTEXT_MENU_KEYS = [
+  {
+    keys: 'ArrowDown / ArrowUp',
+    action: 'Move focus between items (wraps, skips disabled)',
+  },
+  { keys: 'ArrowRight', action: 'Open the submenu of the focused item' },
+  { keys: 'ArrowLeft', action: 'Close the open submenu' },
+  {
+    keys: 'Enter / Space',
+    action: 'Activate the focused item (the handler closes the popup)',
+  },
+  {
+    keys: 'Escape',
+    action: 'Close the popup and restore focus to the right-click target',
+  },
+] as const;
+
+function ContextMenuDemos() {
+  return (
+    <DemoPage
+      title="ContextMenu"
+      description="Cursor-positioned popup from a right-click (Radzen ContextMenuService parity). Items mode renders a nested menu; content mode takes arbitrary popup markup. Focus lands on the first item; Escape or an outside press closes and restores focus to the target — closing is explicit, not automatic."
+      sections={[
+        {
+          id: 'contextmenu-basic',
+          title: 'Items mode with events',
+          description:
+            'Right-click the surface: nested and disabled items come from the items list. The handler runs before the item onClick and must call close() itself.',
+          content: <ContextClickDemo />,
+        },
+        {
+          id: 'contextmenu-content',
+          title: 'Content mode',
+          description:
+            'content swaps the default items menu for arbitrary markup — here a caption over a quick-actions menu.',
+          content: <ContextContentDemo />,
+        },
+        {
+          id: 'contextmenu-keyboard',
+          title: 'Keyboard',
+          content: <KeyboardTable bindings={CONTEXT_MENU_KEYS} />,
+        },
+      ]}
+    />
   );
 }
 
@@ -175,7 +276,8 @@ function MenuDemos() {
         {
           id: 'menu-context',
           title: 'Context menu',
-          description: 'Vertical popup variant (Radzen IsContextMenu parity).',
+          description:
+            'Vertical popup variant (Radzen IsContextMenu parity). For cursor-positioned right-click popups see the ContextMenu page.',
           content: (
             <Menu isContextMenu ariaLabel="Actions">
               <MenuItem text="Cut" />
@@ -183,13 +285,6 @@ function MenuDemos() {
               <MenuItem text="Paste" disabled />
             </Menu>
           ),
-        },
-        {
-          id: 'menu-context-click',
-          title: 'Right-click popup',
-          description:
-            'useContextMenu opens a cursor-positioned popup (hook + provider parity with Radzen ContextMenuService). No auto-close — the handler calls menu.close().',
-          content: <ContextClickDemo />,
         },
       ]}
     />
@@ -388,6 +483,9 @@ export function NavigationDemos({ slug }: { slug: string }) {
   }
   if (slug === 'menu') {
     return <MenuDemos />;
+  }
+  if (slug === 'contextmenu') {
+    return <ContextMenuDemos />;
   }
   if (slug === 'panelmenu') {
     return <PanelMenuDemos />;

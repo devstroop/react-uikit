@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
   applyGridState,
   Barcode,
@@ -15,9 +15,12 @@ import {
   Text,
   Timeline,
   Tree,
+  VirtualGrid,
 } from '../../lib/main';
 import type { GridRange } from '../../lib/main';
 import { DemoPage } from './demo-page';
+import { EventLog } from './shared/EventLog';
+import { KeyboardTable } from './shared/KeyboardTable';
 
 type Person = { id: string; name: string; zone: string };
 
@@ -103,6 +106,156 @@ const SALES = [
   { zone: 'South', amount: 90 },
   { zone: 'East', amount: 60 },
 ];
+
+const VIRTUAL_COLUMNS = [
+  { property: 'id', title: 'ID', width: '80px' },
+  { property: 'name', title: 'Order' },
+  { property: 'zone', title: 'Zone' },
+  { property: 'amount', title: 'Amount', width: '110px' },
+];
+
+function delaySlice(
+  skip: number,
+  top: number
+): Promise<Record<string, unknown>[]> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(
+        Array.from({ length: Math.max(0, top - skip) }, (_, i) => {
+          const id = skip + i;
+          return {
+            id,
+            name: `Order ${id}`,
+            zone: ZONES[id % ZONES.length],
+            amount: (id * 7) % 250,
+          };
+        })
+      );
+    }, 140);
+  });
+}
+
+function VirtualBasicDemo() {
+  const loader = useMemo(
+    () => (args: { skip: number; top: number }) =>
+      delaySlice(args.skip, args.top),
+    []
+  );
+  return (
+    <VirtualGrid
+      count={10000}
+      ariaLabel="Orders"
+      columns={VIRTUAL_COLUMNS}
+      loadData={loader}
+    />
+  );
+}
+
+function VirtualLayoutDemo() {
+  const loader = useMemo(
+    () => (args: { skip: number; top: number }) =>
+      delaySlice(args.skip, args.top),
+    []
+  );
+  return (
+    <>
+      <Text textStyle="Body1" className="dx-mb-2">
+        rowHeight={'{28}'} height={'{160}'} — compact
+      </Text>
+      <VirtualGrid
+        count={5000}
+        rowHeight={28}
+        height={160}
+        ariaLabel="Compact orders"
+        columns={VIRTUAL_COLUMNS}
+        loadData={loader}
+      />
+      <Text textStyle="Body1" className="dx-mb-2 dx-mt-4">
+        rowHeight={'{48}'} height={'{300}'} — roomy
+      </Text>
+      <VirtualGrid
+        count={5000}
+        rowHeight={48}
+        height={300}
+        ariaLabel="Roomy orders"
+        columns={VIRTUAL_COLUMNS}
+        loadData={loader}
+      />
+    </>
+  );
+}
+
+function VirtualFetchDemo() {
+  const [events, setEvents] = useState<string[]>([]);
+  const loader = useMemo(
+    () => (args: { skip: number; top: number }) => {
+      setEvents((prev) =>
+        [...prev, `loadData(skip=${args.skip}, top=${args.top})`].slice(-20)
+      );
+      return delaySlice(args.skip, args.top);
+    },
+    []
+  );
+  return (
+    <>
+      <VirtualGrid
+        count={5000}
+        ariaLabel="Load window grid"
+        columns={VIRTUAL_COLUMNS}
+        loadData={loader}
+      />
+      <EventLog
+        events={events}
+        emptyText="Scroll or ArrowDown — each window logs its skip/top."
+      />
+    </>
+  );
+}
+
+const VIRTUALGRID_KEYS = [
+  { keys: 'ArrowDown', action: 'Scroll one row down' },
+  { keys: 'ArrowUp', action: 'Scroll one row up' },
+  { keys: 'PageDown', action: 'Scroll one viewport down' },
+  { keys: 'PageUp', action: 'Scroll one viewport up' },
+  { keys: 'Tab', action: 'Focus the grid (rows load on demand)' },
+] as const;
+
+function VirtualGridDemos() {
+  return (
+    <DemoPage
+      title="VirtualGrid"
+      description="Windowed grid over large async datasets (Radzen VirtualGrid parity): only the visible range (plus overscan) is fetched, so 10k rows stay at 60fps."
+      sections={[
+        {
+          id: 'virtualgrid-basic',
+          title: 'Basic',
+          description:
+            '10,000 rows with a 140ms simulated latency — loadData receives only the skip/top window the viewport needs.',
+          content: <VirtualBasicDemo />,
+        },
+        {
+          id: 'virtualgrid-layout',
+          title: 'Height & row density',
+          description:
+            'rowHeight and height tune the window; the fetch range follows them automatically.',
+          content: <VirtualLayoutDemo />,
+        },
+        {
+          id: 'virtualgrid-fetches',
+          title: 'Load windows',
+          description:
+            'Every visible range change logs its loadData window — proof the grid never fetches the full set.',
+          content: <VirtualFetchDemo />,
+        },
+        {
+          id: 'virtualgrid-keyboard',
+          title: 'Keyboard',
+          content: <KeyboardTable bindings={VIRTUALGRID_KEYS} />,
+        },
+      ]}
+    />
+  );
+}
 
 export function DataDemos({ slug }: { slug: string }) {
   switch (slug) {
@@ -565,6 +718,8 @@ export function DataDemos({ slug }: { slug: string }) {
           ]}
         />
       );
+    case 'virtualgrid':
+      return <VirtualGridDemos />;
     default:
       return (
         <DemoPage
