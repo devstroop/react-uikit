@@ -6,6 +6,21 @@ Versioning follows the release flow in `docs/DEVELOPMENT_STRATEGY.md`
 
 ## [Unreleased] — toward 2.0.0
 
+### Fixed — accessibility (preview axe crawl)
+
+- `PickList`: the empty-state placeholder inside each listbox is now a
+  disabled `role="option"` (`aria-selected="false"`, `aria-disabled`)
+  instead of a bare `div`. A static-text child fails axe
+  `aria-required-children` on `role="listbox"`; the option form keeps
+  the visual unchanged and announces the empty state to AT.
+- `Chart`: gauge series children are wrapped in `role="listitem"` —
+  the series `<g role="list">` previously owned no list items and
+  failed `aria-required-children`.
+- `DataGrid`: the pager nav label is prefixed with the grid's
+  `ariaLabel` when set (e.g. `People Pagination`), so several grids on
+  one page no longer share the default `Pagination` landmark name
+  (axe `landmark-unique`). Without `ariaLabel` the label is unchanged.
+
 ### Changed — `Togglebutton` rebuilt on `Button` (Radzen toggle axis)
 
 The toggle rendered its own button chrome (bespoke CSS with a bare

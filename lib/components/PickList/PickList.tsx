@@ -589,7 +589,17 @@ export function PickList({
           onKeyDown={handleSourceKeyDown}
         >
           {sourceItems.length === 0 ? (
-            <div className={styles.empty}>No items</div>
+            // Disabled option, not static text: a bare placeholder inside
+            // role="listbox" fails aria-required-children, while hiding it
+            // (aria-hidden) strands AT users without an empty-state hint.
+            <div
+              className={styles.empty}
+              role="option"
+              aria-selected={false}
+              aria-disabled={true}
+            >
+              No items
+            </div>
           ) : (
             sourceItems.map((item, idx) => {
               const key = getKey(item, effectiveKeyProp);
@@ -693,7 +703,17 @@ export function PickList({
           onKeyDown={handleTargetKeyDown}
         >
           {targetItems.length === 0 ? (
-            <div className={styles.empty}>No items</div>
+            // Disabled option, not static text: a bare placeholder inside
+            // role="listbox" fails aria-required-children, while hiding it
+            // (aria-hidden) strands AT users without an empty-state hint.
+            <div
+              className={styles.empty}
+              role="option"
+              aria-selected={false}
+              aria-disabled={true}
+            >
+              No items
+            </div>
           ) : (
             targetItems.map((item, idx) => {
               const key = getKey(item, effectiveKeyProp);

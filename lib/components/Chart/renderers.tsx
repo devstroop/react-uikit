@@ -366,7 +366,10 @@ function renderGauge(
   return seriesHead(
     sIdx,
     ser,
-    <>
+    // One listitem per series value (parity with the point renderers):
+    // the series <g role="list"> requires owned listitem children or
+    // aria-required-children fails.
+    <g role="listitem">
       <path
         d={arcPath(start, start + sweep)}
         fill="none"
@@ -411,7 +414,7 @@ function renderGauge(
           {ser.title ?? ''}
         </text>
       )}
-    </>
+    </g>
   );
 }
 

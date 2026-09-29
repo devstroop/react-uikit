@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 import { PickList, type PickListItem } from './PickList';
@@ -27,6 +27,15 @@ describe('PickList', () => {
       'aria-selected',
       'false'
     );
+  });
+
+  it('empty listbox renders the placeholder as a disabled option (aria-required-children)', () => {
+    render(<PickList source={source} target={[]} />);
+    const targetBox = screen.getByRole('listbox', { name: 'Target' });
+    const placeholder = within(targetBox).getByText('No items');
+    expect(placeholder).toHaveAttribute('role', 'option');
+    expect(placeholder).toHaveAttribute('aria-disabled', 'true');
+    expect(placeholder).toHaveAttribute('aria-selected', 'false');
   });
 
   it('defaults ariaLabel to PickList on root', () => {

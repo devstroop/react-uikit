@@ -113,6 +113,17 @@ describe('DataGrid', () => {
     expect(screen.getByText('Page 2 of 3')).toBeInTheDocument();
   });
 
+  it('prefixes the pager nav label with the grid ariaLabel (landmark-unique)', () => {
+    renderGrid({ allowPaging: true, pageSize: 2, ariaLabel: 'People' });
+    expect(
+      screen.getByRole('navigation', { name: 'People Pagination' })
+    ).toBeInTheDocument();
+    renderGrid({ allowPaging: true, pageSize: 2 });
+    expect(
+      screen.getByRole('navigation', { name: 'Pagination' })
+    ).toBeInTheDocument();
+  });
+
   it('changes page size and clamps to page 1', () => {
     renderGrid({ allowPaging: true, pageSize: 2, pageSizeOptions: [2, 5] });
     fireEvent.click(screen.getByRole('button', { name: '2' }));

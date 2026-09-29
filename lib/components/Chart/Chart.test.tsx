@@ -177,6 +177,9 @@ describe('Chart', () => {
     const g = container.querySelector('g[data-chart-type="gauge"]');
     expect(g).toBeTruthy();
     expect(g!.querySelectorAll('path').length).toBeGreaterThanOrEqual(2);
+    // Series renders role="list"; gauge children must be owned listitems
+    // or aria-required-children fails (axe).
+    expect(g!.querySelectorAll('[role="listitem"]')).toHaveLength(1);
     const texts = container.querySelectorAll('svg text');
     expect(texts.length).toBe(1); // only the value readout (no axes)
     expect(texts[0]!.textContent).toBe('65');

@@ -156,6 +156,10 @@ export function DataGrid<TItem = unknown>({
   className,
   onRowClick,
 }: DataGridProps<TItem>) {
+  // Unique pager landmarks per grid: several grids on one page would
+  // otherwise share the default "Pagination" nav label (axe
+  // landmark-unique), so the grid's ariaLabel prefixes the pager's.
+  const pagerAriaPrefix = ariaLabel != null ? `${ariaLabel} ` : '';
   const [sorts, setSorts] = useState<SortDescriptor[]>([]);
   const [filters, setFilters] = useState<Map<string, GridFilterState>>(
     new Map()
@@ -562,7 +566,7 @@ export function DataGrid<TItem = unknown>({
           pageNumbersCount={pageNumbersCount}
           showSummary={showPagingSummary}
           showPageSizeSelector={showPageSizeSelector}
-          ariaLabel={bottomPager ? 'Pagination (top)' : 'Pagination'}
+          ariaLabel={`${pagerAriaPrefix}${bottomPager ? 'Pagination (top)' : 'Pagination'}`}
           onPageChange={setPageNumber}
           onPageSizeChange={handlePageSize}
         />
@@ -1146,7 +1150,7 @@ export function DataGrid<TItem = unknown>({
           pageNumbersCount={pageNumbersCount}
           showSummary={showPagingSummary}
           showPageSizeSelector={showPageSizeSelector}
-          ariaLabel={topPager ? 'Pagination (bottom)' : 'Pagination'}
+          ariaLabel={`${pagerAriaPrefix}${topPager ? 'Pagination (bottom)' : 'Pagination'}`}
           onPageChange={setPageNumber}
           onPageSizeChange={handlePageSize}
         />
