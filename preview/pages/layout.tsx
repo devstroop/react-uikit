@@ -796,9 +796,12 @@ export function LayoutDemos({ slug }: { slug: string }) {
         sections={[
           {
             id: 'body-padding',
+            title: 'Padding',
+            description:
+              'Body renders as="main" by default to own the page landmark; the demos use as="div" so this docs page keeps a single main.',
             content: (
               <Stack orientation="vertical" gap="md">
-                <Body>
+                <Body as="div">
                   <Text>Padded body (default)</Text>
                 </Body>
                 <Body padded={false} as="div">
@@ -905,7 +908,7 @@ export function LayoutDemos({ slug }: { slug: string }) {
               <Sidebar>
                 <Text>Sidebar</Text>
               </Sidebar>
-              <Body>
+              <Body as="div">
                 <Text>Body</Text>
               </Body>
               <Footer>

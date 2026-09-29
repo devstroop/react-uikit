@@ -19,28 +19,9 @@ import {
   type PanelMenuDisplayStyle,
 } from '../../lib/main';
 import { DemoPage } from './demo-page';
+import { EventLog } from './shared/EventLog';
 
-/** Lightweight EventConsole parity (Radzen demo event log). */
-function EventLog({ events }: { events: string[] }) {
-  return (
-    <div
-      aria-label="Event log"
-      style={{ maxHeight: 160, overflowY: 'auto', marginTop: 8 }}
-    >
-      {events.length === 0 ? (
-        <Text textStyle="Body2" className="dx-text-muted">
-          Click a menu item to log events.
-        </Text>
-      ) : (
-        events.map((e, i) => (
-          <Text key={`${i}-${e}`} textStyle="Body2">
-            {e}
-          </Text>
-        ))
-      )}
-    </div>
-  );
-}
+const MENU_EMPTY_LOG = 'Click a menu item to log events.';
 
 function ContextClickArea({ onLog }: { onLog: (msg: string) => void }) {
   const menu = useContextMenu();
@@ -83,7 +64,7 @@ function ContextClickDemo() {
   return (
     <ContextMenuProvider>
       <ContextClickArea onLog={(m) => setEvents((prev) => [...prev, m])} />
-      <EventLog events={events} />
+      <EventLog events={events} emptyText={MENU_EMPTY_LOG} />
     </ContextMenuProvider>
   );
 }
@@ -108,7 +89,7 @@ function MenuDemos() {
           cardStyle: { overflow: 'visible' },
           content: (
             <>
-              <Menu onClick={(a) => logParent(a.text)}>
+              <Menu ariaLabel="Basic menu" onClick={(a) => logParent(a.text)}>
                 <MenuItem text="General" icon="home">
                   <MenuItem text="Buttons" path="#/button" icon="plus" />
                   <MenuItem text="Menu" path="#/menu" icon="menu" disabled />
@@ -129,7 +110,7 @@ function MenuDemos() {
                   <MenuItem text="DataList" path="#/datalist" />
                 </MenuItem>
               </Menu>
-              <EventLog events={events} />
+              <EventLog events={events} emptyText={MENU_EMPTY_LOG} />
             </>
           ),
         },
@@ -155,7 +136,11 @@ function MenuDemos() {
                 />
                 <label htmlFor="menu-click">Click to open</label>
               </div>
-              <Menu flyout={flyout} clickToOpen={clickToOpen}>
+              <Menu
+                ariaLabel="Open modes menu"
+                flyout={flyout}
+                clickToOpen={clickToOpen}
+              >
                 <MenuItem text="General" icon="home">
                   <MenuItem text="Buttons" path="#/button" />
                   <MenuItem text="Dialog" path="#/dialog" />
@@ -173,7 +158,7 @@ function MenuDemos() {
           title: 'Deep nesting',
           cardStyle: { overflow: 'visible' },
           content: (
-            <Menu flyout>
+            <Menu flyout ariaLabel="Deep nesting menu">
               <MenuItem text="More">
                 <MenuItem text="Item1" />
                 <MenuItem text="Item2" />
@@ -240,6 +225,7 @@ function PanelMenuDemos() {
               <label htmlFor="panelmenu-multiple">Allow multiple expand</label>
               <div style={{ width: 300, marginTop: 8 }}>
                 <PanelMenu
+                  ariaLabel="Panel menu"
                   onClick={(a) => logParent(a.text)}
                   multiple={multiple}
                 >
@@ -277,7 +263,7 @@ function PanelMenuDemos() {
                   <PanelMenuItem text="Disabled Menu" icon="ban" disabled />
                 </PanelMenu>
               </div>
-              <EventLog events={events} />
+              <EventLog events={events} emptyText={MENU_EMPTY_LOG} />
             </>
           ),
         },
@@ -318,6 +304,7 @@ function PanelMenuDemos() {
               </div>
               <div style={{ width: 300 }}>
                 <PanelMenu
+                  ariaLabel="Panel menu display styles"
                   displayStyle={displayStyle}
                   showArrow={showArrow}
                   multiple={false}
@@ -340,7 +327,11 @@ function PanelMenuDemos() {
           title: 'Stacked rail',
           content: (
             <div style={{ width: '10rem' }}>
-              <PanelMenu displayStyle="stacked" multiple={false}>
+              <PanelMenu
+                ariaLabel="Stacked panel menu"
+                displayStyle="stacked"
+                multiple={false}
+              >
                 <PanelMenuItem
                   text="Resources"
                   icon="folder"

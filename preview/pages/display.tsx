@@ -92,6 +92,8 @@ export function DisplayDemos({ slug }: { slug: string }) {
         sections={[
           {
             id: 'accordion-basic',
+            title: 'Basic',
+            description: 'Panels expand one section at a time.',
             content: (
               <Accordion
                 items={[
@@ -120,8 +122,12 @@ export function DisplayDemos({ slug }: { slug: string }) {
         sections={[
           {
             id: 'carousel-basic',
+            title: 'Basic',
+            description:
+              'Cycling slides with indicators and prev/next controls.',
             content: (
               <Carousel
+                ariaLabel="Featured slides"
                 items={[
                   <Text key="a">Slide one</Text>,
                   <Text key="b">Slide two</Text>,

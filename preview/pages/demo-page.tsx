@@ -14,6 +14,12 @@ export interface DemoPageSection {
   cardStyle?: CSSProperties;
 }
 
+export interface DemoPageProps {
+  title: string;
+  description?: string;
+  sections: DemoPageSection[];
+}
+
 /**
  * Shared demo page frame (Radzen demo-page parity): H1 title +
  * Subtitle1 description, then every set of components in its own Card
@@ -21,22 +27,20 @@ export interface DemoPageSection {
  * sticky "On this page" Toc at the right (hidden below 1024px, like
  * Radzen's demo Toc); single-section pages render one bare Card.
  */
-export function DemoPage({
-  title,
-  description,
-  sections,
-}: {
-  title: string;
-  description?: string;
-  sections: DemoPageSection[];
-}) {
+export function DemoPage({ title, description, sections }: DemoPageProps) {
   if (sections.length === 0) return null;
   if (sections.length === 1) {
     const [only] = sections;
     return (
       <DemoSection title={title}>
         {description != null && (
-          <Text textStyle="Subtitle1" className="dx-text-muted dx-pb-4">
+          // P, not Subtitle1's default <h6>: an h6 right after the page
+          // <h1> breaks axe heading-order on every described page.
+          <Text
+            textStyle="Subtitle1"
+            tagName="P"
+            className="dx-text-muted dx-pb-4"
+          >
             {description}
           </Text>
         )}
@@ -59,7 +63,11 @@ export function DemoPage({
   return (
     <DemoSection title={title}>
       {description != null && (
-        <Text textStyle="Subtitle1" className="dx-text-muted dx-pb-4">
+        <Text
+          textStyle="Subtitle1"
+          tagName="P"
+          className="dx-text-muted dx-pb-4"
+        >
           {description}
         </Text>
       )}

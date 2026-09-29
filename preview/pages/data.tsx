@@ -77,6 +77,7 @@ function ServerGridDemo() {
   return (
     <>
       <DataGrid<Route>
+        ariaLabel="Server routes"
         columns={ROUTE_COLUMNS}
         rows={rows}
         rowKey={(r) => r.id}
@@ -115,6 +116,7 @@ export function DataDemos({ slug }: { slug: string }) {
               id: 'datagrid-basic',
               content: (
                 <DataGrid<Person>
+                  ariaLabel="People"
                   columns={[
                     { property: 'name', title: 'Name', sortable: true },
                     { property: 'zone', title: 'Zone' },
@@ -134,6 +136,7 @@ export function DataDemos({ slug }: { slug: string }) {
                 'Footer sums run over the full filtered set; Export CSV downloads the visible columns.',
               content: (
                 <DataGrid<Route>
+                  ariaLabel="Routes"
                   columns={ROUTE_COLUMNS}
                   rows={ROUTES}
                   rowKey={(r) => r.id}

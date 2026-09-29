@@ -8,30 +8,16 @@ import {
   Stack,
   Text,
   Togglebutton,
-  type ButtonShade,
   type ButtonVariant,
   type IconName,
 } from '../../lib/main';
 import { DemoPage } from './demo-page';
-
-const BUTTON_STYLES = [
-  'primary',
-  'secondary',
-  'base',
-  'info',
-  'success',
-  'warning',
-  'danger',
-] as const;
-
-const BUTTON_SHADES: Exclude<ButtonShade, 'default' | 'medium'>[] = [
-  'lighter',
-  'light',
-  'dark',
-  'darker',
-];
-
-const BUTTON_VARIANTS: ButtonVariant[] = ['filled', 'flat', 'outlined', 'text'];
+import {
+  SEVERITIES as BUTTON_STYLES,
+  SHADES as BUTTON_SHADES,
+  VARIANTS as BUTTON_VARIANTS,
+  capitalize,
+} from './shared/axes';
 
 const BUTTON_ICONS: Record<
   (typeof BUTTON_STYLES)[number],
@@ -58,10 +44,6 @@ const VARIANT_BLURB: Record<ButtonVariant, string> = {
   outlined: 'Use variant="outlined" for the outlined button variant.',
   text: 'Use variant="text" for the text button variant.',
 };
-
-function capitalize(value: string): string {
-  return value.charAt(0).toUpperCase() + value.slice(1);
-}
 
 function VariantBody({ variant }: { variant: ButtonVariant }) {
   return (

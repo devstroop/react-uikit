@@ -51,10 +51,21 @@ function DialogDemo() {
 }
 
 function ImperativeDialogDemo() {
+  // Provider in the parent: useDialog() must run INSIDE DialogProvider —
+  // calling it in the component that renders the provider throws and
+  // (uncaught) takes the whole preview app down.
+  return (
+    <DialogProvider>
+      <ImperativeDialogDemoInner />
+    </DialogProvider>
+  );
+}
+
+function ImperativeDialogDemoInner() {
   const { confirm, alert } = useDialog();
   const [result, setResult] = useState('');
   return (
-    <DialogProvider>
+    <>
       <Stack orientation="horizontal" gap="md" wrap>
         <Button
           severity="danger"
@@ -85,7 +96,7 @@ function ImperativeDialogDemo() {
           Last result: {result}
         </Text>
       )}
-    </DialogProvider>
+    </>
   );
 }
 
@@ -113,7 +124,7 @@ export function FeedbackDemos({ slug }: { slug: string }) {
           {
             id: 'progress-determinate',
             title: 'Determinate',
-            content: <Progress value={40} max={100} />,
+            content: <Progress value={40} max={100} aria-label="Progress" />,
           },
           {
             id: 'progress-indeterminate',
