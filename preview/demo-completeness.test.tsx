@@ -39,11 +39,7 @@ const EXCEPTIONS: Record<string, number> = {
  * Data (Phase 5) to 20, Navigation + chrome (Phase 6) to 4. Shrink-only:
  * entries are removed per phase and must never come back.
  */
-const KNOWN_GAPS = new Set([
-  // Theme — cleared when ThemeToggle ships its icon-button demos
-  'themeswitcher',
-  'themetoggle',
-]);
+const KNOWN_GAPS = new Set<string>();
 
 function titledCount(props: DemoPageProps): number {
   return props.sections.filter((s) => s.title != null).length;

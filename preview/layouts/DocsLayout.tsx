@@ -91,6 +91,7 @@ export function DocsLayout({
           />
           <ThemeToggle
             id="preview-dark"
+            size="sm"
             value={dark ? 'dark' : 'light'}
             onChange={(next) => onDarkChange(next === 'dark')}
           />

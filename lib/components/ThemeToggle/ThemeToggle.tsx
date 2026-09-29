@@ -1,7 +1,10 @@
-import { useEffect, useState, type ChangeEvent, type ReactNode } from 'react';
+import { useEffect, useState } from 'react';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
-import { Switch } from '../Switch/Switch';
-import styles from './ThemeToggle.module.css';
+import { Icon } from '../Icon/Icon';
+import {
+  Togglebutton,
+  type TogglebuttonSize,
+} from '../Togglebutton/Togglebutton';
 
 export type ThemeName = 'light' | 'dark' | 'system';
 
@@ -16,10 +19,12 @@ export interface ThemeToggleProps {
    */
   storageKey?: string | null;
   onChange?: (theme: Exclude<ThemeName, 'system'>) => void;
-  label?: ReactNode;
-  /** Forwarded to the underlying switch input. */
+  /** Accessible name for the icon-only toggle button. */
+  label?: string;
+  /** Forwarded to the underlying toggle button. */
   id?: string;
   className?: string;
+  size?: TogglebuttonSize;
 }
 
 const STORAGE_KEY = 'dx-theme';
@@ -57,6 +62,7 @@ export function ThemeToggle({
   label = 'Dark mode',
   id,
   className,
+  size,
 }: ThemeToggleProps) {
   const systemDark = useMediaQuery('(prefers-color-scheme: dark)');
   const [internal, setInternal] = useState<ThemeName | undefined>(undefined);
@@ -81,8 +87,8 @@ export function ThemeToggle({
     document.documentElement.dataset.theme = applicable;
   }, [applicable, controlled]);
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const next = event.target.checked ? 'dark' : 'light';
+  const handleToggle = (dark: boolean) => {
+    const next: 'light' | 'dark' = dark ? 'dark' : 'light';
     if (!controlled) {
       setInternal(next);
       writeStored(storageKey, next);
@@ -91,9 +97,20 @@ export function ThemeToggle({
   };
 
   return (
-    <label className={[styles.wrapper, className].filter(Boolean).join(' ')}>
-      {label}
-      <Switch id={id} checked={effective === 'dark'} onChange={handleChange} />
-    </label>
+    <Togglebutton
+      id={id}
+      size={size}
+      className={className}
+      aria-label={label}
+      variant="text"
+      severity="base"
+      pressed={effective === 'dark'}
+      onChange={handleToggle}
+      // State icon (Radzen AppearanceToggle parity): moon while light,
+      // sun while dark — the glyph previews the mode a click applies.
+      toggleContent={<Icon name="sun" size={size ?? 'md'} />}
+    >
+      <Icon name="moon" size={size ?? 'md'} />
+    </Togglebutton>
   );
 }

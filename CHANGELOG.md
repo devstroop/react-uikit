@@ -92,6 +92,27 @@ Versioning follows the release flow in `docs/DEVELOPMENT_STRATEGY.md`
 - A ratchet test (`preview/gap-api.test.ts`) fails if a tier token
   returns to any `gap`/`rowGap` prop.
 
+### Changed — `ThemeToggle` is an icon toggle button (breaking)
+
+- The appearance toggle no longer renders a visible label wrapping a
+  `Switch`. It renders the shared `Togglebutton` (Radzen
+  `AppearanceToggle` parity): one accessible button whose `aria-pressed`
+  carries the mode and whose glyph is the state icon — moon while
+  light, sun while dark — so a click always applies the mode the icon
+  previews. Keyboard: Tab focuses, Enter/Space toggles (test:
+  `toggles with Enter and Space on the button`).
+- `label` (default `"Dark mode"`) is now the button's accessible name
+  (`aria-label`) instead of visible text; `id` and `className` forward
+  to the button. New `size: 'sm' | 'md' | 'lg'` prop also sizes the
+  icon. `ThemeToggle.module.css` is removed — the toggle is
+  `variant="text"` + `severity="base"` Button chrome with no bespoke
+  styles. Persistence, `storageKey`, OS-following and controlled-mode
+  purity are unchanged.
+- `Icon` gains the `sun` and `moon` concepts: the two legacy glyphs
+  plus entries in 13 of the 16 bundled sets (all shape sets; `octicon`
+  has no sun/moon glyph and the two brand sets are brands-only) —
+  re-ingested via `npm run icons:ingest`.
+
 ### Changed — `Togglebutton` rebuilt on `Button` (Radzen toggle axis)
 
 The toggle rendered its own button chrome (bespoke CSS with a bare

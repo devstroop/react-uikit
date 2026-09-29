@@ -40,10 +40,12 @@ async function applyChromeState(
 
   const darkToggle = page.locator('#preview-dark');
   await expect(darkToggle).toBeVisible();
-  if (dark) await darkToggle.check();
-  else await darkToggle.uncheck();
+  // Icon-only Togglebutton: aria-pressed=true means dark. Click only when
+  // the current state mismatches (the check/uncheck equivalent).
+  const isDark = (await darkToggle.getAttribute('aria-pressed')) === 'true';
+  if (isDark !== dark) await darkToggle.click();
 
-  // App.tsx mirrors the switch onto <html data-theme> — assert it landed
+  // App.tsx mirrors the toggle onto <html data-theme> — assert it landed
   // so a broken wiring fails the run instead of axe testing the wrong mode.
   await expect
     .poll(() =>
