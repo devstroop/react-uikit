@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+import { DEMO_GROUPS } from '../preview/nav';
 
 const THEMES = [
   'default',
@@ -74,6 +75,39 @@ test.describe('axe — preview hardening (react)', () => {
           .join('\n')
       ).toEqual([]);
     });
+  }
+});
+
+test.describe('axe — every demo route (default theme)', () => {
+  /**
+   * The typography demo's entire point is rendering real heading tags
+   * (DisplayH1–H6, H1–H6, Subtitle h6s) as samples, so its document
+   * heading order is deliberately non-linear. Scoped, documented
+   * exception — every other rule still runs there, and no other route
+   * opts out.
+   */
+  const HEADING_ORDER_EXCEPTIONS = new Set(['text']);
+
+  for (const group of DEMO_GROUPS) {
+    for (const { slug } of group.routes) {
+      test(`route #/${slug} — no axe violations`, async ({ page }) => {
+        await page.goto(`/#/${slug}`);
+        // Deep-linked hash route: wait for the demo's H1 before scanning,
+        // so axe never runs against the shell's empty main.
+        await expect(page.locator('h1').first()).toBeVisible();
+        let builder = new AxeBuilder({ page });
+        if (HEADING_ORDER_EXCEPTIONS.has(slug)) {
+          builder = builder.disableRules(['heading-order']);
+        }
+        const results = await builder.analyze();
+        expect(
+          results.violations,
+          results.violations
+            .map((v) => `${v.id} [${v.impact}] ${v.nodes[0]?.target}`)
+            .join('\n')
+        ).toEqual([]);
+      });
+    }
   }
 });
 
