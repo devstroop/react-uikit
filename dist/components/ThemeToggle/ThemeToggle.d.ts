@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { TogglebuttonSize } from '../Togglebutton/Togglebutton';
 export type ThemeName = 'light' | 'dark' | 'system';
 export interface ThemeToggleProps {
     /** Controlled appearance. Omit for uncontrolled. */
@@ -11,9 +11,11 @@ export interface ThemeToggleProps {
      */
     storageKey?: string | null;
     onChange?: (theme: Exclude<ThemeName, 'system'>) => void;
-    label?: ReactNode;
-    /** Forwarded to the underlying switch input. */
+    /** Accessible name for the icon-only toggle button. */
+    label?: string;
+    /** Forwarded to the underlying toggle button. */
     id?: string;
     className?: string;
+    size?: TogglebuttonSize;
 }
-export declare function ThemeToggle({ value, defaultValue, storageKey, onChange, label, id, className, }: ThemeToggleProps): import("react").JSX.Element;
+export declare function ThemeToggle({ value, defaultValue, storageKey, onChange, label, id, className, size, }: ThemeToggleProps): import("react").JSX.Element;
