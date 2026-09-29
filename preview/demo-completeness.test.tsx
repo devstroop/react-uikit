@@ -36,29 +36,10 @@ const EXCEPTIONS: Record<string, number> = {
 /**
  * Slugs below the demo standard. Seeded at 71 (Phase 0); the Display
  * pilot took it to 64, Forms (Phase 3) to 38, Feedback (Phase 4) to 31,
- * Data (Phase 5) to 20. Shrink-only: entries are removed per phase and
- * must never come back.
+ * Data (Phase 5) to 20, Navigation + chrome (Phase 6) to 4. Shrink-only:
+ * entries are removed per phase and must never come back.
  */
 const KNOWN_GAPS = new Set([
-  // Layout / chrome
-  'header',
-  'body',
-  'footer',
-  'sidebartoggle',
-  'layout',
-  'sidebar',
-  'stack',
-  'autogrid',
-  // Buttons
-  'fabmenu',
-  // Navigation
-  'breadcrumb',
-  'link',
-  'profilemenu',
-  'tabs',
-  'steps',
-  'toc',
-  'pager',
   // Theme (BASIC)
   'themeswitcher',
   'themetoggle',

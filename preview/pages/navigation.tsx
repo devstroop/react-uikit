@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import {
   Breadcrumb,
+  Button,
   Checkbox,
   ContextMenuProvider,
   Link,
@@ -10,7 +11,9 @@ import {
   PanelMenu,
   PanelMenuItem,
   ProfileMenu,
+  Row,
   Selectbar,
+  Stack,
   Steps,
   Tabs,
   Text,
@@ -443,39 +446,364 @@ function PanelMenuDemos() {
   );
 }
 
+function LinkActionDemo() {
+  const [events, setEvents] = useState<string[]>([]);
+  const log = (message: string) => setEvents((prev) => [message, ...prev]);
+  return (
+    <Stack orientation="vertical" gap="sm">
+      <Link onClick={() => log('Preview action clicked')}>Run preview</Link>
+      <EventLog events={events} emptyText="Click the link-styled button." />
+    </Stack>
+  );
+}
+
+function LinkVisibilityDemo() {
+  const [visible, setVisible] = useState(true);
+  return (
+    <Stack orientation="vertical" gap="sm">
+      <Row align="center" gap="sm">
+        <label>
+          <Checkbox
+            checked={visible}
+            onChange={(e) => setVisible(e.target.checked)}
+          />{' '}
+          visible
+        </label>
+        <Text textStyle="Caption" className="dx-text-muted">
+          {visible ? 'anchor rendered' : 'rendered nothing'}
+        </Text>
+      </Row>
+      <Link href="#/link" visible={visible}>
+        Toggle me
+      </Link>
+    </Stack>
+  );
+}
+
+function ProfileMenuBasicDemo() {
+  const [events, setEvents] = useState<string[]>([]);
+  const log = (message: string) => setEvents((prev) => [message, ...prev]);
+  return (
+    <Stack orientation="vertical" gap="sm">
+      <ProfileMenu
+        ariaLabel="Basic profile menu"
+        trigger={<span>Profile</span>}
+        items={[
+          { text: 'Account', path: '/account' },
+          { text: 'Settings', path: '/settings' },
+          { text: 'Sign out', path: '/logout' },
+        ]}
+        onClick={({ text, path }) =>
+          log(`activate ${text} → ${path ?? '(none)'}`)
+        }
+      />
+      <EventLog
+        events={events}
+        emptyText="Open the menu and activate an item."
+      />
+    </Stack>
+  );
+}
+
+function ProfileMenuStatesDemo() {
+  const [events, setEvents] = useState<string[]>([]);
+  const log = (message: string) => setEvents((prev) => [message, ...prev]);
+  return (
+    <Stack orientation="vertical" gap="sm">
+      <ProfileMenu
+        ariaLabel="States profile menu"
+        items={[
+          { text: 'Profile', icon: 'user', path: '/profile' },
+          { text: 'Admin', icon: 'settings', disabled: true },
+          { text: 'Billing', path: '/billing' },
+        ]}
+        onClick={({ text }) => log(`activate ${text}`)}
+      />
+      <EventLog
+        events={events}
+        emptyText="The Admin item is disabled — activate another to log."
+      />
+    </Stack>
+  );
+}
+
+function TabsBasicDemo() {
+  const [events, setEvents] = useState<string[]>([]);
+  const log = (message: string) => setEvents((prev) => [message, ...prev]);
+  return (
+    <Stack orientation="vertical" gap="sm">
+      <Tabs
+        items={[
+          {
+            key: 'overview',
+            label: 'Overview',
+            content: <Text>Overview panel</Text>,
+          },
+          { key: 'usage', label: 'Usage', content: <Text>Usage panel</Text> },
+          { key: 'api', label: 'API', content: <Text>API panel</Text> },
+        ]}
+        onChange={(key) => log(`onChange → ${key}`)}
+      />
+      <EventLog events={events} emptyText="Switch tabs to log onChange." />
+    </Stack>
+  );
+}
+
+function TabsControlledDemo() {
+  const [value, setValue] = useState('first');
+  const [events, setEvents] = useState<string[]>([]);
+  const log = (message: string) => setEvents((prev) => [message, ...prev]);
+  return (
+    <Stack orientation="vertical" gap="sm">
+      <Text textStyle="Caption" className="dx-text-muted">
+        value: {value}
+      </Text>
+      <Tabs
+        value={value}
+        onChange={(key) => {
+          setValue(key);
+          log(`onChange → ${key}`);
+        }}
+        items={[
+          { key: 'first', label: 'First', content: <Text>First panel</Text> },
+          {
+            key: 'second',
+            label: 'Second',
+            content: <Text>Second panel</Text>,
+          },
+          {
+            key: 'third',
+            label: 'Third',
+            disabled: true,
+            content: <Text>Never</Text>,
+          },
+        ]}
+      />
+      <EventLog
+        events={events}
+        emptyText="Selection is controlled — the log proves it."
+      />
+    </Stack>
+  );
+}
+
+function StepsBasicDemo() {
+  const [index, setIndex] = useState(0);
+  const [events, setEvents] = useState<string[]>([]);
+  const log = (message: string) => setEvents((prev) => [message, ...prev]);
+  return (
+    <Stack orientation="vertical" gap="sm">
+      <Steps
+        ariaLabel="Basic steps demo"
+        selectedIndex={index}
+        onChange={(next) => {
+          setIndex(next);
+          log(`onChange → step ${next + 1}`);
+        }}
+        items={[
+          { text: 'One' },
+          { text: 'Two' },
+          { text: 'Three' },
+          { text: 'Four' },
+        ]}
+      />
+      <EventLog events={events} emptyText="Click a step to log onChange." />
+    </Stack>
+  );
+}
+
+function StepsLinearDemo() {
+  const [index, setIndex] = useState(0);
+  const [events, setEvents] = useState<string[]>([]);
+  const log = (message: string) => setEvents((prev) => [message, ...prev]);
+  return (
+    <Stack orientation="vertical" gap="sm">
+      <Steps
+        ariaLabel="Linear steps demo"
+        linear
+        selectedIndex={index}
+        onChange={(next) => {
+          setIndex(next);
+          log(`advanced to step ${next + 1}`);
+        }}
+        items={[
+          { text: 'One' },
+          { text: 'Two' },
+          { text: 'Three' },
+          { text: 'Four' },
+        ]}
+      />
+      <EventLog
+        events={events}
+        emptyText="Only the next step unlocks — advance to reach step three."
+      />
+    </Stack>
+  );
+}
+
+function TocClickDemo() {
+  const [events, setEvents] = useState<string[]>([]);
+  const log = (message: string) => setEvents((prev) => [message, ...prev]);
+  return (
+    <Stack orientation="vertical" gap="sm">
+      <Toc
+        ariaLabel="Click demo contents"
+        items={[
+          { text: 'Alpha', selector: '#toc-click-alpha' },
+          { text: 'Beta', selector: '#toc-click-beta' },
+        ]}
+        onClick={({ text, selector }) => log(`click ${text} → ${selector}`)}
+      />
+      <div id="toc-click-alpha" tabIndex={-1}>
+        <Text>Alpha target</Text>
+      </div>
+      <div id="toc-click-beta" tabIndex={-1}>
+        <Text>Beta target</Text>
+      </div>
+      <EventLog events={events} emptyText="Click a TOC entry to log onClick." />
+    </Stack>
+  );
+}
+
+function PagerBasicDemo() {
+  const [page, setPage] = useState(1);
+  const [events, setEvents] = useState<string[]>([]);
+  const log = (message: string) => setEvents((prev) => [message, ...prev]);
+  return (
+    <Stack orientation="vertical" gap="sm">
+      <Pager
+        ariaLabel="Orders pager"
+        count={100}
+        pageSize={10}
+        page={page}
+        onPageChange={({ page: next }) => {
+          setPage(next);
+          log(`onPageChange → page ${next}`);
+        }}
+      />
+      <EventLog
+        events={events}
+        emptyText="Use the pager controls to log events."
+      />
+    </Stack>
+  );
+}
+
+function PagerPageSizeDemo() {
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [events, setEvents] = useState<string[]>([]);
+  const log = (message: string) => setEvents((prev) => [message, ...prev]);
+  return (
+    <Stack orientation="vertical" gap="sm">
+      <Pager
+        ariaLabel="Roster pager"
+        count={96}
+        page={page}
+        pageSize={pageSize}
+        pageSizeOptions={[10, 20, 40]}
+        onPageChange={({ page: next }) => setPage(next)}
+        onPageSizeChange={(next) => {
+          setPageSize(next);
+          setPage(1);
+          log(`onPageSizeChange → ${next}`);
+        }}
+      />
+      <EventLog events={events} emptyText="Change the page size to log it." />
+    </Stack>
+  );
+}
+
+function PagerVisibilityDemo() {
+  const [big, setBig] = useState(false);
+  return (
+    <Stack orientation="vertical" gap="sm">
+      <Row align="center" gap="sm">
+        <Button size="sm" onClick={() => setBig((v) => !v)}>
+          {big ? 'Shrink to one page' : 'Grow to five pages'}
+        </Button>
+        <Text textStyle="Caption" className="dx-text-muted">
+          count: {big ? 100 : 8}
+        </Text>
+      </Row>
+      <Pager
+        ariaLabel="Visibility demo pager"
+        count={big ? 100 : 8}
+        pageSize={20}
+        onPageChange={() => undefined}
+      />
+      {!big && (
+        <Text textStyle="Body2" className="dx-text-muted">
+          count 8 / pageSize 20 → pageCount 1 → the pager is not in the DOM.
+        </Text>
+      )}
+    </Stack>
+  );
+}
+
+function BreadcrumbClickDemo() {
+  const [events, setEvents] = useState<string[]>([]);
+  const log = (message: string) => setEvents((prev) => [message, ...prev]);
+  return (
+    <Stack orientation="vertical" gap="sm">
+      <Breadcrumb
+        ariaLabel="Tracked breadcrumb"
+        items={[
+          { text: 'Home', path: '/' },
+          { text: 'Inline button crumb' },
+          { text: 'Docs', path: '/docs' },
+          { text: 'Now' },
+        ]}
+        onClick={({ text }) => log(`navigate → ${text}`)}
+      />
+      <EventLog
+        events={events}
+        emptyText="Click a crumb — clicks are preventDefault-ed and logged."
+      />
+    </Stack>
+  );
+}
+
 export function NavigationDemos({ slug }: { slug: string }) {
   if (slug === 'link') {
     return (
       <DemoPage
         title="Link"
+        description="Anchors with link styling — with href they navigate, without href they become a styled button; icons, targets and visibility are props."
         sections={[
           {
-            id: 'link-variants',
+            id: 'link-anchor',
+            title: 'Anchors',
+            description:
+              'With an href the component renders a real <a>; icon and aria attributes spread onto it (tests: renders an anchor when href is set, forwards icon and aria attributes). The external link opens a new tab.',
             content: (
-              <>
+              <Stack orientation="vertical" gap="sm">
                 <Text>
                   Read the <Link href="#/link">documentation</Link> first.
                 </Text>
-                <Text>
-                  <Link
-                    href="https://example.com"
-                    target="_blank"
-                    icon="external-link"
-                  >
-                    External with icon
-                  </Link>
-                </Text>
-                <Text>
-                  <Link
-                    onClick={() => undefined}
-                    aria-expanded={false}
-                    aria-label="Disclosure action without navigation"
-                  >
-                    Action styled as link
-                  </Link>
-                </Text>
-              </>
+                <Link
+                  href="https://example.com"
+                  target="_blank"
+                  icon="external-link"
+                >
+                  External with icon
+                </Link>
+              </Stack>
             ),
+          },
+          {
+            id: 'link-button',
+            title: 'Button without href',
+            description:
+              'No href renders a type="button" with link styling — the right shape for actions that should look like links (test: renders a button with link styling without href); click it to log the action.',
+            content: <LinkActionDemo />,
+          },
+          {
+            id: 'link-visibility',
+            title: 'Visibility',
+            description:
+              'visible={false} renders nothing at all — no wrapper, no empty anchor (test: renders nothing when visible is false). Toggle it from the control.',
+            content: <LinkVisibilityDemo />,
           },
         ]}
       />
@@ -494,13 +822,60 @@ export function NavigationDemos({ slug }: { slug: string }) {
     return (
       <DemoPage
         title="ProfileMenu"
+        description="Avatar trigger with a menu popover: arrow-key navigation, aria-activedescendant highlighting and item callbacks — no header slot required."
         sections={[
           {
             id: 'profilemenu-basic',
+            title: 'Basic',
+            description:
+              'The trigger carries aria-haspopup and aria-expanded; items are role="menuitem" inside role="menu", and activating one fires onClick with its path (tests: renders trigger with aria-haspopup and aria-expanded false initially, toggles menu on trigger click, fires onClick when item activated via click). The card lets popups overflow so the menu is visible.',
+            cardStyle: { overflow: 'visible' },
+            content: <ProfileMenuBasicDemo />,
+          },
+          {
+            id: 'profilemenu-states',
+            title: 'Icons & disabled items',
+            description:
+              'Items can carry an icon and a disabled flag — disabled items keep role="menuitem" but expose aria-disabled and are skipped by clicks and keys (tests: marks disabled item with aria-disabled, does not fire for disabled item, renders icon when provided, skips disabled in keyboard navigation).',
+            cardStyle: { overflow: 'visible' },
+            content: <ProfileMenuStatesDemo />,
+          },
+          {
+            id: 'profilemenu-keyboard',
+            title: 'Keyboard',
             content: (
-              <ProfileMenu
-                trigger={<span>Profile</span>}
-                items={[{ text: 'Settings', path: '/settings' }]}
+              <KeyboardTable
+                bindings={[
+                  {
+                    keys: 'Enter / Space / ArrowDown',
+                    action:
+                      'Open the menu from the trigger with the first item active (test: opens with ArrowDown on trigger)',
+                  },
+                  {
+                    keys: 'ArrowDown / ArrowUp',
+                    action:
+                      'Move the active item, wrapping and skipping disabled (test: ArrowDown/Up moves active index)',
+                  },
+                  {
+                    keys: 'Home / End',
+                    action:
+                      'Jump to the first / last enabled item (test: Home/End moves to first/last)',
+                  },
+                  {
+                    keys: 'Enter / Space',
+                    action:
+                      'Activate the active item, close and refocus the trigger (tests: Enter activates focused item, Space activates focused item)',
+                  },
+                  {
+                    keys: 'Escape',
+                    action:
+                      'Close the menu and return focus to the trigger (test: closes on Escape and returns focus to trigger)',
+                  },
+                  {
+                    keys: 'Tab',
+                    action: 'Close the menu (test: Tab closes menu)',
+                  },
+                ]}
               />
             ),
           },
@@ -512,17 +887,86 @@ export function NavigationDemos({ slug }: { slug: string }) {
     return (
       <DemoPage
         title="Tabs"
+        description="Roving-tabindex tablist with underline and pills variants, four positions and selection-follows-focus keyboard navigation."
         sections={[
           {
             id: 'tabs-basic',
+            title: 'Basic',
+            description:
+              'Only the active panel is rendered — content unmounts on switch, matching Radzen Server render mode; every selection fires onChange with the new key (tests: renders the tablist and active panel, switches tabs on click and notifies onChange).',
+            content: <TabsBasicDemo />,
+          },
+          {
+            id: 'tabs-variants',
+            title: 'Variants & positions',
+            description:
+              'variant switches underline/pills; position places the tablist left/right for vertical layouts, where Up/Down join the arrow keys (tests: applies the position class to root and tablist, uses Up/Down arrows for the left position).',
             content: (
-              <Tabs
-                items={[
-                  { key: 'a', label: 'First', content: <Text>First tab</Text> },
+              <Stack orientation="vertical" gap="lg">
+                <Tabs
+                  variant="pills"
+                  items={[
+                    {
+                      key: 'p1',
+                      label: 'Pill one',
+                      content: <Text>Pill one content</Text>,
+                    },
+                    {
+                      key: 'p2',
+                      label: 'Pill two',
+                      content: <Text>Pill two content</Text>,
+                    },
+                  ]}
+                />
+                <Tabs
+                  position="left"
+                  items={[
+                    {
+                      key: 'l1',
+                      label: 'Left one',
+                      content: <Text>Left one content</Text>,
+                    },
+                    {
+                      key: 'l2',
+                      label: 'Left two',
+                      content: <Text>Left two content</Text>,
+                    },
+                  ]}
+                />
+              </Stack>
+            ),
+          },
+          {
+            id: 'tabs-controlled',
+            title: 'Controlled & disabled',
+            description:
+              'value + onChange give the parent the selection; a disabled tab is skipped by clicks and keyboard navigation alike (test: ignores disabled tabs in keyboard navigation). Arrow past it — focus jumps the disabled button.',
+            content: <TabsControlledDemo />,
+          },
+          {
+            id: 'tabs-keyboard',
+            title: 'Keyboard',
+            content: (
+              <KeyboardTable
+                bindings={[
                   {
-                    key: 'b',
-                    label: 'Second',
-                    content: <Text>Second tab</Text>,
+                    keys: 'ArrowRight / ArrowLeft',
+                    action:
+                      'Move and select the next / previous enabled tab (test: supports arrow-key navigation with roving tabindex)',
+                  },
+                  {
+                    keys: 'ArrowDown / ArrowUp',
+                    action:
+                      'Same movement when position is left or right (test: uses Up/Down arrows for the left position)',
+                  },
+                  {
+                    keys: 'Home / End',
+                    action: 'Select the first / last enabled tab',
+                  },
+                  {
+                    keys: 'Tab',
+                    action:
+                      'Leave the tablist — roving tabindex keeps one stop per tablist',
                   },
                 ]}
               />
@@ -536,13 +980,67 @@ export function NavigationDemos({ slug }: { slug: string }) {
     return (
       <DemoPage
         title="Steps"
+        description="Indicator-only step navigation with aria-current, completed checks, a linear mode and arrow-key focus movement."
         sections={[
           {
             id: 'steps-basic',
+            title: 'Basic',
+            description:
+              'Uncontrolled with defaultIndex — click an enabled step and internal state follows (tests: uncontrolled defaultIndex changes internal state on click, fires onChange when clicking enabled step).',
+            content: <StepsBasicDemo />,
+          },
+          {
+            id: 'steps-linear',
+            title: 'Linear mode',
+            description:
+              'linear only unlocks the step after the current one, so later steps stay disabled until you advance (tests: linear prevents skipping ahead beyond next step, does not fire onChange for disabled linear step).',
+            content: <StepsLinearDemo />,
+          },
+          {
+            id: 'steps-states',
+            title: 'Icons & states',
+            description:
+              'Completed steps show a check, the active step carries aria-current="step", and items can be disabled outright or decorated with an icon (tests: marks active step with aria-current=step and shows check for completed, disables items with disabled prop, renders icon when provided and number fallback).',
             content: (
               <Steps
-                items={[{ text: 'One' }, { text: 'Two' }, { text: 'Three' }]}
+                ariaLabel="Icon steps demo"
                 defaultIndex={1}
+                items={[
+                  { text: 'Cart', icon: 'home' },
+                  { text: 'Shipping' },
+                  { text: 'Payment', disabled: true },
+                  { text: 'Review' },
+                ]}
+                onChange={() => undefined}
+              />
+            ),
+          },
+          {
+            id: 'steps-keyboard',
+            title: 'Keyboard',
+            content: (
+              <KeyboardTable
+                bindings={[
+                  {
+                    keys: 'ArrowRight / ArrowDown',
+                    action:
+                      'Move focus to the next enabled step, wrapping (test: handles keyboard ArrowRight/Left navigation)',
+                  },
+                  {
+                    keys: 'ArrowLeft / ArrowUp',
+                    action:
+                      'Move focus to the previous enabled step, wrapping (test: handles keyboard ArrowRight/Left navigation)',
+                  },
+                  {
+                    keys: 'Home / End',
+                    action: 'Move focus to the first / last enabled step',
+                  },
+                  {
+                    keys: 'Enter / Space',
+                    action:
+                      'Activate the focused step and fire onChange (test: Enter/Space activation via click handler)',
+                  },
+                ]}
               />
             ),
           },
@@ -554,11 +1052,86 @@ export function NavigationDemos({ slug }: { slug: string }) {
     return (
       <DemoPage
         title="Toc"
-        description="Auto table of contents with scroll-spy and smooth scroll."
+        description="Scroll-spy table of contents: IntersectionObserver plus a scroll fallback tracks the visible section, and clicks scroll-and-focus the target."
         sections={[
           {
-            id: 'toc-basic',
-            content: <Toc items={[{ text: 'Top', selector: '#top' }]} />,
+            id: 'toc-vertical',
+            title: 'Vertical scroll-spy',
+            description:
+              'The first item starts active with aria-current="location"; scrolling this page keeps the highlight in sync (tests: marks first item as active initially with aria-current location, updates active on scroll via scroll handler). The label is unique so it does not collide with this page’s own TOC.',
+            content: (
+              <Stack orientation="vertical" gap="sm">
+                <Toc
+                  ariaLabel="Vertical demo contents"
+                  items={[
+                    { text: 'Section one', selector: '#toc-target-one' },
+                    { text: 'Section two', selector: '#toc-target-two' },
+                    { text: 'Section three', selector: '#toc-target-three' },
+                  ]}
+                />
+                <div id="toc-target-one" tabIndex={-1}>
+                  <Text textStyle="Subtitle1" tagName="H3">
+                    Section one
+                  </Text>
+                  <Text>Scroll target one.</Text>
+                </div>
+                <div id="toc-target-two" tabIndex={-1}>
+                  <Text textStyle="Subtitle1" tagName="H3">
+                    Section two
+                  </Text>
+                  <Text>Scroll target two.</Text>
+                </div>
+                <div id="toc-target-three" tabIndex={-1}>
+                  <Text textStyle="Subtitle1" tagName="H3">
+                    Section three
+                  </Text>
+                  <Text>Scroll target three.</Text>
+                </div>
+              </Stack>
+            ),
+          },
+          {
+            id: 'toc-horizontal',
+            title: 'Horizontal orientation',
+            description:
+              'orientation="horizontal" lays the list out inline — typically styled sticky at the top of a docs page (test: applies orientation classes).',
+            content: (
+              <Toc
+                ariaLabel="Horizontal demo contents"
+                orientation="horizontal"
+                items={[
+                  { text: 'One', selector: '#toc-target-one' },
+                  { text: 'Two', selector: '#toc-target-two' },
+                  { text: 'Three', selector: '#toc-target-three' },
+                ]}
+              />
+            ),
+          },
+          {
+            id: 'toc-click',
+            title: 'Click handling',
+            description:
+              'A click prevents the default jump, updates active, fires onClick, smooth-scrolls and moves focus to the target (test: clicking item updates active and calls onClick, scrolls and focuses target).',
+            content: <TocClickDemo />,
+          },
+          {
+            id: 'toc-keyboard',
+            title: 'Keyboard',
+            content: (
+              <KeyboardTable
+                bindings={[
+                  {
+                    keys: 'Tab',
+                    action: 'Move between the TOC links (native anchor focus)',
+                  },
+                  {
+                    keys: 'Enter',
+                    action:
+                      'Activate the link — scroll, focus target, log onClick (test: clicking item updates active and calls onClick)',
+                  },
+                ]}
+              />
+            ),
           },
         ]}
       />
@@ -568,10 +1141,81 @@ export function NavigationDemos({ slug }: { slug: string }) {
     return (
       <DemoPage
         title="Pager"
+        description="Standalone pagination controls: numbered buttons with aria-current, first/prev/next/last, a live summary and a page-size selector — page and pageSize are owned by you."
         sections={[
           {
             id: 'pager-basic',
-            content: <Pager count={100} pageSize={10} defaultPage={2} />,
+            title: 'Basic',
+            description:
+              'page is controlled — onPageChange hands back { page } and the summary tracks it live (tests: renders summary and page buttons with aria-current, fires onPageChange with PageEventArgs). The nav label is unique so several pagers can share a page.',
+            content: <PagerBasicDemo />,
+          },
+          {
+            id: 'pager-pagesize',
+            title: 'Page size',
+            description:
+              'pageSizeOptions enables the selector; feed onPageSizeChange back into the pageSize prop or the select snaps back (test: fires onPageSizeChange).',
+            content: <PagerPageSizeDemo />,
+          },
+          {
+            id: 'pager-summary',
+            title: 'Summary formats',
+            description:
+              'pagingSummaryFormat takes {0} page {1} pages {2} items placeholders; pagingSummaryTemplate replaces it entirely with a function (tests: formats pagingSummaryFormat, renders custom summary template).',
+            content: (
+              <Stack orientation="vertical" gap="md">
+                <Pager
+                  ariaLabel="Format demo pager"
+                  count={230}
+                  pageSize={20}
+                  defaultPage={3}
+                  pagingSummaryFormat="{0} / {1} pages — {2} rows"
+                />
+                <Pager
+                  ariaLabel="Template demo pager"
+                  count={230}
+                  pageSize={20}
+                  defaultPage={3}
+                  pagingSummaryTemplate={(info) =>
+                    `Showing page ${info.pageNumber} of ${info.pageCount} (${info.count} items)`
+                  }
+                />
+              </Stack>
+            ),
+          },
+          {
+            id: 'pager-visibility',
+            title: 'Single-page visibility',
+            description:
+              'With pageCount <= 1 the pager renders nothing unless alwaysVisible — grow the count and it appears (test: hides when single page unless alwaysVisible).',
+            content: <PagerVisibilityDemo />,
+          },
+          {
+            id: 'pager-keyboard',
+            title: 'Keyboard',
+            content: (
+              <KeyboardTable
+                bindings={[
+                  {
+                    keys: 'ArrowRight / ArrowDown',
+                    action:
+                      'Move focus between numbered page buttons when one is focused',
+                  },
+                  {
+                    keys: 'ArrowLeft / ArrowUp',
+                    action: 'Move focus back between numbered page buttons',
+                  },
+                  {
+                    keys: 'Home / End',
+                    action: 'Focus the first / last numbered page button',
+                  },
+                  {
+                    keys: 'Enter / Space',
+                    action: 'Activate the focused page button (native button)',
+                  },
+                ]}
+              />
+            ),
           },
         ]}
       />
@@ -580,15 +1224,65 @@ export function NavigationDemos({ slug }: { slug: string }) {
   return (
     <DemoPage
       title="Breadcrumb"
+      description="Ordered trail of links with aria-hidden separators, a page-current crumb and non-navigating callbacks — clicks never leave the app on their own."
       sections={[
         {
           id: 'breadcrumb-basic',
+          title: 'Links & separators',
+          description:
+            'Items with a path render as anchors; the last crumb keeps aria-current="page" even when it has a path, and "/" separators are aria-hidden between items (tests: renders links for items with path, last item with path still has aria-current, renders separators aria-hidden between items).',
           content: (
             <Breadcrumb
+              ariaLabel="Docs breadcrumb"
               items={[
                 { text: 'Home', path: '/' },
                 { text: 'Library', path: '/lib' },
-                { text: 'Current' },
+                { text: 'Components', path: '/components' },
+                { text: 'Breadcrumb' },
+              ]}
+            />
+          ),
+        },
+        {
+          id: 'breadcrumb-click',
+          title: 'Click handling',
+          description:
+            'Every click is preventDefault-ed and handed to onClick — navigation is your job. A crumb without a path (that is not last) renders as a button instead of a link (tests: fires onClick when link clicked, handles click on item without path via button).',
+          content: <BreadcrumbClickDemo />,
+        },
+        {
+          id: 'breadcrumb-states',
+          title: 'Current & disabled',
+          description:
+            'The last crumb without a path is a focusable span with aria-current="page"; disabled crumbs are aria-disabled, out of tab order and never fire onClick (tests: current page without path is span with aria-current, disabled item has aria-disabled and not focusable, does not fire onClick for disabled item).',
+          content: (
+            <Breadcrumb
+              ariaLabel="State demo breadcrumb"
+              items={[
+                { text: 'Home', path: '/' },
+                { text: 'Archive', disabled: true },
+                { text: '2026', path: '/2026' },
+                { text: 'Today' },
+              ]}
+            />
+          ),
+        },
+        {
+          id: 'breadcrumb-keyboard',
+          title: 'Keyboard',
+          content: (
+            <KeyboardTable
+              bindings={[
+                {
+                  keys: 'Tab',
+                  action:
+                    'Move through the crumbs — disabled spans are skipped (test: disabled item … not focusable)',
+                },
+                {
+                  keys: 'Enter',
+                  action:
+                    'Activate the focused crumb link or button, firing onClick (test: fires onClick when link clicked)',
+                },
               ]}
             />
           ),
