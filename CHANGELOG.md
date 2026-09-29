@@ -20,6 +20,10 @@ Versioning follows the release flow in `docs/DEVELOPMENT_STRATEGY.md`
   `ariaLabel` when set (e.g. `People Pagination`), so several grids on
   one page no longer share the default `Pagination` landmark name
   (axe `landmark-unique`). Without `ariaLabel` the label is unchanged.
+- `DataList`: same pager landmark prefix as `DataGrid` — the pager nav
+  is now named `"{ariaLabel} Pagination"` (e.g. `Data list Pagination`),
+  so several lists on one page no longer share the default `Pagination`
+  landmark name (axe `landmark-unique` on `#/datalist`).
 - `Badge`, `Button`, `Alert`: the filled (`Badge`/`Alert`) and flat
   (`Button`) `shade="lighter"`/`shade="light"` surfaces now dilute the
   shade background toward white before pairing it with the dark

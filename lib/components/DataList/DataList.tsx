@@ -66,6 +66,9 @@ export function DataList<T>({
         </div>
       )}
       <Pager
+        // Prefixed like DataGrid's pager: several lists on one page must
+        // not share the "Pagination" landmark name (axe landmark-unique).
+        ariaLabel={`${ariaLabel} Pagination`}
         pageNumber={current}
         pageSize={size}
         count={count}

@@ -34,6 +34,17 @@ describe('DataList', () => {
     expect(screen.getByText('Item 12')).toBeTruthy();
   });
 
+  it('prefixes the pager landmark with the list aria-label', () => {
+    renderList();
+    renderList({ ariaLabel: 'Route pages' });
+    expect(
+      screen.getByRole('navigation', { name: 'Data list Pagination' })
+    ).toBeTruthy();
+    expect(
+      screen.getByRole('navigation', { name: 'Route pages Pagination' })
+    ).toBeTruthy();
+  });
+
   it('resets to page 1 when page size changes', async () => {
     renderList({ pageSizeOptions: [5, 10] });
     await userEvent.click(screen.getByRole('button', { name: '2' }));

@@ -16,6 +16,10 @@ export function EventLog({
   return (
     <div
       aria-label="Event log"
+      // A scrollable region must be reachable by keyboard (axe
+      // scrollable-region-focusable) — once events overflow maxHeight
+      // the container scrolls; empty logs don't scroll, so no tab stop.
+      tabIndex={events.length > 0 ? 0 : undefined}
       style={{ maxHeight: 160, overflowY: 'auto', marginTop: 8 }}
     >
       {events.length === 0 ? (
