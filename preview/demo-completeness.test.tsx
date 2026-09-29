@@ -40,12 +40,9 @@ const EXCEPTIONS: Record<string, number> = {
  * entries are removed per phase and must never come back.
  */
 const KNOWN_GAPS = new Set([
-  // Theme (BASIC)
+  // Theme — cleared when ThemeToggle ships its icon-button demos
   'themeswitcher',
   'themetoggle',
-  // Recipes
-  'recipe-login',
-  'recipe-404',
 ]);
 
 function titledCount(props: DemoPageProps): number {
