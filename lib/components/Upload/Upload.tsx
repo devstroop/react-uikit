@@ -192,6 +192,7 @@ export const Upload = forwardRef<UploadHandle, UploadProps>(function Upload(
               <span
                 className={styles.progress}
                 role="progressbar"
+                aria-label={`${file.name} upload progress`}
                 aria-valuemin={0}
                 aria-valuemax={100}
                 aria-valuenow={progress}

@@ -271,7 +271,6 @@
 
 .dx-datepicker-day--outside {
   color: var(--dx-text-muted-color);
-  opacity: 0.6;
 }
 
 .dx-datepicker-day--disabled {

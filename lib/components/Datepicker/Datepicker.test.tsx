@@ -41,6 +41,7 @@ describe('Datepicker', () => {
     await user.click(screen.getByRole('button', { name: 'Open calendar' }));
     const dialog = screen.getByRole('dialog');
     expect(dialog).toBeInTheDocument();
+    expect(dialog).toHaveAccessibleName('Date picker');
     expect(
       screen.getByRole('button', { name: 'Open calendar' })
     ).toHaveAttribute('aria-controls', dialog.id);

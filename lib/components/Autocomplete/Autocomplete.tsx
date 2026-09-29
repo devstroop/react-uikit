@@ -206,12 +206,17 @@ export function Autocomplete({
           </button>
         )}
       </div>
-      {open && (
-        <div id={listboxId} role="listbox" className={styles.menu}>
-          {filtered.length === 0 ? (
+      {open &&
+        (filtered.length === 0 ? (
+          // No options → no listbox: an empty role="listbox" fails axe
+          // aria-required-children either way (bare text child or no
+          // children at all), so the empty state renders without the role.
+          <div id={listboxId} className={styles.menu}>
             <div className={styles.empty}>No matches</div>
-          ) : (
-            filtered.map((option, index) => (
+          </div>
+        ) : (
+          <div id={listboxId} role="listbox" className={styles.menu}>
+            {filtered.map((option, index) => (
               <div
                 key={option.value}
                 id={`${baseId}-option-${index}`}
@@ -238,10 +243,9 @@ export function Autocomplete({
               >
                 {option.label}
               </div>
-            ))
-          )}
-        </div>
-      )}
+            ))}
+          </div>
+        ))}
     </div>
   );
 }

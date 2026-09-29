@@ -36,6 +36,29 @@ Versioning follows the release flow in `docs/DEVELOPMENT_STRATEGY.md`
   the new demo routes), and WCAG exempts inactive UI components once
   they are marked disabled. Native disabled controls already carried
   the exemption; these two rendered their text in plain elements.
+- `Datepicker`: the calendar popup wrapper now carries the
+  `aria-label` when it has `role="dialog"` (axe `aria-dialog-name`
+  fires the moment the calendar opens; the label previously sat on an
+  inner `role`-less div, so the dialog itself was nameless). The
+  default name is `Date picker`, overridden by the `ariaLabel` prop to
+  match the trigger field. The inline (non-dialog) mode is unchanged.
+- `Upload`: each file row's `role="progressbar"` now has an
+  `aria-label` of the form `` `<file name> upload progress` `` (axe
+  `aria-progressbar-name` as soon as a row renders). Values and
+  markup are otherwise unchanged.
+- `Datepicker`: adjacent-month day cells (`--outside`) no longer
+  apply `opacity: 0.6` on top of the muted text color — the blend
+  landed at 2.87:1 against white (axe `color-contrast`, 5 cells when
+  the calendar opens on a month that spills into the previous month).
+  The muted token alone is ≥ 4.5:1 in every shipped palette and still
+  distinguishes the cells from in-month days; disabled cells are
+  unchanged (`aria-disabled` exemption).
+- `Autocomplete`: when a filter matches nothing the popup renders
+  the empty message _without_ `role="listbox"` (the `aria-controls`
+  target stays as a plain `id`-ed container). An empty listbox
+  fails axe `aria-required-children` whether it holds only the
+  message text or nothing at all; with no options there is no listbox
+  to own.
 
 ### Changed — `Togglebutton` rebuilt on `Button` (Radzen toggle axis)
 

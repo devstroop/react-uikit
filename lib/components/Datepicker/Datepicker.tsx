@@ -992,6 +992,7 @@ export const Datepicker = forwardRef<HTMLInputElement, DatepickerProps>(
           <div
             id={popupId}
             role={inline ? undefined : 'dialog'}
+            aria-label={inline ? undefined : (ariaLabel ?? 'Date picker')}
             className={inline ? undefined : styles['dx-datepicker-popup']}
           >
             {calendar}

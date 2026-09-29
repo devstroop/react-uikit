@@ -106,6 +106,7 @@ describe('Autocomplete', () => {
     render(<Autocomplete options={options} aria-label="Fruit" />);
     await user.type(screen.getByRole('combobox', { name: 'Fruit' }), 'zz');
     expect(screen.queryByRole('option')).not.toBeInTheDocument();
+    expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
     expect(screen.getByText('No matches')).toBeInTheDocument();
   });
 

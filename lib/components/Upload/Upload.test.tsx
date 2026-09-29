@@ -58,6 +58,11 @@ describe('Upload', () => {
     expect(rows).toHaveLength(1);
     expect(rows[0]).toHaveTextContent('report.pdf');
     expect(rows[0]).toHaveTextContent('2 KB');
+    expect(
+      screen.getByRole('progressbar', {
+        name: 'report.pdf upload progress',
+      })
+    ).toHaveAttribute('aria-valuenow', '0');
   });
 
   it('fires progress and complete events', () => {
