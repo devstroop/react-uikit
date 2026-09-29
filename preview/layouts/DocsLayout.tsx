@@ -63,16 +63,20 @@ export function DocsLayout({
   return (
     <Layout>
       <Header sticky>
-        <SidebarToggle
-          onClick={() => setSidebarOpen((v) => !v)}
-          aria-expanded={sidebarOpen}
-        />
-        <Text tagName="Strong">
-          <Link href="#/">react-uikit</Link>
-        </Text>
-        <Badge size="sm" severity="secondary">
-          {componentCount} components
-        </Badge>
+        <Stack orientation="horizontal" gap="md" align="center">
+          <SidebarToggle
+            onClick={() => setSidebarOpen((v) => !v)}
+            aria-expanded={sidebarOpen}
+          />
+          <Link href="#/">
+            <Text textStyle="H3" tagName="Strong">
+              react-uikit
+            </Text>
+          </Link>
+          <Badge size="sm" severity="secondary">
+            {componentCount} components
+          </Badge>
+        </Stack>
         <Stack
           orientation="horizontal"
           gap="md"
