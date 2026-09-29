@@ -413,13 +413,15 @@
    brightness filters. Pale filled steps take dark text for contrast;
    dark steps keep the base filled fg. Lighter/light text steps suit dark
    surfaces. Must stay after the fill rules (equal specificity, later wins). */
+/* Lighter/light steps dilute toward white so the dark on-color keeps
+   >= 4.5:1 (the raw shade steps are mid-tone and fail). */
 .filled.shade-lighter {
-  background-color: var(--shade-lighter);
+  background-color: color-mix(in srgb, var(--shade-lighter) 30%, white);
   border-color: transparent;
   color: var(--on-lighter);
 }
 .filled.shade-light {
-  background-color: var(--shade-light);
+  background-color: color-mix(in srgb, var(--shade-light) 45%, white);
   border-color: transparent;
   color: var(--on-light);
 }
@@ -432,12 +434,12 @@
   border-color: transparent;
 }
 .flat.shade-lighter {
-  background-color: var(--shade-lighter);
+  background-color: color-mix(in srgb, var(--shade-lighter) 30%, white);
   border-color: transparent;
   color: var(--on-lighter);
 }
 .flat.shade-light {
-  background-color: var(--shade-light);
+  background-color: color-mix(in srgb, var(--shade-light) 45%, white);
   border-color: transparent;
   color: var(--on-light);
 }

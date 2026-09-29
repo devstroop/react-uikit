@@ -481,12 +481,14 @@
    Pale filled steps take dark text; dark steps keep the base filled fg.
    Flat is the default (no variant class): matched via :not() chain.
    Lighter/light text steps suit dark surfaces. Stays last (ties win). */
+/* Lighter/light filled steps dilute toward white so the dark on-color
+   keeps >= 4.5:1 (the raw shade steps are mid-tone and fail). */
 .filled.shade-lighter {
-  background-color: var(--shade-lighter);
+  background-color: color-mix(in srgb, var(--shade-lighter) 30%, white);
   color: var(--on-lighter);
 }
 .filled.shade-light {
-  background-color: var(--shade-light);
+  background-color: color-mix(in srgb, var(--shade-light) 45%, white);
   color: var(--on-light);
 }
 .filled.shade-dark {

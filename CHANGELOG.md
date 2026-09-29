@@ -20,6 +20,16 @@ Versioning follows the release flow in `docs/DEVELOPMENT_STRATEGY.md`
   `ariaLabel` when set (e.g. `People Pagination`), so several grids on
   one page no longer share the default `Pagination` landmark name
   (axe `landmark-unique`). Without `ariaLabel` the label is unchanged.
+- `Badge`, `Button`, `Alert`: the filled (`Badge`/`Alert`) and flat
+  (`Button`) `shade="lighter"`/`shade="light"` surfaces now dilute the
+  shade background toward white before pairing it with the dark
+  `on-*-lighter`/`on-*-light` text. The raw mid-tone shade steps
+  (`#87a9f4`-class colors) only reached 2.6–3.8:1 against those
+  on-colors (axe `color-contrast`, 14 nodes on `#/badge`); the diluted
+  steps land at 5.0:1 or better across all seven hues. Dark/darker
+  steps, flat 12% tints and tokens are unchanged. The same latent
+  pairing on `#/button` is axe-invisible (ripple pseudo-element makes
+  the background indeterminate) but is fixed by the same rules.
 
 ### Changed — `Togglebutton` rebuilt on `Button` (Radzen toggle axis)
 
