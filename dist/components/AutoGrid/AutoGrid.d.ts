@@ -1,6 +1,6 @@
 import { CSSProperties, HTMLAttributes } from 'react';
-import { ComponentSize } from '../../sizes';
-export type AutoGridGap = ComponentSize | number | string;
+/** Gap: px number (unitless = pixels) or CSS length; digits-only strings are px. */
+export type AutoGridGap = number | string;
 export interface AutoGridProps extends HTMLAttributes<HTMLDivElement> {
     /**
      * Minimum track width — number (px) or any CSS length.
@@ -9,8 +9,8 @@ export interface AutoGridProps extends HTMLAttributes<HTMLDivElement> {
      */
     min?: number | string;
     /**
-     * Gap between tracks — tier name, px number, or CSS value.
-     * Defaults to 'md'.
+     * Gap between tracks — px number (unitless = pixels) or CSS length.
+     * Defaults to 12.
      */
     gap?: AutoGridGap;
     className?: string;
