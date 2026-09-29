@@ -35,8 +35,8 @@ const EXCEPTIONS: Record<string, number> = {
 
 /**
  * Slugs below the demo standard. Seeded at 71 (Phase 0); the Display
- * pilot took it to 64. Shrink-only: entries are removed per phase and
- * must never come back.
+ * pilot took it to 64, Forms (Phase 3) to 38. Shrink-only: entries are
+ * removed per phase and must never come back.
  */
 const KNOWN_GAPS = new Set([
   // Layout / chrome
@@ -50,34 +50,6 @@ const KNOWN_GAPS = new Set([
   'autogrid',
   // Buttons
   'fabmenu',
-  // Forms (STUB)
-  'form',
-  'field',
-  'input',
-  'textbox',
-  'textarea',
-  'password',
-  'mask',
-  'numeric',
-  'select',
-  'dropdown',
-  'autocomplete',
-  'listbox',
-  'checkboxlist',
-  'radiobuttonlist',
-  'switch',
-  'slider',
-  'rating',
-  'colorpicker',
-  'datepicker',
-  'timespanpicker',
-  'securitycode',
-  'upload',
-  'selectbar',
-  'label',
-  // Forms (BASIC)
-  'fieldset',
-  'checkbox',
   // Feedback
   'skeleton',
   'emptystate',
