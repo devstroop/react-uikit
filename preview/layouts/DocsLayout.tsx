@@ -5,6 +5,8 @@ import {
   Header,
   Layout,
   Link,
+  PanelMenu,
+  PanelMenuItem,
   Sidebar,
   SidebarToggle,
   Stack,
@@ -20,20 +22,17 @@ import { DEMO_GROUPS } from '../nav';
  * Owns only layout chrome — header, sidebar nav, body frame. Route
  * content arrives as children; routing, theme and dark-mode state stay
  * in the shell (`App.tsx`) and flow in as props, like Blazor's
- * cascading parameters. Pages that need no chrome (404) bypass this
- * layout entirely — same as Blazor's `<NotFound>` rendering outside
- * `MainLayout`.
+ * cascading parameters. The sidebar dogfoods PanelMenu: groups are
+ * collapsible panels, leaves are hash anchors whose selected state
+ * syncs from the URL inside the component.
  */
 export function DocsLayout({
-  route,
   theme,
   onThemeChange,
   dark,
   onDarkChange,
   children,
 }: {
-  /** Active hash slug (highlights the nav link). */
-  route: string;
   theme: string;
   onThemeChange: (theme: string) => void;
   dark: boolean;
@@ -113,39 +112,29 @@ export function DocsLayout({
           }}
           className="dx-mb-4"
         />
-        <nav aria-label="Components">
-          {visibleGroups.length === 0 ? (
-            <Text className="dx-text-muted">
-              No components match “{query.trim()}”.
-            </Text>
-          ) : (
-            <Stack orientation="vertical" gap={16}>
-              {visibleGroups.map((group) => (
-                <div key={group.title}>
-                  <Text textStyle="Overline" tagName="P">
-                    {group.title}
-                  </Text>
-                  {/* List semantics have no uikit equivalent; reset stays. */}
-                  <ul style={{ listStyle: 'none', margin: 0, padding: 0 }}>
-                    {group.routes.map((r) => (
-                      <li key={r.slug}>
-                        <Link
-                          href={`#/${r.slug}`}
-                          aria-current={route === r.slug ? 'page' : undefined}
-                          style={
-                            route === r.slug ? { fontWeight: 700 } : undefined
-                          }
-                        >
-                          {r.title}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </Stack>
-          )}
-        </nav>
+        {visibleGroups.length === 0 ? (
+          <Text className="dx-text-muted">
+            No components match “{query.trim()}”.
+          </Text>
+        ) : (
+          <PanelMenu ariaLabel="Components">
+            {visibleGroups.map((group) => (
+              <PanelMenuItem
+                key={group.title}
+                text={group.title}
+                defaultExpanded
+              >
+                {group.routes.map((r) => (
+                  <PanelMenuItem
+                    key={r.slug}
+                    text={r.title}
+                    path={`#/${r.slug}`}
+                  />
+                ))}
+              </PanelMenuItem>
+            ))}
+          </PanelMenu>
+        )}
       </Sidebar>
       <Body>{children}</Body>
     </Layout>

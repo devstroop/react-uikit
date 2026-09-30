@@ -1,7 +1,8 @@
 import { createElement, useEffect, useState } from 'react';
-import { Text } from '../lib/main';
+import { Button, Stack, Text } from '../lib/main';
 import { DocsLayout } from './layouts/DocsLayout';
 import { routeTitle } from './nav';
+import { DemoPage } from './pages/demo-page';
 import { resolveRoute } from './routes';
 
 function routeFromHash(): string {
@@ -35,9 +36,9 @@ const PALETTE_LOADERS: Record<string, (() => Promise<unknown>)[]> = {
 /**
  * Preview shell: layout-agnostic app root (Blazor `Routes.razor` parity).
  * Owns routing state (hash slug), global theme/dark state, and layout
- * selection — no layout chrome of its own. Every known slug renders
- * inside `DocsLayout`; unknown slugs render the NotFound fallback with
- * no chrome, like Blazor's `<NotFound>` outside `MainLayout`.
+ * selection. Every slug — including unknown ones — renders inside
+ * `DocsLayout`; an unknown slug shows the styled not-found page in the
+ * docs chrome instead of a bare fallback.
  */
 export function App() {
   const [route, setRoute] = useState(routeFromHash);
@@ -72,11 +73,44 @@ export function App() {
 
   const Page = resolveRoute(route);
   if (Page == null) {
-    return <Text textStyle="Body1">Unknown demo: {routeTitle(route)}</Text>;
+    return (
+      <DocsLayout
+        theme={theme}
+        onThemeChange={setTheme}
+        dark={dark}
+        onDarkChange={setDark}
+      >
+        <DemoPage
+          title="Page not found"
+          description={`No demo route matches “${routeTitle(route)}”.`}
+          sections={[
+            {
+              id: 'not-found',
+              title: '404',
+              content: (
+                <Stack orientation="vertical" gap={16} align="start">
+                  <Text textStyle="Body1" className="dx-text-muted">
+                    Check the sidebar for a component, or return to the start.
+                  </Text>
+                  <Button
+                    variant="filled"
+                    severity="primary"
+                    onClick={() => {
+                      window.location.hash = '#/';
+                    }}
+                  >
+                    Go home
+                  </Button>
+                </Stack>
+              ),
+            },
+          ]}
+        />
+      </DocsLayout>
+    );
   }
   return (
     <DocsLayout
-      route={route}
       theme={theme}
       onThemeChange={setTheme}
       dark={dark}
