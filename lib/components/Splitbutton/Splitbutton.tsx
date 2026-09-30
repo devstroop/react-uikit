@@ -264,7 +264,7 @@ export const Splitbutton = forwardRef<HTMLDivElement, SplitbuttonProps>(
             }
           }}
         >
-          <Icon name="chevron-down" aria-hidden="true" />
+          <Icon icon="keyboard_arrow_down" aria-hidden="true" />
         </Button>
         {open && (
           <div
@@ -301,7 +301,7 @@ export const Splitbutton = forwardRef<HTMLDivElement, SplitbuttonProps>(
               >
                 {item.icon ? (
                   <span className={styles.itemIcon} aria-hidden="true">
-                    <Icon name={item.icon} size={16} />
+                    <Icon icon={item.icon} size={16} />
                   </span>
                 ) : null}
                 {item.label}

@@ -328,7 +328,7 @@ export function DataFilter<TItem = unknown>({
                   aria-label={`Remove condition ${index + 1}`}
                   onClick={() => removeRow(row.id)}
                 >
-                  <Icon name="close" size="sm" />
+                  <Icon icon="close" size="sm" />
                 </button>
               </div>
               {takesValue ? (
@@ -394,7 +394,7 @@ export function DataFilter<TItem = unknown>({
                         })
                       }
                     >
-                      <Icon name="close" size="sm" />
+                      <Icon icon="close" size="sm" />
                     </button>
                   </div>
                 ) : (

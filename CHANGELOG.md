@@ -6,6 +6,23 @@ Versioning follows the release flow in `docs/DEVELOPMENT_STRATEGY.md`
 
 ## [Unreleased] — toward 2.0.0
 
+### Changed — Icon is font-based (BREAKING)
+
+- `<Icon/>` renders Material Symbols ligatures (`icon="home"`) from a
+  self-hosted variable woff2 instead of hand-drawn SVG paths: single
+  source, 2500+ glyphs, weight via `style.fontWeight` (100–700).
+- Props: `name` → `icon` (free string; curated union kept for
+  autocomplete), new explicit `color`, `size`/`style`/`className`
+  unchanged. `strokeWidth`, the 45 legacy paths, and all 16 ingested
+  sets (`mdi:`, `ph:`, …) are gone. Internal consumers migrated
+  (`eye`→`visibility`, `sun`→`light_mode`, `check-circle`→`check_circle`,
+  `chevron-*`→`chevron_left/right`/`keyboard_arrow_*`, `calendar`→
+  `calendar_month`, `ban`→`block`, `alert`→`warning`, `x-circle`→`cancel`).
+- New tokens `--dx-icon-font-family` / `--dx-icon-size`; projects
+  override the family per scope (see docs/THEMING.md). Bare `<Icon/>`
+  now defaults to the 24px token (was the 16px md tier).
+- Codemod: `name=` → `icon=` plus the ligature map above.
+
 ### Fixed — accessibility (preview axe crawl)
 
 - `PanelMenu`: triggers inside an expanded panel now carry

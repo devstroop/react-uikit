@@ -66,9 +66,9 @@ export const ALERT_ICON: Record<AlertStyle, IconName> = {
   base: 'info',
   dark: 'info',
   info: 'info',
-  success: 'check-circle',
-  warning: 'alert',
-  danger: 'x-circle',
+  success: 'check_circle',
+  warning: 'warning',
+  danger: 'cancel',
 };
 
 export function Alert({
@@ -111,7 +111,7 @@ export function Alert({
   const v = resolveVariant(variant, 'filled');
   const shadeCls = shadeClass(shade);
   const shownIcon =
-    icon ?? (showIcon ? <Icon name={ALERT_ICON[severity]} /> : null);
+    icon ?? (showIcon ? <Icon icon={ALERT_ICON[severity]} /> : null);
   return (
     <div
       role="alert"
@@ -143,7 +143,7 @@ export function Alert({
           onClick={dismiss}
           aria-label="Dismiss alert"
         >
-          <Icon name="close" size="sm" />
+          <Icon icon="close" size="sm" />
         </button>
       )}
     </div>

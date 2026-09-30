@@ -155,7 +155,7 @@ export const Upload = forwardRef<UploadHandle, UploadProps>(function Upload(
       className={styles.trigger}
       onClick={() => inputRef.current?.click()}
     >
-      <Icon name="upload" size={14} />
+      <Icon icon="upload" size={14} />
       {chooseText}
     </button>
   );
@@ -217,7 +217,7 @@ export const Upload = forwardRef<UploadHandle, UploadProps>(function Upload(
                 aria-label={`Remove ${file.name}`}
                 onClick={() => removeFile(file.name)}
               >
-                <Icon name="close" size={14} />
+                <Icon icon="close" size={14} />
               </button>
             </li>
           ))}

@@ -104,7 +104,7 @@ export const Rating = ({
           disabled={disabled}
           onClick={() => select(0)}
         >
-          <Icon name="ban" size={16} />
+          <Icon icon="block" size={16} />
         </button>
       )}
       {items.map((index) => {
@@ -135,10 +135,12 @@ export const Rating = ({
               className={styles['dx-rating-icon-filled']}
               aria-hidden="true"
             >
-              <Icon name="star" size={20} />
+              <Icon icon="star" size={20} />
             </span>
             <span className={styles['dx-rating-icon-empty']} aria-hidden="true">
-              <Icon name="star-outline" size={20} />
+              {/* Outlined font: the empty layer reuses the star glyph and
+                inherits the item ink (filled layer carries the tone). */}
+              <Icon icon="star" size={20} />
             </span>
           </button>
         );

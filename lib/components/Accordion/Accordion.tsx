@@ -72,7 +72,7 @@ export function Accordion({
                     .join(' ')}
                   aria-hidden="true"
                 >
-                  <Icon name="chevron-down" size={12} />
+                  <Icon icon="keyboard_arrow_down" size={12} />
                 </span>
               </button>
             </h3>

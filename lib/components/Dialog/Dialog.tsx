@@ -205,7 +205,7 @@ export function Dialog({
             onClick={() => void requestClose()}
             aria-label="Close dialog"
           >
-            <Icon name="close" size="sm" />
+            <Icon icon="close" size="sm" />
           </button>
         </header>
       )}

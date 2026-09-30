@@ -943,7 +943,7 @@ export function Tree({
                         .filter(Boolean)
                         .join(' ')}
                     >
-                      <Icon name="chevron-right" size={10} />
+                      <Icon icon="chevron_right" size={10} />
                     </span>
                   </button>
                 ) : (

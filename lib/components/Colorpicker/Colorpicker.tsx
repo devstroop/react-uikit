@@ -704,7 +704,7 @@ export const Colorpicker = ({
         )}
         {showArrow && (
           <span className={styles['dx-colorpicker-chevron']} aria-hidden="true">
-            <Icon name="chevron-down" size={14} />
+            <Icon icon="keyboard_arrow_down" size={14} />
           </span>
         )}
       </button>

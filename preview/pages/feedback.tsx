@@ -178,7 +178,7 @@ function EmptyStateActionDemo() {
   return (
     <Stack orientation="vertical" gap={12}>
       <EmptyState
-        icon={<Icon name="mail" size="xl" />}
+        icon={<Icon icon="mail" size="xl" />}
         title="Your inbox is empty"
         description="New messages will show up here."
         action={
@@ -900,13 +900,13 @@ export function FeedbackDemos({ slug }: { slug: string }) {
             content: (
               <Stack orientation="vertical" gap={12}>
                 <EmptyState
-                  icon={<Icon name="search" size="xl" />}
+                  icon={<Icon icon="search" size="xl" />}
                   title="No files match “quarterly”"
                   description="Remove a filter or search for something else."
                   action={<Button variant="outlined">Clear filters</Button>}
                 />
                 <EmptyState
-                  icon={<Icon name="folder" size="xl" />}
+                  icon={<Icon icon="folder" size="xl" />}
                   title="This folder is empty"
                   description="Upload a file to get started."
                 />

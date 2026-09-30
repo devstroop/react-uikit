@@ -26,13 +26,13 @@ const BUTTON_ICONS: Record<
   (typeof BUTTON_STYLES)[number],
   { icon: IconName; label: string }
 > = {
-  primary: { icon: 'plus', label: 'Add new' },
-  secondary: { icon: 'plus', label: 'Add new' },
+  primary: { icon: 'add', label: 'Add new' },
+  secondary: { icon: 'add', label: 'Add new' },
   base: { icon: 'refresh', label: 'Refresh' },
   info: { icon: 'info', label: 'Privacy tip' },
-  success: { icon: 'check-circle', label: 'Publish' },
-  warning: { icon: 'alert', label: 'Warning' },
-  danger: { icon: 'ban', label: 'Report' },
+  success: { icon: 'check_circle', label: 'Publish' },
+  warning: { icon: 'warning', label: 'Warning' },
+  danger: { icon: 'block', label: 'Report' },
 };
 
 const SPLIT_ITEMS = [
@@ -313,21 +313,21 @@ export function ButtonDemos({ slug }: { slug: string }) {
                   <Togglebutton
                     iconOnly
                     toggleContent={
-                      <Icon name="check" size={20} aria-hidden="true" />
+                      <Icon icon="check" size={20} aria-hidden="true" />
                     }
                     aria-label="Published"
                   >
-                    <Icon name="eye" size={20} aria-hidden="true" />
+                    <Icon icon="visibility" size={20} aria-hidden="true" />
                   </Togglebutton>
                   <Togglebutton
                     iconOnly
                     defaultPressed
                     toggleContent={
-                      <Icon name="check" size={20} aria-hidden="true" />
+                      <Icon icon="check" size={20} aria-hidden="true" />
                     }
                     aria-label="Published"
                   >
-                    <Icon name="eye" size={20} aria-hidden="true" />
+                    <Icon icon="visibility" size={20} aria-hidden="true" />
                   </Togglebutton>
                 </Row>
                 <Togglebutton defaultPressed toggleContent="On">
@@ -585,7 +585,7 @@ export function ButtonDemos({ slug }: { slug: string }) {
                     aria-label={BUTTON_ICONS[style].label}
                     onClick={() => undefined}
                   >
-                    <Icon name={BUTTON_ICONS[style].icon} size={20} />
+                    <Icon icon={BUTTON_ICONS[style].icon} size={20} />
                   </Button>
                 ))}
               </Row>
@@ -600,7 +600,7 @@ export function ButtonDemos({ slug }: { slug: string }) {
                     onClick={() => undefined}
                   >
                     <Icon
-                      name={BUTTON_ICONS[style].icon}
+                      icon={BUTTON_ICONS[style].icon}
                       size={20}
                       aria-hidden="true"
                     />

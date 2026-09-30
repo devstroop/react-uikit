@@ -1,27 +1,6 @@
 import type { ReactNode } from 'react';
-import {
-  Icon,
-  iconNames,
-  iconSetNames,
-  iconSets,
-  Row,
-  Stack,
-  Text,
-  type IconName,
-  type IconSetPrefix,
-} from '../../lib/main';
+import { Icon, iconNames, Row, Stack, Text } from '../../lib/main';
 import { DemoPage } from './demo-page';
-
-/**
- * Collections with a brand vocabulary (brand names, not shared concepts).
- * `IconSetPrefix` isn't exhaustive against `iconSets` — update this list
- * when the ingest script adds a set with its own vocabulary.
- */
-const BRAND_SETS = new Set<IconSetPrefix>(['fa6-brands', 'simple-icons']);
-
-function capitalize(value: string): string {
-  return value.charAt(0).toUpperCase() + value.slice(1);
-}
 
 /** One centered cell: glyph (or placeholder) stacked above its caption. */
 function GlyphCell({
@@ -47,142 +26,82 @@ function GlyphCell({
 }
 
 /**
- * One glyph grid — `default` (bare names), a shape set (aligned to the
- * canonical `iconNames` order, placeholders where the set lacks a glyph),
- * or a brand set (own vocabulary via an explicit `glyphs` list).
+ * One glyph grid over the curated ligature list — any Material Symbols
+ * name renders the same way, curated or not.
  */
-function IconSetGrid({
-  prefix,
-  glyphs,
-  level = 3,
-}: {
-  prefix?: IconSetPrefix;
-  glyphs?: readonly string[];
-  /** Heading level — 4 when nested under a group heading. */
-  level?: 3 | 4;
-}) {
-  const set = prefix !== undefined ? iconSets[prefix] : undefined;
-  const list = glyphs ?? iconNames;
-  const missing =
-    set === undefined ? [] : list.filter((glyph) => set.icons[glyph] == null);
+function GlyphGrid({ glyphs }: { glyphs: readonly string[] }) {
   return (
-    <Stack orientation="vertical" gap={8}>
-      <Text textStyle="H5" tagName={level === 4 ? 'H4' : 'H3'}>
-        {prefix ?? 'default'}
-      </Text>
-      <Text textStyle="Body1" className="dx-text-muted dx-mb-4">
-        {set === undefined
-          ? 'Built-in feather-style glyphs, referenced without a prefix.'
-          : `${capitalize(set.style)} · ${list.length - missing.length} glyphs${
-              missing.length > 0
-                ? ` · not in this set: ${missing.join(', ')}`
-                : ''
-            }`}
-      </Text>
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(104px, 1fr))',
-          gap: 8,
-        }}
-      >
-        {list.map((glyph) =>
-          set === undefined || set.icons[glyph] != null ? (
-            <GlyphCell key={glyph} label={glyph}>
-              <Icon
-                name={
-                  prefix !== undefined
-                    ? `${prefix}:${glyph}`
-                    : (glyph as IconName)
-                }
-                size="lg"
-              />
-            </GlyphCell>
-          ) : (
-            /* Placeholder keeps the concept in its canonical cell so a
-               glyph lines up across every set's grid. */
-            <GlyphCell key={glyph} label={glyph}>
-              <span
-                role="img"
-                aria-label="not in this set"
-                className="dx-text-muted"
-                style={{
-                  display: 'inline-block',
-                  width: 'var(--dx-font-size-lg)',
-                  height: 'var(--dx-font-size-lg)',
-                  lineHeight: 'var(--dx-font-size-lg)',
-                }}
-              >
-                –
-              </span>
-            </GlyphCell>
-          )
-        )}
-      </div>
-    </Stack>
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(104px, 1fr))',
+        gap: 8,
+      }}
+    >
+      {glyphs.map((glyph) => (
+        <GlyphCell key={glyph} label={glyph}>
+          <Icon icon={glyph} size="lg" />
+        </GlyphCell>
+      ))}
+    </div>
   );
 }
-
-const SHAPE_SETS = iconSetNames
-  .filter((prefix) => !BRAND_SETS.has(prefix))
-  .sort((a, b) => a.localeCompare(b));
-const BRAND_SET_ORDER = iconSetNames
-  .filter((prefix) => BRAND_SETS.has(prefix))
-  .sort((a, b) => a.localeCompare(b));
 
 export function TypographyDemos({ slug }: { slug: string }) {
   if (slug === 'icon') {
     return (
       <DemoPage
         title="Icon"
-        description="Icons render at text size by default; size takes a tier or pixels. Bare names use the built-in set; prefix a name (mdi:home, ph:user) to pick any bundled Iconify collection."
+        description="Single source: the bundled Material Symbols font renders 2500+ ligatures. Size takes a tier or pixels (default --dx-icon-size); ink inherits, color overrides it; weight rides the variable axis via style."
         sections={[
           {
             id: 'icon-sizes',
             title: 'Sizes',
             content: (
               <Row align="center" gap={12} wrap>
-                <Icon name="check" />
-                <Icon name="close" />
-                <Icon name="search" />
-                <Icon name="menu" size="lg" />
-                <Icon name="settings" size={20} />
+                <Icon icon="check" />
+                <Icon icon="close" />
+                <Icon icon="search" />
+                <Icon icon="menu" size="lg" />
+                <Icon icon="settings" size={20} />
               </Row>
             ),
           },
           {
-            id: 'icon-sets',
-            title: 'Icon sets',
-            description: `Shape sets each render all ${iconNames.length} concepts in the same cell order — a glyph lines up across collections; a placeholder marks a concept the set does not ship (named in its caption line). Brand sets carry their own vocabulary. Prefix a glyph (mdi:home); bare names use the built-in set.`,
+            id: 'icon-weights',
+            title: 'Weights',
+            description:
+              'The variable wght axis shades glyphs 100–700 through style.',
             content: (
-              <Stack orientation="vertical" gap={16}>
-                <IconSetGrid />
-                <Stack orientation="vertical" gap={8}>
-                  <Text textStyle="H5" tagName="H3">
-                    Shape sets
-                  </Text>
-                  {SHAPE_SETS.map((prefix) => (
-                    <IconSetGrid key={prefix} prefix={prefix} level={4} />
-                  ))}
-                </Stack>
-                <Stack orientation="vertical" gap={8}>
-                  <Text textStyle="H5" tagName="H3">
-                    Brand sets
-                  </Text>
-                  <Text textStyle="Body1" className="dx-text-muted dx-mb-4">
-                    Own vocabulary — brand names, not the {iconNames.length}{' '}
-                    shared concepts.
-                  </Text>
-                  {BRAND_SET_ORDER.map((prefix) => (
-                    <IconSetGrid
-                      key={prefix}
-                      prefix={prefix}
-                      level={4}
-                      glyphs={Object.keys(iconSets[prefix].icons)}
+              <Row align="center" gap={12} wrap>
+                {[100, 300, 400, 500, 700].map((weight) => (
+                  <GlyphCell key={weight} label={`${weight}`}>
+                    <Icon
+                      icon="settings"
+                      size="lg"
+                      style={{ fontWeight: weight }}
                     />
-                  ))}
-                </Stack>
-              </Stack>
+                  </GlyphCell>
+                ))}
+              </Row>
+            ),
+          },
+          {
+            id: 'icon-glyphs',
+            title: 'Glyphs',
+            description: `Curated ligatures (${iconNames.length} shown) — any Material Symbols name works, curated or not.`,
+            content: <GlyphGrid glyphs={iconNames} />,
+          },
+          {
+            id: 'icon-font-override',
+            title: 'Font override',
+            description:
+              'Projects swap the family per scope (or on :root) via --dx-icon-font-family; codepoints pass as literals. Unset here — same markup, stock voice.',
+            content: (
+              <Row align="center" gap={12} wrap>
+                <Icon icon="home" size="lg" />
+                <Icon icon="search" size="lg" />
+              </Row>
             ),
           },
         ]}

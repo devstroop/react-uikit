@@ -771,7 +771,7 @@ export const Datepicker = forwardRef<HTMLInputElement, DatepickerProps>(
               setTimeout(() => focusCell(next), 0);
             }}
           >
-            <Icon name="chevron-left" size={16} />
+            <Icon icon="chevron_left" size={16} />
           </button>
           <span className={styles['dx-datepicker-title']}>{monthTitle}</span>
           <button
@@ -784,7 +784,7 @@ export const Datepicker = forwardRef<HTMLInputElement, DatepickerProps>(
               setTimeout(() => focusCell(next), 0);
             }}
           >
-            <Icon name="chevron-right" size={16} />
+            <Icon icon="chevron_right" size={16} />
           </button>
         </div>
         <div
@@ -886,14 +886,14 @@ export const Datepicker = forwardRef<HTMLInputElement, DatepickerProps>(
                       aria-label={`Increase ${timeFieldLabel(field).toLowerCase()}`}
                       onClick={() => stepTime(field, 1)}
                     >
-                      <Icon name="chevron-up" size={11} />
+                      <Icon icon="keyboard_arrow_up" size={11} />
                     </button>
                     <button
                       type="button"
                       aria-label={`Decrease ${timeFieldLabel(field).toLowerCase()}`}
                       onClick={() => stepTime(field, -1)}
                     >
-                      <Icon name="chevron-down" size={11} />
+                      <Icon icon="keyboard_arrow_down" size={11} />
                     </button>
                   </span>
                 </div>
@@ -966,7 +966,7 @@ export const Datepicker = forwardRef<HTMLInputElement, DatepickerProps>(
                 aria-label={clearLabel ?? 'Clear'}
                 onClick={handleClear}
               >
-                <Icon name="close" size={14} />
+                <Icon icon="close" size={14} />
               </button>
             )}
             {showButton && (
@@ -983,7 +983,7 @@ export const Datepicker = forwardRef<HTMLInputElement, DatepickerProps>(
                 disabled={disabled}
                 onClick={togglePopup}
               >
-                <Icon name="calendar" size={16} />
+                <Icon icon="calendar_month" size={16} />
               </button>
             )}
           </>

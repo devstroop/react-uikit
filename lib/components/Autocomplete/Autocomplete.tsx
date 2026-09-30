@@ -202,7 +202,7 @@ export function Autocomplete({
             aria-label="Clear"
             onClick={clear}
           >
-            <Icon name="close" size="sm" />
+            <Icon icon="close" size="sm" />
           </button>
         )}
       </div>

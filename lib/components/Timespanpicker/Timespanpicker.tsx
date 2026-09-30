@@ -541,7 +541,7 @@ export const Timespanpicker = forwardRef<HTMLInputElement, TimespanpickerProps>(
                       stepUnit(unit, 1);
                     }}
                   >
-                    <Icon name="chevron-up" size={11} />
+                    <Icon icon="keyboard_arrow_up" size={11} />
                   </button>
                   <button
                     type="button"
@@ -551,7 +551,7 @@ export const Timespanpicker = forwardRef<HTMLInputElement, TimespanpickerProps>(
                       stepUnit(unit, -1);
                     }}
                   >
-                    <Icon name="chevron-down" size={11} />
+                    <Icon icon="keyboard_arrow_down" size={11} />
                   </button>
                 </span>
               </span>
@@ -616,7 +616,7 @@ export const Timespanpicker = forwardRef<HTMLInputElement, TimespanpickerProps>(
                 aria-label={clearLabel ?? 'Clear'}
                 onClick={handleClear}
               >
-                <Icon name="close" size={14} />
+                <Icon icon="close" size={14} />
               </button>
             )}
             <button
@@ -632,7 +632,7 @@ export const Timespanpicker = forwardRef<HTMLInputElement, TimespanpickerProps>(
               disabled={disabled}
               onClick={togglePopup}
             >
-              <Icon name="clock" size={16} />
+              <Icon icon="schedule" size={16} />
             </button>
           </>
         )}
