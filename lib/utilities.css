@@ -2591,12 +2591,19 @@
 .dx-border-info-lighter { border-color: var(--dx-border-info-lighter-color) !important; }
 .dx-border-info-dark { border-color: var(--dx-border-info-dark-color) !important; }
 
-/* Radius utilities off the radius tokens. */
-.dx-radius-xs { border-radius: var(--dx-radius-xs) !important; }
-.dx-radius-sm { border-radius: var(--dx-radius-sm) !important; }
-.dx-radius-md { border-radius: var(--dx-radius-md) !important; }
-.dx-radius-lg { border-radius: var(--dx-radius-lg) !important; }
-.dx-radius-xl { border-radius: var(--dx-radius-xl) !important; }
+/* Radius utilities off the radius tokens (base + 0..10 rungs + pill). */
+.dx-radius { border-radius: var(--dx-radius) !important; }
+.dx-radius-0 { border-radius: var(--dx-radius-0) !important; }
+.dx-radius-1 { border-radius: var(--dx-radius-1) !important; }
+.dx-radius-2 { border-radius: var(--dx-radius-2) !important; }
+.dx-radius-3 { border-radius: var(--dx-radius-3) !important; }
+.dx-radius-4 { border-radius: var(--dx-radius-4) !important; }
+.dx-radius-5 { border-radius: var(--dx-radius-5) !important; }
+.dx-radius-6 { border-radius: var(--dx-radius-6) !important; }
+.dx-radius-7 { border-radius: var(--dx-radius-7) !important; }
+.dx-radius-8 { border-radius: var(--dx-radius-8) !important; }
+.dx-radius-9 { border-radius: var(--dx-radius-9) !important; }
+.dx-radius-10 { border-radius: var(--dx-radius-10) !important; }
 .dx-radius-full { border-radius: var(--dx-radius-full) !important; }
 
 /* Flex-direction raw utilities (Radzen rz-flex-* parity; the Stack
