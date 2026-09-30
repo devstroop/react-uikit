@@ -1,28 +1,28 @@
 import { useRef, useState, type CSSProperties } from 'react';
 import {
-  Autocomplete,
+  AutoComplete,
   Button,
-  Checkbox,
-  Checkboxlist,
-  Colorpicker,
-  type ColorpickerProps,
-  Datepicker,
+  CheckBox,
+  CheckBoxList,
+  ColorPicker,
+  type ColorPickerProps,
+  DatePicker,
   DropZone,
-  Dropdown,
+  DropDown,
   Field,
   Fieldset,
   Form,
   FormField,
   Input,
   Label,
-  Listbox,
+  ListBox,
   Mask,
   Numeric,
   Password,
-  Radiobuttonlist,
+  RadioButtonList,
   Rating,
   Select,
-  Selectbar,
+  SelectBar,
   SecurityCode,
   SignaturePad,
   type SignaturePadHandle,
@@ -30,9 +30,9 @@ import {
   Stack,
   Switch,
   Text,
-  Textarea,
-  Textbox,
-  Timespanpicker,
+  TextArea,
+  TextBox,
+  TimeSpanPicker,
   Upload,
   type UploadHandle,
   email,
@@ -66,7 +66,7 @@ function SelectAllDemo() {
   return (
     <Stack orientation="vertical" gap={8}>
       <label>
-        <Checkbox
+        <CheckBox
           checked={all}
           indeterminate={!all && !none}
           onChange={(e) =>
@@ -78,7 +78,7 @@ function SelectAllDemo() {
       <Stack orientation="horizontal" gap={12}>
         {SELECT_ALL_ITEMS.map((item) => (
           <label key={item}>
-            <Checkbox
+            <CheckBox
               checked={selected.includes(item)}
               onChange={(e) =>
                 setSelected((prev) =>
@@ -179,7 +179,7 @@ function ValidatorsFormFields() {
     <>
       <Field label="Username" required error={username.errors[0]}>
         {({ inputId }) => (
-          <Textbox
+          <TextBox
             id={inputId}
             autoComplete="off"
             value={username.value ?? ''}
@@ -193,7 +193,7 @@ function ValidatorsFormFields() {
         error={note.errors[0]}
       >
         {({ inputId }) => (
-          <Textarea
+          <TextArea
             id={inputId}
             rows={2}
             value={note.value ?? ''}
@@ -295,7 +295,7 @@ function FieldLabelDemo() {
     <Stack orientation="vertical" gap={8}>
       <Field label="Email" hint="We never share it.">
         {({ inputId }) => (
-          <Textbox
+          <TextBox
             id={inputId}
             placeholder="you@zone.app"
             onFocus={() =>
@@ -323,7 +323,7 @@ function FieldErrorDemo() {
     <Stack orientation="vertical" gap={8}>
       <Field label="Display name" error={error}>
         {({ inputId }) => (
-          <Textbox
+          <TextBox
             id={inputId}
             value={value}
             onChange={(e) => setValue(e.target.value)}
@@ -360,7 +360,7 @@ function FieldsetControlledDemo() {
         onCollapse={() => setEvents((prev) => [...prev, 'onCollapse'])}
       >
         <FormField text="Region">
-          {({ inputId }) => <Textbox id={inputId} placeholder="eu-west-1" />}
+          {({ inputId }) => <TextBox id={inputId} placeholder="eu-west-1" />}
         </FormField>
       </Fieldset>
       <Stack orientation="horizontal" gap={8}>
@@ -376,7 +376,7 @@ function FieldsetControlledDemo() {
 }
 
 // ---------------------------------------------------------------------------
-// Input / Textbox / Textarea / Password / Mask / Label
+// Input / TextBox / TextArea / Password / Mask / Label
 // ---------------------------------------------------------------------------
 
 function InputBasicDemo() {
@@ -395,7 +395,7 @@ function InputBasicDemo() {
       <Text textStyle="Body2">value: {value ? `“${value}”` : '(empty)'}</Text>
       <EventLog
         events={events}
-        emptyText="Type — Input behaves exactly as Textbox."
+        emptyText="Type — Input behaves exactly as TextBox."
       />
     </Stack>
   );
@@ -403,12 +403,12 @@ function InputBasicDemo() {
 
 const INPUT_SIZES = ['xs', 'sm', 'md', 'lg', 'xl'] as const;
 
-function TextboxBasicDemo() {
+function TextBoxBasicDemo() {
   const [value, setValue] = useState('');
   const [events, setEvents] = useState<string[]>([]);
   return (
     <Stack orientation="vertical" gap={8}>
-      <Textbox
+      <TextBox
         aria-label="Username"
         maxLength={40}
         autoComplete="off"
@@ -547,16 +547,16 @@ const LABEL_KEYS = [
 ] as const;
 
 // ---------------------------------------------------------------------------
-// Checkbox / Checkboxlist / Radiobuttonlist / Switch
+// CheckBox / CheckBoxList / RadioButtonList / Switch
 // ---------------------------------------------------------------------------
 
-function CheckboxBasicDemo() {
+function CheckBoxBasicDemo() {
   const [checked, setChecked] = useState(false);
   const [events, setEvents] = useState<string[]>([]);
   return (
     <Stack orientation="vertical" gap={8}>
       <label>
-        <Checkbox
+        <CheckBox
           checked={checked}
           onChange={(e) => {
             setChecked(e.target.checked);
@@ -579,12 +579,12 @@ const CHECKBOXLIST_KEYS = [
   { keys: 'Space', action: 'Toggle the focused checkbox' },
 ] as const;
 
-function CheckboxlistDemo() {
+function CheckBoxListDemo() {
   const [values, setValues] = useState<string[]>(['a']);
   const [events, setEvents] = useState<string[]>([]);
   return (
     <Stack orientation="vertical" gap={8}>
-      <Checkboxlist
+      <CheckBoxList
         legend="Toppings"
         name="toppings"
         options={PAIR_OPTIONS}
@@ -614,12 +614,12 @@ const RADIO_KEYS = [
   { keys: 'Space', action: 'Select the focused radio' },
 ] as const;
 
-function RadiobuttonlistDemo() {
+function RadioButtonListDemo() {
   const [value, setValue] = useState('a');
   const [events, setEvents] = useState<string[]>([]);
   return (
     <Stack orientation="vertical" gap={8}>
-      <Radiobuttonlist
+      <RadioButtonList
         legend="Plan"
         name="plan-basic"
         options={PAIR_OPTIONS}
@@ -668,7 +668,7 @@ function SwitchBasicDemo() {
 }
 
 // ---------------------------------------------------------------------------
-// Slider / Rating / Selectbar
+// Slider / Rating / SelectBar
 // ---------------------------------------------------------------------------
 
 function SliderBasicDemo() {
@@ -769,12 +769,12 @@ const SELECTBAR_ROLES = [
   { value: 'both', label: 'Both' },
 ];
 
-function SelectbarSingleDemo() {
+function SelectBarSingleDemo() {
   const [value, setValue] = useState('driver');
   const [events, setEvents] = useState<string[]>([]);
   return (
     <Stack orientation="vertical" gap={8}>
-      <Selectbar
+      <SelectBar
         aria-label="Role"
         options={SELECTBAR_ROLES}
         value={value}
@@ -792,12 +792,12 @@ function SelectbarSingleDemo() {
   );
 }
 
-function SelectbarMultiDemo() {
+function SelectBarMultiDemo() {
   const [values, setValues] = useState<string[]>(['rider']);
   const [events, setEvents] = useState<string[]>([]);
   return (
     <Stack orientation="vertical" gap={8}>
-      <Selectbar
+      <SelectBar
         multiple
         aria-label="Skills"
         options={SELECTBAR_ROLES}
@@ -915,7 +915,7 @@ const SECURITYCODE_KEYS = [
 ] as const;
 
 // ---------------------------------------------------------------------------
-// Timespanpicker / Datepicker / Colorpicker
+// TimeSpanPicker / DatePicker / ColorPicker
 // ---------------------------------------------------------------------------
 
 function TimespanBasicDemo() {
@@ -923,7 +923,7 @@ function TimespanBasicDemo() {
   const [events, setEvents] = useState<string[]>([]);
   return (
     <Stack orientation="vertical" gap={8}>
-      <Timespanpicker
+      <TimeSpanPicker
         ariaLabel="Time spent"
         value={value}
         onChange={(next) => {
@@ -945,7 +945,7 @@ function TimespanPrecisionDemo() {
   const [events, setEvents] = useState<string[]>([]);
   return (
     <Stack orientation="vertical" gap={8}>
-      <Timespanpicker
+      <TimeSpanPicker
         ariaLabel="Standup window"
         precision="minute"
         allowClear
@@ -977,12 +977,12 @@ const TIMESPAN_KEYS = [
   { keys: 'Home / End', action: 'Clamp the focused unit to its min/max' },
 ] as const;
 
-function DatepickerBasicDemo() {
+function DatePickerBasicDemo() {
   const [value, setValue] = useState('2024-03-10');
   const [events, setEvents] = useState<string[]>([]);
   return (
     <Stack orientation="vertical" gap={8}>
-      <Datepicker
+      <DatePicker
         aria-label="Start date"
         showButton
         allowClear
@@ -1001,11 +1001,11 @@ function DatepickerBasicDemo() {
   );
 }
 
-function DatepickerBoundsDemo() {
+function DatePickerBoundsDemo() {
   const [value, setValue] = useState('2024-03-10');
   return (
     <Stack orientation="vertical" gap={8}>
-      <Datepicker
+      <DatePicker
         aria-label="Delivery day"
         showButton
         value={value}
@@ -1023,12 +1023,12 @@ function DatepickerBoundsDemo() {
   );
 }
 
-function DatepickerDateTimeDemo() {
+function DatePickerDateTimeDemo() {
   const [value, setValue] = useState('2024-03-10 09:30');
   const [events, setEvents] = useState<string[]>([]);
   return (
     <Stack orientation="vertical" gap={8}>
-      <Datepicker
+      <DatePicker
         aria-label="Deploy at"
         showTime
         showButton
@@ -1057,13 +1057,13 @@ const DATEPICKER_KEYS = [
   },
 ] as const;
 
-function ColorpickerBasicDemo() {
+function ColorPickerBasicDemo() {
   const [value, setValue] = useState('#2563eb');
   const [events, setEvents] = useState<string[]>([]);
   return (
     <Stack orientation="vertical" gap={8}>
       <Stack orientation="horizontal" gap={12} align="center">
-        <Colorpicker
+        <ColorPicker
           value={value}
           onChange={(next) => {
             setValue(next);
@@ -1091,20 +1091,20 @@ function ColorpickerBasicDemo() {
 }
 
 /** Controlled variant used by the sections/staged demos. */
-function ColorpickerVariantDemo({
+function ColorPickerVariantDemo({
   initial,
   caption,
   ...pickerProps
 }: {
   initial: string;
   caption: string;
-} & Omit<ColorpickerProps, 'value' | 'onChange'>) {
+} & Omit<ColorPickerProps, 'value' | 'onChange'>) {
   const [value, setValue] = useState(initial);
   const [events, setEvents] = useState<string[]>([]);
   return (
     <Stack orientation="vertical" gap={8}>
       <Stack orientation="horizontal" gap={12} align="center">
-        <Colorpicker
+        <ColorPicker
           {...pickerProps}
           value={value}
           onChange={(next) => {
@@ -1213,7 +1213,7 @@ const UPLOAD_KEYS = [
 ] as const;
 
 // ---------------------------------------------------------------------------
-// Select / Dropdown / Autocomplete / Listbox
+// Select / DropDown / AutoComplete / ListBox
 // ---------------------------------------------------------------------------
 
 function SelectBasicDemo() {
@@ -1246,12 +1246,12 @@ const SELECT_KEYS = [
   { keys: 'Tab', action: 'Leave the select; the selection is kept' },
 ] as const;
 
-function DropdownBasicDemo() {
+function DropDownBasicDemo() {
   const [value, setValue] = useState('a');
   const [events, setEvents] = useState<string[]>([]);
   return (
     <Stack orientation="vertical" gap={8}>
-      <Dropdown
+      <DropDown
         aria-label="Pairing"
         options={PAIR_OPTIONS}
         value={value}
@@ -1278,12 +1278,12 @@ const DROPDOWN_KEYS = [
   { keys: 'Escape', action: 'Close and return focus to the trigger' },
 ] as const;
 
-function AutocompleteBasicDemo() {
+function AutoCompleteBasicDemo() {
   const [value, setValue] = useState('');
   const [events, setEvents] = useState<string[]>([]);
   return (
     <Stack orientation="vertical" gap={8}>
-      <Autocomplete
+      <AutoComplete
         aria-label="Pairing"
         options={PAIR_OPTIONS}
         placeholder="Filter…"
@@ -1305,11 +1305,11 @@ function AutocompleteBasicDemo() {
   );
 }
 
-function AutocompleteFilterDemo() {
+function AutoCompleteFilterDemo() {
   const [events, setEvents] = useState<string[]>([]);
   return (
     <Stack orientation="vertical" gap={8}>
-      <Autocomplete
+      <AutoComplete
         aria-label="Starts-with filter"
         options={PAIR_OPTIONS}
         placeholder="Type 'b'…"
@@ -1336,12 +1336,12 @@ const AUTOCOMPLETE_KEYS = [
   { keys: 'Escape', action: 'Close the popup, keeping text and focus' },
 ] as const;
 
-function ListboxSingleDemo() {
+function ListBoxSingleDemo() {
   const [value, setValue] = useState('a');
   const [events, setEvents] = useState<string[]>([]);
   return (
     <Stack orientation="vertical" gap={8}>
-      <Listbox
+      <ListBox
         aria-label="Pairing"
         options={PAIR_OPTIONS}
         value={value}
@@ -1360,12 +1360,12 @@ function ListboxSingleDemo() {
   );
 }
 
-function ListboxMultiDemo() {
+function ListBoxMultiDemo() {
   const [values, setValues] = useState<string[]>(['a']);
   const [events, setEvents] = useState<string[]>([]);
   return (
     <Stack orientation="vertical" gap={8}>
-      <Listbox
+      <ListBox
         multiple
         aria-label="Pick several"
         options={PAIR_OPTIONS}
@@ -1492,7 +1492,7 @@ function SignaturePenDemo() {
     <Stack orientation="vertical" gap={8}>
       <Stack orientation="horizontal" gap={12} align="center" wrap>
         <Text textStyle="Caption">Pen color</Text>
-        <Selectbar
+        <SelectBar
           aria-label="Pen color"
           options={PEN_COLORS}
           value={color}
@@ -1709,7 +1709,7 @@ function FieldDemosPage() {
           content: (
             <Field label="Email" required hint="We never share it.">
               {({ inputId }) => (
-                <Textbox
+                <TextBox
                   id={inputId}
                   type="email"
                   required
@@ -1743,10 +1743,10 @@ function FieldsetDemosPage() {
           content: (
             <Fieldset text="Address">
               <FormField text="Street">
-                {({ inputId }) => <Textbox id={inputId} />}
+                {({ inputId }) => <TextBox id={inputId} />}
               </FormField>
               <FormField text="Town">
-                {({ inputId }) => <Textbox id={inputId} />}
+                {({ inputId }) => <TextBox id={inputId} />}
               </FormField>
             </Fieldset>
           ),
@@ -1759,7 +1759,7 @@ function FieldsetDemosPage() {
           content: (
             <Fieldset text="Advanced" allowCollapse summary="2 of 5 set">
               <FormField text="Code">
-                {({ inputId }) => <Textbox id={inputId} />}
+                {({ inputId }) => <TextBox id={inputId} />}
               </FormField>
             </Fieldset>
           ),
@@ -1780,13 +1780,13 @@ function InputDemosPage() {
   return (
     <DemoPage
       title="Input"
-      description="Deprecated alias of Textbox — identical rendering and props. Prefer Textbox in new code."
+      description="Deprecated alias of TextBox — identical rendering and props. Prefer TextBox in new code."
       sections={[
         {
           id: 'input-basic',
           title: 'Controlled value',
           description:
-            'Input and Textbox render the same DOM — typing here behaves exactly like the Textbox demo.',
+            'Input and TextBox render the same DOM — typing here behaves exactly like the TextBox demo.',
           content: <InputBasicDemo />,
         },
         {
@@ -1828,10 +1828,10 @@ function InputDemosPage() {
   );
 }
 
-function TextboxDemosPage() {
+function TextBoxDemosPage() {
   return (
     <DemoPage
-      title="Textbox"
+      title="TextBox"
       description="Single-line text input with size, invalid state and every native input attribute forwarded (type, maxLength, autoComplete…) — the workhorse control."
       sections={[
         {
@@ -1839,7 +1839,7 @@ function TextboxDemosPage() {
           title: 'Controlled value',
           description:
             'Controlled with a 40-character cap — the counter and the log show every keystroke.',
-          content: <TextboxBasicDemo />,
+          content: <TextBoxBasicDemo />,
         },
         {
           id: 'textbox-types',
@@ -1853,7 +1853,7 @@ function TextboxDemosPage() {
           content: (
             <Stack orientation="vertical" gap={8}>
               {TEXTBOX_TYPES.map((t) => (
-                <Textbox
+                <TextBox
                   key={t.type}
                   type={t.type}
                   aria-label={t.label}
@@ -1870,17 +1870,17 @@ function TextboxDemosPage() {
             'aria-invalid marks validation failures; readOnly shows a value without allowing edits.',
           content: (
             <Stack orientation="vertical" gap={8}>
-              <Textbox
+              <TextBox
                 invalid
                 aria-label="Invalid username"
                 defaultValue="a b c"
               />
-              <Textbox
+              <TextBox
                 readOnly
                 aria-label="Readonly slug"
                 value="release-2.0"
               />
-              <Textbox disabled aria-label="Disabled note" value="Locked" />
+              <TextBox disabled aria-label="Disabled note" value="Locked" />
             </Stack>
           ),
         },
@@ -1889,12 +1889,12 @@ function TextboxDemosPage() {
   );
 }
 
-function TextareaDemosPage() {
+function TextAreaDemosPage() {
   const [value, setValue] = useState('');
   const [events, setEvents] = useState<string[]>([]);
   return (
     <DemoPage
-      title="Textarea"
+      title="TextArea"
       description="Multi-line text input with resize control and invalid state (Radzen TextArea parity)."
       sections={[
         {
@@ -1904,7 +1904,7 @@ function TextareaDemosPage() {
             'maxLength=200 with a live counter — onChange lands in the log as you write.',
           content: (
             <Stack orientation="vertical" gap={8}>
-              <Textarea
+              <TextArea
                 aria-label="Release notes"
                 rows={3}
                 maxLength={200}
@@ -1929,19 +1929,19 @@ function TextareaDemosPage() {
             'resize picks which axes the grab handle exposes — none is the safe default inside forms.',
           content: (
             <Stack orientation="vertical" gap={8}>
-              <Textarea
+              <TextArea
                 resize="none"
                 rows={2}
                 aria-label="No resize"
                 defaultValue='resize="none"'
               />
-              <Textarea
+              <TextArea
                 resize="vertical"
                 rows={2}
                 aria-label="Vertical resize"
                 defaultValue='resize="vertical"'
               />
-              <Textarea
+              <TextArea
                 resize="both"
                 rows={2}
                 aria-label="Free resize"
@@ -1953,16 +1953,16 @@ function TextareaDemosPage() {
         {
           id: 'textarea-states',
           title: 'Invalid & disabled',
-          description: 'Same invalid/disabled contract as Textbox.',
+          description: 'Same invalid/disabled contract as TextBox.',
           content: (
             <Stack orientation="vertical" gap={8}>
-              <Textarea
+              <TextArea
                 invalid
                 rows={2}
                 aria-label="Invalid bio"
                 defaultValue="Too long to save."
               />
-              <Textarea
+              <TextArea
                 disabled
                 rows={2}
                 aria-label="Disabled bio"
@@ -2115,10 +2115,10 @@ function LabelDemosPage() {
   );
 }
 
-function CheckboxDemosPage() {
+function CheckBoxDemosPage() {
   return (
     <DemoPage
-      title="Checkbox"
+      title="CheckBox"
       description="Native checkbox with indeterminate (tri-state) support — the mixed state is a DOM property browsers expose to assistive tech as aria-checked=mixed."
       sections={[
         {
@@ -2126,7 +2126,7 @@ function CheckboxDemosPage() {
           title: 'Controlled toggle',
           description:
             'Checked state and every change land in the readout and log.',
-          content: <CheckboxBasicDemo />,
+          content: <CheckBoxBasicDemo />,
         },
         {
           id: 'checkbox-indeterminate',
@@ -2143,11 +2143,11 @@ function CheckboxDemosPage() {
           content: (
             <Stack orientation="vertical" gap={8}>
               <label htmlFor="forms-checkbox-disabled-off">
-                <Checkbox id="forms-checkbox-disabled-off" disabled /> Disabled
+                <CheckBox id="forms-checkbox-disabled-off" disabled /> Disabled
                 off
               </label>
               <label htmlFor="forms-checkbox-disabled-on">
-                <Checkbox
+                <CheckBox
                   id="forms-checkbox-disabled-on"
                   disabled
                   checked
@@ -2163,10 +2163,10 @@ function CheckboxDemosPage() {
   );
 }
 
-function CheckboxlistDemosPage() {
+function CheckBoxListDemosPage() {
   return (
     <DemoPage
-      title="Checkboxlist"
+      title="CheckBoxList"
       description="Fieldset-wrapped multi-select — legend supplies the group name (aria-label is not a prop here) and each row is a native checkbox, so Space toggles."
       sections={[
         {
@@ -2174,7 +2174,7 @@ function CheckboxlistDemosPage() {
           title: 'Controlled multi-select',
           description:
             'value is string[]; the legend “Toppings” names the group for screen readers.',
-          content: <CheckboxlistDemo />,
+          content: <CheckBoxListDemo />,
         },
         {
           id: 'checkboxlist-disabled',
@@ -2182,7 +2182,7 @@ function CheckboxlistDemosPage() {
           description:
             'disabled on an option keeps it visible but uncheckable — Gamma is skipped.',
           content: (
-            <Checkboxlist
+            <CheckBoxList
               legend="Pairing (Gamma locked)"
               name="toppings-disabled"
               options={PAIR_OPTIONS}
@@ -2200,10 +2200,10 @@ function CheckboxlistDemosPage() {
   );
 }
 
-function RadiobuttonlistDemosPage() {
+function RadioButtonListDemosPage() {
   return (
     <DemoPage
-      title="Radiobuttonlist"
+      title="RadioButtonList"
       description="Fieldset-wrapped single-select radio group — name is required and must be unique per group; legend supplies the accessible name."
       sections={[
         {
@@ -2211,7 +2211,7 @@ function RadiobuttonlistDemosPage() {
           title: 'Controlled single select',
           description:
             'One value at a time — name="plan-basic" keeps arrow navigation scoped to this group.',
-          content: <RadiobuttonlistDemo />,
+          content: <RadioButtonListDemo />,
         },
         {
           id: 'radiobuttonlist-disabled',
@@ -2219,7 +2219,7 @@ function RadiobuttonlistDemosPage() {
           description:
             'A disabled radio can never gain the selection; arrows skip it.',
           content: (
-            <Radiobuttonlist
+            <RadioButtonList
               legend="Pairing (Gamma locked)"
               name="plan-disabled"
               options={PAIR_OPTIONS}
@@ -2241,7 +2241,7 @@ function SwitchDemosPage() {
   return (
     <DemoPage
       title="Switch"
-      description="role=switch checkbox — immediate on/off semantics for settings that apply right away (contrast with Checkbox, which commits with a form)."
+      description="role=switch checkbox — immediate on/off semantics for settings that apply right away (contrast with CheckBox, which commits with a form)."
       sections={[
         {
           id: 'switch-basic',
@@ -2363,10 +2363,10 @@ function RatingDemosPage() {
   );
 }
 
-function SelectbarDemosPage() {
+function SelectBarDemosPage() {
   return (
     <DemoPage
-      title="Selectbar"
+      title="SelectBar"
       description="Segmented control built from toggle buttons — each option exposes aria-pressed, single mode behaves like radios, multiple mode like checkboxes (Radzen SelectBar parity)."
       sections={[
         {
@@ -2374,14 +2374,14 @@ function SelectbarDemosPage() {
           title: 'Single select',
           description:
             'Exactly one option stays pressed; the value lands in the log.',
-          content: <SelectbarSingleDemo />,
+          content: <SelectBarSingleDemo />,
         },
         {
           id: 'selectbar-multiple',
           title: 'Multiple select',
           description:
             'multiple widens the value to string[] — options toggle independently.',
-          content: <SelectbarMultiDemo />,
+          content: <SelectBarMultiDemo />,
         },
         {
           id: 'selectbar-vertical',
@@ -2390,13 +2390,13 @@ function SelectbarDemosPage() {
             'orientation="vertical" stacks the buttons; a disabled option can never be pressed.',
           content: (
             <Stack orientation="vertical" gap={8}>
-              <Selectbar
+              <SelectBar
                 orientation="vertical"
                 aria-label="Mode"
                 options={SELECTBAR_ROLES}
                 defaultValue="rider"
               />
-              <Selectbar
+              <SelectBar
                 size="sm"
                 aria-label="Mode (one locked)"
                 options={SELECTBAR_ROLES.map((o) =>
@@ -2496,10 +2496,10 @@ function SecurityCodeDemosPage() {
   );
 }
 
-function TimespanpickerDemosPage() {
+function TimeSpanPickerDemosPage() {
   return (
     <DemoPage
-      title="Timespanpicker"
+      title="TimeSpanPicker"
       description="Duration picker with day/hour/minute/second steppers in a named dialog — value reports the canonical timespan string (Radzen TimeSpanEdit parity)."
       sections={[
         {
@@ -2532,10 +2532,10 @@ function TimespanpickerDemosPage() {
   );
 }
 
-function DatepickerDemosPage() {
+function DatePickerDemosPage() {
   return (
     <DemoPage
-      title="Datepicker"
+      title="DatePicker"
       description="Date and date-time picker: a labelled calendar dialog with roving day focus, min/max bounds, disabled dates and typed-value clamping (Radzen DatePicker parity)."
       sections={[
         {
@@ -2543,7 +2543,7 @@ function DatepickerDemosPage() {
           title: 'Basic with events',
           description:
             'The calendar trigger opens a role=dialog named after the field; picking a day commits onChange (allowClear adds the ×).',
-          content: <DatepickerBasicDemo />,
+          content: <DatePickerBasicDemo />,
           cardStyle: POPUP_CARD,
         },
         {
@@ -2551,7 +2551,7 @@ function DatepickerDemosPage() {
           title: 'Bounds & disabled dates',
           description:
             'min/max clamp the month view and typed values on blur; disabledDates are skipped by click and arrow keys.',
-          content: <DatepickerBoundsDemo />,
+          content: <DatePickerBoundsDemo />,
           cardStyle: POPUP_CARD,
         },
         {
@@ -2559,7 +2559,7 @@ function DatepickerDemosPage() {
           title: 'Date & time',
           description:
             'showTime adds hour/minute steppers — the OK button commits date and time together as one string.',
-          content: <DatepickerDateTimeDemo />,
+          content: <DatePickerDateTimeDemo />,
           cardStyle: POPUP_CARD,
         },
         {
@@ -2572,10 +2572,10 @@ function DatepickerDemosPage() {
   );
 }
 
-function ColorpickerDemosPage() {
+function ColorPickerDemosPage() {
   return (
     <DemoPage
-      title="Colorpicker"
+      title="ColorPicker"
       description="RGB picker with saturation, hue and alpha sliders, rgba fields and a 22-swatch palette — every commit reports a CSS rgb() string in a named dialog."
       sections={[
         {
@@ -2583,7 +2583,7 @@ function ColorpickerDemosPage() {
           title: 'Basic with events',
           description:
             'Controlled value with a swatch readout — swatches commit immediately and close (no showButton).',
-          content: <ColorpickerBasicDemo />,
+          content: <ColorPickerBasicDemo />,
           cardStyle: POPUP_CARD,
         },
         {
@@ -2593,14 +2593,14 @@ function ColorpickerDemosPage() {
             'showSaturation/showRgba/showPalette filter the popup — palette-only vs sliders-only.',
           content: (
             <Stack orientation="vertical" gap={12}>
-              <ColorpickerVariantDemo
+              <ColorPickerVariantDemo
                 initial="#ff2800"
                 caption="Palette only"
                 aria-label="Palette only color"
                 showSaturation={false}
                 showRgba={false}
               />
-              <ColorpickerVariantDemo
+              <ColorPickerVariantDemo
                 initial="#02f900"
                 caption="Sliders only"
                 aria-label="Sliders only color"
@@ -2616,7 +2616,7 @@ function ColorpickerDemosPage() {
           description:
             'showButton stages picks until OK — Cancel discards and keeps the previous value.',
           content: (
-            <ColorpickerVariantDemo
+            <ColorPickerVariantDemo
               initial="#ff2800"
               caption="Staged"
               aria-label="Staged color"
@@ -2740,18 +2740,18 @@ function SelectDemosPage() {
   );
 }
 
-function DropdownDemosPage() {
+function DropDownDemosPage() {
   return (
     <DemoPage
-      title="Dropdown"
-      description="Custom listbox popup with a labelled combobox trigger (Radzen Dropdown parity) — highlighted option via aria-activedescendant, Escape restores focus to the trigger."
+      title="DropDown"
+      description="Custom listbox popup with a labelled combobox trigger (Radzen DropDown parity) — highlighted option via aria-activedescendant, Escape restores focus to the trigger."
       sections={[
         {
           id: 'dropdown-basic',
           title: 'Controlled with events',
           description:
             'ArrowDown opens and highlights; Enter commits into the log.',
-          content: <DropdownBasicDemo />,
+          content: <DropDownBasicDemo />,
           cardStyle: POPUP_CARD,
         },
         {
@@ -2761,12 +2761,12 @@ function DropdownDemosPage() {
             'placeholder shows until a value is chosen; a disabled trigger never opens.',
           content: (
             <Stack orientation="vertical" gap={8}>
-              <Dropdown
+              <DropDown
                 aria-label="Pick a pairing"
                 options={PAIR_OPTIONS}
                 placeholder="Choose…"
               />
-              <Dropdown
+              <DropDown
                 aria-label="Locked pairing"
                 options={PAIR_OPTIONS}
                 value="a"
@@ -2786,10 +2786,10 @@ function DropdownDemosPage() {
   );
 }
 
-function AutocompleteDemosPage() {
+function AutoCompleteDemosPage() {
   return (
     <DemoPage
-      title="Autocomplete"
+      title="AutoComplete"
       description="Filtering text input with a listbox popup — typing filters live, ArrowDown moves the highlighted option, Enter fires onSelect with the chosen option."
       sections={[
         {
@@ -2797,7 +2797,7 @@ function AutocompleteDemosPage() {
           title: 'Controlled filtering',
           description:
             'onChange reports every keystroke; onSelect reports the committed option (label + value).',
-          content: <AutocompleteBasicDemo />,
+          content: <AutoCompleteBasicDemo />,
           cardStyle: POPUP_CARD,
         },
         {
@@ -2809,7 +2809,7 @@ function AutocompleteDemosPage() {
               prefix-only filter shows the &quot;No matches&quot; empty state.
             </>
           ),
-          content: <AutocompleteFilterDemo />,
+          content: <AutoCompleteFilterDemo />,
           cardStyle: POPUP_CARD,
         },
         {
@@ -2822,10 +2822,10 @@ function AutocompleteDemosPage() {
   );
 }
 
-function ListboxDemosPage() {
+function ListBoxDemosPage() {
   return (
     <DemoPage
-      title="Listbox"
+      title="ListBox"
       description="Always-visible listbox (no popup) — single mode follows focus, multiple mode toggles with Space; the group needs aria-label/aria-labelledby for its accessible name."
       sections={[
         {
@@ -2833,14 +2833,14 @@ function ListboxDemosPage() {
           title: 'Single select',
           description:
             'Arrow keys move — selection follows focus in single mode.',
-          content: <ListboxSingleDemo />,
+          content: <ListBoxSingleDemo />,
         },
         {
           id: 'listbox-multiple',
           title: 'Multiple select',
           description:
             'multiple keeps aria-multiselectable; Space toggles without moving.',
-          content: <ListboxMultiDemo />,
+          content: <ListBoxMultiDemo />,
         },
         {
           id: 'listbox-keyboard',
@@ -2870,14 +2870,14 @@ export function FormDemos({ slug }: { slug: string }) {
               content: (
                 <Stack orientation="vertical" gap={12}>
                   <FormField text="Email" helper="We never share it.">
-                    <Textbox id="demo-email" placeholder="you@zone.app" />
+                    <TextBox id="demo-email" placeholder="you@zone.app" />
                   </FormField>
                   <FormField
                     text="Bio"
                     allowFloatingLabel={false}
                     helper="A sentence or two."
                   >
-                    <Textarea id="demo-bio" rows={2} />
+                    <TextArea id="demo-bio" rows={2} />
                   </FormField>
                 </Stack>
               ),
@@ -2897,7 +2897,7 @@ export function FormDemos({ slug }: { slug: string }) {
                     </button>
                   }
                 >
-                  <Textbox id="demo-search" />
+                  <TextBox id="demo-search" />
                 </FormField>
               ),
             },
@@ -2908,10 +2908,10 @@ export function FormDemos({ slug }: { slug: string }) {
               content: (
                 <Stack orientation="vertical" gap={12}>
                   <FormField text="Small" helper="Size sm follows the field.">
-                    <Textbox id="demo-small" size="sm" />
+                    <TextBox id="demo-small" size="sm" />
                   </FormField>
                   <FormField text="Large" helper="Size lg grows the box.">
-                    <Textbox id="demo-large" size="lg" />
+                    <TextBox id="demo-large" size="lg" />
                   </FormField>
                 </Stack>
               ),
@@ -2921,7 +2921,7 @@ export function FormDemos({ slug }: { slug: string }) {
               title: 'Validation',
               content: (
                 <FormField text="Amount" invalid helper="Must be positive.">
-                  <Textbox id="demo-amount" />
+                  <TextBox id="demo-amount" />
                 </FormField>
               ),
             },
@@ -2933,9 +2933,9 @@ export function FormDemos({ slug }: { slug: string }) {
     case 'input':
       return <InputDemosPage />;
     case 'textbox':
-      return <TextboxDemosPage />;
+      return <TextBoxDemosPage />;
     case 'textarea':
-      return <TextareaDemosPage />;
+      return <TextAreaDemosPage />;
     case 'password':
       return <PasswordDemosPage />;
     case 'mask':
@@ -2945,17 +2945,17 @@ export function FormDemos({ slug }: { slug: string }) {
     case 'select':
       return <SelectDemosPage />;
     case 'dropdown':
-      return <DropdownDemosPage />;
+      return <DropDownDemosPage />;
     case 'autocomplete':
-      return <AutocompleteDemosPage />;
+      return <AutoCompleteDemosPage />;
     case 'listbox':
-      return <ListboxDemosPage />;
+      return <ListBoxDemosPage />;
     case 'checkbox':
-      return <CheckboxDemosPage />;
+      return <CheckBoxDemosPage />;
     case 'checkboxlist':
-      return <CheckboxlistDemosPage />;
+      return <CheckBoxListDemosPage />;
     case 'radiobuttonlist':
-      return <RadiobuttonlistDemosPage />;
+      return <RadioButtonListDemosPage />;
     case 'switch':
       return <SwitchDemosPage />;
     case 'slider':
@@ -2963,17 +2963,17 @@ export function FormDemos({ slug }: { slug: string }) {
     case 'rating':
       return <RatingDemosPage />;
     case 'colorpicker':
-      return <ColorpickerDemosPage />;
+      return <ColorPickerDemosPage />;
     case 'datepicker':
-      return <DatepickerDemosPage />;
+      return <DatePickerDemosPage />;
     case 'timespanpicker':
-      return <TimespanpickerDemosPage />;
+      return <TimeSpanPickerDemosPage />;
     case 'securitycode':
       return <SecurityCodeDemosPage />;
     case 'upload':
       return <UploadDemosPage />;
     case 'selectbar':
-      return <SelectbarDemosPage />;
+      return <SelectBarDemosPage />;
     case 'label':
       return <LabelDemosPage />;
     case 'dropzone':

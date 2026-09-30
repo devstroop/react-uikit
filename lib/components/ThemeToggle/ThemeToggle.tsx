@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { Icon } from '../Icon/Icon';
 import {
-  Togglebutton,
-  type TogglebuttonSize,
-} from '../Togglebutton/Togglebutton';
+  ToggleButton,
+  type ToggleButtonSize,
+} from '../ToggleButton/ToggleButton';
 
 export type ThemeName = 'light' | 'dark' | 'system';
 
@@ -24,7 +24,7 @@ export interface ThemeToggleProps {
   /** Forwarded to the underlying toggle button. */
   id?: string;
   className?: string;
-  size?: TogglebuttonSize;
+  size?: ToggleButtonSize;
 }
 
 const STORAGE_KEY = 'dx-theme';
@@ -97,7 +97,7 @@ export function ThemeToggle({
   };
 
   return (
-    <Togglebutton
+    <ToggleButton
       id={id}
       size={size}
       className={className}
@@ -111,6 +111,6 @@ export function ThemeToggle({
       toggleContent={<Icon icon="light_mode" size={size ?? 'md'} />}
     >
       <Icon icon="dark_mode" size={size ?? 'md'} />
-    </Togglebutton>
+    </ToggleButton>
   );
 }

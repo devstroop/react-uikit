@@ -1,4 +1,4 @@
-import { TogglebuttonSize } from '../Togglebutton/Togglebutton';
+import { ToggleButtonSize } from '../ToggleButton/ToggleButton';
 export type ThemeName = 'light' | 'dark' | 'system';
 export interface ThemeToggleProps {
     /** Controlled appearance. Omit for uncontrolled. */
@@ -16,6 +16,6 @@ export interface ThemeToggleProps {
     /** Forwarded to the underlying toggle button. */
     id?: string;
     className?: string;
-    size?: TogglebuttonSize;
+    size?: ToggleButtonSize;
 }
 export declare function ThemeToggle({ value, defaultValue, storageKey, onChange, label, id, className, size, }: ThemeToggleProps): import("react").JSX.Element;

@@ -65,7 +65,7 @@ export const compare =
     return value === other ? null : message;
   };
 
-/** Checkbox / toggle acceptance (Radzen RequiredValidator on booleans). */
+/** CheckBox / toggle acceptance (Radzen RequiredValidator on booleans). */
 export const requiredTrue =
   (message = 'Required'): Validator =>
   (value) =>

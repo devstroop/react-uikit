@@ -82,11 +82,11 @@ interface FlatNode {
 }
 
 /**
- * Checkbox with a controlled `indeterminate` visual state. The property
+ * CheckBox with a controlled `indeterminate` visual state. The property
  * is DOM-only (no React prop), so it syncs in an effect rather than an
  * inline ref callback, whose attach/detach timing differs across versions.
  */
-function IndeterminateCheckbox({
+function IndeterminateCheckBox({
   indeterminate,
   ...props
 }: Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'> & {
@@ -471,7 +471,7 @@ export function Tree({
     ]
   );
 
-  // ---- Checkbox cascade (allowCheckBoxes) ----
+  // ---- CheckBox cascade (allowCheckBoxes) ----
   // Structural maps over current data (incl. lazily loaded children).
   const hierarchy = useMemo(() => {
     const childrenOf = new Map<string, string[]>();
@@ -910,7 +910,7 @@ export function Tree({
                 onFocus={() => setFocusedKey(key)}
               >
                 {allowCheckBoxes ? (
-                  <IndeterminateCheckbox
+                  <IndeterminateCheckBox
                     className={styles.checkbox}
                     checked={checkState?.checked ?? false}
                     indeterminate={checkState?.indeterminate ?? false}

@@ -15,7 +15,7 @@ feedback/overlay layer explicitly deferred from the foundation
   heavy lifting: `<dialog>.showModal()` (focus trap, Esc, scroll-lock, inert
   background), `aria-live` regions for toasts, CSS animations for transitions.
 - **Full 11-component batch** (confirmed): Tooltip, Dialog, Toast, Alert,
-  Skeleton, Progress, Avatar, Tabs, Accordion, Textarea + tokens extension.
+  Skeleton, Progress, Avatar, Tabs, Accordion, TextArea + tokens extension.
 - **No Storybook** this cycle — verification via vitest + jsdom (role/aria +
   keyboard interaction assertions) and SoftEther-Web dogfooding next cycle.
 - **Documented limitation**: Tooltip/Toast positions are fixed (4 sides), no
@@ -39,18 +39,18 @@ feedback/overlay layer explicitly deferred from the foundation
 | #12 | Avatar           | initials fallback, status dot, name-hash background                                                                                                       |
 | #13 | Tabs             | roving tabindex, arrow keys, underline/pills variants                                                                                                     |
 | #14 | Accordion        | single/multiple, animated expand, aria wiring                                                                                                             |
-| #15 | Textarea         | matches Input/Select sizing, resize opt-in                                                                                                                |
+| #15 | TextArea         | matches Input/Select sizing, resize opt-in                                                                                                                |
 
 Implementation batches (one branch per batch):
 
 - `feat/5-v020-tokens` — tokens + this planning record
 - `feat/6-v020-feedback-layer` — Tooltip, Dialog, Toast, Alert
 - `feat/10-v020-data-display` — Skeleton, Progress, Avatar
-- `feat/13-v020-structure-forms` — Tabs, Accordion, Textarea
+- `feat/13-v020-structure-forms` — Tabs, Accordion, TextArea
 
 ## Out of scope (next iteration)
 
-- DropdownMenu, Popover, Drawer/Sheet, Command palette, DataTable,
+- DropDownMenu, Popover, Drawer/Sheet, Command palette, DataTable,
   DatePicker, ToggleGroup, Pagination, Breadcrumb
 - Storybook docs site
 - App-shell components (Header/Sidebar — per-app)
