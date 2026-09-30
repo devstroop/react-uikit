@@ -163,8 +163,8 @@ export type {
   SelectSize,
 } from './components/Select/Select';
 
-export { Checkbox } from './components/Checkbox/Checkbox';
-export type { CheckboxProps } from './components/Checkbox/Checkbox';
+export { CheckBox } from './components/CheckBox/CheckBox';
+export type { CheckBoxProps } from './components/CheckBox/CheckBox';
 
 export { Switch } from './components/Switch/Switch';
 export type { SwitchProps } from './components/Switch/Switch';
@@ -303,11 +303,11 @@ export type {
   AccordionItem,
 } from './components/Accordion/Accordion';
 
-export { Textarea } from './components/Textarea/Textarea';
+export { TextArea } from './components/TextArea/TextArea';
 export type {
-  TextareaProps,
-  TextareaSize,
-} from './components/Textarea/Textarea';
+  TextAreaProps,
+  TextAreaSize,
+} from './components/TextArea/TextArea';
 
 export { Text } from './components/Text/Text';
 export type {
@@ -317,60 +317,60 @@ export type {
   TextAlign,
 } from './components/Text/Text';
 
-export { Dropdown } from './components/Dropdown/Dropdown';
+export { DropDown } from './components/DropDown/DropDown';
 export type {
-  DropdownProps,
-  DropdownOption,
-} from './components/Dropdown/Dropdown';
+  DropDownProps,
+  DropDownOption,
+} from './components/DropDown/DropDown';
 
-export { Autocomplete } from './components/Autocomplete/Autocomplete';
+export { AutoComplete } from './components/AutoComplete/AutoComplete';
 export type {
-  AutocompleteProps,
-  AutocompleteOption,
-} from './components/Autocomplete/Autocomplete';
+  AutoCompleteProps,
+  AutoCompleteOption,
+} from './components/AutoComplete/AutoComplete';
 
-export { Listbox } from './components/Listbox/Listbox';
-export type { ListboxProps, ListboxOption } from './components/Listbox/Listbox';
+export { ListBox } from './components/ListBox/ListBox';
+export type { ListBoxProps, ListBoxOption } from './components/ListBox/ListBox';
 
-export { Checkboxlist } from './components/Checkboxlist/Checkboxlist';
+export { CheckBoxList } from './components/CheckBoxList/CheckBoxList';
 export type {
-  CheckboxlistProps,
-  CheckboxlistOption,
-} from './components/Checkboxlist/Checkboxlist';
+  CheckBoxListProps,
+  CheckBoxListOption,
+} from './components/CheckBoxList/CheckBoxList';
 
-export { Radiobuttonlist } from './components/Radiobuttonlist/Radiobuttonlist';
+export { RadioButtonList } from './components/RadioButtonList/RadioButtonList';
 export type {
-  RadiobuttonlistProps,
-  RadiobuttonlistOption,
-} from './components/Radiobuttonlist/Radiobuttonlist';
+  RadioButtonListProps,
+  RadioButtonListOption,
+} from './components/RadioButtonList/RadioButtonList';
 
-export { Selectbar } from './components/Selectbar/Selectbar';
+export { SelectBar } from './components/SelectBar/SelectBar';
 export type {
-  SelectbarProps,
-  SelectbarSingleProps,
-  SelectbarMultiProps,
-  SelectbarOption,
-  SelectbarSize,
-} from './components/Selectbar/Selectbar';
+  SelectBarProps,
+  SelectBarSingleProps,
+  SelectBarMultiProps,
+  SelectBarOption,
+  SelectBarSize,
+} from './components/SelectBar/SelectBar';
 
-export { Togglebutton } from './components/Togglebutton/Togglebutton';
+export { ToggleButton } from './components/ToggleButton/ToggleButton';
 export type {
-  TogglebuttonProps,
-  TogglebuttonSize,
-} from './components/Togglebutton/Togglebutton';
+  ToggleButtonProps,
+  ToggleButtonSize,
+} from './components/ToggleButton/ToggleButton';
 
-export { Splitbutton } from './components/Splitbutton/Splitbutton';
+export { SplitButton } from './components/SplitButton/SplitButton';
 export type {
-  SplitbuttonProps,
-  SplitbuttonItem,
-  SplitbuttonSize,
-  SplitbuttonSeverity,
-  SplitbuttonVariant,
-  SplitbuttonShade,
-} from './components/Splitbutton/Splitbutton';
+  SplitButtonProps,
+  SplitButtonItem,
+  SplitButtonSize,
+  SplitButtonSeverity,
+  SplitButtonVariant,
+  SplitButtonShade,
+} from './components/SplitButton/SplitButton';
 
-export { Textbox } from './components/Textbox/Textbox';
-export type { TextboxProps, TextboxSize } from './components/Textbox/Textbox';
+export { TextBox } from './components/TextBox/TextBox';
+export type { TextBoxProps, TextBoxSize } from './components/TextBox/TextBox';
 
 export { Password } from './components/Password/Password';
 export type {
@@ -385,19 +385,19 @@ export { Numeric } from './components/Numeric/Numeric';
 export type { NumericProps, NumericSize } from './components/Numeric/Numeric';
 
 export {
-  Colorpicker,
+  ColorPicker,
   DEFAULT_PALETTE,
-} from './components/Colorpicker/Colorpicker';
+} from './components/ColorPicker/ColorPicker';
 export type {
-  ColorpickerProps,
-  ColorpickerSize,
-} from './components/Colorpicker/Colorpicker';
+  ColorPickerProps,
+  ColorPickerSize,
+} from './components/ColorPicker/ColorPicker';
 
-export { Datepicker } from './components/Datepicker/Datepicker';
+export { DatePicker } from './components/DatePicker/DatePicker';
 export type {
-  DatepickerProps,
-  DatepickerSize,
-} from './components/Datepicker/Datepicker';
+  DatePickerProps,
+  DatePickerSize,
+} from './components/DatePicker/DatePicker';
 
 export { Rating } from './components/Rating/Rating';
 export type { RatingProps } from './components/Rating/Rating';
@@ -408,11 +408,11 @@ export type {
   SliderOrientation,
 } from './components/Slider/Slider';
 
-export { Timespanpicker } from './components/Timespanpicker/Timespanpicker';
+export { TimeSpanPicker } from './components/TimeSpanPicker/TimeSpanPicker';
 export type {
-  TimespanpickerProps,
-  TimespanpickerSize,
-} from './components/Timespanpicker/Timespanpicker';
+  TimeSpanPickerProps,
+  TimeSpanPickerSize,
+} from './components/TimeSpanPicker/TimeSpanPicker';
 
 export { SecurityCode } from './components/SecurityCode/SecurityCode';
 export type {

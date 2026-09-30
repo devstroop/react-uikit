@@ -4,7 +4,7 @@
  *
  * Radzen mapping (ButtonSize/AlertSize): xs→ExtraSmall, sm→Small,
  * md→Medium, lg→Large. `xl` is larger than anything Radzen ships.
- * Compact components (Selectbar, Splitbutton, Togglebutton) narrow to
+ * Compact components (SelectBar, SplitButton, ToggleButton) narrow to
  * sm|md|lg only.
  */
 export type ComponentSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';

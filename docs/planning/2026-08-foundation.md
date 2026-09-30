@@ -30,7 +30,7 @@ generic, presentational, project-agnostic. Distribution is git-tagged
 - Package scaffold: package.json exports map, tsconfig, vite config, eslint, vitest
 - Design tokens + CSS modules architecture
 - Component core: Button, Card, Badge, Icon, Stat, Table, EmptyState, Field,
-  Label, Input, Select, Checkbox, Switch (13)
+  Label, Input, Select, CheckBox, Switch (13)
 - Barrel exports, CI (lint → typecheck → test → build → export smoke check)
 - Representative component tests; README
 

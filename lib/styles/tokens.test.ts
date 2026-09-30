@@ -178,21 +178,21 @@ describe('foundation tokens', () => {
   it('never consumes a component alias outside its own role (#40)', () => {
     const ROLE_OWNERS: Record<string, string[]> = {
       '--dx-radius-input': [
-        'Autocomplete',
-        'Colorpicker',
-        'Datepicker',
+        'AutoComplete',
+        'ColorPicker',
+        'DatePicker',
         'DropZone',
-        'Dropdown',
+        'DropDown',
         'FormField',
-        'Listbox',
+        'ListBox',
         'Mask',
         'Numeric',
         'Password',
         'Select',
         'SignaturePad',
-        'Textbox',
-        'Textarea',
-        'Timespanpicker',
+        'TextBox',
+        'TextArea',
+        'TimeSpanPicker',
         'Upload',
       ],
       '--dx-radius-button': [
@@ -202,7 +202,7 @@ describe('foundation tokens', () => {
         'SidebarToggle',
         'Tabs',
       ],
-      '--dx-radius-checkbox': ['Checkbox', 'Checkboxlist'],
+      '--dx-radius-checkbox': ['CheckBox', 'CheckBoxList'],
       '--dx-radius-surface': ['Card', 'Dialog', 'display'],
     };
     const componentsDir = join(
