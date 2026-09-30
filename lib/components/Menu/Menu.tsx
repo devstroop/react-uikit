@@ -281,7 +281,9 @@ function MenuItemNode({
   const caret = hasChildren ? (
     <span className={styles.caret} aria-hidden="true">
       <Icon
-        icon={ctx.flyout && !isTopLevel ? 'chevron_right' : 'keyboard_arrow_down'}
+        icon={
+          ctx.flyout && !isTopLevel ? 'chevron_right' : 'keyboard_arrow_down'
+        }
         size={10}
       />
     </span>

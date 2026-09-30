@@ -110,11 +110,7 @@ export function Fieldset({
                   aria-hidden="true"
                 />
                 {icon != null && (
-                  <Icon
-                    icon={icon}
-                    color={iconColor}
-                    aria-hidden="true"
-                  />
+                  <Icon icon={icon} color={iconColor} aria-hidden="true" />
                 )}
                 {text != null && (
                   <span className={styles.legendText}>{text}</span>
