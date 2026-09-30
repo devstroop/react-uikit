@@ -96,13 +96,19 @@ Versioning follows the release flow in `docs/DEVELOPMENT_STRATEGY.md`
   literally.
 - Radius roles re-point at rungs (same values at the default root):
   `input→-2` (8px), `checkbox→-1` (4px), `surface→-3` (12px),
-  `button→full`. Components keep consuming roles — never raw rungs —
-  so a theme retunes geometry by re-pointing a role.
+  `button→full`. Role-owning components keep consuming roles;
+  everything else derives from the base
+  (`calc(var(--dx-radius) * N)`) — never a raw rung — so a theme
+  retunes geometry by re-pointing a role.
 - Cross-role grabs migrate pixel-preserving off their alias (`Link`
   focus ring, `DataGrid`/`Pager`/`Tree`, menus, tooltips, alerts, …):
   4px → `var(--dx-radius)` base, 8px → `calc(var(--dx-radius) * 2)`,
   12px → `calc(var(--dx-radius) * 3)`, pills → `var(--dx-radius-full)`.
   Visuals are unchanged at the default root.
+- Behavior change: roles and `.dx-radius-*` utilities now express rungs
+  in `rem`, so they track the host's root font-size (Radzen parity);
+  the `px` base and the `calc(… * N)` derivations do not. At the
+  default 16px root every value is identical to before.
 - The `.dx-radius-{xs,sm,md,lg,xl}` utilities become `.dx-radius`
   (base) and `.dx-radius-0`…`.dx-radius-10`; `.dx-radius-full` stays.
 

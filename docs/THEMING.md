@@ -48,7 +48,10 @@ consume:
 - `--dx-radius-surface` → `-3` (12px) — cards/dialogs.
 
 To retune geometry for a theme, re-point a role — never hardcode a rung
-inside a component. Ad-hoc DOM reaches for the `.dx-radius-*` utilities.
+inside a component. Components that are not role owners derive from the
+base instead (`calc(var(--dx-radius) * N)`, the Radzen idiom) or take
+the base/full directly. Ad-hoc DOM reaches for the `.dx-radius-*`
+utilities.
 `lib/styles/tokens.test.ts` enforces scale completeness (×3 blocks) and
 that no component consumes a role outside its own.
 

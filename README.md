@@ -148,7 +148,7 @@ Override any subset on your `:root` (or a scoped container) — later rules win:
 :root {
   --dx-primary-color: #7c3aed;
   --dx-primary-hover-color: #6d28d9;
-  --dx-radius-md: 6px;
+  --dx-radius-input: 6px;
 }
 ```
 
