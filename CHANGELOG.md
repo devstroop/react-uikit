@@ -82,6 +82,56 @@ Versioning follows the release flow in `docs/DEVELOPMENT_STRATEGY.md`
   unchanged. A new Playwright spec (`e2e/layout-width.spec.ts`) locks
   the sampled routes to a zero content gap.
 
+### Changed — border thickness tokenized, focus rings unify at 2px (breaking)
+
+- Two Radzen-parity composites join the token surface — `--dx-border`
+  (`var(--dx-border-width) solid var(--dx-border-color)`) and
+  `var(--dx-border-strong)` — plus `--dx-border-width-strong` (2px)
+  for indicator borders. Components write `border: var(--dx-border)` /
+  `var(--dx-border-strong)` (145 decls across 54 files migrated, the
+  previously tokenized sites normalized in), or
+  `var(--dx-border-width) solid <color>` when the color/style varies
+  (dashed, transparent, tone colors, `currentColor` fallbacks) —
+  never a numeric width. Pixel-preserving at the default root.
+- `--dx-outline-width` (1px) is **removed**. It was consumed only as a
+  mis-named focus width, and preview palette scopes redefine it to
+  2px — so Button/Link/Card-family focus rings rendered 1px under the
+  default theme and 2px under fluent/material3. Codemod:
+
+  | Before                                     | After                                         |
+  | ------------------------------------------ | --------------------------------------------- |
+  | `outline: var(--dx-outline-width) solid X` | `outline: var(--dx-focus-ring-width) solid X` |
+
+- Focus rings unify at `--dx-focus-ring-width` (2px) +
+  `--dx-focus-ring-offset` (2px) across both idioms (156 decls). The
+  palette-dependent flip is gone — focus width is 2px under every
+  theme. Visual deltas: Button/Link/Alert/Card/Pager/Selectbar/
+  Splitbutton focus outline **1px → 2px**; field-family focus/invalid
+  glow (Select, Textarea, Mask, Numeric, Password, Autocomplete,
+  Datepicker, Dropdown, Colorpicker, SecurityCode, Timespanpicker)
+  **3px → 2px**; drag-active outlines (DropZone, Upload, SignaturePad)
+  **3px → 2px**; `outline-offset: 1px → 2px` on Breadcrumb, Carousel,
+  Colorpicker, DropZone, Gantt, Menu, … . Raw-2px sites are unchanged.
+- Indicator borders (Tabs underline, Avatar ring, Colorpicker knobs,
+  Timeline marker, Toc, Button spinner) move to
+  `var(--dx-border-width-strong)` — same 2px, now retunable.
+  Negative `outline-offset` (inset focus variants) and the transparent
+  scrollbar gutter ring stay literal by design.
+- Preview demo style objects migrate too (`preview/pages/*`), so no
+  inline `1px solid …` literals remain outside vendored palette
+  stylesheets.
+- Enforcement: `lib/styles/tokens.test.ts` ratchets raw thickness px
+  across lib CSS and preview style objects (token definitions pin
+  `--dx-border-width-strong: 2px`, the composites, and the
+  `--dx-outline-width` ban); `e2e/focus-ring.spec.ts` asserts
+  computed 2px rings / 1px borders / the 2px Tabs indicator on
+  `#/button`, `#/textbox`, `#/select`, `#/tabs`.
+- Subtree caveat: `--dx-border` resolves `--dx-border-color` where the
+  composite is declared (`:root`); theme blocks follow automatically
+  (same element), but a descendant overriding only `--dx-border-color`
+  must also override `--dx-border` / `--dx-border-strong` or set the
+  `border-color` longhand — documented in `docs/THEMING.md`.
+
 ### Changed — one radius scale: base + `0..10` rungs (breaking)
 
 - `--dx-radius` (4px base), `--dx-radius-0`…`--dx-radius-10`
