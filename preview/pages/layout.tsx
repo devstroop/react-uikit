@@ -42,7 +42,7 @@ function Cell({
       style={{
         boxSizing: 'border-box',
         background: `color-mix(in srgb, var(--dx-palette-${p}-color) 16%, var(--dx-surface-color))`,
-        border: `1px solid color-mix(in srgb, var(--dx-palette-${p}-color) 50%, transparent)`,
+        border: `var(--dx-border-width) solid color-mix(in srgb, var(--dx-palette-${p}-color) 50%, transparent)`,
         borderRadius: 4,
         padding: 'var(--dx-space-2)',
         textAlign: 'center',
@@ -57,7 +57,7 @@ function Cell({
 }
 
 const demoRow: CSSProperties = {
-  border: '1px dashed var(--dx-border-color)',
+  border: 'var(--dx-border-width) dashed var(--dx-border-color)',
   borderRadius: 4,
 };
 
@@ -403,7 +403,7 @@ function SidebartoggleShellDemo() {
       <Layout
         style={{
           minHeight: 260,
-          border: '1px dashed var(--dx-border-color)',
+          border: 'var(--dx-border-width) dashed var(--dx-border-color)',
           borderRadius: 4,
         }}
       >
@@ -448,7 +448,7 @@ function LayoutRegionsDemo() {
       <Layout
         style={{
           minHeight: 260,
-          border: '1px dashed var(--dx-border-color)',
+          border: 'var(--dx-border-width) dashed var(--dx-border-color)',
           borderRadius: 4,
         }}
       >
@@ -1444,7 +1444,8 @@ export function LayoutDemos({ slug }: { slug: string }) {
               <Layout
                 style={{
                   minHeight: 260,
-                  border: '1px dashed var(--dx-border-color)',
+                  border:
+                    'var(--dx-border-width) dashed var(--dx-border-color)',
                   borderRadius: 4,
                 }}
               >
@@ -1575,7 +1576,8 @@ export function LayoutDemos({ slug }: { slug: string }) {
                   flex: 1,
                   minWidth: 260,
                   minHeight: 180,
-                  border: '1px dashed var(--dx-border-color)',
+                  border:
+                    'var(--dx-border-width) dashed var(--dx-border-color)',
                   borderRadius: 4,
                 }}
               >
@@ -1597,7 +1599,8 @@ export function LayoutDemos({ slug }: { slug: string }) {
                   flex: 1,
                   minWidth: 260,
                   minHeight: 180,
-                  border: '1px dashed var(--dx-border-color)',
+                  border:
+                    'var(--dx-border-width) dashed var(--dx-border-color)',
                   borderRadius: 4,
                 }}
               >
@@ -1626,7 +1629,7 @@ export function LayoutDemos({ slug }: { slug: string }) {
             <Layout
               style={{
                 minHeight: 260,
-                border: '1px dashed var(--dx-border-color)',
+                border: 'var(--dx-border-width) dashed var(--dx-border-color)',
                 borderRadius: 4,
               }}
             >

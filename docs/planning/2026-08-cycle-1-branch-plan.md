@@ -30,13 +30,13 @@ master                                  protected — releases only
 | actions      | Button                                                  | #6 Button success/info tones  |
 | data-display | Avatar, Badge, EmptyState, Icon, Stat, Table            | —                             |
 | feedback     | Alert, Dialog, Progress, Skeleton, Toast, Tooltip       | #7 Alert size tiers           |
-| forms        | Checkbox, Field, Input, Label, Select, Switch, Textarea | —                             |
+| forms        | CheckBox, Field, Input, Label, Select, Switch, TextArea | —                             |
 | layout       | Body, Column, Footer, Header, Layout, Row               | —                             |
 | navigation   | Sidebar, Tabs                                           | #8 Tabs side/bottom positions |
 | surfaces     | Accordion, Card                                         | #9 Card text/flat variant     |
 | utilities    | ThemeSwitcher                                           | —                             |
 
-Roadmap placement (not yet scheduled): DropdownMenu, Popover → actions;
+Roadmap placement (not yet scheduled): DropDownMenu, Popover → actions;
 Breadcrumb, Drawer/Sheet, Pagination → navigation; DataTable → data-display;
 DatePicker, ToggleGroup → forms; Command palette → utilities.
 
@@ -51,7 +51,7 @@ DatePicker, ToggleGroup → forms; Command palette → utilities.
 
 Verified SHIPPED (excluded): Field helper (`hint`), Sidebar `responsive` +
 `overlay`, Toast tone + per-toast position, Button sizes + `iconOnly` +
-`danger`, Progress circular, ThemeSwitcher, Checkbox indeterminate (native
+`danger`, Progress circular, ThemeSwitcher, CheckBox indeterminate (native
 passthrough). Roadmap-deferred (excluded): dialog geometry/drag, custom
 select listbox, validators, sticky tooltip, data-grid.
 

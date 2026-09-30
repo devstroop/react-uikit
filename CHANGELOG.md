@@ -6,6 +6,20 @@ Versioning follows the release flow in `docs/DEVELOPMENT_STRATEGY.md`
 
 ## [Unreleased] — toward 2.0.0
 
+### Changed — PascalCase component renames (BREAKING)
+
+- Correct per-word PascalCase (Radzen parity): `Autocomplete` →
+  `AutoComplete`, `Checkbox` → `CheckBox`, `Checkboxlist` →
+  `CheckBoxList`, `Radiobuttonlist` → `RadioButtonList`, `Colorpicker`
+  → `ColorPicker`, `Datepicker` → `DatePicker`, `Timespanpicker` →
+  `TimeSpanPicker`, `Selectbar` → `SelectBar`, `Togglebutton` →
+  `ToggleButton`, `Splitbutton` → `SplitButton`, `Textbox` → `TextBox`,
+  `Textarea` → `TextArea`, `Listbox` → `ListBox`, `Dropdown` →
+  `DropDown` (components, `*Props`/`*Option`/`*Size` types, folders,
+  files, barrel exports, preview titles). Slugs, CSS vars, and runtime
+  behavior unchanged. No backward-compat aliases (pre-release).
+- Codemod: global replace old → new identifiers listed above.
+
 ### Changed — Icon is font-based (BREAKING)
 
 - `<Icon/>` renders Material Symbols ligatures (`icon="home"`) from a
@@ -63,7 +77,7 @@ Versioning follows the release flow in `docs/DEVELOPMENT_STRATEGY.md`
   the new demo routes), and WCAG exempts inactive UI components once
   they are marked disabled. Native disabled controls already carried
   the exemption; these two rendered their text in plain elements.
-- `Datepicker`: the calendar popup wrapper now carries the
+- `DatePicker`: the calendar popup wrapper now carries the
   `aria-label` when it has `role="dialog"` (axe `aria-dialog-name`
   fires the moment the calendar opens; the label previously sat on an
   inner `role`-less div, so the dialog itself was nameless). The
@@ -73,14 +87,14 @@ Versioning follows the release flow in `docs/DEVELOPMENT_STRATEGY.md`
   `aria-label` of the form `` `<file name> upload progress` `` (axe
   `aria-progressbar-name` as soon as a row renders). Values and
   markup are otherwise unchanged.
-- `Datepicker`: adjacent-month day cells (`--outside`) no longer
+- `DatePicker`: adjacent-month day cells (`--outside`) no longer
   apply `opacity: 0.6` on top of the muted text color — the blend
   landed at 2.87:1 against white (axe `color-contrast`, 5 cells when
   the calendar opens on a month that spills into the previous month).
   The muted token alone is ≥ 4.5:1 in every shipped palette and still
   distinguishes the cells from in-month days; disabled cells are
   unchanged (`aria-disabled` exemption).
-- `Autocomplete`: when a filter matches nothing the popup renders
+- `AutoComplete`: when a filter matches nothing the popup renders
   the empty message _without_ `role="listbox"` (the `aria-controls`
   target stays as a plain `id`-ed container). An empty listbox
   fails axe `aria-required-children` whether it holds only the
@@ -98,6 +112,56 @@ Versioning follows the release flow in `docs/DEVELOPMENT_STRATEGY.md`
   `flex: 1`, `padded`/`bare`, scrolling and Layout slot sizing are
   unchanged. A new Playwright spec (`e2e/layout-width.spec.ts`) locks
   the sampled routes to a zero content gap.
+
+### Changed — border thickness tokenized, focus rings unify at 2px (breaking)
+
+- Two Radzen-parity composites join the token surface — `--dx-border`
+  (`var(--dx-border-width) solid var(--dx-border-color)`) and
+  `var(--dx-border-strong)` — plus `--dx-border-width-strong` (2px)
+  for indicator borders. Components write `border: var(--dx-border)` /
+  `var(--dx-border-strong)` (145 decls across 54 files migrated, the
+  previously tokenized sites normalized in), or
+  `var(--dx-border-width) solid <color>` when the color/style varies
+  (dashed, transparent, tone colors, `currentColor` fallbacks) —
+  never a numeric width. Pixel-preserving at the default root.
+- `--dx-outline-width` (1px) is **removed**. It was consumed only as a
+  mis-named focus width, and preview palette scopes redefine it to
+  2px — so Button/Link/Card-family focus rings rendered 1px under the
+  default theme and 2px under fluent/material3. Codemod:
+
+  | Before                                     | After                                         |
+  | ------------------------------------------ | --------------------------------------------- |
+  | `outline: var(--dx-outline-width) solid X` | `outline: var(--dx-focus-ring-width) solid X` |
+
+- Focus rings unify at `--dx-focus-ring-width` (2px) +
+  `--dx-focus-ring-offset` (2px) across both idioms (156 decls). The
+  palette-dependent flip is gone — focus width is 2px under every
+  theme. Visual deltas: Button/Link/Alert/Card/Pager/Selectbar/
+  Splitbutton focus outline **1px → 2px**; field-family focus/invalid
+  glow (Select, Textarea, Mask, Numeric, Password, Autocomplete,
+  Datepicker, Dropdown, Colorpicker, SecurityCode, Timespanpicker)
+  **3px → 2px**; drag-active outlines (DropZone, Upload, SignaturePad)
+  **3px → 2px**; `outline-offset: 1px → 2px` on Breadcrumb, Carousel,
+  Colorpicker, DropZone, Gantt, Menu, … . Raw-2px sites are unchanged.
+- Indicator borders (Tabs underline, Avatar ring, Colorpicker knobs,
+  Timeline marker, Toc, Button spinner) move to
+  `var(--dx-border-width-strong)` — same 2px, now retunable.
+  Negative `outline-offset` (inset focus variants) and the transparent
+  scrollbar gutter ring stay literal by design.
+- Preview demo style objects migrate too (`preview/pages/*`), so no
+  inline `1px solid …` literals remain outside vendored palette
+  stylesheets.
+- Enforcement: `lib/styles/tokens.test.ts` ratchets raw thickness px
+  across lib CSS and preview style objects (token definitions pin
+  `--dx-border-width-strong: 2px`, the composites, and the
+  `--dx-outline-width` ban); `e2e/focus-ring.spec.ts` asserts
+  computed 2px rings / 1px borders / the 2px Tabs indicator on
+  `#/button`, `#/textbox`, `#/select`, `#/tabs`.
+- Subtree caveat: `--dx-border` resolves `--dx-border-color` where the
+  composite is declared (`:root`); theme blocks follow automatically
+  (same element), but a descendant overriding only `--dx-border-color`
+  must also override `--dx-border` / `--dx-border-strong` or set the
+  `border-color` longhand — documented in `docs/THEMING.md`.
 
 ### Changed — one radius scale: base + `0..10` rungs (breaking)
 
@@ -148,7 +212,7 @@ Versioning follows the release flow in `docs/DEVELOPMENT_STRATEGY.md`
 ### Changed — `ThemeToggle` is an icon toggle button (breaking)
 
 - The appearance toggle no longer renders a visible label wrapping a
-  `Switch`. It renders the shared `Togglebutton` (Radzen
+  `Switch`. It renders the shared `ToggleButton` (Radzen
   `AppearanceToggle` parity): one accessible button whose `aria-pressed`
   carries the mode and whose glyph is the state icon — moon while
   light, sun while dark — so a click always applies the mode the icon
@@ -166,7 +230,7 @@ Versioning follows the release flow in `docs/DEVELOPMENT_STRATEGY.md`
   has no sun/moon glyph and the two brand sets are brands-only) —
   re-ingested via `npm run icons:ingest`.
 
-### Changed — `Togglebutton` rebuilt on `Button` (Radzen toggle axis)
+### Changed — `ToggleButton` rebuilt on `Button` (Radzen toggle axis)
 
 The toggle rendered its own button chrome (bespoke CSS with a bare
 `1px` border and an unconditional primary fill when pressed) and
@@ -184,7 +248,7 @@ are unchanged. Visual change: the default look now follows Button's
 axis (released = `filled`/`primary`, pressed = primary `darker` +
 state layer) instead of the bespoke outlined-box-plus-fill.
 
-### Changed — `Splitbutton` halves now render `Button`
+### Changed — `SplitButton` halves now render `Button`
 
 Both halves previously carried a ~350-line duplicate of Button's
 variant/severity/shade CSS that drifted from the source (e.g. a
@@ -194,7 +258,7 @@ behavior are the shared implementation, with only the "glue" (seam
 overlap, radius truncation, pair-level shadow handling) left in the
 component stylesheet. Added: `loading` (spinner + `aria-busy` on the
 action, both halves disable), `visible`, `fullWidth`, `icon` on
-`SplitbuttonItem` (Radzen `SplitButtonItem.Icon` parity), ArrowUp
+`SplitButtonItem` (Radzen `SplitButtonItem.Icon` parity), ArrowUp
 opens the menu, and the root forwards a ref. An open menu now also
 closes when the control becomes busy (`loading`/`disabled`), when
 `visible` turns false, and when the action button is clicked — it can
@@ -323,7 +387,7 @@ Also breaking in the same pass:
 
 ### Changed — `flat` variant is now solid (breaking visually)
 
-Button and Splitbutton `variant="flat"` previously rendered a soft
+Button and SplitButton `variant="flat"` previously rendered a soft
 14% severity tint with `text-*` foreground. It now renders the solid
 severity fill with `on-*` foreground — Radzen parity, where flat
 differs from filled by shadow only (filled carries resting elevation,
@@ -402,7 +466,7 @@ the aliases is the only later break.
   lighter, light, medium, dark, darker with `default` pinned to it:
   both map to no class and render the base look (explicit in
   `shadeClass`, locked by test; no `shade-medium` CSS rules exist).
-  All emitters (Button, Badge, Alert, Splitbutton, Progress) now share
+  All emitters (Button, Badge, Alert, SplitButton, Progress) now share
   the `shadeClass` helper instead of duplicating the gate.
 
 - Scrollbar system (Radzen parity): slim floating-thumb bars replace
@@ -506,18 +570,18 @@ the aliases is the only later break.
 - `FormField` owns floating box height (Radzen filled-field parity):
   `--dx-field-height-xs/sm/md/lg/xl` (`34/42/50/58/66px`, raw control
   height + label zone) with asymmetric `--dx-field-padding-*`.
-  Inner `Textbox`/`Textarea`/`Select`/`Numeric`/`Password`/`Mask`
+  Inner `TextBox`/`TextArea`/`Select`/`Numeric`/`Password`/`Mask`
   expose their size via `data-size` and surrender fixed heights inside
   floating fields (the box grows instead of squeezing the text zone).
   Non-floating fields keep raw control heights.
 
 - Outlined borders render at `--dx-outlined-border-width: 1px`
-  on Badge, Button, Alert, Card, and Splitbutton; outlines at
+  on Badge, Button, Alert, Card, and SplitButton; outlines at
   `--dx-outline-width: 1px`, focus rings at
   `--dx-focus-ring-width: 2px` with `--dx-focus-ring-offset: 2px`.
 - Badge density tightened one step per size tier
   (xs `0 4px` … xl `3px 12px`, icon gap `4px` → `2px`).
-- Selectbar options are borderless text buttons inside the single
+- SelectBar options are borderless text buttons inside the single
   outer bar border (was double-bordered); selected stays primary fill.
 - Button renders an anchor when `href` is set (disabled via
   `aria-disabled` + click suppression); `ref` widens to `HTMLElement`.

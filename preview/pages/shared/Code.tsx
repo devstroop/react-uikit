@@ -12,7 +12,7 @@ export function Code({ children }: { children: ReactNode }) {
         fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Consolas, monospace',
         fontSize: '0.9em',
         background: 'var(--dx-surface-container-color)',
-        border: '1px solid var(--dx-border-color)',
+        border: 'var(--dx-border)',
         borderRadius: 4,
         padding: '0 4px',
       }}

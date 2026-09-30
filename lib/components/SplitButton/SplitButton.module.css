@@ -1,0 +1,145 @@
+.root {
+  position: relative;
+  display: inline-flex;
+  align-items: stretch;
+  font-family: var(--dx-font-sans);
+}
+
+/* Both halves render Button (Radzen renders its halves with the shared
+   button classes too); these rules only glue them into one control. */
+.root .action {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.root .caret {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  /* Overlap both borders so the join is one seam, whatever the
+     variant's border width resolves to. */
+  margin-left: calc(
+    -1 * max(var(--dx-border-width), var(--dx-outlined-border-width))
+  );
+}
+
+/* The pair is a single control: halves drop Button's per-half elevation
+   (a shadow would leak across the join), including the hover/press ramp
+   (these rules out-specify Button's per-variant ramp). */
+.root .action,
+.root .caret,
+.root .action:hover:not(:disabled),
+.root .caret:hover:not(:disabled),
+.root .action:active:not(:disabled),
+.root .caret:active:not(:disabled) {
+  box-shadow: none;
+}
+
+/* Focus rings must paint above the sibling half at the seam. */
+.root .action,
+.root .caret {
+  position: relative;
+}
+.root .action:focus-visible,
+.root .caret:focus-visible {
+  z-index: 1;
+}
+
+/* Square caret sized like its action half (height comes from Button's
+   own size class; width matches to keep the pair rectangular). */
+.sm .caret {
+  width: var(--dx-control-height-sm);
+  padding: 0;
+}
+.md .caret {
+  width: var(--dx-control-height-md);
+  padding: 0;
+}
+.lg .caret {
+  width: var(--dx-control-height-lg);
+  padding: 0;
+}
+
+.fullWidth {
+  width: 100%;
+}
+.fullWidth .action {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: var(--dx-z-popover);
+  min-width: 100%;
+  border: var(--dx-border-strong);
+  border-radius: calc(var(--dx-radius) * 2);
+  background-color: var(--dx-surface-color);
+  box-shadow: var(--dx-shadow-md);
+  padding: var(--dx-space-1);
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--dx-space-2);
+  padding: var(--dx-space-2) var(--dx-space-3);
+  border-radius: calc(var(--dx-radius) * 2);
+  color: var(--dx-text-color);
+  font-size: var(--dx-font-size-sm);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color var(--dx-transition-fast);
+}
+
+/* items are native buttons: strip UA chrome, keep menu layout */
+button.item {
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: start;
+  font: inherit;
+}
+
+.itemIcon {
+  display: inline-flex;
+  flex: none;
+}
+
+.item:hover:not(.disabled) {
+  background-color: var(--dx-surface-hover-color);
+}
+
+.item.active {
+  background-color: var(--dx-primary-color);
+  color: var(--dx-on-primary-color);
+}
+
+.item.active:hover:not(.disabled) {
+  background-color: var(--dx-primary-color);
+}
+
+.item.danger {
+  color: var(--dx-danger-color);
+}
+
+.item.danger.active,
+.item.danger.active:hover:not(.disabled) {
+  background-color: var(--dx-danger-hover-color);
+  color: var(--dx-on-primary-color);
+}
+
+.item:focus-visible {
+  outline: var(--dx-focus-ring-width) solid var(--dx-outline-primary-color);
+  outline-offset: -2px;
+}
+
+.item.danger:focus-visible {
+  outline-color: var(--dx-outline-danger-color);
+}
+
+.item.disabled {
+  color: var(--dx-text-muted-color);
+  cursor: not-allowed;
+}

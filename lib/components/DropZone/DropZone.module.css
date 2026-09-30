@@ -7,7 +7,7 @@
   min-height: 120px;
   box-sizing: border-box;
   padding: var(--dx-space-4);
-  border: 1px dashed var(--dx-border-strong-color);
+  border: var(--dx-border-width) dashed var(--dx-border-strong-color);
   border-radius: var(--dx-radius-input);
   background-color: var(--dx-surface-color);
   transition:
@@ -16,8 +16,8 @@
 }
 
 .zone:focus-visible {
-  outline: 3px solid var(--dx-outline-primary-color);
-  outline-offset: 1px;
+  outline: var(--dx-focus-ring-width) solid var(--dx-outline-primary-color);
+  outline-offset: var(--dx-focus-ring-offset);
 }
 
 .dragging {
@@ -60,8 +60,8 @@
 }
 
 .browse:focus-visible {
-  outline: 2px solid var(--dx-outline-primary-color);
-  outline-offset: 1px;
+  outline: var(--dx-focus-ring-width) solid var(--dx-outline-primary-color);
+  outline-offset: var(--dx-focus-ring-offset);
 }
 
 .disabled {

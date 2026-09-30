@@ -23,7 +23,7 @@
 }
 
 .button:focus-visible {
-  outline: var(--dx-outline-width) solid var(--dx-outline-primary-color);
+  outline: var(--dx-focus-ring-width) solid var(--dx-outline-primary-color);
   outline-offset: var(--dx-focus-ring-offset);
 }
 
@@ -510,7 +510,7 @@
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  border: 2px solid currentColor;
+  border: var(--dx-border-width-strong) solid currentColor;
   border-top-color: transparent;
   animation: dx-spin 0.7s linear infinite;
   flex: none;

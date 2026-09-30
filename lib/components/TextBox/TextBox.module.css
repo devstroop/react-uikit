@@ -1,0 +1,72 @@
+.textbox {
+  /* Component namespace: per-size inner padding hooks. */
+  --dx-textbox-padding-xs: 6px 10px;
+  --dx-textbox-padding-sm: 6px 10px;
+  --dx-textbox-padding-md: 8px 12px;
+  --dx-textbox-padding-lg: 10px 14px;
+  --dx-textbox-padding-xl: 12px 16px;
+  display: block;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  border: var(--dx-border-strong);
+  border-radius: var(--dx-radius-input);
+  background-color: var(--dx-surface-color);
+  color: var(--dx-text-color);
+  font-family: var(--dx-font-sans);
+  transition:
+    border-color var(--dx-transition-fast),
+    box-shadow var(--dx-transition-fast);
+}
+
+.textbox::placeholder {
+  color: var(--dx-text-muted-color);
+}
+
+.textbox:focus-visible {
+  outline: none;
+  border-color: var(--dx-primary-color);
+  box-shadow: 0 0 0 var(--dx-focus-ring-width) var(--dx-outline-primary-color);
+}
+
+.textbox:disabled {
+  opacity: var(--dx-disabled-opacity);
+  cursor: not-allowed;
+}
+
+.invalid,
+.invalid:focus-visible {
+  border-color: var(--dx-danger-color);
+  box-shadow: 0 0 0 var(--dx-focus-ring-width)
+    color-mix(in srgb, var(--dx-danger-color) 25%, transparent);
+}
+
+.xs {
+  height: var(--dx-control-height-xs);
+  padding: var(--dx-textbox-padding-xs);
+  font-size: var(--dx-font-size-xs);
+}
+
+.sm {
+  height: var(--dx-control-height-sm);
+  padding: var(--dx-textbox-padding-sm);
+  font-size: var(--dx-font-size-xs);
+}
+
+.md {
+  height: var(--dx-control-height-md);
+  padding: var(--dx-textbox-padding-md);
+  font-size: var(--dx-font-size-sm);
+}
+
+.lg {
+  height: var(--dx-control-height-lg);
+  padding: var(--dx-textbox-padding-lg);
+  font-size: var(--dx-font-size-md);
+}
+
+.xl {
+  height: var(--dx-control-height-xl);
+  padding: var(--dx-textbox-padding-xl);
+  font-size: var(--dx-font-size-lg);
+}

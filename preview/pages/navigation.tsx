@@ -2,7 +2,7 @@ import { useState } from 'react';
 import {
   Breadcrumb,
   Button,
-  Checkbox,
+  CheckBox,
   ContextMenuProvider,
   Link,
   Menu,
@@ -12,7 +12,7 @@ import {
   PanelMenuItem,
   ProfileMenu,
   Row,
-  Selectbar,
+  SelectBar,
   Stack,
   Steps,
   Tabs,
@@ -53,7 +53,7 @@ function ContextClickArea({ onLog }: { onLog: (msg: string) => void }) {
         })
       }
       style={{
-        border: '1px dashed var(--dx-border-strong-color)',
+        border: 'var(--dx-border-width) dashed var(--dx-border-strong-color)',
         borderRadius: 8,
         padding: 24,
         textAlign: 'center',
@@ -105,7 +105,7 @@ function ContextContentArea({ onLog }: { onLog: (msg: string) => void }) {
         })
       }
       style={{
-        border: '1px dashed var(--dx-border-strong-color)',
+        border: 'var(--dx-border-width) dashed var(--dx-border-strong-color)',
         borderRadius: 8,
         padding: 24,
         textAlign: 'center',
@@ -227,13 +227,13 @@ function MenuDemos() {
           content: (
             <>
               <div style={{ display: 'flex', gap: 16, marginBottom: 12 }}>
-                <Checkbox
+                <CheckBox
                   id="menu-flyout"
                   checked={flyout}
                   onChange={(e) => setFlyout(e.target.checked)}
                 />
                 <label htmlFor="menu-flyout">Flyout nested submenus</label>
-                <Checkbox
+                <CheckBox
                   id="menu-click"
                   checked={clickToOpen}
                   onChange={(e) => setClickToOpen(e.target.checked)}
@@ -315,7 +315,7 @@ function PanelMenuDemos() {
           title: 'Basic with multiple toggle',
           content: (
             <>
-              <Checkbox
+              <CheckBox
                 id="panelmenu-multiple"
                 checked={multiple}
                 onChange={(e) => setMultiple(e.target.checked)}
@@ -380,7 +380,7 @@ function PanelMenuDemos() {
                   alignItems: 'center',
                 }}
               >
-                <Selectbar
+                <SelectBar
                   aria-label="Display style"
                   options={[
                     { value: 'icon', label: 'Icon' },
@@ -393,7 +393,7 @@ function PanelMenuDemos() {
                       setDisplayStyle(v as PanelMenuDisplayStyle);
                   }}
                 />
-                <Checkbox
+                <CheckBox
                   id="panelmenu-arrow"
                   checked={showArrow}
                   onChange={(e) => setShowArrow(e.target.checked)}
@@ -463,7 +463,7 @@ function LinkVisibilityDemo() {
     <Stack orientation="vertical" gap={8}>
       <Row align="center" gap={8}>
         <label>
-          <Checkbox
+          <CheckBox
             checked={visible}
             onChange={(e) => setVisible(e.target.checked)}
           />{' '}

@@ -51,22 +51,22 @@
 }
 
 .underline {
-  border-bottom: 1px solid var(--dx-border-color);
+  border-bottom: var(--dx-border);
 }
 
 .underline.left {
   border-bottom: none;
-  border-right: 1px solid var(--dx-border-color);
+  border-right: var(--dx-border);
 }
 
 .underline.right {
   border-bottom: none;
-  border-left: 1px solid var(--dx-border-color);
+  border-left: var(--dx-border);
 }
 
 .underline.bottom {
   border-bottom: none;
-  border-top: 1px solid var(--dx-border-color);
+  border-top: var(--dx-border);
 }
 
 .pills {
@@ -86,28 +86,28 @@
 
 .underline .tab {
   margin-bottom: -1px;
-  border-bottom: 2px solid transparent;
+  border-bottom: var(--dx-border-width-strong) solid transparent;
 }
 
 .underline.left .tab {
   margin-bottom: 0;
   margin-right: -1px;
   border-bottom: none;
-  border-right: 2px solid transparent;
+  border-right: var(--dx-border-width-strong) solid transparent;
 }
 
 .underline.right .tab {
   margin-bottom: 0;
   margin-left: -1px;
   border-bottom: none;
-  border-left: 2px solid transparent;
+  border-left: var(--dx-border-width-strong) solid transparent;
 }
 
 .underline.bottom .tab {
   margin-bottom: 0;
   margin-top: -1px;
   border-bottom: none;
-  border-top: 2px solid transparent;
+  border-top: var(--dx-border-width-strong) solid transparent;
 }
 
 .underline .tab.active {
@@ -141,8 +141,8 @@
 }
 
 .tab:focus-visible {
-  outline: 2px solid var(--dx-focus-color);
-  outline-offset: 2px;
+  outline: var(--dx-focus-ring-width) solid var(--dx-focus-color);
+  outline-offset: var(--dx-focus-ring-offset);
 }
 
 .tab.disabled {

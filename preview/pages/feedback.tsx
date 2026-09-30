@@ -2,7 +2,7 @@ import { useState } from 'react';
 import {
   Alert,
   Button,
-  Checkbox,
+  CheckBox,
   Dialog,
   DialogProvider,
   EmptyState,
@@ -473,7 +473,7 @@ function DialogGuardsDemo() {
     <Stack orientation="vertical" gap={12}>
       <Row gap={12} wrap>
         <label htmlFor="dialog-guard-dirty">
-          <Checkbox
+          <CheckBox
             id="dialog-guard-dirty"
             checked={dirty}
             onChange={(e) => setDirty(e.target.checked)}
@@ -481,7 +481,7 @@ function DialogGuardsDemo() {
           Unsaved changes
         </label>
         <label htmlFor="dialog-guard-esc">
-          <Checkbox
+          <CheckBox
             id="dialog-guard-esc"
             checked={closeOnEsc}
             onChange={(e) => setCloseOnEsc(e.target.checked)}
@@ -489,7 +489,7 @@ function DialogGuardsDemo() {
           closeOnEsc
         </label>
         <label htmlFor="dialog-guard-overlay">
-          <Checkbox
+          <CheckBox
             id="dialog-guard-overlay"
             checked={closeOnOverlay}
             onChange={(e) => setCloseOnOverlay(e.target.checked)}

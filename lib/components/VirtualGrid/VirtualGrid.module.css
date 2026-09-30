@@ -1,13 +1,13 @@
 .root {
   overflow: auto;
   font-family: var(--dx-font-sans);
-  border: 1px solid var(--dx-border-color);
+  border: var(--dx-border);
   background-color: var(--dx-surface-color);
 }
 
 .root:focus-visible {
-  outline: 2px solid var(--dx-outline-primary-color);
-  outline-offset: 1px;
+  outline: var(--dx-focus-ring-width) solid var(--dx-outline-primary-color);
+  outline-offset: var(--dx-focus-ring-offset);
 }
 
 .header {
@@ -16,7 +16,7 @@
   top: 0;
   z-index: 1;
   background-color: var(--dx-surface-color);
-  border-bottom: 1px solid var(--dx-border-strong-color);
+  border-bottom: var(--dx-border-strong);
 }
 
 .headCell {
@@ -31,7 +31,7 @@
 
 .row {
   display: flex;
-  border-bottom: 1px solid var(--dx-border-color);
+  border-bottom: var(--dx-border);
 }
 
 .cell {

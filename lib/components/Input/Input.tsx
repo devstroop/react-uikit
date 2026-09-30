@@ -1,27 +1,27 @@
 import {
-  Textbox,
-  type TextboxProps,
-  type TextboxSize,
-} from '../Textbox/Textbox';
+  TextBox,
+  type TextBoxProps,
+  type TextBoxSize,
+} from '../TextBox/TextBox';
 
 /**
- * @deprecated Use `Textbox` — the canonical single-line input since
+ * @deprecated Use `TextBox` — the canonical single-line input since
  * 2.0. Identical rendering (same values, tokenized implementation);
  * will be removed in 3.0.
  */
-export type InputSize = TextboxSize;
+export type InputSize = TextBoxSize;
 
 /**
- * @deprecated Use `Textbox` — the canonical single-line input since
+ * @deprecated Use `TextBox` — the canonical single-line input since
  * 2.0. Identical rendering; will be removed in 3.0.
  */
-export type InputProps = TextboxProps;
+export type InputProps = TextBoxProps;
 
 /**
- * @deprecated Use `Textbox` — the canonical single-line input since
+ * @deprecated Use `TextBox` — the canonical single-line input since
  * 2.0. Identical rendering; will be removed in 3.0.
  */
 // Intentionally the identical object (not a wrapper): same rendering,
 // same ref type, same displayName in DevTools. A distinct displayName
-// would require a wrapper component and break `Input === Textbox`.
-export const Input = Textbox;
+// would require a wrapper component and break `Input === TextBox`.
+export const Input = TextBox;

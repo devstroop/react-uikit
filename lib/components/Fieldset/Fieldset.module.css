@@ -3,7 +3,7 @@
   margin: 0;
   padding: 0;
   min-width: 0;
-  border: var(--dx-border-width) solid var(--dx-border-color);
+  border: var(--dx-border);
   border-radius: calc(var(--dx-radius) * 2);
   font-family: var(--dx-font-sans);
 }

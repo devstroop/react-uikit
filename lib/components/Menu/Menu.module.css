@@ -8,7 +8,7 @@
   gap: var(--dx-space-1);
   padding: var(--dx-space-1);
   background-color: var(--dx-surface-color);
-  border: 1px solid var(--dx-border-color);
+  border: var(--dx-border);
   border-radius: calc(var(--dx-radius) * 2);
 }
 
@@ -33,7 +33,7 @@
   align-items: center;
   gap: var(--dx-space-1);
   padding: var(--dx-space-1) var(--dx-space-3);
-  border: 1px solid transparent;
+  border: var(--dx-border-width) solid transparent;
   border-radius: var(--dx-radius);
   background-color: transparent;
   color: var(--dx-text-color);
@@ -54,8 +54,8 @@
 }
 
 .item:focus-visible {
-  outline: 2px solid var(--dx-outline-primary-color);
-  outline-offset: 1px;
+  outline: var(--dx-focus-ring-width) solid var(--dx-outline-primary-color);
+  outline-offset: var(--dx-focus-ring-offset);
 }
 
 .item.disabled,
@@ -101,7 +101,7 @@
   gap: var(--dx-space-1);
   padding: var(--dx-space-1);
   background-color: var(--dx-surface-color);
-  border: 1px solid var(--dx-border-color);
+  border: var(--dx-border);
   border-radius: calc(var(--dx-radius) * 2);
   box-shadow: var(--dx-shadow-sm);
   z-index: 10;
@@ -120,7 +120,7 @@
   align-items: center;
   gap: var(--dx-space-2);
   padding: var(--dx-space-1) var(--dx-space-2);
-  border: 1px solid transparent;
+  border: var(--dx-border-width) solid transparent;
   border-radius: var(--dx-radius);
   background: transparent;
   color: var(--dx-text-color);
@@ -140,8 +140,8 @@
 }
 
 .submenuItem:focus-visible {
-  outline: 2px solid var(--dx-outline-primary-color);
-  outline-offset: 1px;
+  outline: var(--dx-focus-ring-width) solid var(--dx-outline-primary-color);
+  outline-offset: var(--dx-focus-ring-offset);
 }
 
 .submenuItem.disabled,
@@ -178,7 +178,7 @@
   justify-content: center;
   width: 40px;
   height: 40px;
-  border: 1px solid transparent;
+  border: var(--dx-border-width) solid transparent;
   border-radius: var(--dx-radius);
   background: transparent;
   color: var(--dx-text-color);
@@ -190,8 +190,8 @@
 }
 
 .hamburger:focus-visible {
-  outline: 2px solid var(--dx-outline-primary-color);
-  outline-offset: 1px;
+  outline: var(--dx-focus-ring-width) solid var(--dx-outline-primary-color);
+  outline-offset: var(--dx-focus-ring-offset);
 }
 
 @media (max-width: 768px) {

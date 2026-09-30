@@ -2,7 +2,7 @@
   display: flex;
   width: 100%;
   height: 100%;
-  border: 1px solid var(--dx-border-color);
+  border: var(--dx-border);
   border-radius: calc(var(--dx-radius) * 2);
   overflow: hidden;
   background-color: var(--dx-surface-color);
@@ -43,7 +43,7 @@
 }
 
 .handle:focus-visible {
-  outline: 2px solid var(--dx-outline-primary-color);
+  outline: var(--dx-focus-ring-width) solid var(--dx-outline-primary-color);
   outline-offset: -2px;
   background-color: var(--dx-border-strong-color);
 }
@@ -85,7 +85,7 @@
   justify-content: center;
   width: 24px;
   height: 24px;
-  border: 1px solid var(--dx-border-color);
+  border: var(--dx-border);
   border-radius: calc(var(--dx-radius) * 2);
   background-color: var(--dx-surface-color);
   color: var(--dx-text-color);
@@ -102,8 +102,8 @@
 }
 
 .collapseBtn:focus-visible {
-  outline: 2px solid var(--dx-outline-primary-color);
-  outline-offset: 1px;
+  outline: var(--dx-focus-ring-width) solid var(--dx-outline-primary-color);
+  outline-offset: var(--dx-focus-ring-offset);
 }
 
 .collapseBtnCollapsed {
@@ -113,7 +113,7 @@
   width: 24px;
   min-height: 24px;
   align-self: center;
-  border: 1px solid var(--dx-border-color);
+  border: var(--dx-border);
   border-radius: calc(var(--dx-radius) * 2);
   background-color: var(--dx-surface-color);
   color: var(--dx-text-color);
@@ -123,6 +123,6 @@
 }
 
 .collapseBtnCollapsed:focus-visible {
-  outline: 2px solid var(--dx-outline-primary-color);
-  outline-offset: 1px;
+  outline: var(--dx-focus-ring-width) solid var(--dx-outline-primary-color);
+  outline-offset: var(--dx-focus-ring-offset);
 }

@@ -106,7 +106,7 @@ export function ThemeDemos({ slug }: { slug: string }) {
     return (
       <DemoPage
         title="ThemeSwitcher"
-        description="Dropdown that picks the active theme. Uncontrolled instances apply it to <html data-palette> and persist; controlled instances are pure UI."
+        description="DropDown that picks the active theme. Uncontrolled instances apply it to <html data-palette> and persist; controlled instances are pure UI."
         sections={[
           {
             id: 'themeswitcher-uncontrolled',
@@ -141,7 +141,7 @@ export function ThemeDemos({ slug }: { slug: string }) {
             id: 'themetoggle-uncontrolled',
             title: 'Uncontrolled',
             description:
-              'A Togglebutton wearing the state icon: aria-pressed carries the mode and the glyph previews what a click applies — moon in light mode switches to dark, sun in dark mode switches to light. Persistence off for the showcase; clicking flips the page appearance immediately.',
+              'A ToggleButton wearing the state icon: aria-pressed carries the mode and the glyph previews what a click applies — moon in light mode switches to dark, sun in dark mode switches to light. Persistence off for the showcase; clicking flips the page appearance immediately.',
             content: <ThemeToggle storageKey={null} />,
           },
           {
