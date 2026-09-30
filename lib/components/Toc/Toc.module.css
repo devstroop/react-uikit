@@ -63,13 +63,13 @@
 
 .vertical .active {
   color: var(--dx-text-primary-color);
-  border-left: 2px solid var(--dx-primary-color);
+  border-left: var(--dx-border-width-strong) solid var(--dx-primary-color);
   margin-left: -9px;
   padding-left: calc(var(--dx-space-2) - 1px);
 }
 
 .horizontal .active {
-  border-bottom: 2px solid var(--dx-primary-color);
+  border-bottom: var(--dx-border-width-strong) solid var(--dx-primary-color);
   border-radius: 0;
   margin-bottom: -1px;
   padding-bottom: calc(var(--dx-space-1) - 2px);

@@ -510,7 +510,7 @@
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  border: 2px solid currentColor;
+  border: var(--dx-border-width-strong) solid currentColor;
   border-top-color: transparent;
   animation: dx-spin 0.7s linear infinite;
   flex: none;

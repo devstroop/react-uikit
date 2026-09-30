@@ -86,28 +86,28 @@
 
 .underline .tab {
   margin-bottom: -1px;
-  border-bottom: 2px solid transparent;
+  border-bottom: var(--dx-border-width-strong) solid transparent;
 }
 
 .underline.left .tab {
   margin-bottom: 0;
   margin-right: -1px;
   border-bottom: none;
-  border-right: 2px solid transparent;
+  border-right: var(--dx-border-width-strong) solid transparent;
 }
 
 .underline.right .tab {
   margin-bottom: 0;
   margin-left: -1px;
   border-bottom: none;
-  border-left: 2px solid transparent;
+  border-left: var(--dx-border-width-strong) solid transparent;
 }
 
 .underline.bottom .tab {
   margin-bottom: 0;
   margin-top: -1px;
   border-bottom: none;
-  border-top: 2px solid transparent;
+  border-top: var(--dx-border-width-strong) solid transparent;
 }
 
 .underline .tab.active {

@@ -37,7 +37,7 @@
   height: 12px;
   border-radius: var(--dx-radius-full);
   background-color: var(--dx-primary-color);
-  border: 2px solid var(--dx-surface-color);
+  border: var(--dx-border-width-strong) solid var(--dx-surface-color);
   box-shadow: 0 0 0 var(--dx-border-width) var(--dx-primary-color);
   flex-shrink: 0;
   margin-top: 3px;
