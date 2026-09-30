@@ -125,6 +125,8 @@ Versioning follows the release flow in `docs/DEVELOPMENT_STRATEGY.md`
   explicit gap now always renders inline. Default values are unchanged
   in effect: `Stack` 8 (was `'sm'`), `AutoGrid` 12 (was `'md'`),
   `Row` 16 via the `--dx-space-4` stylesheet default.
+- A ratchet test (`lib/utils/gap.test.ts`) fails if a tier token
+  returns to any `gap`/`rowGap` value.
 
 ### Changed — `ThemeToggle` is an icon toggle button (breaking)
 
