@@ -3,7 +3,7 @@
   display: block;
   width: 100%;
   overflow: hidden;
-  border: 1px solid var(--dx-border-color);
+  border: var(--dx-border);
   border-radius: calc(var(--dx-radius) * 2);
   background-color: var(--dx-surface-color);
   font-family: var(--dx-font-sans);
@@ -43,7 +43,7 @@
   justify-content: center;
   width: 36px;
   height: 36px;
-  border: 1px solid var(--dx-border-color);
+  border: var(--dx-border);
   border-radius: calc(var(--dx-radius) * 2);
   background-color: var(--dx-surface-color);
   color: var(--dx-text-color);
@@ -85,7 +85,7 @@
   justify-content: center;
   width: 28px;
   height: 28px;
-  border: 1px solid var(--dx-border-color);
+  border: var(--dx-border);
   border-radius: calc(var(--dx-radius) * 2);
   background-color: var(--dx-surface-color);
   color: var(--dx-text-muted-color);
@@ -122,7 +122,7 @@
   width: 10px;
   height: 10px;
   border-radius: var(--dx-radius-full);
-  border: 1px solid var(--dx-border-color);
+  border: var(--dx-border);
   background-color: var(--dx-surface-color);
   cursor: pointer;
   padding: 0;

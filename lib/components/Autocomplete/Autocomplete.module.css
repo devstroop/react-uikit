@@ -10,7 +10,7 @@
   position: relative;
   display: flex;
   align-items: center;
-  border: 1px solid var(--dx-border-strong-color);
+  border: var(--dx-border-strong);
   border-radius: var(--dx-radius-input);
   background-color: var(--dx-surface-color);
   transition:
@@ -86,7 +86,7 @@
   left: 0;
   right: 0;
   z-index: var(--dx-z-popover);
-  border: 1px solid var(--dx-border-strong-color);
+  border: var(--dx-border-strong);
   border-radius: calc(var(--dx-radius) * 2);
   background-color: var(--dx-surface-color);
   box-shadow: var(--dx-shadow-md);

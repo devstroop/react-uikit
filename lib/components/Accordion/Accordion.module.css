@@ -1,13 +1,13 @@
 .root {
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--dx-border-color);
+  border: var(--dx-border);
   border-radius: calc(var(--dx-radius) * 2);
   overflow: hidden;
 }
 
 .item + .item {
-  border-top: 1px solid var(--dx-border-color);
+  border-top: var(--dx-border);
 }
 
 .heading {

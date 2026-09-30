@@ -34,7 +34,7 @@
   gap: var(--dx-space-3);
   padding: var(--dx-space-3) var(--dx-space-4);
   border-radius: calc(var(--dx-radius) * 2);
-  border: 1px solid var(--dx-border-color);
+  border: var(--dx-border);
   background: var(--dx-surface-color);
   color: var(--dx-text-color);
   box-shadow: var(--dx-shadow-lg);

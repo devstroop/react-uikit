@@ -18,7 +18,7 @@
   padding: var(--alert-pad);
   margin: 0 0 var(--dx-space-3);
   border-radius: var(--alert-radius);
-  border: var(--dx-border-width) solid var(--dx-border-color);
+  border: var(--dx-border);
   background: var(--dx-surface-color);
   color: var(--dx-text-color);
   font-size: var(--dx-font-size-sm);

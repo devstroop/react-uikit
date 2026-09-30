@@ -1,6 +1,6 @@
 .root {
   font-family: var(--dx-font-sans);
-  border: 1px solid var(--dx-border-color);
+  border: var(--dx-border);
   border-radius: calc(var(--dx-radius) * 2);
   background-color: var(--dx-surface-color);
   overflow: hidden;
@@ -9,7 +9,7 @@
   display: flex;
   gap: var(--dx-space-2);
   padding: var(--dx-space-2);
-  border-bottom: 1px solid var(--dx-border-color);
+  border-bottom: var(--dx-border);
   background-color: var(--dx-surface-color);
 }
 .headerCell {
@@ -27,7 +27,7 @@
   display: flex;
   gap: var(--dx-space-2);
   padding: var(--dx-space-1) var(--dx-space-2);
-  border-bottom: 1px solid var(--dx-border-color);
+  border-bottom: var(--dx-border);
 }
 .taskName {
   flex: 1;
@@ -43,7 +43,7 @@
 .bar {
   flex: 1;
   height: 20px;
-  border: 1px solid var(--dx-primary-color);
+  border: var(--dx-border-width) solid var(--dx-primary-color);
   border-radius: var(--dx-radius);
   background-color: var(--dx-surface-color);
   position: relative;

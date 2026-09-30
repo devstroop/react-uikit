@@ -15,7 +15,7 @@
   width: 100%;
   min-width: 0;
   box-sizing: border-box;
-  border: 1px solid var(--dx-border-strong-color);
+  border: var(--dx-border-strong);
   border-radius: var(--dx-radius-input);
   background-color: var(--dx-surface-color);
   color: var(--dx-text-color);
@@ -151,7 +151,7 @@
   top: calc(100% + 4px);
   left: 0;
   z-index: var(--dx-z-popover);
-  border: 1px solid var(--dx-border-strong-color);
+  border: var(--dx-border-strong);
   border-radius: calc(var(--dx-radius) * 2);
   background-color: var(--dx-surface-color);
   box-shadow: var(--dx-shadow-lg);
@@ -256,7 +256,7 @@
 }
 
 .dx-datepicker-day--today {
-  border: 1px solid var(--dx-border-primary-color);
+  border: var(--dx-border-width) solid var(--dx-border-primary-color);
 }
 
 .dx-datepicker-day--selected {
@@ -283,7 +283,7 @@
   display: flex;
   align-items: flex-end;
   gap: var(--dx-space-2);
-  border-top: 1px solid var(--dx-border-color);
+  border-top: var(--dx-border);
   padding-top: var(--dx-space-3);
   margin-top: var(--dx-space-3);
 }
@@ -307,7 +307,7 @@
   width: 52px;
   height: 28px;
   box-sizing: border-box;
-  border: 1px solid var(--dx-border-strong-color);
+  border: var(--dx-border-strong);
   border-radius: var(--dx-radius);
   background-color: var(--dx-surface-color);
   color: var(--dx-text-color);

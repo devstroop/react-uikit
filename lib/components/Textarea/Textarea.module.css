@@ -2,7 +2,7 @@
   width: 100%;
   min-width: 0;
   background: var(--dx-surface-color);
-  border: 1px solid var(--dx-border-strong-color);
+  border: var(--dx-border-strong);
   border-radius: var(--dx-radius-input);
   color: var(--dx-text-color);
   font-family: var(--dx-font-sans);

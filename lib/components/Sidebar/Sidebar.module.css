@@ -39,20 +39,20 @@
 }
 
 .left {
-  border-right: var(--dx-border-width) solid var(--dx-border-color);
+  border-right: var(--dx-border);
 }
 
 .right {
-  border-left: var(--dx-border-width) solid var(--dx-border-color);
+  border-left: var(--dx-border);
 }
 
 /* Logical positions flip automatically in RTL (Radzen Start/End parity). */
 .start {
-  border-inline-end: var(--dx-border-width) solid var(--dx-border-color);
+  border-inline-end: var(--dx-border);
 }
 
 .end {
-  border-inline-start: var(--dx-border-width) solid var(--dx-border-color);
+  border-inline-start: var(--dx-border);
 }
 
 /* Grid-placement hook: Layout switches to grid areas when exactly one

@@ -3,7 +3,7 @@
   width: 18px;
   height: 18px;
   margin: 0;
-  border: 1px solid var(--dx-border-strong-color);
+  border: var(--dx-border-strong);
   border-radius: var(--dx-radius-checkbox);
   background-color: var(--dx-surface-color);
   cursor: pointer;

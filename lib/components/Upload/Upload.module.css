@@ -8,7 +8,7 @@
   display: inline-flex;
   align-items: center;
   gap: var(--dx-space-1);
-  border: 1px solid var(--dx-border-strong-color);
+  border: var(--dx-border-strong);
   border-radius: var(--dx-radius-input);
   background-color: var(--dx-surface-color);
   color: var(--dx-text-color);
@@ -47,7 +47,7 @@
   align-items: center;
   gap: var(--dx-space-2);
   padding: var(--dx-space-1) var(--dx-space-2);
-  border: 1px solid var(--dx-border-color);
+  border: var(--dx-border);
   border-radius: var(--dx-radius);
   background-color: var(--dx-surface-color);
 }

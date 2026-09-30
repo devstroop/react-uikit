@@ -17,7 +17,7 @@
   justify-content: center;
   box-sizing: border-box;
   text-align: center;
-  border: 1px solid var(--dx-border-color);
+  border: var(--dx-border);
   border-radius: var(--dx-radius);
   background-color: var(--dx-surface-color);
   color: var(--dx-text-color);

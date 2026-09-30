@@ -1,6 +1,6 @@
 .wrap {
   font-family: var(--dx-font-sans);
-  border: var(--dx-border-width) solid var(--dx-border-color);
+  border: var(--dx-border);
   border-radius: calc(var(--dx-radius) * 2);
   overflow: hidden;
 }
@@ -31,13 +31,13 @@
   text-transform: uppercase;
   letter-spacing: var(--dx-letterspacing-wide);
   padding: var(--dx-space-2) var(--dx-space-3);
-  border-bottom: var(--dx-border-width) solid var(--dx-border-color);
+  border-bottom: var(--dx-border);
 }
 
 .table tbody td {
   padding: var(--dx-space-3);
   color: var(--dx-text-color);
-  border-bottom: var(--dx-border-width) solid var(--dx-border-color);
+  border-bottom: var(--dx-border);
 }
 
 .table tbody tr:last-child td {
@@ -65,8 +65,8 @@
 }
 
 .table.vertical thead th {
-  border-bottom: var(--dx-border-width) solid var(--dx-border-color);
-  border-right: var(--dx-border-width) solid var(--dx-border-color);
+  border-bottom: var(--dx-border);
+  border-right: var(--dx-border);
 }
 
 .table.vertical thead th:last-child {
@@ -75,7 +75,7 @@
 
 .table.vertical tbody td {
   border-bottom: none;
-  border-right: var(--dx-border-width) solid var(--dx-border-color);
+  border-right: var(--dx-border);
 }
 
 .table.vertical tbody td:last-child {

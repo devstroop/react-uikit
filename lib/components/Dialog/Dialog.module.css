@@ -9,7 +9,7 @@
   --dx-dialog-max-height: 100dvh;
   --dx-dialog-close-size: 28px;
   z-index: var(--dx-z-modal);
-  border: var(--dx-border-width) solid var(--dx-border-color);
+  border: var(--dx-border);
   border-radius: var(--dx-radius-surface);
   background: var(--dx-surface-color);
   color: var(--dx-text-color);
@@ -160,5 +160,5 @@
   justify-content: flex-end;
   gap: var(--dx-space-2);
   padding: var(--dx-space-3) var(--dx-space-5);
-  border-top: var(--dx-border-width) solid var(--dx-border-color);
+  border-top: var(--dx-border);
 }

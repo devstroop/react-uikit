@@ -8,12 +8,12 @@
   padding: 0;
   display: flex;
   gap: var(--dx-space-1);
-  border-left: 1px solid transparent;
+  border-left: var(--dx-border-width) solid transparent;
 }
 
 .vertical .list {
   flex-direction: column;
-  border-left: 1px solid var(--dx-border-color);
+  border-left: var(--dx-border);
   padding-left: var(--dx-space-2);
 }
 
@@ -21,7 +21,7 @@
   flex-direction: row;
   flex-wrap: wrap;
   border-left: none;
-  border-bottom: 1px solid var(--dx-border-color);
+  border-bottom: var(--dx-border);
   padding-bottom: var(--dx-space-1);
 }
 
@@ -41,7 +41,7 @@
   transition:
     color var(--dx-transition-fast),
     background-color var(--dx-transition-fast);
-  border: 1px solid transparent;
+  border: var(--dx-border-width) solid transparent;
 }
 
 .link:hover {

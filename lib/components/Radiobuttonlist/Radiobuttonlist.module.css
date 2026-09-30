@@ -51,7 +51,7 @@
   height: 18px;
   margin: 0;
   flex-shrink: 0;
-  border: 1px solid var(--dx-border-strong-color);
+  border: var(--dx-border-strong);
   border-radius: var(--dx-radius-full);
   background-color: var(--dx-surface-color);
   cursor: pointer;

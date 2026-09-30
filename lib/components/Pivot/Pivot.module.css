@@ -15,7 +15,7 @@
   align-items: center;
   padding: 0 var(--dx-space-2);
   height: 24px;
-  border: 1px solid var(--dx-border-color);
+  border: var(--dx-border);
   border-radius: var(--dx-radius);
   background-color: var(--dx-surface-color);
   color: var(--dx-text-color);
@@ -40,7 +40,7 @@
 
 .table th,
 .table td {
-  border: 1px solid var(--dx-border-color);
+  border: var(--dx-border);
   padding: var(--dx-space-1) var(--dx-space-2);
   text-align: start;
   color: var(--dx-text-color);

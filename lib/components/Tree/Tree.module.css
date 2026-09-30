@@ -1,6 +1,6 @@
 .root {
   display: block;
-  border: 1px solid var(--dx-border-color);
+  border: var(--dx-border);
   border-radius: calc(var(--dx-radius) * 2);
   background-color: var(--dx-surface-color);
   color: var(--dx-text-color);
@@ -36,7 +36,7 @@
   align-items: center;
   gap: var(--dx-space-1);
   padding: var(--dx-space-1) var(--dx-space-2);
-  border: 1px solid transparent;
+  border: var(--dx-border-width) solid transparent;
   border-radius: var(--dx-radius);
   cursor: pointer;
   transition:

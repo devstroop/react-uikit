@@ -7,7 +7,7 @@
   min-height: 120px;
   box-sizing: border-box;
   padding: var(--dx-space-4);
-  border: 1px dashed var(--dx-border-strong-color);
+  border: var(--dx-border-width) dashed var(--dx-border-strong-color);
   border-radius: var(--dx-radius-input);
   background-color: var(--dx-surface-color);
   transition:

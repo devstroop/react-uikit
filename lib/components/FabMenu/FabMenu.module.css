@@ -55,7 +55,7 @@
   padding: var(--dx-space-1) var(--dx-space-2);
   background-color: var(--dx-surface-color);
   color: var(--dx-text-color);
-  border: 1px solid var(--dx-border-color);
+  border: var(--dx-border);
   border-radius: calc(var(--dx-radius) * 2);
   font-size: var(--dx-font-size-sm);
   font-weight: var(--dx-font-weight-medium);
@@ -116,7 +116,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--dx-border-color);
+  border: var(--dx-border);
   border-radius: var(--dx-radius-button);
   background-color: var(--dx-surface-color);
   color: var(--dx-text-color);

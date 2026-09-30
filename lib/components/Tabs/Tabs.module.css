@@ -51,22 +51,22 @@
 }
 
 .underline {
-  border-bottom: 1px solid var(--dx-border-color);
+  border-bottom: var(--dx-border);
 }
 
 .underline.left {
   border-bottom: none;
-  border-right: 1px solid var(--dx-border-color);
+  border-right: var(--dx-border);
 }
 
 .underline.right {
   border-bottom: none;
-  border-left: 1px solid var(--dx-border-color);
+  border-left: var(--dx-border);
 }
 
 .underline.bottom {
   border-bottom: none;
-  border-top: 1px solid var(--dx-border-color);
+  border-top: var(--dx-border);
 }
 
 .pills {

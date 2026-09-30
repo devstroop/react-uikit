@@ -54,7 +54,7 @@
   display: block;
   width: 100%;
   box-sizing: border-box;
-  border: 1px dashed var(--dx-border-strong-color);
+  border: var(--dx-border-width) dashed var(--dx-border-strong-color);
   border-radius: var(--dx-radius-input);
   background-color: var(--dx-surface-color);
   touch-action: none;
