@@ -6,7 +6,7 @@ on:
     branches: [develop, main]
 
 jobs:
-  gates:
+  checks:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
