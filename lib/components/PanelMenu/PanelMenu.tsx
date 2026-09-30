@@ -307,10 +307,15 @@ function PanelMenuItemNode({
     .filter(Boolean)
     .join(' ');
 
+  // Inside a parent's role="menu" panel every trigger must carry
+  // role="menuitem" (axe aria-required-children); top-level triggers sit
+  // in the nav's presentation list and keep their native button/link roles.
+  const itemRole = ctx.level > 0 ? ('menuitem' as const) : undefined;
   const trigger = hasChildren ? (
     <button
       type="button"
       id={triggerId}
+      role={itemRole}
       aria-expanded={open}
       aria-controls={panelId}
       aria-disabled={isDisabled || undefined}
@@ -325,6 +330,7 @@ function PanelMenuItemNode({
   ) : path && !isDisabled ? (
     <a
       id={triggerId}
+      role={itemRole}
       href={path}
       target={props.target}
       aria-disabled={undefined}
@@ -340,6 +346,7 @@ function PanelMenuItemNode({
     <button
       type="button"
       id={triggerId}
+      role={itemRole}
       aria-current={selected ? 'page' : undefined}
       aria-disabled={isDisabled || undefined}
       disabled={isDisabled}

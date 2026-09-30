@@ -226,7 +226,8 @@ describe('PanelMenu', () => {
       'aria-expanded',
       'true'
     );
-    expect(screen.getByRole('link', { name: 'Deep' })).toBeInTheDocument();
+    // Nested inside a role="menu" panel: the anchor carries menuitem.
+    expect(screen.getByRole('menuitem', { name: 'Deep' })).toBeInTheDocument();
   });
 
   it('supports controlled expanded with onExpandedChange (bind-Expanded parity)', async () => {
@@ -446,7 +447,7 @@ describe('PanelMenu', () => {
     const user = userEvent.setup();
     render(<BasicPanel />);
     await user.click(screen.getByRole('button', { name: /Settings/ }));
-    await user.click(screen.getByRole('button', { name: 'More' }));
+    await user.click(screen.getByRole('menuitem', { name: 'More' }));
     expect(screen.getByText('Deep')).toBeInTheDocument();
   });
 

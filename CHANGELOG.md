@@ -8,6 +8,12 @@ Versioning follows the release flow in `docs/DEVELOPMENT_STRATEGY.md`
 
 ### Fixed — accessibility (preview axe crawl)
 
+- `PanelMenu`: triggers inside an expanded panel now carry
+  `role="menuitem"` (nested groups included) — a visible `role="menu"`
+  panel previously owned bare links/buttons and failed axe
+  `aria-required-children` (11 nodes per panel). Top-level triggers
+  keep their native button/link roles; `aria-expanded`/`aria-controls`
+  remain valid on `menuitem`.
 - `PickList`: the empty-state placeholder inside each listbox is now a
   disabled `role="option"` (`aria-selected="false"`, `aria-disabled`)
   instead of a bare `div`. A static-text child fails axe
