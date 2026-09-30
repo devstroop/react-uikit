@@ -8,7 +8,7 @@ describe('SidebarToggle', () => {
     render(<SidebarToggle />);
     const button = screen.getByRole('button', { name: 'Toggle sidebar' });
     expect(button.tagName).toBe('BUTTON');
-    expect(button.querySelector('svg')).not.toBeNull();
+    expect(button.textContent).toContain('menu');
   });
 
   it('accepts a custom icon and label', () => {

@@ -291,7 +291,9 @@ describe('Menu', () => {
     );
     expect(screen.getByTestId('tpl')).toBeInTheDocument();
     expect(container.querySelector('img[src="/pic.png"]')).toBeInTheDocument();
-    expect(container.querySelector('svg')).toBeInTheDocument();
+    expect(
+      container.querySelector('span[aria-hidden="true"]')
+    ).toHaveTextContent('home');
     const iconWrap = screen
       .getByRole('menuitem', { name: /Home/ })
       .querySelector('[aria-hidden="true"]');

@@ -99,13 +99,12 @@ describe('ThemeToggle', () => {
     expect(onChange).toHaveBeenCalledWith('dark');
   });
 
-  it('swaps the state icon: moon while light, sun while dark', () => {
+  it('swaps the state icon: dark_mode while light, light_mode while dark', () => {
     stubMatchMedia(false);
     const { container, rerender } = render(<ThemeToggle value="light" />);
-    // Moon is a lone path; the sun glyph adds a circle for its core.
-    expect(container.querySelector('button svg circle')).toBeNull();
+    expect(container.querySelector('button')).toHaveTextContent('dark_mode');
     rerender(<ThemeToggle value="dark" />);
-    expect(container.querySelector('button svg circle')).toBeInTheDocument();
+    expect(container.querySelector('button')).toHaveTextContent('light_mode');
   });
 
   it('toggles with Enter and Space on the button', async () => {

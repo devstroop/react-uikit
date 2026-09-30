@@ -192,9 +192,9 @@ describe('Splitbutton', () => {
     );
     await user.click(screen.getByRole('button', { name: 'More actions' }));
     const copy = screen.getByRole('menuitem', { name: 'Copy' });
-    expect(copy.querySelector('svg')).not.toBeNull();
+    expect(copy.textContent).toContain('copy');
     const download = screen.getByRole('menuitem', { name: 'Download' });
-    expect(download.querySelector('svg')).not.toBeNull();
+    expect(download.textContent).toContain('download');
   });
 
   it('never opens when disabled', async () => {

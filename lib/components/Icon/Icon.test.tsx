@@ -33,7 +33,9 @@ describe('Icon', () => {
 
   it('applies the color prop as ink', () => {
     const { container } = render(<Icon icon="person" color="red" />);
-    expect(container.querySelector('span')).toHaveStyle({ color: 'red' });
+    expect(container.querySelector('span')).toHaveStyle({
+      color: 'rgb(255, 0, 0)',
+    });
   });
 
   it('merges className and forwards style, ref, and aria overrides', () => {

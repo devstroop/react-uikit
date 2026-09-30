@@ -334,15 +334,17 @@ describe('PanelMenu', () => {
       </PanelMenu>
     );
     expect(
-      screen.getByRole('button', { name: /Settings/ }).querySelector('svg')
+      screen
+        .getByRole('button', { name: /Settings/ })
+        .querySelector('span[aria-hidden="true"]')
     ).not.toBeInTheDocument();
   });
 
   it('showArrow true shows caret', () => {
     render(<BasicPanel />);
     expect(
-      screen.getByRole('button', { name: /Settings/ }).querySelector('svg')
-    ).toBeInTheDocument();
+      screen.getByRole('button', { name: /Settings/ }).textContent
+    ).toContain('keyboard_arrow_down');
   });
 
   it('displayStyle icon and stacked apply layout classes', () => {
@@ -465,9 +467,9 @@ describe('PanelMenu', () => {
     expect(screen.getByTestId('ptpl')).toBeInTheDocument();
     expect(container.querySelector('img[src="/pic.png"]')).toBeInTheDocument();
     const dash = screen.getByRole('button', { name: /Dashboard/ });
-    expect(dash.querySelector('svg')).toBeInTheDocument();
+    expect(dash.textContent).toContain('home');
     expect(dash.querySelector('[aria-hidden="true"]')).toHaveStyle({
-      color: '#00ff00',
+      color: 'rgb(0, 255, 0)',
     });
   });
 
