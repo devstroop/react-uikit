@@ -148,16 +148,17 @@ describe('Table', () => {
 });
 
 describe('Icon', () => {
-  it('renders an accessible-hidden svg for a known icon', () => {
-    render(<Icon name="check" />);
-    const svg = document.querySelector('svg');
-    expect(svg).not.toBeNull();
-    expect(svg).toHaveAttribute('aria-hidden', 'true');
+  it('renders an accessible-hidden ligature for a known icon', () => {
+    render(<Icon icon="check" />);
+    const el = document.querySelector('span');
+    expect(el).not.toBeNull();
+    expect(el).toHaveTextContent('check');
+    expect(el).toHaveAttribute('aria-hidden', 'true');
   });
 
   it('accepts a custom size', () => {
-    render(<Icon name="search" size={24} />);
-    expect(document.querySelector('svg')).toHaveAttribute('width', '24');
+    render(<Icon icon="search" size={24} />);
+    expect(document.querySelector('span')).toHaveStyle({ fontSize: '24px' });
   });
 
   it('renders nothing when visible is false', () => {

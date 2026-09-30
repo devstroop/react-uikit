@@ -25,6 +25,19 @@
   font-display: swap;
 }
 
+/* Self-hosted Material Symbols Outlined (OFL, Google Fonts v374,
+ * wght 100..700 variable instance — sha 40175da6 — the single icon
+ * source for <Icon/>. Ligatures need layout, so display:block keeps
+ * glyphs from flashing as text. Source + hash recorded for refreshes:
+ * https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700 */
+@font-face {
+  font-family: 'Material Symbols Outlined';
+  src: url('./fonts/MaterialSymbolsOutlined.woff2') format('woff2');
+  font-weight: 100 700;
+  font-style: normal;
+  font-display: block;
+}
+
 :root {
   color-scheme: light;
   /* color */
@@ -195,6 +208,11 @@
   --dx-font-weight-regular: 400;
   --dx-font-weight-medium: 500;
   --dx-font-weight-bold: 600;
+  /* icon font (single source for <Icon/>): ligature family + default
+   * glyph size. Projects swap the family per scope or on :root
+   * (see docs/THEMING.md) without touching the component. */
+  --dx-icon-font-family: 'Material Symbols Outlined';
+  --dx-icon-size: 24px;
   /* leading (exact values in use; Text/Dialog/Alert/Table) */
   --dx-leading-none: 1;
   --dx-leading-tight: 1.25;

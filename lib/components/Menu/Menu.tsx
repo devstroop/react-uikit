@@ -147,7 +147,7 @@ function ItemIcon({
         aria-hidden="true"
         style={iconColor ? { color: iconColor } : undefined}
       >
-        <Icon name={icon} size={16} />
+        <Icon icon={icon} size={16} />
       </span>
     );
   }
@@ -281,7 +281,7 @@ function MenuItemNode({
   const caret = hasChildren ? (
     <span className={styles.caret} aria-hidden="true">
       <Icon
-        name={ctx.flyout && !isTopLevel ? 'chevron-right' : 'chevron-down'}
+        icon={ctx.flyout && !isTopLevel ? 'chevron_right' : 'keyboard_arrow_down'}
         size={10}
       />
     </span>
@@ -663,7 +663,7 @@ export function Menu({
           className={styles.hamburger}
           onClick={() => setMobileOpen((v) => !v)}
         >
-          <Icon name="menu" size={20} />
+          <Icon icon="menu" size={20} />
         </button>
       ) : null}
       {/* eslint-disable-next-line jsx-a11y/interactive-supports-focus */}

@@ -105,17 +105,15 @@ export function Fieldset({
                 onClick={toggle}
               >
                 <Icon
-                  name={effectiveCollapsed ? 'plus' : 'minus'}
+                  icon={effectiveCollapsed ? 'add' : 'remove'}
                   size={16}
                   aria-hidden="true"
                 />
                 {icon != null && (
                   <Icon
-                    name={icon}
+                    icon={icon}
+                    color={iconColor}
                     aria-hidden="true"
-                    {...(iconColor != null
-                      ? { style: { color: iconColor } }
-                      : {})}
                   />
                 )}
                 {text != null && (
@@ -127,13 +125,7 @@ export function Fieldset({
           ) : (
             <>
               {icon != null && (
-                <Icon
-                  name={icon}
-                  aria-hidden="true"
-                  {...(iconColor != null
-                    ? { style: { color: iconColor } }
-                    : {})}
-                />
+                <Icon icon={icon} color={iconColor} aria-hidden="true" />
               )}
               {text != null && (
                 <span className={styles.legendText}>{text}</span>

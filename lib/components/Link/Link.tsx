@@ -51,7 +51,7 @@ export const Link = forwardRef<HTMLElement, LinkProps>(function Link(
   if (visible === false) return null;
   const content = (
     <>
-      {icon != null && <Icon name={icon} aria-hidden="true" />}
+      {icon != null && <Icon icon={icon} aria-hidden="true" />}
       {children}
     </>
   );
