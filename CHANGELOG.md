@@ -99,6 +99,36 @@ Versioning follows the release flow in `docs/DEVELOPMENT_STRATEGY.md`
   unchanged. A new Playwright spec (`e2e/layout-width.spec.ts`) locks
   the sampled routes to a zero content gap.
 
+### Changed — one radius scale: base + `0..10` rungs (breaking)
+
+- `--dx-radius` (4px base), `--dx-radius-0`…`--dx-radius-10`
+  (0.25rem steps, 0 → 2.5rem) and `--dx-radius-full` are now the
+  single radius scale, defined identically in all three theme blocks
+  (light `:root`, explicit dark, OS fallback). Radzen
+  `--rz-border-radius*` parity.
+- The tier tokens `--dx-radius-{xs,sm,md,lg,xl}` are removed — the
+  scale had been split across two blocks and matched neither the role
+  values nor a rung. Migration: `sm→1` (4px), `md→2` (8px),
+  `lg→3` (12px), `xl→7` (28px); `xs` (2px) has no rung — use `2px`
+  literally.
+- Radius roles re-point at rungs (same values at the default root):
+  `input→-2` (8px), `checkbox→-1` (4px), `surface→-3` (12px),
+  `button→full`. Role-owning components keep consuming roles;
+  everything else derives from the base
+  (`calc(var(--dx-radius) * N)`) — never a raw rung — so a theme
+  retunes geometry by re-pointing a role.
+- Cross-role grabs migrate pixel-preserving off their alias (`Link`
+  focus ring, `DataGrid`/`Pager`/`Tree`, menus, tooltips, alerts, …):
+  4px → `var(--dx-radius)` base, 8px → `calc(var(--dx-radius) * 2)`,
+  12px → `calc(var(--dx-radius) * 3)`, pills → `var(--dx-radius-full)`.
+  Visuals are unchanged at the default root.
+- Behavior change: roles and `.dx-radius-*` utilities now express rungs
+  in `rem`, so they track the host's root font-size (Radzen parity);
+  the `px` base and the `calc(… * N)` derivations do not. At the
+  default 16px root every value is identical to before.
+- The `.dx-radius-{xs,sm,md,lg,xl}` utilities become `.dx-radius`
+  (base) and `.dx-radius-0`…`.dx-radius-10`; `.dx-radius-full` stays.
+
 ### Changed — `Row`/`Stack`/`AutoGrid` `gap` is numeric (breaking)
 
 - `gap` (and `rowGap` on `Row`) drop the `xs|sm|md|lg|xl` token
@@ -112,8 +142,6 @@ Versioning follows the release flow in `docs/DEVELOPMENT_STRATEGY.md`
   explicit gap now always renders inline. Default values are unchanged
   in effect: `Stack` 8 (was `'sm'`), `AutoGrid` 12 (was `'md'`),
   `Row` 16 via the `--dx-space-4` stylesheet default.
-- A ratchet test (`preview/gap-api.test.ts`) fails if a tier token
-  returns to any `gap`/`rowGap` prop.
 
 ### Changed — `ThemeToggle` is an icon toggle button (breaking)
 

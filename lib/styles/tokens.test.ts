@@ -1,6 +1,6 @@
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { dirname, join } from 'node:path';
+import { basename, dirname, join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 
 const css = readFileSync(
@@ -134,16 +134,114 @@ describe('foundation tokens', () => {
     }
   });
 
-  it('derives radius roles from the base tiers', () => {
-    // Geometry families (Radzen derivation parity): components consume
-    // roles, never raw tiers — a theme retunes by re-pointing a role.
+  it('defines the radius scale in all three theme blocks (light, dark, OS fallback)', () => {
+    // One Radzen-style scale: 4px base + 0.25rem rungs 0..10 + pill full,
+    // generated identically into every theme block (#40).
+    const scale = [
+      '--dx-radius: 4px',
+      '--dx-radius-0: 0',
+      '--dx-radius-1: 0.25rem',
+      '--dx-radius-2: 0.5rem',
+      '--dx-radius-3: 0.75rem',
+      '--dx-radius-4: 1rem',
+      '--dx-radius-5: 1.25rem',
+      '--dx-radius-6: 1.5rem',
+      '--dx-radius-7: 1.75rem',
+      '--dx-radius-8: 2rem',
+      '--dx-radius-9: 2.25rem',
+      '--dx-radius-10: 2.5rem',
+      '--dx-radius-full: 9999px',
+    ];
+    for (const def of scale) {
+      const re = new RegExp(`${def.replace(/\./g, '\\.')};`, 'g');
+      expect(css.match(re), def).toHaveLength(3);
+    }
+  });
+
+  it('derives radius roles from scale rungs (Radzen derivation parity)', () => {
+    // Geometry families: components consume roles, never raw rungs —
+    // a theme retunes by re-pointing a role (#40).
     for (const [token, value] of [
-      ['--dx-radius-input', 'var(--dx-radius-md)'],
+      ['--dx-radius-input', 'var(--dx-radius-2)'],
       ['--dx-radius-button', 'var(--dx-radius-full)'],
-      ['--dx-radius-checkbox', 'var(--dx-radius-sm)'],
-      ['--dx-radius-surface', 'var(--dx-radius-lg)'],
+      ['--dx-radius-checkbox', 'var(--dx-radius-1)'],
+      ['--dx-radius-surface', 'var(--dx-radius-3)'],
     ]) {
       expect(css, token).toContain(`${token}: ${value};`);
+    }
+  });
+
+  it('never reintroduces tier radius tokens (xs/sm/md/lg/xl)', () => {
+    expect(css).not.toMatch(/--dx-radius-(xs|sm|md|lg|xl)(?![-a-z0-9])/);
+  });
+
+  it('never consumes a component alias outside its own role (#40)', () => {
+    const ROLE_OWNERS: Record<string, string[]> = {
+      '--dx-radius-input': [
+        'Autocomplete',
+        'Colorpicker',
+        'Datepicker',
+        'DropZone',
+        'Dropdown',
+        'FormField',
+        'Listbox',
+        'Mask',
+        'Numeric',
+        'Password',
+        'Select',
+        'SignaturePad',
+        'Textbox',
+        'Textarea',
+        'Timespanpicker',
+        'Upload',
+      ],
+      '--dx-radius-button': [
+        'Button',
+        'FabMenu',
+        'Password',
+        'SidebarToggle',
+        'Tabs',
+      ],
+      '--dx-radius-checkbox': ['Checkbox', 'Checkboxlist'],
+      '--dx-radius-surface': ['Card', 'Dialog', 'display'],
+    };
+    const componentsDir = join(
+      dirname(fileURLToPath(import.meta.url)),
+      '..',
+      'components'
+    );
+    const sources: Array<[owner: string, text: string]> = readdirSync(
+      componentsDir,
+      { recursive: true }
+    )
+      .filter((f) => String(f).endsWith('.module.css'))
+      .map((f) => [
+        basename(String(f), '.module.css'),
+        readFileSync(join(componentsDir, String(f)), 'utf8'),
+      ]);
+    sources.push([
+      'display',
+      readFileSync(
+        join(
+          dirname(fileURLToPath(import.meta.url)),
+          '..',
+          '..',
+          'preview',
+          'pages',
+          'display.tsx'
+        ),
+        'utf8'
+      ),
+    ]);
+    for (const [role, owners] of Object.entries(ROLE_OWNERS)) {
+      const needle = `var(${role})`;
+      for (const [owner, text] of sources) {
+        if (text.includes(needle)) {
+          expect(owners.includes(owner), `${owner} consumes ${role}`).toBe(
+            true
+          );
+        }
+      }
     }
   });
 

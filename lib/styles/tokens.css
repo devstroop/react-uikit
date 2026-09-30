@@ -161,20 +161,29 @@
   --dx-outline-dark-color: #0f172a;
   --dx-outline-dark-light-color: #1e293b;
   --dx-outline-dark-darker-color: #020617;
-  /* radius */
-  --dx-radius-sm: 4px;
-  --dx-radius-md: 8px;
-  --dx-radius-lg: 12px;
+  /* radius (Radzen scale: 4px base + 0.25rem rungs 0..10 + pill full;
+   * one block, identical in all three theme blocks) */
+  --dx-radius: 4px;
+  --dx-radius-0: 0;
+  --dx-radius-1: 0.25rem;
+  --dx-radius-2: 0.5rem;
+  --dx-radius-3: 0.75rem;
+  --dx-radius-4: 1rem;
+  --dx-radius-5: 1.25rem;
+  --dx-radius-6: 1.5rem;
+  --dx-radius-7: 1.75rem;
+  --dx-radius-8: 2rem;
+  --dx-radius-9: 2.25rem;
+  --dx-radius-10: 2.5rem;
   --dx-radius-full: 9999px;
-  /* radius roles (Radzen derivation parity): components consume roles,
-   * never raw tiers — a theme retunes geometry by re-pointing a role.
-   * Entry controls share the base; emphasis goes pill; tiny controls
-   * take the half step (cf. Radzen checkbox 2px vs 4px base); surfaces
-   * step up one; round/sharp stay geometric (50%/0). */
-  --dx-radius-input: var(--dx-radius-md);
+  /* radius roles (Radzen derivation parity): components consume roles
+   * or the base — never raw rungs — so a theme retunes geometry by
+   * re-pointing a role. Entry controls sit two rungs up (8px), tiny
+   * controls one rung (4px), surfaces three (12px), emphasis pill. */
+  --dx-radius-input: var(--dx-radius-2);
   --dx-radius-button: var(--dx-radius-full);
-  --dx-radius-checkbox: var(--dx-radius-sm);
-  --dx-radius-surface: var(--dx-radius-lg);
+  --dx-radius-checkbox: var(--dx-radius-1);
+  --dx-radius-surface: var(--dx-radius-3);
   /* space */
   --dx-space-0: 0px;
   --dx-space-1: 4px;
@@ -460,9 +469,6 @@
   --dx-inverse-primary-color: #78f2c2;
   /* brand accent (shared console/web gold) */
   --dx-accent-color: #d9a521;
-  /* radius scale ends */
-  --dx-radius-xs: 2px;
-  --dx-radius-xl: 28px;
   /* motion + elevation + touch target (theme-independent) */
   --dx-motion-fast: 150ms;
   --dx-motion-med: 240ms;
@@ -745,6 +751,20 @@
   --dx-inverse-on-surface-color: #2e312d;
   --dx-inverse-primary-color: #006b54;
   --dx-accent-color: #e7bd4d;
+  /* radius scale (identical to :root — see comment there) */
+  --dx-radius: 4px;
+  --dx-radius-0: 0;
+  --dx-radius-1: 0.25rem;
+  --dx-radius-2: 0.5rem;
+  --dx-radius-3: 0.75rem;
+  --dx-radius-4: 1rem;
+  --dx-radius-5: 1.25rem;
+  --dx-radius-6: 1.5rem;
+  --dx-radius-7: 1.75rem;
+  --dx-radius-8: 2rem;
+  --dx-radius-9: 2.25rem;
+  --dx-radius-10: 2.5rem;
+  --dx-radius-full: 9999px;
 }
 
 /* OS-dark fallback for apps without an explicit data-theme
@@ -1019,6 +1039,20 @@
     --dx-inverse-on-surface-color: #2e312d;
     --dx-inverse-primary-color: #006b54;
     --dx-accent-color: #e7bd4d;
+    /* radius scale (identical to :root — see comment there) */
+    --dx-radius: 4px;
+    --dx-radius-0: 0;
+    --dx-radius-1: 0.25rem;
+    --dx-radius-2: 0.5rem;
+    --dx-radius-3: 0.75rem;
+    --dx-radius-4: 1rem;
+    --dx-radius-5: 1.25rem;
+    --dx-radius-6: 1.5rem;
+    --dx-radius-7: 1.75rem;
+    --dx-radius-8: 2rem;
+    --dx-radius-9: 2.25rem;
+    --dx-radius-10: 2.5rem;
+    --dx-radius-full: 9999px;
   }
 }
 
@@ -1093,7 +1127,7 @@ body:not(.dx-default-scrollbars) *::-webkit-scrollbar-thumb,
   background: var(--dx-scrollbar-color);
   border: 4px solid rgba(0, 0, 0, 0);
   background-clip: padding-box;
-  border-radius: var(--dx-radius-checkbox);
+  border-radius: var(--dx-radius);
   min-width: var(--dx-scrollbar-size);
   min-height: var(--dx-scrollbar-size);
 }

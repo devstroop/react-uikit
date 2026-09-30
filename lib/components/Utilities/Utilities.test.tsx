@@ -108,7 +108,7 @@ describe('Utilities parity (#75)', () => {
       '.dx-border-info-light',
       '.dx-border-primary-dark',
       '.dx-border-success',
-      '.dx-radius-md',
+      '.dx-radius-2',
       '.dx-flex-row',
     ]) {
       expect(set.has(cls), `missing ${cls}`).toBe(true);
@@ -275,9 +275,15 @@ describe('Utilities parity (#75)', () => {
   });
 
   it('ships radius and flex-direction raw utilities', () => {
-    for (const tier of ['xs', 'sm', 'md', 'lg', 'xl', 'full']) {
-      expect(REACT_CSS, `radius ${tier}`).toContain(
-        `.dx-radius-${tier} { border-radius: var(--dx-radius-${tier}) !important; }`
+    expect(REACT_CSS, 'radius base').toContain(
+      '.dx-radius { border-radius: var(--dx-radius) !important; }'
+    );
+    const rungs = Array.from({ length: 11 }, (_, i) => String(i)).concat(
+      'full'
+    );
+    for (const rung of rungs) {
+      expect(REACT_CSS, `radius ${rung}`).toContain(
+        `.dx-radius-${rung} { border-radius: var(--dx-radius-${rung}) !important; }`
       );
     }
     for (const [cls, value] of [

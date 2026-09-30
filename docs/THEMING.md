@@ -52,6 +52,28 @@ With a foreign family, pass codepoints as literals
 (`icon="\uf015"`); weight rides the variable axis via `style`
 (`fontWeight: 100–700`) where the family supports it. Ink inherits
 (`currentColor`); the `color` prop overrides it per element.
+## Radius scale (geometry, not color)
+
+One Radzen-style scale, defined identically in all three theme blocks:
+`--dx-radius` (4px base), `--dx-radius-0`…`--dx-radius-10` (0.25rem
+steps, 0 → 2.5rem), `--dx-radius-full` (pill). When editing, re-generate
+the whole scale into every theme block — never one block only.
+
+Four roles derive from it and are the only radius vocabulary components
+consume:
+
+- `--dx-radius-input` → `-2` (8px) — entry fields;
+- `--dx-radius-button` → `-full` — pill emphasis;
+- `--dx-radius-checkbox` → `-1` (4px) — tiny controls;
+- `--dx-radius-surface` → `-3` (12px) — cards/dialogs.
+
+To retune geometry for a theme, re-point a role — never hardcode a rung
+inside a component. Components that are not role owners derive from the
+base instead (`calc(var(--dx-radius) * N)`, the Radzen idiom) or take
+the base/full directly. Ad-hoc DOM reaches for the `.dx-radius-*`
+utilities.
+`lib/styles/tokens.test.ts` enforces scale completeness (×3 blocks) and
+that no component consumes a role outside its own.
 
 ## Specificity note (verified live)
 

@@ -69,9 +69,12 @@ export function DocsLayout({
           />
           <Link href="#/">
             <Text textStyle="H3" tagName="Strong">
-              react-uikit
+              UIKit
             </Text>
           </Link>
+          <Badge size="sm" severity="primary">
+            React
+          </Badge>
           <Badge size="sm" severity="secondary">
             {componentCount} components
           </Badge>
