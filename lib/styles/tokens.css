@@ -264,11 +264,15 @@
   --dx-ripple-duration: 0.8s;
   /* geometry + interaction constants (theme-independent) */
   --dx-border-width: 1px;
+  --dx-border-width-strong: 2px;
   --dx-outlined-border-width: 1px;
-  --dx-outline-width: 1px;
   --dx-focus-ring-width: 2px;
   --dx-focus-ring-offset: 2px;
   --dx-disabled-opacity: 0.55;
+  /* border shorthand composites (Radzen --rz-border-{color} parity):
+   * components write `border: var(--dx-border)` and never a numeric width */
+  --dx-border: var(--dx-border-width) solid var(--dx-border-color);
+  --dx-border-strong: var(--dx-border-width) solid var(--dx-border-strong-color);
   /* links (Radzen --rz-link-* parity; alias primary roles) */
   --dx-link-color: var(--dx-primary-color);
   --dx-link-hover-color: var(--dx-primary-hover-color);

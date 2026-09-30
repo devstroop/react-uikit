@@ -111,8 +111,8 @@ describe('foundation tokens', () => {
   it('defines geometry and interaction constants', () => {
     for (const [token, value] of [
       ['--dx-border-width', '1px'],
+      ['--dx-border-width-strong', '2px'],
       ['--dx-outlined-border-width', '1px'],
-      ['--dx-outline-width', '1px'],
       ['--dx-focus-ring-width', '2px'],
       ['--dx-focus-ring-offset', '2px'],
       ['--dx-disabled-opacity', '0.55'],
@@ -132,6 +132,23 @@ describe('foundation tokens', () => {
     ]) {
       expect(css, token).toContain(`${token}: ${value};`);
     }
+  });
+
+  it('composes border shorthands from width + color and bans --dx-outline-width (#43)', () => {
+    // Radzen --rz-border-{color} parity: components write
+    // `border: var(--dx-border)` and never a numeric width.
+    for (const [token, value] of [
+      ['--dx-border', 'var(--dx-border-width) solid var(--dx-border-color)'],
+      [
+        '--dx-border-strong',
+        'var(--dx-border-width) solid var(--dx-border-strong-color)',
+      ],
+    ]) {
+      expect(css, token).toContain(`${token}: ${value};`);
+    }
+    // Focus width lives on --dx-focus-ring-width only; the old mis-named
+    // 1px outline token made focus rings theme-dependent. Never bring it back.
+    expect(css).not.toContain('--dx-outline-width');
   });
 
   it('defines the radius scale in all three theme blocks (light, dark, OS fallback)', () => {
