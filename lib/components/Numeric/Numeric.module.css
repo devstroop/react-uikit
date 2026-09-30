@@ -50,7 +50,7 @@
   justify-content: center;
   width: 28px;
   border: none;
-  border-radius: var(--dx-radius-checkbox);
+  border-radius: var(--dx-radius);
   background-color: transparent;
   color: var(--dx-text-muted-color);
   cursor: pointer;

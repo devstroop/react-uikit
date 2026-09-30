@@ -74,7 +74,7 @@
   z-index: var(--dx-z-popover);
   min-width: 100%;
   border: var(--dx-border-width) solid var(--dx-border-strong-color);
-  border-radius: var(--dx-radius-input);
+  border-radius: calc(var(--dx-radius) * 2);
   background-color: var(--dx-surface-color);
   box-shadow: var(--dx-shadow-md);
   padding: var(--dx-space-1);
@@ -85,7 +85,7 @@
   align-items: center;
   gap: var(--dx-space-2);
   padding: var(--dx-space-2) var(--dx-space-3);
-  border-radius: var(--dx-radius-input);
+  border-radius: calc(var(--dx-radius) * 2);
   color: var(--dx-text-color);
   font-size: var(--dx-font-size-sm);
   white-space: nowrap;

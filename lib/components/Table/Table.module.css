@@ -1,7 +1,7 @@
 .wrap {
   font-family: var(--dx-font-sans);
   border: var(--dx-border-width) solid var(--dx-border-color);
-  border-radius: var(--dx-radius-input);
+  border-radius: calc(var(--dx-radius) * 2);
   overflow: hidden;
 }
 

@@ -13,7 +13,7 @@
   display: flex;
   align-items: center;
   padding: var(--dx-space-2) var(--dx-space-3);
-  border-radius: var(--dx-radius-input);
+  border-radius: calc(var(--dx-radius) * 2);
   color: var(--dx-text-color);
   font-size: var(--dx-font-size-sm);
   cursor: pointer;

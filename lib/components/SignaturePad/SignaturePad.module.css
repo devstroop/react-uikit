@@ -23,7 +23,7 @@
   display: inline-flex;
   align-items: center;
   border: none;
-  border-radius: var(--dx-radius-checkbox);
+  border-radius: var(--dx-radius);
   background-color: transparent;
   color: var(--dx-text-muted-color);
   font-family: var(--dx-font-sans);

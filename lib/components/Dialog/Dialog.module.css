@@ -120,7 +120,7 @@
   height: var(--dx-dialog-close-size);
   padding: 0;
   border: none;
-  border-radius: var(--dx-radius-checkbox);
+  border-radius: var(--dx-radius);
   background: transparent;
   color: var(--dx-text-muted-color);
   font-size: var(--dx-font-size-lg);
