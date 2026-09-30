@@ -34,12 +34,15 @@ describe('Alert', () => {
   it('shows the contextual icon by default and hides it with showIcon={false}', () => {
     const { rerender } = render(<Alert severity="success" title="Done" />);
     const alert = () => screen.getByRole('alert');
-    // Scoped to the icon slot: the dismiss control renders its own icon.
-    expect(alert().querySelector('[class*="icon"]')).toHaveTextContent(
+    // Scoped to the direct-child slot: the glyph span itself also
+    // carries an icon class, and the dismiss control has its own.
+    expect(alert().querySelector(':scope > [class*="icon"]')).toHaveTextContent(
       'check_circle'
     );
     rerender(<Alert severity="success" title="Done" showIcon={false} />);
-    expect(alert().querySelector('[class*="icon"]')).not.toBeInTheDocument();
+    expect(
+      alert().querySelector(':scope > [class*="icon"]')
+    ).not.toBeInTheDocument();
   });
 
   it('disappears after dismissing', async () => {

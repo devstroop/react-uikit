@@ -292,8 +292,8 @@ describe('Menu', () => {
     expect(screen.getByTestId('tpl')).toBeInTheDocument();
     expect(container.querySelector('img[src="/pic.png"]')).toBeInTheDocument();
     expect(
-      container.querySelector('span[aria-hidden="true"]')
-    ).toHaveTextContent('home');
+      screen.getByRole('menuitem', { name: /Home/ }).textContent
+    ).toContain('home');
     const iconWrap = screen
       .getByRole('menuitem', { name: /Home/ })
       .querySelector('[aria-hidden="true"]');
