@@ -53,7 +53,7 @@ function ContextClickArea({ onLog }: { onLog: (msg: string) => void }) {
         })
       }
       style={{
-        border: '1px dashed var(--dx-border-strong-color)',
+        border: 'var(--dx-border-width) dashed var(--dx-border-strong-color)',
         borderRadius: 8,
         padding: 24,
         textAlign: 'center',
@@ -105,7 +105,7 @@ function ContextContentArea({ onLog }: { onLog: (msg: string) => void }) {
         })
       }
       style={{
-        border: '1px dashed var(--dx-border-strong-color)',
+        border: 'var(--dx-border-width) dashed var(--dx-border-strong-color)',
         borderRadius: 8,
         padding: 24,
         textAlign: 'center',
