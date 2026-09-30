@@ -32,6 +32,26 @@ theme block (light `:root`, explicit dark, OS-dark fallback):
   (verify contrast against the re-seeded fills, not just presence);
 - `inverse-*` surfaces (they flip meaning between light and dark).
 
+## Radius scale (geometry, not color)
+
+One Radzen-style scale, defined identically in all three theme blocks:
+`--dx-radius` (4px base), `--dx-radius-0`…`--dx-radius-10` (0.25rem
+steps, 0 → 2.5rem), `--dx-radius-full` (pill). When editing, re-generate
+the whole scale into every theme block — never one block only.
+
+Four roles derive from it and are the only radius vocabulary components
+consume:
+
+- `--dx-radius-input` → `-2` (8px) — entry fields;
+- `--dx-radius-button` → `-full` — pill emphasis;
+- `--dx-radius-checkbox` → `-1` (4px) — tiny controls;
+- `--dx-radius-surface` → `-3` (12px) — cards/dialogs.
+
+To retune geometry for a theme, re-point a role — never hardcode a rung
+inside a component. Ad-hoc DOM reaches for the `.dx-radius-*` utilities.
+`lib/styles/tokens.test.ts` enforces scale completeness (×3 blocks) and
+that no component consumes a role outside its own.
+
 ## Specificity note (verified live)
 
 Explicit theme wins outright by design: `:root[data-theme='dark']`
