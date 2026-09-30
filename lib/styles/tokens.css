@@ -481,11 +481,7 @@
    * (mint, teal, …) keep matching links automatically. Stock ramp
    * resolves ≈#acc4f7 (8+:1 on surface); buttons keep white-on-blue. */
   --dx-link-color: color-mix(in srgb, var(--dx-primary-color) 38%, white);
-  --dx-link-hover-color: color-mix(
-    in srgb,
-    var(--dx-primary-color) 22%,
-    white
-  );
+  --dx-link-hover-color: color-mix(in srgb, var(--dx-primary-color) 22%, white);
   --dx-on-primary-color: #ffffff;
   --dx-danger-color: #dc2626;
   --dx-danger-hover-color: #b91c1c;

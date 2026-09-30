@@ -95,9 +95,10 @@ describe('token contrast + derivation', () => {
         const f = value(block, fg);
         const g = value(block, bg);
         if (HEX.test(f) && HEX.test(g)) {
-          expect(ratio(f, g), `${blockName} ${fg}/${bg}`).toBeGreaterThanOrEqual(
-            4.5
-          );
+          expect(
+            ratio(f, g),
+            `${blockName} ${fg}/${bg}`
+          ).toBeGreaterThanOrEqual(4.5);
         } else {
           // A non-hex foreground must derive from the ramp — a
           // hardcoded sibling hex here is the dark-link defect
