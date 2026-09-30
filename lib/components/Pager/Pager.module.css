@@ -66,8 +66,8 @@
 }
 
 .button:focus-visible {
-  outline: var(--dx-outline-width) solid var(--dx-outline-primary-color);
-  outline-offset: 1px;
+  outline: var(--dx-focus-ring-width) solid var(--dx-outline-primary-color);
+  outline-offset: var(--dx-focus-ring-offset);
 }
 
 .active {
@@ -108,6 +108,6 @@
 }
 
 .size select:focus-visible {
-  outline: var(--dx-outline-width) solid var(--dx-outline-primary-color);
-  outline-offset: 1px;
+  outline: var(--dx-focus-ring-width) solid var(--dx-outline-primary-color);
+  outline-offset: var(--dx-focus-ring-offset);
 }

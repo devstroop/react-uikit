@@ -33,8 +33,8 @@
   background-color: var(--dx-surface-hover-color);
 }
 .navBtn:focus-visible {
-  outline: 2px solid var(--dx-outline-primary-color);
-  outline-offset: 1px;
+  outline: var(--dx-focus-ring-width) solid var(--dx-outline-primary-color);
+  outline-offset: var(--dx-focus-ring-offset);
 }
 .resources {
   display: flex;
@@ -85,8 +85,8 @@
   background-color: var(--dx-surface-color);
 }
 .slot:focus-visible {
-  outline: 2px solid var(--dx-outline-primary-color);
-  outline-offset: 1px;
+  outline: var(--dx-focus-ring-width) solid var(--dx-outline-primary-color);
+  outline-offset: var(--dx-focus-ring-offset);
 }
 .event {
   padding: var(--dx-space-1);
@@ -98,6 +98,6 @@
   cursor: pointer;
 }
 .event:focus-visible {
-  outline: 2px solid var(--dx-outline-primary-color);
-  outline-offset: 1px;
+  outline: var(--dx-focus-ring-width) solid var(--dx-outline-primary-color);
+  outline-offset: var(--dx-focus-ring-offset);
 }

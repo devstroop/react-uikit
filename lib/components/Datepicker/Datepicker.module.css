@@ -32,7 +32,7 @@
 .dx-datepicker-input:focus-visible {
   outline: none;
   border-color: var(--dx-primary-color);
-  box-shadow: 0 0 0 3px var(--dx-outline-primary-color);
+  box-shadow: 0 0 0 var(--dx-focus-ring-width) var(--dx-outline-primary-color);
 }
 
 .dx-datepicker-input:disabled {
@@ -43,7 +43,7 @@
 .dx-datepicker-input-invalid,
 .dx-datepicker-input-invalid:focus-visible {
   border-color: var(--dx-danger-color);
-  box-shadow: 0 0 0 3px
+  box-shadow: 0 0 0 var(--dx-focus-ring-width)
     color-mix(in srgb, var(--dx-danger-color) 25%, transparent);
 }
 
@@ -103,8 +103,8 @@
 }
 
 .dx-datepicker-trigger:focus-visible {
-  outline: 2px solid var(--dx-outline-primary-color);
-  outline-offset: 1px;
+  outline: var(--dx-focus-ring-width) solid var(--dx-outline-primary-color);
+  outline-offset: var(--dx-focus-ring-offset);
 }
 
 .dx-datepicker-trigger:disabled {
@@ -138,8 +138,8 @@
 }
 
 .dx-datepicker-clear:focus-visible {
-  outline: 2px solid var(--dx-outline-primary-color);
-  outline-offset: 1px;
+  outline: var(--dx-focus-ring-width) solid var(--dx-outline-primary-color);
+  outline-offset: var(--dx-focus-ring-offset);
 }
 
 .dx-datepicker-clear--inset {
@@ -194,8 +194,8 @@
 }
 
 .dx-datepicker-nav:focus-visible {
-  outline: 2px solid var(--dx-outline-primary-color);
-  outline-offset: 1px;
+  outline: var(--dx-focus-ring-width) solid var(--dx-outline-primary-color);
+  outline-offset: var(--dx-focus-ring-offset);
 }
 
 .dx-datepicker-title {
@@ -251,8 +251,8 @@
 }
 
 .dx-datepicker-day:focus-visible {
-  outline: 2px solid var(--dx-outline-primary-color);
-  outline-offset: 1px;
+  outline: var(--dx-focus-ring-width) solid var(--dx-outline-primary-color);
+  outline-offset: var(--dx-focus-ring-offset);
 }
 
 .dx-datepicker-day--today {
@@ -320,7 +320,7 @@
 .dx-datepicker-time-input:focus-visible {
   outline: none;
   border-color: var(--dx-primary-color);
-  box-shadow: 0 0 0 2px var(--dx-outline-primary-color);
+  box-shadow: 0 0 0 var(--dx-focus-ring-width) var(--dx-outline-primary-color);
 }
 
 .dx-datepicker-time-buttons {
@@ -373,5 +373,5 @@
 .dx-datepicker-ok:focus-visible {
   outline: none;
   border-color: var(--dx-primary-color);
-  box-shadow: 0 0 0 2px var(--dx-outline-primary-color);
+  box-shadow: 0 0 0 var(--dx-focus-ring-width) var(--dx-outline-primary-color);
 }

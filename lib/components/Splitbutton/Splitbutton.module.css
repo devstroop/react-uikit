@@ -131,7 +131,7 @@ button.item {
 }
 
 .item:focus-visible {
-  outline: var(--dx-outline-width) solid var(--dx-outline-primary-color);
+  outline: var(--dx-focus-ring-width) solid var(--dx-outline-primary-color);
   outline-offset: -2px;
 }
 

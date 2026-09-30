@@ -230,7 +230,7 @@
 }
 
 .dismiss:focus-visible {
-  outline: var(--dx-outline-width) solid var(--dx-focus-color);
+  outline: var(--dx-focus-ring-width) solid var(--dx-focus-color);
   outline-offset: var(--dx-focus-ring-offset);
 }
 

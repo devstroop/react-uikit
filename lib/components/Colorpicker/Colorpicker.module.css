@@ -30,7 +30,7 @@
 .dx-colorpicker-trigger:focus-visible {
   outline: none;
   border-color: var(--dx-primary-color);
-  box-shadow: 0 0 0 3px var(--dx-outline-primary-color);
+  box-shadow: 0 0 0 var(--dx-focus-ring-width) var(--dx-outline-primary-color);
 }
 
 .dx-colorpicker-trigger:disabled {
@@ -148,8 +148,8 @@
 .dx-saturation-picker:focus-visible,
 .dx-hue-picker:focus-visible,
 .dx-alpha-picker:focus-visible {
-  outline: 2px solid var(--dx-outline-primary-color);
-  outline-offset: 1px;
+  outline: var(--dx-focus-ring-width) solid var(--dx-outline-primary-color);
+  outline-offset: var(--dx-focus-ring-offset);
 }
 
 .dx-saturation-indicator {
@@ -160,7 +160,7 @@
   border: 2px solid var(--dx-surface-color);
   border-radius: var(--dx-radius-full);
   box-shadow:
-    0 0 0 1px var(--dx-border-strong-color),
+    0 0 0 var(--dx-border-width) var(--dx-border-strong-color),
     var(--dx-shadow-sm);
   transform: translate(-50%, -50%);
   pointer-events: none;
@@ -185,7 +185,7 @@
   box-sizing: border-box;
   border: 2px solid var(--dx-surface-color);
   border-radius: var(--dx-radius);
-  box-shadow: 0 0 0 1px var(--dx-border-strong-color);
+  box-shadow: 0 0 0 var(--dx-border-width) var(--dx-border-strong-color);
   transform: translate(-50%, -50%);
   pointer-events: none;
 }
@@ -209,7 +209,7 @@
   box-sizing: border-box;
   border: 2px solid var(--dx-surface-color);
   border-radius: var(--dx-radius);
-  box-shadow: 0 0 0 1px var(--dx-border-strong-color);
+  box-shadow: 0 0 0 var(--dx-border-width) var(--dx-border-strong-color);
   transform: translate(-50%, -50%);
   pointer-events: none;
 }
@@ -250,7 +250,7 @@
 .dx-colorpicker-rgba-input:focus-visible {
   outline: none;
   border-color: var(--dx-primary-color);
-  box-shadow: 0 0 0 3px var(--dx-outline-primary-color);
+  box-shadow: 0 0 0 var(--dx-focus-ring-width) var(--dx-outline-primary-color);
 }
 
 .dx-colorpicker-palette {
@@ -279,8 +279,8 @@
 }
 
 .dx-colorpicker-swatch:focus-visible {
-  outline: 2px solid var(--dx-outline-primary-color);
-  outline-offset: 1px;
+  outline: var(--dx-focus-ring-width) solid var(--dx-outline-primary-color);
+  outline-offset: var(--dx-focus-ring-offset);
 }
 
 .dx-colorpicker-swatch:disabled {
@@ -316,8 +316,8 @@
 }
 
 .dx-colorpicker-ok:focus-visible {
-  outline: 2px solid var(--dx-outline-primary-color);
-  outline-offset: 2px;
+  outline: var(--dx-focus-ring-width) solid var(--dx-outline-primary-color);
+  outline-offset: var(--dx-focus-ring-offset);
 }
 
 .dx-colorpicker-ok:disabled {
