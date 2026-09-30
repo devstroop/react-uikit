@@ -69,9 +69,12 @@ export function DocsLayout({
           />
           <Link href="#/">
             <Text textStyle="H3" tagName="Strong">
-              react-uikit
+              UIKit
             </Text>
           </Link>
+          <Badge size="sm" severity="primary">
+            React
+          </Badge>
           <Badge size="sm" severity="secondary">
             {componentCount} components
           </Badge>
@@ -90,7 +93,6 @@ export function DocsLayout({
           />
           <ThemeToggle
             id="preview-dark"
-            size="sm"
             value={dark ? 'dark' : 'light'}
             onChange={(next) => onDarkChange(next === 'dark')}
           />
