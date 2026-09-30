@@ -52,6 +52,7 @@ With a foreign family, pass codepoints as literals
 (`icon="\uf015"`); weight rides the variable axis via `style`
 (`fontWeight: 100–700`) where the family supports it. Ink inherits
 (`currentColor`); the `color` prop overrides it per element.
+
 ## Radius scale (geometry, not color)
 
 One Radzen-style scale, defined identically in all three theme blocks:
