@@ -138,7 +138,7 @@ describe('component namespaces (Radzen parity pilot)', () => {
     const selectbar = css('SelectBar');
     expect(selectbar).toMatch(/\.option\s*{[^}]*border:\s*none;/);
     expect(selectbar).toMatch(
-      /\.bar\s*{[^}]*border:\s*var\(--dx-border-width\)/
+      /\.bar\s*{[^}]*border:\s*var\(--dx-border-strong\)/
     );
     expect(selectbar).not.toMatch(/\.selected\s*{[^}]*border-color:/);
     expect(selectbar).not.toMatch(/\.option\s*{[^}]*border:\s*1px/);

@@ -34,7 +34,7 @@
   gap: var(--dx-space-3);
   padding: var(--dx-space-3) var(--dx-space-4);
   border-radius: calc(var(--dx-radius) * 2);
-  border: 1px solid var(--dx-border-color);
+  border: var(--dx-border);
   background: var(--dx-surface-color);
   color: var(--dx-text-color);
   box-shadow: var(--dx-shadow-lg);
@@ -208,8 +208,8 @@
 .action:focus-visible,
 .cancel:focus-visible,
 .dismiss:focus-visible {
-  outline: 2px solid var(--dx-focus-color);
-  outline-offset: 2px;
+  outline: var(--dx-focus-ring-width) solid var(--dx-focus-color);
+  outline-offset: var(--dx-focus-ring-offset);
 }
 
 .progress {

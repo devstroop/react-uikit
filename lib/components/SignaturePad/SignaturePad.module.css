@@ -41,8 +41,8 @@
 }
 
 .clear:focus-visible {
-  outline: 2px solid var(--dx-outline-primary-color);
-  outline-offset: 1px;
+  outline: var(--dx-focus-ring-width) solid var(--dx-outline-primary-color);
+  outline-offset: var(--dx-focus-ring-offset);
 }
 
 .clear:disabled {
@@ -54,7 +54,7 @@
   display: block;
   width: 100%;
   box-sizing: border-box;
-  border: 1px dashed var(--dx-border-strong-color);
+  border: var(--dx-border-width) dashed var(--dx-border-strong-color);
   border-radius: var(--dx-radius-input);
   background-color: var(--dx-surface-color);
   touch-action: none;
@@ -62,8 +62,8 @@
 }
 
 .canvas:focus-visible {
-  outline: 3px solid var(--dx-outline-primary-color);
-  outline-offset: 1px;
+  outline: var(--dx-focus-ring-width) solid var(--dx-outline-primary-color);
+  outline-offset: var(--dx-focus-ring-offset);
 }
 
 .disabled {

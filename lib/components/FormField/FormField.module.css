@@ -9,7 +9,7 @@
   position: relative;
   display: flex;
   align-items: stretch;
-  border: var(--dx-border-width) solid var(--dx-border-strong-color);
+  border: var(--dx-border-strong);
   border-radius: var(--dx-radius-input);
   background-color: var(--dx-surface-color);
   transition:
@@ -192,14 +192,14 @@
 .filled .content {
   background-color: var(--dx-surface-hover-color);
   border-color: transparent;
-  border-bottom: var(--dx-border-width) solid var(--dx-border-strong-color);
+  border-bottom: var(--dx-border-strong);
   border-radius: var(--dx-radius-input) var(--dx-radius-input) 0 0;
 }
 
 .flat .content {
   background-color: transparent;
   border-color: transparent;
-  border-bottom: var(--dx-border-width) solid var(--dx-border-strong-color);
+  border-bottom: var(--dx-border-strong);
   border-radius: 0;
 }
 

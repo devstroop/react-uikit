@@ -2,7 +2,7 @@
   display: inline-flex;
   align-items: center;
   gap: var(--dx-space-1);
-  border: var(--dx-border-width) solid var(--dx-border-strong-color);
+  border: var(--dx-border-strong);
   border-radius: calc(var(--dx-radius) * 2);
   background-color: var(--dx-surface-color);
   padding: var(--dx-space-1);
@@ -44,7 +44,7 @@
 }
 
 .option:focus-visible {
-  outline: var(--dx-outline-width) solid var(--dx-outline-primary-color);
+  outline: var(--dx-focus-ring-width) solid var(--dx-outline-primary-color);
   outline-offset: var(--dx-focus-ring-offset);
 }
 

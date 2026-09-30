@@ -41,7 +41,7 @@
   min-width: var(--dx-control-height-sm);
   height: var(--dx-control-height-sm);
   padding: 0 var(--dx-space-2);
-  border: var(--dx-border-width) solid var(--dx-border-color);
+  border: var(--dx-border);
   border-radius: var(--dx-radius);
   background-color: var(--dx-surface-color);
   color: var(--dx-text-color);
@@ -66,8 +66,8 @@
 }
 
 .button:focus-visible {
-  outline: var(--dx-outline-width) solid var(--dx-outline-primary-color);
-  outline-offset: 1px;
+  outline: var(--dx-focus-ring-width) solid var(--dx-outline-primary-color);
+  outline-offset: var(--dx-focus-ring-offset);
 }
 
 .active {
@@ -97,7 +97,7 @@
 }
 
 .size select {
-  border: var(--dx-border-width) solid var(--dx-border-color);
+  border: var(--dx-border);
   background-color: var(--dx-surface-color);
   color: var(--dx-text-color);
   padding: var(--dx-space-1) var(--dx-space-2);
@@ -108,6 +108,6 @@
 }
 
 .size select:focus-visible {
-  outline: var(--dx-outline-width) solid var(--dx-outline-primary-color);
-  outline-offset: 1px;
+  outline: var(--dx-focus-ring-width) solid var(--dx-outline-primary-color);
+  outline-offset: var(--dx-focus-ring-offset);
 }

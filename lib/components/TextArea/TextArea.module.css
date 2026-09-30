@@ -2,7 +2,7 @@
   width: 100%;
   min-width: 0;
   background: var(--dx-surface-color);
-  border: 1px solid var(--dx-border-strong-color);
+  border: var(--dx-border-strong);
   border-radius: var(--dx-radius-input);
   color: var(--dx-text-color);
   font-family: var(--dx-font-sans);
@@ -21,13 +21,13 @@
 .textarea:focus-visible {
   outline: none;
   border-color: var(--dx-primary-color);
-  box-shadow: 0 0 0 3px var(--dx-focus-color);
+  box-shadow: 0 0 0 var(--dx-focus-ring-width) var(--dx-focus-color);
 }
 
 .invalid,
 .invalid:focus-visible {
   border-color: var(--dx-danger-color);
-  box-shadow: 0 0 0 3px
+  box-shadow: 0 0 0 var(--dx-focus-ring-width)
     color-mix(in srgb, var(--dx-danger-color) 25%, transparent);
 }
 

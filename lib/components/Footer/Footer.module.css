@@ -3,7 +3,7 @@
   flex-shrink: 0;
   padding: var(--dx-space-4);
   background: var(--dx-surface-color);
-  border-top: var(--dx-border-width) solid var(--dx-border-color);
+  border-top: var(--dx-border);
 }
 
 .sticky {

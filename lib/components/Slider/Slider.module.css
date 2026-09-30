@@ -46,8 +46,8 @@
 }
 
 .dx-slider-handle:focus-visible {
-  outline: 2px solid var(--dx-outline-primary-color);
-  outline-offset: 2px;
+  outline: var(--dx-focus-ring-width) solid var(--dx-outline-primary-color);
+  outline-offset: var(--dx-focus-ring-offset);
 }
 
 .dx-slider-handle:disabled {

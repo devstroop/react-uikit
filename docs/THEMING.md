@@ -76,6 +76,35 @@ utilities.
 `lib/styles/tokens.test.ts` enforces scale completeness (×3 blocks) and
 that no component consumes a role outside its own.
 
+## Border thickness (geometry)
+
+Widths are theme-independent geometry, defined once in the light
+`:root` block (like the interaction constants, not per theme block):
+
+- `--dx-border-width` (1px) — every standard border;
+- `--dx-border-width-strong` (2px) — indicator rings (Tabs underline,
+  Avatar ring, Colorpicker knobs, Timeline marker, Toc, spinner);
+- `--dx-outlined-border-width` (1px) — outlined-variant width;
+- `--dx-focus-ring-width` / `--dx-focus-ring-offset` (2px) — focus.
+
+Components write `border: var(--dx-border)` /
+`var(--dx-border-strong)` (Radzen `--rz-border-{color}` parity), or
+`var(--dx-border-width) solid <color>` when the color or style varies
+(dashed, transparent, tone colors, fallbacks). Focus uses the one ring
+width via either idiom (outline or box-shadow).
+
+Caveat — composites resolve where they are declared: `--dx-border`
+bakes `--dx-border-color` at computed-value time on `:root`. Theme
+switches are unaffected (`[data-theme]` / `[data-palette]` are the
+same element, so the cascade feeds the composite), but a **subtree**
+override of `--dx-border-color` alone does not reach composite
+borders — override `--dx-border` / `--dx-border-strong` alongside it,
+or set the `border-color` longhand on the closer scope.
+
+`lib/styles/tokens.test.ts` ratchets raw thickness px across lib CSS
+and preview style objects; `e2e/focus-ring.spec.ts` asserts the
+computed 2px ring / 1px border values.
+
 ## Specificity note (verified live)
 
 Explicit theme wins outright by design: `:root[data-theme='dark']`

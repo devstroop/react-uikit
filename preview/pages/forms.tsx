@@ -1074,7 +1074,7 @@ function ColorPickerBasicDemo() {
           aria-hidden="true"
           style={{
             background: value,
-            border: '1px solid var(--dx-border-color)',
+            border: 'var(--dx-border)',
             display: 'inline-block',
             height: 24,
             width: 24,
@@ -1543,7 +1543,7 @@ function SignatureExportDemo() {
         <img
           src={dataUrl}
           alt="Exported signature preview"
-          style={{ maxWidth: 320, border: '1px solid var(--dx-border-color)' }}
+          style={{ maxWidth: 320, border: 'var(--dx-border)' }}
         />
       ) : (
         <Text textStyle="Body1" className="dx-text-muted">

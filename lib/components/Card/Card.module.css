@@ -7,12 +7,12 @@
 
 .elevated {
   box-shadow: var(--dx-shadow-md);
-  border: var(--dx-border-width) solid var(--dx-border-color);
+  border: var(--dx-border);
 }
 
 .filled {
   box-shadow: var(--dx-shadow-md);
-  border: var(--dx-border-width) solid var(--dx-border-color);
+  border: var(--dx-border);
 }
 
 .outlined {
@@ -20,7 +20,7 @@
 }
 
 .interactive {
-  border: var(--dx-border-width) solid var(--dx-border-color);
+  border: var(--dx-border);
   cursor: pointer;
   transition:
     border-color var(--dx-transition-fast),
@@ -39,7 +39,7 @@
 }
 
 .interactive:focus-visible {
-  outline: var(--dx-outline-width) solid var(--dx-focus-color);
+  outline: var(--dx-focus-ring-width) solid var(--dx-focus-color);
   outline-offset: var(--dx-focus-ring-offset);
 }
 

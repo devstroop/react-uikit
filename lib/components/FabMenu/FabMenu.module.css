@@ -55,7 +55,7 @@
   padding: var(--dx-space-1) var(--dx-space-2);
   background-color: var(--dx-surface-color);
   color: var(--dx-text-color);
-  border: 1px solid var(--dx-border-color);
+  border: var(--dx-border);
   border-radius: calc(var(--dx-radius) * 2);
   font-size: var(--dx-font-size-sm);
   font-weight: var(--dx-font-weight-medium);
@@ -97,8 +97,8 @@
 }
 
 .main:focus-visible {
-  outline: 2px solid var(--dx-outline-primary-color);
-  outline-offset: 2px;
+  outline: var(--dx-focus-ring-width) solid var(--dx-outline-primary-color);
+  outline-offset: var(--dx-focus-ring-offset);
 }
 
 .mainIcon {
@@ -116,7 +116,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--dx-border-color);
+  border: var(--dx-border);
   border-radius: var(--dx-radius-button);
   background-color: var(--dx-surface-color);
   color: var(--dx-text-color);
@@ -134,8 +134,8 @@
 }
 
 .item:focus-visible {
-  outline: 2px solid var(--dx-outline-primary-color);
-  outline-offset: 1px;
+  outline: var(--dx-focus-ring-width) solid var(--dx-outline-primary-color);
+  outline-offset: var(--dx-focus-ring-offset);
 }
 
 .item.disabled,

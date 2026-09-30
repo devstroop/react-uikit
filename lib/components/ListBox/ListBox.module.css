@@ -1,7 +1,7 @@
 .box {
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--dx-border-strong-color);
+  border: var(--dx-border-strong);
   border-radius: var(--dx-radius-input);
   background-color: var(--dx-surface-color);
   padding: var(--dx-space-2);
@@ -31,7 +31,7 @@
 }
 
 .active {
-  outline: 2px solid var(--dx-outline-primary-color);
+  outline: var(--dx-focus-ring-width) solid var(--dx-outline-primary-color);
   outline-offset: -2px;
 }
 

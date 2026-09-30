@@ -3,15 +3,15 @@
   display: block;
   width: 100%;
   overflow: hidden;
-  border: 1px solid var(--dx-border-color);
+  border: var(--dx-border);
   border-radius: calc(var(--dx-radius) * 2);
   background-color: var(--dx-surface-color);
   font-family: var(--dx-font-sans);
 }
 
 .root:focus-visible {
-  outline: 2px solid var(--dx-outline-primary-color);
-  outline-offset: 2px;
+  outline: var(--dx-focus-ring-width) solid var(--dx-outline-primary-color);
+  outline-offset: var(--dx-focus-ring-offset);
 }
 
 .viewport {
@@ -43,7 +43,7 @@
   justify-content: center;
   width: 36px;
   height: 36px;
-  border: 1px solid var(--dx-border-color);
+  border: var(--dx-border);
   border-radius: calc(var(--dx-radius) * 2);
   background-color: var(--dx-surface-color);
   color: var(--dx-text-color);
@@ -64,8 +64,8 @@
 }
 
 .arrow:focus-visible {
-  outline: 2px solid var(--dx-outline-primary-color);
-  outline-offset: 1px;
+  outline: var(--dx-focus-ring-width) solid var(--dx-outline-primary-color);
+  outline-offset: var(--dx-focus-ring-offset);
 }
 
 .prev {
@@ -85,7 +85,7 @@
   justify-content: center;
   width: 28px;
   height: 28px;
-  border: 1px solid var(--dx-border-color);
+  border: var(--dx-border);
   border-radius: calc(var(--dx-radius) * 2);
   background-color: var(--dx-surface-color);
   color: var(--dx-text-muted-color);
@@ -103,8 +103,8 @@
 }
 
 .pauseBtn:focus-visible {
-  outline: 2px solid var(--dx-outline-primary-color);
-  outline-offset: 1px;
+  outline: var(--dx-focus-ring-width) solid var(--dx-outline-primary-color);
+  outline-offset: var(--dx-focus-ring-offset);
 }
 
 .indicators {
@@ -122,7 +122,7 @@
   width: 10px;
   height: 10px;
   border-radius: var(--dx-radius-full);
-  border: 1px solid var(--dx-border-color);
+  border: var(--dx-border);
   background-color: var(--dx-surface-color);
   cursor: pointer;
   padding: 0;
@@ -138,8 +138,8 @@
 }
 
 .indicator:focus-visible {
-  outline: 2px solid var(--dx-outline-primary-color);
-  outline-offset: 1px;
+  outline: var(--dx-focus-ring-width) solid var(--dx-outline-primary-color);
+  outline-offset: var(--dx-focus-ring-offset);
 }
 
 .indicatorActive {

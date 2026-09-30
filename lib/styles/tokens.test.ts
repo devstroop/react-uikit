@@ -111,8 +111,8 @@ describe('foundation tokens', () => {
   it('defines geometry and interaction constants', () => {
     for (const [token, value] of [
       ['--dx-border-width', '1px'],
+      ['--dx-border-width-strong', '2px'],
       ['--dx-outlined-border-width', '1px'],
-      ['--dx-outline-width', '1px'],
       ['--dx-focus-ring-width', '2px'],
       ['--dx-focus-ring-offset', '2px'],
       ['--dx-disabled-opacity', '0.55'],
@@ -131,6 +131,96 @@ describe('foundation tokens', () => {
       ['--dx-field-padding-xl', '28px 12px 8px'],
     ]) {
       expect(css, token).toContain(`${token}: ${value};`);
+    }
+  });
+
+  it('composes border shorthands from width + color and bans --dx-outline-width (#43)', () => {
+    // Radzen --rz-border-{color} parity: components write
+    // `border: var(--dx-border)` and never a numeric width.
+    for (const [token, value] of [
+      ['--dx-border', 'var(--dx-border-width) solid var(--dx-border-color)'],
+      [
+        '--dx-border-strong',
+        'var(--dx-border-width) solid var(--dx-border-strong-color)',
+      ],
+    ]) {
+      expect(css, token).toContain(`${token}: ${value};`);
+    }
+    // Focus width lives on --dx-focus-ring-width only; the old mis-named
+    // 1px outline token made focus rings theme-dependent. Never bring it back.
+    expect(css).not.toContain('--dx-outline-width');
+  });
+
+  it('never reintroduces raw thickness literals (#43)', () => {
+    // Thickness is tokenized: borders → var(--dx-border) /
+    // var(--dx-border-width), indicators → var(--dx-border-width-strong),
+    // focus → var(--dx-focus-ring-width) + var(--dx-focus-ring-offset).
+    // Documented exceptions (stripped before scanning):
+    const ALLOWED = [
+      // scrollbar gutter ring — structural, painted fully transparent
+      /border: 4px solid rgba\(0, 0, 0, 0\);/g,
+      // inset focus variants keep negative offsets (Radzen ships the same)
+      /outline-offset: -\d+px;/g,
+    ];
+    const BAN: Array<[label: string, re: RegExp]> = [
+      [
+        'raw border width (use var(--dx-border) or var(--dx-border-width))',
+        /(^|[;{])\s*border(-(top|right|bottom|left|inline|block|inline-start|inline-end|block-start|block-end))?:\s*(?!0\s*;)\d/gm,
+      ],
+      [
+        'raw border-width longhand (use a width token)',
+        /(^|[;{])\s*border-width:\s*\d/gm,
+      ],
+      [
+        'raw outline width (use var(--dx-focus-ring-width))',
+        /(^|[;{])\s*outline:\s*\d/gm,
+      ],
+      [
+        'raw outline offset (use var(--dx-focus-ring-offset))',
+        /(^|[;{])\s*outline-offset:\s*(?!-)\d/gm,
+      ],
+      [
+        'raw focus ring spread (use var(--dx-focus-ring-width))',
+        /(^|[;{])\s*box-shadow:[^;]*0 0 0 \d/gm,
+      ],
+      [
+        'raw inline border px in style objects (use the width tokens)',
+        /border(-(top|right|bottom|left))?:\s*['"`][^'"`;\n]*\d+(\.\d+)?px/g,
+      ],
+      [
+        'raw inline outline/ring px in style objects',
+        /(outline|boxShadow):\s*['"`][^'"`;\n]*0 0 0 \d+(\.\d+)?px/g,
+      ],
+    ];
+    const here = dirname(fileURLToPath(import.meta.url));
+    const stripComments = (text: string) =>
+      text.replace(/\/\*[\s\S]*?\*\//g, '');
+    const sources: Array<[where: string, text: string]> = [];
+    const walk = (dir: string, tag: string, exts: RegExp) => {
+      for (const file of readdirSync(dir, { recursive: true })) {
+        const rel = String(file);
+        if (!exts.test(rel)) continue;
+        sources.push([
+          `${tag}/${rel}`,
+          stripComments(readFileSync(join(dir, rel), 'utf8')),
+        ]);
+      }
+    };
+    const libDir = join(here, '..');
+    walk(libDir, 'lib', /\.css$/); // components + utilities + tokens
+    walk(join(here, '..', '..', 'preview'), 'preview', /\.tsx?$/);
+    expect(sources.length).toBeGreaterThan(100); // sanity: the walk found the tree
+    for (const [where, raw] of sources) {
+      let text = raw;
+      for (const allowed of ALLOWED) text = text.replace(allowed, '');
+      for (const [label, re] of BAN) {
+        re.lastIndex = 0;
+        const hit = re.exec(text);
+        if (hit) {
+          const snippet = hit[0].trim().slice(0, 80);
+          throw new Error(`${where}: ${label} — \`${snippet}\``);
+        }
+      }
     }
   });
 

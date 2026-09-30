@@ -1,6 +1,6 @@
 .root {
   font-family: var(--dx-font-sans);
-  border: 1px solid var(--dx-border-color);
+  border: var(--dx-border);
   border-radius: calc(var(--dx-radius) * 2);
   background-color: var(--dx-surface-color);
   overflow: hidden;
@@ -10,7 +10,7 @@
   align-items: center;
   justify-content: space-between;
   padding: var(--dx-space-2);
-  border-bottom: 1px solid var(--dx-border-color);
+  border-bottom: var(--dx-border);
 }
 .title {
   font-size: var(--dx-font-size-sm);
@@ -23,7 +23,7 @@
   justify-content: center;
   width: 28px;
   height: 28px;
-  border: 1px solid var(--dx-border-color);
+  border: var(--dx-border);
   border-radius: var(--dx-radius);
   background-color: var(--dx-surface-color);
   color: var(--dx-text-color);
@@ -33,14 +33,14 @@
   background-color: var(--dx-surface-hover-color);
 }
 .navBtn:focus-visible {
-  outline: 2px solid var(--dx-outline-primary-color);
-  outline-offset: 1px;
+  outline: var(--dx-focus-ring-width) solid var(--dx-outline-primary-color);
+  outline-offset: var(--dx-focus-ring-offset);
 }
 .resources {
   display: flex;
   gap: var(--dx-space-1);
   padding: var(--dx-space-1) var(--dx-space-2);
-  border-bottom: 1px solid var(--dx-border-color);
+  border-bottom: var(--dx-border);
 }
 .resource {
   flex: 1;
@@ -76,21 +76,21 @@
   color: var(--dx-text-color);
   text-align: center;
   padding: var(--dx-space-1);
-  border-bottom: 1px solid var(--dx-border-color);
+  border-bottom: var(--dx-border);
 }
 .slot {
   height: 24px;
-  border: 1px solid var(--dx-border-color);
+  border: var(--dx-border);
   border-radius: var(--dx-radius);
   background-color: var(--dx-surface-color);
 }
 .slot:focus-visible {
-  outline: 2px solid var(--dx-outline-primary-color);
-  outline-offset: 1px;
+  outline: var(--dx-focus-ring-width) solid var(--dx-outline-primary-color);
+  outline-offset: var(--dx-focus-ring-offset);
 }
 .event {
   padding: var(--dx-space-1);
-  border: 1px solid var(--dx-primary-color);
+  border: var(--dx-border-width) solid var(--dx-primary-color);
   border-radius: var(--dx-radius);
   background-color: var(--dx-primary-color);
   color: var(--dx-on-primary-color);
@@ -98,6 +98,6 @@
   cursor: pointer;
 }
 .event:focus-visible {
-  outline: 2px solid var(--dx-outline-primary-color);
-  outline-offset: 1px;
+  outline: var(--dx-focus-ring-width) solid var(--dx-outline-primary-color);
+  outline-offset: var(--dx-focus-ring-offset);
 }

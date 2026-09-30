@@ -18,7 +18,7 @@
 }
 
 .button {
-  border: 1px solid var(--dx-border-color, currentColor);
+  border: var(--dx-border-width) solid var(--dx-border-color, currentColor);
   background: none;
   color: var(--dx-foreground-color, inherit);
   min-width: 2rem;
@@ -58,7 +58,7 @@
 }
 
 .size select {
-  border: 1px solid var(--dx-border-color, currentColor);
+  border: var(--dx-border-width) solid var(--dx-border-color, currentColor);
   background: none;
   color: var(--dx-foreground-color, inherit);
   padding: 0.25rem 0.5rem;

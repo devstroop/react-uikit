@@ -36,7 +36,7 @@
   align-items: center;
   gap: var(--dx-space-2);
   padding: var(--dx-space-1) var(--dx-space-2);
-  border: 1px solid transparent;
+  border: var(--dx-border-width) solid transparent;
   border-radius: calc(var(--dx-radius) * 2);
   background-color: var(--dx-surface-color);
   color: var(--dx-text-color);
@@ -56,8 +56,8 @@
 }
 
 .step:focus-visible {
-  outline: 2px solid var(--dx-outline-primary-color);
-  outline-offset: 2px;
+  outline: var(--dx-focus-ring-width) solid var(--dx-outline-primary-color);
+  outline-offset: var(--dx-focus-ring-offset);
 }
 
 .step:disabled,
@@ -83,7 +83,7 @@
   width: 28px;
   height: 28px;
   border-radius: var(--dx-radius-full);
-  border: 1px solid var(--dx-border-color);
+  border: var(--dx-border);
   background-color: var(--dx-surface-color);
   color: var(--dx-text-muted-color);
   font-size: var(--dx-font-size-sm);

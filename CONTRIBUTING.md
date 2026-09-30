@@ -35,6 +35,19 @@
    (round/sharp), not a role. Site CSS owns no radius on uikit
    internals — per-instance `className` is the only sanctioned seam
    (plus the `dx-radius-*` escape utilities).
+8. **Border thickness is tokenized, never raw px.** Borders compose
+   from `var(--dx-border)` / `var(--dx-border-strong)` (width+style+
+   color, Radzen `--rz-border-{color}` parity); a custom color or
+   style keeps `var(--dx-border-width)` (or `--dx-border-width-strong`
+   for indicator rings — Tabs underline, Avatar, Colorpicker knobs,
+   Timeline, Toc, spinner) plus its color. Focus renders at
+   `var(--dx-focus-ring-width)` (2px) with `var(--dx-focus-ring-offset)`
+   — outline or box-shadow idiom per component, but one width. The
+   old `--dx-outline-width` is removed; never bring it back. Allowed
+   literals: negative `outline-offset` (inset focus variants) and the
+   transparent scrollbar gutter ring. `lib/styles/tokens.test.ts`
+   ratchets this across lib CSS and preview style objects;
+   `e2e/focus-ring.spec.ts` locks the computed 1px/2px values.
 
 ## Workflow
 

@@ -1,6 +1,6 @@
 .root {
   display: block;
-  border: 1px solid var(--dx-border-color);
+  border: var(--dx-border);
   border-radius: calc(var(--dx-radius) * 2);
   background-color: var(--dx-surface-color);
   color: var(--dx-text-color);
@@ -13,8 +13,8 @@
 }
 
 .root:focus-visible {
-  outline: 2px solid var(--dx-outline-primary-color);
-  outline-offset: 1px;
+  outline: var(--dx-focus-ring-width) solid var(--dx-outline-primary-color);
+  outline-offset: var(--dx-focus-ring-offset);
 }
 
 .group {
@@ -36,7 +36,7 @@
   align-items: center;
   gap: var(--dx-space-1);
   padding: var(--dx-space-1) var(--dx-space-2);
-  border: 1px solid transparent;
+  border: var(--dx-border-width) solid transparent;
   border-radius: var(--dx-radius);
   cursor: pointer;
   transition:
@@ -52,7 +52,7 @@
 }
 
 .treeitem:focus-visible {
-  outline: 2px solid var(--dx-outline-primary-color);
+  outline: var(--dx-focus-ring-width) solid var(--dx-outline-primary-color);
   outline-offset: -1px;
   border-color: var(--dx-border-primary-color);
 }
@@ -101,8 +101,8 @@
 }
 
 .caret:focus-visible {
-  outline: 2px solid var(--dx-outline-primary-color);
-  outline-offset: 1px;
+  outline: var(--dx-focus-ring-width) solid var(--dx-outline-primary-color);
+  outline-offset: var(--dx-focus-ring-offset);
 }
 
 .caret:disabled {
