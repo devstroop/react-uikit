@@ -1,62 +1,40 @@
-import { type CSSProperties, type HTMLAttributes } from "react";
-import { type ComponentSize } from "../../sizes";
-import styles from "./Row.module.css";
+import { type CSSProperties, type HTMLAttributes } from 'react';
+import { resolveGap } from '../../utils/gap';
+import styles from './Row.module.css';
 
-export type RowAlign = "start" | "center" | "end" | "stretch" | "baseline" | "normal";
+export type RowAlign =
+  'start' | 'center' | 'end' | 'stretch' | 'baseline' | 'normal';
 
 export type RowJustify =
-  | "start"
-  | "center"
-  | "end"
-  | "between"
-  | "around"
-  | "evenly"
-  | "normal"
-  | "left"
-  | "right"
-  | "stretch"
-  | "space-between"
-  | "space-around"
-  | "space-evenly";
+  | 'start'
+  | 'center'
+  | 'end'
+  | 'between'
+  | 'around'
+  | 'evenly'
+  | 'normal'
+  | 'left'
+  | 'right'
+  | 'stretch'
+  | 'space-between'
+  | 'space-around'
+  | 'space-evenly';
 
-export type RowWrap = boolean | "nowrap" | "wrap" | "wrap-reverse";
+export type RowWrap = boolean | 'nowrap' | 'wrap' | 'wrap-reverse';
 
-export type RowGap = ComponentSize | number | string;
-
-const GAP_TIERS: Record<ComponentSize, string> = {
-  xs: "gapXs",
-  sm: "gapSm",
-  md: "gapMd",
-  lg: "gapLg",
-  xl: "gapXl",
-};
-
-const GAP_ROW_TIERS: Record<ComponentSize, string> = {
-  xs: "gapRowXs",
-  sm: "gapRowSm",
-  md: "gapRowMd",
-  lg: "gapRowLg",
-  xl: "gapRowXl",
-};
-
-function gapClass(gap: RowGap | undefined): string | null {
-  if (typeof gap !== "string") return null;
-  return (GAP_TIERS as Record<string, string | undefined>)[gap] ?? null;
-}
-
-function gapRowClass(gap: RowGap | undefined): string | null {
-  if (typeof gap !== "string") return null;
-  return (GAP_ROW_TIERS as Record<string, string | undefined>)[gap] ?? null;
-}
+/** Gap: px number (unitless = pixels) or CSS length; digits-only strings are px. */
+export type RowGap = number | string;
 
 function resolveWrap(wrap: RowWrap | undefined): string | null {
-  if (wrap === false || wrap === "nowrap") return "noWrap";
-  if (wrap === "wrap-reverse") return "wrapReverse";
+  if (wrap === false || wrap === 'nowrap') return 'noWrap';
+  if (wrap === 'wrap-reverse') return 'wrapReverse';
   return null;
 }
 
 export interface RowProps extends HTMLAttributes<HTMLDivElement> {
+  /** Column gap — px number (unitless = pixels) or CSS length. Unset = 16 (space-4). */
   gap?: RowGap;
+  /** Row gap across wrapped lines — same values as `gap`. Unset = follows `gap`. */
   rowGap?: RowGap;
   align?: RowAlign;
   justify?: RowJustify;
@@ -66,26 +44,27 @@ export interface RowProps extends HTMLAttributes<HTMLDivElement> {
 export function Row({
   gap,
   rowGap,
-  align = "stretch",
-  justify = "start",
+  align = 'stretch',
+  justify = 'start',
   wrap = true,
   className,
   style,
   ...props
 }: RowProps) {
-  const tier = gapClass(gap);
-  const rowTier = gapRowClass(rowGap);
-  const arbitraryGap =
-    gap != null && !tier ? (typeof gap === "number" ? `${gap}px` : gap) : null;
+  const columnGap = gap != null ? resolveGap(gap) : null;
+  const crossGap = rowGap != null ? resolveGap(rowGap) : null;
   const mergedStyle: CSSProperties = {
-    // Keep --dx-col-gap in sync so Column grid math compensates for
-    // arbitrary (non-tier) gaps exactly like it does for tier classes.
-    ...(arbitraryGap
-      ? ({ gap: arbitraryGap, "--dx-col-gap": arbitraryGap } as CSSProperties)
+    // Keep --dx-col-gap in sync so Column grid math compensates for any
+    // gap exactly like it does for the stylesheet default (space-4).
+    // Set columnGap (not the gap shorthand): an inline `gap` would also
+    // fix row-gap inline and clobber the rowGap prop.
+    ...(columnGap
+      ? ({
+          columnGap,
+          '--dx-col-gap': columnGap,
+        } as CSSProperties)
       : {}),
-    ...(rowGap != null && !rowTier
-      ? { rowGap: typeof rowGap === "number" ? `${rowGap}px` : rowGap }
-      : {}),
+    ...(crossGap ? { rowGap: crossGap } : {}),
     ...style,
   };
   return (
@@ -95,12 +74,10 @@ export function Row({
         styles[align],
         styles[`justify-${justify}`],
         resolveWrap(wrap) != null ? styles[resolveWrap(wrap) as string] : null,
-        tier ? styles[tier] : null,
-        rowTier ? styles[rowTier] : null,
         className,
       ]
         .filter(Boolean)
-        .join(" ")}
+        .join(' ')}
       style={mergedStyle}
       {...props}
     />

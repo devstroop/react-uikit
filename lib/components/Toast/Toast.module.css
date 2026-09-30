@@ -33,7 +33,7 @@
   align-items: flex-start;
   gap: var(--dx-space-3);
   padding: var(--dx-space-3) var(--dx-space-4);
-  border-radius: var(--dx-radius-md);
+  border-radius: calc(var(--dx-radius) * 2);
   border: 1px solid var(--dx-border-color);
   background: var(--dx-surface-color);
   color: var(--dx-text-color);
@@ -43,7 +43,7 @@
   cursor: default;
 }
 
-.toast[data-clickable="true"] {
+.toast[data-clickable='true'] {
   cursor: pointer;
 }
 
@@ -76,22 +76,38 @@
 
 .info {
   border-color: var(--dx-primary-color);
-  background-color: color-mix(in srgb, var(--dx-primary-color) 12%, var(--dx-surface-color));
+  background-color: color-mix(
+    in srgb,
+    var(--dx-primary-color) 12%,
+    var(--dx-surface-color)
+  );
 }
 
 .success {
   border-color: var(--dx-success-color);
-  background-color: color-mix(in srgb, var(--dx-success-color) 12%, var(--dx-surface-color));
+  background-color: color-mix(
+    in srgb,
+    var(--dx-success-color) 12%,
+    var(--dx-surface-color)
+  );
 }
 
 .warning {
   border-color: var(--dx-warning-color);
-  background-color: color-mix(in srgb, var(--dx-warning-color) 12%, var(--dx-surface-color));
+  background-color: color-mix(
+    in srgb,
+    var(--dx-warning-color) 12%,
+    var(--dx-surface-color)
+  );
 }
 
 .danger {
   border-color: var(--dx-danger-color);
-  background-color: color-mix(in srgb, var(--dx-danger-color) 12%, var(--dx-surface-color));
+  background-color: color-mix(
+    in srgb,
+    var(--dx-danger-color) 12%,
+    var(--dx-surface-color)
+  );
 }
 
 .content {
@@ -134,13 +150,15 @@
   width: 22px;
   height: 22px;
   border: none;
-  border-radius: var(--dx-radius-sm);
+  border-radius: var(--dx-radius);
   background: transparent;
   color: var(--dx-text-muted-color);
   font-size: var(--dx-font-size-md);
   line-height: 1;
   cursor: pointer;
-  transition: background var(--dx-transition-fast), color var(--dx-transition-fast);
+  transition:
+    background var(--dx-transition-fast),
+    color var(--dx-transition-fast);
 }
 
 .dismiss:hover {
@@ -158,13 +176,15 @@
 .action,
 .cancel {
   border: none;
-  border-radius: var(--dx-radius-sm);
+  border-radius: var(--dx-radius);
   padding: var(--dx-space-1) var(--dx-space-2);
   background: transparent;
   font-size: var(--dx-font-size-xs);
   font-weight: var(--dx-font-weight-bold);
   cursor: pointer;
-  transition: background var(--dx-transition-fast), color var(--dx-transition-fast);
+  transition:
+    background var(--dx-transition-fast),
+    color var(--dx-transition-fast);
 }
 
 .action {
@@ -198,13 +218,13 @@
   right: 0;
   bottom: 0;
   height: 3px;
-  border-radius: 0 0 var(--dx-radius-md) var(--dx-radius-md);
+  border-radius: 0 0 calc(var(--dx-radius) * 2) calc(var(--dx-radius) * 2);
   background-color: var(--dx-primary-color);
   transform-origin: left;
   animation: se-toast-progress linear;
 }
 
-.toast[data-paused="true"] .progress {
+.toast[data-paused='true'] .progress {
   animation-play-state: paused;
 }
 

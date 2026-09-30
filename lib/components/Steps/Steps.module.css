@@ -37,7 +37,7 @@
   gap: var(--dx-space-2);
   padding: var(--dx-space-1) var(--dx-space-2);
   border: 1px solid transparent;
-  border-radius: var(--dx-radius-md);
+  border-radius: calc(var(--dx-radius) * 2);
   background-color: var(--dx-surface-color);
   color: var(--dx-text-color);
   font-family: var(--dx-font-sans);
@@ -50,7 +50,7 @@
     color var(--dx-transition-fast);
 }
 
-.step:hover:not(:disabled):not([aria-disabled="true"]) {
+.step:hover:not(:disabled):not([aria-disabled='true']) {
   background-color: var(--dx-surface-hover-color);
   border-color: var(--dx-border-color);
 }
@@ -61,7 +61,7 @@
 }
 
 .step:disabled,
-.step[aria-disabled="true"] {
+.step[aria-disabled='true'] {
   opacity: 0.5;
   cursor: not-allowed;
 }
@@ -97,13 +97,13 @@
 .active .circle {
   background-color: var(--dx-primary-color);
   border-color: var(--dx-primary-color);
-  color: var(--dx-primary-fg-color);
+  color: var(--dx-on-primary-color);
 }
 
 .completed .circle {
   background-color: var(--dx-primary-color);
   border-color: var(--dx-primary-color);
-  color: var(--dx-primary-fg-color);
+  color: var(--dx-on-primary-color);
 }
 
 .check {

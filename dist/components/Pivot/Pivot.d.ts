@@ -3,7 +3,7 @@ export interface PivotField {
     title?: string;
 }
 export interface PivotAggregate extends PivotField {
-    aggregate: "Sum" | "Average" | "Count" | "Min" | "Max";
+    aggregate: 'Sum' | 'Average' | 'Count' | 'Min' | 'Max';
 }
 export interface PivotProps {
     data: Record<string, unknown>[];
@@ -18,4 +18,4 @@ export interface PivotProps {
     ariaLabel?: string;
     className?: string;
 }
-export declare function Pivot({ data, rowFields, columnFields, aggregateFields, onFieldsChange, ariaLabel, className }: PivotProps): import("react").JSX.Element;
+export declare function Pivot({ data, rowFields, columnFields, aggregateFields, onFieldsChange, ariaLabel, className, }: PivotProps): import("react").JSX.Element;

@@ -3,7 +3,7 @@
   flex-direction: column;
   gap: 0.75rem;
   font-size: 0.875rem;
-  color: var(--dx-fg-color, inherit);
+  color: var(--dx-foreground-color, inherit);
 }
 
 .rows {
@@ -46,7 +46,7 @@
   font-size: 1rem;
   line-height: 1;
   padding: 0.25rem 0.5rem;
-  border-radius: var(--dx-radius-sm);
+  border-radius: var(--dx-radius);
   color: var(--dx-fg-muted-color, currentColor);
 }
 
@@ -64,9 +64,9 @@
 .add {
   border: 1px solid var(--dx-border-color, currentColor);
   background: none;
-  color: var(--dx-fg-color, inherit);
+  color: var(--dx-foreground-color, inherit);
   padding: 0.375rem 0.75rem;
-  border-radius: var(--dx-radius-md);
+  border-radius: calc(var(--dx-radius) * 2);
   cursor: pointer;
   font-size: 0.875rem;
 }

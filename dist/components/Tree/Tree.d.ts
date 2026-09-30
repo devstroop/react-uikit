@@ -27,8 +27,8 @@ export interface TreeProps {
     TextProperty?: string;
     keyProperty?: string;
     KeyProperty?: string;
-    selectionMode?: "single" | "multiple";
-    SelectionMode?: "single" | "multiple";
+    selectionMode?: 'single' | 'multiple';
+    SelectionMode?: 'single' | 'multiple';
     selectedItem?: TreeItem | null;
     SelectedItem?: TreeItem | null;
     selectedItems?: TreeItem[];

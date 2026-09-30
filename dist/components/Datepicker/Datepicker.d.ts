@@ -1,6 +1,6 @@
 import { InputHTMLAttributes } from 'react';
-export type DatepickerSize = "xs" | "sm" | "md" | "lg" | "xl";
-export interface DatepickerProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "size" | "value" | "defaultValue" | "onChange"> {
+export type DatepickerSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+export interface DatepickerProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'value' | 'defaultValue' | 'onChange'> {
     size?: DatepickerSize;
     invalid?: boolean;
     value?: string;

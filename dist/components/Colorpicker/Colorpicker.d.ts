@@ -1,4 +1,4 @@
-export type ColorpickerSize = "xs" | "sm" | "md" | "lg" | "xl";
+export type ColorpickerSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 export interface ColorpickerProps {
     value?: string;
     showSaturation?: boolean;

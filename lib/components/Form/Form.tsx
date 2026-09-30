@@ -7,8 +7,8 @@ import {
   useState,
   type FormEvent,
   type ReactNode,
-} from "react";
-import styles from "./Form.module.css";
+} from 'react';
+import styles from './Form.module.css';
 
 export interface FormFieldDescriptor {
   name: string;
@@ -27,12 +27,12 @@ const FormContext = createContext<FormContextValue | null>(null);
 export function useFormContext(): FormContextValue {
   const ctx = useContext(FormContext);
   if (ctx == null) {
-    throw new Error("useFormContext must be used within a <Form>");
+    throw new Error('useFormContext must be used within a <Form>');
   }
   return ctx;
 }
 
-export type FormMethod = "get" | "post";
+export type FormMethod = 'get' | 'post';
 
 export interface FormProps {
   model: unknown;
@@ -59,7 +59,9 @@ export function Form({
   fieldsRef.current = fields;
 
   const registerField = useCallback((field: FormFieldDescriptor) => {
-    setFields((prev) => (prev[field.name] === field ? prev : { ...prev, [field.name]: field }));
+    setFields((prev) =>
+      prev[field.name] === field ? prev : { ...prev, [field.name]: field }
+    );
   }, []);
 
   const unregisterField = useCallback((name: string) => {
@@ -102,17 +104,23 @@ export function Form({
 
   const value = useMemo(
     () => ({ registerField, unregisterField, submit, submitCount }),
-    [registerField, unregisterField, submit, submitCount],
+    [registerField, unregisterField, submit, submitCount]
   );
 
-  const classNames = [styles.form, className].filter(Boolean).join(" ");
+  const classNames = [styles.form, className].filter(Boolean).join(' ');
 
   return (
     <FormContext.Provider value={value}>
       {/* noValidate: JS validation owns submission — native constraint
           blocking (e.g. type=email) would cancel the submit event before
           onSubmit/onInvalidSubmit ever fire. */}
-      <form className={classNames} onSubmit={handleSubmit} action={action} method={method} noValidate>
+      <form
+        className={classNames}
+        onSubmit={handleSubmit}
+        action={action}
+        method={method}
+        noValidate
+      >
         {children}
       </form>
     </FormContext.Provider>

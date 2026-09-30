@@ -56,7 +56,7 @@
   background-color: var(--dx-surface-color);
   color: var(--dx-text-color);
   border: 1px solid var(--dx-border-color);
-  border-radius: var(--dx-radius-md);
+  border-radius: calc(var(--dx-radius) * 2);
   font-size: var(--dx-font-size-sm);
   font-weight: var(--dx-font-weight-medium);
   box-shadow: var(--dx-shadow-sm);
@@ -80,9 +80,9 @@
   align-items: center;
   justify-content: center;
   border: none;
-  border-radius: var(--dx-radius-full);
+  border-radius: var(--dx-radius-button);
   background-color: var(--dx-primary-color);
-  color: var(--dx-primary-fg-color);
+  color: var(--dx-on-primary-color);
   font-size: 24px;
   font-weight: var(--dx-font-weight-medium);
   cursor: pointer;
@@ -117,7 +117,7 @@
   align-items: center;
   justify-content: center;
   border: 1px solid var(--dx-border-color);
-  border-radius: var(--dx-radius-full);
+  border-radius: var(--dx-radius-button);
   background-color: var(--dx-surface-color);
   color: var(--dx-text-color);
   font-size: var(--dx-font-size-sm);
@@ -128,7 +128,7 @@
     color var(--dx-transition-fast);
 }
 
-.item:hover:not(:disabled):not([aria-disabled="true"]) {
+.item:hover:not(:disabled):not([aria-disabled='true']) {
   background-color: var(--dx-surface-hover-color);
   color: var(--dx-text-color);
 }
@@ -140,7 +140,7 @@
 
 .item.disabled,
 .item:disabled,
-.item[aria-disabled="true"] {
+.item[aria-disabled='true'] {
   opacity: 0.5;
   cursor: not-allowed;
 }

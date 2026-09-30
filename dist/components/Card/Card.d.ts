@@ -1,5 +1,5 @@
 import { HTMLAttributes, ReactNode } from 'react';
-export type CardVariant = "elevated" | "outlined" | "interactive" | "text" | "filled";
+export type CardVariant = 'elevated' | 'outlined' | 'interactive' | 'text' | 'filled';
 export interface CardProps extends HTMLAttributes<HTMLDivElement> {
     variant?: CardVariant;
     header?: ReactNode;

@@ -3,35 +3,12 @@
   display: flex;
   flex-wrap: wrap;
   /* Column grid math (Column.module.css) compensates for this gap so
-   * exact-sum rows never wrap. Keep the var and gap in sync: tier
-   * classes below set both, arbitrary gaps arrive inline from Row.tsx. */
+   * exact-sum rows never wrap. --dx-col-gap is the single source: both
+   * gap longhands below read it (Row.tsx sets it inline for an explicit
+   * gap prop) and Column reads it. */
   --dx-col-gap: var(--dx-space-4);
-  gap: var(--dx-col-gap);
-}
-
-.gapXs {
-  --dx-col-gap: var(--dx-space-1);
-  gap: var(--dx-space-1);
-}
-
-.gapSm {
-  --dx-col-gap: var(--dx-space-2);
-  gap: var(--dx-space-2);
-}
-
-.gapMd {
-  --dx-col-gap: var(--dx-space-3);
-  gap: var(--dx-space-3);
-}
-
-.gapLg {
-  --dx-col-gap: var(--dx-space-4);
-  gap: var(--dx-space-4);
-}
-
-.gapXl {
-  --dx-col-gap: var(--dx-space-5);
-  gap: var(--dx-space-5);
+  column-gap: var(--dx-col-gap);
+  row-gap: var(--dx-col-gap);
 }
 
 .start {
@@ -52,6 +29,10 @@
 
 .baseline {
   align-items: baseline;
+}
+
+.normal {
+  align-items: normal;
 }
 
 .justify-start {
@@ -112,24 +93,4 @@
 
 .wrapReverse {
   flex-wrap: wrap-reverse;
-}
-
-.gapRowXs {
-  row-gap: var(--dx-space-1);
-}
-
-.gapRowSm {
-  row-gap: var(--dx-space-2);
-}
-
-.gapRowMd {
-  row-gap: var(--dx-space-3);
-}
-
-.gapRowLg {
-  row-gap: var(--dx-space-4);
-}
-
-.gapRowXl {
-  row-gap: var(--dx-space-5);
 }

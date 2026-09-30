@@ -7,7 +7,7 @@ worktrees, pull requests, CI, and releases all follow the rules below.
 
 ## 1. Principles
 
-1. **Everything waits behind `develop`** — `master` is the only production branch
+1. **Everything waits behind `develop`** — `main` is the only production branch
    and moves exclusively through release pull requests.
 2. **One issue → one branch → one PR.** Every unit of work is traceable end to
    end (issue number appears in branch name, PR title, and merge commit).
@@ -22,7 +22,7 @@ worktrees, pull requests, CI, and releases all follow the rules below.
 ## 2. Branch topology
 
 ```
-master                 production — protected; only via release PR from develop
+main                   production — protected; only via release PR from develop
 └── develop            THE integration gate — protected; all work accumulates here
     ├── fixes           accumulator for corrective work (bugs, regressions, hotfixes)
     │   └── fix/<issue#>-<slug>
@@ -42,13 +42,13 @@ master                 production — protected; only via release PR from develo
 
 ### Branch rules
 
-| Rule | Detail |
-|---|---|
-| Source | Every implementation branch is created **from its accumulator branch**, never from `master` or `develop` directly |
-| Naming | `feat/123-profile-page`, `fix/45-header-spacing`, `chore/67-ci-triggers`, `doc/12-strategy` — slug is kebab-case, issue number first |
-| Freshness | Before creating a new branch, merge `develop` into the accumulator (accumulators must never drift behind `develop`) |
-| Lifecycle | Implementation branches are short-lived (hours–days). Accumulator branches live for a cycle. `develop` is permanent. `master` is permanent |
-| Protection | `master` and `develop` require green CI (strict, all required checks); direct pushes are rejected — no mandatory human review; merges are automated once CI passes |
+| Rule       | Detail                                                                                                                                                           |
+| ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Source     | Every implementation branch is created **from its accumulator branch**, never from `main` or `develop` directly                                                  |
+| Naming     | `feat/123-profile-page`, `fix/45-header-spacing`, `chore/67-ci-triggers`, `doc/12-strategy` — slug is kebab-case, issue number first                             |
+| Freshness  | Before creating a new branch, merge `develop` into the accumulator (accumulators must never drift behind `develop`)                                              |
+| Lifecycle  | Implementation branches are short-lived (hours–days). Accumulator branches live for a cycle. `develop` is permanent. `main` is permanent                         |
+| Protection | `main` and `develop` require green CI (strict, all required checks); direct pushes are rejected — no mandatory human review; merges are automated once CI passes |
 
 ### 2.1 Nesting (large work)
 
@@ -67,15 +67,15 @@ features                          accumulator
     └── feat/10-data-display      part branch               ← PR into feat/10-examples
 ```
 
-| Rule | Detail |
-|---|---|
-| Depth | Max 3 levels below the accumulator (`feat/<issue#>-<epic>` + part + unit). Anything deeper splits into a new epic |
-| Prefix | Nesting lives under the singular prefix refs (`feat/…`), never under the accumulator name (`features/…`) — the accumulator branch occupies that ref namespace |
+| Rule       | Detail                                                                                                                                                                                                                                                                                                                                                                         |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Depth      | Max 3 levels below the accumulator (`feat/<issue#>-<epic>` + part + unit). Anything deeper splits into a new epic                                                                                                                                                                                                                                                              |
+| Prefix     | Nesting lives under the singular prefix refs (`feat/…`), never under the accumulator name (`features/…`) — the accumulator branch occupies that ref namespace                                                                                                                                                                                                                  |
 | Flattening | Ref names are flattened to one slash level — `feat/10-examples` + `feat/10-examples/shell` is impossible (a ref cannot nest under another ref: `refs/heads/feat/10-examples` is a file, `refs/heads/feat/10-examples/shell` needs a directory at the same path). The hierarchy is expressed by **PR targets** (unit → part → epic → accumulator), not by literal slash nesting |
-| Source | Each level branches from its parent branch, not from the accumulator directly |
-| PR chain | Every branch — including units and parts — opens a PR into its **immediate parent**. CI runs on every `pull_request`, so intermediate merges are always verified. Push-triggered CI only fires on trunk branches; nested branches rely on PRs |
-| Examples | Preview/demo-site work is a normal feature: `feat/<issue#>-examples` under `features` |
-| Dist | Branches touching a framework rebuild `dist/` + preview vendor copies before their PR (CI in-sync gates). A parent regenerates after absorbing children and before its own PR; merged trees are regenerated after `develop` merges (resolve dist conflicts by rebuilding from the merged tree, never by hand) |
+| Source     | Each level branches from its parent branch, not from the accumulator directly                                                                                                                                                                                                                                                                                                  |
+| PR chain   | Every branch — including units and parts — opens a PR into its **immediate parent**. CI runs on every `pull_request`, so intermediate merges are always verified. Push-triggered CI only fires on trunk branches; nested branches rely on PRs                                                                                                                                  |
+| Examples   | Preview/demo-site work is a normal feature: `feat/<issue#>-examples` under `features`                                                                                                                                                                                                                                                                                          |
+| Dist       | Branches touching a framework rebuild `dist/` + preview vendor copies before their PR (CI in-sync gates). A parent regenerates after absorbing children and before its own PR; merged trees are regenerated after `develop` merges (resolve dist conflicts by rebuilding from the merged tree, never by hand)                                                                  |
 
 ## 3. Issue lifecycle (repository host)
 
@@ -83,13 +83,13 @@ features                          accumulator
 Draft (local) → Finalize (GitHub) → Assign (labels + milestone) → Implement → Review → Close
 ```
 
-| Phase | What happens |
-|---|---|
-| **Draft** | Planning rounds happen in discussion first. Each draft is categorized (feature / fix / chore / refactor / docs) and recorded under `docs/planning/` (one file per cycle) |
-| **Finalize** | The finalized breakdown becomes GitHub issues. Large work becomes an **epic** (parent) with native **sub-issues**; each sub-issue is independently branchable |
-| **Label taxonomy** | `feature` · `fix` · `chore` · `refactor` · `docs` · `tech-debt` · `release` |
-| **Milestones** | One milestone per release cycle (e.g. `v0.10`). Every issue in the cycle is attached to it. Milestone closes = release ships. Repos shipping two packages (uikit) name the milestone after the primary package and pair it with the secondary's version in the planning record |
-| **Estimation** | Keep issues small — any issue that cannot be described in a few sentences or finished in days is split into sub-issues |
+| Phase              | What happens                                                                                                                                                                                                                                                                   |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Draft**          | Planning rounds happen in discussion first. Each draft is categorized (feature / fix / chore / refactor / docs) and recorded under `docs/planning/` (one file per cycle)                                                                                                       |
+| **Finalize**       | The finalized breakdown becomes GitHub issues. Large work becomes an **epic** (parent) with native **sub-issues**; each sub-issue is independently branchable                                                                                                                  |
+| **Label taxonomy** | `feature` · `fix` · `chore` · `refactor` · `docs` · `tech-debt` · `release`                                                                                                                                                                                                    |
+| **Milestones**     | One milestone per release cycle (e.g. `v0.10`). Every issue in the cycle is attached to it. Milestone closes = release ships. Repos shipping two packages (uikit) name the milestone after the primary package and pair it with the secondary's version in the planning record |
+| **Estimation**     | Keep issues small — any issue that cannot be described in a few sentences or finished in days is split into sub-issues                                                                                                                                                         |
 
 ### Definition of Done (every issue)
 
@@ -102,7 +102,7 @@ Draft (local) → Finalize (GitHub) → Assign (labels + milestone) → Implemen
 
 ## 4. Local workflow (worktrees)
 
-Implementation never happens on `master` or `develop` directly.
+Implementation never happens on `main` or `develop` directly.
 
 ```bash
 # 1. Fresh accumulator, then branch for the issue
@@ -126,18 +126,18 @@ cd ../SoftEther-Web.fix-123
 
 ### Merge style
 
-| Merge into | Style | Why |
-|---|---|---|
-| Implementation → accumulator | **Squash** | One clean, conventional-commit message per issue; the accumulator history reads as a changelog |
-| Accumulator → `develop` | **Merge commit** | The batch lands as a visible unit; easy to revert a whole batch |
-| `develop` → `master` | **Merge commit + tag** | Release unit; tagged with the version |
+| Merge into                   | Style                  | Why                                                                                            |
+| ---------------------------- | ---------------------- | ---------------------------------------------------------------------------------------------- |
+| Implementation → accumulator | **Squash**             | One clean, conventional-commit message per issue; the accumulator history reads as a changelog |
+| Accumulator → `develop`      | **Merge commit**       | The batch lands as a visible unit; easy to revert a whole batch                                |
+| `develop` → `main`           | **Merge commit + tag** | Release unit; tagged with the version                                                          |
 
 ### Squash message convention (Conventional Commits)
 
 ```
 feat(profile): add profile page                     # type(scope): subject
 fix(header): fix top spacing under fixed header
-chore(ci): retarget workflows to master/develop
+chore(ci): retarget workflows to main/develop
 docs(strategy): add development strategy
 ```
 
@@ -154,14 +154,14 @@ Types: `feat` · `fix` · `chore` · `refactor` · `docs` · `ci` · `test` · `
 
 ## 6. CI gates
 
-| Gate | Runs on | Blocks |
-|---|---|---|
-| lint | every PR + push to accumulators/develop | merge |
-| typecheck | every PR + push to accumulators/develop | merge |
-| build | every PR + push to accumulators/develop | merge |
-| scripted tests (`test:*` package scripts) | every PR + push to accumulators/develop | merge |
-| **visual verification** | **pull_request only** (`visual.yml`) | merge |
-| deploy | push to `master` (post-release) | — |
+| Gate                                      | Runs on                                 | Blocks |
+| ----------------------------------------- | --------------------------------------- | ------ |
+| lint                                      | every PR + push to accumulators/develop | merge  |
+| typecheck                                 | every PR + push to accumulators/develop | merge  |
+| build                                     | every PR + push to accumulators/develop | merge  |
+| scripted tests (`test:*` package scripts) | every PR + push to accumulators/develop | merge  |
+| **visual verification**                   | **pull_request only** (`e2e.yml`)       | merge  |
+| deploy                                    | push to `main` (post-release)           | —      |
 
 The visual job lives in its own workflow triggered **only by pull_request**.
 Push-triggered runs (post-merge verification on accumulators/develop) run the
@@ -184,24 +184,24 @@ A workflow triggered on a branch that does not exist is a silent CI outage.
 ## 7. Release process
 
 1. All cycle issues are merged into `develop`; milestone shows 100% complete.
-2. A **release PR** `develop → master` is prepared with:
+2. A **release PR** `develop → main` is prepared with:
    - Version bump (conventional commit `chore: release vX.Y.Z`)
    - Changelog summary (collected from squash messages of the cycle)
 3. The release PR is merged once CI is green — the sole gate (no mandatory human review).
 4. The merge is tagged `vX.Y.Z` and the milestone is closed.
-5. Accumulators are rebased onto the new `master`/`develop` state so the next
+5. Accumulators are rebased onto the new `main`/`develop` state so the next
    cycle starts clean.
 
 ## 8. Guardrails (common failure modes)
 
-| Failure mode | Prevention |
-|---|---|
-| Accumulator drift | Merge `develop` into the accumulator before every branch + after every batch |
-| Long-lived implementation branches | Issues are small; branches live hours–days; stale branches get closed |
-| CI not running | Workflows must trigger on the real default branch (check the per-repo table) |
-| Lockfile churn / unrelated edits | PR checklist; build only on CI-verified platforms |
-| Secrets in commits | Never commit keys/tokens (env vars only); CI lint + secret scan |
-| Releases without CI | Release PRs merge only after green CI — releases are never automated past the CI gate |
+| Failure mode                       | Prevention                                                                            |
+| ---------------------------------- | ------------------------------------------------------------------------------------- |
+| Accumulator drift                  | Merge `develop` into the accumulator before every branch + after every batch          |
+| Long-lived implementation branches | Issues are small; branches live hours–days; stale branches get closed                 |
+| CI not running                     | Workflows must trigger on the real default branch (check the per-repo table)          |
+| Lockfile churn / unrelated edits   | PR checklist; build only on CI-verified platforms                                     |
+| Secrets in commits                 | Never commit keys/tokens (env vars only); CI lint + secret scan                       |
+| Releases without CI                | Release PRs merge only after green CI — releases are never automated past the CI gate |
 
 ## 9. Per-repository mapping
 
@@ -209,7 +209,7 @@ A workflow triggered on a branch that does not exist is a silent CI outage.
 |---|---|---|---|---|---|---|
 | **SoftEther-App** | Flutter + Zig (libsoftether) | GitHub | `master` | `fixes/` `features/` `chores/` `docs/` | `master` + PRs |
 | **SoftEther-Web** | React + Vite + Hono + Cloudflare Workers | GitHub | `master` | `fixes/` `features/` `chores/` `docs/` | `master` + PRs |
-| **react-uikit** | React UI library (vite lib mode) | Codeberg (`codeberg.org/devstroop/react-uikit`) | `master` | `fixes/` `features/` `chores/` `docs/` | `master` + PRs (Forgejo Actions, `.forgejo/workflows`) |
+| **react-uikit** | React UI library (vite lib mode) | GitHub | `main` (production) + `develop` (integration gate) | `fixes/` `features/` `chores/` `docs/` | PRs + pushes to `develop`/`main` (GitHub Actions, `.github/workflows`) |
 | **libsoftether** | Zig | GitHub | `master` | `fixes/` `features/` | `master` + PRs |
 
 > Note: legacy branches named `fix/…`, `feat/…` and `develop` exist in history;

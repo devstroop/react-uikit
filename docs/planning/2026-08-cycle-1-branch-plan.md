@@ -25,16 +25,16 @@ master                                  protected — releases only
 
 ## Component lanes (8-bucket taxonomy, specs/taxonomy.md)
 
-| Lane | Components | Cycle 1 work |
-|---|---|---|
-| actions | Button | #6 Button success/info tones |
-| data-display | Avatar, Badge, EmptyState, Icon, Stat, Table | — |
-| feedback | Alert, Dialog, Progress, Skeleton, Toast, Tooltip | #7 Alert size tiers |
-| forms | Checkbox, Field, Input, Label, Select, Switch, Textarea | — |
-| layout | Body, Column, Footer, Header, Layout, Row | — |
-| navigation | Sidebar, Tabs | #8 Tabs side/bottom positions |
-| surfaces | Accordion, Card | #9 Card text/flat variant |
-| utilities | ThemeSwitcher | — |
+| Lane         | Components                                              | Cycle 1 work                  |
+| ------------ | ------------------------------------------------------- | ----------------------------- |
+| actions      | Button                                                  | #6 Button success/info tones  |
+| data-display | Avatar, Badge, EmptyState, Icon, Stat, Table            | —                             |
+| feedback     | Alert, Dialog, Progress, Skeleton, Toast, Tooltip       | #7 Alert size tiers           |
+| forms        | Checkbox, Field, Input, Label, Select, Switch, Textarea | —                             |
+| layout       | Body, Column, Footer, Header, Layout, Row               | —                             |
+| navigation   | Sidebar, Tabs                                           | #8 Tabs side/bottom positions |
+| surfaces     | Accordion, Card                                         | #9 Card text/flat variant     |
+| utilities    | ThemeSwitcher                                           | —                             |
 
 Roadmap placement (not yet scheduled): DropdownMenu, Popover → actions;
 Breadcrumb, Drawer/Sheet, Pagination → navigation; DataTable → data-display;
@@ -42,12 +42,12 @@ DatePicker, ToggleGroup → forms; Command palette → utilities.
 
 ## Cycle 1 backlog (re-derived from current specs — verified open)
 
-| # | Item | Lane | Branch |
-|---|---|---|---|
-| 6 | Button `success`/`info` variant tones | actions | `feat/6-button-success-info` |
-| 7 | Alert `size` tiers (xs..xl) | feedback | `feat/7-alert-size-tiers` |
-| 8 | Tabs `position` (top/left/right/bottom) | navigation | `feat/8-tabs-positions` |
-| 9 | Card `text`/flat variant | surfaces | `feat/9-card-text-variant` |
+| #   | Item                                    | Lane       | Branch                       |
+| --- | --------------------------------------- | ---------- | ---------------------------- |
+| 6   | Button `success`/`info` variant tones   | actions    | `feat/6-button-success-info` |
+| 7   | Alert `size` tiers (xs..xl)             | feedback   | `feat/7-alert-size-tiers`    |
+| 8   | Tabs `position` (top/left/right/bottom) | navigation | `feat/8-tabs-positions`      |
+| 9   | Card `text`/flat variant                | surfaces   | `feat/9-card-text-variant`   |
 
 Verified SHIPPED (excluded): Field helper (`hint`), Sidebar `responsive` +
 `overlay`, Toast tone + per-toast position, Button sizes + `iconOnly` +

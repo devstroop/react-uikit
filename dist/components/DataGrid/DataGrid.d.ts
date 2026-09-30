@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
-import { GridColumn, GridSelectionMode } from './grid';
-export type PagerPosition = "Top" | "Bottom" | "TopAndBottom";
+import { GridAggregate, GridColumn, GridRange, GridSelectionMode } from './grid';
+export type PagerPosition = 'Top' | 'Bottom' | 'TopAndBottom';
 export interface DataGridProps<TItem = unknown> {
     columns: readonly GridColumn<TItem>[];
     rows: readonly TItem[];
@@ -9,8 +9,8 @@ export interface DataGridProps<TItem = unknown> {
     allowMultiColumnSorting?: boolean;
     showSortIndex?: boolean;
     allowFiltering?: boolean;
-    filterCaseSensitivity?: "CaseSensitive" | "CaseInsensitive";
-    logicalOperator?: "And" | "Or";
+    filterCaseSensitivity?: 'CaseSensitive' | 'CaseInsensitive';
+    logicalOperator?: 'And' | 'Or';
     allowPaging?: boolean;
     pageSize?: number;
     pageSizeOptions?: readonly number[];
@@ -28,7 +28,22 @@ export interface DataGridProps<TItem = unknown> {
     allowGrouping?: boolean;
     groupPanelText?: string;
     groupExpanded?: boolean;
-    editMode?: "None" | "Single" | "EditRow";
+    aggregates?: readonly GridAggregate<TItem>[];
+    showExportButton?: boolean;
+    exportFileName?: string;
+    /**
+     * Server-side mode: rows are the current window returned by the server;
+     * sorting/filtering/paging report the requested range via onRangeChange
+     * instead of running client-side (Radzen LoadData parity).
+     */
+    serverMode?: boolean;
+    totalCount?: number;
+    onRangeChange?: (range: GridRange) => void;
+    /** Render only the visible row window inside a scroll viewport. */
+    virtualize?: boolean;
+    virtualRowHeight?: number;
+    virtualHeight?: number;
+    editMode?: 'None' | 'Single' | 'EditRow';
     allowRowCreate?: boolean;
     onRowUpdate?: (original: TItem, updated: TItem) => void;
     onRowCreate?: (row: TItem) => void;
@@ -39,4 +54,4 @@ export interface DataGridProps<TItem = unknown> {
     className?: string;
     onRowClick?: (row: TItem) => void;
 }
-export declare function DataGrid<TItem = unknown>({ columns, rows, rowKey, allowSorting, allowMultiColumnSorting, showSortIndex, allowFiltering, filterCaseSensitivity, logicalOperator, allowPaging, pageSize, pageSizeOptions, pageNumbersCount, pagerPosition, showPagingSummary, showPageSizeSelector, selectionMode, selectedKeys, onSelectionChange, showColumnPicker, columnPickerText, allowColumnResize, allowColumnReorder, allowGrouping, groupPanelText, groupExpanded, editMode, allowRowCreate, onRowUpdate, onRowCreate, onRowDelete, isLoading, empty, ariaLabel, className, onRowClick, }: DataGridProps<TItem>): import("react").JSX.Element;
+export declare function DataGrid<TItem = unknown>({ columns, rows, rowKey, allowSorting, allowMultiColumnSorting, showSortIndex, allowFiltering, filterCaseSensitivity, logicalOperator, allowPaging, pageSize, pageSizeOptions, pageNumbersCount, pagerPosition, showPagingSummary, showPageSizeSelector, selectionMode, selectedKeys, onSelectionChange, showColumnPicker, columnPickerText, allowColumnResize, allowColumnReorder, allowGrouping, groupPanelText, groupExpanded, aggregates, showExportButton, exportFileName, serverMode, totalCount, onRangeChange, virtualize, virtualRowHeight, virtualHeight, editMode, allowRowCreate, onRowUpdate, onRowCreate, onRowDelete, isLoading, empty, ariaLabel, className, onRowClick, }: DataGridProps<TItem>): import("react").JSX.Element;

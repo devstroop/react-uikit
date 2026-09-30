@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useId, useRef, type ReactNode } from "react";
-import { Icon } from "../Icon/Icon";
-import styles from "./Dialog.module.css";
+import { useCallback, useEffect, useId, useRef, type ReactNode } from 'react';
+import { Icon } from '../Icon/Icon';
+import styles from './Dialog.module.css';
 
-export type DialogSize = "sm" | "md" | "lg";
+export type DialogSize = 'sm' | 'md' | 'lg';
 
 export interface DialogProps {
   open: boolean;
@@ -16,6 +16,18 @@ export interface DialogProps {
   width?: number | string;
   /** Explicit height (any CSS length). Defaults to content height. */
   height?: number | string;
+  /** Close when the backdrop is clicked. Defaults to true. */
+  closeOnOverlayClick?: boolean;
+  /** Close on ESC (always preventDefault). Defaults to true. */
+  closeOnEsc?: boolean;
+  /** User-resizable via the native corner handle. Defaults to false. */
+  resizable?: boolean;
+  /**
+   * Veto gesture closes (X button, backdrop click, ESC). Return false
+   * (or a resolving-to-false promise) to keep the dialog open — e.g.
+   * unsaved-changes guards. Never consulted on parent-driven close.
+   */
+  canClose?: () => boolean | Promise<boolean>;
   className?: string;
 }
 
@@ -26,9 +38,13 @@ export function Dialog({
   description,
   children,
   footer,
-  size = "md",
+  size = 'md',
   width,
   height,
+  closeOnOverlayClick = true,
+  closeOnEsc = true,
+  resizable = false,
+  canClose,
   className,
 }: DialogProps) {
   const ref = useRef<HTMLDialogElement>(null);
@@ -43,6 +59,18 @@ export function Dialog({
   useEffect(() => {
     onCloseRef.current = onClose;
   });
+  // canClose identity gets the same treatment: an async veto must serve
+  // the latest closure without re-subscribing the cancel listener.
+  const canCloseRef = useRef(canClose);
+  useEffect(() => {
+    canCloseRef.current = canClose;
+  });
+  // Behavior flags ride refs for the same reason: flipping them mid-open
+  // must not tear down scroll lock or yank focus.
+  const closeOnEscRef = useRef(closeOnEsc);
+  useEffect(() => {
+    closeOnEscRef.current = closeOnEsc;
+  });
   // Tracks whether the current close gesture already notified the parent,
   // so the ensuing native `close` event doesn't notify a second time.
   const notifiedRef = useRef(false);
@@ -51,8 +79,23 @@ export function Dialog({
   // The single user-gesture close path: ESC, backdrop, and the X button
   // all funnel here. Exactly one notification per gesture; the native
   // `close` event that follows the parent's `open` flip is suppressed.
+  // Sync vetoes (or none) notify synchronously, preserving the
+  // established once-semantics; async vetoes resolve first so an
+  // unsaved-changes guard can hold the dialog open without tearing
+  // down state.
   const requestClose = useCallback(() => {
     if (notifiedRef.current) return;
+    const veto = canCloseRef.current?.();
+    if (veto instanceof Promise) {
+      void veto.then((allowed) => {
+        if (allowed && !notifiedRef.current) {
+          notifiedRef.current = true;
+          onCloseRef.current();
+        }
+      });
+      return;
+    }
+    if (veto === false) return;
     notifiedRef.current = true;
     onCloseRef.current();
   }, []);
@@ -73,27 +116,34 @@ export function Dialog({
     if (open && !dialog.open) {
       // Remember the opener so focus can be restored on close; move focus
       // into the dialog (close button first) so AT enters the modal.
-      const opener = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+      const opener =
+        document.activeElement instanceof HTMLElement
+          ? document.activeElement
+          : null;
       dialog.showModal();
       // Prefer the close control so focus lands predictably regardless of
       // content order; fall back to the first button if titleless.
       const firstFocus =
-        dialog.querySelector<HTMLButtonElement>('button[aria-label="Close dialog"]') ??
-        dialog.querySelector<HTMLButtonElement>("button");
+        dialog.querySelector<HTMLButtonElement>(
+          'button[aria-label="Close dialog"]'
+        ) ?? dialog.querySelector<HTMLButtonElement>('button');
       firstFocus?.focus();
       // body scroll lock without layout shift
       const prev = document.body.style.overflow;
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = 'hidden';
       const onCancel = (e: Event) => {
         e.preventDefault();
         // Controlled close: notify once here and let the parent's `open`
         // flip drive the native close below. Never force-close — that
         // would fire `onClose` a second time via the native handler.
-        requestClose();
+        // Opt-out still swallows ESC so the dialog never closes natively.
+        if (closeOnEscRef.current) {
+          void requestClose();
+        }
       };
-      dialog.addEventListener("cancel", onCancel);
+      dialog.addEventListener('cancel', onCancel);
       return () => {
-        dialog.removeEventListener("cancel", onCancel);
+        dialog.removeEventListener('cancel', onCancel);
         document.body.style.overflow = prev;
         opener?.focus({ preventScroll: true });
       };
@@ -113,16 +163,25 @@ export function Dialog({
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
     <dialog
       ref={ref}
-      className={[styles.dialog, styles[size], className].filter(Boolean).join(" ")}
+      className={[
+        styles.dialog,
+        styles[size],
+        resizable ? styles.resizable : null,
+        className,
+      ]
+        .filter(Boolean)
+        .join(' ')}
       style={{
         width: width ?? undefined,
         // Explicit width escapes the size tier's max-width cap.
-        maxWidth: width != null ? "none" : undefined,
+        maxWidth: width != null ? 'none' : undefined,
         height: height ?? undefined,
       }}
       onClose={handleNativeClose}
       onClick={(e) => {
-        if (e.target === ref.current) requestClose();
+        if (e.target === ref.current && closeOnOverlayClick) {
+          void requestClose();
+        }
       }}
       aria-modal="true"
       aria-labelledby={title ? titleId : undefined}
@@ -143,10 +202,10 @@ export function Dialog({
           <button
             type="button"
             className={styles.close}
-            onClick={requestClose}
+            onClick={() => void requestClose()}
             aria-label="Close dialog"
           >
-            <Icon name="close" size="sm" />
+            <Icon icon="close" size="sm" />
           </button>
         </header>
       )}

@@ -48,7 +48,7 @@
 .current:focus-visible {
   outline: 2px solid var(--dx-outline-primary-color);
   outline-offset: 1px;
-  border-radius: var(--dx-radius-sm);
+  border-radius: var(--dx-radius);
 }
 
 .current {
@@ -57,8 +57,8 @@
   font-weight: var(--dx-font-weight-medium);
 }
 
-.current[aria-disabled="true"],
-.link[aria-disabled="true"],
+.current[aria-disabled='true'],
+.link[aria-disabled='true'],
 .linkButton:disabled {
   opacity: 0.5;
   cursor: not-allowed;

@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { FilterCaseSensitivity, FilterOperator, LogicalFilterOperator, SortDescriptor } from '../DataFilter/filter';
-export type GridTextAlign = "left" | "center" | "right";
-export type GridSortOrder = "Ascending" | "Descending";
+export type GridTextAlign = 'left' | 'center' | 'right';
+export type GridSortOrder = 'Ascending' | 'Descending';
 export interface GridColumn<TItem = unknown> {
     property?: string;
     title?: string;
@@ -10,7 +10,7 @@ export interface GridColumn<TItem = unknown> {
     minWidth?: string;
     maxWidth?: string;
     format?: string;
-    type?: "string" | "number" | "boolean" | "date" | "enum";
+    type?: 'string' | 'number' | 'boolean' | 'date' | 'enum';
     align?: GridTextAlign;
     sortable?: boolean;
     filterable?: boolean;
@@ -20,20 +20,23 @@ export interface GridColumn<TItem = unknown> {
         index: number;
     }) => ReactNode;
 }
-export type GridSelectionMode = "None" | "Single" | "Multiple";
+export type GridSelectionMode = 'None' | 'Single' | 'Multiple';
 export interface GridGroup {
     key: string;
     display: string;
     property: string;
     title: string;
     count: number;
+    level: number;
 }
 export interface GridGroupedItem<TItem = unknown> {
-    type: "group" | "row";
+    type: 'group' | 'row';
     group?: GridGroup;
     row?: TItem;
 }
-export declare function groupItems<TItem>(items: readonly TItem[], groupBy: string | undefined, column: GridColumn<TItem> | undefined, expanded: ReadonlySet<string>, getValue: (row: TItem, property: string) => unknown, format: (value: unknown) => string): GridGroupedItem<TItem>[];
+export declare function groupItems<TItem>(items: readonly TItem[], groupBy: readonly string[], columns: readonly GridColumn<TItem>[], expanded: ReadonlySet<string>, getValue: (row: TItem, property: string) => unknown): GridGroupedItem<TItem>[];
+/** Collects every group node key in the data (for default-expanded state). */
+export declare function collectGroupKeys<TItem>(items: readonly TItem[], groupBy: readonly string[], getValue: (row: TItem, property: string) => unknown): Set<string>;
 export declare function gridColumnKey<TItem = unknown>(column: GridColumn<TItem>, index: number): string;
 export declare function gridFrozenOffsets<TItem = unknown>(entries: readonly {
     key: string;
@@ -52,7 +55,7 @@ export interface GridState {
 export interface GridStateOptions {
     logicalOperator?: LogicalFilterOperator;
     caseSensitivity?: FilterCaseSensitivity;
-    types?: Readonly<Record<string, "string" | "number" | "boolean" | "date" | "enum">>;
+    types?: Readonly<Record<string, 'string' | 'number' | 'boolean' | 'date' | 'enum'>>;
 }
 export declare function columnValue<TItem>(row: TItem, property?: string): unknown;
 export declare function formatValue(value: unknown, format?: string): string;
@@ -68,9 +71,41 @@ export interface PageResult<T> {
 }
 export declare function paginate<T>(items: readonly T[], pageNumber: number, pageSize: number): PageResult<T>;
 export interface GridView<T> extends PageResult<T> {
+    /** Filtered + sorted rows before pagination (aggregate/export source). */
+    filtered: T[];
     sorts: readonly SortDescriptor[];
     filters: ReadonlyMap<string, GridFilterState>;
     pageSize: number;
 }
 export declare function applyGridState<T>(items: readonly T[], state: GridState, options?: GridStateOptions): GridView<T>;
 export declare function defaultOperatorForType(type: string): FilterOperator;
+export type GridAggregateType = 'count' | 'sum' | 'avg' | 'min' | 'max' | 'custom';
+export interface GridAggregate<TItem = unknown> {
+    property: string;
+    type: GridAggregateType;
+    format?: string;
+    title?: string;
+    compute?: (rows: readonly TItem[]) => unknown;
+}
+/**
+ * Footer aggregate over a row set. sum/avg/min/max coerce numeric values
+ * and ignore the rest; an empty numeric set yields undefined (renders '').
+ */
+export declare function aggregateValue<TItem>(rows: readonly TItem[], aggregate: GridAggregate<TItem>, getValue: (row: TItem, property: string) => unknown): unknown;
+/** RFC 4180 CSV with CRLF rows; quotes fields containing comma/quote/newline. */
+export declare function toCsv<TItem>(rows: readonly TItem[], columns: readonly GridColumn<TItem>[], getValue?: (row: TItem, property?: string) => unknown): string;
+export interface GridRange {
+    /** Zero-based index of the first requested row. */
+    start: number;
+    /** Number of rows requested (current page size). */
+    count: number;
+    pageNumber: number;
+    pageSize: number;
+    sorts: readonly SortDescriptor[];
+    filters: readonly {
+        property: string;
+        operator: FilterOperator;
+        value: string;
+    }[];
+    logicalOperator: LogicalFilterOperator;
+}

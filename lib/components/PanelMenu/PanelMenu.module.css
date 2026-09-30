@@ -2,7 +2,7 @@
   font-family: var(--dx-font-sans);
   background-color: var(--dx-surface-color);
   border: 1px solid var(--dx-border-color);
-  border-radius: var(--dx-radius-md);
+  border-radius: calc(var(--dx-radius) * 2);
   overflow: hidden;
 }
 
@@ -28,11 +28,12 @@
   font-size: var(--dx-font-size-sm);
   font-weight: var(--dx-font-weight-medium);
   text-align: left;
+  text-decoration: none;
   cursor: pointer;
   transition: background var(--dx-transition-fast);
 }
 
-.trigger:hover:not(:disabled):not([aria-disabled="true"]) {
+.trigger:hover:not(:disabled):not([aria-disabled='true']) {
   background-color: var(--dx-surface-hover-color);
 }
 
@@ -43,13 +44,18 @@
 
 .trigger.disabled,
 .trigger:disabled,
-.trigger[aria-disabled="true"] {
+.trigger[aria-disabled='true'] {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
 .trigger.expanded {
   background-color: var(--dx-surface-hover-color);
+}
+
+.trigger.selected,
+.trigger[aria-current='page'] {
+  color: var(--dx-primary-color);
 }
 
 .icon {
@@ -90,12 +96,18 @@
   border-top: 1px solid var(--dx-border-color);
 }
 
+/* Author display rules override the UA [hidden] style, so collapsed
+   (client render-mode) branches need an explicit hide. */
+.submenu[hidden] {
+  display: none;
+}
+
 .submenuItem {
   display: flex;
   align-items: center;
   gap: var(--dx-space-2);
   padding: var(--dx-space-1) var(--dx-space-2);
-  border-radius: var(--dx-radius-sm);
+  border-radius: var(--dx-radius);
   color: var(--dx-text-color);
   font-size: var(--dx-font-size-sm);
   font-weight: var(--dx-font-weight-medium);
@@ -104,7 +116,7 @@
   outline: none;
 }
 
-.submenuItem:hover:not([aria-disabled="true"]) {
+.submenuItem:hover:not([aria-disabled='true']) {
   background-color: var(--dx-surface-hover-color);
 }
 
@@ -114,7 +126,7 @@
 }
 
 .submenuItem.disabled,
-.submenuItem[aria-disabled="true"] {
+.submenuItem[aria-disabled='true'] {
   opacity: 0.5;
   cursor: not-allowed;
 }
@@ -131,7 +143,7 @@
   width: 100%;
   padding: var(--dx-space-1) var(--dx-space-2);
   border: none;
-  border-radius: var(--dx-radius-sm);
+  border-radius: var(--dx-radius);
   background: transparent;
   color: var(--dx-text-color);
   font-size: var(--dx-font-size-sm);
@@ -172,4 +184,33 @@
 
 .iconOnly .submenu .text {
   display: none;
+}
+
+/* Level indent (Radzen --rz-navigation-item-level parity). */
+.item {
+  --dx-panelmenu-level: 0;
+}
+
+.submenu .trigger {
+  padding-left: calc(
+    var(--dx-space-3) + var(--dx-panelmenu-level, 0) * var(--dx-space-3)
+  );
+}
+
+/* Stacked display style: icon-over-text rail (Radzen IconAndTextStacked parity). */
+.stacked .trigger {
+  flex-direction: column;
+  gap: var(--dx-space-1);
+  justify-content: center;
+  text-align: center;
+  padding: var(--dx-space-3) var(--dx-space-2);
+}
+
+.stacked .text {
+  white-space: normal;
+  text-align: center;
+}
+
+.stacked .submenu .trigger {
+  padding-left: var(--dx-space-2);
 }

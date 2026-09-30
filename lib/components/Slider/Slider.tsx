@@ -5,10 +5,10 @@ import {
   useState,
   type KeyboardEvent,
   type PointerEvent as ReactPointerEvent,
-} from "react";
-import styles from "./Slider.module.css";
+} from 'react';
+import styles from './Slider.module.css';
 
-export type SliderOrientation = "horizontal" | "vertical";
+export type SliderOrientation = 'horizontal' | 'vertical';
 
 export interface SliderProps {
   value?: number;
@@ -43,11 +43,11 @@ export const Slider = ({
   max = 100,
   step = 1,
   range = false,
-  orientation = "horizontal",
+  orientation = 'horizontal',
   disabled = false,
-  label = "Value",
-  minLabel = "Min",
-  maxLabel = "Max",
+  label = 'Value',
+  minLabel = 'Min',
+  maxLabel = 'Max',
   tabIndex = 0,
   className,
   onChange,
@@ -56,18 +56,23 @@ export const Slider = ({
   onInputChange,
 }: SliderProps) => {
   const trackRef = useRef<HTMLDivElement>(null);
-  const dragging = useRef<{ key: "min" | "max"; pointerId: number } | null>(null);
+  const dragging = useRef<{ key: 'min' | 'max'; pointerId: number } | null>(
+    null
+  );
   const [live, setLive] = useState<number | null>(null);
 
   const effective = live ?? value;
-  const single = useMemo(() => clamp(effective, min, max), [effective, min, max]);
+  const single = useMemo(
+    () => clamp(effective, min, max),
+    [effective, min, max]
+  );
   const minValue = useMemo(
     () => clamp(range ? valueMin : single, min, max),
-    [range, valueMin, single, min, max],
+    [range, valueMin, single, min, max]
   );
   const maxValue = useMemo(
     () => clamp(range ? Math.max(valueMax, minValue) : single, min, max),
-    [range, valueMax, minValue, single, min, max],
+    [range, valueMax, minValue, single, min, max]
   );
 
   const position = useCallback(
@@ -76,7 +81,7 @@ export const Slider = ({
       if (span <= 0) return 0;
       return ((clamp(v, min, max) - min) / span) * 100;
     },
-    [min, max],
+    [min, max]
   );
 
   const valueFromPointer = useCallback(
@@ -85,7 +90,7 @@ export const Slider = ({
       if (!track) return min;
       const rect = track.getBoundingClientRect();
       let ratio: number;
-      if (orientation === "vertical") {
+      if (orientation === 'vertical') {
         ratio = 1 - (clientY - rect.top) / rect.height;
       } else {
         ratio = (clientX - rect.left) / rect.width;
@@ -96,33 +101,33 @@ export const Slider = ({
       }
       return clamp(raw, min, max);
     },
-    [min, max, step, orientation],
+    [min, max, step, orientation]
   );
 
   const commit = useCallback(
     (next: { min: number; max: number } | number) => {
-      if (typeof next === "number") setLive(next);
+      if (typeof next === 'number') setLive(next);
       onChange?.(next);
       onValueChange?.(next);
     },
-    [onChange, onValueChange],
+    [onChange, onValueChange]
   );
 
   const input = useCallback(
     (next: { min: number; max: number } | number) => {
-      if (typeof next === "number") setLive(next);
+      if (typeof next === 'number') setLive(next);
       onInput?.(next);
       onInputChange?.(next);
     },
-    [onInput, onInputChange],
+    [onInput, onInputChange]
   );
 
   const setFromPointer = useCallback(
-    (key: "min" | "max", clientX: number, clientY: number) => {
+    (key: 'min' | 'max', clientX: number, clientY: number) => {
       const raw = valueFromPointer(clientX, clientY);
       let next: { min: number; max: number } | number;
       if (range) {
-        if (key === "min") {
+        if (key === 'min') {
           next = { min: Math.min(raw, maxValue), max: maxValue };
         } else {
           next = { min: minValue, max: Math.max(raw, minValue) };
@@ -133,15 +138,15 @@ export const Slider = ({
       input(next);
       if (dragging.current === null) commit(next);
     },
-    [range, valueFromPointer, minValue, maxValue, input, commit],
+    [range, valueFromPointer, minValue, maxValue, input, commit]
   );
 
   const stepFromKey = useCallback(
-    (key: "min" | "max", direction: 1 | -1) => {
+    (key: 'min' | 'max', direction: 1 | -1) => {
       const amount = (step > 0 ? step : 1) * direction;
       let next: { min: number; max: number } | number;
       if (range) {
-        if (key === "min") {
+        if (key === 'min') {
           next = {
             min: clamp(minValue + amount, min, maxValue),
             max: maxValue,
@@ -157,29 +162,29 @@ export const Slider = ({
       }
       commit(next);
     },
-    [range, step, min, max, minValue, maxValue, single, commit],
+    [range, step, min, max, minValue, maxValue, single, commit]
   );
 
   const handleKeyDown = (
-    key: "min" | "max",
-    event: KeyboardEvent<HTMLDivElement>,
+    key: 'min' | 'max',
+    event: KeyboardEvent<HTMLDivElement>
   ) => {
     if (disabled) return;
     switch (event.key) {
-      case "ArrowLeft":
-      case "ArrowDown":
+      case 'ArrowLeft':
+      case 'ArrowDown':
         event.preventDefault();
         stepFromKey(key, -1);
         break;
-      case "ArrowRight":
-      case "ArrowUp":
+      case 'ArrowRight':
+      case 'ArrowUp':
         event.preventDefault();
         stepFromKey(key, 1);
         break;
-      case "Home":
+      case 'Home':
         event.preventDefault();
         if (range) {
-          if (key === "min") {
+          if (key === 'min') {
             commit({ min: min, max: maxValue });
           } else {
             commit({ min: minValue, max: minValue });
@@ -188,10 +193,10 @@ export const Slider = ({
           commit(min);
         }
         break;
-      case "End":
+      case 'End':
         event.preventDefault();
         if (range) {
-          if (key === "min") {
+          if (key === 'min') {
             commit({ min: maxValue, max: maxValue });
           } else {
             commit({ min: minValue, max: max });
@@ -204,13 +209,13 @@ export const Slider = ({
   };
 
   const handlePointerDown = (
-    key: "min" | "max",
-    event: ReactPointerEvent<HTMLDivElement>,
+    key: 'min' | 'max',
+    event: ReactPointerEvent<HTMLDivElement>
   ) => {
     if (disabled) return;
     event.preventDefault();
     event.currentTarget.focus();
-    if (typeof event.currentTarget.setPointerCapture === "function") {
+    if (typeof event.currentTarget.setPointerCapture === 'function') {
       event.currentTarget.setPointerCapture(event.pointerId);
     }
     dragging.current = { key, pointerId: event.pointerId };
@@ -238,7 +243,7 @@ export const Slider = ({
     }
   };
 
-  const [focused, setFocused] = useState<"min" | "max" | null>(null);
+  const [focused, setFocused] = useState<'min' | 'max' | null>(null);
 
   const minPos = position(minValue);
   const maxPos = position(maxValue);
@@ -248,19 +253,19 @@ export const Slider = ({
   return (
     <div
       className={[
-        styles["dx-slider"],
-        orientation === "vertical" ? styles["dx-slider-vertical"] : null,
-        disabled ? styles["dx-slider-disabled"] : null,
+        styles['dx-slider'],
+        orientation === 'vertical' ? styles['dx-slider-vertical'] : null,
+        disabled ? styles['dx-slider-disabled'] : null,
         className,
       ]
         .filter(Boolean)
-        .join(" ")}
+        .join(' ')}
     >
-      <div ref={trackRef} className={styles["dx-slider-track"]}>
+      <div ref={trackRef} className={styles['dx-slider-track']}>
         <div
-          className={styles["dx-slider-range"]}
+          className={styles['dx-slider-range']}
           style={
-            orientation === "vertical"
+            orientation === 'vertical'
               ? { bottom: `${fillStart}%`, height: `${fillEnd - fillStart}%` }
               : { left: `${fillStart}%`, width: `${fillEnd - fillStart}%` }
           }
@@ -273,18 +278,26 @@ export const Slider = ({
           aria-orientation={orientation}
           aria-label={range ? minLabel : label}
           aria-disabled={disabled || undefined}
-          tabIndex={disabled ? -1 : range ? (focused === "max" ? -1 : tabIndex) : tabIndex}
-          className={styles["dx-slider-handle"]}
+          tabIndex={
+            disabled
+              ? -1
+              : range
+                ? focused === 'max'
+                  ? -1
+                  : tabIndex
+                : tabIndex
+          }
+          className={styles['dx-slider-handle']}
           style={
-            orientation === "vertical"
+            orientation === 'vertical'
               ? { bottom: `calc(${minPos}% - 8px)` }
               : { left: `calc(${minPos}% - 8px)` }
           }
-          onKeyDown={(event) => handleKeyDown("min", event)}
-          onPointerDown={(event) => handlePointerDown("min", event)}
+          onKeyDown={(event) => handleKeyDown('min', event)}
+          onPointerDown={(event) => handlePointerDown('min', event)}
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
-          onFocus={() => setFocused("min")}
+          onFocus={() => setFocused('min')}
         />
         {range && (
           <div
@@ -295,18 +308,18 @@ export const Slider = ({
             aria-orientation={orientation}
             aria-label={maxLabel}
             aria-disabled={disabled || undefined}
-            tabIndex={disabled ? -1 : focused === "min" ? -1 : tabIndex}
-            className={styles["dx-slider-handle"]}
+            tabIndex={disabled ? -1 : focused === 'min' ? -1 : tabIndex}
+            className={styles['dx-slider-handle']}
             style={
-              orientation === "vertical"
+              orientation === 'vertical'
                 ? { bottom: `calc(${maxPos}% - 8px)` }
                 : { left: `calc(${maxPos}% - 8px)` }
             }
-            onKeyDown={(event) => handleKeyDown("max", event)}
-            onPointerDown={(event) => handlePointerDown("max", event)}
+            onKeyDown={(event) => handleKeyDown('max', event)}
+            onPointerDown={(event) => handlePointerDown('max', event)}
             onPointerMove={handlePointerMove}
             onPointerUp={handlePointerUp}
-            onFocus={() => setFocused("max")}
+            onFocus={() => setFocused('max')}
           />
         )}
       </div>

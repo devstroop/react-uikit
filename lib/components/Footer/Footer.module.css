@@ -3,5 +3,11 @@
   flex-shrink: 0;
   padding: var(--dx-space-4);
   background: var(--dx-surface-color);
-  border-top: 1px solid var(--dx-border-color);
+  border-top: var(--dx-border-width) solid var(--dx-border-color);
+}
+
+.sticky {
+  position: sticky;
+  bottom: 0;
+  z-index: var(--dx-z-sticky);
 }

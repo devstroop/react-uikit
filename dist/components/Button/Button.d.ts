@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes } from 'react';
+import { AnchorHTMLAttributes, ButtonHTMLAttributes } from 'react';
 import { ComponentSize } from '../../sizes';
 import { Severity } from '../../types/severity';
 import { Shade } from '../../types/shade';
@@ -10,13 +10,11 @@ export type ButtonVariant = Variant;
  * (every hue except `neutral`). Narrowed on purpose: wider unions
  * render unstyled with no warning.
  */
-export type ButtonStyle = Exclude<Severity, "neutral">;
+export type ButtonStyle = Exclude<Severity, 'neutral'>;
 export type ButtonShade = Shade;
-/** @deprecated use `variant` × `buttonStyle` × `shade` (e.g. `variant="filled" buttonStyle="danger"`). */
-export type DeprecatedButtonVariant = "primary" | "secondary" | "ghost" | "danger" | "success" | "info";
 export type ButtonSize = ComponentSize;
-export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-    variant?: ButtonVariant | DeprecatedButtonVariant;
+export interface ButtonBaseProps {
+    variant?: ButtonVariant;
     /**
      * Severity axis — the single severity prop (Radzen ButtonStyle parity).
      * Native `style` is always plain CSS and never a hue.
@@ -31,4 +29,14 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     /** Render nothing when false. Defaults to true. */
     visible?: boolean;
 }
-export declare const Button: import('react').ForwardRefExoticComponent<ButtonProps & import('react').RefAttributes<HTMLButtonElement>>;
+export interface ButtonButtonProps extends ButtonBaseProps, ButtonHTMLAttributes<HTMLButtonElement> {
+    href?: undefined;
+}
+export interface ButtonAnchorProps extends ButtonBaseProps, Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> {
+    /** Renders an anchor instead of a button (navigation CTAs). */
+    href: string;
+    /** Anchors use aria-disabled + click suppression (no native disabled). */
+    disabled?: boolean;
+}
+export type ButtonProps = ButtonButtonProps | ButtonAnchorProps;
+export declare const Button: import('react').ForwardRefExoticComponent<ButtonProps & import('react').RefAttributes<HTMLElement>>;

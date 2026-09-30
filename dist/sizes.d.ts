@@ -7,4 +7,4 @@
  * Compact components (Selectbar, Splitbutton, Togglebutton) narrow to
  * sm|md|lg only.
  */
-export type ComponentSize = "xs" | "sm" | "md" | "lg" | "xl";
+export type ComponentSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';

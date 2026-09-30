@@ -1,5 +1,5 @@
 .card {
-  border-radius: var(--dx-radius-lg);
+  border-radius: var(--dx-radius-surface);
   background-color: var(--dx-surface-color);
   font-family: var(--dx-font-sans);
   overflow: hidden;
@@ -16,7 +16,7 @@
 }
 
 .outlined {
-  border: var(--dx-border-width) solid var(--dx-border-color);
+  border: var(--dx-outlined-border-width) solid var(--dx-border-color);
 }
 
 .interactive {

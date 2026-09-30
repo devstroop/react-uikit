@@ -1,7 +1,8 @@
-import { forwardRef, type HTMLAttributes, type ReactNode } from "react";
-import styles from "./Card.module.css";
+import { forwardRef, type HTMLAttributes, type ReactNode } from 'react';
+import styles from './Card.module.css';
 
-export type CardVariant = "elevated" | "outlined" | "interactive" | "text" | "filled";
+export type CardVariant =
+  'elevated' | 'outlined' | 'interactive' | 'text' | 'filled';
 
 export interface CardProps extends HTMLAttributes<HTMLDivElement> {
   variant?: CardVariant;
@@ -12,29 +13,40 @@ export interface CardProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 export const Card = forwardRef<HTMLDivElement, CardProps>(function Card(
-  { variant = "elevated", header, footer, className, visible = true, children, onKeyDown, ...props },
-  ref,
+  {
+    variant = 'elevated',
+    header,
+    footer,
+    className,
+    visible = true,
+    children,
+    onKeyDown,
+    ...props
+  },
+  ref
 ) {
   if (visible === false) return null;
-  const interactive = variant === "interactive";
+  const interactive = variant === 'interactive';
   return (
-  // Interactivity is conditional on variant="interactive" (role + tabIndex
-  // travel together); static analysis cannot see that.
-  // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-  <div
+    // Interactivity is conditional on variant="interactive" (role + tabIndex
+    // travel together); static analysis cannot see that.
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+    <div
       ref={ref}
-      role={interactive ? "button" : undefined}
+      role={interactive ? 'button' : undefined}
       // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
       tabIndex={interactive ? 0 : undefined}
       onKeyDown={(event) => {
         onKeyDown?.(event);
-        if (!interactive || (event.key !== "Enter" && event.key !== " ")) {
+        if (!interactive || (event.key !== 'Enter' && event.key !== ' ')) {
           return;
         }
         event.preventDefault();
         event.currentTarget.click();
       }}
-      className={[styles.card, styles[variant], className].filter(Boolean).join(" ")}
+      className={[styles.card, styles[variant], className]
+        .filter(Boolean)
+        .join(' ')}
       {...props}
     >
       {header != null && <div className={styles.header}>{header}</div>}

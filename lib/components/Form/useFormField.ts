@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from "react";
-import { runValidators, type Validator } from "../Validators";
-import { useFormContext } from "./Form";
+import { useEffect, useRef, useState } from 'react';
+import { runValidators, type Validator } from '../Validators';
+import { useFormContext } from './Form';
 
 export interface UseFormFieldOptions<T> {
   validate?: Validator[];
@@ -13,7 +13,10 @@ export interface FormFieldApi<T> {
   errors: string[];
 }
 
-export function useFormField<T = string>(name: string, options?: UseFormFieldOptions<T>): FormFieldApi<T> {
+export function useFormField<T = string>(
+  name: string,
+  options?: UseFormFieldOptions<T>
+): FormFieldApi<T> {
   const { registerField, unregisterField, submitCount } = useFormContext();
   const [value, setValue] = useState<T | undefined>(options?.initialValue);
   const [hasSubmitted, setHasSubmitted] = useState(false);

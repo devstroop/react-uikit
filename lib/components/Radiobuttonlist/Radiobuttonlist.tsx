@@ -1,5 +1,5 @@
-import { useState, type ChangeEvent } from "react";
-import styles from "./Radiobuttonlist.module.css";
+import { useState, type ChangeEvent } from 'react';
+import styles from './Radiobuttonlist.module.css';
 
 export interface RadiobuttonlistOption {
   value: string;
@@ -26,7 +26,9 @@ export function Radiobuttonlist({
   name,
   className,
 }: RadiobuttonlistProps) {
-  const [internalValue, setInternalValue] = useState<string | undefined>(defaultValue);
+  const [internalValue, setInternalValue] = useState<string | undefined>(
+    defaultValue
+  );
   const selectedValue = value ?? internalValue;
 
   const select = (optionValue: string) => {
@@ -35,7 +37,7 @@ export function Radiobuttonlist({
   };
 
   return (
-    <fieldset className={[styles.group, className].filter(Boolean).join(" ")}>
+    <fieldset className={[styles.group, className].filter(Boolean).join(' ')}>
       {legend != null && <legend className={styles.legend}>{legend}</legend>}
       <ul className={styles.list}>
         {options.map((option) => {
@@ -45,7 +47,7 @@ export function Radiobuttonlist({
               key={option.value}
               className={[styles.item, option.disabled ? styles.disabled : null]
                 .filter(Boolean)
-                .join(" ")}
+                .join(' ')}
             >
               <label className={styles.label}>
                 <input

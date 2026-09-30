@@ -18,7 +18,7 @@
   box-sizing: border-box;
   text-align: center;
   border: 1px solid var(--dx-border-color);
-  border-radius: var(--dx-radius-sm);
+  border-radius: var(--dx-radius);
   background-color: var(--dx-surface-color);
   color: var(--dx-text-color);
   font-family: var(--dx-font-sans);
@@ -66,7 +66,8 @@
 }
 
 .invalid:focus-visible {
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--dx-danger-color) 25%, transparent);
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--dx-danger-color) 25%, transparent);
 }
 
 .live {

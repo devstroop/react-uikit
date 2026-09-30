@@ -4,11 +4,11 @@ import {
   useState,
   type KeyboardEvent,
   type ReactNode,
-} from "react";
-import styles from "./Tabs.module.css";
+} from 'react';
+import styles from './Tabs.module.css';
 
-export type TabsVariant = "underline" | "pills";
-export type TabsPosition = "top" | "left" | "right" | "bottom";
+export type TabsVariant = 'underline' | 'pills';
+export type TabsPosition = 'top' | 'left' | 'right' | 'bottom';
 
 export interface TabItem {
   key: string;
@@ -32,15 +32,17 @@ export function Tabs({
   value,
   defaultValue,
   onChange,
-  variant = "underline",
-  position = "top",
+  variant = 'underline',
+  position = 'top',
   className,
 }: TabsProps) {
   const baseId = useId();
   const tabListRef = useRef<HTMLDivElement>(null);
-  const [internalValue, setInternalValue] = useState(defaultValue ?? items[0]?.key ?? "");
+  const [internalValue, setInternalValue] = useState(
+    defaultValue ?? items[0]?.key ?? ''
+  );
   const activeKey = value ?? internalValue;
-  const vertical = position === "left" || position === "right";
+  const vertical = position === 'left' || position === 'right';
 
   const select = (key: string) => {
     setInternalValue(key);
@@ -51,33 +53,42 @@ export function Tabs({
     const enabled = items.filter((i) => !i.disabled);
     const index = enabled.findIndex((i) => i.key === activeKey);
     let next = -1;
-    if (event.key === "ArrowRight" || (vertical && event.key === "ArrowDown")) {
+    if (event.key === 'ArrowRight' || (vertical && event.key === 'ArrowDown')) {
       next = (index + 1) % enabled.length;
-    } else if (event.key === "ArrowLeft" || (vertical && event.key === "ArrowUp")) {
+    } else if (
+      event.key === 'ArrowLeft' ||
+      (vertical && event.key === 'ArrowUp')
+    ) {
       next = (index - 1 + enabled.length) % enabled.length;
-    } else if (event.key === "Home") {
+    } else if (event.key === 'Home') {
       next = 0;
-    } else if (event.key === "End") {
+    } else if (event.key === 'End') {
       next = enabled.length - 1;
     }
     if (next >= 0) {
       event.preventDefault();
       const tab = tabListRef.current?.querySelector<HTMLButtonElement>(
-        `[data-tab-key="${CSS.escape(enabled[next]?.key ?? "")}"]`,
+        `[data-tab-key="${CSS.escape(enabled[next]?.key ?? '')}"]`
       );
       tab?.focus();
-      select(enabled[next]?.key ?? "");
+      select(enabled[next]?.key ?? '');
     }
   };
 
   const activeItem = items.find((i) => i.key === activeKey);
 
   return (
-    <div className={[styles.root, styles[position], className].filter(Boolean).join(" ")}>
+    <div
+      className={[styles.root, styles[position], className]
+        .filter(Boolean)
+        .join(' ')}
+    >
       <div
         ref={tabListRef}
         role="tablist"
-        className={[styles.tabList, styles[variant], styles[position]].filter(Boolean).join(" ")}
+        className={[styles.tabList, styles[variant], styles[position]]
+          .filter(Boolean)
+          .join(' ')}
         onKeyDown={handleKeyDown}
       >
         {items.map((item) => {
@@ -99,7 +110,7 @@ export function Tabs({
                 item.disabled ? styles.disabled : null,
               ]
                 .filter(Boolean)
-                .join(" ")}
+                .join(' ')}
               onClick={() => select(item.key)}
             >
               {item.label}

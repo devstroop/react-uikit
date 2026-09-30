@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import styles from "./VirtualGrid.module.css";
+import { useCallback, useEffect, useRef, useState } from 'react';
+import styles from './VirtualGrid.module.css';
 
 export interface VirtualColumn {
   property: string;
@@ -11,14 +11,27 @@ export interface VirtualGridProps {
   count: number;
   rowHeight?: number;
   height?: number;
-  loadData: (args: { skip: number; top: number }) => Promise<Record<string, unknown>[]>;
+  loadData: (args: {
+    skip: number;
+    top: number;
+  }) => Promise<Record<string, unknown>[]>;
   columns?: VirtualColumn[];
   ariaLabel?: string;
   className?: string;
 }
 
-export function VirtualGrid({ count, rowHeight = 40, height = 320, loadData, columns = [], ariaLabel = "Virtual grid", className }: VirtualGridProps) {
-  const [rows, setRows] = useState<Map<number, Record<string, unknown>>>(new Map());
+export function VirtualGrid({
+  count,
+  rowHeight = 40,
+  height = 320,
+  loadData,
+  columns = [],
+  ariaLabel = 'Virtual grid',
+  className,
+}: VirtualGridProps) {
+  const [rows, setRows] = useState<Map<number, Record<string, unknown>>>(
+    new Map()
+  );
   const [scrollTop, setScrollTop] = useState(0);
   const pending = useRef<Set<number>>(new Set());
 
@@ -43,7 +56,7 @@ export function VirtualGrid({ count, rowHeight = 40, height = 320, loadData, col
         for (let i = skip; i < top; i++) pending.current.delete(i);
       });
     },
-    [rows, loadData],
+    [rows, loadData]
   );
 
   useEffect(() => {
@@ -54,19 +67,29 @@ export function VirtualGrid({ count, rowHeight = 40, height = 320, loadData, col
   for (let i = first; i < last; i++) {
     const row = rows.get(i) ?? {};
     items.push(
-      <div key={i} className={styles.row} role="row" style={{ height: rowHeight }}>
+      <div
+        key={i}
+        className={styles.row}
+        role="row"
+        style={{ height: rowHeight }}
+      >
         {columns.map((c) => (
-          <div key={c.property} role="gridcell" className={styles.cell} style={c.width ? { width: c.width } : undefined}>
-            {String(row[c.property] ?? "")}
+          <div
+            key={c.property}
+            role="gridcell"
+            className={styles.cell}
+            style={c.width ? { width: c.width } : undefined}
+          >
+            {String(row[c.property] ?? '')}
           </div>
         ))}
-      </div>,
+      </div>
     );
   }
 
   return (
     <div
-      className={[styles.root, className].filter(Boolean).join(" ")}
+      className={[styles.root, className].filter(Boolean).join(' ')}
       role="grid"
       aria-label={ariaLabel}
       aria-rowcount={count}
@@ -75,22 +98,42 @@ export function VirtualGrid({ count, rowHeight = 40, height = 320, loadData, col
       onScroll={(e) => setScrollTop((e.target as HTMLDivElement).scrollTop)}
       onKeyDown={(e) => {
         const el = e.currentTarget;
-        if (e.key === "ArrowDown") { e.preventDefault(); el.scrollTop += rowHeight; }
-        else if (e.key === "ArrowUp") { e.preventDefault(); el.scrollTop -= rowHeight; }
-        else if (e.key === "PageDown") { e.preventDefault(); el.scrollTop += height; }
-        else if (e.key === "PageUp") { e.preventDefault(); el.scrollTop -= height; }
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          el.scrollTop += rowHeight;
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          el.scrollTop -= rowHeight;
+        } else if (e.key === 'PageDown') {
+          e.preventDefault();
+          el.scrollTop += height;
+        } else if (e.key === 'PageUp') {
+          e.preventDefault();
+          el.scrollTop -= height;
+        }
       }}
     >
       <div style={{ height: first * rowHeight }} aria-hidden="true" />
       <div className={styles.header} role="row">
         {columns.map((c) => (
-          <div key={c.property} role="columnheader" className={styles.headCell} style={{ height: rowHeight, ...(c.width ? { width: c.width } : {}) }}>
+          <div
+            key={c.property}
+            role="columnheader"
+            className={styles.headCell}
+            style={{
+              height: rowHeight,
+              ...(c.width ? { width: c.width } : {}),
+            }}
+          >
             {c.title ?? c.property}
           </div>
         ))}
       </div>
       {items}
-      <div style={{ height: Math.max(0, (count - last) * rowHeight) }} aria-hidden="true" />
+      <div
+        style={{ height: Math.max(0, (count - last) * rowHeight) }}
+        aria-hidden="true"
+      />
     </div>
   );
 }

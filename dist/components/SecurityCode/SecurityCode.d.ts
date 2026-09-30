@@ -12,6 +12,6 @@ export interface SecurityCodeProps {
     label?: string;
     liveAnnounce?: boolean;
     className?: string;
-    "aria-label"?: string;
+    'aria-label'?: string;
 }
 export declare const SecurityCode: import('react').ForwardRefExoticComponent<SecurityCodeProps & import('react').RefAttributes<HTMLInputElement>>;

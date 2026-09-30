@@ -5,13 +5,13 @@
  * `hue`, and native `style` is always plain CSS.
  */
 export type Severity =
-  | "primary"
-  | "secondary"
-  | "base"
-  | "neutral"
-  | "info"
-  | "success"
-  | "warning"
-  | "danger"
-  | "light"
-  | "dark";
+  | 'primary'
+  | 'secondary'
+  | 'base'
+  | 'neutral'
+  | 'info'
+  | 'success'
+  | 'warning'
+  | 'danger'
+  | 'light'
+  | 'dark';

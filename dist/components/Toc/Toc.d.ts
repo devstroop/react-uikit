@@ -10,8 +10,8 @@ export interface TocProps {
     items: TocItem[];
     selector?: string;
     Selector?: string;
-    orientation?: "vertical" | "horizontal";
-    Orientation?: "vertical" | "horizontal";
+    orientation?: 'vertical' | 'horizontal';
+    Orientation?: 'vertical' | 'horizontal';
     onClick?: (args: TocItemEventArgs) => void;
     Click?: (args: TocItemEventArgs) => void;
     ariaLabel?: string;

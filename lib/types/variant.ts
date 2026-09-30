@@ -6,9 +6,17 @@
  * Radzen; applies to RadzenButton, RadzenBadge, RadzenAlert) and the
  * `rz-variant-*` CSS classes. No aliases — unknown strings fall back.
  */
-export type Variant = "filled" | "flat" | "outlined" | "text";
-export function resolveVariant(raw: string | undefined, fallback: Variant = "filled"): Variant {
-  if (raw === "filled" || raw === "flat" || raw === "outlined" || raw === "text") {
+export type Variant = 'filled' | 'flat' | 'outlined' | 'text';
+export function resolveVariant(
+  raw: string | undefined,
+  fallback: Variant = 'filled'
+): Variant {
+  if (
+    raw === 'filled' ||
+    raw === 'flat' ||
+    raw === 'outlined' ||
+    raw === 'text'
+  ) {
     return raw;
   }
   return fallback;

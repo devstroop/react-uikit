@@ -8,7 +8,7 @@ export interface PickListMoveArgs {
     source: PickListItem[];
     target: PickListItem[];
     moved: PickListItem[];
-    direction: "toTarget" | "toSource" | "up" | "down" | "allToTarget" | "allToSource";
+    direction: 'toTarget' | 'toSource' | 'up' | 'down' | 'allToTarget' | 'allToSource';
 }
 export interface PickListProps {
     source?: PickListItem[];

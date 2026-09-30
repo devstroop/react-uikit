@@ -1,13 +1,31 @@
-import { useMemo, useRef, useState, type ReactNode } from "react";
-import { FILTER_OPERATORS } from "../DataFilter/filter";
-import type { FilterOperator, SortDescriptor } from "../DataFilter/filter";
-import { Pager } from "./Pager";
-import { applyGridState, columnValue, cycleSort, defaultOperatorForType, formatValue, gridColumnKey, gridFrozenOffsets, groupItems } from "./grid";
-import type { GridColumn, GridFilterState, GridSelectionMode } from "./grid";
-import { Icon } from "../Icon/Icon";
-import styles from "./DataGrid.module.css";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { FILTER_OPERATORS } from '../DataFilter/filter';
+import type { FilterOperator, SortDescriptor } from '../DataFilter/filter';
+import { Pager } from './Pager';
+import {
+  aggregateValue,
+  applyGridState,
+  collectGroupKeys,
+  columnValue,
+  cycleSort,
+  defaultOperatorForType,
+  formatValue,
+  gridColumnKey,
+  gridFrozenOffsets,
+  groupItems,
+  toCsv,
+} from './grid';
+import type {
+  GridAggregate,
+  GridColumn,
+  GridFilterState,
+  GridRange,
+  GridSelectionMode,
+} from './grid';
+import { Icon } from '../Icon/Icon';
+import styles from './DataGrid.module.css';
 
-export type PagerPosition = "Top" | "Bottom" | "TopAndBottom";
+export type PagerPosition = 'Top' | 'Bottom' | 'TopAndBottom';
 
 export interface DataGridProps<TItem = unknown> {
   columns: readonly GridColumn<TItem>[];
@@ -17,8 +35,8 @@ export interface DataGridProps<TItem = unknown> {
   allowMultiColumnSorting?: boolean;
   showSortIndex?: boolean;
   allowFiltering?: boolean;
-  filterCaseSensitivity?: "CaseSensitive" | "CaseInsensitive";
-  logicalOperator?: "And" | "Or";
+  filterCaseSensitivity?: 'CaseSensitive' | 'CaseInsensitive';
+  logicalOperator?: 'And' | 'Or';
   allowPaging?: boolean;
   pageSize?: number;
   pageSizeOptions?: readonly number[];
@@ -36,7 +54,22 @@ export interface DataGridProps<TItem = unknown> {
   allowGrouping?: boolean;
   groupPanelText?: string;
   groupExpanded?: boolean;
-  editMode?: "None" | "Single" | "EditRow";
+  aggregates?: readonly GridAggregate<TItem>[];
+  showExportButton?: boolean;
+  exportFileName?: string;
+  /**
+   * Server-side mode: rows are the current window returned by the server;
+   * sorting/filtering/paging report the requested range via onRangeChange
+   * instead of running client-side (Radzen LoadData parity).
+   */
+  serverMode?: boolean;
+  totalCount?: number;
+  onRangeChange?: (range: GridRange) => void;
+  /** Render only the visible row window inside a scroll viewport. */
+  virtualize?: boolean;
+  virtualRowHeight?: number;
+  virtualHeight?: number;
+  editMode?: 'None' | 'Single' | 'EditRow';
   allowRowCreate?: boolean;
   onRowUpdate?: (original: TItem, updated: TItem) => void;
   onRowCreate?: (row: TItem) => void;
@@ -48,21 +81,32 @@ export interface DataGridProps<TItem = unknown> {
   onRowClick?: (row: TItem) => void;
 }
 
-const ARIA_SORT: Record<string, "ascending" | "descending" | "none"> = {
-  Ascending: "ascending",
-  Descending: "descending",
+const ARIA_SORT: Record<string, 'ascending' | 'descending' | 'none'> = {
+  Ascending: 'ascending',
+  Descending: 'descending',
 };
 
-function isFilterable<TItem>(column: GridColumn<TItem>, allowFiltering: boolean): boolean {
+function isFilterable<TItem>(
+  column: GridColumn<TItem>,
+  allowFiltering: boolean
+): boolean {
   return column.filterable ?? allowFiltering;
 }
 
-function isSortable<TItem>(column: GridColumn<TItem>, allowSorting: boolean): boolean {
+function isSortable<TItem>(
+  column: GridColumn<TItem>,
+  allowSorting: boolean
+): boolean {
   return column.sortable ?? allowSorting;
 }
 
 function isInteractiveTarget(target: EventTarget | null): boolean {
-  return target instanceof HTMLElement && Boolean(target.closest("button, select, input, a, label, [data-dx-grid-resize]"));
+  return (
+    target instanceof HTMLElement &&
+    Boolean(
+      target.closest('button, select, input, a, label, [data-dx-grid-resize]')
+    )
+  );
 }
 
 export function DataGrid<TItem = unknown>({
@@ -73,53 +117,81 @@ export function DataGrid<TItem = unknown>({
   allowMultiColumnSorting = false,
   showSortIndex = false,
   allowFiltering = false,
-  filterCaseSensitivity = "CaseInsensitive",
-  logicalOperator = "And",
+  filterCaseSensitivity = 'CaseInsensitive',
+  logicalOperator = 'And',
   allowPaging = false,
   pageSize = 10,
   pageSizeOptions,
   pageNumbersCount = 5,
-  pagerPosition = "Bottom",
+  pagerPosition = 'Bottom',
   showPagingSummary = true,
   showPageSizeSelector = true,
-  selectionMode = "None",
+  selectionMode = 'None',
   selectedKeys,
   onSelectionChange,
   showColumnPicker = false,
-  columnPickerText = "Columns",
+  columnPickerText = 'Columns',
   allowColumnResize = false,
   allowColumnReorder = false,
   allowGrouping = false,
-  groupPanelText = "Drag a column header here to group",
+  groupPanelText = 'Drag a column header here to group',
   groupExpanded = true,
-  editMode = "None",
+  aggregates,
+  showExportButton = false,
+  exportFileName = 'grid-data',
+  serverMode = false,
+  totalCount,
+  onRangeChange,
+  virtualize = false,
+  virtualRowHeight = 40,
+  virtualHeight = 480,
+  editMode = 'None',
   allowRowCreate = false,
   onRowUpdate,
   onRowCreate,
   onRowDelete,
   isLoading = false,
-  empty = "No records found",
+  empty = 'No records found',
   ariaLabel,
   className,
   onRowClick,
 }: DataGridProps<TItem>) {
+  // Unique pager landmarks per grid: several grids on one page would
+  // otherwise share the default "Pagination" nav label (axe
+  // landmark-unique), so the grid's ariaLabel prefixes the pager's.
+  const pagerAriaPrefix = ariaLabel != null ? `${ariaLabel} ` : '';
   const [sorts, setSorts] = useState<SortDescriptor[]>([]);
-  const [filters, setFilters] = useState<Map<string, GridFilterState>>(new Map());
+  const [filters, setFilters] = useState<Map<string, GridFilterState>>(
+    new Map()
+  );
   const [pageNumber, setPageNumber] = useState(1);
   const [currentPageSize, setCurrentPageSize] = useState(pageSize);
   const [columnOrder, setColumnOrder] = useState<string[]>(() =>
-    columns.map((c, i) => gridColumnKey(c, i)),
+    columns.map((c, i) => gridColumnKey(c, i))
   );
   const [visibleColumns, setVisibleColumns] = useState<Set<string>>(
-    () => new Set(columns.map((c, i) => (c.visible !== false ? gridColumnKey(c, i) : "")).filter(Boolean)),
+    () =>
+      new Set(
+        columns
+          .map((c, i) => (c.visible !== false ? gridColumnKey(c, i) : ''))
+          .filter(Boolean)
+      )
   );
   const [columnWidths, setColumnWidths] = useState<Record<string, string>>({});
   const [pickerOpen, setPickerOpen] = useState(false);
-  const [groupBy, setGroupBy] = useState<string | null>(null);
-  const [expandedGroups, setExpandedGroups] = useState<Set<string> | null>(null);
+  const [groupProps, setGroupProps] = useState<string[]>([]);
+  const [expandedGroups, setExpandedGroups] = useState<Set<string> | null>(
+    null
+  );
   const [editKey, setEditKey] = useState<string | null>(null);
   const [editValues, setEditValues] = useState<Record<string, unknown>>({});
-  const resizeRef = useRef<{ key: string; startX: number; startWidth: number } | null>(null);
+  const [scrollTop, setScrollTop] = useState(0);
+  const [viewportHeight, setViewportHeight] = useState(virtualHeight);
+  const resizeRef = useRef<{
+    key: string;
+    startX: number;
+    startWidth: number;
+  } | null>(null);
   const dragRef = useRef<string | null>(null);
 
   const columnByKey = useMemo(() => {
@@ -132,53 +204,137 @@ export function DataGrid<TItem = unknown>({
       columnOrder
         .filter((key) => visibleColumns.has(key))
         .map((key) => ({ key, column: columnByKey.get(key) }))
-        .filter((entry): entry is { key: string; column: GridColumn<TItem> } => entry.column != null),
-    [columnOrder, visibleColumns, columnByKey],
+        .filter(
+          (entry): entry is { key: string; column: GridColumn<TItem> } =>
+            entry.column != null
+        ),
+    [columnOrder, visibleColumns, columnByKey]
   );
   const frozenOffsets = useMemo(
     () => gridFrozenOffsets(effectiveColumns, columnWidths),
-    [effectiveColumns, columnWidths],
+    [effectiveColumns, columnWidths]
   );
-  const showCommandColumn = editMode !== "None" || onRowDelete != null || allowRowCreate;
+  const showCommandColumn =
+    editMode !== 'None' || onRowDelete != null || allowRowCreate;
 
-  const view = useMemo(
-    () =>
-      applyGridState(rows, { sorts, filters, pageNumber, pageSize: currentPageSize }, {
+  const view = useMemo(() => {
+    if (serverMode) {
+      const total = totalCount ?? rows.length;
+      const pageCount = Math.max(1, Math.ceil(total / currentPageSize));
+      return {
+        items: [...rows],
+        filtered: [...rows],
+        total,
+        pageCount,
+        pageNumber,
+        pageSize: currentPageSize,
+        sorts,
+        filters,
+      };
+    }
+    return applyGridState(
+      rows,
+      {
+        sorts,
+        filters,
+        pageNumber,
+        // Without a pager the grid shows every row (Radzen parity); the
+        // internal slice only applies when paging UI is on.
+        pageSize: allowPaging ? currentPageSize : Number.MAX_SAFE_INTEGER,
+      },
+      {
         logicalOperator,
         caseSensitivity: filterCaseSensitivity,
         types: Object.fromEntries(
           columns
             .filter((c) => c.type != null && c.property != null)
-            .map((c) => [c.property as string, c.type as "string" | "number" | "boolean" | "date" | "enum"]),
+            .map((c) => [
+              c.property as string,
+              c.type as 'string' | 'number' | 'boolean' | 'date' | 'enum',
+            ])
         ),
-      }),
-    [rows, sorts, filters, pageNumber, currentPageSize, logicalOperator, filterCaseSensitivity, columns],
+      }
+    );
+  }, [
+    rows,
+    sorts,
+    filters,
+    pageNumber,
+    currentPageSize,
+    logicalOperator,
+    filterCaseSensitivity,
+    columns,
+    serverMode,
+    totalCount,
+    allowPaging,
+  ]);
+
+  // Keep the latest handler without re-firing the range effect when the
+  // parent recreates the callback each render.
+  const onRangeChangeRef = useRef(onRangeChange);
+  useEffect(() => {
+    onRangeChangeRef.current = onRangeChange;
+  });
+
+  const rangeFilters = useMemo(
+    () =>
+      [...filters.entries()]
+        .filter(([, f]) => f.value !== '' && f.value !== undefined)
+        .map(([property, f]) => ({
+          property,
+          operator:
+            f.operator ??
+            defaultOperatorForType(
+              columns.find((c) => c.property === property)?.type ?? 'string'
+            ),
+          value: f.value ?? '',
+        })),
+    [filters, columns]
   );
 
-  const groupedColumn = useMemo(
-    () => (groupBy ? columns.find((c) => c.property === groupBy) : undefined),
-    [groupBy, columns],
-  );
-  const expanded = useMemo(
-    () =>
-      expandedGroups ??
-      new Set(groupExpanded ? view.items.map((row) => String(columnValue(row, groupBy ?? "") ?? "")) : []),
-    [expandedGroups, groupExpanded, view.items, groupBy],
-  );
+  useEffect(() => {
+    if (!serverMode || onRangeChangeRef.current == null) return;
+    onRangeChangeRef.current({
+      start: (pageNumber - 1) * currentPageSize,
+      count: currentPageSize,
+      pageNumber,
+      pageSize: currentPageSize,
+      sorts,
+      filters: rangeFilters,
+      logicalOperator,
+    });
+  }, [
+    serverMode,
+    pageNumber,
+    currentPageSize,
+    sorts,
+    rangeFilters,
+    logicalOperator,
+  ]);
+
+  const groupBySet = useMemo(() => new Set(groupProps), [groupProps]);
+  const expanded = useMemo(() => {
+    if (expandedGroups) return expandedGroups;
+    if (!groupExpanded) return new Set<string>();
+    return collectGroupKeys(view.items, groupProps, columnValue);
+  }, [expandedGroups, groupExpanded, view.items, groupProps]);
   const groupedItems = useMemo(
-    () =>
-      groupItems(view.items, groupBy ?? undefined, groupedColumn, expanded, columnValue, (v) =>
-        formatValue(v, groupedColumn?.format),
-      ),
-    [view.items, groupBy, groupedColumn, expanded],
+    () => groupItems(view.items, groupProps, columns, expanded, columnValue),
+    [view.items, groupProps, columns, expanded]
   );
   const renderColumns = useMemo(
-    () => (groupBy ? effectiveColumns.filter((e) => e.column.property !== groupBy) : effectiveColumns),
-    [effectiveColumns, groupBy],
+    () =>
+      groupProps.length > 0
+        ? effectiveColumns.filter(
+            (e) =>
+              e.column.property == null || !groupBySet.has(e.column.property)
+          )
+        : effectiveColumns,
+    [effectiveColumns, groupProps, groupBySet]
   );
 
   const handleSort = (property: string) => {
-    if (property === "") return;
+    if (property === '') return;
     setSorts(cycleSort(sorts, property, { multi: allowMultiColumnSorting }));
   };
 
@@ -197,14 +353,16 @@ export function DataGrid<TItem = unknown>({
   };
 
   const handleSelection = (row: TItem) => {
-    if (selectionMode === "None") return;
+    if (selectionMode === 'None') return;
     const key = rowKey(row);
     const current = selectedKeys ?? [];
     let next: readonly (string | number)[];
-    if (selectionMode === "Single") {
+    if (selectionMode === 'Single') {
       next = current.length === 1 && current[0] === key ? [] : [key];
     } else {
-      next = current.includes(key) ? current.filter((k) => k !== key) : [...current, key];
+      next = current.includes(key)
+        ? current.filter((k) => k !== key)
+        : [...current, key];
     }
     onSelectionChange?.(next);
   };
@@ -213,7 +371,11 @@ export function DataGrid<TItem = unknown>({
     onRowClick?.(row);
   };
 
-  const handleResizeStart = (key: string, startX: number, startWidth: number) => {
+  const handleResizeStart = (
+    key: string,
+    startX: number,
+    startWidth: number
+  ) => {
     resizeRef.current = { key, startX, startWidth };
   };
 
@@ -264,18 +426,24 @@ export function DataGrid<TItem = unknown>({
     const entry = columnByKey.get(sourceKey);
     const property = entry?.property;
     if (!property) return;
-    setGroupBy(property);
+    setGroupProps((prev) =>
+      prev.includes(property) ? prev : [...prev, property]
+    );
     setExpandedGroups(null);
   };
 
-  const handleGroupRemove = () => {
-    setGroupBy(null);
+  const handleGroupRemove = (property: string) => {
+    setGroupProps((prev) => prev.filter((p) => p !== property));
     setExpandedGroups(null);
   };
 
   const handleGroupToggle = (key: string) => {
     setExpandedGroups((prev) => {
-      const current = prev ?? new Set(groupExpanded ? view.items.map((row) => String(columnValue(row, groupBy ?? "") ?? "")) : []);
+      const current =
+        prev ??
+        (groupExpanded
+          ? collectGroupKeys(view.items, groupProps, columnValue)
+          : new Set<string>());
       const next = new Set(current);
       if (next.has(key)) next.delete(key);
       else next.add(key);
@@ -295,10 +463,10 @@ export function DataGrid<TItem = unknown>({
   const handleCreateStart = () => {
     const seed: Record<string, unknown> = {};
     columns.forEach((c) => {
-      if (c.property && c.type === "boolean") seed[c.property] = false;
+      if (c.property && c.type === 'boolean') seed[c.property] = false;
     });
     setEditValues(seed);
-    setEditKey("__new__");
+    setEditKey('__new__');
   };
 
   const handleEditCancel = () => {
@@ -307,9 +475,11 @@ export function DataGrid<TItem = unknown>({
   };
 
   const handleEditSave = (original?: TItem) => {
-    if (editKey === "__new__") {
+    if (editKey === '__new__') {
       const row = Object.fromEntries(
-        columns.filter((c) => c.property).map((c) => [c.property, editValues[c.property as string]]),
+        columns
+          .filter((c) => c.property)
+          .map((c) => [c.property, editValues[c.property as string]])
       ) as TItem;
       onRowCreate?.(row);
     } else if (original != null) {
@@ -319,25 +489,74 @@ export function DataGrid<TItem = unknown>({
     handleEditCancel();
   };
 
-  const topPager = allowPaging && (pagerPosition === "Top" || pagerPosition === "TopAndBottom");
-  const bottomPager = allowPaging && (pagerPosition === "Bottom" || pagerPosition === "TopAndBottom");
-  const showFilterRow = allowFiltering && columns.some((c) => isFilterable(c, allowFiltering));
+  const topPager =
+    allowPaging &&
+    (pagerPosition === 'Top' || pagerPosition === 'TopAndBottom');
+  const bottomPager =
+    allowPaging &&
+    (pagerPosition === 'Bottom' || pagerPosition === 'TopAndBottom');
+  const showFilterRow =
+    allowFiltering && columns.some((c) => isFilterable(c, allowFiltering));
 
-  const renderCell = (column: GridColumn<TItem>, row: TItem, index?: number): ReactNode => {
+  const renderCell = (
+    column: GridColumn<TItem>,
+    row: TItem,
+    index?: number
+  ): ReactNode => {
     if (column.render) return column.render(row, { index: index ?? 0 });
     return formatValue(columnValue(row, column.property), column.format);
   };
 
   const cellClass = (column: GridColumn<TItem>): string => {
     const parts = [styles.cell];
-    if (column.align === "center") parts.push(styles.center);
-    if (column.align === "right") parts.push(styles.right);
+    if (column.align === 'center') parts.push(styles.center);
+    if (column.align === 'right') parts.push(styles.right);
     if (column.frozen) parts.push(styles.frozen);
-    return parts.join(" ");
+    return parts.join(' ');
   };
 
+  // Aggregates and CSV export run over the full filtered set (server mode:
+  // over the window the server returned).
+  const footerRows: readonly TItem[] = serverMode ? rows : view.filtered;
+
+  const handleExport = () => {
+    const csv = toCsv(
+      footerRows,
+      renderColumns.map((entry) => entry.column)
+    );
+    const blob = new Blob([`\uFEFF${csv}`], {
+      type: 'text/csv;charset=utf-8',
+    });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement('a');
+    anchor.href = url;
+    anchor.download = `${exportFileName}.csv`;
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+    URL.revokeObjectURL(url);
+  };
+
+  const totalLines = groupedItems.length;
+  const virtualWindow = useMemo(() => {
+    if (!virtualize || totalLines === 0)
+      return { start: 0, end: totalLines, top: 0, bottom: 0 };
+    const overscan = 5;
+    const start = Math.max(
+      0,
+      Math.floor(scrollTop / virtualRowHeight) - overscan
+    );
+    const visible = Math.ceil(viewportHeight / virtualRowHeight) + overscan * 2;
+    const end = Math.min(totalLines, start + visible);
+    const top = start * virtualRowHeight;
+    const bottom = Math.max(0, (totalLines - end) * virtualRowHeight);
+    return { start, end, top, bottom };
+  }, [virtualize, totalLines, scrollTop, virtualRowHeight, viewportHeight]);
+
+  const bodyColSpan = renderColumns.length + (showCommandColumn ? 1 : 0);
+
   return (
-    <div className={[styles.grid, className].filter(Boolean).join(" ")}>
+    <div className={[styles.grid, className].filter(Boolean).join(' ')}>
       {topPager && (
         <Pager
           pageNumber={view.pageNumber}
@@ -347,34 +566,58 @@ export function DataGrid<TItem = unknown>({
           pageNumbersCount={pageNumbersCount}
           showSummary={showPagingSummary}
           showPageSizeSelector={showPageSizeSelector}
-          ariaLabel={bottomPager ? "Pagination (top)" : "Pagination"}
+          ariaLabel={`${pagerAriaPrefix}${bottomPager ? 'Pagination (top)' : 'Pagination'}`}
           onPageChange={setPageNumber}
           onPageSizeChange={handlePageSize}
         />
       )}
-      {(allowGrouping || allowRowCreate || showColumnPicker) && (
+      {(allowGrouping ||
+        allowRowCreate ||
+        showColumnPicker ||
+        showExportButton) && (
         <div className={styles.toolbar}>
           {allowGrouping && (
             <div
-              className={[styles.groupPanel, groupBy ? styles.groupPanelActive : ""].filter(Boolean).join(" ")}
+              className={[
+                styles.groupPanel,
+                groupProps.length > 0 ? styles.groupPanelActive : '',
+              ]
+                .filter(Boolean)
+                .join(' ')}
               data-dx-grid-group-panel
               onDragOver={allowGrouping ? (e) => e.preventDefault() : undefined}
               onDrop={allowGrouping ? handleGroupDrop : undefined}
             >
-              {groupBy ? (
-                <span className={styles.groupChip}>
-                  {groupedColumn?.title ?? groupBy}:{" "}
-                  <button type="button" className={styles.groupRemove} onClick={handleGroupRemove} aria-label={`Remove group by ${groupedColumn?.title ?? groupBy}`}>
-                    <Icon name="close" size="sm" />
-                  </button>
-                </span>
+              {groupProps.length > 0 ? (
+                groupProps.map((property) => {
+                  const title =
+                    columns.find((c) => c.property === property)?.title ??
+                    property;
+                  return (
+                    <span key={property} className={styles.groupChip}>
+                      {title}:{' '}
+                      <button
+                        type="button"
+                        className={styles.groupRemove}
+                        onClick={() => handleGroupRemove(property)}
+                        aria-label={`Remove group by ${title}`}
+                      >
+                        <Icon icon="close" size="sm" />
+                      </button>
+                    </span>
+                  );
+                })
               ) : (
                 <span className={styles.groupPanelText}>{groupPanelText}</span>
               )}
             </div>
           )}
           {allowRowCreate && (
-            <button type="button" className={styles.pickerButton} onClick={handleCreateStart}>
+            <button
+              type="button"
+              className={styles.pickerButton}
+              onClick={handleCreateStart}
+            >
               Add row
             </button>
           )}
@@ -390,7 +633,11 @@ export function DataGrid<TItem = unknown>({
                 {columnPickerText}
               </button>
               {pickerOpen && (
-                <div className={styles.pickerPanel} role="menu" aria-label={columnPickerText}>
+                <div
+                  className={styles.pickerPanel}
+                  role="menu"
+                  aria-label={columnPickerText}
+                >
                   {columns.map((c, i) => {
                     const key = gridColumnKey(c, i);
                     return (
@@ -408,13 +655,35 @@ export function DataGrid<TItem = unknown>({
               )}
             </div>
           )}
+          {showExportButton && (
+            <button
+              type="button"
+              className={styles.pickerButton}
+              onClick={handleExport}
+            >
+              Export CSV
+            </button>
+          )}
         </div>
       )}
-      <div className={styles.data}>
+      <div
+        className={[styles.data, virtualize ? styles.virtualScroller : '']
+          .filter(Boolean)
+          .join(' ')}
+        style={virtualize ? { maxHeight: virtualHeight } : undefined}
+        onScroll={
+          virtualize
+            ? (e) => {
+                setScrollTop(e.currentTarget.scrollTop);
+                setViewportHeight(e.currentTarget.clientHeight);
+              }
+            : undefined
+        }
+      >
         <table
           className={styles.table}
           role="grid"
-          aria-rowcount={view.total + 1}
+          aria-rowcount={(virtualize ? totalLines : view.total) + 1}
           aria-label={ariaLabel}
           aria-busy={isLoading || undefined}
         >
@@ -429,7 +698,7 @@ export function DataGrid<TItem = unknown>({
                 }}
               />
             ))}
-            {showCommandColumn && <col style={{ width: "8rem" }} />}
+            {showCommandColumn && <col style={{ width: '8rem' }} />}
           </colgroup>
           <thead>
             <tr>
@@ -437,39 +706,52 @@ export function DataGrid<TItem = unknown>({
                 const sortable = isSortable(c, allowSorting);
                 const sort = sorts.find((s) => s.property === c.property);
                 const sortIndex = sort ? sorts.indexOf(sort) + 1 : 0;
-                const align = c.align ?? "left";
+                const align = c.align ?? 'left';
                 return (
                   <th
                     key={key}
-                    aria-sort={sortable && sort ? ARIA_SORT[sort.sortOrder] : "none"}
+                    aria-sort={
+                      sortable && sort ? ARIA_SORT[sort.sortOrder] : 'none'
+                    }
                     className={[
                       styles.header,
-                      align === "center" ? styles.center : "",
-                      align === "right" ? styles.right : "",
-                      c.frozen ? styles.frozen : "",
-                    ].filter(Boolean).join(" ")}
+                      align === 'center' ? styles.center : '',
+                      align === 'right' ? styles.right : '',
+                      c.frozen ? styles.frozen : '',
+                    ]
+                      .filter(Boolean)
+                      .join(' ')}
                     style={c.frozen ? { left: frozenOffsets[key] } : undefined}
                     scope="col"
                     draggable={allowColumnReorder || allowGrouping || undefined}
                     onDragStart={
                       allowColumnReorder || allowGrouping
                         ? (e) => {
-                            if (e.dataTransfer) e.dataTransfer.effectAllowed = "move";
+                            if (e.dataTransfer)
+                              e.dataTransfer.effectAllowed = 'move';
                             handleReorderStart(key);
                           }
                         : undefined
                     }
-                    onDragOver={allowColumnReorder ? (e) => e.preventDefault() : undefined}
-                    onDrop={allowColumnReorder ? () => handleReorderDrop(key) : undefined}
+                    onDragOver={
+                      allowColumnReorder ? (e) => e.preventDefault() : undefined
+                    }
+                    onDrop={
+                      allowColumnReorder
+                        ? () => handleReorderDrop(key)
+                        : undefined
+                    }
                   >
                     {sortable ? (
                       <button
                         type="button"
                         className={styles.sortButton}
-                        onClick={() => c.property != null && handleSort(c.property)}
+                        onClick={() =>
+                          c.property != null && handleSort(c.property)
+                        }
                         aria-label={
                           sort
-                            ? sort.sortOrder === "Ascending"
+                            ? sort.sortOrder === 'Ascending'
                               ? `Sort ${c.title ?? c.property} descending`
                               : `Sort ${c.title ?? c.property} ascending`
                             : `Sort ${c.title ?? c.property} ascending`
@@ -477,8 +759,11 @@ export function DataGrid<TItem = unknown>({
                       >
                         {c.title ?? c.property}
                         {sort && (
-                          <span className={styles.sortIndicator} aria-hidden="true">
-                            {sort.sortOrder === "Ascending" ? "▲" : "▼"}
+                          <span
+                            className={styles.sortIndicator}
+                            aria-hidden="true"
+                          >
+                            {sort.sortOrder === 'Ascending' ? '▲' : '▼'}
                           </span>
                         )}
                         {sortIndex > 1 && showSortIndex && (
@@ -486,7 +771,7 @@ export function DataGrid<TItem = unknown>({
                         )}
                       </button>
                     ) : (
-                      c.title ?? c.property
+                      (c.title ?? c.property)
                     )}
                     {allowColumnResize && (
                       <span
@@ -500,10 +785,15 @@ export function DataGrid<TItem = unknown>({
                           e.stopPropagation();
                           const base = columnWidths[key] ?? c.width;
                           const width = base ? parseFloat(base) : 96;
-                          handleResizeStart(key, e.clientX, Number.isFinite(width) ? width : 96);
+                          handleResizeStart(
+                            key,
+                            e.clientX,
+                            Number.isFinite(width) ? width : 96
+                          );
                         }}
                         onMouseMove={(e) => {
-                          if (resizeRef.current?.key === key) handleResizeMove(e.clientX);
+                          if (resizeRef.current?.key === key)
+                            handleResizeMove(e.clientX);
                         }}
                         onMouseUp={handleResizeEnd}
                         onMouseLeave={() => {
@@ -523,33 +813,48 @@ export function DataGrid<TItem = unknown>({
             {showFilterRow && (
               <tr>
                 {renderColumns.map(({ key, column: c }) => {
-                  if (!isFilterable(c, allowFiltering)) return <td key={key} className={styles.filterCell} />;
-                  const state = filters.get(c.property ?? "");
+                  if (!isFilterable(c, allowFiltering))
+                    return <td key={key} className={styles.filterCell} />;
+                  const state = filters.get(c.property ?? '');
                   return (
                     <td key={key} className={styles.filterCell}>
-                      <label className={styles.visuallyHidden} htmlFor={`df-${c.property}`}>
+                      <label
+                        className={styles.visuallyHidden}
+                        htmlFor={`df-${c.property}`}
+                      >
                         Filter {c.title ?? c.property}
                       </label>
                       <select
                         id={`df-${c.property}`}
                         className={styles.filterSelect}
-                        value={state?.operator ?? defaultOperatorForType(c.type ?? "string")}
+                        value={
+                          state?.operator ??
+                          defaultOperatorForType(c.type ?? 'string')
+                        }
                         onChange={(e) =>
-                          handleFilter(c.property ?? "", { ...state, operator: e.target.value as FilterOperator })
+                          handleFilter(c.property ?? '', {
+                            ...state,
+                            operator: e.target.value as FilterOperator,
+                          })
                         }
                         aria-label={`${c.title ?? c.property} operator`}
                       >
-                        {FILTER_OPERATORS.filter((op) => op !== "Custom").map((op) => (
-                          <option key={op} value={op}>
-                            {op}
-                          </option>
-                        ))}
+                        {FILTER_OPERATORS.filter((op) => op !== 'Custom').map(
+                          (op) => (
+                            <option key={op} value={op}>
+                              {op}
+                            </option>
+                          )
+                        )}
                       </select>
                       <input
                         className={styles.filterInput}
-                        value={state?.value ?? ""}
+                        value={state?.value ?? ''}
                         onChange={(e) =>
-                          handleFilter(c.property ?? "", { ...state, value: e.target.value })
+                          handleFilter(c.property ?? '', {
+                            ...state,
+                            value: e.target.value,
+                          })
                         }
                         placeholder={`Filter ${c.title ?? c.property}`}
                         aria-label={`${c.title ?? c.property} value`}
@@ -561,20 +866,37 @@ export function DataGrid<TItem = unknown>({
             )}
           </thead>
           <tbody>
-            {editKey === "__new__" && (
+            {editKey === '__new__' && (
               <tr className={styles.editRow}>
                 {renderColumns.map(({ key, column: c }) => (
                   <td key={key} className={styles.editCell}>
                     {c.property && (
                       <input
                         className={styles.editInput}
-                        type={c.type === "number" ? "number" : c.type === "boolean" ? "checkbox" : "text"}
-                        checked={c.type === "boolean" ? Boolean(editValues[c.property]) : undefined}
-                        value={c.type === "boolean" ? undefined : String(editValues[c.property] ?? "")}
+                        type={
+                          c.type === 'number'
+                            ? 'number'
+                            : c.type === 'boolean'
+                              ? 'checkbox'
+                              : 'text'
+                        }
+                        checked={
+                          c.type === 'boolean'
+                            ? Boolean(editValues[c.property])
+                            : undefined
+                        }
+                        value={
+                          c.type === 'boolean'
+                            ? undefined
+                            : String(editValues[c.property] ?? '')
+                        }
                         onChange={(e) =>
                           setEditValues((prev) => ({
                             ...prev,
-                            [c.property as string]: c.type === "boolean" ? e.target.checked : e.target.value,
+                            [c.property as string]:
+                              c.type === 'boolean'
+                                ? e.target.checked
+                                : e.target.value,
                           }))
                         }
                         aria-label={`${c.title ?? c.property} (new)`}
@@ -584,116 +906,235 @@ export function DataGrid<TItem = unknown>({
                 ))}
                 {showCommandColumn && (
                   <td className={styles.editCell}>
-                    <button type="button" className={styles.commandButton} onClick={() => handleEditSave()}>
+                    <button
+                      type="button"
+                      className={styles.commandButton}
+                      onClick={() => handleEditSave()}
+                    >
                       Save
                     </button>
-                    <button type="button" className={styles.commandButton} onClick={handleEditCancel}>
+                    <button
+                      type="button"
+                      className={styles.commandButton}
+                      onClick={handleEditCancel}
+                    >
                       Cancel
                     </button>
                   </td>
                 )}
               </tr>
             )}
-            {groupedItems.map((item) => {
-              if (item.type === "group" && item.group) {
-                const isExpanded = expanded.has(item.group.key);
+            {virtualWindow.top > 0 && (
+              <tr className={styles.spacerRow} aria-hidden="true">
+                <td
+                  colSpan={bodyColSpan}
+                  style={{ height: virtualWindow.top }}
+                />
+              </tr>
+            )}
+            {groupedItems
+              .slice(virtualWindow.start, virtualWindow.end)
+              .map((item, sliceIndex) => {
+                const lineIndex = virtualWindow.start + sliceIndex;
+                const rowSpanIndex = virtualize ? lineIndex + 2 : undefined;
+                if (item.type === 'group' && item.group) {
+                  const isExpanded = expanded.has(item.group.key);
+                  return (
+                    <tr
+                      key={`group-${item.group.key}`}
+                      className={styles.groupRow}
+                      aria-rowindex={rowSpanIndex}
+                    >
+                      <td colSpan={bodyColSpan} className={styles.groupCell}>
+                        <button
+                          type="button"
+                          className={styles.groupToggle}
+                          aria-expanded={isExpanded}
+                          style={{
+                            paddingInlineStart: `${item.group.level * 16}px`,
+                          }}
+                          onClick={() => handleGroupToggle(item.group!.key)}
+                        >
+                          <span aria-hidden="true">
+                            {isExpanded ? '▼' : '▶'}
+                          </span>
+                          {item.group.title}: {item.group.display} (
+                          {item.group.count})
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                }
+                const row = item.row as TItem;
+                const key = rowKey(row);
+                const selected = (selectedKeys ?? []).includes(key);
+                const editing = editKey != null && editKey === String(key);
                 return (
-                  <tr key={`group-${item.group.key}`} className={styles.groupRow}>
-                    <td colSpan={renderColumns.length + (showCommandColumn ? 1 : 0)} className={styles.groupCell}>
-                      <button
-                        type="button"
-                        className={styles.groupToggle}
-                        aria-expanded={isExpanded}
-                        onClick={() => handleGroupToggle(item.group!.key)}
+                  <tr
+                    key={key}
+                    aria-rowindex={rowSpanIndex}
+                    className={[
+                      onRowClick || selectionMode !== 'None'
+                        ? styles.clickable
+                        : '',
+                      selected ? styles.selected : '',
+                      editing ? styles.editRow : '',
+                    ]
+                      .filter(Boolean)
+                      .join(' ')}
+                    aria-selected={
+                      selectionMode !== 'None' ? selected : undefined
+                    }
+                    onClick={
+                      onRowClick || selectionMode !== 'None'
+                        ? (e) => {
+                            if (isInteractiveTarget(e.target)) return;
+                            handleRowClick(row);
+                            handleSelection(row);
+                          }
+                        : undefined
+                    }
+                  >
+                    {renderColumns.map(({ key: colKey, column: c }) => (
+                      <td
+                        key={colKey}
+                        className={cellClass(c)}
+                        style={
+                          c.frozen ? { left: frozenOffsets[colKey] } : undefined
+                        }
                       >
-                        <span aria-hidden="true">{isExpanded ? "▼" : "▶"}</span>
-                        {item.group.title}: {item.group.display} ({item.group.count})
-                      </button>
-                    </td>
+                        {editing && c.property ? (
+                          <input
+                            className={styles.editInput}
+                            type={
+                              c.type === 'number'
+                                ? 'number'
+                                : c.type === 'boolean'
+                                  ? 'checkbox'
+                                  : 'text'
+                            }
+                            checked={
+                              c.type === 'boolean'
+                                ? Boolean(editValues[c.property])
+                                : undefined
+                            }
+                            value={
+                              c.type === 'boolean'
+                                ? undefined
+                                : String(editValues[c.property] ?? '')
+                            }
+                            onChange={(e) =>
+                              setEditValues((prev) => ({
+                                ...prev,
+                                [c.property as string]:
+                                  c.type === 'boolean'
+                                    ? e.target.checked
+                                    : e.target.value,
+                              }))
+                            }
+                            aria-label={`${c.title ?? c.property} (edit)`}
+                          />
+                        ) : (
+                          renderCell(c, row)
+                        )}
+                      </td>
+                    ))}
+                    {showCommandColumn && (
+                      <td className={styles.commandCell}>
+                        {editing ? (
+                          <>
+                            <button
+                              type="button"
+                              className={styles.commandButton}
+                              onClick={() => handleEditSave(row)}
+                            >
+                              Save
+                            </button>
+                            <button
+                              type="button"
+                              className={styles.commandButton}
+                              onClick={handleEditCancel}
+                            >
+                              Cancel
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            {editMode !== 'None' && (
+                              <button
+                                type="button"
+                                className={styles.commandButton}
+                                onClick={() => handleEditStart(row)}
+                              >
+                                Edit
+                              </button>
+                            )}
+                            {onRowDelete && (
+                              <button
+                                type="button"
+                                className={styles.commandButton}
+                                onClick={() => onRowDelete(row)}
+                              >
+                                Delete
+                              </button>
+                            )}
+                          </>
+                        )}
+                      </td>
+                    )}
                   </tr>
                 );
-              }
-              const row = item.row as TItem;
-              const key = rowKey(row);
-              const selected = (selectedKeys ?? []).includes(key);
-              const editing = editKey != null && editKey === String(key);
-              return (
-                <tr
-                  key={key}
-                  className={[
-                    onRowClick || selectionMode !== "None" ? styles.clickable : "",
-                    selected ? styles.selected : "",
-                    editing ? styles.editRow : "",
-                  ].filter(Boolean).join(" ")}
-                  aria-selected={selectionMode !== "None" ? selected : undefined}
-                  onClick={
-                    onRowClick || selectionMode !== "None"
-                      ? (e) => {
-                          if (isInteractiveTarget(e.target)) return;
-                          handleRowClick(row);
-                          handleSelection(row);
-                        }
-                      : undefined
-                  }
-                >
-                  {renderColumns.map(({ key: colKey, column: c }) => (
-                    <td
-                      key={colKey}
-                      className={cellClass(c)}
-                      style={c.frozen ? { left: frozenOffsets[colKey] } : undefined}
-                    >
-                      {editing && c.property ? (
-                        <input
-                          className={styles.editInput}
-                          type={c.type === "number" ? "number" : c.type === "boolean" ? "checkbox" : "text"}
-                          checked={c.type === "boolean" ? Boolean(editValues[c.property]) : undefined}
-                          value={c.type === "boolean" ? undefined : String(editValues[c.property] ?? "")}
-                          onChange={(e) =>
-                            setEditValues((prev) => ({
-                              ...prev,
-                              [c.property as string]: c.type === "boolean" ? e.target.checked : e.target.value,
-                            }))
-                          }
-                          aria-label={`${c.title ?? c.property} (edit)`}
-                        />
-                      ) : (
-                        renderCell(c, row)
-                      )}
-                    </td>
-                  ))}
-                  {showCommandColumn && (
-                    <td className={styles.commandCell}>
-                      {editing ? (
-                        <>
-                          <button type="button" className={styles.commandButton} onClick={() => handleEditSave(row)}>
-                            Save
-                          </button>
-                          <button type="button" className={styles.commandButton} onClick={handleEditCancel}>
-                            Cancel
-                          </button>
-                        </>
-                      ) : (
-                        <>
-                          {editMode !== "None" && (
-                            <button type="button" className={styles.commandButton} onClick={() => handleEditStart(row)}>
-                              Edit
-                            </button>
-                          )}
-                          {onRowDelete && (
-                            <button type="button" className={styles.commandButton} onClick={() => onRowDelete(row)}>
-                              Delete
-                            </button>
-                          )}
-                        </>
-                      )}
-                    </td>
-                  )}
-                </tr>
-              );
-            })}
+              })}
+            {virtualWindow.bottom > 0 && (
+              <tr className={styles.spacerRow} aria-hidden="true">
+                <td
+                  colSpan={bodyColSpan}
+                  style={{ height: virtualWindow.bottom }}
+                />
+              </tr>
+            )}
           </tbody>
+          {aggregates && aggregates.length > 0 && (
+            <tfoot>
+              <tr className={styles.footerRow}>
+                {renderColumns.map(({ key, column: c }) => {
+                  const cellAggregates = aggregates.filter(
+                    (a) => a.property === c.property
+                  );
+                  return (
+                    <td
+                      key={key}
+                      className={[
+                        styles.footerCell,
+                        c.align === 'right' ? styles.right : '',
+                        c.align === 'center' ? styles.center : '',
+                      ]
+                        .filter(Boolean)
+                        .join(' ')}
+                    >
+                      {cellAggregates.map((aggregate, index) => (
+                        <div
+                          key={`${aggregate.property}-${aggregate.type}-${index}`}
+                          className={styles.footerValue}
+                        >
+                          {aggregate.title ? `${aggregate.title}: ` : ''}
+                          {formatValue(
+                            aggregateValue(footerRows, aggregate, columnValue),
+                            aggregate.format
+                          )}
+                        </div>
+                      ))}
+                    </td>
+                  );
+                })}
+                {showCommandColumn && <td className={styles.footerCell} />}
+              </tr>
+            </tfoot>
+          )}
         </table>
-        {view.items.length === 0 && !isLoading && <div className={styles.empty}>{empty}</div>}
+        {view.items.length === 0 && !isLoading && (
+          <div className={styles.empty}>{empty}</div>
+        )}
         {isLoading && (
           <div className={styles.loading} role="status">
             Loading…
@@ -709,7 +1150,7 @@ export function DataGrid<TItem = unknown>({
           pageNumbersCount={pageNumbersCount}
           showSummary={showPagingSummary}
           showPageSizeSelector={showPageSizeSelector}
-          ariaLabel={topPager ? "Pagination (bottom)" : "Pagination"}
+          ariaLabel={`${pagerAriaPrefix}${topPager ? 'Pagination (bottom)' : 'Pagination'}`}
           onPageChange={setPageNumber}
           onPageSizeChange={handlePageSize}
         />

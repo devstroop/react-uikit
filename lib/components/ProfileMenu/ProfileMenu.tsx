@@ -1,5 +1,12 @@
-import { useCallback, useEffect, useId, useRef, useState, type ReactNode } from "react";
-import styles from "./ProfileMenu.module.css";
+import {
+  useCallback,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  type ReactNode,
+} from 'react';
+import styles from './ProfileMenu.module.css';
 
 export interface ProfileMenuItem {
   text: string;
@@ -16,11 +23,7 @@ export interface ProfileMenuItemEventArgs {
 export interface ProfileMenuProps {
   items: ProfileMenuItem[];
   trigger?: ReactNode;
-  /** @deprecated use trigger */
-  Template?: ReactNode;
   onClick?: (args: ProfileMenuItemEventArgs) => void;
-  /** @deprecated use onClick */
-  Click?: (args: ProfileMenuItemEventArgs) => void;
   ariaLabel?: string;
   className?: string;
 }
@@ -28,10 +31,8 @@ export interface ProfileMenuProps {
 export function ProfileMenu({
   items,
   trigger,
-  Template,
   onClick,
-  Click,
-  ariaLabel = "Profile menu",
+  ariaLabel = 'Profile menu',
   className,
 }: ProfileMenuProps) {
   const baseId = useId();
@@ -41,7 +42,7 @@ export function ProfileMenu({
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
 
-  const effectiveTrigger = trigger ?? Template;
+  const effectiveTrigger = trigger;
 
   const enabledIndexes = items
     .map((item, idx) => (!item.disabled ? idx : -1))
@@ -50,13 +51,16 @@ export function ProfileMenu({
   const emit = useCallback(
     (item: ProfileMenuItem) => {
       if (item.disabled) return;
-      const args: ProfileMenuItemEventArgs = { text: item.text, path: item.path };
-      const handler = onClick ?? Click;
+      const args: ProfileMenuItemEventArgs = {
+        text: item.text,
+        path: item.path,
+      };
+      const handler = onClick;
       handler?.(args);
       setOpen(false);
       triggerRef.current?.focus();
     },
-    [onClick, Click],
+    [onClick]
   );
 
   const openMenu = useCallback(() => {
@@ -78,33 +82,43 @@ export function ProfileMenu({
         setActiveIndex(-1);
       }
     };
-    document.addEventListener("mousedown", onMouseDown);
-    return () => document.removeEventListener("mousedown", onMouseDown);
+    document.addEventListener('mousedown', onMouseDown);
+    return () => document.removeEventListener('mousedown', onMouseDown);
   }, [open]);
 
   useEffect(() => {
     if (!open) return;
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
+      if (e.key === 'Escape') {
         e.preventDefault();
         closeMenu();
       }
     };
-    document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
   }, [open, closeMenu]);
 
   const move = (direction: 1 | -1) => {
     if (enabledIndexes.length === 0) return;
     const currentPos = enabledIndexes.indexOf(activeIndex);
-    const nextPos = currentPos === -1 ? 0 : (currentPos + direction + enabledIndexes.length) % enabledIndexes.length;
+    const nextPos =
+      currentPos === -1
+        ? 0
+        : (currentPos + direction + enabledIndexes.length) %
+          enabledIndexes.length;
     const nxt = enabledIndexes[nextPos];
     if (nxt != null) setActiveIndex(nxt);
   };
 
-  const handleTriggerKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
+  const handleTriggerKeyDown = (
+    event: React.KeyboardEvent<HTMLButtonElement>
+  ) => {
     if (!open) {
-      if (event.key === "ArrowDown" || event.key === "Enter" || event.key === " ") {
+      if (
+        event.key === 'ArrowDown' ||
+        event.key === 'Enter' ||
+        event.key === ' '
+      ) {
         event.preventDefault();
         openMenu();
       }
@@ -112,37 +126,37 @@ export function ProfileMenu({
     }
     // when open, handle navigation and activation from trigger (focus stays on trigger after click)
     switch (event.key) {
-      case "Escape":
+      case 'Escape':
         event.preventDefault();
         closeMenu();
         break;
-      case "ArrowDown":
+      case 'ArrowDown':
         event.preventDefault();
         move(1);
         break;
-      case "ArrowUp":
+      case 'ArrowUp':
         event.preventDefault();
         move(-1);
         break;
-      case "Home":
+      case 'Home':
         event.preventDefault();
         if (enabledIndexes[0] != null) setActiveIndex(enabledIndexes[0]);
         break;
-      case "End":
+      case 'End':
         event.preventDefault();
         if (enabledIndexes[enabledIndexes.length - 1] != null) {
           setActiveIndex(enabledIndexes[enabledIndexes.length - 1]!);
         }
         break;
-      case "Enter":
-      case " ":
+      case 'Enter':
+      case ' ':
         event.preventDefault();
         if (activeIndex >= 0) {
           const item = items[activeIndex];
           if (item && !item.disabled) emit(item);
         }
         break;
-      case "Tab":
+      case 'Tab':
         setOpen(false);
         setActiveIndex(-1);
         break;
@@ -151,37 +165,37 @@ export function ProfileMenu({
 
   const handleMenuKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     switch (event.key) {
-      case "ArrowDown":
+      case 'ArrowDown':
         event.preventDefault();
         move(1);
         break;
-      case "ArrowUp":
+      case 'ArrowUp':
         event.preventDefault();
         move(-1);
         break;
-      case "Home":
+      case 'Home':
         event.preventDefault();
         if (enabledIndexes[0] != null) setActiveIndex(enabledIndexes[0]);
         break;
-      case "End":
+      case 'End':
         event.preventDefault();
         if (enabledIndexes[enabledIndexes.length - 1] != null) {
           setActiveIndex(enabledIndexes[enabledIndexes.length - 1]!);
         }
         break;
-      case "Enter":
-      case " ":
+      case 'Enter':
+      case ' ':
         event.preventDefault();
         if (activeIndex >= 0) {
           const item = items[activeIndex];
           if (item && !item.disabled) emit(item);
         }
         break;
-      case "Escape":
+      case 'Escape':
         event.preventDefault();
         closeMenu();
         break;
-      case "Tab":
+      case 'Tab':
         setOpen(false);
         setActiveIndex(-1);
         break;
@@ -191,7 +205,7 @@ export function ProfileMenu({
   return (
     <div
       ref={rootRef}
-      className={[styles.root, className].filter(Boolean).join(" ")}
+      className={[styles.root, className].filter(Boolean).join(' ')}
       data-testid="profile-menu-root"
     >
       <nav aria-label={ariaLabel}>
@@ -220,7 +234,9 @@ export function ProfileMenu({
             id={menuId}
             role="menu"
             aria-label={ariaLabel}
-            aria-activedescendant={activeIndex >= 0 ? `${baseId}-item-${activeIndex}` : undefined}
+            aria-activedescendant={
+              activeIndex >= 0 ? `${baseId}-item-${activeIndex}` : undefined
+            }
             className={styles.menu}
             onKeyDown={handleMenuKeyDown}
             tabIndex={-1}
@@ -235,9 +251,13 @@ export function ProfileMenu({
                   role="menuitem"
                   aria-disabled={disabled || undefined}
                   tabIndex={disabled ? -1 : 0}
-                  className={[styles.item, isActive ? styles.active : null, disabled ? styles.disabled : null]
+                  className={[
+                    styles.item,
+                    isActive ? styles.active : null,
+                    disabled ? styles.disabled : null,
+                  ]
                     .filter(Boolean)
-                    .join(" ")}
+                    .join(' ')}
                   onClick={() => {
                     if (!disabled) emit(item);
                   }}

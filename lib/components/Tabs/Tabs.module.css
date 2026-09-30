@@ -128,12 +128,12 @@
 }
 
 .pills .tab {
-  border-radius: var(--dx-radius-full);
+  border-radius: var(--dx-radius-button);
 }
 
 .pills .tab.active {
   background: var(--dx-primary-color);
-  color: var(--dx-primary-fg-color);
+  color: var(--dx-on-primary-color);
 }
 
 .tab:hover:not(.disabled):not(.active) {

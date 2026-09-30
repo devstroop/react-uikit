@@ -1,5 +1,5 @@
-import { useState, type ChangeEvent } from "react";
-import styles from "./Checkboxlist.module.css";
+import { useState, type ChangeEvent } from 'react';
+import styles from './Checkboxlist.module.css';
 
 export interface CheckboxlistOption {
   value: string;
@@ -26,7 +26,9 @@ export function Checkboxlist({
   name,
   className,
 }: CheckboxlistProps) {
-  const [internalValue, setInternalValue] = useState<string[]>(() => [...defaultValue]);
+  const [internalValue, setInternalValue] = useState<string[]>(() => [
+    ...defaultValue,
+  ]);
   const checkedValues = value ?? internalValue;
 
   const toggle = (optionValue: string, checked: boolean) => {
@@ -38,7 +40,7 @@ export function Checkboxlist({
   };
 
   return (
-    <fieldset className={[styles.group, className].filter(Boolean).join(" ")}>
+    <fieldset className={[styles.group, className].filter(Boolean).join(' ')}>
       {legend != null && <legend className={styles.legend}>{legend}</legend>}
       <ul className={styles.list}>
         {options.map((option) => {
@@ -48,7 +50,7 @@ export function Checkboxlist({
               key={option.value}
               className={[styles.item, option.disabled ? styles.disabled : null]
                 .filter(Boolean)
-                .join(" ")}
+                .join(' ')}
             >
               <label className={styles.label}>
                 <input

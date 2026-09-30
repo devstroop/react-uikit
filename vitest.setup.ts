@@ -1,7 +1,7 @@
-import { cleanup } from "@testing-library/react";
-import { afterEach, beforeAll } from "vitest";
+import { cleanup } from '@testing-library/react';
+import { afterEach, beforeAll } from 'vitest';
 
-import "@testing-library/jest-dom/vitest";
+import '@testing-library/jest-dom/vitest';
 
 class SimpleDataTransfer {
   items: { add: (file: File) => void; length: number };
@@ -21,7 +21,7 @@ class SimpleDataTransfer {
     return this._files;
   }
   getData(type: string): string {
-    return this._data[type] ?? "";
+    return this._data[type] ?? '';
   }
   setData(type: string, value: string): void {
     this._data[type] = value;
@@ -29,25 +29,34 @@ class SimpleDataTransfer {
 }
 
 beforeAll(() => {
-  if (typeof window !== "undefined" && !window.HTMLDialogElement.prototype.showModal) {
+  if (
+    typeof window !== 'undefined' &&
+    !window.HTMLDialogElement.prototype.showModal
+  ) {
     window.HTMLDialogElement.prototype.showModal = function showModal() {
-      this.setAttribute("open", "");
+      this.setAttribute('open', '');
     };
     window.HTMLDialogElement.prototype.close = function close() {
-      this.removeAttribute("open");
-      this.dispatchEvent(new Event("close"));
+      this.removeAttribute('open');
+      this.dispatchEvent(new Event('close'));
     };
-    Object.defineProperty(window.HTMLDialogElement.prototype, "open", {
+    Object.defineProperty(window.HTMLDialogElement.prototype, 'open', {
       configurable: true,
       get() {
-        return this.hasAttribute("open");
+        return this.hasAttribute('open');
       },
     });
   }
-  if (typeof window !== "undefined" && typeof window.DataTransfer === "undefined") {
+  if (
+    typeof window !== 'undefined' &&
+    typeof window.DataTransfer === 'undefined'
+  ) {
     window.DataTransfer = SimpleDataTransfer as unknown as typeof DataTransfer;
   }
-  if (typeof window !== "undefined" && typeof window.DragEvent === "undefined") {
+  if (
+    typeof window !== 'undefined' &&
+    typeof window.DragEvent === 'undefined'
+  ) {
     window.DragEvent = class extends MouseEvent {
       dataTransfer: DataTransfer | null;
       constructor(type: string, init: DragEventInit = {}) {
@@ -56,6 +65,42 @@ beforeAll(() => {
       }
     } as unknown as typeof DragEvent;
   }
+});
+
+beforeAll(() => {
+  // Node >=24 ships an experimental globalThis.localStorage that only
+  // works with --localstorage-file; in the jsdom env window ===
+  // globalThis, so that broken stub shadows jsdom's Storage and bare
+  // localStorage access comes back undefined. Install an in-memory
+  // fallback so tests behave the same on any Node version (no-op where
+  // jsdom's storage is intact, e.g. CI's pinned Node 22).
+  if (typeof localStorage !== 'undefined') return;
+  const store = new Map<string, string>();
+  const memory: Storage = {
+    get length() {
+      return store.size;
+    },
+    clear() {
+      store.clear();
+    },
+    getItem(key: string) {
+      return store.get(key) ?? null;
+    },
+    key(index: number) {
+      return [...store.keys()][index] ?? null;
+    },
+    removeItem(key: string) {
+      store.delete(key);
+    },
+    setItem(key: string, value: string) {
+      store.set(key, String(value));
+    },
+  };
+  Object.defineProperty(globalThis, 'localStorage', {
+    value: memory,
+    configurable: true,
+    writable: true,
+  });
 });
 
 afterEach(() => {

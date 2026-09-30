@@ -1,9 +1,9 @@
 import { ReactNode } from 'react';
-export type GridLines = "default" | "both" | "none" | "horizontal" | "vertical";
+export type GridLines = 'default' | 'both' | 'none' | 'horizontal' | 'vertical';
 export interface Column<T> {
     key: string;
     header: ReactNode;
-    align?: "start" | "center" | "end";
+    align?: 'start' | 'center' | 'end';
     render?: (row: T) => ReactNode;
 }
 export interface TableProps<T> {

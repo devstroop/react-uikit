@@ -10,7 +10,7 @@ export interface FormContextValue {
     submitCount: number;
 }
 export declare function useFormContext(): FormContextValue;
-export type FormMethod = "get" | "post";
+export type FormMethod = 'get' | 'post';
 export interface FormProps {
     model: unknown;
     onSubmit?: (model: unknown) => void;

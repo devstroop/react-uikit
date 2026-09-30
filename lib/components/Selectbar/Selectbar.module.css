@@ -2,8 +2,8 @@
   display: inline-flex;
   align-items: center;
   gap: var(--dx-space-1);
-  border: 1px solid var(--dx-border-strong-color);
-  border-radius: var(--dx-radius-md);
+  border: var(--dx-border-width) solid var(--dx-border-strong-color);
+  border-radius: calc(var(--dx-radius) * 2);
   background-color: var(--dx-surface-color);
   padding: var(--dx-space-1);
   font-family: var(--dx-font-sans);
@@ -18,8 +18,10 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--dx-border-strong-color);
-  border-radius: var(--dx-radius-md);
+  /* Borderless by design: the bar carries the single outer border;
+   * options are text buttons, selected is the primary fill. */
+  border: none;
+  border-radius: calc(var(--dx-radius) * 2);
   background-color: transparent;
   color: var(--dx-text-color);
   font-family: inherit;
@@ -38,17 +40,16 @@
 .selected,
 .selected:hover:not(:disabled) {
   background-color: var(--dx-primary-color);
-  color: var(--dx-primary-fg-color);
-  border-color: var(--dx-primary-color);
+  color: var(--dx-on-primary-color);
 }
 
 .option:focus-visible {
-  outline: 2px solid var(--dx-outline-primary-color);
-  outline-offset: 2px;
+  outline: var(--dx-outline-width) solid var(--dx-outline-primary-color);
+  outline-offset: var(--dx-focus-ring-offset);
 }
 
 .option:disabled {
-  opacity: 0.55;
+  opacity: var(--dx-disabled-opacity);
   cursor: not-allowed;
 }
 

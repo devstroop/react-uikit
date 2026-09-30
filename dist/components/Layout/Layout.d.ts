@@ -1,5 +1,17 @@
 import { HTMLAttributes, ReactNode } from 'react';
-export interface LayoutProps extends HTMLAttributes<HTMLDivElement> {
+type LayoutCommonProps = {
     children?: ReactNode;
-}
-export declare function Layout({ className, children, ...props }: LayoutProps): import("react").JSX.Element;
+};
+export type LayoutProps = LayoutCommonProps & (({
+    bare?: false;
+} & HTMLAttributes<HTMLDivElement>) | {
+    /**
+     * Render children without the layout wrapper (deliberate bare
+     * pages such as 404s). Wrapper props (className, id, style…)
+     * are a type error in this mode, so nothing is silently
+     * dropped.
+     */
+    bare: true;
+});
+export declare function Layout(props: LayoutProps): import("react").JSX.Element;
+export {};

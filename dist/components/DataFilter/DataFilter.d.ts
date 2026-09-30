@@ -24,7 +24,7 @@ export interface DataFilterRow {
 export interface DataFilterProps<TItem = unknown> {
     properties: readonly DataFilterProperty[];
     logicalOperator?: LogicalFilterOperator;
-    filterCaseSensitivity?: "CaseSensitive" | "CaseInsensitive";
+    filterCaseSensitivity?: 'CaseSensitive' | 'CaseInsensitive';
     initialRows?: readonly DataFilterRow[];
     uniqueFilters?: boolean;
     className?: string;

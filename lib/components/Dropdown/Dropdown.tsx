@@ -5,9 +5,9 @@ import {
   useRef,
   useState,
   type KeyboardEvent,
-} from "react";
-import type { ComponentSize } from "../../sizes";
-import styles from "./Dropdown.module.css";
+} from 'react';
+import type { ComponentSize } from '../../sizes';
+import styles from './Dropdown.module.css';
 
 export interface DropdownOption {
   value: string;
@@ -26,7 +26,7 @@ export interface DropdownProps {
   disabled?: boolean;
   className?: string;
   id?: string;
-  "aria-label"?: string;
+  'aria-label'?: string;
 }
 
 const CHEVRON =
@@ -37,8 +37,8 @@ export function Dropdown({
   value,
   defaultValue,
   onChange,
-  placeholder = "Select…",
-  size = "md",
+  placeholder = 'Select…',
+  size = 'md',
   invalid = false,
   disabled = false,
   className,
@@ -48,17 +48,23 @@ export function Dropdown({
   const listboxId = `${baseId}-listbox`;
   const rootRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
-  const [internalValue, setInternalValue] = useState<string | undefined>(defaultValue);
+  const [internalValue, setInternalValue] = useState<string | undefined>(
+    defaultValue
+  );
   const [open, setOpen] = useState(false);
   const selectedValue = value ?? internalValue;
 
   const enabledIndexes = options
-    .map((option, index) => (option.label === "" || option.disabled ? -1 : index))
+    .map((option, index) =>
+      option.label === '' || option.disabled ? -1 : index
+    )
     .filter((index) => index >= 0);
 
-  const selectedIndex = options.findIndex((option) => option.value === selectedValue);
+  const selectedIndex = options.findIndex(
+    (option) => option.value === selectedValue
+  );
   const [activeIndex, setActiveIndex] = useState(() =>
-    enabledIndexes.includes(0) ? 0 : enabledIndexes[0] ?? -1,
+    enabledIndexes.includes(0) ? 0 : (enabledIndexes[0] ?? -1)
   );
 
   const openPopup = useCallback(() => {
@@ -83,8 +89,8 @@ export function Dropdown({
         setOpen(false);
       }
     };
-    document.addEventListener("mousedown", onMouseDown);
-    return () => document.removeEventListener("mousedown", onMouseDown);
+    document.addEventListener('mousedown', onMouseDown);
+    return () => document.removeEventListener('mousedown', onMouseDown);
   }, [open]);
 
   const select = (optionValue: string) => {
@@ -100,58 +106,70 @@ export function Dropdown({
       ? enabledIndexes.indexOf(activeIndex)
       : 0;
     const next =
-      enabledIndexes[(current + direction + enabledIndexes.length) % enabledIndexes.length];
+      enabledIndexes[
+        (current + direction + enabledIndexes.length) % enabledIndexes.length
+      ];
     if (next != null) setActiveIndex(next);
   };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     if (!open) {
-      if (event.key === "ArrowDown") {
+      if (event.key === 'ArrowDown') {
         event.preventDefault();
         openPopup();
       }
       return;
     }
     switch (event.key) {
-      case "ArrowDown":
+      case 'ArrowDown':
         event.preventDefault();
         move(1);
         break;
-      case "ArrowUp":
+      case 'ArrowUp':
         event.preventDefault();
         move(-1);
         break;
-      case "Home":
+      case 'Home':
         event.preventDefault();
         if (enabledIndexes[0] != null) setActiveIndex(enabledIndexes[0]);
         break;
-      case "End":
+      case 'End':
         event.preventDefault();
         if (enabledIndexes[enabledIndexes.length - 1] != null) {
           setActiveIndex(enabledIndexes[enabledIndexes.length - 1]!);
         }
         break;
-      case "Enter":
-      case " ":
+      case 'Enter':
+      case ' ':
         event.preventDefault();
-        if (activeIndex >= 0 && options[activeIndex] && enabledIndexes.includes(activeIndex)) {
-          select(options[activeIndex]?.value ?? "");
+        if (
+          activeIndex >= 0 &&
+          options[activeIndex] &&
+          enabledIndexes.includes(activeIndex)
+        ) {
+          select(options[activeIndex]?.value ?? '');
         }
         break;
-      case "Escape":
+      case 'Escape':
         event.preventDefault();
         closePopup();
         break;
-      case "Tab":
+      case 'Tab':
         setOpen(false);
         break;
     }
   };
 
-  const selectedOption = options.find((option) => option.value === selectedValue);
+  const selectedOption = options.find(
+    (option) => option.value === selectedValue
+  );
 
   return (
-    <div ref={rootRef} className={[styles.root, className].filter(Boolean).join(" ")} onKeyDown={handleKeyDown}>
+    <div
+      ref={rootRef}
+      className={[styles.root, className].filter(Boolean).join(' ')}
+      onKeyDown={handleKeyDown}
+    >
       <button
         ref={triggerRef}
         type="button"
@@ -168,7 +186,7 @@ export function Dropdown({
           invalid ? styles.invalid : null,
         ]
           .filter(Boolean)
-          .join(" ")}
+          .join(' ')}
         onClick={() => (open ? setOpen(false) : openPopup())}
         {...ariaProps}
       >
@@ -176,7 +194,9 @@ export function Dropdown({
           {selectedOption ? selectedOption.label : placeholder}
         </span>
         <span
-          className={[styles.chevron, open ? styles.chevronOpen : null].filter(Boolean).join(" ")}
+          className={[styles.chevron, open ? styles.chevronOpen : null]
+            .filter(Boolean)
+            .join(' ')}
           style={{ backgroundImage: CHEVRON }}
           aria-hidden="true"
         />
@@ -185,12 +205,18 @@ export function Dropdown({
         <div
           id={listboxId}
           role="listbox"
-          aria-activedescendant={activeIndex >= 0 ? `${baseId}-option-${activeIndex}` : undefined}
+          aria-activedescendant={
+            activeIndex >= 0 ? `${baseId}-option-${activeIndex}` : undefined
+          }
           className={styles.menu}
         >
           {options.map((option, index) =>
-            option.label === "" ? (
-              <div key={option.value} className={styles.header} role="presentation">
+            option.label === '' ? (
+              <div
+                key={option.value}
+                className={styles.header}
+                role="presentation"
+              >
                 {option.value}
               </div>
             ) : (
@@ -207,17 +233,18 @@ export function Dropdown({
                   option.disabled ? styles.disabled : null,
                 ]
                   .filter(Boolean)
-                  .join(" ")}
+                  .join(' ')}
                 onClick={() => {
                   if (!option.disabled) select(option.value);
                 }}
                 onMouseEnter={() => {
-                  if (!option.disabled && option.label !== "") setActiveIndex(index);
+                  if (!option.disabled && option.label !== '')
+                    setActiveIndex(index);
                 }}
               >
                 {option.label}
               </div>
-            ),
+            )
           )}
         </div>
       )}

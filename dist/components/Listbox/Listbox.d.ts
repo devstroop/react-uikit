@@ -12,7 +12,7 @@ export interface ListboxProps {
     onChange?: (value: string | string[]) => void;
     className?: string;
     style?: CSSProperties;
-    "aria-label"?: string;
-    "aria-labelledby"?: string;
+    'aria-label'?: string;
+    'aria-labelledby'?: string;
 }
 export declare function Listbox({ options, value, defaultValue, multiple, onChange, className, style, ...ariaProps }: ListboxProps): import("react").JSX.Element;

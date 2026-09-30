@@ -1,8 +1,8 @@
-export type QRCodeErrorCorrection = "low" | "medium" | "quartile" | "high";
+export type QRCodeErrorCorrection = 'low' | 'medium' | 'quartile' | 'high';
 export interface QRCodeProps {
     value: string;
     size?: number;
-    render?: "svg" | "canvas";
+    render?: 'svg' | 'canvas';
     /** Error correction level (default medium). Higher survives more damage. */
     errorCorrection?: QRCodeErrorCorrection;
     /** Quiet-zone width in modules (default 4, the spec minimum). Clamped to >= 0. */

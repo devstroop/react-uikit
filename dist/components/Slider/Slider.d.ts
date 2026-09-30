@@ -1,4 +1,4 @@
-export type SliderOrientation = "horizontal" | "vertical";
+export type SliderOrientation = 'horizontal' | 'vertical';
 export interface SliderProps {
     value?: number;
     valueMin?: number;

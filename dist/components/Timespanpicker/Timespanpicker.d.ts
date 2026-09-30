@@ -1,7 +1,7 @@
 import { InputHTMLAttributes } from 'react';
-export type TimespanpickerPrecision = "day" | "hour" | "minute" | "second";
-export type TimespanpickerSize = "xs" | "sm" | "md" | "lg" | "xl";
-export interface TimespanpickerProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "size" | "value" | "defaultValue" | "onChange"> {
+export type TimespanpickerPrecision = 'day' | 'hour' | 'minute' | 'second';
+export type TimespanpickerSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+export interface TimespanpickerProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'value' | 'defaultValue' | 'onChange'> {
     size?: TimespanpickerSize;
     invalid?: boolean;
     value?: string;

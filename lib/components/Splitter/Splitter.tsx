@@ -1,5 +1,11 @@
-import { useCallback, useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
-import styles from "./Splitter.module.css";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type PointerEvent as ReactPointerEvent,
+} from 'react';
+import styles from './Splitter.module.css';
 
 export interface SplitterPane {
   size?: string;
@@ -24,8 +30,8 @@ export interface SplitterCollapseArgs {
 }
 
 export interface SplitterProps {
-  orientation?: "horizontal" | "vertical";
-  Orientation?: "horizontal" | "vertical";
+  orientation?: 'horizontal' | 'vertical';
+  Orientation?: 'horizontal' | 'vertical';
   panes: SplitterPane[];
   onResize?: (args: SplitterResizeArgs) => void;
   Resize?: (args: SplitterResizeArgs) => void;
@@ -38,11 +44,11 @@ export interface SplitterProps {
 function parsePercent(value: string | undefined, fallback: number): number {
   if (!value) return fallback;
   const trimmed = value.trim();
-  if (trimmed.endsWith("%")) {
+  if (trimmed.endsWith('%')) {
     const n = parseFloat(trimmed.slice(0, -1));
     return Number.isNaN(n) ? fallback : n;
   }
-  if (trimmed.endsWith("px")) {
+  if (trimmed.endsWith('px')) {
     // for simplicity treat px as percent fallback; not precise but keeps logic working
     const n = parseFloat(trimmed.slice(0, -2));
     return Number.isNaN(n) ? fallback : n;
@@ -63,11 +69,11 @@ export function Splitter({
   Resize,
   onCollapse,
   Collapse,
-  ariaLabel = "Splitter",
+  ariaLabel = 'Splitter',
   className,
 }: SplitterProps) {
-  const orient = orientation ?? Orientation ?? "horizontal";
-  const isHorizontal = orient === "horizontal";
+  const orient = orientation ?? Orientation ?? 'horizontal';
+  const isHorizontal = orient === 'horizontal';
   const containerRef = useRef<HTMLDivElement>(null);
 
   // sizes in percent per pane, sum ~100
@@ -86,7 +92,9 @@ export function Splitter({
   }, [panes]);
 
   const [sizes, setSizes] = useState<number[]>(() => computeInitialSizes());
-  const [collapsed, setCollapsed] = useState<boolean[]>(() => panes.map((p) => !!p.collapsed));
+  const [collapsed, setCollapsed] = useState<boolean[]>(() =>
+    panes.map((p) => !!p.collapsed)
+  );
   // remember previous sizes for expand
   const prevSizesRef = useRef<number[]>(sizes);
 
@@ -95,8 +103,14 @@ export function Splitter({
     setCollapsed(panes.map((p) => !!p.collapsed));
   }, [panes]);
 
-  const getMins = useCallback(() => panes.map((p) => parsePercent(p.min, 0)), [panes]);
-  const getMaxs = useCallback(() => panes.map((p) => parsePercent(p.max, 100)), [panes]);
+  const getMins = useCallback(
+    () => panes.map((p) => parsePercent(p.min, 0)),
+    [panes]
+  );
+  const getMaxs = useCallback(
+    () => panes.map((p) => parsePercent(p.max, 100)),
+    [panes]
+  );
 
   const emitResize = useCallback(
     (paneIndex: number, newSize: number): boolean => {
@@ -105,7 +119,7 @@ export function Splitter({
       handler?.(args);
       return !args.cancel;
     },
-    [onResize, Resize],
+    [onResize, Resize]
   );
 
   const emitCollapse = useCallback(
@@ -115,7 +129,7 @@ export function Splitter({
       handler?.(args);
       return !args.cancel;
     },
-    [onCollapse, Collapse],
+    [onCollapse, Collapse]
   );
 
   const toggleCollapse = useCallback(
@@ -134,7 +148,8 @@ export function Splitter({
         setSizes((prev) => {
           const next = [...prev];
           const size = next[paneIndex] ?? 0;
-          const siblingIndex = paneIndex < next.length - 1 ? paneIndex + 1 : paneIndex - 1;
+          const siblingIndex =
+            paneIndex < next.length - 1 ? paneIndex + 1 : paneIndex - 1;
           if (siblingIndex >= 0 && siblingIndex < next.length) {
             const sibSize = next[siblingIndex] ?? 0;
             next[siblingIndex] = sibSize + size;
@@ -162,11 +177,13 @@ export function Splitter({
         });
       }
     },
-    [collapsed, sizes, panes.length, emitCollapse],
+    [collapsed, sizes, panes.length, emitCollapse]
   );
 
   // dragging state
-  const draggingRef = useRef<{ handleIndex: number; pointerId: number } | null>(null);
+  const draggingRef = useRef<{ handleIndex: number; pointerId: number } | null>(
+    null
+  );
 
   const valueFromPointer = useCallback(
     (handleIndex: number, clientX: number, clientY: number): number | null => {
@@ -201,21 +218,25 @@ export function Splitter({
       const leftSize = absolutePercent - sumBefore;
       return leftSize;
     },
-    [isHorizontal, sizes],
+    [isHorizontal, sizes]
   );
 
-  const handlePointerDown = (handleIndex: number, e: ReactPointerEvent<HTMLDivElement>) => {
+  const handlePointerDown = (
+    handleIndex: number,
+    e: ReactPointerEvent<HTMLDivElement>
+  ) => {
     e.preventDefault();
     const target = e.currentTarget;
     target.focus();
-    if (typeof target.setPointerCapture === "function") {
+    if (typeof target.setPointerCapture === 'function') {
       target.setPointerCapture(e.pointerId);
     }
     draggingRef.current = { handleIndex, pointerId: e.pointerId };
   };
 
   const handlePointerMove = (e: ReactPointerEvent<HTMLDivElement>) => {
-    if (!draggingRef.current || draggingRef.current.pointerId !== e.pointerId) return;
+    if (!draggingRef.current || draggingRef.current.pointerId !== e.pointerId)
+      return;
     e.preventDefault();
     const handleIndex = draggingRef.current.handleIndex;
     const leftSizeRaw = valueFromPointer(handleIndex, e.clientX, e.clientY);
@@ -258,12 +279,16 @@ export function Splitter({
   };
 
   const handlePointerUp = (e: ReactPointerEvent<HTMLDivElement>) => {
-    if (!draggingRef.current || draggingRef.current.pointerId !== e.pointerId) return;
+    if (!draggingRef.current || draggingRef.current.pointerId !== e.pointerId)
+      return;
     draggingRef.current = null;
     // final commit already done via move; we could emit again but not needed
   };
 
-  const handleSeparatorKeyDown = (handleIndex: number, e: React.KeyboardEvent<HTMLDivElement>) => {
+  const handleSeparatorKeyDown = (
+    handleIndex: number,
+    e: React.KeyboardEvent<HTMLDivElement>
+  ) => {
     const mins = getMins();
     const maxs = getMaxs();
     const leftIdx = handleIndex;
@@ -276,18 +301,22 @@ export function Splitter({
     const isCollapsibleRight = !!panes[rightIdx]?.collapsible;
 
     if (isHorizontal) {
-      if (e.key === "ArrowLeft") delta = -5;
-      else if (e.key === "ArrowRight") delta = 5;
+      if (e.key === 'ArrowLeft') delta = -5;
+      else if (e.key === 'ArrowRight') delta = 5;
     } else {
-      if (e.key === "ArrowUp") delta = -5;
-      else if (e.key === "ArrowDown") delta = 5;
+      if (e.key === 'ArrowUp') delta = -5;
+      else if (e.key === 'ArrowDown') delta = 5;
     }
-    if (e.key === "Home") {
+    if (e.key === 'Home') {
       e.preventDefault();
       let targetLeft = mins[leftIdx] ?? 0;
       let targetRight = total - targetLeft;
       // ensure right within max/min
-      targetRight = clamp(targetRight, mins[rightIdx] ?? 0, maxs[rightIdx] ?? 100);
+      targetRight = clamp(
+        targetRight,
+        mins[rightIdx] ?? 0,
+        maxs[rightIdx] ?? 100
+      );
       targetLeft = total - targetRight;
       targetLeft = clamp(targetLeft, mins[leftIdx] ?? 0, maxs[leftIdx] ?? 100);
       if (!emitResize(leftIdx, targetLeft)) return;
@@ -299,12 +328,16 @@ export function Splitter({
       });
       return;
     }
-    if (e.key === "End") {
+    if (e.key === 'End') {
       e.preventDefault();
       let targetLeft = maxs[leftIdx] ?? 100;
       targetLeft = Math.min(targetLeft, total - (mins[rightIdx] ?? 0));
       let targetRight = total - targetLeft;
-      targetRight = clamp(targetRight, mins[rightIdx] ?? 0, maxs[rightIdx] ?? 100);
+      targetRight = clamp(
+        targetRight,
+        mins[rightIdx] ?? 0,
+        maxs[rightIdx] ?? 100
+      );
       targetLeft = total - targetRight;
       targetLeft = clamp(targetLeft, mins[leftIdx] ?? 0, maxs[leftIdx] ?? 100);
       if (!emitResize(leftIdx, targetLeft)) return;
@@ -316,7 +349,10 @@ export function Splitter({
       });
       return;
     }
-    if ((e.key === "Enter" || e.key === " ") && (isCollapsibleLeft || isCollapsibleRight)) {
+    if (
+      (e.key === 'Enter' || e.key === ' ') &&
+      (isCollapsibleLeft || isCollapsibleRight)
+    ) {
       e.preventDefault();
       // prefer left collapsible, else right
       const targetIdx = isCollapsibleLeft ? leftIdx : rightIdx;
@@ -353,29 +389,45 @@ export function Splitter({
   return (
     <div
       ref={containerRef}
-      className={[styles.root, isHorizontal ? styles.horizontal : styles.vertical, className].filter(Boolean).join(" ")}
+      className={[
+        styles.root,
+        isHorizontal ? styles.horizontal : styles.vertical,
+        className,
+      ]
+        .filter(Boolean)
+        .join(' ')}
       aria-label={ariaLabel}
     >
       {panes.map((pane, index) => {
         const isCollapsed = !!collapsed[index];
         const size = isCollapsed ? 0 : (sizes[index] ?? 100 / panes.length);
         const paneStyle: React.CSSProperties = isCollapsed
-          ? { display: "none" }
+          ? { display: 'none' }
           : isHorizontal
-            ? { flexBasis: `${size}%`, flexGrow: 0, flexShrink: 0, overflow: "auto" }
-            : { flexBasis: `${size}%`, flexGrow: 0, flexShrink: 0, overflow: "auto" };
+            ? {
+                flexBasis: `${size}%`,
+                flexGrow: 0,
+                flexShrink: 0,
+                overflow: 'auto',
+              }
+            : {
+                flexBasis: `${size}%`,
+                flexGrow: 0,
+                flexShrink: 0,
+                overflow: 'auto',
+              };
         const min = parsePercent(pane.min, 0);
         const max = parsePercent(pane.max, 100);
         const hasHandleAfter = index < panes.length - 1;
         const nextPaneCollapsible = !!panes[index + 1]?.collapsible;
         return (
-          <div key={index} style={{ display: "contents" }}>
+          <div key={index} style={{ display: 'contents' }}>
             <div
               role="group"
               aria-label={pane.label ?? `Pane ${index + 1}`}
               className={styles.pane}
               style={paneStyle}
-              data-collapsed={isCollapsed ? "true" : undefined}
+              data-collapsed={isCollapsed ? 'true' : undefined}
             >
               {!isCollapsed ? pane.children : null}
               {pane.collapsible && !isCollapsed ? (
@@ -386,7 +438,7 @@ export function Splitter({
                   aria-expanded={!isCollapsed}
                   onClick={() => toggleCollapse(index)}
                 >
-                  {isHorizontal ? "◀" : "▲"}
+                  {isHorizontal ? '◀' : '▲'}
                 </button>
               ) : null}
               {pane.collapsible && isCollapsed ? (
@@ -397,7 +449,7 @@ export function Splitter({
                   aria-expanded={!isCollapsed}
                   onClick={() => toggleCollapse(index)}
                 >
-                  {isHorizontal ? "▶" : "▼"}
+                  {isHorizontal ? '▶' : '▼'}
                 </button>
               ) : null}
             </div>
@@ -412,7 +464,7 @@ export function Splitter({
                 aria-expanded="false"
                 onClick={() => toggleCollapse(index)}
               >
-                {isHorizontal ? "▶" : "▼"}
+                {isHorizontal ? '▶' : '▼'}
               </button>
             ) : null}
             {hasHandleAfter ? (
@@ -424,7 +476,14 @@ export function Splitter({
                 aria-valuenow={Math.round(size)}
                 aria-label={`Resize handle ${index + 1}`}
                 tabIndex={isCollapsed || collapsed[index + 1] ? -1 : 0}
-                className={[styles.handle, isHorizontal ? styles.handleHorizontal : styles.handleVertical].filter(Boolean).join(" ")}
+                className={[
+                  styles.handle,
+                  isHorizontal
+                    ? styles.handleHorizontal
+                    : styles.handleVertical,
+                ]
+                  .filter(Boolean)
+                  .join(' ')}
                 onPointerDown={(e) => handlePointerDown(index, e)}
                 onPointerMove={handlePointerMove}
                 onPointerUp={handlePointerUp}
@@ -432,7 +491,10 @@ export function Splitter({
               >
                 <span className={styles.handleGrip} aria-hidden="true" />
                 {(pane.collapsible || nextPaneCollapsible) && (
-                  <span className={styles.handleCollapseHint} aria-hidden="true" />
+                  <span
+                    className={styles.handleCollapseHint}
+                    aria-hidden="true"
+                  />
                 )}
               </div>
             ) : null}

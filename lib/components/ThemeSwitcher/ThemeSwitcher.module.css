@@ -4,5 +4,4 @@
   gap: var(--dx-space-2);
   font-size: var(--dx-font-size-sm);
   color: var(--dx-text-color);
-  cursor: pointer;
 }

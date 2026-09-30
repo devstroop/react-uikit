@@ -15,4 +15,4 @@ export interface VirtualGridProps {
     ariaLabel?: string;
     className?: string;
 }
-export declare function VirtualGrid({ count, rowHeight, height, loadData, columns, ariaLabel, className }: VirtualGridProps): import("react").JSX.Element;
+export declare function VirtualGrid({ count, rowHeight, height, loadData, columns, ariaLabel, className, }: VirtualGridProps): import("react").JSX.Element;

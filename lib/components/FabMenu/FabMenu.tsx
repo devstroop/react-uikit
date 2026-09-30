@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useId, useRef, useState } from "react";
-import styles from "./FabMenu.module.css";
+import { useCallback, useEffect, useId, useRef, useState } from 'react';
+import styles from './FabMenu.module.css';
 
 export interface FabMenuItem {
   text: string;
@@ -13,17 +13,14 @@ export interface FabMenuItemEventArgs {
   value?: string;
 }
 
-export type FabMenuPosition = "bottom-right" | "bottom-left" | "top-right" | "top-left";
+export type FabMenuPosition =
+  'bottom-right' | 'bottom-left' | 'top-right' | 'top-left';
 
 export interface FabMenuProps {
   items: FabMenuItem[];
   position?: FabMenuPosition;
-  /** @deprecated use position */
-  Position?: FabMenuPosition;
   icon?: string;
   onClick?: (args: FabMenuItemEventArgs) => void;
-  /** @deprecated use onClick */
-  Click?: (args: FabMenuItemEventArgs) => void;
   ariaLabel?: string;
   className?: string;
 }
@@ -31,14 +28,12 @@ export interface FabMenuProps {
 export function FabMenu({
   items,
   position,
-  Position,
-  icon = "+",
+  icon = '+',
   onClick,
-  Click,
-  ariaLabel = "Open menu",
+  ariaLabel = 'Open menu',
   className,
 }: FabMenuProps) {
-  const effectivePosition = position ?? Position ?? "bottom-right";
+  const effectivePosition = position ?? 'bottom-right';
   const baseId = useId();
   const menuId = `${baseId}-menu`;
   const rootRef = useRef<HTMLDivElement>(null);
@@ -49,12 +44,12 @@ export function FabMenu({
     (item: FabMenuItem) => {
       if (item.disabled) return;
       const args: FabMenuItemEventArgs = { text: item.text, value: item.value };
-      const handler = onClick ?? Click;
+      const handler = onClick;
       handler?.(args);
       setOpen(false);
       mainBtnRef.current?.focus();
     },
-    [onClick, Click],
+    [onClick]
   );
 
   useEffect(() => {
@@ -64,43 +59,49 @@ export function FabMenu({
         setOpen(false);
       }
     };
-    document.addEventListener("mousedown", onMouseDown);
-    return () => document.removeEventListener("mousedown", onMouseDown);
+    document.addEventListener('mousedown', onMouseDown);
+    return () => document.removeEventListener('mousedown', onMouseDown);
   }, [open]);
 
   useEffect(() => {
     if (!open) return;
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
+      if (e.key === 'Escape') {
         setOpen(false);
         mainBtnRef.current?.focus();
       }
     };
-    document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
   }, [open]);
 
   const positionClass =
-    effectivePosition === "bottom-right"
+    effectivePosition === 'bottom-right'
       ? styles.bottomRight
-      : effectivePosition === "bottom-left"
+      : effectivePosition === 'bottom-left'
         ? styles.bottomLeft
-        : effectivePosition === "top-right"
+        : effectivePosition === 'top-right'
           ? styles.topRight
           : styles.topLeft;
 
   const handleMainKeyDown = (e: React.KeyboardEvent) => {
-    if (!open && (e.key === "Enter" || e.key === " " || e.key === "ArrowDown" || e.key === "ArrowUp")) {
+    if (
+      !open &&
+      (e.key === 'Enter' ||
+        e.key === ' ' ||
+        e.key === 'ArrowDown' ||
+        e.key === 'ArrowUp')
+    ) {
       e.preventDefault();
       setOpen(true);
-    } else if (open && e.key === "Escape") {
+    } else if (open && e.key === 'Escape') {
       e.preventDefault();
       setOpen(false);
     }
   };
 
   const handleMenuKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Escape") {
+    if (e.key === 'Escape') {
       e.preventDefault();
       setOpen(false);
       mainBtnRef.current?.focus();
@@ -110,7 +111,9 @@ export function FabMenu({
   return (
     <div
       ref={rootRef}
-      className={[styles.root, positionClass, className].filter(Boolean).join(" ")}
+      className={[styles.root, positionClass, className]
+        .filter(Boolean)
+        .join(' ')}
       data-testid="fab-menu"
     >
       {open ? (
@@ -136,11 +139,13 @@ export function FabMenu({
                   title={item.text}
                   disabled={disabled}
                   tabIndex={disabled ? -1 : 0}
-                  className={[styles.item, disabled ? styles.disabled : null].filter(Boolean).join(" ")}
+                  className={[styles.item, disabled ? styles.disabled : null]
+                    .filter(Boolean)
+                    .join(' ')}
                   onClick={() => emit(item)}
                 >
                   <span className={styles.itemIcon} aria-hidden="true">
-                    {item.icon ?? "•"}
+                    {item.icon ?? '•'}
                   </span>
                 </button>
               </div>
@@ -159,7 +164,12 @@ export function FabMenu({
         onClick={() => setOpen((v) => !v)}
         onKeyDown={handleMainKeyDown}
       >
-        <span aria-hidden="true" className={[styles.mainIcon, open ? styles.mainOpen : null].filter(Boolean).join(" ")}>
+        <span
+          aria-hidden="true"
+          className={[styles.mainIcon, open ? styles.mainOpen : null]
+            .filter(Boolean)
+            .join(' ')}
+        >
           {icon}
         </span>
       </button>

@@ -1,10 +1,10 @@
-export type FilterOperator = "Equals" | "NotEquals" | "LessThan" | "LessThanOrEquals" | "GreaterThan" | "GreaterThanOrEquals" | "Contains" | "StartsWith" | "EndsWith" | "DoesNotContain" | "In" | "NotIn" | "IsNull" | "IsEmpty" | "IsNotNull" | "IsNotEmpty" | "Custom";
+export type FilterOperator = 'Equals' | 'NotEquals' | 'LessThan' | 'LessThanOrEquals' | 'GreaterThan' | 'GreaterThanOrEquals' | 'Contains' | 'StartsWith' | 'EndsWith' | 'DoesNotContain' | 'In' | 'NotIn' | 'IsNull' | 'IsEmpty' | 'IsNotNull' | 'IsNotEmpty' | 'Custom';
 export declare const FILTER_OPERATORS: readonly FilterOperator[];
-export type LogicalFilterOperator = "And" | "Or";
-export type SortOrder = "Ascending" | "Descending";
-export type FilterCaseSensitivity = "CaseSensitive" | "CaseInsensitive";
+export type LogicalFilterOperator = 'And' | 'Or';
+export type SortOrder = 'Ascending' | 'Descending';
+export type FilterCaseSensitivity = 'CaseSensitive' | 'CaseInsensitive';
 export declare const DEFAULT_OPERATOR_BY_TYPE: Record<FilterPropertyType, FilterOperator>;
-export type FilterPropertyType = "string" | "number" | "boolean" | "date" | "enum";
+export type FilterPropertyType = 'string' | 'number' | 'boolean' | 'date' | 'enum';
 export interface FilterDescriptor {
     property: string;
     operator: FilterOperator;
@@ -14,7 +14,7 @@ export interface FilterDescriptor {
     logicalOperator?: LogicalFilterOperator;
 }
 export interface CompositeFilterDescriptor {
-    operator: "And" | "Or";
+    operator: 'And' | 'Or';
     logicalOperator?: LogicalFilterOperator;
     filters: FilterNode[];
 }

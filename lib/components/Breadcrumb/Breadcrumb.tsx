@@ -1,4 +1,4 @@
-import styles from "./Breadcrumb.module.css";
+import styles from './Breadcrumb.module.css';
 
 export interface BreadcrumbItem {
   text: string;
@@ -15,21 +15,27 @@ export interface BreadcrumbItemEventArgs {
 export interface BreadcrumbProps {
   items: BreadcrumbItem[];
   onClick?: (args: BreadcrumbItemEventArgs) => void;
-  /** @deprecated use onClick */
-  Click?: (args: BreadcrumbItemEventArgs) => void;
   ariaLabel?: string;
   className?: string;
 }
 
-export function Breadcrumb({ items, onClick, Click, ariaLabel = "Breadcrumb", className }: BreadcrumbProps) {
-  const handler = onClick ?? Click;
+export function Breadcrumb({
+  items,
+  onClick,
+  ariaLabel = 'Breadcrumb',
+  className,
+}: BreadcrumbProps) {
+  const handler = onClick;
   const emit = (item: BreadcrumbItem) => {
     if (item.disabled) return;
     handler?.({ text: item.text, path: item.path });
   };
 
   return (
-    <nav aria-label={ariaLabel} className={[styles.root, className].filter(Boolean).join(" ")}>
+    <nav
+      aria-label={ariaLabel}
+      className={[styles.root, className].filter(Boolean).join(' ')}
+    >
       <ol className={styles.list}>
         {items.map((item, index) => {
           const isLast = index === items.length - 1;
@@ -39,7 +45,9 @@ export function Breadcrumb({ items, onClick, Click, ariaLabel = "Breadcrumb", cl
               {isLast ? (
                 disabled ? (
                   <span
-                    className={[styles.current, styles.disabled].filter(Boolean).join(" ")}
+                    className={[styles.current, styles.disabled]
+                      .filter(Boolean)
+                      .join(' ')}
                     aria-current="page"
                     aria-disabled="true"
                     tabIndex={-1}
@@ -84,7 +92,9 @@ export function Breadcrumb({ items, onClick, Click, ariaLabel = "Breadcrumb", cl
                 )
               ) : disabled ? (
                 <span
-                  className={[styles.link, styles.disabled].filter(Boolean).join(" ")}
+                  className={[styles.link, styles.disabled]
+                    .filter(Boolean)
+                    .join(' ')}
                   aria-disabled="true"
                   tabIndex={-1}
                 >

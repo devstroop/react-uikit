@@ -15,7 +15,7 @@
   min-width: 0;
   box-sizing: border-box;
   border: 1px solid var(--dx-border-strong-color);
-  border-radius: var(--dx-radius-md);
+  border-radius: var(--dx-radius-input);
   background-color: var(--dx-surface-color);
   color: var(--dx-text-color);
   font-family: inherit;
@@ -40,7 +40,8 @@
 .invalid,
 .invalid:focus-visible {
   border-color: var(--dx-danger-color);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--dx-danger-color) 25%, transparent);
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--dx-danger-color) 25%, transparent);
 }
 
 .placeholder {
@@ -77,7 +78,7 @@
   right: 0;
   z-index: var(--dx-z-popover);
   border: 1px solid var(--dx-border-strong-color);
-  border-radius: var(--dx-radius-md);
+  border-radius: calc(var(--dx-radius) * 2);
   background-color: var(--dx-surface-color);
   box-shadow: var(--dx-shadow-md);
   padding: var(--dx-space-1);
@@ -89,7 +90,7 @@
   display: flex;
   align-items: center;
   padding: var(--dx-space-2) var(--dx-space-3);
-  border-radius: var(--dx-radius-md);
+  border-radius: calc(var(--dx-radius) * 2);
   color: var(--dx-text-color);
   font-size: var(--dx-font-size-sm);
   cursor: pointer;
@@ -103,7 +104,7 @@
 .option.active,
 .option.selected {
   background-color: var(--dx-primary-color);
-  color: var(--dx-primary-fg-color);
+  color: var(--dx-on-primary-color);
 }
 
 .option.disabled {

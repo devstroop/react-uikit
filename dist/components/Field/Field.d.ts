@@ -1,4 +1,11 @@
 import { ReactNode } from 'react';
+/**
+ * Top-label field wrapper (label + hint + error with id/aria wiring).
+ *
+ * @deprecated Prefer `FormField` for new code — the material field box
+ * (floating label, start/end adornments, variants). `Field` keeps its
+ * exact rendering and will be removed in 3.0.
+ */
 export interface FieldProps {
     label?: ReactNode;
     htmlFor?: string;
@@ -16,4 +23,4 @@ export interface FieldProps {
     /** Render nothing when false. Defaults to true. */
     visible?: boolean;
 }
-export declare function Field({ label, htmlFor, required, hint, supporting, error, children, className, visible }: FieldProps): import("react").JSX.Element | null;
+export declare function Field({ label, htmlFor, required, hint, supporting, error, children, className, visible, }: FieldProps): import("react").JSX.Element | null;

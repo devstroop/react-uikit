@@ -4,10 +4,10 @@
 #   technology  delivery technology
 #   description one-liner
 #   tokens.sync path (relative to this file) where the generated tokens.css
-#                is synced — see scripts/generate-css.mjs
+#                is synced (hand-maintained in lib/styles/tokens.css)
 #   commands    local development commands (run from this directory)
 
-name: "@devstroop/react-uikit"
+name: '@devstroop/react-uikit'
 technology: react
 description: React implementation of the uikit specs — presentational, themeable, project-agnostic.
 
