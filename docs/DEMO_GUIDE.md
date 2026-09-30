@@ -11,10 +11,10 @@ Every routed demo page (except `''` index) must satisfy all of:
 
 1. **`DemoPage` receives a `description`** — one plain-language sentence on
    what the component is for (the page subtitle under the H1).
-2. **At least 3 titled sections** (genuinely one-purpose components may
-   ship with fewer — today only `icon`, with 2) — each section has an
-   `id` (anchor/TOC), a `title`, and a 1–2 sentence `description` where
-   it adds context.
+2. **At least 3 titled sections** (documented floors below that live in
+   `e2e/demo-completeness.spec.ts` — today only `icon`, with 2) — each
+   section has an `id` (anchor/TOC), a `title`, and a 1–2 sentence
+   `description` where it adds context.
 3. **Section archetypes** — pick from the catalog below; aim to cover the
    applicable archetypes for the component's API surface.
 4. **Real interaction** — buttons that click, controlled states that move,
@@ -56,10 +56,11 @@ Keyboard.
 
 ## Enforcement
 
-The checklist above is PR-review discipline — there is no automated
-ratchet for it (the old `demo-completeness` test was removed). The
-automated gate is:
-
+- `e2e/demo-completeness.spec.ts` — walks every nav route and asserts
+  the checklist against the rendered DOM: H1, description subtitle, and
+  the section floor with anchor ids and headings. Floors below 3 (today:
+  `icon`, 2) are documented in the spec; it also checks nav and the
+  route table list the same slugs.
 - `e2e/axe.spec.ts` — axe crawls every demo route (default theme) on top
   of the 8-theme `/` matrix; zero violations anywhere.
 
