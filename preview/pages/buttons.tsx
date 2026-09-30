@@ -5,10 +5,10 @@ import {
   Icon,
   Row,
   Select,
-  Splitbutton,
+  SplitButton,
   Stack,
   Text,
-  Togglebutton,
+  ToggleButton,
   type ButtonVariant,
   type IconName,
 } from '../../lib/main';
@@ -26,13 +26,13 @@ const BUTTON_ICONS: Record<
   (typeof BUTTON_STYLES)[number],
   { icon: IconName; label: string }
 > = {
-  primary: { icon: 'plus', label: 'Add new' },
-  secondary: { icon: 'plus', label: 'Add new' },
+  primary: { icon: 'add', label: 'Add new' },
+  secondary: { icon: 'add', label: 'Add new' },
   base: { icon: 'refresh', label: 'Refresh' },
   info: { icon: 'info', label: 'Privacy tip' },
-  success: { icon: 'check-circle', label: 'Publish' },
-  warning: { icon: 'alert', label: 'Warning' },
-  danger: { icon: 'ban', label: 'Report' },
+  success: { icon: 'check_circle', label: 'Publish' },
+  warning: { icon: 'warning', label: 'Warning' },
+  danger: { icon: 'block', label: 'Report' },
 };
 
 const SPLIT_ITEMS = [
@@ -205,7 +205,7 @@ export function ButtonDemos({ slug }: { slug: string }) {
   if (slug === 'togglebutton') {
     return (
       <DemoPage
-        title="Togglebutton"
+        title="ToggleButton"
         description="A Button that keeps its pressed state — aria-pressed plus the Radzen toggle axis (toggleVariant, toggleSeverity, toggleShade) applied while pressed."
         sections={[
           {
@@ -215,11 +215,11 @@ export function ButtonDemos({ slug }: { slug: string }) {
               'Controlled with pressed/onChange, or uncontrolled with defaultPressed.',
             content: (
               <Row align="center" gap={12} wrap>
-                <Togglebutton pressed={pressed} onChange={setPressed}>
+                <ToggleButton pressed={pressed} onChange={setPressed}>
                   {pressed ? 'On' : 'Off'}
-                </Togglebutton>
-                <Togglebutton defaultPressed>Default on</Togglebutton>
-                <Togglebutton disabled>Disabled</Togglebutton>
+                </ToggleButton>
+                <ToggleButton defaultPressed>Default on</ToggleButton>
+                <ToggleButton disabled>Disabled</ToggleButton>
               </Row>
             ),
           },
@@ -232,12 +232,12 @@ export function ButtonDemos({ slug }: { slug: string }) {
               <Row align="center" gap={12} wrap>
                 {BUTTON_VARIANTS.map((variant) => (
                   <Row key={variant} align="center" gap={8}>
-                    <Togglebutton variant={variant}>
+                    <ToggleButton variant={variant}>
                       {capitalize(variant)}
-                    </Togglebutton>
-                    <Togglebutton variant={variant} defaultPressed>
+                    </ToggleButton>
+                    <ToggleButton variant={variant} defaultPressed>
                       {capitalize(variant)}
-                    </Togglebutton>
+                    </ToggleButton>
                   </Row>
                 ))}
               </Row>
@@ -251,7 +251,7 @@ export function ButtonDemos({ slug }: { slug: string }) {
             content: (
               <Row align="center" gap={12} wrap>
                 <Row align="center" gap={8}>
-                  <Togglebutton
+                  <ToggleButton
                     variant="text"
                     severity="base"
                     toggleVariant="flat"
@@ -259,8 +259,8 @@ export function ButtonDemos({ slug }: { slug: string }) {
                     toggleShade="lighter"
                   >
                     Text → Flat
-                  </Togglebutton>
-                  <Togglebutton
+                  </ToggleButton>
+                  <ToggleButton
                     defaultPressed
                     variant="text"
                     severity="base"
@@ -269,13 +269,13 @@ export function ButtonDemos({ slug }: { slug: string }) {
                     toggleShade="lighter"
                   >
                     Text → Flat
-                  </Togglebutton>
+                  </ToggleButton>
                 </Row>
                 <Row align="center" gap={8}>
-                  <Togglebutton variant="outlined" severity="success">
+                  <ToggleButton variant="outlined" severity="success">
                     Pinned hue
-                  </Togglebutton>
-                  <Togglebutton
+                  </ToggleButton>
+                  <ToggleButton
                     defaultPressed
                     variant="outlined"
                     severity="success"
@@ -283,13 +283,13 @@ export function ButtonDemos({ slug }: { slug: string }) {
                     toggleShade="darker"
                   >
                     Pinned hue
-                  </Togglebutton>
+                  </ToggleButton>
                 </Row>
                 <Row align="center" gap={8}>
-                  <Togglebutton variant="filled" severity="warning">
+                  <ToggleButton variant="filled" severity="warning">
                     Filled → lighter
-                  </Togglebutton>
-                  <Togglebutton
+                  </ToggleButton>
+                  <ToggleButton
                     defaultPressed
                     variant="filled"
                     severity="warning"
@@ -297,7 +297,7 @@ export function ButtonDemos({ slug }: { slug: string }) {
                     toggleShade="light"
                   >
                     Filled → lighter
-                  </Togglebutton>
+                  </ToggleButton>
                 </Row>
               </Row>
             ),
@@ -310,29 +310,29 @@ export function ButtonDemos({ slug }: { slug: string }) {
             content: (
               <Row align="center" gap={12} wrap>
                 <Row align="center" gap={8}>
-                  <Togglebutton
+                  <ToggleButton
                     iconOnly
                     toggleContent={
-                      <Icon name="check" size={20} aria-hidden="true" />
+                      <Icon icon="check" size={20} aria-hidden="true" />
                     }
                     aria-label="Published"
                   >
-                    <Icon name="eye" size={20} aria-hidden="true" />
-                  </Togglebutton>
-                  <Togglebutton
+                    <Icon icon="visibility" size={20} aria-hidden="true" />
+                  </ToggleButton>
+                  <ToggleButton
                     iconOnly
                     defaultPressed
                     toggleContent={
-                      <Icon name="check" size={20} aria-hidden="true" />
+                      <Icon icon="check" size={20} aria-hidden="true" />
                     }
                     aria-label="Published"
                   >
-                    <Icon name="eye" size={20} aria-hidden="true" />
-                  </Togglebutton>
+                    <Icon icon="visibility" size={20} aria-hidden="true" />
+                  </ToggleButton>
                 </Row>
-                <Togglebutton defaultPressed toggleContent="On">
+                <ToggleButton defaultPressed toggleContent="On">
                   Off
-                </Togglebutton>
+                </ToggleButton>
               </Row>
             ),
           },
@@ -342,19 +342,19 @@ export function ButtonDemos({ slug }: { slug: string }) {
             content: (
               <>
                 <Row align="center" gap={12} wrap>
-                  <Togglebutton size="sm">Small</Togglebutton>
-                  <Togglebutton size="md">Medium</Togglebutton>
-                  <Togglebutton size="lg">Large</Togglebutton>
-                  <Togglebutton loading>Saving</Togglebutton>
+                  <ToggleButton size="sm">Small</ToggleButton>
+                  <ToggleButton size="md">Medium</ToggleButton>
+                  <ToggleButton size="lg">Large</ToggleButton>
+                  <ToggleButton loading>Saving</ToggleButton>
                 </Row>
                 <div className="dx-mt-4">
-                  <Togglebutton
+                  <ToggleButton
                     fullWidth
                     pressed={pressed}
                     onChange={setPressed}
                   >
                     {pressed ? 'On (full width)' : 'Off (full width)'}
-                  </Togglebutton>
+                  </ToggleButton>
                 </div>
               </>
             ),
@@ -366,7 +366,7 @@ export function ButtonDemos({ slug }: { slug: string }) {
   if (slug === 'splitbutton') {
     return (
       <DemoPage
-        title="Splitbutton"
+        title="SplitButton"
         description="A primary action plus a caret that opens a menu — both halves render Button, so the variant, severity and shade axes behave exactly like Button."
         sections={[
           {
@@ -376,7 +376,7 @@ export function ButtonDemos({ slug }: { slug: string }) {
               'aria-label names the action button; openAriaLabel names the caret and menu (Radzen ButtonAriaLabel/OpenAriaLabel parity).',
             content: (
               <Row align="center" gap={12} wrap>
-                <Splitbutton
+                <SplitButton
                   label="Save"
                   onClick={() => undefined}
                   items={[
@@ -384,7 +384,7 @@ export function ButtonDemos({ slug }: { slug: string }) {
                     { key: 'template', label: 'Save as template' },
                   ]}
                 />
-                <Splitbutton
+                <SplitButton
                   label="Delete"
                   severity="danger"
                   variant="outlined"
@@ -403,7 +403,7 @@ export function ButtonDemos({ slug }: { slug: string }) {
               <>
                 <Row align="center" gap={12} wrap>
                   {BUTTON_VARIANTS.map((variant) => (
-                    <Splitbutton
+                    <SplitButton
                       key={variant}
                       variant={variant}
                       label={capitalize(variant)}
@@ -415,7 +415,7 @@ export function ButtonDemos({ slug }: { slug: string }) {
                 </Row>
                 <Row align="center" gap={12} wrap className="dx-mt-4">
                   {BUTTON_STYLES.map((style) => (
-                    <Splitbutton
+                    <SplitButton
                       key={style}
                       severity={style}
                       label={capitalize(style)}
@@ -427,7 +427,7 @@ export function ButtonDemos({ slug }: { slug: string }) {
                 </Row>
                 <Row align="center" gap={12} wrap className="dx-mt-4">
                   {BUTTON_SHADES.map((shade) => (
-                    <Splitbutton
+                    <SplitButton
                       key={shade}
                       shade={shade}
                       label={capitalize(shade)}
@@ -446,7 +446,7 @@ export function ButtonDemos({ slug }: { slug: string }) {
             description:
               'Items carry an icon (Radzen SplitButtonItem.Icon parity), plus danger and disabled states.',
             content: (
-              <Splitbutton
+              <SplitButton
                 label="Export"
                 items={[
                   { key: 'pdf', label: 'Export as PDF', icon: 'file' },
@@ -474,16 +474,16 @@ export function ButtonDemos({ slug }: { slug: string }) {
             content: (
               <>
                 <Row align="center" gap={12} wrap>
-                  <Splitbutton size="sm" label="Small" items={SPLIT_ITEMS} />
-                  <Splitbutton size="md" label="Medium" items={SPLIT_ITEMS} />
-                  <Splitbutton size="lg" label="Large" items={SPLIT_ITEMS} />
+                  <SplitButton size="sm" label="Small" items={SPLIT_ITEMS} />
+                  <SplitButton size="md" label="Medium" items={SPLIT_ITEMS} />
+                  <SplitButton size="lg" label="Large" items={SPLIT_ITEMS} />
                 </Row>
                 <Row align="center" gap={12} wrap className="dx-mt-4">
-                  <Splitbutton label="Saving" loading items={SPLIT_ITEMS} />
-                  <Splitbutton label="Disabled" disabled items={SPLIT_ITEMS} />
+                  <SplitButton label="Saving" loading items={SPLIT_ITEMS} />
+                  <SplitButton label="Disabled" disabled items={SPLIT_ITEMS} />
                 </Row>
                 <div className="dx-mt-4">
-                  <Splitbutton
+                  <SplitButton
                     label="Full width"
                     fullWidth
                     items={SPLIT_ITEMS}
@@ -585,7 +585,7 @@ export function ButtonDemos({ slug }: { slug: string }) {
                     aria-label={BUTTON_ICONS[style].label}
                     onClick={() => undefined}
                   >
-                    <Icon name={BUTTON_ICONS[style].icon} size={20} />
+                    <Icon icon={BUTTON_ICONS[style].icon} size={20} />
                   </Button>
                 ))}
               </Row>
@@ -600,7 +600,7 @@ export function ButtonDemos({ slug }: { slug: string }) {
                     onClick={() => undefined}
                   >
                     <Icon
-                      name={BUTTON_ICONS[style].icon}
+                      icon={BUTTON_ICONS[style].icon}
                       size={20}
                       aria-hidden="true"
                     />

@@ -602,7 +602,7 @@ export function DataGrid<TItem = unknown>({
                         onClick={() => handleGroupRemove(property)}
                         aria-label={`Remove group by ${title}`}
                       >
-                        <Icon name="close" size="sm" />
+                        <Icon icon="close" size="sm" />
                       </button>
                     </span>
                   );

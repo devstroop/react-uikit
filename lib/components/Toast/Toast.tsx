@@ -345,7 +345,7 @@ export function ToastProvider({
                     onClick={() => dismiss(t.id)}
                     aria-label="Dismiss notification"
                   >
-                    <Icon name="close" size="sm" />
+                    <Icon icon="close" size="sm" />
                   </button>
                 )}
                 {t.showProgress && t.durationMs > 0 && (

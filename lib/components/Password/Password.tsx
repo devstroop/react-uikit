@@ -55,7 +55,7 @@ export const Password = forwardRef<HTMLInputElement, PasswordProps>(
           disabled={disabled}
           onClick={() => setVisible((v) => !v)}
         >
-          <Icon name={visible ? 'eye-off' : 'eye'} size={16} />
+          <Icon icon={visible ? 'visibility_off' : 'visibility'} size={16} />
         </button>
       </div>
     );

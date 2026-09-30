@@ -457,7 +457,7 @@ function TreeSelectionDemo() {
   );
 }
 
-function TreeCheckboxDemo() {
+function TreeCheckBoxDemo() {
   const [events, setEvents] = useState<string[]>([]);
   const log = (message: string) => setEvents((prev) => [message, ...prev]);
   return (
@@ -954,10 +954,10 @@ export function DataDemos({ slug }: { slug: string }) {
             },
             {
               id: 'tree-checkboxes',
-              title: 'Checkboxes',
+              title: 'CheckBoxes',
               description:
                 'allowCheckBoxes adds per-node checkboxes that cascade to descendants and mark partial parents indeterminate (tests: checks a parent and cascades to descendants, marks partially checked parents indeterminate); onCheckedChange receives the key set.',
-              content: <TreeCheckboxDemo />,
+              content: <TreeCheckBoxDemo />,
             },
             {
               id: 'tree-lazy',

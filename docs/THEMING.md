@@ -32,6 +32,27 @@ theme block (light `:root`, explicit dark, OS-dark fallback):
   (verify contrast against the re-seeded fills, not just presence);
 - `inverse-*` surfaces (they flip meaning between light and dark).
 
+## Icon font override
+
+`<Icon/>` renders ligature text in `var(--dx-icon-font-family)`
+(default the bundled Material Symbols Outlined). Projects swap the
+family without touching the component — per scope via a class, or
+globally on `:root`:
+
+```css
+.font-awesome {
+  --dx-icon-font-family: 'Font Awesome 6 Free';
+}
+:root {
+  --dx-icon-font-family: 'Material Symbols Outlined';
+}
+```
+
+With a foreign family, pass codepoints as literals
+(`icon="\uf015"`); weight rides the variable axis via `style`
+(`fontWeight: 100–700`) where the family supports it. Ink inherits
+(`currentColor`); the `color` prop overrides it per element.
+
 ## Radius scale (geometry, not color)
 
 One Radzen-style scale, defined identically in all three theme blocks:

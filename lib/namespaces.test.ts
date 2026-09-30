@@ -30,23 +30,23 @@ const SCOPE = [
   'Button',
   'Card',
   'Text',
-  'Textbox',
+  'TextBox',
   'Dialog',
   'Table',
   'Alert',
   'Pager',
   'Badge',
-  'Splitbutton',
-  'Togglebutton',
-  'Selectbar',
+  'SplitButton',
+  'ToggleButton',
+  'SelectBar',
 ] as const;
 
 describe('component namespaces (Radzen parity pilot)', () => {
-  it('exposes Button/Textbox/Dialog/Alert geometry hooks with exact defaults', () => {
+  it('exposes Button/TextBox/Dialog/Alert geometry hooks with exact defaults', () => {
     expect(css('Button')).toContain('--dx-button-padding-md: 0 16px;');
     expect(css('Button')).toContain('padding: var(--dx-button-padding-md);');
-    expect(css('Textbox')).toContain('--dx-textbox-padding-md: 8px 12px;');
-    expect(css('Textbox')).toContain('padding: var(--dx-textbox-padding-md);');
+    expect(css('TextBox')).toContain('--dx-textbox-padding-md: 8px 12px;');
+    expect(css('TextBox')).toContain('padding: var(--dx-textbox-padding-md);');
     expect(css('Dialog')).toContain('--dx-dialog-width-md: 520px;');
     expect(css('Dialog')).toContain('max-width: var(--dx-dialog-width-md);');
     expect(css('Dialog')).toContain('--dx-dialog-close-size: 28px;');
@@ -70,9 +70,9 @@ describe('component namespaces (Radzen parity pilot)', () => {
     expect(css('Card')).toContain(
       'border: var(--dx-outlined-border-width) solid var(--dx-border-color);'
     );
-    // Splitbutton's halves render Button, so the outlined width rule
-    // lives in Button.module.css (covered above), not in Splitbutton.
-    expect(css('Splitbutton')).not.toContain('--split-');
+    // SplitButton's halves render Button, so the outlined width rule
+    // lives in Button.module.css (covered above), not in SplitButton.
+    expect(css('SplitButton')).not.toContain('--split-');
   });
 
   it('keeps no bare border/opacity/focus-ring literals in the pilot scope', () => {
@@ -135,7 +135,7 @@ describe('component namespaces (Radzen parity pilot)', () => {
   it('keeps selectbar options borderless inside the bordered bar', () => {
     // Design contract: the bar carries the single outer border, options
     // are text buttons, selected is the primary fill — never outlined.
-    const selectbar = css('Selectbar');
+    const selectbar = css('SelectBar');
     expect(selectbar).toMatch(/\.option\s*{[^}]*border:\s*none;/);
     expect(selectbar).toMatch(
       /\.bar\s*{[^}]*border:\s*var\(--dx-border-strong\)/

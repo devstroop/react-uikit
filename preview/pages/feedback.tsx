@@ -2,7 +2,7 @@ import { useState } from 'react';
 import {
   Alert,
   Button,
-  Checkbox,
+  CheckBox,
   Dialog,
   DialogProvider,
   EmptyState,
@@ -178,7 +178,7 @@ function EmptyStateActionDemo() {
   return (
     <Stack orientation="vertical" gap={12}>
       <EmptyState
-        icon={<Icon name="mail" size="xl" />}
+        icon={<Icon icon="mail" size="xl" />}
         title="Your inbox is empty"
         description="New messages will show up here."
         action={
@@ -473,7 +473,7 @@ function DialogGuardsDemo() {
     <Stack orientation="vertical" gap={12}>
       <Row gap={12} wrap>
         <label htmlFor="dialog-guard-dirty">
-          <Checkbox
+          <CheckBox
             id="dialog-guard-dirty"
             checked={dirty}
             onChange={(e) => setDirty(e.target.checked)}
@@ -481,7 +481,7 @@ function DialogGuardsDemo() {
           Unsaved changes
         </label>
         <label htmlFor="dialog-guard-esc">
-          <Checkbox
+          <CheckBox
             id="dialog-guard-esc"
             checked={closeOnEsc}
             onChange={(e) => setCloseOnEsc(e.target.checked)}
@@ -489,7 +489,7 @@ function DialogGuardsDemo() {
           closeOnEsc
         </label>
         <label htmlFor="dialog-guard-overlay">
-          <Checkbox
+          <CheckBox
             id="dialog-guard-overlay"
             checked={closeOnOverlay}
             onChange={(e) => setCloseOnOverlay(e.target.checked)}
@@ -900,13 +900,13 @@ export function FeedbackDemos({ slug }: { slug: string }) {
             content: (
               <Stack orientation="vertical" gap={12}>
                 <EmptyState
-                  icon={<Icon name="search" size="xl" />}
+                  icon={<Icon icon="search" size="xl" />}
                   title="No files match “quarterly”"
                   description="Remove a filter or search for something else."
                   action={<Button variant="outlined">Clear filters</Button>}
                 />
                 <EmptyState
-                  icon={<Icon name="folder" size="xl" />}
+                  icon={<Icon icon="folder" size="xl" />}
                   title="This folder is empty"
                   description="Upload a file to get started."
                 />

@@ -155,7 +155,7 @@ export function Steps({
                 <span className={styles.circle} aria-hidden="true">
                   {isCompleted ? (
                     <span className={styles.check} aria-hidden="true">
-                      <Icon name="check" size="sm" />
+                      <Icon icon="check" size="sm" />
                     </span>
                   ) : item.icon ? (
                     <span className={styles.icon}>{item.icon}</span>

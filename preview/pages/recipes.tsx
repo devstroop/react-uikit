@@ -157,7 +157,7 @@ function NotFoundVariationsDemo() {
     <Stack orientation="vertical" gap={16}>
       <Layout bare>
         <EmptyState
-          icon={<Icon name="alert" size="xl" />}
+          icon={<Icon icon="warning" size="xl" />}
           title="Can’t reach the server"
           description="Check your connection and try again."
           action={

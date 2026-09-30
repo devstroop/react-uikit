@@ -134,7 +134,7 @@ function ItemIcon({
         aria-hidden="true"
         style={iconColor ? { color: iconColor } : undefined}
       >
-        <Icon name={icon} size={16} />
+        <Icon icon={icon} size={16} />
       </span>
     );
   }
@@ -273,7 +273,7 @@ function PanelMenuItemNode({
           .join(' ')}
         aria-hidden="true"
       >
-        <Icon name="chevron-down" size={10} />
+        <Icon icon="keyboard_arrow_down" size={10} />
       </span>
     ) : null;
 

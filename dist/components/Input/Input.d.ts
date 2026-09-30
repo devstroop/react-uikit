@@ -1,17 +1,17 @@
-import { TextboxProps, TextboxSize } from '../Textbox/Textbox';
+import { TextBoxProps, TextBoxSize } from '../TextBox/TextBox';
 /**
- * @deprecated Use `Textbox` — the canonical single-line input since
+ * @deprecated Use `TextBox` — the canonical single-line input since
  * 2.0. Identical rendering (same values, tokenized implementation);
  * will be removed in 3.0.
  */
-export type InputSize = TextboxSize;
+export type InputSize = TextBoxSize;
 /**
- * @deprecated Use `Textbox` — the canonical single-line input since
+ * @deprecated Use `TextBox` — the canonical single-line input since
  * 2.0. Identical rendering; will be removed in 3.0.
  */
-export type InputProps = TextboxProps;
+export type InputProps = TextBoxProps;
 /**
- * @deprecated Use `Textbox` — the canonical single-line input since
+ * @deprecated Use `TextBox` — the canonical single-line input since
  * 2.0. Identical rendering; will be removed in 3.0.
  */
-export declare const Input: import('react').ForwardRefExoticComponent<TextboxProps & import('react').RefAttributes<HTMLInputElement>>;
+export declare const Input: import('react').ForwardRefExoticComponent<TextBoxProps & import('react').RefAttributes<HTMLInputElement>>;

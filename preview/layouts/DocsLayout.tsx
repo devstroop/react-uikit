@@ -11,7 +11,7 @@ import {
   SidebarToggle,
   Stack,
   Text,
-  Textbox,
+  TextBox,
   ThemeSwitcher,
   ThemeToggle,
 } from '../../lib/main';
@@ -100,7 +100,7 @@ export function DocsLayout({
         </Stack>
       </Header>
       <Sidebar expanded={sidebarOpen} sticky>
-        <Textbox
+        <TextBox
           size="sm"
           type="search"
           aria-label="Filter components"

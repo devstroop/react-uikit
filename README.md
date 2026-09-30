@@ -31,13 +31,13 @@ Import the stylesheet once, then use components:
 
 ```tsx
 import '@devstroop/react-uikit/style.css';
-import { Button, Card, FormField, Textbox } from '@devstroop/react-uikit';
+import { Button, Card, FormField, TextBox } from '@devstroop/react-uikit';
 
 export function SignInForm() {
   return (
     <Card header="Sign in">
       <FormField text="Email" helper="We never share it.">
-        <Textbox id="email" type="email" />
+        <TextBox id="email" type="email" />
       </FormField>
       <Button type="submit">Continue</Button>
     </Card>
@@ -67,27 +67,27 @@ the built-in set or `set:glyph` for any bundled collection,
 
 `Button` (variant `filled|flat|outlined|text`, `severity` × `shade`
 axes, size `xs..xl`, `fullWidth`, `iconOnly`, `loading`, `visible`) ·
-`Togglebutton` (Button parity + `pressed`/`defaultPressed` and the
+`ToggleButton` (Button parity + `pressed`/`defaultPressed` and the
 Radzen toggle axis `toggleVariant`/`toggleSeverity`/`toggleShade`/
-`toggleContent`) · `Splitbutton` (Button-rendered halves, `items` menu
+`toggleContent`) · `SplitButton` (Button-rendered halves, `items` menu
 with `icon`, `loading`/`fullWidth`/`openAriaLabel`) ·
 `FabMenu`
 
 ### Forms
 
-`Form` · `FormField` · `Fieldset` · `Textbox` · `Textarea` · `Password` ·
-`Mask` · `Numeric` · `Select` · `Dropdown` · `Autocomplete` · `Listbox` ·
-`Checkbox` · `Checkboxlist` · `Radiobuttonlist` · `Switch` · `Slider` ·
-`Rating` · `Colorpicker` · `Datepicker` · `Timespanpicker` · `SecurityCode` ·
-`Upload` · `Selectbar` · `Label` · `DropZone`
+`Form` · `FormField` · `Fieldset` · `TextBox` · `TextArea` · `Password` ·
+`Mask` · `Numeric` · `Select` · `DropDown` · `AutoComplete` · `ListBox` ·
+`CheckBox` · `CheckBoxList` · `RadioButtonList` · `Switch` · `Slider` ·
+`Rating` · `ColorPicker` · `DatePicker` · `TimeSpanPicker` · `SecurityCode` ·
+`Upload` · `SelectBar` · `Label` · `DropZone`
 
-`Checkbox` also exposes an `indeterminate` (mixed) prop — the browser-native
+`CheckBox` also exposes an `indeterminate` (mixed) prop — the browser-native
 partially-checked state, wired for pointer and keyboard.
 
 Validation: `Form` + `useFormField` with validator helpers (`required`,
 `email`, `pattern`, `minLength`, `maxLength`, `range`, `compare`,
 `requiredTrue`, `custom`, `runValidators`). `Field` and `Input` remain
-exported but are **deprecated** — prefer `FormField` and `Textbox`.
+exported but are **deprecated** — prefer `FormField` and `TextBox`.
 
 ### Feedback
 
@@ -167,7 +167,7 @@ dark themes:
 | `--dx-{hue}-darker-color`    | 30% black mix                                                                                                                                        |
 | `--dx-on-{hue}-{step}-color` | Foreground for that step (`var()` alias, drift-proof: pale steps → darker ink, dark steps → light ink, near-white/-black hues → opposite body token) |
 
-`Button`, `Badge`, `Alert`, `Progress`, `Splitbutton`, and `Togglebutton`
+`Button`, `Badge`, `Alert`, `Progress`, `SplitButton`, and `ToggleButton`
 consume these through their `shade` prop (`lighter | light | dark | darker`) on every variant — no `brightness()` filters. Pale
 filled steps pair with dark text automatically; lighter/light `text`-variant steps suit dark
 surfaces. Hover states fall back to the base-hue hover token. Values are M3 approximations

@@ -196,7 +196,7 @@ export const Numeric = forwardRef<HTMLInputElement, NumericProps>(
           disabled={disabled}
           onClick={() => stepBy(1)}
         >
-          <Icon name="chevron-up" size={14} />
+          <Icon icon="keyboard_arrow_up" size={14} />
         </button>
         <button
           type="button"
@@ -205,7 +205,7 @@ export const Numeric = forwardRef<HTMLInputElement, NumericProps>(
           disabled={disabled}
           onClick={() => stepBy(-1)}
         >
-          <Icon name="chevron-down" size={14} />
+          <Icon icon="keyboard_arrow_down" size={14} />
         </button>
       </div>
     );

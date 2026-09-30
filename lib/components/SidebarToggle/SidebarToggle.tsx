@@ -29,7 +29,7 @@ export function SidebarToggle({
       className={[styles.toggle, className].filter(Boolean).join(' ')}
       {...props}
     >
-      {children ?? <Icon name={icon} size={20} />}
+      {children ?? <Icon icon={icon} size={20} />}
     </button>
   );
 }

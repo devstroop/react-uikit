@@ -753,7 +753,7 @@ export function PickList({
             disabled={!targetHasSelection}
             onClick={moveUp}
           >
-            <Icon name="chevron-up" size="sm" />
+            <Icon icon="keyboard_arrow_up" size="sm" />
           </button>
           <button
             type="button"
@@ -763,7 +763,7 @@ export function PickList({
             disabled={!targetHasSelection}
             onClick={moveDown}
           >
-            <Icon name="chevron-down" size="sm" />
+            <Icon icon="keyboard_arrow_down" size="sm" />
           </button>
         </div>
       </div>
