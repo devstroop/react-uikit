@@ -4,11 +4,12 @@
  *
  * Usage: npm run icons:ingest   (requires network; output is committed)
  *
- * The manifest below maps our shared concept names (the 43 legacy glyph
- * names) to each set's actual Iconify names. Sets that lack a concept
- * simply omit it. Brand sets (simple-icons, fa6-brands) use their own
- * name lists. Bodies are stored verbatim (whitespace-collapsed); the Icon
- * component supplies root fill/stroke per set style.
+ * The manifest below maps our shared concept names (the legacy glyph
+ * names, kept in lockstep with Icon.test) to each set's actual Iconify
+ * names. Sets that lack a concept simply omit it. Brand sets
+ * (simple-icons, fa6-brands) use their own name lists. Bodies are
+ * stored verbatim (whitespace-collapsed); the Icon component supplies
+ * root fill/stroke per set style.
  *
  * Exits non-zero when a requested icon is not found, so a renamed or
  * removed Iconify icon can never be dropped silently. The npm script
