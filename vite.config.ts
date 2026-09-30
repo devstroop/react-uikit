@@ -33,8 +33,8 @@ export default defineConfig({
       provider: 'v8',
       enabled: true,
       // Gates the shipped library only. The preview demo app is guarded by
-      // its own ratchet (preview/demo-completeness.test.tsx) and the e2e
-      // axe crawl, so loading its pages here would dilute lib thresholds.
+      // the e2e axe crawl, so loading its pages here would dilute lib
+      // thresholds.
       include: ['lib/**'],
       reporter: ['text', 'lcov'],
       thresholds: {

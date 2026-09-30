@@ -11,10 +11,9 @@ Every routed demo page (except `''` index) must satisfy all of:
 
 1. **`DemoPage` receives a `description`** — one plain-language sentence on
    what the component is for (the page subtitle under the H1).
-2. **At least 3 titled sections** (documented exceptions in
-   `preview/demo-completeness.test.tsx`, e.g. genuinely one-purpose
-   components) — each section has an `id` (anchor/TOC), a `title`, and a
-   1–2 sentence `description` where it adds context.
+2. **At least 3 titled sections** (genuinely one-purpose components may
+   ship with fewer) — each section has an `id` (anchor/TOC), a `title`,
+   and a 1–2 sentence `description` where it adds context.
 3. **Section archetypes** — pick from the catalog below; aim to cover the
    applicable archetypes for the component's API surface.
 4. **Real interaction** — buttons that click, controlled states that move,
@@ -56,11 +55,6 @@ Keyboard.
 
 ## Enforcement (ratchet — never grows)
 
-- `preview/demo-completeness.test.tsx` — renders every route, asserts the
-  checklist. Slugs that don't pass yet live in `KNOWN_GAPS`; the test fails
-  if an allowlisted page **starts** passing (remove it) or if the allowlist
-  picks up stale slugs. Shrink it with every phase; the goal is an empty
-  set.
 - `e2e/axe.spec.ts` — axe crawls every demo route (default theme) on top
   of the 8-theme `/` matrix; zero violations anywhere.
 
