@@ -40713,6 +40713,8 @@
   --dx-palette-4-color: var(--dx-series-5);
   --dx-palette-5-color: var(--dx-series-6);
   --dx-surface-hover-color: var(--dx-base-100);
-  --dx-text-muted-color: var(--dx-base-600);
+  /* base-600 (#c6cbd2) is a border grey — muted text needs on-surface
+     contrast (base-800 ≈ #49454f) to clear WCAG AA. */
+  --dx-text-muted-color: var(--dx-base-800);
   --dx-border-strong-color: var(--dx-base-500);
 }
