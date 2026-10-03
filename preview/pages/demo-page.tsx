@@ -72,7 +72,9 @@ export function DemoPage({ title, description, sections }: DemoPageProps) {
           {description}
         </Text>
       )}
-      <Row gap={16} align="start">
+      {/* default align=stretch: the TOC column must fill the row height or
+          its sticky child can't travel within a content-height parent */}
+      <Row gap={16}>
         <Column size={12} sizeMd={9}>
           <Stack orientation="vertical" gap={16}>
             {sections.map((s) => (
@@ -95,7 +97,12 @@ export function DemoPage({ title, description, sections }: DemoPageProps) {
           sizeMd={3}
           className="dx-display-none dx-display-md-block"
         >
-          <div style={{ position: 'sticky', top: 0 }}>
+          <div
+            style={{
+              position: 'sticky',
+              top: 'calc(var(--app-header-h, 0px) + 16px)',
+            }}
+          >
             <Text textStyle="H6" tagName="P" className="dx-mb-4">
               On this page
             </Text>
@@ -104,6 +111,15 @@ export function DemoPage({ title, description, sections }: DemoPageProps) {
                 text: s.title ?? title,
                 selector: `#${s.id}`,
               }))}
+              onClick={({ selector }) => {
+                // mirror the selection in the URL so sections are deep-linkable
+                // (#/slug/sectionId — the shell parses it and scrolls); Toc's
+                // own handler still does the smooth scroll + focus
+                const path =
+                  window.location.hash.replace(/^#\/?/, '').split('?')[0] ?? '';
+                const base = path.split('/')[0] ?? '';
+                window.location.hash = `#/${base}/${selector.replace(/^[#.]/, '')}`;
+              }}
             />
           </div>
         </Column>

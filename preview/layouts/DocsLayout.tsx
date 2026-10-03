@@ -1,4 +1,4 @@
-import { useMemo, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import {
   Badge,
   Body,
@@ -42,6 +42,31 @@ export function DocsLayout({
   const [sidebarOpen, setSidebarOpen] = useState(
     () => typeof window === 'undefined' || window.innerWidth >= 768
   );
+
+  // viewport crossing parity (htmx preview): desktop keeps the nav open,
+  // crossing under 768px collapses it; crossing back reopens it
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.matchMedia) return;
+    const mq = window.matchMedia('(min-width: 768px)');
+    const sync = () => setSidebarOpen(mq.matches);
+    mq.addEventListener('change', sync);
+    return () => mq.removeEventListener('change', sync);
+  }, []);
+
+  // mobile: collapse the drawer after navigating (htmx preview parity)
+  useEffect(() => {
+    const onHash = () => {
+      if (
+        typeof window !== 'undefined' &&
+        window.matchMedia &&
+        !window.matchMedia('(min-width: 768px)').matches
+      ) {
+        setSidebarOpen(false);
+      }
+    };
+    window.addEventListener('hashchange', onHash);
+    return () => window.removeEventListener('hashchange', onHash);
+  }, []);
   const [query, setQuery] = useState('');
   const componentCount = useMemo(
     () => DEMO_GROUPS.reduce((n, g) => n + g.routes.length, 0),
@@ -139,7 +164,7 @@ export function DocsLayout({
           </PanelMenu>
         )}
       </Sidebar>
-      <Body>{children}</Body>
+      <Body className="app-body">{children}</Body>
     </Layout>
   );
 }

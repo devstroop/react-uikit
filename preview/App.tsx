@@ -10,6 +10,14 @@ function routeFromHash(): string {
   return slug || '';
 }
 
+/** `tabs/keyboard` → { slug: 'tabs', anchor: 'keyboard' } — section deep links. */
+function splitRoute(route: string): { slug: string; anchor: string | null } {
+  const i = route.indexOf('/');
+  return i === -1
+    ? { slug: route, anchor: null }
+    : { slug: route.slice(0, i), anchor: route.slice(i + 1) };
+}
+
 /**
  * Palette stylesheets per theme — dynamically imported so only the
  * selected palette ships its ~35k lines. Each theme's styles are scoped
@@ -71,7 +79,23 @@ export function App() {
     };
   }, [theme]);
 
-  const Page = resolveRoute(route);
+  const { slug, anchor } = splitRoute(route);
+
+  useEffect(() => {
+    document.title = slug
+      ? `${routeTitle(slug)} · React UIKit Preview`
+      : 'React UIKit Preview';
+  }, [slug]);
+
+  // section deep link: #/slug/sectionId scrolls to the card after render
+  // (mirrors the htmx preview's targetId scroll)
+  useEffect(() => {
+    if (!anchor) return;
+    const el = document.getElementById(anchor);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, [route, anchor]);
+
+  const Page = resolveRoute(slug);
   if (Page == null) {
     return (
       <DocsLayout
@@ -82,7 +106,7 @@ export function App() {
       >
         <DemoPage
           title="Page not found"
-          description={`No demo route matches “${routeTitle(route)}”.`}
+          description={`No demo route matches “${routeTitle(slug)}”.`}
           sections={[
             {
               id: 'not-found',
@@ -116,7 +140,7 @@ export function App() {
       dark={dark}
       onDarkChange={setDark}
     >
-      {createElement(Page, { slug: route })}
+      {createElement(Page, { slug })}
     </DocsLayout>
   );
 }

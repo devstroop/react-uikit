@@ -130,3 +130,27 @@ a:hover,
 a:focus {
   color: var(--dx-link-hover-color);
 }
+
+/* ---- preview shell ---- */
+
+/* The document scrolls (Layout grid grows past 100vh), so Body must not
+   open its own scrollport: position:sticky on the right TOC pins against
+   the nearest scroll container, and a never-scrolling overflow:auto main
+   would strand the TOC off-screen. Element+class beats Body.module.css's
+   lone class regardless of stylesheet order. */
+main.app-body {
+  overflow-y: visible;
+}
+
+:root {
+  /* sticky header height (default theme, px) — matches htmx preview's
+     --app-header-h pattern; keep in sync if the header changes */
+  --app-header-h: 73px;
+}
+
+/* deep links land below the sticky header, like htmx's scroll-margin.
+   +6px (not +12): the Toc scroll-spy treats a section as "active" only
+   when its top is <= 80px, so header(73)+margin must stay under that. */
+.app-body [id] {
+  scroll-margin-top: calc(var(--app-header-h) + 6px);
+}
