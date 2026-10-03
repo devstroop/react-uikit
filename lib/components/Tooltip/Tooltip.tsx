@@ -80,8 +80,9 @@ export function Tooltip({
 }: TooltipProps) {
   const id = useId();
   const timer = useRef<number | null>(null);
-  const autoTimer = useRef<number | null>(null);
   const tipRef = useRef<HTMLSpanElement | null>(null);
+  // Target mode keeps its dismissal closure for the duration effect below.
+  const hideFloatingRef = useRef<() => void>(() => {});
   const [open, setOpen] = useState(false);
   // targetSelector mode: the element the floating tooltip is showing for.
   const [activeTarget, setActiveTarget] = useState<Element | null>(null);
@@ -91,19 +92,14 @@ export function Tooltip({
       window.clearTimeout(timer.current);
       timer.current = null;
     }
-    if (autoTimer.current !== null) {
-      window.clearTimeout(autoTimer.current);
-      autoTimer.current = null;
-    }
   };
 
   // Wrapper mode (children): hover/focus on the wrapped trigger.
   const show = () => {
+    clearTimers();
     timer.current = window.setTimeout(() => {
+      timer.current = null;
       setOpen(true);
-      if (durationMs != null) {
-        autoTimer.current = window.setTimeout(() => setOpen(false), durationMs);
-      }
     }, delayMs);
   };
   const hide = () => {
@@ -112,6 +108,15 @@ export function Tooltip({
   };
 
   useEffect(() => () => clearTimers(), []);
+
+  // durationMs counts from the committed open, not from the hover event: the
+  // dismiss timer must not be able to outrun the first render, or a slow paint
+  // collapses both updates into one and the tooltip never appears.
+  useEffect(() => {
+    if (!open || durationMs == null) return;
+    const id = window.setTimeout(() => setOpen(false), durationMs);
+    return () => window.clearTimeout(id);
+  }, [open, durationMs]);
 
   // Wrapper mode: Escape dismisses while open.
   useEffect(() => {
@@ -131,7 +136,6 @@ export function Tooltip({
   useEffect(() => {
     if (!targetSelector) return;
     let pendingId: number | null = null;
-    let autoId: number | null = null;
     let current: Element | null = null;
 
     const clearPending = () => {
@@ -140,28 +144,18 @@ export function Tooltip({
         pendingId = null;
       }
     };
-    const clearAuto = () => {
-      if (autoId !== null) {
-        window.clearTimeout(autoId);
-        autoId = null;
-      }
-    };
     const hideFloating = () => {
       clearPending();
-      clearAuto();
       current = null;
       setActiveTarget(null);
     };
+    hideFloatingRef.current = hideFloating;
     const showFloating = (element: Element) => {
       clearPending();
-      clearAuto();
       current = element;
       pendingId = window.setTimeout(() => {
         pendingId = null;
         setActiveTarget(element);
-        if (durationMs != null) {
-          autoId = window.setTimeout(hideFloating, durationMs);
-        }
       }, delayMs);
     };
     const match = (node: EventTarget | null): Element | null =>
@@ -195,7 +189,6 @@ export function Tooltip({
     window.addEventListener('resize', dismiss);
     return () => {
       clearPending();
-      clearAuto();
       document.removeEventListener('mouseover', onOver);
       document.removeEventListener('mouseout', onOut);
       document.removeEventListener('focusin', onOver);
@@ -206,7 +199,15 @@ export function Tooltip({
       current = null;
       setActiveTarget(null);
     };
-  }, [targetSelector, delayMs, durationMs]);
+  }, [targetSelector, delayMs]);
+
+  // Target mode: same contract as wrapper mode — the window starts once the
+  // floating tooltip has committed, not when the hover event was handled.
+  useEffect(() => {
+    if (!targetSelector || activeTarget === null || durationMs == null) return;
+    const id = window.setTimeout(() => hideFloatingRef.current(), durationMs);
+    return () => window.clearTimeout(id);
+  }, [targetSelector, activeTarget, durationMs]);
 
   // Target mode: expose the tooltip to AT through the active element.
   useLayoutEffect(() => {
