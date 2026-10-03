@@ -1,5 +1,6 @@
 .stack {
   display: flex;
+  gap: var(--dx-space-4);
 }
 
 .dir-row {

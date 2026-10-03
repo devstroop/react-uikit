@@ -43,10 +43,10 @@ describe('Stack', () => {
     );
   });
 
-  it('defaults the gap to 8px', () => {
+  it('defaults the gap to 16px', () => {
     const { container } = render(<Stack />);
     expect(container.firstElementChild?.getAttribute('style')).toContain(
-      'gap: 8px'
+      'gap: 16px'
     );
   });
 

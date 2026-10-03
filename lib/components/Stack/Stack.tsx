@@ -41,7 +41,7 @@ export function Stack({
   orientation = 'vertical',
   reverse = false,
   wrap = true,
-  gap = 8,
+  gap = 16,
   align,
   justify,
   className,

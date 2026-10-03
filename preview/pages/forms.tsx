@@ -152,14 +152,12 @@ function LoginFormBody() {
         ])
       }
     >
-      <Stack orientation="vertical" gap={12}>
-        <LoginFormFields />
-        <Button type="submit">Sign in</Button>
-        <EventLog
-          events={events}
-          emptyText="Submit empty for onInvalidSubmit; fill both fields for onSubmit."
-        />
-      </Stack>
+      <LoginFormFields />
+      <Button type="submit">Sign in</Button>
+      <EventLog
+        events={events}
+        emptyText="Submit empty for onInvalidSubmit; fill both fields for onSubmit."
+      />
     </Form>
   );
 }
@@ -222,14 +220,12 @@ function ValidatorsFormBody() {
         ])
       }
     >
-      <Stack orientation="vertical" gap={12}>
-        <ValidatorsFormFields />
-        <Button type="submit">Validate</Button>
-        <EventLog
-          events={events}
-          emptyText="Try a 2-character username or a 41-character note."
-        />
-      </Stack>
+      <ValidatorsFormFields />
+      <Button type="submit">Validate</Button>
+      <EventLog
+        events={events}
+        emptyText="Try a 2-character username or a 41-character note."
+      />
     </Form>
   );
 }
@@ -269,9 +265,7 @@ function FormStateBody() {
   const count = () => setSubmits((n) => n + 1);
   return (
     <Form model={{}} onSubmit={count} onInvalidSubmit={count}>
-      <Stack orientation="vertical" gap={8}>
-        <FormStateField submits={submits} />
-      </Stack>
+      <FormStateField submits={submits} />
     </Form>
   );
 }
