@@ -181,6 +181,18 @@ because it shows no log output within the first few minutes; wait for
 Workflow triggers must match the repo's real default branch (see per-repo table).
 A workflow triggered on a branch that does not exist is a silent CI outage.
 
+## 6a. Local/e2e ports
+
+- **5199** — `npm run dev` (vite dev server) during interactive work.
+- **4199** — react preview used by `playwright.config.ts`'s webServer and
+  `scripts/visual-verify.mjs`.
+- **4198** — static htmx demo server used by the uikit visual gates
+  (fallback to 8000).
+  `scripts/visual-verify.mjs` expects its own servers on 4199/4198;
+  `scripts/generate-component-images.mjs` will attach to whichever of
+  5173/4199 (react) and 8000/4198 (htmx) answers first, and can spawn the
+  preview servers itself — kill them afterwards, do not leave them running.
+
 ## 7. Release process
 
 1. All cycle issues are merged into `develop`; milestone shows 100% complete.
