@@ -51,7 +51,7 @@ export type { TooltipProps, TooltipPlacement, } from './components/Tooltip/Toolt
 export { Dialog } from './components/Dialog/Dialog';
 export type { DialogProps, DialogSize } from './components/Dialog/Dialog';
 export { DialogProvider, useDialog } from './components/Dialog/DialogProvider';
-export type { DialogApi, DialogProviderProps, ConfirmOptions, AlertOptions, } from './components/Dialog/DialogProvider';
+export type { DialogApi, DialogProviderProps, ConfirmOptions, AlertOptions, OpenOptions, OpenSideOptions, } from './components/Dialog/DialogProvider';
 export { ToastProvider, useToast } from './components/Toast/Toast';
 export type { ToastProviderProps, ToastOptions, ToastTone, ToastPosition, } from './components/Toast/Toast';
 export { Alert, ALERT_ICON } from './components/Alert/Alert';

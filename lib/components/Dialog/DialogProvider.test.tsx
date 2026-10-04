@@ -135,6 +135,163 @@ describe('DialogProvider', () => {
     await waitFor(() => expect(results).toEqual([true, true]));
   });
 
+  it('open renders arbitrary content and close resolves the result', async () => {
+    const user = userEvent.setup();
+    const onResult = vi.fn();
+    function OpenHarness() {
+      const dialog = useDialog();
+      return (
+        <Button
+          onClick={async () => {
+            const result = await dialog.open({
+              title: 'Custom',
+              content: <p>arbitrary body</p>,
+            });
+            onResult(result);
+          }}
+        >
+          Open custom
+        </Button>
+      );
+    }
+    render(
+      <DialogProvider>
+        <OpenHarness />
+      </DialogProvider>
+    );
+    await user.click(screen.getByRole('button', { name: 'Open custom' }));
+    expect(await screen.findByText('arbitrary body')).toBeInTheDocument();
+    // Default footer offers a Close button that settles undefined.
+    await user.click(screen.getByText('Close'));
+    await waitFor(() => expect(onResult).toHaveBeenCalledWith(undefined));
+    expect(screen.queryByText('arbitrary body')).not.toBeInTheDocument();
+  });
+
+  it('close(result) resolves the custom open promise', async () => {
+    const user = userEvent.setup();
+    const onResult = vi.fn();
+    function Closer() {
+      const dialog = useDialog();
+      return (
+        <>
+          <Button
+            onClick={() => {
+              void dialog
+                .open({ title: 'Pick', content: 'x' })
+                .then((r) => onResult(r));
+            }}
+          >
+            Open pick
+          </Button>
+          <Button onClick={() => dialog.close('picked')}>Do close</Button>
+        </>
+      );
+    }
+    render(
+      <DialogProvider>
+        <Closer />
+      </DialogProvider>
+    );
+    await user.click(screen.getByRole('button', { name: 'Open pick' }));
+    expect(await screen.findByText('Pick')).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Do close' }));
+    await waitFor(() => expect(onResult).toHaveBeenCalledWith('picked'));
+  });
+
+  it('closeAll empties the queue and settles pending promises', async () => {
+    const user = userEvent.setup();
+    const results: unknown[] = [];
+    function Multi() {
+      const dialog = useDialog();
+      return (
+        <>
+          <Button
+            onClick={() => {
+              void dialog.open({ title: 'One' }).then((r) => results.push(r));
+              void dialog.open({ title: 'Two' }).then((r) => results.push(r));
+            }}
+          >
+            Open two
+          </Button>
+          <Button onClick={() => dialog.closeAll()}>Do close all</Button>
+        </>
+      );
+    }
+    render(
+      <DialogProvider>
+        <Multi />
+      </DialogProvider>
+    );
+    await user.click(screen.getByRole('button', { name: 'Open two' }));
+    expect(await screen.findByText('One')).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Do close all' }));
+    await waitFor(() => expect(results).toEqual([undefined, undefined]));
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+  });
+
+  it('openSide docks the panel and keeps the service contract', async () => {
+    const user = userEvent.setup();
+    const onResult = vi.fn();
+    function SideHarness() {
+      const dialog = useDialog();
+      return (
+        <Button
+          onClick={async () => {
+            const result = await dialog.openSide({
+              position: 'right',
+              title: 'Rail',
+              content: 'side content',
+            });
+            onResult(result);
+          }}
+        >
+          Open side
+        </Button>
+      );
+    }
+    render(
+      <DialogProvider>
+        <SideHarness />
+      </DialogProvider>
+    );
+    await user.click(screen.getByRole('button', { name: 'Open side' }));
+    expect(await screen.findByText('side content')).toBeInTheDocument();
+    const dialog = screen.getByRole('dialog');
+    expect(dialog.className).toMatch(/side-right/);
+    await user.click(screen.getByText('Close'));
+    await waitFor(() => expect(onResult).toHaveBeenCalledWith(undefined));
+  });
+
+  it('showCloseButton=false hides the header close button', async () => {
+    const user = userEvent.setup();
+    function Bare() {
+      const dialog = useDialog();
+      return (
+        <Button
+          onClick={() => {
+            void dialog.open({
+              title: 'Bare',
+              content: 'x',
+              showCloseButton: false,
+            });
+          }}
+        >
+          Open bare
+        </Button>
+      );
+    }
+    render(
+      <DialogProvider>
+        <Bare />
+      </DialogProvider>
+    );
+    await user.click(screen.getByRole('button', { name: 'Open bare' }));
+    expect(await screen.findByText('Bare')).toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: 'Close dialog' })
+    ).not.toBeInTheDocument();
+  });
+
   it('defaults the dialog title so the dialog keeps an accessible name', async () => {
     const user = userEvent.setup();
     render(

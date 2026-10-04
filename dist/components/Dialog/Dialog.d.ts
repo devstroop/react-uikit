@@ -18,6 +18,12 @@ export interface DialogProps {
     closeOnEsc?: boolean;
     /** User-resizable via the native corner handle. Defaults to false. */
     resizable?: boolean;
+    /** Dock as a side panel instead of a centered modal. Defaults to null. */
+    side?: 'left' | 'right' | 'top' | 'bottom' | null;
+    /** Render the header close (X) button. Defaults to true. */
+    showCloseButton?: boolean;
+    /** Dim the page behind the dialog. Defaults to true. */
+    showMask?: boolean;
     /**
      * Veto gesture closes (X button, backdrop click, ESC). Return false
      * (or a resolving-to-false promise) to keep the dialog open — e.g.
@@ -26,4 +32,4 @@ export interface DialogProps {
     canClose?: () => boolean | Promise<boolean>;
     className?: string;
 }
-export declare function Dialog({ open, onClose, title, description, children, footer, size, width, height, closeOnOverlayClick, closeOnEsc, resizable, canClose, className, }: DialogProps): import("react").JSX.Element;
+export declare function Dialog({ open, onClose, title, description, children, footer, size, width, height, closeOnOverlayClick, closeOnEsc, resizable, side, showCloseButton, showMask, canClose, className, }: DialogProps): import("react").JSX.Element;

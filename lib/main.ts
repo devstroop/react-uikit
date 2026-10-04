@@ -183,6 +183,8 @@ export type {
   DialogProviderProps,
   ConfirmOptions,
   AlertOptions,
+  OpenOptions,
+  OpenSideOptions,
 } from './components/Dialog/DialogProvider';
 
 export { ToastProvider, useToast } from './components/Toast/Toast';
