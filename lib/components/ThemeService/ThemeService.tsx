@@ -63,28 +63,28 @@ function readStored(key: string): string | null {
   }
 }
 
-let baseline: ThemeState | null = null;
+// Reads are always fresh from the DOM (the live source of truth), so
+// writes from ThemeSwitcher/ThemeToggle — which carry their own richer
+// local logic on the same keys — are visible to the service immediately.
+// Storage seeds the DOM once per process when no attribute is applied.
+let adopted = false;
 
 function current(): ThemeState {
-  if (!baseline) {
-    // DOM wins over storage: an explicitly applied attribute is the
-    // source of truth; storage seeds the state only when no attribute
-    // is present.
-    const dom = readDom();
+  const dom = readDom();
+  if (!adopted) {
+    adopted = true;
     const storedTheme = readStored(PALETTE_KEY);
     const storedAppearance = readStored(THEME_KEY);
-    baseline = {
-      theme: dom.theme ?? storedTheme,
-      appearance:
-        dom.appearance ??
-        (storedAppearance === 'light' || storedAppearance === 'dark'
-          ? storedAppearance
-          : null),
-    };
-    if (baseline.theme != null || baseline.appearance != null)
-      applyDom(baseline);
+    const appearance =
+      dom.appearance ??
+      (storedAppearance === 'light' || storedAppearance === 'dark'
+        ? storedAppearance
+        : null);
+    const seeded = { theme: dom.theme ?? storedTheme, appearance };
+    if (seeded.theme != null || seeded.appearance != null) applyDom(seeded);
+    return seeded;
   }
-  return baseline;
+  return dom;
 }
 
 function notify() {
@@ -157,6 +157,6 @@ export function useThemeService(): ThemeService {
 
 /** Reset module state. Test-only seam: jsdom suites share one document. */
 export function __resetThemeServiceForTests(): void {
-  baseline = null;
+  adopted = false;
   listeners.clear();
 }
