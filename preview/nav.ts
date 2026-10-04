@@ -131,6 +131,7 @@ export const DEMO_GROUPS: DemoGroup[] = [
       { slug: 'accordion', title: 'Accordion' },
       { slug: 'carousel', title: 'Carousel' },
       { slug: 'splitter', title: 'Splitter' },
+      { slug: 'markdown', title: 'Markdown' },
     ],
   },
   {
