@@ -30,6 +30,20 @@ export interface ChartSeries {
   labels?: { visible?: boolean };
   innerRadius?: number;
   sizeProperty?: string;
+  /** Range band: property holding the low value (needs maxProperty too). */
+  minProperty?: string;
+  /** Range band: property holding the high value (needs minProperty too). */
+  maxProperty?: string;
+  /** Point markers for line/area/scatter/bubble. Defaults to visible circles. */
+  markers?: {
+    shape?: 'circle' | 'square' | 'diamond' | 'triangle';
+    size?: number;
+    visible?: boolean;
+  };
+  /** Stroke dash for line/area (SVG dasharray string or dash list). */
+  dash?: string | number[];
+  /** Stroke width for line/area. Defaults to 2. */
+  lineWidth?: number;
 }
 
 export interface ChartProps {
@@ -45,6 +59,8 @@ export interface ChartProps {
   };
   categoryAxis?: { title?: string; gridlines?: boolean };
   showLegend?: boolean;
+  /** Normalize every stack group to percentages (full-stacked). */
+  stacked100Percent?: boolean;
   tooltipVisible?: boolean;
   onSeriesClick?: (args: SeriesClickArgs) => void;
   ariaLabel?: string;
@@ -76,6 +92,8 @@ export interface ChartRenderContext {
   yFor: (val: number) => number;
   colorFor: (idx: number, ser: ChartSeries) => string;
   tooltipVisible: boolean;
+  /** Full-stacked percent mode: value labels/tooltips carry a % suffix. */
+  percent?: boolean;
   showTip: (x: number, y: number, text: string) => void;
   hideTip: () => void;
   handleClick: (
@@ -123,6 +141,8 @@ export function niceScale(min: number, max: number, step?: number) {
 export interface ChartPoint {
   cat: string;
   val: number;
+  min?: number;
+  max?: number;
   size?: number;
   item: Record<string, unknown>;
 }
@@ -131,6 +151,8 @@ export function pointsFor(series: ChartSeries): ChartPoint[] {
   return series.data.map((d) => ({
     cat: String(d[series.categoryProperty] ?? ''),
     val: Number(d[series.valueProperty]),
+    min: series.minProperty != null ? Number(d[series.minProperty]) : undefined,
+    max: series.maxProperty != null ? Number(d[series.maxProperty]) : undefined,
     size: series.sizeProperty ? Number(d[series.sizeProperty]) : undefined,
     item: d,
   }));

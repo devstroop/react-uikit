@@ -27,6 +27,115 @@ function seriesHead(
 
 const rad = (deg: number): number => (deg * Math.PI) / 180;
 
+/**
+ * Point marker honoring the series markers contract (uikit#95): shape +
+ * size configurable, visible by default. The invisible-translucent hit
+ * areas stay separate so hiding markers never kills pointer targets.
+ */
+function renderMarker(
+  x: number,
+  y: number,
+  color: string,
+  ser: ChartSeries,
+  fallbackR: number
+): ReactNode {
+  const markers = ser.markers ?? {};
+  if (markers.visible === false) return null;
+  const shape = markers.shape ?? 'circle';
+  const r = markers.size ?? fallbackR;
+  const stroke = 'var(--dx-surface-color)';
+  if (shape === 'square') {
+    return (
+      <rect
+        x={x - r}
+        y={y - r}
+        width={r * 2}
+        height={r * 2}
+        fill={color}
+        stroke={stroke}
+        strokeWidth={1.5}
+      />
+    );
+  }
+  if (shape === 'diamond') {
+    return (
+      <path
+        d={`M ${x} ${y - r} L ${x + r} ${y} L ${x} ${y + r} L ${x - r} ${y} Z`}
+        fill={color}
+        stroke={stroke}
+        strokeWidth={1.5}
+      />
+    );
+  }
+  if (shape === 'triangle') {
+    return (
+      <path
+        d={`M ${x} ${y - r} L ${x + r} ${y + r} L ${x - r} ${y + r} Z`}
+        fill={color}
+        stroke={stroke}
+        strokeWidth={1.5}
+      />
+    );
+  }
+  return (
+    <circle
+      cx={x}
+      cy={y}
+      r={r}
+      fill={color}
+      stroke={stroke}
+      strokeWidth={1.5}
+    />
+  );
+}
+
+function dashAttr(dash: ChartSeries['dash']): string | undefined {
+  if (dash == null) return undefined;
+  return typeof dash === 'string' ? dash : dash.join(' ');
+}
+
+function fmtVal(ctx: ChartRenderContext, val: number): string {
+  return ctx.percent ? `${val}%` : String(val);
+}
+
+/**
+ * Range band for line/area series carrying minProperty+maxProperty
+ * (uikit#95): polygon between the per-point min/max. Returns null unless
+ * every point resolves both ends numerically.
+ */
+function rangeBand(
+  ctx: ChartRenderContext,
+  ser: ChartSeries,
+  pts: ChartPoint[]
+): ReactNode {
+  if (pts.length === 0) return null;
+  const { xFor, yFor, categories } = ctx;
+  const cIdxMap = new Map(categories.map((c, i) => [c, i] as const));
+  const bounds = pts.map((p) => {
+    const ci = cIdxMap.get(p.cat) ?? 0;
+    const lo = p.min;
+    const hi = p.max;
+    if (typeof lo !== 'number' || Number.isNaN(lo)) return null;
+    if (typeof hi !== 'number' || Number.isNaN(hi)) return null;
+    return { x: xFor(ci), lo: yFor(lo), hi: yFor(hi) };
+  });
+  if (bounds.some((b) => b == null)) return null;
+  const top = bounds.map((b) => `L ${b!.x} ${b!.hi}`).join(' ');
+  const bottom = [...bounds]
+    .reverse()
+    .map((b) => `L ${b!.x} ${b!.lo}`)
+    .join(' ');
+  const first = bounds[0]!;
+  return (
+    <path
+      d={`M ${first.x} ${first.hi} ${top} ${bottom} Z`}
+      fill={ctx.colorFor(0, ser)}
+      fillOpacity={0.35}
+      stroke="none"
+    />
+  );
+}
+
 function renderPie(
   ctx: ChartRenderContext,
   ser: ChartSeries,
@@ -121,14 +230,7 @@ function renderPoints(
           : 4;
       return (
         <g key={i} role="listitem">
-          <circle
-            cx={x}
-            cy={y}
-            r={r}
-            fill={color}
-            stroke="var(--dx-surface-color)"
-            strokeWidth={1.5}
-          />
+          {renderMarker(x, y, color, ser, r)}
           <circle
             cx={x}
             cy={y}
@@ -197,7 +299,14 @@ function renderLine(
           stroke="none"
         />
       )}
-      <path d={d} fill="none" stroke={color} strokeWidth={2} />
+      {rangeBand(ctx, ser, pts)}
+      <path
+        d={d}
+        fill="none"
+        stroke={color}
+        strokeWidth={ser.lineWidth ?? 2}
+        strokeDasharray={dashAttr(ser.dash)}
+      />
       {/* baseline for stacking visual */}
       {ser.stack && <path d={baseD} fill="none" stroke="transparent" />}
       {pts.map((p, i) => {
@@ -207,14 +316,7 @@ function renderLine(
         const y = yFor(base + p.val);
         return (
           <g key={i} role="listitem">
-            <circle
-              cx={x}
-              cy={y}
-              r={4}
-              fill={color}
-              stroke="var(--dx-surface-color)"
-              strokeWidth={1.5}
-            />
+            {renderMarker(x, y, color, ser, 4)}
             <rect
               x={x - 12}
               y={y - 12}
@@ -223,7 +325,11 @@ function renderLine(
               fill="transparent"
               onMouseEnter={() =>
                 ctx.tooltipVisible &&
-                ctx.showTip(x, y, `${ser.title ?? p.cat}: ${p.val}`)
+                ctx.showTip(
+                  x,
+                  y,
+                  `${ser.title ?? p.cat}: ${fmtVal(ctx, p.val)}`
+                )
               }
               onMouseLeave={() => ctx.hideTip()}
               onClick={() => ctx.handleClick(ser, p.cat, p.val, p.item)}
@@ -236,7 +342,7 @@ function renderLine(
                 textAnchor="middle"
                 className={styles.dataLabel}
               >
-                {p.val}
+                {fmtVal(ctx, p.val)}
               </text>
             )}
           </g>
@@ -274,6 +380,14 @@ function renderBars(
         }
       }
       const stackedVal = stackOffset + p.val;
+      // Range bars (uikit#95): when min+max resolve numerically the bar
+      // spans [min, max] instead of [base, value]. Stacked + range mixes
+      // keep the stack offset applied to both ends.
+      const hasRange =
+        typeof p.min === 'number' &&
+        !Number.isNaN(p.min) &&
+        typeof p.max === 'number' &&
+        !Number.isNaN(p.max);
       const nSeries = series.filter(
         (s) => !s.stack || s.stack === ser.stack
       ).length;
@@ -286,13 +400,24 @@ function renderBars(
         : xFor(ci) - barW / 2 + (ser.stack ? 0 : (sIdx % nSeries) * barW);
       const y = isBar
         ? pad.t + (ci * plotH) / Math.max(1, categories.length) + 4
-        : yFor(stackedVal);
+        : hasRange
+          ? yFor(stackOffset + p.max!)
+          : yFor(stackedVal);
       const w = isBar
-        ? (p.val / (scale.max - scale.min || 1)) * plotW
+        ? hasRange
+          ? ((p.max! - p.min!) / (scale.max - scale.min || 1)) * plotW
+          : (p.val / (scale.max - scale.min || 1)) * plotW
         : barW - 4;
-      const h = isBar ? 16 : yFor(stackOffset) - yFor(stackedVal);
+      const h = isBar
+        ? 16
+        : hasRange
+          ? yFor(stackOffset + p.min!) - yFor(stackOffset + p.max!)
+          : yFor(stackOffset) - yFor(stackedVal);
       const rx = isBar
-        ? pad.l + (stackOffset / (scale.max - scale.min || 1)) * plotW
+        ? pad.l +
+          ((stackOffset + (hasRange ? p.min! : 0)) /
+            (scale.max - scale.min || 1)) *
+            plotW
         : x;
       const ry = isBar
         ? pad.t + (ci * plotH) / Math.max(1, categories.length) + 4
@@ -311,7 +436,7 @@ function renderBars(
               ctx.showTip(
                 rx + (isBar ? w : barW) / 2,
                 ry,
-                `${ser.title ?? p.cat}: ${p.val}`
+                `${ser.title ?? p.cat}: ${fmtVal(ctx, p.val)}`
               )
             }
             onMouseLeave={() => ctx.hideTip()}
@@ -325,7 +450,7 @@ function renderBars(
               textAnchor="middle"
               className={styles.dataLabel}
             >
-              {p.val}
+              {fmtVal(ctx, p.val)}
             </text>
           )}
         </g>

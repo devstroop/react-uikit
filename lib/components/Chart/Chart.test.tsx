@@ -327,3 +327,115 @@ describe('Chart', () => {
     expect(g!.textContent).toContain('42');
   });
 });
+
+describe('Chart series families (#95)', () => {
+  const stackA = {
+    type: 'column' as const,
+    title: 'A',
+    stack: 's',
+    data: [{ cat: 'X', val: 25 }],
+    categoryProperty: 'cat',
+    valueProperty: 'val',
+  };
+  const stackB = {
+    type: 'column' as const,
+    title: 'B',
+    stack: 's',
+    data: [{ cat: 'X', val: 75 }],
+    categoryProperty: 'cat',
+    valueProperty: 'val',
+  };
+
+  it('stacked100Percent normalizes each stack group to fill the axis', () => {
+    const { container } = render(
+      <Chart series={[stackA, stackB]} stacked100Percent />
+    );
+    const groups = container.querySelectorAll('g[data-chart-type="column"]');
+    const hA = Number(groups[0]!.querySelector('rect')!.getAttribute('height'));
+    const hB = Number(groups[1]!.querySelector('rect')!.getAttribute('height'));
+    // 25/75 split stays proportional after normalization
+    expect(hB / hA).toBeCloseTo(3, 5);
+    // full height is consumed: heights sum to the plot height
+    expect(hA + hB).toBeCloseTo(344, 0);
+    expect(screen.getByText('100%')).toBeInTheDocument();
+  });
+
+  it('without the flag the same data renders raw values', () => {
+    render(<Chart series={[stackA, stackB]} />);
+    expect(screen.queryByText('100%')).not.toBeInTheDocument();
+  });
+
+  it('range line draws a min/max band plus the value line', () => {
+    const series = {
+      type: 'line' as const,
+      title: 'Range',
+      data: [
+        { cat: 'A', val: 50, lo: 20, hi: 80 },
+        { cat: 'B', val: 60, lo: 30, hi: 90 },
+      ],
+      categoryProperty: 'cat',
+      valueProperty: 'val',
+      minProperty: 'lo',
+      maxProperty: 'hi',
+    };
+    const { container } = render(<Chart series={[series]} />);
+    const band = container.querySelector('path[fill-opacity="0.35"]');
+    expect(band).not.toBeNull();
+    // value line still drawn
+    expect(
+      container.querySelector('path[fill="none"]:not([stroke="transparent"])')
+    ).not.toBeNull();
+  });
+
+  it('range bars span min to max', () => {
+    const series = {
+      type: 'column' as const,
+      title: 'R',
+      data: [{ cat: 'X', val: 50, lo: 20, hi: 80 }],
+      categoryProperty: 'cat',
+      valueProperty: 'val',
+      minProperty: 'lo',
+      maxProperty: 'hi',
+    };
+    // fixed 0..100 domain: y(80)=84.8, height=y(20)-y(80)=206.4
+    const { container } = render(
+      <Chart series={[series]} valueAxis={{ min: 0, max: 100, step: 20 }} />
+    );
+    const rect = container.querySelector(
+      'g[data-chart-type="column"] rect[rx="2"]'
+    )!;
+    expect(Number(rect.getAttribute('y'))).toBeCloseTo(84.8, 1);
+    expect(Number(rect.getAttribute('height'))).toBeCloseTo(206.4, 1);
+  });
+
+  it('markers honor shape/size/visibility', () => {
+    const square = {
+      ...lineSeries,
+      markers: { shape: 'square' as const, size: 6 },
+    };
+    const { container, rerender } = render(<Chart series={[square]} />);
+    const group = container.querySelector('g[data-chart-type="line"]')!;
+    const marker = group.querySelector('rect[width="12"]');
+    expect(marker).not.toBeNull();
+    rerender(
+      <Chart series={[{ ...lineSeries, markers: { visible: false } }]} />
+    );
+    const group2 = container.querySelector('g[data-chart-type="line"]')!;
+    // hit areas stay, visible markers go
+    expect(group2.querySelectorAll('rect[width="24"]').length).toBeGreaterThan(
+      0
+    );
+    expect(group2.querySelector('circle')).toBeNull();
+  });
+
+  it('dash and lineWidth reach the stroke', () => {
+    const { container } = render(
+      <Chart series={[{ ...lineSeries, dash: [4, 2], lineWidth: 3 }]} />
+    );
+    const path = container.querySelector(
+      'g[data-chart-type="line"] path[fill="none"]:not([stroke="transparent"])'
+    )!;
+    expect(path.getAttribute('stroke-dasharray')).toBe('4 2');
+    expect(path.getAttribute('stroke-width')).toBe('3');
+  });
+});

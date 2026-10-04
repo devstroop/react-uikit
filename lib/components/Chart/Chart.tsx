@@ -23,6 +23,7 @@ export function Chart({
   valueAxis,
   categoryAxis,
   showLegend = true,
+  stacked100Percent = false,
   tooltipVisible = true,
   onSeriesClick,
   ariaLabel = 'Chart',
@@ -39,14 +40,46 @@ export function Chart({
     return [...s];
   }, [series]);
 
+  // Full-stacked mode: every stack group is normalized to percentages
+  // per category, so groups always fill the axis. Unstacked series keep
+  // raw values; mixing the two in one chart is allowed but unusual.
+  const plotSeries = useMemo(() => {
+    if (!stacked100Percent) return series;
+    const totals = new Map<string, number>();
+    for (const s of series) {
+      if (!s.stack) continue;
+      for (const d of s.data) {
+        const key = `${s.stack}\u0000${String(d[s.categoryProperty] ?? '')}`;
+        const v = Number(d[s.valueProperty]);
+        if (!Number.isNaN(v)) totals.set(key, (totals.get(key) ?? 0) + v);
+      }
+    }
+    return series.map((s) => {
+      if (!s.stack) return s;
+      return {
+        ...s,
+        data: s.data.map((d) => {
+          const key = `${s.stack}\u0000${String(d[s.categoryProperty] ?? '')}`;
+          const total = totals.get(key) ?? 0;
+          const v = Number(d[s.valueProperty]);
+          return {
+            ...d,
+            [s.valueProperty]:
+              total > 0 && !Number.isNaN(v) ? (v / total) * 100 : 0,
+          };
+        }),
+      };
+    });
+  }, [series, stacked100Percent]);
+
   const values = useMemo(() => {
-    const out = series
+    const out = plotSeries
       .flatMap((s) => s.data.map((d) => Number(d[s.valueProperty])))
       .filter((n) => !Number.isNaN(n));
     // stacked series must fit the scale by their per-category totals,
     // not by the largest single value
     const stackTotals = new Map<string, Map<string, number>>();
-    for (const s of series) {
+    for (const s of plotSeries) {
       if (!s.stack) continue;
       let m = stackTotals.get(s.stack);
       if (!m) stackTotals.set(s.stack, (m = new Map()));
@@ -58,7 +91,7 @@ export function Chart({
     }
     for (const m of stackTotals.values()) out.push(...m.values());
     return out;
-  }, [series]);
+  }, [plotSeries]);
   const vMin = valueAxis?.min ?? (values.length ? Math.min(0, ...values) : 0);
   const vMax = valueAxis?.max ?? (values.length ? Math.max(...values) : 10);
   const scale = useMemo(
@@ -91,6 +124,7 @@ export function Chart({
     yFor,
     colorFor,
     tooltipVisible,
+    percent: stacked100Percent,
     showTip: (x, y, text) => setTip({ x, y, text }),
     hideTip: () => setTip(null),
     handleClick: (ser, cat, val, item) =>
@@ -100,7 +134,7 @@ export function Chart({
         value: val,
         item,
       }),
-    series,
+    series: plotSeries,
   };
 
   return (
@@ -149,7 +183,7 @@ export function Chart({
               textAnchor="end"
               className={styles.tickLabel}
             >
-              {t}
+              {stacked100Percent ? `${t}%` : t}
             </text>
           ))}
         {showCategoryAxis &&
@@ -186,7 +220,7 @@ export function Chart({
           </text>
         )}
         {series.some((s) => s.type === 'radar') && renderRadarGrid(ctx)}
-        {series.map((ser, sIdx) => renderSeries(ctx, ser, sIdx))}
+        {plotSeries.map((ser, sIdx) => renderSeries(ctx, ser, sIdx))}
       </svg>
       {tip && (
         <div
