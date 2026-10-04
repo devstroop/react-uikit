@@ -284,6 +284,20 @@ export type {
   ThemeToggleProps,
   ThemeName,
 } from './components/ThemeToggle/ThemeToggle';
+export {
+  getAppearance,
+  getTheme,
+  setAppearance,
+  setTheme,
+  subscribe,
+  useThemeService,
+} from './components/ThemeService/ThemeService';
+export type {
+  Appearance,
+  ThemeService,
+  ThemeState,
+  ThemeListener,
+} from './components/ThemeService/ThemeService';
 
 export { Avatar } from './components/Avatar/Avatar';
 export type {
@@ -571,6 +585,7 @@ export type {
   SeriesClickArgs,
 } from './components/Chart/Chart';
 
+export { MediaQuery } from './components/MediaQuery/MediaQuery';
 export { useMediaQuery } from './hooks/useMediaQuery';
 export { LiveRegion } from './components/LiveRegion/LiveRegion';
 export { useLiveRegion } from './hooks/useLiveRegion';
