@@ -572,3 +572,4 @@ export type {
 } from './components/Chart/Chart';
 
 export { useMediaQuery } from './hooks/useMediaQuery';
+export { useLiveRegion } from './hooks/useLiveRegion';
