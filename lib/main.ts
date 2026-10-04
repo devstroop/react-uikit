@@ -188,6 +188,8 @@ export type {
 } from './components/Dialog/DialogProvider';
 
 export { ToastProvider, useToast } from './components/Toast/Toast';
+export { PopupProvider, usePopup } from './components/Popup/Popup';
+export type { PopupApi, PopupOpenOptions } from './components/Popup/Popup';
 export type {
   ToastProviderProps,
   ToastOptions,
