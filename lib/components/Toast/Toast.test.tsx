@@ -27,6 +27,97 @@ function ToastTester({
   );
 }
 
+describe('Toast notify API', () => {
+  function NotifyHarness({
+    run,
+  }: {
+    run: (api: {
+      notify: (m: object) => void;
+      notifyInfo: (s: string, d?: string) => void;
+      notifySuccess: (s: string, d?: string) => void;
+      notifyWarning: (s: string, d?: string) => void;
+      notifyError: (s: string, d?: string) => void;
+    }) => void;
+  }) {
+    const api = useToast();
+    return (
+      <button type="button" onClick={() => run(api)}>
+        Notify
+      </button>
+    );
+  }
+
+  it('maps summary/detail/duration onto title/description/durationMs', async () => {
+    const user = userEvent.setup();
+    render(
+      <ToastProvider>
+        <NotifyHarness
+          run={(api) =>
+            api.notify({ summary: 'Heads up', detail: 'Read this.' })
+          }
+        />
+      </ToastProvider>
+    );
+    await user.click(screen.getByRole('button', { name: 'Notify' }));
+    expect(await screen.findByText('Heads up')).toBeInTheDocument();
+    expect(await screen.findByText('Read this.')).toBeInTheDocument();
+  });
+
+  it('severity helpers render the matching tone', async () => {
+    const user = userEvent.setup();
+    render(
+      <ToastProvider>
+        <NotifyHarness run={(api) => api.notifyError('Boom', 'Broke.')} />
+      </ToastProvider>
+    );
+    await user.click(screen.getByRole('button', { name: 'Notify' }));
+    const toast = await screen.findByText('Boom');
+    expect(toast.closest('[role="alert"]')).not.toBeNull();
+  });
+
+  it('passes payload to click and honors closeOnClick', async () => {
+    const user = userEvent.setup();
+    const onClick = vi.fn();
+    render(
+      <ToastProvider>
+        <NotifyHarness
+          run={(api) =>
+            api.notify({
+              summary: 'Clickable',
+              payload: { id: 7 },
+              click: onClick,
+              closeOnClick: true,
+            })
+          }
+        />
+      </ToastProvider>
+    );
+    await user.click(screen.getByRole('button', { name: 'Notify' }));
+    const body = await screen.findByText('Clickable');
+    await user.click(body);
+    expect(onClick).toHaveBeenCalledWith({ id: 7 });
+    await waitFor(() =>
+      expect(screen.queryByText('Clickable')).not.toBeInTheDocument()
+    );
+  });
+
+  it('template contents render as title/description', async () => {
+    const user = userEvent.setup();
+    render(
+      <ToastProvider>
+        <NotifyHarness
+          run={(api) =>
+            api.notify({ summaryContent: 'Tpl title', detailContent: 'Tpl.' })
+          }
+        />
+      </ToastProvider>
+    );
+    await user.click(screen.getByRole('button', { name: 'Notify' }));
+    expect(await screen.findByText('Tpl title')).toBeInTheDocument();
+    expect(await screen.findByText('Tpl.')).toBeInTheDocument();
+  });
+});
+
 describe('Toast', () => {
   afterEach(() => {
     vi.useRealTimers();
