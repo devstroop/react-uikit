@@ -53,6 +53,8 @@ export type { DialogProps, DialogSize } from './components/Dialog/Dialog';
 export { DialogProvider, useDialog } from './components/Dialog/DialogProvider';
 export type { DialogApi, DialogProviderProps, ConfirmOptions, AlertOptions, OpenOptions, OpenSideOptions, } from './components/Dialog/DialogProvider';
 export { ToastProvider, useToast } from './components/Toast/Toast';
+export { ArcGauge } from './components/Gauges/ArcGauge';
+export type { ArcGaugeProps, ArcColorStop } from './components/Gauges/ArcGauge';
 export { AIChat } from './components/AIChat/AIChat';
 export type { AIChatProps, ChatMessage, ChatRole, } from './components/AIChat/AIChat';
 export { Login } from './components/Login/Login';
