@@ -1,0 +1,33 @@
+/* login: vertical credential form. Spacing owns the rhythm; fields
+   come from the shared Field surface. */
+.login {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dx-space-3);
+}
+
+.title {
+  font-size: var(--dx-font-size-md);
+  font-weight: var(--dx-font-weight-bold);
+}
+
+.remember {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dx-space-2);
+  cursor: pointer;
+}
+
+.link {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--dx-text-primary-color);
+  font-size: var(--dx-font-size-sm);
+  text-align: start;
+  cursor: pointer;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
