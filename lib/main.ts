@@ -188,6 +188,11 @@ export type {
 } from './components/Dialog/DialogProvider';
 
 export { ToastProvider, useToast } from './components/Toast/Toast';
+export { HtmlEditor } from './components/HtmlEditor/HtmlEditor';
+export type {
+  HtmlEditorProps,
+  HtmlEditorTool,
+} from './components/HtmlEditor/HtmlEditor';
 export { PopupProvider, usePopup } from './components/Popup/Popup';
 export type { PopupApi, PopupOpenOptions } from './components/Popup/Popup';
 export type {
