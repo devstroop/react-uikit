@@ -38,6 +38,10 @@ export interface ToastOptions {
   dismissible?: boolean;
   /** Dismiss the toast when the body is clicked (Radzen CloseOnClick parity). */
   closeOnClick?: boolean;
+  /** Opaque value handed to `click` on body activation (Radzen Payload parity). */
+  payload?: unknown;
+  /** Body-click handler, invoked with `payload` (Radzen Click parity). */
+  click?: (payload: unknown) => void;
   /** Render a bottom progress bar tracking the duration (Radzen ShowProgress parity). */
   showProgress?: boolean;
   position?: ToastPosition;
@@ -55,6 +59,8 @@ interface ToastItem {
   cancel?: ToastAction;
   dismissible: boolean;
   closeOnClick: boolean;
+  payload?: unknown;
+  click?: (payload: unknown) => void;
   showProgress: boolean;
   position: ToastPosition;
   onDismiss?: () => void;
@@ -62,8 +68,30 @@ interface ToastItem {
   leaving?: boolean;
 }
 
+/**
+ * Radzen NotificationMessage shape: `notify()` accepts it and maps it
+ * onto ToastOptions (summary/detail(+Content templates) -> title/
+ * description, duration -> durationMs).
+ */
+export interface NotifyMessage {
+  severity?: ToastTone;
+  summary?: ReactNode;
+  detail?: ReactNode;
+  summaryContent?: ReactNode;
+  detailContent?: ReactNode;
+  duration?: number;
+  click?: (payload: unknown) => void;
+  closeOnClick?: boolean;
+  payload?: unknown;
+}
+
 interface ToastContextValue {
   toast: (options: ToastOptions) => void;
+  notify: (message: NotifyMessage) => void;
+  notifyInfo: (summary: ReactNode, detail?: ReactNode) => void;
+  notifySuccess: (summary: ReactNode, detail?: ReactNode) => void;
+  notifyWarning: (summary: ReactNode, detail?: ReactNode) => void;
+  notifyError: (summary: ReactNode, detail?: ReactNode) => void;
 }
 
 const ToastContext = createContext<ToastContextValue | null>(null);
@@ -240,6 +268,8 @@ export function ToastProvider({
         cancel: options.cancel,
         dismissible: options.dismissible ?? true,
         closeOnClick: options.closeOnClick ?? false,
+        payload: options.payload,
+        click: options.click,
         showProgress: options.showProgress ?? false,
         position: options.position ?? position,
         onDismiss: options.onDismiss,
@@ -264,7 +294,38 @@ export function ToastProvider({
     [durationMs, position, startTimer, stopTimer]
   );
 
-  const value = useMemo(() => ({ toast }), [toast]);
+  const notify = useCallback(
+    (message: NotifyMessage) => {
+      toast({
+        severity: message.severity ?? 'info',
+        title: message.summary ?? message.summaryContent,
+        description: message.detail ?? message.detailContent,
+        durationMs: message.duration,
+        click: message.click,
+        closeOnClick: message.closeOnClick,
+        payload: message.payload,
+      });
+    },
+    [toast]
+  );
+
+  const helper = useCallback(
+    (severity: ToastTone) => (summary: ReactNode, detail?: ReactNode) =>
+      notify({ severity, summary, detail }),
+    [notify]
+  );
+
+  const value = useMemo(
+    () => ({
+      toast,
+      notify,
+      notifyInfo: helper('info'),
+      notifySuccess: helper('success'),
+      notifyWarning: helper('warning'),
+      notifyError: helper('danger'),
+    }),
+    [toast, notify, helper]
+  );
   const positions = useMemo(
     () => Array.from(new Set([position, ...toasts.map((t) => t.position)])),
     [position, toasts]
@@ -302,7 +363,14 @@ export function ToastProvider({
                 ]
                   .filter(Boolean)
                   .join(' ')}
-                onClick={t.closeOnClick ? () => dismiss(t.id) : undefined}
+                onClick={
+                  t.click || t.closeOnClick
+                    ? () => {
+                        t.click?.(t.payload);
+                        if (t.closeOnClick) dismiss(t.id);
+                      }
+                    : undefined
+                }
               >
                 <div className={styles.content}>
                   <div className={styles.title}>{t.title}</div>

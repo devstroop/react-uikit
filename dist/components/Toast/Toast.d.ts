@@ -19,14 +19,39 @@ export interface ToastOptions {
     dismissible?: boolean;
     /** Dismiss the toast when the body is clicked (Radzen CloseOnClick parity). */
     closeOnClick?: boolean;
+    /** Opaque value handed to `click` on body activation (Radzen Payload parity). */
+    payload?: unknown;
+    /** Body-click handler, invoked with `payload` (Radzen Click parity). */
+    click?: (payload: unknown) => void;
     /** Render a bottom progress bar tracking the duration (Radzen ShowProgress parity). */
     showProgress?: boolean;
     position?: ToastPosition;
     onDismiss?: () => void;
     onAutoClose?: () => void;
 }
+/**
+ * Radzen NotificationMessage shape: `notify()` accepts it and maps it
+ * onto ToastOptions (summary/detail(+Content templates) -> title/
+ * description, duration -> durationMs).
+ */
+export interface NotifyMessage {
+    severity?: ToastTone;
+    summary?: ReactNode;
+    detail?: ReactNode;
+    summaryContent?: ReactNode;
+    detailContent?: ReactNode;
+    duration?: number;
+    click?: (payload: unknown) => void;
+    closeOnClick?: boolean;
+    payload?: unknown;
+}
 interface ToastContextValue {
     toast: (options: ToastOptions) => void;
+    notify: (message: NotifyMessage) => void;
+    notifyInfo: (summary: ReactNode, detail?: ReactNode) => void;
+    notifySuccess: (summary: ReactNode, detail?: ReactNode) => void;
+    notifyWarning: (summary: ReactNode, detail?: ReactNode) => void;
+    notifyError: (summary: ReactNode, detail?: ReactNode) => void;
 }
 export declare function useToast(): ToastContextValue;
 export interface ToastProviderProps {
