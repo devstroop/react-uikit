@@ -571,6 +571,7 @@ export type {
   SeriesClickArgs,
 } from './components/Chart/Chart';
 
+export { MediaQuery } from './components/MediaQuery/MediaQuery';
 export { useMediaQuery } from './hooks/useMediaQuery';
 export { LiveRegion } from './components/LiveRegion/LiveRegion';
 export { useLiveRegion } from './hooks/useLiveRegion';
