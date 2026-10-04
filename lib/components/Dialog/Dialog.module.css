@@ -58,6 +58,38 @@
   background: var(--dx-backdrop-color);
 }
 
+/* Side-panel docking (Radzen side-dialog parity): the native <dialog>
+ * stays modal, but docks to an edge instead of centering. */
+.side-right {
+  margin: 0 0 0 auto;
+  height: 100dvh;
+  max-height: none;
+  border-radius: 0;
+}
+.side-left {
+  margin: 0 auto 0 0;
+  height: 100dvh;
+  max-height: none;
+  border-radius: 0;
+}
+.side-top {
+  margin: 0 auto auto;
+  width: 100%;
+  max-width: none;
+  border-radius: 0;
+}
+.side-bottom {
+  margin: auto auto 0;
+  width: 100%;
+  max-width: none;
+  border-radius: 0;
+}
+
+/* Undimmed modal: interaction stays trapped, the page stays visible. */
+.no-mask::backdrop {
+  background: transparent;
+}
+
 @keyframes se-dialog-in {
   from {
     opacity: 0;
