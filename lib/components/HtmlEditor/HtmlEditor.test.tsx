@@ -1,7 +1,7 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { HtmlEditor } from './HtmlEditor';
+import { HtmlEditor, type HtmlEditorHandle } from './HtmlEditor';
 
 function stubExecCommand() {
   const calls: Array<[string, string | undefined]> = [];
@@ -161,7 +161,7 @@ describe('HtmlEditor extended toolbar', () => {
 
   it('image upload posts the file and inserts the returned URL', async () => {
     const calls = stubExecCommand();
-    const fetchMock = vi.fn(async () => ({
+    const fetchMock = vi.fn(async (_url: string, _init?: RequestInit) => ({
       ok: true,
       headers: { get: () => 'application/json' },
       json: async () => ({ url: 'https://cdn.example.com/i.png' }),
@@ -253,14 +253,8 @@ describe('HtmlEditor extended toolbar', () => {
   it('ref handle exposes execCommand and getHtml', async () => {
     const calls = stubExecCommand();
     const user = userEvent.setup();
-    const ref = {
-      current: null as unknown as
-        import('./HtmlEditor').HtmlEditorHandle | null,
-    };
-    const { default: _d } = await import('./HtmlEditor');
-    void _d;
-    const { HtmlEditor: Ed } = await import('./HtmlEditor');
-    render(<Ed ref={ref} defaultValue="<p>hi</p>" />);
+    const ref: { current: HtmlEditorHandle | null } = { current: null };
+    render(<HtmlEditor ref={ref} defaultValue="<p>hi</p>" />);
     await user.click(screen.getByRole('button', { name: 'Bold' }));
     ref.current?.execCommand('italic');
     expect(ref.current?.getHtml()).toBe('<p>hi</p>');
