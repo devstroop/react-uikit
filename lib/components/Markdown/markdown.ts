@@ -68,6 +68,7 @@ export function renderMarkdown(
 ): string {
   const allowHtml = options.allowHtml === true;
   const lines = source.replace(/\r\n?/g, '\n').split('\n');
+  const at = (n: number): string => lines[n] ?? '';
   const blocks: string[] = [];
   let i = 0;
 
@@ -79,7 +80,7 @@ export function renderMarkdown(
   };
 
   while (i < lines.length) {
-    const line = lines[i];
+    const line = at(i) ?? '';
     if (/^\s*$/.test(line)) {
       i += 1;
       continue;
@@ -98,8 +99,10 @@ export function renderMarkdown(
       const lang = /^(`{3,}|~{3,})\s*(\w*)\s*$/.exec(line)?.[2] ?? '';
       const body: string[] = [];
       i += 1;
-      while (i < lines.length && !/^(`{3,}|~{3,})\s*$/.test(lines[i])) {
-        body.push(lines[i]);
+      while (i < lines.length) {
+        const fenceLine = at(i) ?? '';
+        if (/^(`{3,}|~{3,})\s*$/.test(fenceLine)) break;
+        body.push(fenceLine);
         i += 1;
       }
       i += 1;
@@ -111,8 +114,8 @@ export function renderMarkdown(
     }
     if (/^>\s?(.*)$/.test(line)) {
       const quoted: string[] = [];
-      while (i < lines.length && /^>\s?(.*)$/.test(lines[i])) {
-        quoted.push(/^>\s?(.*)$/.exec(lines[i])?.[1] ?? '');
+      while (i < lines.length && /^>\s?(.*)$/.test(at(i))) {
+        quoted.push(/^>\s?(.*)$/.exec(at(i))?.[1] ?? '');
         i += 1;
       }
       blocks.push(
@@ -129,9 +132,10 @@ export function renderMarkdown(
     if (unordered) {
       const items: string[] = [];
       while (i < lines.length) {
-        const m = /^\s*[-*+]\s+(.*)$/.exec(lines[i]);
-        if (!m) break;
-        items.push(m[1]);
+        const m = /^\s*[-*+]\s+(.*)$/.exec(at(i));
+        const text = m?.[1];
+        if (text === undefined) break;
+        items.push(text);
         i += 1;
       }
       flushList(items, false);
@@ -141,9 +145,10 @@ export function renderMarkdown(
     if (ordered) {
       const items: string[] = [];
       while (i < lines.length) {
-        const m = /^\s*\d+[.)]\s+(.*)$/.exec(lines[i]);
-        if (!m) break;
-        items.push(m[1]);
+        const m = /^\s*\d+[.)]\s+(.*)$/.exec(at(i));
+        const text = m?.[1];
+        if (text === undefined) break;
+        items.push(text);
         i += 1;
       }
       flushList(items, true);
@@ -152,12 +157,12 @@ export function renderMarkdown(
     const paragraph: string[] = [];
     while (
       i < lines.length &&
-      !/^\s*$/.test(lines[i]) &&
+      !/^\s*$/.test(at(i)) &&
       !/^(#{1,6}\s|`{3,}|~{3,}|>|(\*\*\*|---|___)\s*$|\s*[-*+]\s+|\s*\d+[.)]\s+)/.test(
-        lines[i]
+        at(i)
       )
     ) {
-      paragraph.push(lines[i]);
+      paragraph.push(at(i));
       i += 1;
     }
     blocks.push(`<p>${inline(paragraph.join('\n'), allowHtml)}</p>`);
