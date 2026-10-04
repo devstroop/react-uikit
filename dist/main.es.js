@@ -3380,7 +3380,7 @@ function NS({
     ))
   ] });
 }
-const Yu = "_chat_17mog_3", Xu = "_messages_17mog_9", Zu = "_message_17mog_9", Ju = "_user_17mog_29", Qu = "_assistant_17mog_35", ef = "_system_17mog_40", tf = "_typing_17mog_46", nf = "_inputRow_17mog_51", dr = {
+const Yu = "_chat_1apnf_3", Xu = "_messages_1apnf_9", Zu = "_message_1apnf_9", Ju = "_user_1apnf_29", Qu = "_assistant_1apnf_35", ef = "_system_1apnf_40", tf = "_typing_1apnf_46", nf = "_inputRow_1apnf_51", dr = {
   chat: Yu,
   messages: Xu,
   message: Zu,
@@ -3407,28 +3407,21 @@ function SS({
     _.preventDefault();
     const p = u.trim();
     !p || h || (x(""), t?.(p));
-  }, g = /* @__PURE__ */ M(
-    "form",
-    {
-      className: dr.inputRow,
-      onSubmit: (_) => {
-        m(_);
-      },
-      children: [
-        /* @__PURE__ */ s(
-          Qs,
-          {
-            value: u,
-            placeholder: n,
-            "aria-label": l,
-            disabled: h,
-            onChange: (_) => x(_.target.value)
-          }
-        ),
-        /* @__PURE__ */ s(an, { type: "submit", disabled: !b, loading: a, children: r })
-      ]
-    }
-  );
+  }, g = /* @__PURE__ */ M("form", { className: dr.inputRow, onSubmit: (_) => {
+    m(_);
+  }, children: [
+    /* @__PURE__ */ s(
+      Qs,
+      {
+        value: u,
+        placeholder: n,
+        "aria-label": l,
+        disabled: h,
+        onChange: (_) => x(_.target.value)
+      }
+    ),
+    /* @__PURE__ */ s(an, { type: "submit", disabled: !b, loading: a, children: r })
+  ] });
   return /* @__PURE__ */ M(
     "div",
     {
