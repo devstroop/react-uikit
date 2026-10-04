@@ -552,7 +552,7 @@ function ImperativeDialogDemo() {
 }
 
 function ImperativeDialogDemoInner() {
-  const { confirm, alert } = useDialog();
+  const { confirm, alert, open, openSide } = useDialog();
   const [events, setEvents] = useState<string[]>([]);
   const log = (message: string) => setEvents((prev) => [message, ...prev]);
   return (
@@ -581,10 +581,33 @@ function ImperativeDialogDemoInner() {
         >
           Request alert
         </Button>
+        <Button
+          onClick={async () => {
+            const result = await open({
+              title: 'Custom content',
+              content: 'Arbitrary body rendered by the service.',
+            });
+            log(`open → ${String(result)}`);
+          }}
+        >
+          Open custom
+        </Button>
+        <Button
+          onClick={async () => {
+            await openSide({
+              position: 'right',
+              title: 'Side rail',
+              content: 'Docked panel content.',
+            });
+            log('openSide → closed');
+          }}
+        >
+          Open side
+        </Button>
       </Stack>
       <EventLog
         events={events}
-        emptyText="Request confirm or alert to log the resolved promise."
+        emptyText="Request confirm, alert, open, or side to log the resolved promise."
       />
     </Stack>
   );
