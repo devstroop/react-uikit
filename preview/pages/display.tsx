@@ -6,6 +6,7 @@ import {
   Button,
   Card,
   Carousel,
+  Markdown,
   Row,
   Splitter,
   Stack,
@@ -869,4 +870,49 @@ export function DisplayDemos({ slug }: { slug: string }) {
       ]}
     />
   );
+
+  if (slug === 'markdown') {
+    return (
+      <DemoPage
+        title="Markdown"
+        description="Markdown source rendered to sanitized HTML."
+        sections={[
+          {
+            id: 'markdown-basic',
+            title: 'Basic',
+            description: 'Headings, emphasis, code, links and lists.',
+            content: (
+              <Markdown
+                value={
+                  '# Hi\n\n**Bold** and *italic*, `code`, and a [link](https://example.com).\n\n- one\n- two'
+                }
+              />
+            ),
+          },
+          {
+            id: 'markdown-safe',
+            title: 'Safe by default',
+            description:
+              'Raw HTML is escaped; script payloads never survive rendering.',
+            content: (
+              <Markdown value={'<b>x</b>\n\n[t](javascript:alert(1))'} />
+            ),
+          },
+          {
+            id: 'markdown-allow-html',
+            title: 'Allow HTML + resize',
+            description:
+              'Opt-in raw HTML (still sanitized) with a resizable shell.',
+            content: (
+              <Markdown
+                value={'<b>Bold tag</b> rendered literally.'}
+                allowHtml
+                resize
+              />
+            ),
+          },
+        ]}
+      />
+    );
+  }
 }

@@ -105,6 +105,7 @@ export const ROUTE_COMPONENTS: Record<string, (props: DemoProps) => ReactNode> =
     accordion: DisplayDemos,
     carousel: DisplayDemos,
     splitter: DisplayDemos,
+    markdown: DisplayDemos,
     themeswitcher: ThemeDemos,
     themetoggle: ThemeDemos,
     'recipe-login': RecipeDemos,
