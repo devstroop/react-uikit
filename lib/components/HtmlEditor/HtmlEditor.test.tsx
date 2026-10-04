@@ -50,8 +50,8 @@ describe('HtmlEditor', () => {
     area.innerHTML = '<p>hi</p><script>alert(1)</script>';
     fireEvent.input(area);
     expect(onChange).toHaveBeenCalledTimes(1);
-    expect(onChange.mock.calls[0][0]).toContain('<p>hi</p>');
-    expect(onChange.mock.calls[0][0]).not.toContain('<script>');
+    expect(onChange.mock.calls[0]?.[0]).toContain('<p>hi</p>');
+    expect(onChange.mock.calls[0]?.[0]).not.toContain('<script>');
   });
 
   it('ctrl+b/i/u run the matching command', async () => {

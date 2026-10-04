@@ -4857,7 +4857,7 @@ function ul() {
   }, t;
 }
 var bf = ul();
-const yf = "_editor_w4ke5_3", xf = "_toolbar_w4ke5_13", vf = "_tool_w4ke5_13", wf = "_separator_w4ke5_56", kf = "_area_w4ke5_63", Of = "_source_w4ke5_73", Yn = {
+const yf = "_editor_1783g_3", xf = "_toolbar_1783g_13", vf = "_tool_1783g_13", wf = "_separator_1783g_56", kf = "_area_1783g_63", Of = "_source_1783g_73", Yn = {
   editor: yf,
   toolbar: xf,
   tool: vf,
@@ -4949,34 +4949,49 @@ function qO({
     h && b(h.innerHTML);
   }, [b]);
   return /* @__PURE__ */ M("div", { className: [Yn.editor, s].filter(Boolean).join(" "), children: [
-    /* @__PURE__ */ o("div", { role: "toolbar", "aria-label": `${d} toolbar`, className: Yn.toolbar, children: r.map(
-      (h, $) => h === "separator" ? /* @__PURE__ */ o("span", { role: "separator", className: Yn.separator }, `sep-${$}`) : h === "source" ? /* @__PURE__ */ o(
-        "button",
-        {
-          type: "button",
-          className: Yn.tool,
-          "aria-label": "Source",
-          "aria-pressed": c,
-          disabled: a,
-          onMouseDown: (k) => k.preventDefault(),
-          onClick: p,
-          children: "</>"
-        },
-        "source"
-      ) : /* @__PURE__ */ o(
-        "button",
-        {
-          type: "button",
-          className: Yn.tool,
-          "aria-label": Ns[h].label,
-          disabled: a,
-          onMouseDown: (k) => k.preventDefault(),
-          onClick: () => _(h),
-          children: Ns[h].glyph
-        },
-        h
-      )
-    ) }),
+    /* @__PURE__ */ o(
+      "div",
+      {
+        role: "toolbar",
+        "aria-label": `${d} toolbar`,
+        className: Yn.toolbar,
+        children: r.map(
+          (h, $) => h === "separator" ? /* @__PURE__ */ o(
+            "span",
+            {
+              role: "separator",
+              className: Yn.separator
+            },
+            `sep-${$}`
+          ) : h === "source" ? /* @__PURE__ */ o(
+            "button",
+            {
+              type: "button",
+              className: Yn.tool,
+              "aria-label": "Source",
+              "aria-pressed": c,
+              disabled: a,
+              onMouseDown: (k) => k.preventDefault(),
+              onClick: p,
+              children: "</>"
+            },
+            "source"
+          ) : /* @__PURE__ */ o(
+            "button",
+            {
+              type: "button",
+              className: Yn.tool,
+              "aria-label": Ns[h].label,
+              disabled: a,
+              onMouseDown: (k) => k.preventDefault(),
+              onClick: () => _(h),
+              children: Ns[h].glyph
+            },
+            h
+          )
+        )
+      }
+    ),
     c ? /* @__PURE__ */ o(
       "textarea",
       {

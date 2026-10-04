@@ -3,8 +3,8 @@
 .editor {
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--dx-border-color);
-  border-radius: var(--dx-radius-input);
+  border: var(--dx-border);
+  border-radius: var(--dx-radius);
   background: var(--dx-surface-color);
   color: var(--dx-text-color);
   overflow: hidden;
@@ -15,7 +15,7 @@
   align-items: center;
   gap: 2px;
   padding: var(--dx-space-1);
-  border-bottom: 1px solid var(--dx-border-color);
+  border-bottom: var(--dx-border-width) solid var(--dx-border-color);
   background: var(--dx-surface-color);
 }
 
@@ -26,7 +26,7 @@
   min-width: 28px;
   height: 28px;
   padding: 0 6px;
-  border: 1px solid transparent;
+  border: var(--dx-border-width) solid transparent;
   border-radius: var(--dx-radius-sm);
   background: transparent;
   color: var(--dx-text-color);
