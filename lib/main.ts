@@ -188,6 +188,8 @@ export type {
 } from './components/Dialog/DialogProvider';
 
 export { ToastProvider, useToast } from './components/Toast/Toast';
+export { Login } from './components/Login/Login';
+export type { LoginProps, LoginCredentials } from './components/Login/Login';
 export { Markdown } from './components/Markdown/Markdown';
 export type { MarkdownProps } from './components/Markdown/Markdown';
 export { renderMarkdown } from './components/Markdown/markdown';
