@@ -1,0 +1,82 @@
+/* html-editor: toolbar + editable region. All chrome uses design
+   tokens; the editable region inherits the app font. */
+.editor {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--dx-border-color);
+  border-radius: var(--dx-radius-input);
+  background: var(--dx-surface-color);
+  color: var(--dx-text-color);
+  overflow: hidden;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: var(--dx-space-1);
+  border-bottom: 1px solid var(--dx-border-color);
+  background: var(--dx-surface-color);
+}
+
+.tool {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 28px;
+  padding: 0 6px;
+  border: 1px solid transparent;
+  border-radius: var(--dx-radius-sm);
+  background: transparent;
+  color: var(--dx-text-color);
+  font-size: var(--dx-font-size-sm);
+  cursor: pointer;
+}
+
+.tool:hover:not(:disabled) {
+  background: var(--dx-surface-hover-color);
+}
+
+.tool:focus-visible {
+  outline: 2px solid var(--dx-focus-color);
+  outline-offset: 1px;
+}
+
+.tool:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.tool[aria-pressed='true'] {
+  background: var(--dx-surface-hover-color);
+  border-color: var(--dx-border-color);
+}
+
+.separator {
+  width: 1px;
+  align-self: stretch;
+  margin: 2px 4px;
+  background: var(--dx-border-color);
+}
+
+.area {
+  min-height: 160px;
+  padding: var(--dx-space-2) var(--dx-space-3);
+  outline: none;
+}
+
+.area:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--dx-focus-color);
+}
+
+.source {
+  min-height: 160px;
+  padding: var(--dx-space-2) var(--dx-space-3);
+  border: 0;
+  background: var(--dx-surface-color);
+  color: var(--dx-text-color);
+  font-family: monospace;
+  font-size: var(--dx-font-size-sm);
+  resize: vertical;
+}
