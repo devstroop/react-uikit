@@ -1125,6 +1125,71 @@ export function DataDemos({ slug }: { slug: string }) {
               ),
             },
             {
+              id: 'chart-stacked-100',
+              title: 'Stacked 100%',
+              description:
+                'stacked100Percent normalizes each stack group to percentages.',
+              content: (
+                <Chart
+                  width={560}
+                  height={240}
+                  stacked100Percent
+                  series={[
+                    {
+                      type: 'column',
+                      stack: 'q',
+                      title: 'Closed',
+                      data: [
+                        { zone: 'North', v: 70 },
+                        { zone: 'South', v: 50 },
+                      ],
+                      categoryProperty: 'zone',
+                      valueProperty: 'v',
+                    },
+                    {
+                      type: 'column',
+                      stack: 'q',
+                      title: 'Open',
+                      data: [
+                        { zone: 'North', v: 30 },
+                        { zone: 'South', v: 40 },
+                      ],
+                      categoryProperty: 'zone',
+                      valueProperty: 'v',
+                    },
+                  ]}
+                />
+              ),
+            },
+            {
+              id: 'chart-range-markers',
+              title: 'Range + markers',
+              description: 'Min/max bands, square markers, dashed strokes.',
+              content: (
+                <Chart
+                  width={560}
+                  height={240}
+                  series={[
+                    {
+                      type: 'line',
+                      title: 'Band',
+                      data: [
+                        { zone: 'North', v: 50, lo: 20, hi: 80 },
+                        { zone: 'South', v: 60, lo: 30, hi: 90 },
+                      ],
+                      categoryProperty: 'zone',
+                      valueProperty: 'v',
+                      minProperty: 'lo',
+                      maxProperty: 'hi',
+                      markers: { shape: 'square', size: 6 },
+                      dash: [4, 2],
+                      lineWidth: 3,
+                    },
+                  ]}
+                />
+              ),
+            },
+            {
               id: 'chart-gauge',
               title: 'Gauge',
               description: 'Single metric against the value axis range.',
