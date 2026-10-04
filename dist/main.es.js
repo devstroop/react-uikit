@@ -13635,7 +13635,10 @@ function pw({
     }
   );
 }
-function mw() {
+function mw({ children: e, className: t }) {
+  return /* @__PURE__ */ o("div", { role: "status", "aria-live": "polite", className: t, children: e });
+}
+function gw() {
   const e = Q(null);
   return _e(() => {
     const t = document.createElement("div");
@@ -13704,6 +13707,7 @@ export {
   yk as Layout,
   tw as Link,
   Ek as ListBox,
+  mw as LiveRegion,
   Pk as Mask,
   Gb as Menu,
   Pr as MenuItem,
@@ -13786,7 +13790,7 @@ export {
   ck as useDialog,
   Ll as useFormContext,
   ek as useFormField,
-  mw as useLiveRegion,
+  gw as useLiveRegion,
   Ir as useMediaQuery,
   uk as useToast
 };
