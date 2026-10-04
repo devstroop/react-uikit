@@ -185,4 +185,5 @@ export type { BarcodeProps } from './components/Barcode/Barcode';
 export { Chart } from './components/Chart/Chart';
 export type { ChartProps, ChartSeries, SeriesClickArgs, } from './components/Chart/Chart';
 export { useMediaQuery } from './hooks/useMediaQuery';
+export { LiveRegion } from './components/LiveRegion/LiveRegion';
 export { useLiveRegion } from './hooks/useLiveRegion';
