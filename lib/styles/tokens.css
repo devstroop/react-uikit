@@ -338,8 +338,8 @@
   --dx-field-padding-xl: 28px 12px 8px;
 
   /* container roles (M3 system; defaults follow the console palette) */
-  --dx-primary-container-color: #78f2c2;
-  --dx-on-primary-container-color: #002117;
+  --dx-primary-container-color: #d8e3f9;
+  --dx-on-primary-container-color: #001233;
   --dx-secondary-container-color: #cfe9da;
   --dx-on-secondary-container-color: #062017;
   --dx-tertiary-color: #3d6373;
@@ -623,8 +623,8 @@
   --dx-shadow-md: 0 4px 12px rgb(0 0 0 / 0.5);
   --dx-shadow-lg: 0 12px 32px rgb(0 0 0 / 0.6);
 
-  --dx-primary-container-color: #00513d;
-  --dx-on-primary-container-color: #78f2c2;
+  --dx-primary-container-color: #133276;
+  --dx-on-primary-container-color: #d8e3f9;
   --dx-secondary-container-color: #354b41;
   --dx-on-secondary-container-color: #cfe9da;
   --dx-tertiary-color: #a4cde3;
@@ -911,8 +911,8 @@
     --dx-shadow-md: 0 4px 12px rgb(0 0 0 / 0.5);
     --dx-shadow-lg: 0 12px 32px rgb(0 0 0 / 0.6);
 
-    --dx-primary-container-color: #00513d;
-    --dx-on-primary-container-color: #78f2c2;
+    --dx-primary-container-color: #133276;
+    --dx-on-primary-container-color: #d8e3f9;
     --dx-secondary-container-color: #354b41;
     --dx-on-secondary-container-color: #cfe9da;
     --dx-tertiary-color: #a4cde3;
