@@ -1,4 +1,11 @@
-import { useCallback, useEffect, useId, useRef, type ReactNode } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useId,
+  useRef,
+  type KeyboardEvent as RKeyboardEvent,
+  type ReactNode,
+} from 'react';
 import { Icon } from '../Icon/Icon';
 import styles from './Dialog.module.css';
 
@@ -108,6 +115,43 @@ export function Dialog({
     onCloseRef.current();
   }, []);
 
+  // Chromium's native modal containment is imperfect around some
+  // button/DOM arrangements — focus briefly lands on <body> when Tab
+  // wraps. Enforce the focus cycle explicitly so keyboard focus can
+  // never leave the modal regardless of DOM depth.
+  const keepFocusInside = useCallback(
+    (e: RKeyboardEvent<HTMLDialogElement>) => {
+      if (e.key !== 'Tab' || !ref.current) return;
+      const candidates = Array.from(
+        ref.current.querySelectorAll<HTMLElement>(
+          'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        )
+      ).filter(
+        (el) =>
+          el.offsetWidth > 0 ||
+          el.offsetHeight > 0 ||
+          el === document.activeElement
+      );
+      if (candidates.length === 0) {
+        e.preventDefault();
+        return;
+      }
+      const index = candidates.indexOf(document.activeElement as HTMLElement);
+      if (e.shiftKey) {
+        if (index <= 0) {
+          e.preventDefault();
+          const last = candidates[candidates.length - 1];
+          if (last) last.focus();
+        }
+      } else if (index === -1 || index === candidates.length - 1) {
+        e.preventDefault();
+        const first = candidates[0];
+        if (first) first.focus();
+      }
+    },
+    []
+  );
+
   useEffect(() => {
     const dialog = ref.current;
     if (!dialog) {
@@ -186,6 +230,7 @@ export function Dialog({
       aria-modal="true"
       aria-labelledby={title ? titleId : undefined}
       aria-describedby={description ? descId : undefined}
+      onKeyDown={keepFocusInside}
     >
       {title && (
         <header className={styles.header}>
