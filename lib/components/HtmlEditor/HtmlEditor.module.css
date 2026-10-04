@@ -80,3 +80,37 @@
   font-size: var(--dx-font-size-sm);
   resize: vertical;
 }
+
+.alignGlyph {
+  display: block;
+  width: 1.1em;
+}
+
+.colorInput {
+  width: 22px;
+  height: 18px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.select {
+  height: 28px;
+  max-width: 92px;
+  border: 1px solid transparent;
+  border-radius: var(--dx-radius);
+  background: transparent;
+  color: var(--dx-text-color);
+  font-size: var(--dx-font-size-sm);
+  cursor: pointer;
+}
+
+.select:hover:not(:disabled) {
+  background: var(--dx-surface-hover-color);
+}
+
+.select:focus-visible {
+  outline: var(--dx-focus-ring-width) solid var(--dx-focus-color);
+  outline-offset: var(--dx-focus-ring-offset);
+}
