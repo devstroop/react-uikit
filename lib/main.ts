@@ -193,6 +193,7 @@ export type {
   ToastOptions,
   ToastTone,
   ToastPosition,
+  NotifyMessage,
 } from './components/Toast/Toast';
 
 export { Alert, ALERT_ICON } from './components/Alert/Alert';
