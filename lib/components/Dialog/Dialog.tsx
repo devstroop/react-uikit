@@ -29,6 +29,12 @@ export interface DialogProps {
   closeOnEsc?: boolean;
   /** User-resizable via the native corner handle. Defaults to false. */
   resizable?: boolean;
+  /** Dock as a side panel instead of a centered modal. Defaults to null. */
+  side?: 'left' | 'right' | 'top' | 'bottom' | null;
+  /** Render the header close (X) button. Defaults to true. */
+  showCloseButton?: boolean;
+  /** Dim the page behind the dialog. Defaults to true. */
+  showMask?: boolean;
   /**
    * Veto gesture closes (X button, backdrop click, ESC). Return false
    * (or a resolving-to-false promise) to keep the dialog open — e.g.
@@ -51,6 +57,9 @@ export function Dialog({
   closeOnOverlayClick = true,
   closeOnEsc = true,
   resizable = false,
+  side = null,
+  showCloseButton = true,
+  showMask = true,
   canClose,
   className,
 }: DialogProps) {
@@ -211,6 +220,8 @@ export function Dialog({
         styles.dialog,
         styles[size],
         resizable ? styles.resizable : null,
+        side ? styles[`side-${side}`] : null,
+        showMask === false ? styles['no-mask'] : null,
         className,
       ]
         .filter(Boolean)
@@ -244,14 +255,16 @@ export function Dialog({
               </p>
             )}
           </div>
-          <button
-            type="button"
-            className={styles.close}
-            onClick={() => void requestClose()}
-            aria-label="Close dialog"
-          >
-            <Icon icon="close" size="sm" />
-          </button>
+          {showCloseButton !== false && (
+            <button
+              type="button"
+              className={styles.close}
+              onClick={() => void requestClose()}
+              aria-label="Close dialog"
+            >
+              <Icon icon="close" size="sm" />
+            </button>
+          )}
         </header>
       )}
       {children && <div className={styles.body}>{children}</div>}
