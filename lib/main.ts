@@ -188,6 +188,10 @@ export type {
 } from './components/Dialog/DialogProvider';
 
 export { ToastProvider, useToast } from './components/Toast/Toast';
+export { Markdown } from './components/Markdown/Markdown';
+export type { MarkdownProps } from './components/Markdown/Markdown';
+export { renderMarkdown } from './components/Markdown/markdown';
+export type { MarkdownRenderOptions } from './components/Markdown/markdown';
 export { HtmlEditor } from './components/HtmlEditor/HtmlEditor';
 export type {
   HtmlEditorProps,
