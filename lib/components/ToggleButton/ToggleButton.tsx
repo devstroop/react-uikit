@@ -49,6 +49,8 @@ export interface ToggleButtonProps extends Omit<
    */
   toggleContent?: ReactNode;
   size?: ToggleButtonSize;
+  /** Stretch to fill the parent's width (passed through to Button). */
+  fullWidth?: boolean;
 }
 
 export const ToggleButton = forwardRef<HTMLButtonElement, ToggleButtonProps>(

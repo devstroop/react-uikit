@@ -63,6 +63,13 @@ describe('ToggleButton', () => {
     expect(button).toHaveAttribute('aria-pressed', 'true');
   });
 
+  it('passes fullWidth through to the button', () => {
+    render(<ToggleButton fullWidth>Wide</ToggleButton>);
+    expect(
+      screen.getByRole('button', { name: 'Wide' }).className
+    ).toContain('fullWidth');
+  });
+
   it('starts from defaultPressed', () => {
     render(<ToggleButton defaultPressed>Bold</ToggleButton>);
     expect(screen.getByRole('button')).toHaveAttribute('aria-pressed', 'true');
