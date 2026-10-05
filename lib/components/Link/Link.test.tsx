@@ -38,6 +38,18 @@ describe('Link', () => {
     expect(onClick).toHaveBeenCalledTimes(1);
   });
 
+  it('suppresses clicks when disabled', async () => {
+    const user = userEvent.setup();
+    const onClick = vi.fn();
+    render(
+      <Link disabled onClick={onClick}>
+        Unavailable
+      </Link>
+    );
+    await user.click(screen.getByRole('button', { name: 'Unavailable' }));
+    expect(onClick).not.toHaveBeenCalled();
+  });
+
   it('renders nothing when visible is false', () => {
     const { container } = render(
       <Link href="/x" visible={false}>
