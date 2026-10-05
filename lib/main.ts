@@ -190,6 +190,11 @@ export type {
 export { ToastProvider, useToast } from './components/Toast/Toast';
 export { ArcGauge } from './components/Gauges/ArcGauge';
 export type { ArcGaugeProps, ArcColorStop } from './components/Gauges/ArcGauge';
+export { LinearGauge } from './components/Gauges/LinearGauge';
+export type {
+  LinearGaugeProps,
+  LinearGaugeRange,
+} from './components/Gauges/LinearGauge';
 export { AIChat } from './components/AIChat/AIChat';
 export type {
   AIChatProps,
