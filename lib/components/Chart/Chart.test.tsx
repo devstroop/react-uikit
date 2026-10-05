@@ -858,3 +858,79 @@ describe('Chart spider (#95)', () => {
     );
   });
 });
+
+describe('Chart sankey (#95)', () => {
+  const flow = {
+    type: 'sankey' as const,
+    title: 'Flow',
+    data: [
+      { from: 'A', to: 'B', amount: 30 },
+      { from: 'A', to: 'C', amount: 10 },
+      { from: 'B', to: 'C', amount: 20 },
+    ],
+    categoryProperty: 'from',
+    valueProperty: 'amount',
+    sourceProperty: 'from',
+    targetProperty: 'to',
+  };
+
+  it('lays out depth columns with proportional links', () => {
+    const { container } = render(<Chart series={[flow]} />);
+    const group = container.querySelector('g[data-chart-type="sankey"]')!;
+    // 3 nodes (A, B, C) + 3 link ribbons
+    expect(group.querySelectorAll('rect').length).toBe(3);
+    const links = [...group.querySelectorAll('path')];
+    expect(links.length).toBe(3);
+    // link bands follow values: A->B (30) is 3x A->C (10). The ribbon
+    // path carries the band thickness between its middle points:
+    // M x0 y0 C .. x1 y1 L x1 (y1+h) C .. x0 (y0+h) Z.
+    const heightOf = (d: string | null) => {
+      const nums = (d ?? '')
+        .split(/[MLCZ ,]+/)
+        .filter(Boolean)
+        .map(Number);
+      return nums[9]! - nums[7]!;
+    };
+    const h0 = heightOf(links[0]!.getAttribute('d'));
+    const h1 = heightOf(links[1]!.getAttribute('d'));
+    expect(h0 / h1).toBeCloseTo(3, 0);
+  });
+
+  it('labels nodes and clicks report flow endpoints', () => {
+    const fn = vi.fn();
+    render(<Chart series={[flow]} onSeriesClick={fn} />);
+    const group = document.querySelector('g[data-chart-type="sankey"]')!;
+    expect(group.textContent).toContain('A');
+    expect(group.textContent).toContain('C');
+    fireEvent.click(group.querySelectorAll('path')[0]!);
+    expect(fn).toHaveBeenCalledWith(
+      expect.objectContaining({ category: 'A → B', value: 30 })
+    );
+  });
+
+  it('skips self-links, zero flows, and survives cycles', () => {
+    const { container } = render(
+      <Chart
+        series={[
+          {
+            type: 'sankey' as const,
+            title: 'Loopy',
+            data: [
+              { from: 'A', to: 'A', amount: 5 },
+              { from: 'A', to: 'B', amount: 0 },
+              { from: 'A', to: 'B', amount: 7 },
+              { from: 'B', to: 'A', amount: 3 },
+            ],
+            categoryProperty: 'from',
+            valueProperty: 'amount',
+            sourceProperty: 'from',
+            targetProperty: 'to',
+          },
+        ]}
+      />
+    );
+    const group = container.querySelector('g[data-chart-type="sankey"]')!;
+    // one link only (self + zero dropped; the B->A cycle kept once)
+    expect(group.querySelectorAll('path').length).toBe(2);
+  });
+});
