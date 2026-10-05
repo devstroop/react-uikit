@@ -242,9 +242,9 @@ describe('DialogProvider', () => {
     await screen.findByText('Delete the zone?');
     // Focus moves into the dialog (close control first).
     await waitFor(() =>
-      expect(
-        screen.getByRole('dialog').contains(document.activeElement)
-      ).toBe(true)
+      expect(screen.getByRole('dialog').contains(document.activeElement)).toBe(
+        true
+      )
     );
     await user.click(screen.getByRole('button', { name: 'Cancel' }));
     // Opener regains focus once the dialog closes.

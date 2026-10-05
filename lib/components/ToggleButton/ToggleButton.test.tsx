@@ -65,9 +65,9 @@ describe('ToggleButton', () => {
 
   it('passes fullWidth through to the button', () => {
     render(<ToggleButton fullWidth>Wide</ToggleButton>);
-    expect(
-      screen.getByRole('button', { name: 'Wide' }).className
-    ).toContain('fullWidth');
+    expect(screen.getByRole('button', { name: 'Wide' }).className).toContain(
+      'fullWidth'
+    );
   });
 
   it('starts from defaultPressed', () => {
