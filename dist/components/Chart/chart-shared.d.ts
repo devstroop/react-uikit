@@ -5,7 +5,7 @@ export type SeriesClickArgs = {
     item: Record<string, unknown>;
 };
 export interface ChartSeries {
-    type: 'line' | 'area' | 'bar' | 'column' | 'scatter' | 'bubble' | 'pie' | 'donut' | 'gauge' | 'radar' | 'funnel' | 'heatmap' | 'candlestick' | 'ohlc' | 'highlow' | 'trendline' | 'movingaverage' | 'treemap' | 'pyramid';
+    type: 'line' | 'area' | 'bar' | 'column' | 'scatter' | 'bubble' | 'pie' | 'donut' | 'gauge' | 'radar' | 'funnel' | 'heatmap' | 'candlestick' | 'ohlc' | 'highlow' | 'trendline' | 'movingaverage' | 'treemap' | 'pyramid' | 'spider';
     data: Record<string, unknown>[];
     categoryProperty: string;
     valueProperty: string;
