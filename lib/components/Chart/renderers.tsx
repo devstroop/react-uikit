@@ -807,6 +807,137 @@ function renderHeatmap(
   );
 }
 
+/**
+ * OHLC family (uikit#95): candlestick bodies (filled when rising, hollow
+ * when falling), ohlc open/close ticks, highlow range lines. Points
+ * without a complete OHLC quad fall back to the close/value marker.
+ */
+function renderOhlc(
+  ctx: ChartRenderContext,
+  ser: ChartSeries,
+  sIdx: number,
+  pts: ChartPoint[],
+  color: string
+): ReactNode {
+  const { xFor, yFor, categories } = ctx;
+  const cIdxMap = new Map(categories.map((c, i) => [c, i] as const));
+  const groupW = ctx.plotW / Math.max(1, categories.length);
+  const bodyW = Math.max(8, Math.min(28, groupW / 2 - 4));
+  const up = ser.upColor ?? color;
+  const down = ser.downColor ?? 'var(--dx-danger-color)';
+  return seriesHead(
+    sIdx,
+    ser,
+    pts.map((p, i) => {
+      const ci = cIdxMap.get(p.cat) ?? 0;
+      const x = xFor(ci);
+      const close = p.close ?? p.val;
+      const hasQuad =
+        typeof p.open === 'number' &&
+        !Number.isNaN(p.open) &&
+        typeof p.high === 'number' &&
+        !Number.isNaN(p.high) &&
+        typeof p.low === 'number' &&
+        !Number.isNaN(p.low) &&
+        typeof close === 'number' &&
+        !Number.isNaN(close);
+      const rising = hasQuad && close >= (p.open as number);
+      const tip = `${ser.title ?? p.cat}: O ${p.open ?? '–'} H ${p.high ?? '–'} L ${p.low ?? '–'} C ${close}`;
+      return (
+        <g key={i} role="listitem">
+          {hasQuad && ser.type === 'candlestick' && (
+            <>
+              <line
+                x1={x}
+                y1={yFor(p.high as number)}
+                x2={x}
+                y2={yFor(p.low as number)}
+                stroke={rising ? up : down}
+                strokeWidth={1.5}
+              />
+              <rect
+                x={x - bodyW / 2}
+                y={yFor(Math.max(p.open as number, close))}
+                width={bodyW}
+                height={Math.max(
+                  2,
+                  yFor(Math.min(p.open as number, close)) -
+                    yFor(Math.max(p.open as number, close))
+                )}
+                fill={rising ? up : 'none'}
+                stroke={rising ? up : down}
+                strokeWidth={1.5}
+              />
+            </>
+          )}
+          {hasQuad && ser.type === 'ohlc' && (
+            <>
+              <line
+                x1={x}
+                y1={yFor(p.high as number)}
+                x2={x}
+                y2={yFor(p.low as number)}
+                stroke={color}
+                strokeWidth={1.5}
+              />
+              <line
+                x1={x - bodyW / 2}
+                y1={yFor(p.open as number)}
+                x2={x}
+                y2={yFor(p.open as number)}
+                stroke={color}
+                strokeWidth={1.5}
+              />
+              <line
+                x1={x}
+                y1={yFor(close)}
+                x2={x + bodyW / 2}
+                y2={yFor(close)}
+                stroke={color}
+                strokeWidth={1.5}
+              />
+            </>
+          )}
+          {hasQuad && ser.type === 'highlow' && (
+            <line
+              x1={x}
+              y1={yFor(p.high as number)}
+              x2={x}
+              y2={yFor(p.low as number)}
+              stroke={color}
+              strokeWidth={2}
+            />
+          )}
+          {!hasQuad && renderMarker(x, yFor(close), color, ser, 4)}
+          <rect
+            x={x - 14}
+            y={yFor(close) - 14}
+            width={28}
+            height={28}
+            fill="transparent"
+            onMouseEnter={() =>
+              ctx.tooltipVisible && ctx.showTip(x, yFor(close), tip)
+            }
+            onMouseLeave={() => ctx.hideTip()}
+            onClick={() => ctx.handleClick(ser, p.cat, close, p.item)}
+            style={{ cursor: 'pointer' }}
+          />
+          {ser.labels?.visible && (
+            <text
+              x={x}
+              y={yFor(close) - 8}
+              textAnchor="middle"
+              className={styles.dataLabel}
+            >
+              {fmtVal(ctx, close)}
+            </text>
+          )}
+        </g>
+      );
+    })
+  );
+}
+
 export function renderSeries(
   ctx: ChartRenderContext,
   ser: ChartSeries,
@@ -832,6 +963,10 @@ export function renderSeries(
       return renderFunnel(ctx, ser, sIdx, pts, color);
     case 'heatmap':
       return renderHeatmap(ctx, ser, sIdx, pts, color);
+    case 'candlestick':
+    case 'ohlc':
+    case 'highlow':
+      return renderOhlc(ctx, ser, sIdx, pts, color);
     default:
       return renderBars(ctx, ser, sIdx, pts, color);
   }

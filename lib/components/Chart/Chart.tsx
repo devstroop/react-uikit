@@ -74,7 +74,15 @@ export function Chart({
 
   const values = useMemo(() => {
     const out = plotSeries
-      .flatMap((s) => s.data.map((d) => Number(d[s.valueProperty])))
+      .flatMap((s) =>
+        s.data.flatMap((d) => [
+          Number(d[s.valueProperty]),
+          ...(s.openProperty ? [Number(d[s.openProperty])] : []),
+          ...(s.highProperty ? [Number(d[s.highProperty])] : []),
+          ...(s.lowProperty ? [Number(d[s.lowProperty])] : []),
+          ...(s.closeProperty ? [Number(d[s.closeProperty])] : []),
+        ])
+      )
       .filter((n) => !Number.isNaN(n));
     // stacked series must fit the scale by their per-category totals,
     // not by the largest single value
