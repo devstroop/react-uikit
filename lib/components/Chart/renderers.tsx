@@ -98,6 +98,105 @@ function fmtVal(ctx: ChartRenderContext, val: number): string {
   return ctx.percent ? `${val}%` : String(val);
 }
 
+const CARTESIAN_SOURCE_TYPES = new Set([
+  'line',
+  'area',
+  'bar',
+  'column',
+  'scatter',
+  'bubble',
+]);
+
+/**
+ * Derived-series source lookup (uikit#95): explicit `source` title wins,
+ * otherwise the nearest previous cartesian series. Returns null when
+ * nothing usable is found.
+ */
+function derivedSource(
+  ctx: ChartRenderContext,
+  ser: ChartSeries,
+  sIdx: number
+): ChartSeries | null {
+  if (ser.source) {
+    const named = ctx.series.find(
+      (s, j) => j !== sIdx && s.title === ser.source
+    );
+    return named ?? null;
+  }
+  for (let j = sIdx - 1; j >= 0; j--) {
+    const prev = ctx.series[j];
+    if (prev && CARTESIAN_SOURCE_TYPES.has(prev.type)) return prev;
+  }
+  return null;
+}
+
+/**
+ * Trendline (least-squares fit) and moving average, rendered by
+ * synthesizing plain line series so stroke/marker/label/tooltip
+ * semantics stay identical to hand-authored lines.
+ */
+function renderDerived(
+  ctx: ChartRenderContext,
+  ser: ChartSeries,
+  sIdx: number,
+  color: string
+): ReactNode {
+  const src = derivedSource(ctx, ser, sIdx);
+  if (!src) return null;
+  const srcPts = pointsFor(src).filter((p) => !Number.isNaN(p.val));
+  if (srcPts.length === 0) return null;
+  const cats = srcPts.map((p) => p.cat);
+  let fitted: Array<{ cat: string; val: number }>;
+  if (ser.type === 'trendline') {
+    const n = srcPts.length;
+    const xs = srcPts.map((_, i) => i);
+    const ys = srcPts.map((p) => p.val);
+    const meanX = xs.reduce((a, b) => a + b, 0) / n;
+    const meanY = ys.reduce((a, b) => a + b, 0) / n;
+    let num = 0;
+    let den = 0;
+    for (let i = 0; i < n; i++) {
+      num += (xs[i]! - meanX) * (ys[i]! - meanY);
+      den += (xs[i]! - meanX) * (xs[i]! - meanX);
+    }
+    const slope = den === 0 ? 0 : num / den;
+    fitted = cats.map((cat, i) => ({
+      cat,
+      val: meanY + slope * (i - meanX),
+    }));
+  } else {
+    const period = Math.max(1, Math.floor(ser.period ?? 3));
+    fitted = srcPts
+      .map((p, i) => {
+        if (i + 1 < period) return null;
+        const window = srcPts.slice(i + 1 - period, i + 1);
+        return {
+          cat: p.cat,
+          val: window.reduce((a, q) => a + q.val, 0) / period,
+        };
+      })
+      .filter((p): p is { cat: string; val: number } => p != null);
+  }
+  if (fitted.length === 0) return null;
+  const synthetic: ChartSeries = {
+    ...ser,
+    stack: undefined,
+    categoryProperty: '__cat',
+    valueProperty: '__val',
+    data: fitted.map((p, k) => ({
+      __cat: p.cat,
+      __val: p.val,
+      __item: srcPts[k + (srcPts.length - fitted.length)]?.item,
+    })),
+    markers: { ...(ser.markers ?? {}), visible: ser.markers?.visible ?? false },
+  };
+  const synthPts = pointsFor(synthetic).map((p) => ({
+    ...p,
+    item: (p.item.__item as Record<string, unknown>) ?? p.item,
+  }));
+  return renderLine(ctx, synthetic, sIdx, synthPts, color);
+}
+
 /**
  * Range band for line/area series carrying minProperty+maxProperty
  * (uikit#95): polygon between the per-point min/max. Returns null unless
@@ -274,17 +373,17 @@ function renderLine(
     return sum;
   };
   const d = pts
-    .map((p) => {
+    .map((p, i) => {
       const ci = cIdxMap.get(p.cat) ?? 0;
       const base = baseFor(p.cat);
-      return `${ci === 0 ? 'M' : 'L'} ${xFor(ci)} ${yFor(base + p.val)}`;
+      return `${i === 0 ? 'M' : 'L'} ${xFor(ci)} ${yFor(base + p.val)}`;
     })
     .join(' ');
   const baseD = pts
-    .map((p) => {
+    .map((p, i) => {
       const ci = cIdxMap.get(p.cat) ?? 0;
       const base = baseFor(p.cat);
-      return `${ci === 0 ? 'M' : 'L'} ${xFor(ci)} ${yFor(base)}`;
+      return `${i === 0 ? 'M' : 'L'} ${xFor(ci)} ${yFor(base)}`;
     })
     .join(' ');
   return seriesHead(
@@ -967,6 +1066,9 @@ export function renderSeries(
     case 'ohlc':
     case 'highlow':
       return renderOhlc(ctx, ser, sIdx, pts, color);
+    case 'trendline':
+    case 'movingaverage':
+      return renderDerived(ctx, ser, sIdx, color);
     default:
       return renderBars(ctx, ser, sIdx, pts, color);
   }
