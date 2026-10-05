@@ -27,7 +27,8 @@ export interface ChartSeries {
     | 'treemap'
     | 'pyramid'
     | 'spider'
-    | 'sankey';
+    | 'sankey'
+    | 'contour';
   data: Record<string, unknown>[];
   categoryProperty: string;
   valueProperty: string;
@@ -60,6 +61,10 @@ export interface ChartSeries {
   childrenProperty?: string;
   /** Sankey source-node property (link origin id). */
   sourceProperty?: string;
+  /** Contour iso-level count. Defaults to 5. */
+  levels?: number;
+  /** Contour density grid resolution (cells per axis). Defaults to 28. */
+  resolution?: number;
   /** Sankey target-node property (link destination id). */
   targetProperty?: string;
   /** Rising-period color for candlestick bodies. Defaults to series color. */
