@@ -9,7 +9,7 @@
 .track {
   position: relative;
   height: 44px;
-  border: 1px solid var(--dx-color-border);
+  border: var(--dx-border);
   border-radius: var(--dx-radius);
   background: var(--dx-color-surface);
   touch-action: none;
@@ -29,7 +29,7 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  border-inline: 2px solid var(--dx-primary-color);
+  border-inline: var(--dx-border-width) solid var(--dx-primary-color);
   background: color-mix(in srgb, var(--dx-primary-color) 12%, transparent);
   pointer-events: none;
 }

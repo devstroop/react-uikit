@@ -3380,7 +3380,7 @@ function VS({
     ))
   ] });
 }
-const af = "_navigator_w60mh_3", lf = "_track_w60mh_9", cf = "_spark_w60mh_19", df = "_window_w60mh_28", uf = "_handle_w60mh_37", Un = {
+const af = "_navigator_848v2_3", lf = "_track_848v2_9", cf = "_spark_848v2_19", df = "_window_848v2_28", uf = "_handle_848v2_37", Un = {
   navigator: af,
   track: lf,
   spark: cf,
@@ -3407,7 +3407,13 @@ function YS({
   className: l
 }) {
   const c = n !== void 0, [f, u] = q(
-    () => r && Eo(r.start, r.end, e, t, d) || {
+    () => r && Eo(
+      r.start,
+      r.end,
+      e,
+      t,
+      d
+    ) || {
       start: e,
       end: t
     }
@@ -3475,75 +3481,67 @@ function YS({
       className: [Un.navigator, l].filter(Boolean).join(" "),
       role: "group",
       "aria-label": o,
-      children: /* @__PURE__ */ D(
-        "div",
-        {
-          ref: g,
-          className: Un.track,
-          onPointerDown: b,
-          children: [
-            i && i.length > 1 && /* @__PURE__ */ s(
-              "svg",
+      children: /* @__PURE__ */ D("div", { ref: g, className: Un.track, onPointerDown: b, children: [
+        i && i.length > 1 && /* @__PURE__ */ s(
+          "svg",
+          {
+            className: Un.spark,
+            viewBox: "0 0 100 24",
+            preserveAspectRatio: "none",
+            "aria-hidden": "true",
+            children: /* @__PURE__ */ s(
+              "polyline",
               {
-                className: Un.spark,
-                viewBox: "0 0 100 24",
-                preserveAspectRatio: "none",
-                "aria-hidden": "true",
-                children: /* @__PURE__ */ s(
-                  "polyline",
-                  {
-                    points: i.map(($, E) => {
-                      const I = E / (i.length - 1) * 100, M = Math.max(...i), T = Math.min(...i), w = M === T ? 12 : 22 - ($ - T) / (M - T) * 20;
-                      return `${I},${w}`;
-                    }).join(" "),
-                    fill: "none",
-                    stroke: "currentColor",
-                    strokeWidth: 1,
-                    vectorEffect: "non-scaling-stroke"
-                  }
-                )
-              }
-            ),
-            /* @__PURE__ */ s(
-              "div",
-              {
-                className: Un.window,
-                style: { left: `${C}%`, width: `${S}%` }
-              }
-            ),
-            /* @__PURE__ */ s(
-              "div",
-              {
-                role: "slider",
-                tabIndex: 0,
-                "aria-label": "Window start",
-                "aria-valuemin": e,
-                "aria-valuemax": t,
-                "aria-valuenow": Math.round(m.start * 100) / 100,
-                className: [Un.handle, Un.handleStart].filter(Boolean).join(" "),
-                style: { left: `${C}%` },
-                onPointerDown: _("start"),
-                onKeyDown: v("start")
-              }
-            ),
-            /* @__PURE__ */ s(
-              "div",
-              {
-                role: "slider",
-                tabIndex: 0,
-                "aria-label": "Window end",
-                "aria-valuemin": e,
-                "aria-valuemax": t,
-                "aria-valuenow": Math.round(m.end * 100) / 100,
-                className: [Un.handle, Un.handleEnd].filter(Boolean).join(" "),
-                style: { left: `${C + S}%` },
-                onPointerDown: _("end"),
-                onKeyDown: v("end")
+                points: i.map(($, E) => {
+                  const I = E / (i.length - 1) * 100, M = Math.max(...i), T = Math.min(...i), w = M === T ? 12 : 22 - ($ - T) / (M - T) * 20;
+                  return `${I},${w}`;
+                }).join(" "),
+                fill: "none",
+                stroke: "currentColor",
+                strokeWidth: 1,
+                vectorEffect: "non-scaling-stroke"
               }
             )
-          ]
-        }
-      )
+          }
+        ),
+        /* @__PURE__ */ s(
+          "div",
+          {
+            className: Un.window,
+            style: { left: `${C}%`, width: `${S}%` }
+          }
+        ),
+        /* @__PURE__ */ s(
+          "div",
+          {
+            role: "slider",
+            tabIndex: 0,
+            "aria-label": "Window start",
+            "aria-valuemin": e,
+            "aria-valuemax": t,
+            "aria-valuenow": Math.round(m.start * 100) / 100,
+            className: [Un.handle, Un.handleStart].filter(Boolean).join(" "),
+            style: { left: `${C}%` },
+            onPointerDown: _("start"),
+            onKeyDown: v("start")
+          }
+        ),
+        /* @__PURE__ */ s(
+          "div",
+          {
+            role: "slider",
+            tabIndex: 0,
+            "aria-label": "Window end",
+            "aria-valuemin": e,
+            "aria-valuemax": t,
+            "aria-valuenow": Math.round(m.end * 100) / 100,
+            className: [Un.handle, Un.handleEnd].filter(Boolean).join(" "),
+            style: { left: `${C + S}%` },
+            onPointerDown: _("end"),
+            onKeyDown: v("end")
+          }
+        )
+      ] })
     }
   );
 }
