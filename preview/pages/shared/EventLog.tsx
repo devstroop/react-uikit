@@ -23,12 +23,12 @@ export function EventLog({
       style={{ maxHeight: 160, overflowY: 'auto', marginTop: 8 }}
     >
       {events.length === 0 ? (
-        <Text textStyle="Body2" className="dx-text-muted">
+        <Text textStyle="body2" className="dx-text-muted">
           {emptyText}
         </Text>
       ) : (
         events.map((e, i) => (
-          <Text key={`${i}-${e}`} textStyle="Body2">
+          <Text key={`${i}-${e}`} textStyle="body2">
             {e}
           </Text>
         ))

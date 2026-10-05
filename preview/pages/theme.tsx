@@ -27,7 +27,7 @@ function CustomThemesDemo() {
     <Stack orientation="vertical" align="start" gap={12}>
       <Stack orientation="horizontal" align="center" gap={12}>
         <ThemeSwitcher storageKey={null} attribute="data-demo-theme" />
-        <Text textStyle="Caption" className="dx-text-muted">
+        <Text textStyle="caption" className="dx-text-muted">
           default six
         </Text>
       </Stack>
@@ -38,7 +38,7 @@ function CustomThemesDemo() {
           themes={CUSTOM_THEMES}
           label="Accent theme"
         />
-        <Text textStyle="Caption" className="dx-text-muted">
+        <Text textStyle="caption" className="dx-text-muted">
           custom list + label
         </Text>
       </Stack>
@@ -51,7 +51,7 @@ function ControlledThemeDemo() {
   return (
     <Stack orientation="vertical" align="start" gap={8}>
       <ThemeSwitcher value={theme} onChange={setTheme} />
-      <Text textStyle="Caption" className="dx-text-muted">
+      <Text textStyle="caption" className="dx-text-muted">
         value: {theme} — controlled mode never writes data-palette
       </Text>
     </Stack>
@@ -67,7 +67,7 @@ function ControlledToggleDemo() {
         onChange={setAppearance}
         label="Appearance"
       />
-      <Text textStyle="Caption" className="dx-text-muted">
+      <Text textStyle="caption" className="dx-text-muted">
         value: {appearance} — controlled mode never writes data-theme
       </Text>
     </Stack>

@@ -7,55 +7,55 @@ import {
 import styles from './Text.module.css';
 
 /**
- * Display style. Mirrors Radzen `TextStyle` exactly: DisplayH1-H6 are the
- * large display ramp, H1-H6 standard headings, Subtitle1/2, Body1/2,
- * Button label text, Caption, Overline.
+ * Display style. Mirrors Radzen `TextStyle` (displayH1-H6 are the large
+ * display ramp, h1-h6 standard headings, subtitle1/2, body1/2, button
+ * label text, caption, overline) with camelCase values.
  */
 export type TextStyle =
-  | 'DisplayH1'
-  | 'DisplayH2'
-  | 'DisplayH3'
-  | 'DisplayH4'
-  | 'DisplayH5'
-  | 'DisplayH6'
-  | 'H1'
-  | 'H2'
-  | 'H3'
-  | 'H4'
-  | 'H5'
-  | 'H6'
-  | 'Subtitle1'
-  | 'Subtitle2'
-  | 'Body1'
-  | 'Body2'
-  | 'Button'
-  | 'Caption'
-  | 'Overline';
+  | 'displayH1'
+  | 'displayH2'
+  | 'displayH3'
+  | 'displayH4'
+  | 'displayH5'
+  | 'displayH6'
+  | 'h1'
+  | 'h2'
+  | 'h3'
+  | 'h4'
+  | 'h5'
+  | 'h6'
+  | 'subtitle1'
+  | 'subtitle2'
+  | 'body1'
+  | 'body2'
+  | 'button'
+  | 'caption'
+  | 'overline';
 
 /**
- * Rendered element. Mirrors Radzen `TagName` (`Auto` = chosen from
- * TextStyle, like Radzen's automatic tag) plus `Strong`, which Radzen
+ * Rendered element. Mirrors Radzen `TagName` (`auto` = chosen from
+ * TextStyle, like Radzen's automatic tag) plus `strong`, which Radzen
  * lacks but our call sites need to preserve strong semantics.
  */
 export type TextTagName =
-  | 'Auto'
-  | 'Div'
-  | 'Span'
-  | 'P'
-  | 'H1'
-  | 'H2'
-  | 'H3'
-  | 'H4'
-  | 'H5'
-  | 'H6'
-  | 'A'
-  | 'Button'
-  | 'Pre'
-  | 'Strong';
+  | 'auto'
+  | 'div'
+  | 'span'
+  | 'p'
+  | 'h1'
+  | 'h2'
+  | 'h3'
+  | 'h4'
+  | 'h5'
+  | 'h6'
+  | 'a'
+  | 'button'
+  | 'pre'
+  | 'strong';
 
 /** Horizontal alignment. Mirrors Radzen `TextAlign`. */
 export type TextAlign =
-  'Left' | 'Right' | 'Center' | 'Justify' | 'Start' | 'End' | 'JustifyAll';
+  'left' | 'right' | 'center' | 'justify' | 'start' | 'end' | 'justifyAll';
 
 export interface TextProps extends HTMLAttributes<HTMLElement> {
   textStyle?: TextStyle;
@@ -71,80 +71,80 @@ export interface TextProps extends HTMLAttributes<HTMLElement> {
 }
 
 const ELEMENT_BY_TEXT_STYLE: Record<TextStyle, ElementType> = {
-  DisplayH1: 'h1',
-  DisplayH2: 'h2',
-  DisplayH3: 'h3',
-  DisplayH4: 'h4',
-  DisplayH5: 'h5',
-  DisplayH6: 'h6',
-  H1: 'h1',
-  H2: 'h2',
-  H3: 'h3',
-  H4: 'h4',
-  H5: 'h5',
-  H6: 'h6',
+  displayH1: 'h1',
+  displayH2: 'h2',
+  displayH3: 'h3',
+  displayH4: 'h4',
+  displayH5: 'h5',
+  displayH6: 'h6',
+  h1: 'h1',
+  h2: 'h2',
+  h3: 'h3',
+  h4: 'h4',
+  h5: 'h5',
+  h6: 'h6',
   // Radzen parity: subtitles render as h6.
-  Subtitle1: 'h6',
-  Subtitle2: 'h6',
-  Body1: 'p',
-  Body2: 'p',
-  Button: 'span',
-  Caption: 'span',
-  Overline: 'span',
+  subtitle1: 'h6',
+  subtitle2: 'h6',
+  body1: 'p',
+  body2: 'p',
+  button: 'span',
+  caption: 'span',
+  overline: 'span',
 };
 
 const CLASS_BY_TEXT_STYLE: Record<TextStyle, string> = {
-  DisplayH1: 'display-1',
-  DisplayH2: 'display-2',
-  DisplayH3: 'display-3',
-  DisplayH4: 'display-4',
-  DisplayH5: 'display-5',
-  DisplayH6: 'display-6',
-  H1: 'h1',
-  H2: 'h2',
-  H3: 'h3',
-  H4: 'h4',
-  H5: 'h5',
-  H6: 'h6',
-  Subtitle1: 'subtitle-1',
-  Subtitle2: 'subtitle-2',
-  Body1: 'body-1',
-  Body2: 'body-2',
-  Button: 'button',
-  Caption: 'caption',
-  Overline: 'overline',
+  displayH1: 'display-1',
+  displayH2: 'display-2',
+  displayH3: 'display-3',
+  displayH4: 'display-4',
+  displayH5: 'display-5',
+  displayH6: 'display-6',
+  h1: 'h1',
+  h2: 'h2',
+  h3: 'h3',
+  h4: 'h4',
+  h5: 'h5',
+  h6: 'h6',
+  subtitle1: 'subtitle-1',
+  subtitle2: 'subtitle-2',
+  body1: 'body-1',
+  body2: 'body-2',
+  button: 'button',
+  caption: 'caption',
+  overline: 'overline',
 };
 
-const ELEMENT_BY_TAG_NAME: Record<Exclude<TextTagName, 'Auto'>, ElementType> = {
-  Div: 'div',
-  Span: 'span',
-  P: 'p',
-  H1: 'h1',
-  H2: 'h2',
-  H3: 'h3',
-  H4: 'h4',
-  H5: 'h5',
-  H6: 'h6',
-  A: 'a',
-  Button: 'button',
-  Pre: 'pre',
-  Strong: 'strong',
+const ELEMENT_BY_TAG_NAME: Record<Exclude<TextTagName, 'auto'>, ElementType> = {
+  div: 'div',
+  span: 'span',
+  p: 'p',
+  h1: 'h1',
+  h2: 'h2',
+  h3: 'h3',
+  h4: 'h4',
+  h5: 'h5',
+  h6: 'h6',
+  a: 'a',
+  button: 'button',
+  pre: 'pre',
+  strong: 'strong',
 };
 
 const CLASS_BY_ALIGN: Record<TextAlign, string> = {
-  Left: 'align-left',
-  Right: 'align-right',
-  Center: 'align-center',
-  Justify: 'align-justify',
-  Start: 'align-left',
-  End: 'align-right',
-  JustifyAll: 'align-justify',
+  left: 'align-left',
+  right: 'align-right',
+  center: 'align-center',
+  justify: 'align-justify',
+  start: 'align-left',
+  end: 'align-right',
+  justifyAll: 'align-justify',
 };
 
 export const Text = forwardRef<HTMLElement, TextProps>(function Text(
   {
-    textStyle = 'Body1',
-    tagName = 'Auto',
+    textStyle = 'body1',
+    tagName = 'auto',
     textAlign,
     text,
     visible = true,
@@ -156,7 +156,7 @@ export const Text = forwardRef<HTMLElement, TextProps>(function Text(
 ) {
   if (visible === false) return null;
   const Tag =
-    tagName === 'Auto'
+    tagName === 'auto'
       ? ELEMENT_BY_TEXT_STYLE[textStyle]
       : ELEMENT_BY_TAG_NAME[tagName];
   return (

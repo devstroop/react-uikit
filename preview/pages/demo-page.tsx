@@ -38,8 +38,8 @@ export function DemoPage({ title, description, sections }: DemoPageProps) {
           // P, not Subtitle1's default <h6>: an h6 right after the page
           // <h1> breaks axe heading-order on every described page.
           <Text
-            textStyle="Subtitle1"
-            tagName="P"
+            textStyle="subtitle1"
+            tagName="p"
             className="dx-text-muted dx-pb-4"
           >
             {description}
@@ -47,12 +47,12 @@ export function DemoPage({ title, description, sections }: DemoPageProps) {
         )}
         <Card id={only?.id} style={only?.cardStyle}>
           {only?.title != null && (
-            <Text textStyle="H5" tagName="H2">
+            <Text textStyle="h5" tagName="h2">
               {only.title}
             </Text>
           )}
           {only?.description != null && (
-            <Text textStyle="Body1" className="dx-text-muted dx-mb-4">
+            <Text textStyle="body1" className="dx-text-muted dx-mb-4">
               {only.description}
             </Text>
           )}
@@ -65,8 +65,8 @@ export function DemoPage({ title, description, sections }: DemoPageProps) {
     <DemoSection title={title}>
       {description != null && (
         <Text
-          textStyle="Subtitle1"
-          tagName="P"
+          textStyle="subtitle1"
+          tagName="p"
           className="dx-text-muted dx-pb-4"
         >
           {description}
@@ -79,11 +79,11 @@ export function DemoPage({ title, description, sections }: DemoPageProps) {
           <Stack orientation="vertical" gap={16}>
             {sections.map((s) => (
               <Card key={s.id} id={s.id} style={s.cardStyle}>
-                <Text textStyle="H5" tagName="H2">
+                <Text textStyle="h5" tagName="h2">
                   {s.title ?? title}
                 </Text>
                 {s.description != null && (
-                  <Text textStyle="Body1" className="dx-text-muted dx-mb-4">
+                  <Text textStyle="body1" className="dx-text-muted dx-mb-4">
                     {s.description}
                   </Text>
                 )}
@@ -103,7 +103,7 @@ export function DemoPage({ title, description, sections }: DemoPageProps) {
               top: 'calc(var(--app-header-h, 0px) + 16px)',
             }}
           >
-            <Text textStyle="H6" tagName="P" className="dx-mb-4">
+            <Text textStyle="h6" tagName="p" className="dx-mb-4">
               On this page
             </Text>
             <Toc

@@ -19,7 +19,7 @@ export function KeyboardTable({
 }) {
   return (
     <>
-      <Text textStyle="Body1" className="dx-mb-4">
+      <Text textStyle="body1" className="dx-mb-4">
         The component can be operated with the following keys:
       </Text>
       <Table

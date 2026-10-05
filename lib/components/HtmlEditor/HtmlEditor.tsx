@@ -745,7 +745,7 @@ export const HtmlEditor = forwardRef<HtmlEditorHandle, HtmlEditorProps>(
                   )}
                 </Field>
               )}
-              {uploading && <Text textStyle="Body2">Uploading…</Text>}
+              {uploading && <Text textStyle="body2">Uploading…</Text>}
             </>
           )}
           {prompt === 'table' && (

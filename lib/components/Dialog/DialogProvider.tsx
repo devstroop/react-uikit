@@ -273,7 +273,7 @@ export function DialogProvider({ children }: DialogProviderProps) {
         {current?.kind === 'custom'
           ? custom?.content
           : current?.options.message != null && (
-              <Text textStyle="Body1">{current.options.message}</Text>
+              <Text textStyle="body1">{current.options.message}</Text>
             )}
       </Dialog>
     </DialogContext.Provider>

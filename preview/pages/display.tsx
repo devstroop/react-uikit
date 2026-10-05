@@ -48,10 +48,10 @@ function slide(label: string, caption: string) {
         borderRadius: 'var(--dx-radius-surface)',
       }}
     >
-      <Text textStyle="Subtitle1" tagName="P">
+      <Text textStyle="subtitle1" tagName="p">
         {label}
       </Text>
-      <Text textStyle="Caption" className="dx-text-muted">
+      <Text textStyle="caption" className="dx-text-muted">
         {caption}
       </Text>
     </div>
@@ -357,10 +357,10 @@ export function DisplayDemos({ slug }: { slug: string }) {
               <Row align="center" gap={12} wrap>
                 <Avatar name="Grace Hopper" src={PHOTO} alt="Grace Hopper" />
                 <Stack orientation="vertical" gap="0">
-                  <Text textStyle="Subtitle2" tagName="P">
+                  <Text textStyle="subtitle2" tagName="p">
                     Grace Hopper
                   </Text>
-                  <Text textStyle="Caption" className="dx-text-muted">
+                  <Text textStyle="caption" className="dx-text-muted">
                     Rear Admiral, USN
                   </Text>
                 </Stack>
@@ -611,7 +611,7 @@ export function DisplayDemos({ slug }: { slug: string }) {
             content: (
               <Stack orientation="vertical" gap={16}>
                 <Stack orientation="vertical" gap={8}>
-                  <Text textStyle="Caption" className="dx-text-muted">
+                  <Text textStyle="caption" className="dx-text-muted">
                     Default controls
                   </Text>
                   <Carousel
@@ -623,7 +623,7 @@ export function DisplayDemos({ slug }: { slug: string }) {
                   />
                 </Stack>
                 <Stack orientation="vertical" gap={8}>
-                  <Text textStyle="Caption" className="dx-text-muted">
+                  <Text textStyle="caption" className="dx-text-muted">
                     No arrows, no indicators
                   </Text>
                   <Carousel
@@ -637,7 +637,7 @@ export function DisplayDemos({ slug }: { slug: string }) {
                   />
                 </Stack>
                 <Stack orientation="vertical" gap={8}>
-                  <Text textStyle="Caption" className="dx-text-muted">
+                  <Text textStyle="caption" className="dx-text-muted">
                     Autoplay every 2s, paused while hovered
                   </Text>
                   <Carousel
@@ -784,13 +784,13 @@ export function DisplayDemos({ slug }: { slug: string }) {
           content: (
             <Row align="start" gap={12} wrap>
               <Card variant="elevated" header={<Text>Elevated</Text>}>
-                <Text textStyle="Body1">Card body.</Text>
+                <Text textStyle="body1">Card body.</Text>
               </Card>
               <Card variant="outlined" header={<Text>Outlined</Text>}>
-                <Text textStyle="Body1">Card body.</Text>
+                <Text textStyle="body1">Card body.</Text>
               </Card>
               <Card variant="filled" header={<Text>Filled</Text>}>
-                <Text textStyle="Body1">Card body.</Text>
+                <Text textStyle="body1">Card body.</Text>
               </Card>
             </Row>
           ),
@@ -807,17 +807,17 @@ export function DisplayDemos({ slug }: { slug: string }) {
             <Row align="start" gap={12} wrap>
               <Card
                 header={
-                  <Text textStyle="Subtitle2" tagName="P">
+                  <Text textStyle="subtitle2" tagName="p">
                     Header only
                   </Text>
                 }
               >
-                <Text textStyle="Body1">Body under a header slot.</Text>
+                <Text textStyle="body1">Body under a header slot.</Text>
               </Card>
               <Card
                 footer={
                   <Row align="center" justify="between">
-                    <Text textStyle="Caption" className="dx-text-muted">
+                    <Text textStyle="caption" className="dx-text-muted">
                       Saved 2 minutes ago
                     </Text>
                     <Button size="sm" variant="text">
@@ -826,7 +826,7 @@ export function DisplayDemos({ slug }: { slug: string }) {
                   </Row>
                 }
               >
-                <Text textStyle="Body1">Body over a footer slot.</Text>
+                <Text textStyle="body1">Body over a footer slot.</Text>
               </Card>
             </Row>
           ),
@@ -842,10 +842,10 @@ export function DisplayDemos({ slug }: { slug: string }) {
                 <Row align="center" gap={12}>
                   <Avatar name="Ada Lovelace" src={PHOTO} alt="Ada Lovelace" />
                   <Stack orientation="vertical" gap="0">
-                    <Text textStyle="Subtitle2" tagName="P">
+                    <Text textStyle="subtitle2" tagName="p">
                       Ada Lovelace
                     </Text>
-                    <Text textStyle="Caption" className="dx-text-muted">
+                    <Text textStyle="caption" className="dx-text-muted">
                       Analytical Engine notes
                     </Text>
                   </Stack>
@@ -855,12 +855,12 @@ export function DisplayDemos({ slug }: { slug: string }) {
                 </Row>
               }
               footer={
-                <Text textStyle="Caption" className="dx-text-muted">
+                <Text textStyle="caption" className="dx-text-muted">
                   Last edited by Charles Babbage
                 </Text>
               }
             >
-              <Text textStyle="Body1">
+              <Text textStyle="body1">
                 Cards compose with the rest of the kit: put Avatars, Badges and
                 Stats in the slots.
               </Text>

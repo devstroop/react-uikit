@@ -113,7 +113,7 @@ export function App() {
               title: '404',
               content: (
                 <Stack orientation="vertical" gap={16} align="start">
-                  <Text textStyle="Body1" className="dx-text-muted">
+                  <Text textStyle="body1" className="dx-text-muted">
                     Check the sidebar for a component, or return to the start.
                   </Text>
                   <Button

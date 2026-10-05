@@ -87,7 +87,7 @@ function RowPlayground() {
     <Stack orientation="vertical" gap={8}>
       <Stack orientation="horizontal" gap={12} wrap>
         <Stack orientation="vertical" gap={2}>
-          <Text textStyle="Caption">Align</Text>
+          <Text textStyle="caption">Align</Text>
           <Select
             aria-label="align"
             value={align}
@@ -96,7 +96,7 @@ function RowPlayground() {
           />
         </Stack>
         <Stack orientation="vertical" gap={2}>
-          <Text textStyle="Caption">Justify</Text>
+          <Text textStyle="caption">Justify</Text>
           <Select
             aria-label="justify"
             value={justify}
@@ -105,7 +105,7 @@ function RowPlayground() {
           />
         </Stack>
         <Stack orientation="vertical" gap={2}>
-          <Text textStyle="Caption">Gap</Text>
+          <Text textStyle="caption">Gap</Text>
           <Select
             aria-label="gap"
             value={gap}
@@ -166,7 +166,7 @@ function StackPlayground() {
     options: readonly string[]
   ) => (
     <Stack orientation="vertical" gap={2}>
-      <Text textStyle="Caption">{label}</Text>
+      <Text textStyle="caption">{label}</Text>
       <Select
         aria-label={label}
         value={value}
@@ -204,7 +204,7 @@ function StackPlayground() {
           STACK_REVERSE
         )}
       </Stack>
-      <Text textStyle="Caption" className="dx-text-muted">
+      <Text textStyle="caption" className="dx-text-muted">
         {orientation} · gap {gap} · align {align} · justify {justify}
         {reverse === 'yes' ? ' · reversed' : ''}
       </Text>
@@ -238,7 +238,7 @@ function AutoGridVisibilityDemo() {
         <Button size="sm" onClick={() => setVisible((v) => !v)}>
           Toggle grid
         </Button>
-        <Text textStyle="Caption" className="dx-text-muted">
+        <Text textStyle="caption" className="dx-text-muted">
           visible: {String(visible)}
         </Text>
       </Row>
@@ -269,7 +269,7 @@ function HeaderToolbarDemo() {
             data-se-sidebar-toggle
             onClick={() => log('SidebarToggle clicked')}
           />
-          <Text textStyle="Body2">App title</Text>
+          <Text textStyle="body2">App title</Text>
           <Button size="sm" onClick={() => log('Header action clicked')}>
             Action
           </Button>
@@ -291,7 +291,7 @@ function BodyStatesDemo() {
         <Button size="sm" onClick={() => setPadded((v) => !v)}>
           Toggle padding
         </Button>
-        <Text textStyle="Caption" className="dx-text-muted">
+        <Text textStyle="caption" className="dx-text-muted">
           padded: {String(padded)}
         </Text>
       </Row>
@@ -418,7 +418,7 @@ function SidebartoggleShellDemo() {
                 log(next ? 'sidebar expanded' : 'sidebar collapsed');
               }}
             />
-            <Text textStyle="Body2">Shell demo</Text>
+            <Text textStyle="body2">Shell demo</Text>
           </Row>
         </Header>
         <Sidebar aria-label="Shell demo sidebar" expanded={open}>
@@ -472,7 +472,7 @@ function LayoutRegionsDemo() {
                 log(next ? 'sidebar shown' : 'sidebar hidden');
               }}
             />
-            <Text textStyle="Body2">
+            <Text textStyle="body2">
               Authored order: Footer → Body → Sidebar → Header
             </Text>
           </Row>
@@ -509,7 +509,7 @@ export function LayoutDemos({ slug }: { slug: string }) {
               <Stack orientation="vertical" gap={12}>
                 {ALIGN_OPTIONS.map((a) => (
                   <div key={a}>
-                    <Text textStyle="Caption">align="{a}"</Text>
+                    <Text textStyle="caption">align="{a}"</Text>
                     <Row align={a} gap={8} style={demoRow}>
                       <Cell
                         i={0}
@@ -556,7 +556,7 @@ export function LayoutDemos({ slug }: { slug: string }) {
               <Stack orientation="vertical" gap={12}>
                 {JUSTIFY_OPTIONS.map((j) => (
                   <div key={j}>
-                    <Text textStyle="Caption">justify="{j}"</Text>
+                    <Text textStyle="caption">justify="{j}"</Text>
                     <Row justify={j} gap={8} style={demoRow}>
                       <Cell i={0} h={40} w={100}>
                         1
@@ -582,7 +582,7 @@ export function LayoutDemos({ slug }: { slug: string }) {
               <Stack orientation="vertical" gap={12}>
                 {[4, 8, 12, 16, 20].map((g) => (
                   <div key={g}>
-                    <Text textStyle="Caption">{'gap={' + g + '}'}</Text>
+                    <Text textStyle="caption">{'gap={' + g + '}'}</Text>
                     <Row gap={g} style={demoRow}>
                       {[0, 1, 2, 3].map((i) => (
                         <Column key={i} size={6}>
@@ -595,7 +595,7 @@ export function LayoutDemos({ slug }: { slug: string }) {
                   </div>
                 ))}
                 <div>
-                  <Text textStyle="Caption">
+                  <Text textStyle="caption">
                     gap="0.5rem" rowGap={20} (column gap vs row gap)
                   </Text>
                   <Row gap="0.5rem" rowGap={20} style={demoRow}>
@@ -609,7 +609,7 @@ export function LayoutDemos({ slug }: { slug: string }) {
                   </Row>
                 </div>
                 <div>
-                  <Text textStyle="Caption">
+                  <Text textStyle="caption">
                     gap={'{10}'} rowGap={'{24}'} (numeric)
                   </Text>
                   <Row gap={10} rowGap={24} style={demoRow}>
@@ -632,7 +632,7 @@ export function LayoutDemos({ slug }: { slug: string }) {
             content: (
               <Stack orientation="vertical" gap={12}>
                 <div>
-                  <Text textStyle="Caption">wrap (default)</Text>
+                  <Text textStyle="caption">wrap (default)</Text>
                   <Row gap={8} style={demoRow}>
                     {[0, 1, 2, 3].map((i) => (
                       <Column key={i} size={4}>
@@ -644,7 +644,7 @@ export function LayoutDemos({ slug }: { slug: string }) {
                   </Row>
                 </div>
                 <div>
-                  <Text textStyle="Caption">wrap=false (nowrap)</Text>
+                  <Text textStyle="caption">wrap=false (nowrap)</Text>
                   <Row
                     gap={8}
                     wrap={false}
@@ -660,7 +660,7 @@ export function LayoutDemos({ slug }: { slug: string }) {
                   </Row>
                 </div>
                 <div>
-                  <Text textStyle="Caption">wrap="wrap-reverse"</Text>
+                  <Text textStyle="caption">wrap="wrap-reverse"</Text>
                   <Row gap={8} wrap="wrap-reverse" style={demoRow}>
                     {[0, 1, 2, 3].map((i) => (
                       <Column key={i} size={4}>
@@ -728,7 +728,7 @@ export function LayoutDemos({ slug }: { slug: string }) {
             content: (
               <Stack orientation="vertical" gap={12}>
                 <div>
-                  <Text textStyle="Caption">Size 4 + auto + auto</Text>
+                  <Text textStyle="caption">Size 4 + auto + auto</Text>
                   <Row gap={12} style={demoRow}>
                     <Column size={4}>
                       <Cell i={0} h={48}>
@@ -748,7 +748,7 @@ export function LayoutDemos({ slug }: { slug: string }) {
                   </Row>
                 </div>
                 <div>
-                  <Text textStyle="Caption">Size 4 + 5 + 3</Text>
+                  <Text textStyle="caption">Size 4 + 5 + 3</Text>
                   <Row gap={12} style={demoRow}>
                     <Column size={4}>
                       <Cell i={0} h={48}>
@@ -768,7 +768,7 @@ export function LayoutDemos({ slug }: { slug: string }) {
                   </Row>
                 </div>
                 <div>
-                  <Text textStyle="Caption">
+                  <Text textStyle="caption">
                     Size 8 + 8 (sum overflows → wraps)
                   </Text>
                   <Row gap={12} style={demoRow}>
@@ -846,7 +846,7 @@ export function LayoutDemos({ slug }: { slug: string }) {
                   ))}
                 </Row>
                 <div>
-                  <Text textStyle="Caption">
+                  <Text textStyle="caption">
                     gap="0.5rem" rowGap={20} — distinct vertical spacing
                   </Text>
                   <Row gap="0.5rem" rowGap={20} style={demoRow}>

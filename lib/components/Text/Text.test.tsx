@@ -12,12 +12,12 @@ describe('Text', () => {
 
   it('maps Display variants to h1-h6 headings', () => {
     const variants = [
-      'DisplayH1',
-      'DisplayH2',
-      'DisplayH3',
-      'DisplayH4',
-      'DisplayH5',
-      'DisplayH6',
+      'displayH1',
+      'displayH2',
+      'displayH3',
+      'displayH4',
+      'displayH5',
+      'displayH6',
     ] as const;
     variants.forEach((variant, index) => {
       const { container } = render(<Text textStyle={variant}>heading</Text>);
@@ -27,23 +27,23 @@ describe('Text', () => {
   });
 
   it('maps H1-H6 styles to their own headings', () => {
-    (['H1', 'H2', 'H3', 'H4', 'H5', 'H6'] as const).forEach((style) => {
+    (['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] as const).forEach((style) => {
       const { container } = render(<Text textStyle={style}>heading</Text>);
-      expect(container.firstElementChild?.tagName).toBe(style);
+      expect(container.firstElementChild?.tagName).toBe(style.toUpperCase());
     });
   });
 
   it('maps subtitles to h6 (Radzen parity)', () => {
-    for (const style of ['Subtitle1', 'Subtitle2'] as const) {
+    for (const style of ['subtitle1', 'subtitle2'] as const) {
       const { container } = render(<Text textStyle={style}>sub</Text>);
       expect(container.firstElementChild?.tagName).toBe('H6');
     }
   });
 
   it('maps Body2 to a paragraph and Button/Caption/Overline to spans', () => {
-    const { container: body } = render(<Text textStyle="Body2">body</Text>);
+    const { container: body } = render(<Text textStyle="body2">body</Text>);
     expect(body.firstElementChild?.tagName).toBe('P');
-    for (const style of ['Button', 'Caption', 'Overline'] as const) {
+    for (const style of ['button', 'caption', 'overline'] as const) {
       const { container } = render(<Text textStyle={style}>x</Text>);
       expect(container.firstElementChild?.tagName).toBe('SPAN');
     }
@@ -51,7 +51,7 @@ describe('Text', () => {
 
   it('overrides the element via TagName (Radzen TagName parity)', () => {
     const { container } = render(
-      <Text textStyle="H3" tagName="P">
+      <Text textStyle="h3" tagName="p">
         styled as H3
       </Text>
     );
@@ -61,7 +61,7 @@ describe('Text', () => {
   });
 
   it('applies alignment as a composable class', () => {
-    const { container } = render(<Text textAlign="Center">content</Text>);
+    const { container } = render(<Text textAlign="center">content</Text>);
     expect(container.firstElementChild?.className).toContain('align-center');
   });
 

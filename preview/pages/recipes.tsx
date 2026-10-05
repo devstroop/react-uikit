@@ -21,10 +21,10 @@ import { EventLog } from './shared/EventLog';
 function LoginPanel() {
   return (
     <Stack>
-      <Text textStyle="H2" tagName="H2">
+      <Text textStyle="h2" tagName="h2">
         Welcome back
       </Text>
-      <Text textStyle="Body1" className="dx-text-muted">
+      <Text textStyle="body1" className="dx-text-muted">
         Sign in to continue to your zones.
       </Text>
     </Stack>
@@ -131,7 +131,7 @@ function NotFoundChromeDemo() {
         <Card header="Layout + Header + Footer">
           <Layout>
             <Header>
-              <Text textStyle="Subtitle1" tagName="H3">
+              <Text textStyle="subtitle1" tagName="h3">
                 Acme
               </Text>
             </Header>
@@ -140,7 +140,7 @@ function NotFoundChromeDemo() {
               description="The link moved or never existed."
             />
             <Footer>
-              <Text textStyle="Caption" className="dx-text-muted">
+              <Text textStyle="caption" className="dx-text-muted">
                 © Acme
               </Text>
             </Footer>

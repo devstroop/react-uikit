@@ -2954,71 +2954,71 @@ const Mu = "_typography_1jy8x_1", Cu = "_h1_1jy8x_39", Au = "_h2_1jy8x_45", Du =
   "align-right": "_align-right_1jy8x_129",
   "align-justify": "_align-justify_1jy8x_133"
 }, Bu = {
-  DisplayH1: "h1",
-  DisplayH2: "h2",
-  DisplayH3: "h3",
-  DisplayH4: "h4",
-  DisplayH5: "h5",
-  DisplayH6: "h6",
-  H1: "h1",
-  H2: "h2",
-  H3: "h3",
-  H4: "h4",
-  H5: "h5",
-  H6: "h6",
+  displayH1: "h1",
+  displayH2: "h2",
+  displayH3: "h3",
+  displayH4: "h4",
+  displayH5: "h5",
+  displayH6: "h6",
+  h1: "h1",
+  h2: "h2",
+  h3: "h3",
+  h4: "h4",
+  h5: "h5",
+  h6: "h6",
   // Radzen parity: subtitles render as h6.
-  Subtitle1: "h6",
-  Subtitle2: "h6",
-  Body1: "p",
-  Body2: "p",
-  Button: "span",
-  Caption: "span",
-  Overline: "span"
+  subtitle1: "h6",
+  subtitle2: "h6",
+  body1: "p",
+  body2: "p",
+  button: "span",
+  caption: "span",
+  overline: "span"
 }, Fu = {
-  DisplayH1: "display-1",
-  DisplayH2: "display-2",
-  DisplayH3: "display-3",
-  DisplayH4: "display-4",
-  DisplayH5: "display-5",
-  DisplayH6: "display-6",
-  H1: "h1",
-  H2: "h2",
-  H3: "h3",
-  H4: "h4",
-  H5: "h5",
-  H6: "h6",
-  Subtitle1: "subtitle-1",
-  Subtitle2: "subtitle-2",
-  Body1: "body-1",
-  Body2: "body-2",
-  Button: "button",
-  Caption: "caption",
-  Overline: "overline"
+  displayH1: "display-1",
+  displayH2: "display-2",
+  displayH3: "display-3",
+  displayH4: "display-4",
+  displayH5: "display-5",
+  displayH6: "display-6",
+  h1: "h1",
+  h2: "h2",
+  h3: "h3",
+  h4: "h4",
+  h5: "h5",
+  h6: "h6",
+  subtitle1: "subtitle-1",
+  subtitle2: "subtitle-2",
+  body1: "body-1",
+  body2: "body-2",
+  button: "button",
+  caption: "caption",
+  overline: "overline"
 }, Hu = {
-  Div: "div",
-  Span: "span",
-  P: "p",
-  H1: "h1",
-  H2: "h2",
-  H3: "h3",
-  H4: "h4",
-  H5: "h5",
-  H6: "h6",
-  A: "a",
-  Button: "button",
-  Pre: "pre",
-  Strong: "strong"
+  div: "div",
+  span: "span",
+  p: "p",
+  h1: "h1",
+  h2: "h2",
+  h3: "h3",
+  h4: "h4",
+  h5: "h5",
+  h6: "h6",
+  a: "a",
+  button: "button",
+  pre: "pre",
+  strong: "strong"
 }, Uu = {
-  Left: "align-left",
-  Right: "align-right",
-  Center: "align-center",
-  Justify: "align-justify",
-  Start: "align-left",
-  End: "align-right",
-  JustifyAll: "align-justify"
+  left: "align-left",
+  right: "align-right",
+  center: "align-center",
+  justify: "align-justify",
+  start: "align-left",
+  end: "align-right",
+  justifyAll: "align-justify"
 }, Ca = at(function({
-  textStyle: t = "Body1",
-  tagName: n = "Auto",
+  textStyle: t = "body1",
+  tagName: n = "auto",
   textAlign: r,
   text: a,
   visible: i = !0,
@@ -3027,7 +3027,7 @@ const Mu = "_typography_1jy8x_1", Cu = "_h1_1jy8x_39", Au = "_h2_1jy8x_45", Du =
   ...l
 }, d) {
   if (i === !1) return null;
-  const u = n === "Auto" ? Bu[t] : Hu[n];
+  const u = n === "auto" ? Bu[t] : Hu[n];
   return /* @__PURE__ */ o(
     u,
     {
@@ -3131,7 +3131,7 @@ function sS({ children: e }) {
             }
           )
         ] }) : d?.kind === "custom" ? f?.footer ?? /* @__PURE__ */ o(cn, { variant: "text", onClick: () => u(void 0), children: "Close" }) : /* @__PURE__ */ o(cn, { onClick: () => u(!0), children: d?.kind === "alert" ? d.options.okText ?? "OK" : "OK" }),
-        children: d?.kind === "custom" ? f?.content : d?.options.message != null && /* @__PURE__ */ o(Ca, { textStyle: "Body1", children: d.options.message })
+        children: d?.kind === "custom" ? f?.content : d?.options.message != null && /* @__PURE__ */ o(Ca, { textStyle: "body1", children: d.options.message })
       },
       d?.seq ?? 0
     )
@@ -6249,7 +6249,7 @@ const hS = at(
                   }
                 }
               ) }),
-              D && /* @__PURE__ */ o(Ca, { textStyle: "Body2", children: "Uploading…" })
+              D && /* @__PURE__ */ o(Ca, { textStyle: "body2", children: "Uploading…" })
             ] }),
             h === "table" && /* @__PURE__ */ I(rt, { children: [
               /* @__PURE__ */ o(ar, { label: "Rows", children: ({ inputId: q }) => /* @__PURE__ */ o(

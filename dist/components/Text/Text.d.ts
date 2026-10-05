@@ -1,18 +1,18 @@
 import { HTMLAttributes, ReactNode } from 'react';
 /**
- * Display style. Mirrors Radzen `TextStyle` exactly: DisplayH1-H6 are the
- * large display ramp, H1-H6 standard headings, Subtitle1/2, Body1/2,
- * Button label text, Caption, Overline.
+ * Display style. Mirrors Radzen `TextStyle` (displayH1-H6 are the large
+ * display ramp, h1-h6 standard headings, subtitle1/2, body1/2, button
+ * label text, caption, overline) with camelCase values.
  */
-export type TextStyle = 'DisplayH1' | 'DisplayH2' | 'DisplayH3' | 'DisplayH4' | 'DisplayH5' | 'DisplayH6' | 'H1' | 'H2' | 'H3' | 'H4' | 'H5' | 'H6' | 'Subtitle1' | 'Subtitle2' | 'Body1' | 'Body2' | 'Button' | 'Caption' | 'Overline';
+export type TextStyle = 'displayH1' | 'displayH2' | 'displayH3' | 'displayH4' | 'displayH5' | 'displayH6' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'subtitle1' | 'subtitle2' | 'body1' | 'body2' | 'button' | 'caption' | 'overline';
 /**
- * Rendered element. Mirrors Radzen `TagName` (`Auto` = chosen from
- * TextStyle, like Radzen's automatic tag) plus `Strong`, which Radzen
+ * Rendered element. Mirrors Radzen `TagName` (`auto` = chosen from
+ * TextStyle, like Radzen's automatic tag) plus `strong`, which Radzen
  * lacks but our call sites need to preserve strong semantics.
  */
-export type TextTagName = 'Auto' | 'Div' | 'Span' | 'P' | 'H1' | 'H2' | 'H3' | 'H4' | 'H5' | 'H6' | 'A' | 'Button' | 'Pre' | 'Strong';
+export type TextTagName = 'auto' | 'div' | 'span' | 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'a' | 'button' | 'pre' | 'strong';
 /** Horizontal alignment. Mirrors Radzen `TextAlign`. */
-export type TextAlign = 'Left' | 'Right' | 'Center' | 'Justify' | 'Start' | 'End' | 'JustifyAll';
+export type TextAlign = 'left' | 'right' | 'center' | 'justify' | 'start' | 'end' | 'justifyAll';
 export interface TextProps extends HTMLAttributes<HTMLElement> {
     textStyle?: TextStyle;
     tagName?: TextTagName;

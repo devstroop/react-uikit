@@ -53,7 +53,7 @@ function AlertDismissDemo() {
   return (
     <Stack orientation="vertical" gap={12}>
       <Stack orientation="vertical" gap={8}>
-        <Text textStyle="Body2" className="dx-text-muted">
+        <Text textStyle="body2" className="dx-text-muted">
           Uncontrolled — dismissal latches and the alert unmounts.
         </Text>
         <Alert
@@ -65,7 +65,7 @@ function AlertDismissDemo() {
         </Alert>
       </Stack>
       <Stack orientation="vertical" gap={8}>
-        <Text textStyle="Body2" className="dx-text-muted">
+        <Text textStyle="body2" className="dx-text-muted">
           Controlled visible — stays mounted and notifies instead, so it can be
           shown again.
         </Text>
@@ -118,7 +118,7 @@ function ProgressValueDemo() {
         onChange={(next) => setUpload(next as number)}
       />
       <Progress value={upload} aria-label="Upload progress" />
-      <Text textStyle="Body2" className="dx-text-muted">
+      <Text textStyle="body2" className="dx-text-muted">
         value={upload} — aria-valuenow follows the slider (test: renders a
         progressbar with aria values; values clamp to max).
       </Text>
@@ -144,12 +144,12 @@ function SkeletonLoadDemo() {
             <Skeleton variant="rect" width="100%" height={64} />
           </Stack>
         ) : (
-          <Text textStyle="Body1">
+          <Text textStyle="body1">
             3 messages — release notes, digest, tips.
           </Text>
         )}
       </div>
-      <Text textStyle="Body2" role="status" className="dx-text-muted">
+      <Text textStyle="body2" role="status" className="dx-text-muted">
         {loading ? 'Loading messages…' : '3 messages ready'}
       </Text>
       <Row gap={8} wrap>
@@ -401,7 +401,7 @@ function DialogDemo() {
           </Button>
         }
       >
-        <Text textStyle="Body1">Dialog body content.</Text>
+        <Text textStyle="body1">Dialog body content.</Text>
       </Dialog>
     </>
   );
@@ -454,7 +454,7 @@ function DialogSizesDemo() {
           </Button>
         }
       >
-        <Text textStyle="Body1">
+        <Text textStyle="body1">
           Focus enters on the Close button and returns here on close.
         </Text>
       </Dialog>
@@ -527,7 +527,7 @@ function DialogGuardsDemo() {
           </Button>
         }
       >
-        <Text textStyle="Body1">
+        <Text textStyle="body1">
           Toggle “Unsaved changes”, then try ×, Esc or the backdrop — onClose
           only fires when a gesture is allowed through.
         </Text>
@@ -741,7 +741,7 @@ export function FeedbackDemos({ slug }: { slug: string }) {
                     variant="circular"
                     aria-label="Syncing"
                   />
-                  <Text textStyle="Body2" className="dx-text-muted">
+                  <Text textStyle="body2" className="dx-text-muted">
                     circular indeterminate keeps the same aria contract (test:
                     rotates circular indeterminate without aria-valuenow)
                   </Text>
@@ -759,7 +759,7 @@ export function FeedbackDemos({ slug }: { slug: string }) {
                 <Stack orientation="vertical" gap={8}>
                   {PROGRESS_TIERS.map((tier) => (
                     <Stack key={tier} orientation="vertical" gap={4}>
-                      <Text textStyle="Body2" className="dx-text-muted">
+                      <Text textStyle="body2" className="dx-text-muted">
                         linear {tier}
                       </Text>
                       <Progress
@@ -793,7 +793,7 @@ export function FeedbackDemos({ slug }: { slug: string }) {
               <Stack orientation="vertical" gap={8}>
                 {PROGRESS_TONES.map((tone) => (
                   <Stack key={tone} orientation="vertical" gap={4}>
-                    <Text textStyle="Body2" className="dx-text-muted">
+                    <Text textStyle="body2" className="dx-text-muted">
                       {tone}
                     </Text>
                     <Progress value={65} severity={tone} aria-label={tone} />
@@ -820,14 +820,14 @@ export function FeedbackDemos({ slug }: { slug: string }) {
             content: (
               <Stack orientation="vertical" gap={12}>
                 <Stack orientation="vertical" gap={4}>
-                  <Text textStyle="Body2" className="dx-text-muted">
+                  <Text textStyle="body2" className="dx-text-muted">
                     text
                   </Text>
                   <Skeleton width="60%" />
                   <Skeleton width="40%" />
                 </Stack>
                 <Stack orientation="vertical" gap={4}>
-                  <Text textStyle="Body2" className="dx-text-muted">
+                  <Text textStyle="body2" className="dx-text-muted">
                     circle + text row
                   </Text>
                   <Row align="center" gap={12}>
@@ -836,7 +836,7 @@ export function FeedbackDemos({ slug }: { slug: string }) {
                   </Row>
                 </Stack>
                 <Stack orientation="vertical" gap={4}>
-                  <Text textStyle="Body2" className="dx-text-muted">
+                  <Text textStyle="body2" className="dx-text-muted">
                     rect
                   </Text>
                   <Skeleton variant="rect" width="100%" height={72} />
