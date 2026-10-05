@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import {
   applyGridState,
+  ArcGauge,
   Barcode,
   Button,
   Chart,
@@ -8,11 +9,14 @@ import {
   DataGrid,
   DataList,
   Gantt,
+  LinearGauge,
   PickList,
   Pivot,
   type PivotAggregate,
   type PivotField,
   QRCode,
+  RadialGauge,
+  RangeNavigator,
   Row,
   Scheduler,
   Stack,
@@ -801,6 +805,97 @@ function QRCodeErrorDemo() {
   );
 }
 
+function GaugesDemosPage() {
+  const [window, setWindow] = useState({ start: 20, end: 80 });
+  return (
+    <DemoPage
+      title="Gauges"
+      description="Meters and a linked range navigator."
+      sections={[
+        {
+          id: 'gauges-arc',
+          title: 'Arc',
+          content: (
+            <ArcGauge
+              value={68}
+              min={0}
+              max={100}
+              ariaLabel="Arc gauge"
+              colorStops={[
+                { offset: 0, color: '#22c55e' },
+                { offset: 0.7, color: '#f59e0b' },
+                { offset: 0.9, color: '#ef4444' },
+              ]}
+            />
+          ),
+        },
+        {
+          id: 'gauges-linear',
+          title: 'Linear',
+          content: (
+            <LinearGauge
+              value={68}
+              min={0}
+              max={100}
+              ariaLabel="Linear gauge"
+              ranges={[{ from: 0, to: 50, color: '#22c55e' }]}
+            />
+          ),
+        },
+        {
+          id: 'gauges-radial',
+          title: 'Radial',
+          content: (
+            <RadialGauge
+              value={68}
+              min={0}
+              max={100}
+              ariaLabel="Radial gauge"
+              pointers={[{ value: 90, color: '#ef4444' }]}
+            />
+          ),
+        },
+        {
+          id: 'gauges-navigator',
+          title: 'Range navigator + linked chart',
+          description: 'Drag the handles: the chart zooms to the window.',
+          content: (
+            <Stack orientation="vertical" gap={12}>
+              <Chart
+                width={560}
+                height={200}
+                ariaLabel="Zoomable sales"
+                valueAxis={{ min: window.start, max: window.end }}
+                series={[
+                  {
+                    type: 'line',
+                    title: 'Sales',
+                    data: [
+                      { zone: 'North', v: 70 },
+                      { zone: 'South', v: 50 },
+                      { zone: 'East', v: 40 },
+                      { zone: 'West', v: 90 },
+                    ],
+                    categoryProperty: 'zone',
+                    valueProperty: 'v',
+                  },
+                ]}
+              />
+              <RangeNavigator
+                min={0}
+                max={100}
+                value={window}
+                onChange={setWindow}
+                ariaLabel="Zoom window"
+              />
+            </Stack>
+          ),
+        },
+      ]}
+    />
+  );
+}
+
 export function DataDemos({ slug }: { slug: string }) {
   switch (slug) {
     case 'datagrid':
@@ -1301,6 +1396,8 @@ export function DataDemos({ slug }: { slug: string }) {
           ]}
         />
       );
+    case 'gauges':
+      return <GaugesDemosPage />;
     case 'gantt':
       return (
         <DemoPage

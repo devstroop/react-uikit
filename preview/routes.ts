@@ -92,6 +92,7 @@ export const ROUTE_COMPONENTS: Record<string, (props: DemoProps) => ReactNode> =
     picklist: DataDemos,
     pivot: DataDemos,
     chart: DataDemos,
+    gauges: DataDemos,
     gantt: DataDemos,
     scheduler: DataDemos,
     timeline: DataDemos,

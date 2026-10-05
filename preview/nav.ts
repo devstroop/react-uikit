@@ -113,6 +113,7 @@ export const DEMO_GROUPS: DemoGroup[] = [
       { slug: 'picklist', title: 'PickList' },
       { slug: 'pivot', title: 'Pivot' },
       { slug: 'chart', title: 'Chart' },
+      { slug: 'gauges', title: 'Gauges' },
       { slug: 'gantt', title: 'Gantt' },
       { slug: 'scheduler', title: 'Scheduler' },
       { slug: 'timeline', title: 'Timeline' },
