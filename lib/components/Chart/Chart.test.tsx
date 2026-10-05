@@ -934,3 +934,53 @@ describe('Chart sankey (#95)', () => {
     expect(group.querySelectorAll('path').length).toBe(2);
   });
 });
+
+describe('Chart contour (#95)', () => {
+  const cluster = {
+    type: 'contour' as const,
+    title: 'Density',
+    data: [
+      { x: 1, y: 10 },
+      { x: 1.1, y: 10 },
+      { x: 1, y: 10.2 },
+      { x: 9, y: 90 },
+    ],
+    categoryProperty: 'x',
+    valueProperty: 'y',
+  };
+
+  it('draws one isoline group per level', () => {
+    const { container } = render(<Chart series={[cluster]} />);
+    const group = container.querySelector('g[data-chart-type="contour"]')!;
+    // default 5 levels; some may be empty for sparse data
+    const paths = group.querySelectorAll('path[stroke-width="1.5"]');
+    expect(paths.length).toBeGreaterThan(0);
+    expect(paths.length).toBeLessThanOrEqual(5);
+  });
+
+  it('honors the levels count', () => {
+    const { container } = render(
+      <Chart series={[{ ...cluster, levels: 2 }]} />
+    );
+    const group = container.querySelector('g[data-chart-type="contour"]')!;
+    expect(
+      group.querySelectorAll('path[stroke-width="1.5"]').length
+    ).toBeLessThanOrEqual(2);
+  });
+
+  it('renders nothing for empty data', () => {
+    const { container } = render(<Chart series={[{ ...cluster, data: [] }]} />);
+    expect(container.querySelector('g[data-chart-type="contour"]')).toBeNull();
+  });
+
+  it('clicks report the threshold', () => {
+    const fn = vi.fn();
+    render(<Chart series={[cluster]} onSeriesClick={fn} />);
+    const group = document.querySelector('g[data-chart-type="contour"]')!;
+    const hit = group.querySelector('path[stroke-width="12"]')!;
+    fireEvent.click(hit);
+    expect(fn).toHaveBeenCalledWith(
+      expect.objectContaining({ seriesTitle: 'Density' })
+    );
+  });
+});

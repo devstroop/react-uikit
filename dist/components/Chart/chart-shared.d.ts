@@ -5,7 +5,7 @@ export type SeriesClickArgs = {
     item: Record<string, unknown>;
 };
 export interface ChartSeries {
-    type: 'line' | 'area' | 'bar' | 'column' | 'scatter' | 'bubble' | 'pie' | 'donut' | 'gauge' | 'radar' | 'funnel' | 'heatmap' | 'candlestick' | 'ohlc' | 'highlow' | 'trendline' | 'movingaverage' | 'treemap' | 'pyramid' | 'spider' | 'sankey';
+    type: 'line' | 'area' | 'bar' | 'column' | 'scatter' | 'bubble' | 'pie' | 'donut' | 'gauge' | 'radar' | 'funnel' | 'heatmap' | 'candlestick' | 'ohlc' | 'highlow' | 'trendline' | 'movingaverage' | 'treemap' | 'pyramid' | 'spider' | 'sankey' | 'contour';
     data: Record<string, unknown>[];
     categoryProperty: string;
     valueProperty: string;
@@ -40,6 +40,10 @@ export interface ChartSeries {
     childrenProperty?: string;
     /** Sankey source-node property (link origin id). */
     sourceProperty?: string;
+    /** Contour iso-level count. Defaults to 5. */
+    levels?: number;
+    /** Contour density grid resolution (cells per axis). Defaults to 28. */
+    resolution?: number;
     /** Sankey target-node property (link destination id). */
     targetProperty?: string;
     /** Rising-period color for candlestick bodies. Defaults to series color. */

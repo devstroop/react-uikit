@@ -1622,6 +1622,190 @@ function renderSankey(
   );
 }
 
+/**
+ * Contour density (uikit#95): scatter points are binned onto a vertex
+ * grid, then marching-squares iso-lines are drawn per threshold level.
+ * Thresholds spread evenly below the peak density; each level gets the
+ * next palette color. Degenerate inputs (no spread) render nothing.
+ */
+function renderContour(
+  ctx: ChartRenderContext,
+  ser: ChartSeries,
+  sIdx: number,
+  pts: ChartPoint[],
+  color: string
+): ReactNode {
+  const { pad, plotW, plotH, tooltipVisible, showTip, hideTip } = ctx;
+  void color;
+  const raw = pts
+    .map((p) => ({ x: Number(p.cat), y: p.val }))
+    .filter((p) => !Number.isNaN(p.x) && !Number.isNaN(p.y));
+  if (raw.length === 0) return null;
+  let minX = Math.min(...raw.map((p) => p.x));
+  let maxX = Math.max(...raw.map((p) => p.x));
+  let minY = Math.min(...raw.map((p) => p.y));
+  let maxY = Math.max(...raw.map((p) => p.y));
+  if (minX === maxX) {
+    minX -= 0.5;
+    maxX += 0.5;
+  }
+  if (minY === maxY) {
+    minY -= 0.5;
+    maxY += 0.5;
+  }
+  const res = Math.max(4, Math.floor(ser.resolution ?? 28));
+  const grid: number[][] = Array.from({ length: res + 1 }, () =>
+    Array.from({ length: res + 1 }, () => 0)
+  );
+  for (const p of raw) {
+    const gx = Math.max(
+      0,
+      Math.min(res, Math.round(((p.x - minX) / (maxX - minX)) * res))
+    );
+    const gy = Math.max(
+      0,
+      Math.min(res, Math.round(((p.y - minY) / (maxY - minY)) * res))
+    );
+    grid[gy]![gx]! += 1;
+  }
+  let peak = 0;
+  for (const row of grid) for (const v of row) peak = Math.max(peak, v);
+  if (peak <= 0) return null;
+  const levels = Math.max(1, Math.floor(ser.levels ?? 5));
+  const thresholds = Array.from(
+    { length: levels },
+    (_, k) => (peak * (k + 1)) / (levels + 1)
+  );
+  const cw = plotW / res;
+  const ch = plotH / res;
+  const x0 = pad.l;
+  const y0 = pad.t;
+
+  const segmentsFor = (
+    threshold: number
+  ): Array<[number, number, number, number]> => {
+    const segs: Array<[number, number, number, number]> = [];
+    const at = (gx: number, gy: number): number => grid[gy]?.[gx] ?? 0;
+    const mix = (a: number, b: number, va: number, vb: number): number =>
+      vb === va ? (a + b) / 2 : a + ((threshold - va) / (vb - va)) * (b - a);
+    for (let gy = 0; gy < res; gy++) {
+      for (let gx = 0; gx < res; gx++) {
+        const tl = at(gx, gy);
+        const tr = at(gx + 1, gy);
+        const bl = at(gx, gy + 1);
+        const br = at(gx + 1, gy + 1);
+        const x = x0 + gx * cw;
+        const y = y0 + gy * ch;
+        const top = mix(x, x + cw, tl, tr);
+        const bottom = mix(x, x + cw, bl, br);
+        const left = mix(y, y + ch, tl, bl);
+        const right = mix(y, y + ch, tr, br);
+        const idx =
+          (tl >= threshold ? 8 : 0) |
+          (tr >= threshold ? 4 : 0) |
+          (br >= threshold ? 2 : 0) |
+          (bl >= threshold ? 1 : 0);
+        // T=(top,y) B=(bottom,y+ch) L=(x,left) R=(x+cw,right)
+        const T: [number, number] = [top, y];
+        const B: [number, number] = [bottom, y + ch];
+        const L: [number, number] = [x, left];
+        const R: [number, number] = [x + cw, right];
+        const link = (a: [number, number], b: [number, number]): void => {
+          segs.push([a[0], a[1], b[0], b[1]]);
+        };
+        switch (idx) {
+          case 1:
+          case 14:
+            link(L, B);
+            break;
+          case 2:
+          case 13:
+            link(B, R);
+            break;
+          case 3:
+          case 12:
+            link(L, R);
+            break;
+          case 4:
+          case 11:
+            link(T, R);
+            break;
+          case 6:
+          case 9:
+            link(T, B);
+            break;
+          case 7:
+          case 8:
+            link(T, L);
+            break;
+          case 5: {
+            const center = (tl + tr + bl + br) / 4;
+            if (center >= threshold) {
+              link(T, L);
+              link(B, R);
+            } else {
+              link(T, R);
+              link(L, B);
+            }
+            break;
+          }
+          case 10: {
+            const center = (tl + tr + bl + br) / 4;
+            if (center >= threshold) {
+              link(T, R);
+              link(L, B);
+            } else {
+              link(T, L);
+              link(B, R);
+            }
+            break;
+          }
+          default:
+            break;
+        }
+      }
+    }
+    return segs;
+  };
+
+  return seriesHead(
+    sIdx,
+    ser,
+    thresholds.map((t, k) => {
+      const segs = segmentsFor(t);
+      if (segs.length === 0) return null;
+      const d = segs
+        .map(([x1, y1, x2, y2]) => `M ${x1} ${y1} L ${x2} ${y2}`)
+        .join(' ');
+      const levelColor = ctx.colorFor(sIdx + k, ser);
+      return (
+        <g key={k} role="listitem">
+          <path d={d} fill="none" stroke={levelColor} strokeWidth={1.5} />
+          <path
+            d={d}
+            fill="none"
+            stroke="transparent"
+            strokeWidth={12}
+            onMouseEnter={() =>
+              tooltipVisible &&
+              showTip(
+                x0 + plotW / 2,
+                y0 + 8,
+                `${ser.title ?? 'Density'} ≥ ${Math.round(t * 100) / 100}`
+              )
+            }
+            onMouseLeave={() => hideTip()}
+            onClick={() =>
+              ctx.handleClick(ser, `level ${k + 1}`, t, { threshold: t })
+            }
+            style={{ cursor: 'pointer' }}
+          />
+        </g>
+      );
+    })
+  );
+}
+
 export function renderSeries(
   ctx: ChartRenderContext,
   ser: ChartSeries,
@@ -1662,6 +1846,8 @@ export function renderSeries(
       return renderSpider(ctx, ser, sIdx, pts, color);
     case 'sankey':
       return renderSankey(ctx, ser, sIdx, pts, color);
+    case 'contour':
+      return renderContour(ctx, ser, sIdx, pts, color);
     default:
       return renderBars(ctx, ser, sIdx, pts, color);
   }
