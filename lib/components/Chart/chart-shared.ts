@@ -26,7 +26,8 @@ export interface ChartSeries {
     | 'movingaverage'
     | 'treemap'
     | 'pyramid'
-    | 'spider';
+    | 'spider'
+    | 'sankey';
   data: Record<string, unknown>[];
   categoryProperty: string;
   valueProperty: string;
@@ -57,6 +58,10 @@ export interface ChartSeries {
   period?: number;
   /** Treemap children property for one-or-more nesting levels. */
   childrenProperty?: string;
+  /** Sankey source-node property (link origin id). */
+  sourceProperty?: string;
+  /** Sankey target-node property (link destination id). */
+  targetProperty?: string;
   /** Rising-period color for candlestick bodies. Defaults to series color. */
   upColor?: string;
   /** Falling-period color for candlestick bodies. Defaults to danger. */
