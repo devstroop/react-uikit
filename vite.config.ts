@@ -25,14 +25,14 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     setupFiles: ['./vitest.setup.ts'],
-    exclude: ['e2e/**', 'node_modules/**', 'dist/**', 'preview/dist/**'],
+    exclude: ['e2e/**', 'node_modules/**', 'dist/**', 'demos/dist/**'],
     // Coverage provider installed (@vitest/coverage-v8, version-matched to
     // vitest) and enforced on every run. Thresholds sit at measured levels
     // (measured 2026-09-28: 82.25/74.96/89.02/84.16) — raise, never lower.
     coverage: {
       provider: 'v8',
       enabled: true,
-      // Gates the shipped library only. The preview demo app is guarded by
+      // Gates the shipped library only. The demos app is guarded by
       // e2e (demo-completeness + the axe crawl), so loading its pages here
       // would dilute lib thresholds.
       include: ['lib/**'],

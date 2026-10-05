@@ -512,7 +512,7 @@ export const TimeSpanPicker = forwardRef<HTMLInputElement, TimeSpanPickerProps>(
 
     const panel = (
       <div className={styles['dx-timespanpicker-panel']}>
-        <div className={styles['dx-timespanpicker-preview']} aria-live="polite">
+        <div className={styles['dx-timespanpicker-demos']} aria-live="polite">
           {formatSeconds(stagedSeconds, precision)}
         </div>
         <div className={styles['dx-timespanpicker-units']}>

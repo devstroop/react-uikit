@@ -48,7 +48,7 @@ export function SignInForm() {
 ## Components
 
 Every component below is exported from `@devstroop/react-uikit`; most are
-demoed in the preview app (`npm run dev` → `:5199`). Props are documented as
+demoed in the demos app (`npm run dev` → `:5199`). Props are documented as
 JSDoc on each export in the published types.
 
 ### Layout
@@ -186,9 +186,9 @@ in sync when overriding.
 
 See `lib/styles/tokens.css` for the full list (color, radius, space, font, shadow, transition/motion, z-index, control heights).
 
-### Preview palettes (`data-palette`)
+### Demos palettes (`data-palette`)
 
-The **preview app only** (not the published package) ships five brand
+The **demos app only** (not the published package) ships five brand
 palettes — `fluent`, `material-3`, `github`, `material`, `shadcn` — that
 re-map the same `--dx-*` tokens onto each brand's look:
 
@@ -196,18 +196,18 @@ re-map the same `--dx-*` tokens onto each brand's look:
 <html data-palette="github" data-theme="dark"></html>
 ```
 
-- Styles live in `preview/styles/` (`fluent` and `material-3` sheets are
+- Styles live in `demos/styles/` (`fluent` and `material-3` sheets are
   generated from upstream source by `scripts/extract-palettes.mjs`; the rest
   are hand-authored token sheets). They are **not** bundled into `style.css`,
   so consumers get them by copying those files (or the transform script) into
   their own app — `data-palette` is only a scoping convention.
 - Load the sheet(s) first, then set `document.documentElement.dataset.palette`;
   remove the attribute to fall back to the default tokens. Dark variants work
-  through the usual `data-theme="dark"` blocks (see the preview's
+  through the usual `data-theme="dark"` blocks (see the demos's
   `PALETTE_LOADERS` for the pattern).
 
 ```css
-/* after copying preview/styles/github.css into your app */
+/* after copying demos/styles/github.css into your app */
 :root[data-palette='github'] {
   --dx-primary-color: #0969da;
   /* … */
@@ -238,8 +238,8 @@ npm run typecheck     # tsc --noEmit (includes e2e/)
 npm test              # vitest
 npm run build         # vite lib build → dist/ (es + cjs + d.ts + style.css)
 npm run format        # prettier --write .
-npm run dev           # preview app on :5199
-npm run test:e2e      # playwright + axe against the preview build
+npm run dev           # demos app on :5199
+npm run test:e2e      # playwright + axe against the demos build
 ```
 
 ## License

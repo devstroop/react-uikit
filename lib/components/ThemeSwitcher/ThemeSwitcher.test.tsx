@@ -99,9 +99,9 @@ describe('ThemeSwitcher', () => {
 
   it('forwards id and className, and renders the label', () => {
     const { container } = render(
-      <ThemeSwitcher id="preview-theme" className="pick" label="Theme" />
+      <ThemeSwitcher id="demos-theme" className="pick" label="Theme" />
     );
-    expect(screen.getByRole('combobox')).toHaveAttribute('id', 'preview-theme');
+    expect(screen.getByRole('combobox')).toHaveAttribute('id', 'demos-theme');
     expect(container.querySelector('.pick')).toBeInTheDocument();
     expect(screen.getByText('Theme')).toBeInTheDocument();
   });

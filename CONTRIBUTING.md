@@ -46,7 +46,7 @@
    old `--dx-outline-width` is removed; never bring it back. Allowed
    literals: negative `outline-offset` (inset focus variants) and the
    transparent scrollbar gutter ring. `lib/styles/tokens.test.ts`
-   ratchets this across lib CSS and preview style objects;
+   ratchets this across lib CSS and demos style objects;
    `e2e/focus-ring.spec.ts` locks the computed 1px/2px values.
 
 ## Workflow
@@ -55,7 +55,7 @@
 - Title the PR as the final squash message (Conventional Commits:
   `feat(scope): subject`, breaking with `!`).
 - Fill the PR template checklist (creates automatically).
-- The showcase (`preview/`, `npm run dev`) is the visual review
+- The showcase (`demos/`, `npm run dev`) is the visual review
   surface — add or extend a demo route for user-facing changes and
   link it in the PR.
 - `dist/` is built at release time (`chore(dist)`); never hand-edit it.

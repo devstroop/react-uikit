@@ -61,7 +61,7 @@ describe('gap tier vocabulary (source ratchet)', () => {
     const self = fileURLToPath(import.meta.url);
     const files = [
       ...walk(join(ROOT, 'lib')),
-      ...walk(join(ROOT, 'preview')),
+      ...walk(join(ROOT, 'demos')),
     ].filter((file) => file !== self);
     expect(files.length, 'source trees resolved').toBeGreaterThan(50);
     for (const file of files) {

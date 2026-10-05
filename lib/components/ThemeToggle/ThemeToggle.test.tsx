@@ -83,10 +83,10 @@ describe('ThemeToggle', () => {
 
   it('forwards id and renders the label as the accessible name', () => {
     stubMatchMedia(false);
-    render(<ThemeToggle id="preview-dark" label="Toggle appearance" />);
+    render(<ThemeToggle id="demos-dark" label="Toggle appearance" />);
     expect(toggleButton('Toggle appearance')).toHaveAttribute(
       'id',
-      'preview-dark'
+      'demos-dark'
     );
   });
 

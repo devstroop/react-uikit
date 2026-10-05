@@ -451,7 +451,7 @@ function LinkActionDemo() {
   const log = (message: string) => setEvents((prev) => [message, ...prev]);
   return (
     <Stack orientation="vertical" gap={8}>
-      <Link onClick={() => log('Preview action clicked')}>Run preview</Link>
+      <Link onClick={() => log('Demos action clicked')}>Run demos</Link>
       <EventLog events={events} emptyText="Click the link-styled button." />
     </Stack>
   );

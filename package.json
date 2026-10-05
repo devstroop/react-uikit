@@ -23,14 +23,14 @@
   ],
   "scripts": {
     "build": "vite build",
-    "dev": "vite --config preview/vite.config.ts --port 5199 --strictPort",
+    "dev": "vite --config demos/vite.config.ts --port 5199 --strictPort",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "preview:build": "vite build --config preview/vite.config.ts",
+    "demos:build": "vite build --config demos/vite.config.ts",
     "test:e2e": "playwright test"
   },
   "peerDependencies": {

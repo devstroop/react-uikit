@@ -543,7 +543,7 @@ function DialogGuardsDemo() {
 function ImperativeDialogDemo() {
   // Provider in the parent: useDialog() must run INSIDE DialogProvider —
   // calling it in the component that renders the provider throws and
-  // (uncaught) takes the whole preview app down.
+  // (uncaught) takes the whole demos app down.
   return (
     <DialogProvider>
       <ImperativeDialogDemoInner />
@@ -655,12 +655,12 @@ function TargetTooltipDemo() {
   return (
     <Stack orientation="horizontal" gap={12} wrap>
       <Tooltip
-        targetSelector="[data-preview-tip]"
+        targetSelector="[data-demos-tip]"
         content="Delegated hint — one tooltip, many targets"
         delayMs={0}
       />
-      <Button data-preview-tip>First target</Button>
-      <Button data-preview-tip>Second target</Button>
+      <Button data-demos-tip>First target</Button>
+      <Button data-demos-tip>Second target</Button>
     </Stack>
   );
 }

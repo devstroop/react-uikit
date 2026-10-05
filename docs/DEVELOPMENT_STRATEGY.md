@@ -74,8 +74,8 @@ features                          accumulator
 | Flattening | Ref names are flattened to one slash level — `feat/10-examples` + `feat/10-examples/shell` is impossible (a ref cannot nest under another ref: `refs/heads/feat/10-examples` is a file, `refs/heads/feat/10-examples/shell` needs a directory at the same path). The hierarchy is expressed by **PR targets** (unit → part → epic → accumulator), not by literal slash nesting |
 | Source     | Each level branches from its parent branch, not from the accumulator directly                                                                                                                                                                                                                                                                                                  |
 | PR chain   | Every branch — including units and parts — opens a PR into its **immediate parent**. CI runs on every `pull_request`, so intermediate merges are always verified. Push-triggered CI only fires on trunk branches; nested branches rely on PRs                                                                                                                                  |
-| Examples   | Preview/demo-site work is a normal feature: `feat/<issue#>-examples` under `features`                                                                                                                                                                                                                                                                                          |
-| Dist       | Branches touching a framework rebuild `dist/` + preview vendor copies before their PR (CI in-sync gates). A parent regenerates after absorbing children and before its own PR; merged trees are regenerated after `develop` merges (resolve dist conflicts by rebuilding from the merged tree, never by hand)                                                                  |
+| Examples   | Demos/demo-site work is a normal feature: `feat/<issue#>-examples` under `features`                                                                                                                                                                                                                                                                                            |
+| Dist       | Branches touching a framework rebuild `dist/` + demos vendor copies before their PR (CI in-sync gates). A parent regenerates after absorbing children and before its own PR; merged trees are regenerated after `develop` merges (resolve dist conflicts by rebuilding from the merged tree, never by hand)                                                                    |
 
 ## 3. Issue lifecycle (repository host)
 
@@ -184,14 +184,14 @@ A workflow triggered on a branch that does not exist is a silent CI outage.
 ## 6a. Local/e2e ports
 
 - **5199** — `npm run dev` (vite dev server) during interactive work.
-- **4199** — react preview used by `playwright.config.ts`'s webServer and
+- **4199** — react demos used by `playwright.config.ts`'s webServer and
   `scripts/visual-verify.mjs`.
 - **4198** — static htmx demo server used by the uikit visual gates
   (fallback to 8000).
   `scripts/visual-verify.mjs` expects its own servers on 4199/4198;
   `scripts/generate-component-images.mjs` will attach to whichever of
   5173/4199 (react) and 8000/4198 (htmx) answers first, and can spawn the
-  preview servers itself — kill them afterwards, do not leave them running.
+  demos servers itself — kill them afterwards, do not leave them running.
 
 ## 7. Release process
 

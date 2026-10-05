@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
-import { DEMO_GROUPS } from '../preview/nav';
+import { DEMO_GROUPS } from '../demos/nav';
 
 const THEMES = [
   'default',
@@ -12,7 +12,7 @@ const THEMES = [
 ] as const;
 
 /**
- * Drive the preview chrome to a known state and FAIL if the controls are
+ * Drive the demos chrome to a known state and FAIL if the controls are
  * missing or the state never lands. The old locators matched nothing
  * (`.chrome-controls` never existed) behind `if (count)` guards, so the
  * dark half of the matrix silently ran light.
@@ -24,7 +24,7 @@ async function applyChromeState(
 ) {
   await page.goto('/');
 
-  const select = page.locator('#preview-theme');
+  const select = page.locator('#demos-theme');
   await expect(select).toBeVisible();
   await select.selectOption(theme);
   await expect(select).toHaveValue(theme);
@@ -38,7 +38,7 @@ async function applyChromeState(
     )
     .toBe(theme === 'default' ? null : theme);
 
-  const darkToggle = page.locator('#preview-dark');
+  const darkToggle = page.locator('#demos-dark');
   await expect(darkToggle).toBeVisible();
   // Icon-only Togglebutton: aria-pressed=true means dark. Click only when
   // the current state mismatches (the check/uncheck equivalent).
@@ -54,7 +54,7 @@ async function applyChromeState(
     .toBe(dark ? 'dark' : '');
 }
 
-test.describe('axe — preview hardening (react)', () => {
+test.describe('axe — demos hardening (react)', () => {
   for (const theme of THEMES) {
     test(`theme=${theme} light — no axe violations`, async ({ page }) => {
       await applyChromeState(page, theme, false);

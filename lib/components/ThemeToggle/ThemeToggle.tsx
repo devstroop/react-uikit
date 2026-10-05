@@ -77,7 +77,7 @@ export function ThemeToggle({
     applicable === 'system' ? (systemDark ? 'dark' : 'light') : applicable;
 
   // Uncontrolled mode owns `<html data-theme>`; controlled mode is pure
-  // UI so the parent (e.g. preview chrome) stays the single writer.
+  // UI so the parent (e.g. demos chrome) stays the single writer.
   useEffect(() => {
     if (controlled) return;
     if (applicable === 'system') {

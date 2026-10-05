@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { SelectSize } from '../Select/Select';
-/** Default theme names offered by the picker (the preview palettes). */
+/** Default theme names offered by the picker (the demos palettes). */
 export declare const DEFAULT_THEMES: readonly ["default", "fluent", "github", "material", "material-3", "shadcn"];
 export interface ThemeSwitcherProps {
     /** Theme names to offer. Defaults to `DEFAULT_THEMES`. */
@@ -16,7 +16,7 @@ export interface ThemeSwitcherProps {
     storageKey?: string | null;
     /**
      * Document attribute written in uncontrolled mode. Defaults to
-     * `"data-palette"` (the preview's palette hook).
+     * `"data-palette"` (the demos's palette hook).
      */
     attribute?: string;
     onChange?: (theme: string) => void;

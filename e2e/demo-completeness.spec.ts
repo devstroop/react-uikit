@@ -1,17 +1,17 @@
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { expect, test } from '@playwright/test';
-import { DEMO_GROUPS } from '../preview/nav';
+import { DEMO_GROUPS } from '../demos/nav';
 
 /**
  * Demo completeness (docs/DEMO_GUIDE.md checklist) asserted against the
  * shipped DOM: every routed demo carries an H1, the description subtitle,
  * and at least its documented floor of section cards — each with an
  * anchor id (Toc target) and a heading. The nav registry must match the
- * route table in preview/routes.ts exactly.
+ * route table in demos/routes.ts exactly.
  *
  * This replaces the old vitest version, which mocked `DemoPage` to
- * capture props from inside preview/. Running the real page covers what
+ * capture props from inside demos/. Running the real page covers what
  * visitors actually get and needs no mock.
  */
 
@@ -29,11 +29,11 @@ test.describe('demo completeness — registries', () => {
   test('nav and the route table list the same slugs, each exactly once', () => {
     expect(new Set(SLUGS).size, 'duplicate slug in nav').toBe(SLUGS.length);
 
-    // preview/routes.ts cannot be imported here: it pulls page modules
+    // demos/routes.ts cannot be imported here: it pulls page modules
     // that import CSS, which the playwright loader executes as JS and
     // rejects. Read the table as text instead (file-content assertion).
     const source = readFileSync(
-      fileURLToPath(new URL('../preview/routes.ts', import.meta.url)),
+      fileURLToPath(new URL('../demos/routes.ts', import.meta.url)),
       'utf8'
     );
     const table = source.slice(
