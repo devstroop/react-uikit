@@ -670,3 +670,122 @@ describe('Chart derived series (#95)', () => {
     ).toBeNull();
   });
 });
+
+describe('Chart treemap + pyramid (#95)', () => {
+  it('treemap areas stay proportional to values', () => {
+    const { container } = render(
+      <Chart
+        series={[
+          {
+            type: 'treemap',
+            title: 'T',
+            data: [
+              { cat: 'A', val: 30 },
+              { cat: 'B', val: 70 },
+            ],
+            categoryProperty: 'cat',
+            valueProperty: 'val',
+          },
+        ]}
+      />
+    );
+    const group = container.querySelector('g[data-chart-type="treemap"]')!;
+    const rects = [...group.querySelectorAll('rect')];
+    expect(rects.length).toBe(2);
+    const areas = rects.map(
+      (r) => Number(r.getAttribute('width')) * Number(r.getAttribute('height'))
+    );
+    expect(areas[1]! / areas[0]!).toBeCloseTo(70 / 30, 1);
+    expect(group.textContent).toContain('A');
+    expect(group.textContent).toContain('B');
+  });
+
+  it('treemap nests children inside the parent rect', () => {
+    const { container } = render(
+      <Chart
+        series={[
+          {
+            type: 'treemap',
+            title: 'T',
+            data: [
+              {
+                cat: 'P',
+                val: 100,
+                kids: [
+                  { cat: 'C1', val: 60 },
+                  { cat: 'C2', val: 40 },
+                ],
+              },
+            ],
+            categoryProperty: 'cat',
+            valueProperty: 'val',
+            childrenProperty: 'kids',
+          },
+        ]}
+      />
+    );
+    const group = container.querySelector('g[data-chart-type="treemap"]')!;
+    expect(group.textContent).toContain('C1');
+    expect(group.textContent).toContain('C2');
+    expect(group.textContent).not.toContain('>P<');
+  });
+
+  it('treemap clicks report the leaf item', () => {
+    const fn = vi.fn();
+    render(
+      <Chart
+        series={[
+          {
+            type: 'treemap',
+            title: 'T',
+            data: [{ cat: 'A', val: 30 }],
+            categoryProperty: 'cat',
+            valueProperty: 'val',
+          },
+        ]}
+        onSeriesClick={fn}
+      />
+    );
+    const group = document.querySelector('g[data-chart-type="treemap"]')!;
+    fireEvent.click(group.querySelector('rect')!);
+    expect(fn).toHaveBeenCalledWith(
+      expect.objectContaining({ seriesTitle: 'T', category: 'A', value: 30 })
+    );
+  });
+
+  it('pyramid widens downward', () => {
+    const { container } = render(
+      <Chart
+        series={[
+          {
+            type: 'pyramid',
+            title: 'P',
+            data: [
+              { cat: 'A', val: 30 },
+              { cat: 'B', val: 60 },
+              { cat: 'C', val: 100 },
+            ],
+            categoryProperty: 'cat',
+            valueProperty: 'val',
+          },
+        ]}
+      />
+    );
+    const group = container.querySelector('g[data-chart-type="pyramid"]')!;
+    const paths = [...group.querySelectorAll('path')];
+    expect(paths.length).toBe(3);
+    // top segment narrower than the bottom one: compare path widths via
+    // the second x-coordinate pair of each trapezoid
+    const widthOf = (d: string | null) => {
+      const nums = (d ?? '')
+        .split(/[MLZ ,]+/)
+        .filter(Boolean)
+        .map(Number);
+      const xs = nums.filter((_, i) => i % 2 === 0);
+      return Math.max(...xs) - Math.min(...xs);
+    };
+    const widths = paths.map((p) => widthOf(p.getAttribute('d')));
+    expect(widths[0]).toBeLessThan(widths[2]!);
+    expect(group.textContent).toContain('C · 100');
+  });
+});
