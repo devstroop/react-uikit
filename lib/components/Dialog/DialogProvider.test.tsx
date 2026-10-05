@@ -229,6 +229,28 @@ describe('DialogProvider', () => {
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
+  it('traps focus while open and restores the opener on close', async () => {
+    const user = userEvent.setup();
+    render(
+      <DialogProvider>
+        <ConfirmHarness onResult={() => {}} />
+      </DialogProvider>
+    );
+    const opener = screen.getByRole('button', { name: 'Ask confirm' });
+    opener.focus();
+    await user.click(opener);
+    await screen.findByText('Delete the zone?');
+    // Focus moves into the dialog (close control first).
+    await waitFor(() =>
+      expect(screen.getByRole('dialog').contains(document.activeElement)).toBe(
+        true
+      )
+    );
+    await user.click(screen.getByRole('button', { name: 'Cancel' }));
+    // Opener regains focus once the dialog closes.
+    await waitFor(() => expect(document.activeElement).toBe(opener));
+  });
+
   it('openSide docks the panel and keeps the service contract', async () => {
     const user = userEvent.setup();
     const onResult = vi.fn();

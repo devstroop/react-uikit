@@ -88,6 +88,17 @@ describe('Button', () => {
     ).not.toBeInTheDocument();
   });
 
+  it('applies the xs size and icon-only treatment', () => {
+    render(
+      <Button size="xs" iconOnly aria-label="Add">
+        +
+      </Button>
+    );
+    const button = screen.getByRole('button', { name: 'Add' });
+    expect(button.className).toContain('xs');
+    expect(button.className).toContain('iconOnly');
+  });
+
   it('carries press feedback on every button', () => {
     render(<Button>Save</Button>);
     expect(screen.getByRole('button', { name: 'Save' }).className).toContain(
