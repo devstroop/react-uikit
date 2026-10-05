@@ -20,7 +20,7 @@ const COMPONENT_COUNT = DEMO_GROUPS.reduce((n, g) => n + g.routes.length, 0);
 function ComponentCatalog() {
   return (
     <section aria-label="Browse components" className="dx-mb-8">
-      <Text textStyle="H2" tagName="H2">
+      <Text textStyle="h2" tagName="h2">
         Browse the kit
       </Text>
       <div
@@ -35,7 +35,7 @@ function ComponentCatalog() {
             key={group.title}
             header={
               <Stack orientation="horizontal" gap={8} align="center">
-                <Text textStyle="H5" tagName="H3">
+                <Text textStyle="h5" tagName="h3">
                   {group.title}
                 </Text>
                 <Badge size="sm" severity="secondary">
@@ -68,10 +68,10 @@ export function IndexPage() {
 
   return (
     <>
-      <Text textStyle="H1" tagName="H1" className="dx-mb-4">
+      <Text textStyle="h1" tagName="h1" className="dx-mb-4">
         react-uikit preview
       </Text>
-      <Text textStyle="Subtitle1" tagName="P" className="dx-text-muted dx-pb-8">
+      <Text textStyle="subtitle1" tagName="p" className="dx-text-muted dx-pb-8">
         All {COMPONENT_COUNT} components, live and interactive — browse the
         catalog or try the examples below.
       </Text>
@@ -79,7 +79,7 @@ export function IndexPage() {
       <ComponentCatalog />
 
       <section aria-label="See it in action" className="dx-mb-8">
-        <Text textStyle="H2" tagName="H2">
+        <Text textStyle="h2" tagName="h2">
           See it in action
         </Text>
         <Button
@@ -92,7 +92,7 @@ export function IndexPage() {
       </section>
 
       <section aria-label="Tooltip" className="dx-mb-8">
-        <Text textStyle="H2" tagName="H2">
+        <Text textStyle="h2" tagName="h2">
           Tooltip
         </Text>
         <Tooltip content="Preview tooltip">
@@ -101,7 +101,7 @@ export function IndexPage() {
       </section>
 
       <section aria-label="Forms" className="dx-mb-8">
-        <Text textStyle="H2" tagName="H2">
+        <Text textStyle="h2" tagName="h2">
           Field
         </Text>
         <Field label="Name" error={error ?? undefined}>

@@ -93,7 +93,7 @@ export function DocsLayout({
             aria-expanded={sidebarOpen}
           />
           <Link href="#/">
-            <Text textStyle="H3" tagName="Strong">
+            <Text textStyle="h3" tagName="strong">
               UIKit
             </Text>
           </Link>

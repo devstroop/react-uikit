@@ -59,7 +59,7 @@ function ContextClickArea({ onLog }: { onLog: (msg: string) => void }) {
         textAlign: 'center',
       }}
     >
-      <Text textStyle="Body1">Right-click me</Text>
+      <Text textStyle="body1">Right-click me</Text>
     </div>
   );
 }
@@ -84,7 +84,7 @@ function ContextContentArea({ onLog }: { onLog: (msg: string) => void }) {
           ariaLabel: 'Content mode menu',
           content: (
             <>
-              <Text textStyle="Caption" className="dx-text-muted">
+              <Text textStyle="caption" className="dx-text-muted">
                 Custom popup content (content mode)
               </Text>
               <Menu
@@ -111,7 +111,7 @@ function ContextContentArea({ onLog }: { onLog: (msg: string) => void }) {
         textAlign: 'center',
       }}
     >
-      <Text textStyle="Body1">Right-click me for content mode</Text>
+      <Text textStyle="body1">Right-click me for content mode</Text>
     </div>
   );
 }
@@ -469,7 +469,7 @@ function LinkVisibilityDemo() {
           />{' '}
           visible
         </label>
-        <Text textStyle="Caption" className="dx-text-muted">
+        <Text textStyle="caption" className="dx-text-muted">
           {visible ? 'anchor rendered' : 'rendered nothing'}
         </Text>
       </Row>
@@ -555,7 +555,7 @@ function TabsControlledDemo() {
   const log = (message: string) => setEvents((prev) => [message, ...prev]);
   return (
     <Stack orientation="vertical" gap={8}>
-      <Text textStyle="Caption" className="dx-text-muted">
+      <Text textStyle="caption" className="dx-text-muted">
         value: {value}
       </Text>
       <Tabs
@@ -722,7 +722,7 @@ function PagerVisibilityDemo() {
         <Button size="sm" onClick={() => setBig((v) => !v)}>
           {big ? 'Shrink to one page' : 'Grow to five pages'}
         </Button>
-        <Text textStyle="Caption" className="dx-text-muted">
+        <Text textStyle="caption" className="dx-text-muted">
           count: {big ? 100 : 8}
         </Text>
       </Row>
@@ -733,7 +733,7 @@ function PagerVisibilityDemo() {
         onPageChange={() => undefined}
       />
       {!big && (
-        <Text textStyle="Body2" className="dx-text-muted">
+        <Text textStyle="body2" className="dx-text-muted">
           count 8 / pageSize 20 → pageCount 1 → the pager is not in the DOM.
         </Text>
       )}
@@ -1070,19 +1070,19 @@ export function NavigationDemos({ slug }: { slug: string }) {
                   ]}
                 />
                 <div id="toc-target-one" tabIndex={-1}>
-                  <Text textStyle="Subtitle1" tagName="H3">
+                  <Text textStyle="subtitle1" tagName="h3">
                     Section one
                   </Text>
                   <Text>Scroll target one.</Text>
                 </div>
                 <div id="toc-target-two" tabIndex={-1}>
-                  <Text textStyle="Subtitle1" tagName="H3">
+                  <Text textStyle="subtitle1" tagName="h3">
                     Section two
                   </Text>
                   <Text>Scroll target two.</Text>
                 </div>
                 <div id="toc-target-three" tabIndex={-1}>
-                  <Text textStyle="Subtitle1" tagName="H3">
+                  <Text textStyle="subtitle1" tagName="h3">
                     Section three
                   </Text>
                   <Text>Scroll target three.</Text>

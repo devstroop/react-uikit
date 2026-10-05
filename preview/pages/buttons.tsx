@@ -63,7 +63,7 @@ function VariantBody({ variant }: { variant: ButtonVariant }) {
           </Button>
         ))}
       </Row>
-      <Text textStyle="Subtitle1" tagName="H3" className="dx-mt-4">
+      <Text textStyle="subtitle1" tagName="h3" className="dx-mt-4">
         {capitalize(variant)} Shades
       </Text>
       <Stack orientation="vertical" gap={12} className="dx-mt-2">
@@ -83,10 +83,10 @@ function VariantBody({ variant }: { variant: ButtonVariant }) {
           </Row>
         ))}
       </Stack>
-      <Text textStyle="Subtitle1" tagName="H3" className="dx-mt-4">
+      <Text textStyle="subtitle1" tagName="h3" className="dx-mt-4">
         {capitalize(variant)} Light and Dark
       </Text>
-      <Text textStyle="Body1" className="dx-text-muted dx-mb-2">
+      <Text textStyle="body1" className="dx-text-muted dx-mb-2">
         Light and Dark button styles don&apos;t have Shades
       </Text>
       <Row align="center" gap={12} wrap>
@@ -124,7 +124,7 @@ function FabMenuBasicDemo() {
           log(`activate ${text} (value: ${value ?? '-'})`)
         }
       />
-      <Text textStyle="Body2" className="dx-text-muted">
+      <Text textStyle="body2" className="dx-text-muted">
         The floating menu sits in the viewport corner wherever you scroll — open
         it and pick an item, click outside to dismiss.
       </Text>
@@ -144,7 +144,7 @@ function FabMenuPositionDemo() {
   return (
     <Stack orientation="vertical" gap={8}>
       <Stack orientation="horizontal" gap={8} align="center">
-        <Text textStyle="Caption">position</Text>
+        <Text textStyle="caption">position</Text>
         <Select
           aria-label="FAB position"
           value={position}
@@ -153,7 +153,7 @@ function FabMenuPositionDemo() {
           }
           options={FAB_POSITIONS.map((v) => ({ value: v, label: v }))}
         />
-        <Text textStyle="Caption" className="dx-text-muted">
+        <Text textStyle="caption" className="dx-text-muted">
           {position}
         </Text>
       </Stack>
@@ -186,7 +186,7 @@ function FabMenuStatesDemo() {
         ]}
         onClick={({ text }) => log(`activate ${text}`)}
       />
-      <Text textStyle="Body2" className="dx-text-muted">
+      <Text textStyle="body2" className="dx-text-muted">
         Custom trigger icon + ariaLabel; the disabled Delete item keeps
         role="menuitem" but exposes aria-disabled and never fires onClick
         (tests: marks disabled item with aria-disabled and disables button, does
@@ -573,7 +573,7 @@ export function ButtonDemos({ slug }: { slug: string }) {
           description: 'Text, icons and images can be added to a button.',
           content: (
             <>
-              <Text textStyle="Subtitle1" tagName="H3">
+              <Text textStyle="subtitle1" tagName="h3">
                 Icon only
               </Text>
               <Row align="center" gap={12} wrap className="dx-mt-2">
@@ -589,7 +589,7 @@ export function ButtonDemos({ slug }: { slug: string }) {
                   </Button>
                 ))}
               </Row>
-              <Text textStyle="Subtitle1" tagName="H3" className="dx-mt-4">
+              <Text textStyle="subtitle1" tagName="h3" className="dx-mt-4">
                 Icon and text
               </Text>
               <Row align="center" gap={12} wrap className="dx-mt-2">

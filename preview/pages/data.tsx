@@ -101,7 +101,7 @@ function ServerGridDemo() {
         allowPaging
         pageSize={10}
       />
-      <Text textStyle="Caption" className="dx-mt-2">
+      <Text textStyle="caption" className="dx-mt-2">
         {range
           ? `Requested rows ${range.start}–${range.start + range.count - 1} of ${total} · sorts: ${range.sorts.map((s) => `${s.property} ${s.sortOrder}`).join(', ') || 'none'}`
           : 'No range requested yet'}
@@ -168,7 +168,7 @@ function VirtualLayoutDemo() {
   );
   return (
     <>
-      <Text textStyle="Body1" className="dx-mb-2">
+      <Text textStyle="body1" className="dx-mb-2">
         rowHeight={'{28}'} height={'{160}'} — compact
       </Text>
       <VirtualGrid
@@ -179,7 +179,7 @@ function VirtualLayoutDemo() {
         columns={VIRTUAL_COLUMNS}
         loadData={loader}
       />
-      <Text textStyle="Body1" className="dx-mb-2 dx-mt-4">
+      <Text textStyle="body1" className="dx-mb-2 dx-mt-4">
         rowHeight={'{48}'} height={'{300}'} — roomy
       </Text>
       <VirtualGrid
@@ -428,7 +428,7 @@ function TreeSelectionDemo() {
     <Stack orientation="vertical" gap={12}>
       <Row gap={12} wrap>
         <Stack orientation="vertical" gap={4}>
-          <Text textStyle="Body2" className="dx-text-muted">
+          <Text textStyle="body2" className="dx-text-muted">
             single
           </Text>
           <Tree
@@ -438,7 +438,7 @@ function TreeSelectionDemo() {
           />
         </Stack>
         <Stack orientation="vertical" gap={4}>
-          <Text textStyle="Body2" className="dx-text-muted">
+          <Text textStyle="body2" className="dx-text-muted">
             multiple (aria-multiselectable)
           </Text>
           <Tree
@@ -741,7 +741,7 @@ function DataListStatesDemo() {
         data={[]}
         ariaLabel="Shift roster"
         isLoading={loading}
-        loadingTemplate={<Text textStyle="Body1">Loading the roster…</Text>}
+        loadingTemplate={<Text textStyle="body1">Loading the roster…</Text>}
         emptyMessage="No crew on shift"
       />
     </Stack>
@@ -762,7 +762,7 @@ function DataFilterResultDemo() {
           log(`${items.length} of ${CREWS.length} rows match`);
         }}
       />
-      <Text textStyle="Body2" className="dx-text-muted">
+      <Text textStyle="body2" className="dx-text-muted">
         Matching: {matched.map((c) => c.name).join(', ') || '(none)'}
       </Text>
       <EventLog
@@ -1513,7 +1513,7 @@ export function DataDemos({ slug }: { slug: string }) {
                     {
                       label: 'Shift start',
                       content: (
-                        <Text textStyle="Body2" className="dx-text-muted">
+                        <Text textStyle="body2" className="dx-text-muted">
                           2 drivers, 1 loader checked in — trucks fuelled.
                         </Text>
                       ),
@@ -1521,7 +1521,7 @@ export function DataDemos({ slug }: { slug: string }) {
                     {
                       label: 'Incident',
                       content: (
-                        <Text textStyle="Body2">
+                        <Text textStyle="body2">
                           Route B delayed 20 minutes; rescheduled dispatch.
                         </Text>
                       ),
@@ -1529,7 +1529,7 @@ export function DataDemos({ slug }: { slug: string }) {
                     {
                       label: 'Shift end',
                       content: (
-                        <Text textStyle="Body2" className="dx-text-muted">
+                        <Text textStyle="body2" className="dx-text-muted">
                           All vehicles returned; yard sealed.
                         </Text>
                       ),
@@ -1603,7 +1603,7 @@ export function DataDemos({ slug }: { slug: string }) {
                 <Row gap={12} align="start" wrap>
                   <Stack orientation="vertical" gap={4} align="center">
                     <QRCode value="https://1km.app/zone/north" size={96} />
-                    <Text textStyle="Caption" className="dx-text-muted">
+                    <Text textStyle="caption" className="dx-text-muted">
                       96px
                     </Text>
                   </Stack>
@@ -1613,7 +1613,7 @@ export function DataDemos({ slug }: { slug: string }) {
                       size={160}
                       errorCorrection="high"
                     />
-                    <Text textStyle="Caption" className="dx-text-muted">
+                    <Text textStyle="caption" className="dx-text-muted">
                       160px · high
                     </Text>
                   </Stack>
@@ -1623,7 +1623,7 @@ export function DataDemos({ slug }: { slug: string }) {
                       size={160}
                       errorCorrection="low"
                     />
-                    <Text textStyle="Caption" className="dx-text-muted">
+                    <Text textStyle="caption" className="dx-text-muted">
                       160px · low
                     </Text>
                   </Stack>
@@ -1639,7 +1639,7 @@ export function DataDemos({ slug }: { slug: string }) {
                 <Row gap={12} align="start" wrap>
                   <Stack orientation="vertical" gap={4} align="center">
                     <QRCode value="https://1km.app/zone/south" size={144} />
-                    <Text textStyle="Caption" className="dx-text-muted">
+                    <Text textStyle="caption" className="dx-text-muted">
                       render="svg"
                     </Text>
                   </Stack>
@@ -1649,7 +1649,7 @@ export function DataDemos({ slug }: { slug: string }) {
                       size={144}
                       render="canvas"
                     />
-                    <Text textStyle="Caption" className="dx-text-muted">
+                    <Text textStyle="caption" className="dx-text-muted">
                       render="canvas"
                     </Text>
                   </Stack>
@@ -1797,7 +1797,7 @@ export function DataDemos({ slug }: { slug: string }) {
                   rows={[]}
                   rowKey={(r) => r.id}
                   empty={
-                    <Text textStyle="Body2">
+                    <Text textStyle="body2">
                       No routes match the current view.
                     </Text>
                   }

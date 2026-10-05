@@ -22,6 +22,20 @@ const HUES = [
 const STEPS = ['lighter', 'light', 'dark', 'darker'] as const;
 const HEX = /^#[0-9a-f]{6}$/;
 const HEX_IN_CSS = '#[0-9a-f]{6}';
+// Shade-ramps are derived, never hardcoded: each fill step mixes its hue
+// base toward white/black in sRGB (lighter 45% white, light 30% white,
+// dark 15% black, darker 30% black), so re-seeded or mode-tuned bases
+// keep matching ramps automatically.
+const DERIVED_IN_CSS =
+  'color-mix\\(\\s*in srgb,\\s*var\\(--dx-[a-z]+-color\\) [0-9]+%,\\s*(?:white|black)\\s*\\)';
+const DERIVED_STEPS: Record<(typeof STEPS)[number], string> = {
+  lighter: 'color-mix(in srgb, var(--dx-HUE-color) 55%, white)',
+  light: 'color-mix(in srgb, var(--dx-HUE-color) 70%, white)',
+  dark: 'color-mix(in srgb, var(--dx-HUE-color) 85%, black)',
+  darker: 'color-mix(in srgb, var(--dx-HUE-color) 70%, black)',
+};
+const normalize = (value: string): string =>
+  value.replace(/\s+/g, ' ').replace('( ', '(').replace(' )', ')');
 
 describe('shade ramp tokens', () => {
   it.each(HUES)(
@@ -36,15 +50,17 @@ describe('shade ramp tokens', () => {
   it('defines each fill step in all three theme blocks (light, dark, OS fallback)', () => {
     for (const hue of HUES) {
       for (const step of STEPS) {
-        const matches = css.match(
-          new RegExp(`--dx-${hue}-${step}-color:\\s*${HEX_IN_CSS};`, 'g')
-        );
+        const pattern =
+          hue === 'light' || hue === 'base' || hue === 'dark'
+            ? `--dx-${hue}-${step}-color:\\s*${HEX_IN_CSS};`
+            : `--dx-${hue}-${step}-color:\\s*${DERIVED_IN_CSS};`;
+        const matches = css.match(new RegExp(pattern, 'g'));
         expect(matches, `${hue}-${step}`).toHaveLength(3);
       }
     }
   });
 
-  it('uses valid lowercase hex for every ramp value', () => {
+  it('uses valid values for every ramp step (hex tonals, derived hues)', () => {
     for (const hue of HUES) {
       for (const step of STEPS) {
         const values = [
@@ -54,7 +70,13 @@ describe('shade ramp tokens', () => {
         ].map((m) => (m[1] ?? '').trim());
         expect(values.length).toBeGreaterThan(0);
         for (const value of values) {
-          expect(value, `${hue}-${step}`).toMatch(HEX);
+          if (hue === 'light' || hue === 'base' || hue === 'dark') {
+            expect(value, `${hue}-${step}`).toMatch(HEX);
+          } else {
+            expect(normalize(value), `${hue}-${step}`).toBe(
+              DERIVED_STEPS[step].replaceAll('HUE', hue)
+            );
+          }
         }
       }
     }

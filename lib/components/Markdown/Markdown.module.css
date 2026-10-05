@@ -45,7 +45,7 @@
 .markdown pre {
   padding: var(--dx-space-2);
   border-radius: var(--dx-radius);
-  background: var(--dx-surface-low-color);
+  background: var(--dx-surface-hover-color);
   overflow-x: auto;
 }
 

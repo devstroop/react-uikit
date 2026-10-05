@@ -10,7 +10,7 @@ export function DemoSection({
 }) {
   return (
     <section aria-label={title} className="dx-mb-8">
-      <Text textStyle="H2" tagName="H1">
+      <Text textStyle="h2" tagName="h1">
         {title}
       </Text>
       {children}

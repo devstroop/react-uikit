@@ -18,7 +18,7 @@ function GlyphCell({
       style={{ padding: '8px 0' }}
     >
       {children}
-      <Text textStyle="Caption" className="dx-text-muted">
+      <Text textStyle="caption" className="dx-text-muted">
         {label}
       </Text>
     </Stack>
@@ -119,7 +119,7 @@ export function TypographyDemos({ slug }: { slug: string }) {
           description: 'Large display ramp for hero copy.',
           content: (
             <Stack orientation="vertical" gap={8}>
-              {(['DisplayH1', 'DisplayH5'] as const).map((s) => (
+              {(['displayH1', 'displayH5'] as const).map((s) => (
                 <Text key={s} textStyle={s}>
                   {s} — The quick brown fox
                 </Text>
@@ -133,7 +133,7 @@ export function TypographyDemos({ slug }: { slug: string }) {
           description: 'Standard H1–H3 headings.',
           content: (
             <Stack orientation="vertical" gap={8}>
-              {(['H1', 'H2', 'H3'] as const).map((s) => (
+              {(['h1', 'h2', 'h3'] as const).map((s) => (
                 <Text key={s} textStyle={s}>
                   {s} — The quick brown fox
                 </Text>
@@ -149,19 +149,19 @@ export function TypographyDemos({ slug }: { slug: string }) {
             <Stack orientation="vertical" gap={8}>
               {(
                 [
-                  'Subtitle1',
-                  'Subtitle2',
-                  'Body1',
-                  'Body2',
-                  'Caption',
-                  'Overline',
+                  'subtitle1',
+                  'subtitle2',
+                  'body1',
+                  'body2',
+                  'caption',
+                  'overline',
                 ] as const
               ).map((s) => (
                 <Text key={s} textStyle={s}>
                   {s} — The quick brown fox
                 </Text>
               ))}
-              <Text tagName="Strong">Strong semantics preserved</Text>
+              <Text tagName="strong">Strong semantics preserved</Text>
             </Stack>
           ),
         },

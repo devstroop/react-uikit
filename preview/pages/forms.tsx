@@ -92,7 +92,7 @@ function SelectAllDemo() {
           </label>
         ))}
       </Stack>
-      <Text textStyle="Body2" className="dx-text-muted">
+      <Text textStyle="body2" className="dx-text-muted">
         Selected: {selected.length ? selected.join(', ') : '(none)'}
       </Text>
     </Stack>
@@ -246,14 +246,14 @@ function FormStateField({ submits }: { submits: number }) {
         )}
       </Field>
       <Button type="submit">Submit</Button>
-      <Text textStyle="Body2">
+      <Text textStyle="body2">
         value: {nick.value ? `“${nick.value}”` : '(empty)'}
       </Text>
-      <Text textStyle="Body2">
+      <Text textStyle="body2">
         errors: {nick.errors.length ? nick.errors.join('; ') : '(none)'}
       </Text>
-      <Text textStyle="Body2">submits: {submits}</Text>
-      <Text textStyle="Body2" className="dx-text-muted">
+      <Text textStyle="body2">submits: {submits}</Text>
+      <Text textStyle="body2" className="dx-text-muted">
         Errors appear after the first submit and clear as you edit.
       </Text>
     </>
@@ -324,7 +324,7 @@ function FieldErrorDemo() {
           />
         )}
       </Field>
-      <Text textStyle="Body2">
+      <Text textStyle="body2">
         error: {error ?? 'none'} — while it shows, aria-invalid=true and
         aria-describedby points at the polite live region.
       </Text>
@@ -386,7 +386,7 @@ function InputBasicDemo() {
           setEvents((prev) => [...prev, `onChange: “${e.target.value}”`]);
         }}
       />
-      <Text textStyle="Body2">value: {value ? `“${value}”` : '(empty)'}</Text>
+      <Text textStyle="body2">value: {value ? `“${value}”` : '(empty)'}</Text>
       <EventLog
         events={events}
         emptyText="Type — Input behaves exactly as TextBox."
@@ -415,7 +415,7 @@ function TextBoxBasicDemo() {
           ]);
         }}
       />
-      <Text textStyle="Body2">{value.length}/40 characters</Text>
+      <Text textStyle="body2">{value.length}/40 characters</Text>
       <EventLog
         events={events}
         emptyText="Type — every keystroke lands in the log."
@@ -451,7 +451,7 @@ function PasswordBasicDemo() {
           ]);
         }}
       />
-      <Text textStyle="Body2">
+      <Text textStyle="body2">
         {value ? `${value.length} characters stored` : '(empty)'}
       </Text>
       <EventLog
@@ -490,7 +490,7 @@ function MaskBasicDemo() {
           setEvents((prev) => [...prev, `onChange: ${next || '(empty)'}`]);
         }}
       />
-      <Text textStyle="Body2">value: {value ? value : '(empty)'}</Text>
+      <Text textStyle="body2">value: {value ? value : '(empty)'}</Text>
       <EventLog
         events={events}
         emptyText="Type digits — the mask formats them as you go."
@@ -562,7 +562,7 @@ function CheckBoxBasicDemo() {
         />{' '}
         Email me release notes
       </label>
-      <Text textStyle="Body2">state: {checked ? 'checked' : 'unchecked'}</Text>
+      <Text textStyle="body2">state: {checked ? 'checked' : 'unchecked'}</Text>
       <EventLog events={events} emptyText="Toggle the checkbox." />
     </Stack>
   );
@@ -588,7 +588,7 @@ function CheckBoxListDemo() {
           setEvents((prev) => [...prev, `onChange: [${next.join(', ')}]`]);
         }}
       />
-      <Text textStyle="Body2">
+      <Text textStyle="body2">
         selected: {values.length ? values.join(', ') : '(none)'}
       </Text>
       <EventLog
@@ -623,7 +623,7 @@ function RadioButtonListDemo() {
           setEvents((prev) => [...prev, `onChange: ${next}`]);
         }}
       />
-      <Text textStyle="Body2">value: {value}</Text>
+      <Text textStyle="body2">value: {value}</Text>
       <EventLog
         events={events}
         emptyText="Pick a plan — the value lands here."
@@ -655,7 +655,7 @@ function SwitchBasicDemo() {
         />{' '}
         Notifications
       </label>
-      <Text textStyle="Body2">state: {on ? 'on' : 'off'}</Text>
+      <Text textStyle="body2">state: {on ? 'on' : 'off'}</Text>
       <EventLog events={events} emptyText="Flip the switch." />
     </Stack>
   );
@@ -682,7 +682,7 @@ function SliderBasicDemo() {
           }
         }}
       />
-      <Text textStyle="Body2">value: {value}</Text>
+      <Text textStyle="body2">value: {value}</Text>
       <EventLog
         events={events}
         emptyText="Release a handle or press an arrow key — onChange commits."
@@ -713,7 +713,7 @@ function SliderRangeDemo() {
           }
         }}
       />
-      <Text textStyle="Body2">
+      <Text textStyle="body2">
         range: {range.min}–{range.max} (min handle clamped to max handle)
       </Text>
       <EventLog events={events} emptyText="Drag either handle." />
@@ -740,7 +740,7 @@ function RatingBasicDemo() {
           setEvents((prev) => [...prev, `onChange: ${next}`]);
         }}
       />
-      <Text textStyle="Body2">
+      <Text textStyle="body2">
         rating: {value ? `${value} of 5` : '(cleared)'}
       </Text>
       <EventLog
@@ -777,7 +777,7 @@ function SelectBarSingleDemo() {
           setEvents((prev) => [...prev, `onChange: ${next}`]);
         }}
       />
-      <Text textStyle="Body2">value: {value}</Text>
+      <Text textStyle="body2">value: {value}</Text>
       <EventLog
         events={events}
         emptyText="Pick a role — aria-pressed marks the pick."
@@ -801,7 +801,7 @@ function SelectBarMultiDemo() {
           setEvents((prev) => [...prev, `onChange: [${next.join(', ')}]`]);
         }}
       />
-      <Text textStyle="Body2">
+      <Text textStyle="body2">
         values: {values.length ? values.join(', ') : '(none)'}
       </Text>
       <EventLog events={events} emptyText="Toggle one or more options." />
@@ -837,7 +837,7 @@ function NumericBasicDemo() {
           ]);
         }}
       />
-      <Text textStyle="Body2">value: {value === null ? '(null)' : value}</Text>
+      <Text textStyle="body2">value: {value === null ? '(null)' : value}</Text>
       <EventLog
         events={events}
         emptyText="Use the buttons, arrow keys or type a number."
@@ -858,7 +858,7 @@ function NumericLimitsDemo() {
         step={0.5}
         onChange={setValue}
       />
-      <Text textStyle="Body2">
+      <Text textStyle="body2">
         value: {value ?? '(null)'} — arrows move 0.5 and clamp at 0…10; blur
         snaps to the nearest step.
       </Text>
@@ -890,7 +890,7 @@ function SecurityCodeDemo() {
           ]);
         }}
       />
-      <Text textStyle="Body2">
+      <Text textStyle="body2">
         code:{' '}
         {code ? `${'•'.repeat(code.length)} (${code.length}/4)` : '(empty)'}
       </Text>
@@ -925,7 +925,7 @@ function TimespanBasicDemo() {
           setEvents((prev) => [...prev, `onChange: ${next || '(cleared)'}`]);
         }}
       />
-      <Text textStyle="Body2">value: {value || '(cleared)'}</Text>
+      <Text textStyle="body2">value: {value || '(cleared)'}</Text>
       <EventLog
         events={events}
         emptyText="Open the picker, step a unit, then Enter commits."
@@ -949,7 +949,7 @@ function TimespanPrecisionDemo() {
           setEvents((prev) => [...prev, `onChange: ${next || '(cleared)'}`]);
         }}
       />
-      <Text textStyle="Body2">
+      <Text textStyle="body2">
         precision=&quot;minute&quot; hides the seconds stepper; the clear button
         empties the value.
       </Text>
@@ -986,7 +986,7 @@ function DatePickerBasicDemo() {
           setEvents((prev) => [...prev, `onChange: ${next || '(cleared)'}`]);
         }}
       />
-      <Text textStyle="Body2">value: {value || '(cleared)'}</Text>
+      <Text textStyle="body2">value: {value || '(cleared)'}</Text>
       <EventLog
         events={events}
         emptyText="Open the calendar and pick a day — onChange fires on commit."
@@ -1008,7 +1008,7 @@ function DatePickerBoundsDemo() {
         disabledDates={['2024-03-17', '2024-03-24']}
         onChange={setValue}
       />
-      <Text textStyle="Body2">
+      <Text textStyle="body2">
         min=&quot;2024-03-01&quot;, max=&quot;2024-03-31&quot;, weekends
         disabled — out-of-range days are skipped by click and arrow keys, and
         typed values clamp on blur.
@@ -1032,7 +1032,7 @@ function DatePickerDateTimeDemo() {
           setEvents((prev) => [...prev, `onChange: ${next}`]);
         }}
       />
-      <Text textStyle="Body2">
+      <Text textStyle="body2">
         showTime adds hour/minute steppers — the OK button commits date and time
         together.
       </Text>
@@ -1074,7 +1074,7 @@ function ColorPickerBasicDemo() {
             width: 24,
           }}
         />
-        <Text textStyle="Body2">{value}</Text>
+        <Text textStyle="body2">{value}</Text>
       </Stack>
       <EventLog
         events={events}
@@ -1106,7 +1106,7 @@ function ColorPickerVariantDemo({
             setEvents((prev) => [...prev, `onChange: ${next}`]);
           }}
         />
-        <Text textStyle="Body2">
+        <Text textStyle="body2">
           {caption} — {value}
         </Text>
       </Stack>
@@ -1157,7 +1157,7 @@ function UploadLimitsDemo() {
           setEvents((prev) => [...prev, `onError: ${name} — ${message}`])
         }
       />
-      <Text textStyle="Body2" className="dx-text-muted">
+      <Text textStyle="body2" className="dx-text-muted">
         maxFileSize={'{'}1024{'}'} (1 KB) and maxFileCount={'{'}2{'}'} —
         rejected files never queue and never hit the network.
       </Text>
@@ -1225,7 +1225,7 @@ function SelectBasicDemo() {
           setEvents((prev) => [...prev, `onChange: ${e.target.value}`]);
         }}
       />
-      <Text textStyle="Body2">value: {value}</Text>
+      <Text textStyle="body2">value: {value}</Text>
       <EventLog
         events={events}
         emptyText="Choose an option — Gamma is disabled and skipped."
@@ -1254,7 +1254,7 @@ function DropDownBasicDemo() {
           setEvents((prev) => [...prev, `onChange: ${next}`]);
         }}
       />
-      <Text textStyle="Body2">value: {value}</Text>
+      <Text textStyle="body2">value: {value}</Text>
       <EventLog
         events={events}
         emptyText="Open the popup — ArrowDown highlights, Enter selects."
@@ -1290,7 +1290,7 @@ function AutoCompleteBasicDemo() {
           setEvents((prev) => [...prev, `onSelect: ${option.label} (${next})`])
         }
       />
-      <Text textStyle="Body2">value: {value ? `“${value}”` : '(empty)'}</Text>
+      <Text textStyle="body2">value: {value ? `“${value}”` : '(empty)'}</Text>
       <EventLog
         events={events}
         emptyText="Type to filter; ArrowDown then Enter commits an option."
@@ -1314,7 +1314,7 @@ function AutoCompleteFilterDemo() {
           option.label.toLowerCase().startsWith(query.toLowerCase())
         }
       />
-      <Text textStyle="Body2" className="dx-text-muted">
+      <Text textStyle="body2" className="dx-text-muted">
         filter matches on prefix only — type &quot;ta&quot; and nothing matches
         (the popup shows &quot;No matches&quot;).
       </Text>
@@ -1345,7 +1345,7 @@ function ListBoxSingleDemo() {
           setEvents((prev) => [...prev, `onChange: ${v}`]);
         }}
       />
-      <Text textStyle="Body2">value: {value}</Text>
+      <Text textStyle="body2">value: {value}</Text>
       <EventLog
         events={events}
         emptyText="Arrow keys move and select — selection follows focus."
@@ -1370,7 +1370,7 @@ function ListBoxMultiDemo() {
           setEvents((prev) => [...prev, `onChange: [${v.join(', ')}]`]);
         }}
       />
-      <Text textStyle="Body2">
+      <Text textStyle="body2">
         values: {values.length ? values.join(', ') : '(none)'}
       </Text>
       <EventLog
@@ -1469,7 +1469,7 @@ function SignatureBasicDemo() {
           ]);
         }}
       />
-      <Text textStyle="Body1" className="dx-mt-2">
+      <Text textStyle="body1" className="dx-mt-2">
         {value
           ? 'Stroke captured — value holds a PNG data URL.'
           : 'Draw a stroke: onChange fires on pointer-up.'}
@@ -1485,14 +1485,14 @@ function SignaturePenDemo() {
   return (
     <Stack orientation="vertical" gap={8}>
       <Stack orientation="horizontal" gap={12} align="center" wrap>
-        <Text textStyle="Caption">Pen color</Text>
+        <Text textStyle="caption">Pen color</Text>
         <SelectBar
           aria-label="Pen color"
           options={PEN_COLORS}
           value={color}
           onChange={setColor}
         />
-        <Text textStyle="Caption">Pen width</Text>
+        <Text textStyle="caption">Pen width</Text>
         <Select
           aria-label="Pen width"
           value={width}
@@ -1540,7 +1540,7 @@ function SignatureExportDemo() {
           style={{ maxWidth: 320, border: 'var(--dx-border)' }}
         />
       ) : (
-        <Text textStyle="Body1" className="dx-text-muted">
+        <Text textStyle="body1" className="dx-text-muted">
           Export renders the canvas as a PNG data URL.
         </Text>
       )}
@@ -1911,7 +1911,7 @@ function TextAreaDemosPage() {
                   ]);
                 }}
               />
-              <Text textStyle="Body2">{value.length}/200 characters</Text>
+              <Text textStyle="body2">{value.length}/200 characters</Text>
               <EventLog events={events} emptyText="Start typing." />
             </Stack>
           ),
@@ -2305,7 +2305,7 @@ function SliderDemosPage() {
               </div>
               <Stack orientation="vertical" gap={8}>
                 <Slider value={35} disabled label="Disabled level" />
-                <Text textStyle="Body2" className="dx-text-muted">
+                <Text textStyle="body2" className="dx-text-muted">
                   Vertical handle height follows the container.
                 </Text>
               </Stack>
