@@ -1065,7 +1065,7 @@ function squarify(
     return entries.map(() => ({ x, y, w: 0, h: 0 }));
   const scale = (w * h) / total;
   const out: Array<{ x: number; y: number; w: number; h: number }> = [];
-  let rest = entries.map((e, i) => ({ ...e, i }));
+  const rest = entries.map((e, i) => ({ ...e, i }));
   let cx = x;
   let cy = y;
   let cw = w;
