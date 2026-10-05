@@ -527,3 +527,146 @@ describe('Chart OHLC family (#95)', () => {
     expect(bodies[1]!.getAttribute('stroke')).toBe('#ff0000');
   });
 });
+
+describe('Chart derived series (#95)', () => {
+  const source = {
+    type: 'line' as const,
+    title: 'Sales',
+    data: [
+      { m: 'A', v: 0 },
+      { m: 'B', v: 10 },
+      { m: 'C', v: 20 },
+    ],
+    categoryProperty: 'm',
+    valueProperty: 'v',
+  };
+
+  it('trendline fits least-squares through the source', () => {
+    const { container } = render(
+      <Chart
+        series={[
+          source,
+          {
+            type: 'trendline' as const,
+            title: 'Trend',
+            data: [],
+            categoryProperty: 'm',
+            valueProperty: 'v',
+          },
+        ]}
+      />
+    );
+    const groups = container.querySelectorAll('g[data-chart-type="trendline"]');
+    expect(groups.length).toBe(1);
+    // y = 10x through (0,0),(1,10),(2,20): endpoints at axis extremes
+    const path = groups[0]!.querySelector(
+      'path[fill="none"]:not([stroke="transparent"])'
+    )!;
+    expect(path).not.toBeNull();
+    // no markers by default on derived series
+    expect(groups[0]!.querySelector('circle, rect[width="12"]')).toBeNull();
+  });
+
+  it('trendline resolves an explicit source by title', () => {
+    const other = {
+      type: 'bar' as const,
+      title: 'Other',
+      data: [{ m: 'A', v: 100 }],
+      categoryProperty: 'm',
+      valueProperty: 'v',
+    };
+    const { container } = render(
+      <Chart
+        series={[
+          other,
+          {
+            type: 'trendline' as const,
+            title: 'Trend',
+            source: 'Other',
+            data: [],
+            categoryProperty: 'm',
+            valueProperty: 'v',
+          },
+        ]}
+      />
+    );
+    expect(
+      container.querySelector('g[data-chart-type="trendline"]')
+    ).not.toBeNull();
+  });
+
+  it('moving average smooths with the period window', () => {
+    const { container } = render(
+      <Chart
+        series={[
+          source,
+          {
+            type: 'movingaverage' as const,
+            title: 'MA',
+            period: 2,
+            data: [],
+            categoryProperty: 'm',
+            valueProperty: 'v',
+          },
+        ]}
+      />
+    );
+    const group = container.querySelector(
+      'g[data-chart-type="movingaverage"]'
+    )!;
+    // period 2 over 3 points -> 2 averaged points -> path with M + L
+    const path = group.querySelector(
+      'path[fill="none"]:not([stroke="transparent"])'
+    )!;
+    const d = path.getAttribute('d') ?? '';
+    expect(d.startsWith('M')).toBe(true);
+    expect(d).toContain('L');
+  });
+
+  it('derived clicks report source items', () => {
+    const fn = vi.fn();
+    render(
+      <Chart
+        series={[
+          source,
+          {
+            type: 'trendline' as const,
+            title: 'Trend',
+            data: [],
+            categoryProperty: 'm',
+            valueProperty: 'v',
+          },
+        ]}
+        onSeriesClick={fn}
+      />
+    );
+    const group = document.querySelector('g[data-chart-type="trendline"]')!;
+    const hits = group.querySelectorAll('rect[width="24"]');
+    fireEvent.click(hits[0]!);
+    expect(fn).toHaveBeenCalledWith(
+      expect.objectContaining({
+        seriesTitle: 'Trend',
+        category: 'A',
+      })
+    );
+  });
+
+  it('renders nothing without a usable source', () => {
+    const { container } = render(
+      <Chart
+        series={[
+          {
+            type: 'trendline' as const,
+            title: 'Lonely',
+            data: [],
+            categoryProperty: 'm',
+            valueProperty: 'v',
+          },
+        ]}
+      />
+    );
+    expect(
+      container.querySelector('g[data-chart-type="trendline"]')
+    ).toBeNull();
+  });
+});

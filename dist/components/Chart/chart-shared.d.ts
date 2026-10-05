@@ -5,7 +5,7 @@ export type SeriesClickArgs = {
     item: Record<string, unknown>;
 };
 export interface ChartSeries {
-    type: 'line' | 'area' | 'bar' | 'column' | 'scatter' | 'bubble' | 'pie' | 'donut' | 'gauge' | 'radar' | 'funnel' | 'heatmap' | 'candlestick' | 'ohlc' | 'highlow';
+    type: 'line' | 'area' | 'bar' | 'column' | 'scatter' | 'bubble' | 'pie' | 'donut' | 'gauge' | 'radar' | 'funnel' | 'heatmap' | 'candlestick' | 'ohlc' | 'highlow' | 'trendline' | 'movingaverage';
     data: Record<string, unknown>[];
     categoryProperty: string;
     valueProperty: string;
@@ -31,6 +31,11 @@ export interface ChartSeries {
     lowProperty?: string;
     /** OHLC close value property (candlestick/ohlc/highlow). */
     closeProperty?: string;
+    /** Derived-series source: title of the series to compute from.
+     * Defaults to the nearest previous cartesian series. */
+    source?: string;
+    /** Moving-average window in points. Defaults to 3. */
+    period?: number;
     /** Rising-period color for candlestick bodies. Defaults to series color. */
     upColor?: string;
     /** Falling-period color for candlestick bodies. Defaults to danger. */
