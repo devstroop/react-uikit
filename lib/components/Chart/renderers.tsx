@@ -1395,6 +1395,233 @@ function renderSpider(
   );
 }
 
+interface SankeyNode {
+  id: string;
+  depth: number;
+  total: number;
+  x: number;
+  w: number;
+  y: number;
+  h: number;
+  color: string;
+}
+
+interface SankeyLink {
+  source: SankeyNode;
+  target: SankeyNode;
+  value: number;
+  y0: number;
+  y1: number;
+  h: number;
+}
+
+/**
+ * Sankey flow diagram (uikit#95): nodes laid in depth columns, links as
+ * proportional ribbons. Node height is max(inflow, outflow); links stack
+ * inside their endpoints. Self-links and non-positive flows are skipped.
+ */
+function sankeyLayout(
+  ctx: ChartRenderContext,
+  ser: ChartSeries,
+  sIdx: number
+): { nodes: SankeyNode[]; links: SankeyLink[] } {
+  const { pad, plotW, plotH } = ctx;
+  const srcProp = ser.sourceProperty ?? 'source';
+  const tgtProp = ser.targetProperty ?? 'target';
+  const rows = ser.data
+    .map((d) => ({
+      source: String(d[srcProp] ?? ''),
+      target: String(d[tgtProp] ?? ''),
+      value: Number(d[ser.valueProperty]),
+      item: d,
+    }))
+    .filter(
+      (r) => r.source && r.target && r.source !== r.target && r.value > 0
+    );
+  const ids: string[] = [];
+  for (const r of rows) {
+    if (!ids.includes(r.source)) ids.push(r.source);
+    if (!ids.includes(r.target)) ids.push(r.target);
+  }
+  // Depth by longest path from a source (cycle-guarded).
+  const incoming = new Map<string, string[]>();
+  for (const r of rows) {
+    if (!incoming.has(r.target)) incoming.set(r.target, []);
+    incoming.get(r.target)!.push(r.source);
+  }
+  const depthCache = new Map<string, number>();
+  const depthOf = (id: string, seen: Set<string>): number => {
+    if (depthCache.has(id)) return depthCache.get(id)!;
+    if (seen.has(id)) return 0;
+    seen.add(id);
+    const preds = incoming.get(id) ?? [];
+    const d =
+      preds.length === 0
+        ? 0
+        : 1 + Math.max(...preds.map((p) => depthOf(p, seen)));
+    seen.delete(id);
+    depthCache.set(id, d);
+    return d;
+  };
+  const depths = new Map<string, number>();
+  for (const id of ids) depths.set(id, depthOf(id, new Set()));
+  const maxDepth = Math.max(0, ...depths.values());
+  const nodeW = Math.max(
+    12,
+    Math.min(28, plotW / Math.max(1, (maxDepth + 1) * 8))
+  );
+  const gap = 10;
+  const inflow = new Map<string, number>();
+  const outflow = new Map<string, number>();
+  for (const r of rows) {
+    outflow.set(r.source, (outflow.get(r.source) ?? 0) + r.value);
+    inflow.set(r.target, (inflow.get(r.target) ?? 0) + r.value);
+  }
+  const totalOf = (id: string) =>
+    Math.max(inflow.get(id) ?? 0, outflow.get(id) ?? 0);
+  const colTotal = new Map<number, number>();
+  for (const id of ids) {
+    const d = depths.get(id)!;
+    colTotal.set(d, (colTotal.get(d) ?? 0) + totalOf(id));
+  }
+  const peak = Math.max(1, ...colTotal.values());
+  const scale = (plotH - gap * Math.max(0, ids.length - 1)) / peak;
+  const xForDepth = (d: number) =>
+    maxDepth === 0 ? pad.l : pad.l + (d / maxDepth) * (plotW - nodeW);
+  const nodes: SankeyNode[] = [];
+  const byId = new Map<string, SankeyNode>();
+  const columns = new Map<number, string[]>();
+  for (const id of ids) {
+    const d = depths.get(id)!;
+    if (!columns.has(d)) columns.set(d, []);
+    columns.get(d)!.push(id);
+  }
+  for (const [d, members] of [...columns.entries()].sort(
+    (a, b) => a[0] - b[0]
+  )) {
+    let y = pad.t;
+    for (const id of members) {
+      const h = Math.max(4, totalOf(id) * scale);
+      const node: SankeyNode = {
+        id,
+        depth: d,
+        total: totalOf(id),
+        x: xForDepth(d),
+        w: nodeW,
+        y,
+        h,
+        color: ctx.colorFor(sIdx + nodes.length, ser),
+      };
+      nodes.push(node);
+      byId.set(id, node);
+      y += h + gap;
+    }
+  }
+  // Link offsets stack inside each endpoint proportionally.
+  const outCursor = new Map<string, number>();
+  const inCursor = new Map<string, number>();
+  const links: SankeyLink[] = [];
+  for (const r of rows) {
+    const source = byId.get(r.source)!;
+    const target = byId.get(r.target)!;
+    const h = Math.max(1, r.value * scale);
+    const y0 = source.y + (outCursor.get(r.source) ?? 0);
+    const y1 = target.y + (inCursor.get(r.target) ?? 0);
+    outCursor.set(r.source, (outCursor.get(r.source) ?? 0) + h);
+    inCursor.set(r.target, (inCursor.get(r.target) ?? 0) + h);
+    links.push({ source, target, value: r.value, y0, y1, h });
+  }
+  return { nodes, links };
+}
+
+function sankeyRibbon(link: SankeyLink): string {
+  const x0 = link.source.x + link.source.w;
+  const x1 = link.target.x;
+  const mx = (x0 + x1) / 2;
+  return (
+    `M ${x0} ${link.y0} C ${mx} ${link.y0}, ${mx} ${link.y1}, ${x1} ${link.y1} ` +
+    `L ${x1} ${link.y1 + link.h} C ${mx} ${link.y1 + link.h}, ${mx} ${link.y0 + link.h}, ${x0} ${link.y0 + link.h} Z`
+  );
+}
+
+function renderSankey(
+  ctx: ChartRenderContext,
+  ser: ChartSeries,
+  sIdx: number,
+  pts: ChartPoint[],
+  color: string
+): ReactNode {
+  const { tooltipVisible, showTip, hideTip } = ctx;
+  void pts;
+  void color;
+  const { nodes, links } = sankeyLayout(ctx, ser, sIdx);
+  return seriesHead(
+    sIdx,
+    ser,
+    <>
+      {links.map((link, i) => (
+        <path
+          key={`link-${i}`}
+          d={sankeyRibbon(link)}
+          fill={link.source.color}
+          fillOpacity={0.45}
+          stroke="none"
+          onMouseEnter={() =>
+            tooltipVisible &&
+            showTip(
+              (link.source.x + link.source.w + link.target.x) / 2,
+              (link.y0 + link.y1) / 2,
+              `${link.source.id} → ${link.target.id}: ${link.value}`
+            )
+          }
+          onMouseLeave={() => hideTip()}
+          onClick={() =>
+            ctx.handleClick(
+              ser,
+              `${link.source.id} → ${link.target.id}`,
+              link.value,
+              {
+                source: link.source.id,
+                target: link.target.id,
+                value: link.value,
+              }
+            )
+          }
+          style={{ cursor: 'pointer' }}
+        />
+      ))}
+      {nodes.map((node) => (
+        <g key={node.id} role="listitem">
+          <rect
+            x={node.x}
+            y={node.y}
+            width={node.w}
+            height={node.h}
+            fill={node.color}
+            onMouseEnter={() =>
+              tooltipVisible &&
+              showTip(node.x + node.w / 2, node.y, `${node.id}: ${node.total}`)
+            }
+            onMouseLeave={() => hideTip()}
+            onClick={() =>
+              ctx.handleClick(ser, node.id, node.total, { id: node.id })
+            }
+            style={{ cursor: 'pointer' }}
+          />
+          <text
+            x={node.depth === 0 ? node.x - 6 : node.x + node.w + 6}
+            y={node.y + node.h / 2 + 4}
+            textAnchor={node.depth === 0 ? 'end' : 'start'}
+            className={styles.dataLabel}
+          >
+            {node.id}
+          </text>
+        </g>
+      ))}
+    </>
+  );
+}
+
 export function renderSeries(
   ctx: ChartRenderContext,
   ser: ChartSeries,
@@ -1433,6 +1660,8 @@ export function renderSeries(
       return renderPyramid(ctx, ser, sIdx, pts, color);
     case 'spider':
       return renderSpider(ctx, ser, sIdx, pts, color);
+    case 'sankey':
+      return renderSankey(ctx, ser, sIdx, pts, color);
     default:
       return renderBars(ctx, ser, sIdx, pts, color);
   }
