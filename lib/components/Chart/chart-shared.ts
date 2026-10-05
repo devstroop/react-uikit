@@ -18,7 +18,10 @@ export interface ChartSeries {
     | 'gauge'
     | 'radar'
     | 'funnel'
-    | 'heatmap';
+    | 'heatmap'
+    | 'candlestick'
+    | 'ohlc'
+    | 'highlow';
   data: Record<string, unknown>[];
   categoryProperty: string;
   valueProperty: string;
@@ -34,6 +37,18 @@ export interface ChartSeries {
   minProperty?: string;
   /** Range band: property holding the high value (needs minProperty too). */
   maxProperty?: string;
+  /** OHLC open value property (candlestick/ohlc/highlow). */
+  openProperty?: string;
+  /** OHLC high value property (candlestick/ohlc/highlow). */
+  highProperty?: string;
+  /** OHLC low value property (candlestick/ohlc/highlow). */
+  lowProperty?: string;
+  /** OHLC close value property (candlestick/ohlc/highlow). */
+  closeProperty?: string;
+  /** Rising-period color for candlestick bodies. Defaults to series color. */
+  upColor?: string;
+  /** Falling-period color for candlestick bodies. Defaults to danger. */
+  downColor?: string;
   /** Point markers for line/area/scatter/bubble. Defaults to visible circles. */
   markers?: {
     shape?: 'circle' | 'square' | 'diamond' | 'triangle';
@@ -122,6 +137,9 @@ export const VALUE_AXIS_TYPES = new Set([
   'column',
   'scatter',
   'bubble',
+  'candlestick',
+  'ohlc',
+  'highlow',
 ]);
 
 /** Series types showing the bottom category axis (heatmap has x categories). */
@@ -143,14 +161,24 @@ export interface ChartPoint {
   val: number;
   min?: number;
   max?: number;
+  open?: number;
+  high?: number;
+  low?: number;
+  close?: number;
   size?: number;
   item: Record<string, unknown>;
 }
 
 export function pointsFor(series: ChartSeries): ChartPoint[] {
+  const num = (prop: string | undefined, d: Record<string, unknown>) =>
+    prop != null ? Number(d[prop]) : undefined;
   return series.data.map((d) => ({
     cat: String(d[series.categoryProperty] ?? ''),
     val: Number(d[series.valueProperty]),
+    open: num(series.openProperty, d),
+    high: num(series.highProperty, d),
+    low: num(series.lowProperty, d),
+    close: num(series.closeProperty, d),
     min: series.minProperty != null ? Number(d[series.minProperty]) : undefined,
     max: series.maxProperty != null ? Number(d[series.maxProperty]) : undefined,
     size: series.sizeProperty ? Number(d[series.sizeProperty]) : undefined,
