@@ -188,6 +188,11 @@ export type {
 } from './components/Dialog/DialogProvider';
 
 export { ToastProvider, useToast } from './components/Toast/Toast';
+export { RangeNavigator } from './components/RangeNavigator/RangeNavigator';
+export type {
+  RangeNavigatorProps,
+  RangeWindow,
+} from './components/RangeNavigator/RangeNavigator';
 export { ArcGauge } from './components/Gauges/ArcGauge';
 export { RadialGauge } from './components/Gauges/RadialGauge';
 export type {
