@@ -439,3 +439,91 @@ describe('Chart series families (#95)', () => {
     expect(path.getAttribute('stroke-width')).toBe('3');
   });
 });
+
+describe('Chart OHLC family (#95)', () => {
+  const ohlc = (type: 'candlestick' | 'ohlc' | 'highlow') => ({
+    type,
+    title: 'OHLC',
+    data: [
+      { day: 'Mon', o: 10, h: 15, l: 8, c: 12 },
+      { day: 'Tue', v: 20, o: 20, h: 22, l: 18, c: 19 },
+    ],
+    categoryProperty: 'day',
+    valueProperty: 'v',
+    openProperty: 'o',
+    highProperty: 'h',
+    lowProperty: 'l',
+    closeProperty: 'c',
+  });
+
+  it('candlestick renders wick + filled rising body', () => {
+    const { container } = render(<Chart series={[ohlc('candlestick')]} />);
+    const group = container.querySelector('g[data-chart-type="candlestick"]')!;
+    // wick line + body rect per point
+    const lines = group.querySelectorAll('line');
+    expect(lines.length).toBeGreaterThanOrEqual(2);
+    const bodies = [...group.querySelectorAll('rect')].filter(
+      (r) => r.getAttribute('fill') !== 'transparent'
+    );
+    expect(bodies.length).toBe(2);
+    // rising (12 > 10): filled body
+    expect(bodies[0]!.getAttribute('fill')).not.toBe('none');
+    // falling (19 < 20): hollow body
+    expect(bodies[1]!.getAttribute('fill')).toBe('none');
+  });
+
+  it('ohlc renders high-low line with open/close ticks', () => {
+    const { container } = render(<Chart series={[ohlc('ohlc')]} />);
+    const group = container.querySelector('g[data-chart-type="ohlc"]')!;
+    // vertical + 2 ticks per point
+    expect(group.querySelectorAll('line').length).toBe(6);
+  });
+
+  it('highlow renders range lines only', () => {
+    const { container } = render(<Chart series={[ohlc('highlow')]} />);
+    const group = container.querySelector('g[data-chart-type="highlow"]')!;
+    expect(group.querySelectorAll('line').length).toBe(2);
+    // only the transparent hit areas remain as rects
+    const rects = [...group.querySelectorAll('rect')];
+    expect(rects.length).toBe(2);
+    expect(rects.every((r) => r.getAttribute('fill') === 'transparent')).toBe(
+      true
+    );
+  });
+
+  it('scale fits high/low extremes, click reports close', () => {
+    const fn = vi.fn();
+    const { container } = render(
+      <Chart series={[ohlc('candlestick')]} onSeriesClick={fn} />
+    );
+    // high 22 fits: top of plot area reachable (y >= pad.t)
+    const group = container.querySelector('g[data-chart-type="candlestick"]')!;
+    const wicks = [...group.querySelectorAll('line')];
+    wicks.forEach((w) => {
+      expect(Number(w.getAttribute('y1'))).toBeGreaterThanOrEqual(0);
+    });
+    const hits = [...group.querySelectorAll('rect')].filter(
+      (r) => r.getAttribute('fill') === 'transparent'
+    );
+    fireEvent.click(hits[0]!);
+    expect(fn).toHaveBeenCalledWith(
+      expect.objectContaining({ category: 'Mon', value: 12 })
+    );
+  });
+
+  it('honors upColor/downColor overrides', () => {
+    const { container } = render(
+      <Chart
+        series={[
+          { ...ohlc('candlestick'), upColor: '#00ff00', downColor: '#ff0000' },
+        ]}
+      />
+    );
+    const group = container.querySelector('g[data-chart-type="candlestick"]')!;
+    const bodies = [...group.querySelectorAll('rect')].filter(
+      (r) => r.getAttribute('fill') !== 'transparent'
+    );
+    expect(bodies[0]!.getAttribute('fill')).toBe('#00ff00');
+    expect(bodies[1]!.getAttribute('stroke')).toBe('#ff0000');
+  });
+});
