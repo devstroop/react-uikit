@@ -23,7 +23,9 @@ export interface ChartSeries {
     | 'ohlc'
     | 'highlow'
     | 'trendline'
-    | 'movingaverage';
+    | 'movingaverage'
+    | 'treemap'
+    | 'pyramid';
   data: Record<string, unknown>[];
   categoryProperty: string;
   valueProperty: string;
@@ -52,6 +54,8 @@ export interface ChartSeries {
   source?: string;
   /** Moving-average window in points. Defaults to 3. */
   period?: number;
+  /** Treemap children property for one-or-more nesting levels. */
+  childrenProperty?: string;
   /** Rising-period color for candlestick bodies. Defaults to series color. */
   upColor?: string;
   /** Falling-period color for candlestick bodies. Defaults to danger. */

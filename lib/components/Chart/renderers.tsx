@@ -1037,6 +1037,267 @@ function renderOhlc(
   );
 }
 
+interface TreemapLeaf {
+  cat: string;
+  val: number;
+  item: Record<string, unknown>;
+  color: string;
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+}
+
+/**
+ * Squarified treemap tiling (uikit#95): lays out value-weighted
+ * rectangles with near-square aspects. Children tile inside their
+ * parent's rect, recursively.
+ */
+function squarify(
+  entries: Array<{ val: number }>,
+  x: number,
+  y: number,
+  w: number,
+  h: number
+): Array<{ x: number; y: number; w: number; h: number }> {
+  const total = entries.reduce((a, e) => a + Math.max(0, e.val), 0);
+  if (entries.length === 0 || total <= 0 || w <= 0 || h <= 0)
+    return entries.map(() => ({ x, y, w: 0, h: 0 }));
+  const scale = (w * h) / total;
+  const out: Array<{ x: number; y: number; w: number; h: number }> = [];
+  let rest = entries.map((e, i) => ({ ...e, i }));
+  let cx = x;
+  let cy = y;
+  let cw = w;
+  let ch = h;
+  const worst = (row: Array<{ val: number }>, side: number): number => {
+    const sum = row.reduce((a, e) => a + Math.max(0, e.val), 0) * scale;
+    if (sum <= 0) return Number.POSITIVE_INFINITY;
+    const mx = Math.max(...row.map((e) => Math.max(0, e.val))) * scale;
+    const mn = Math.min(...row.map((e) => Math.max(0, e.val))) * scale;
+    return Math.max(
+      (side * side * mx) / (sum * sum),
+      (sum * sum) / (side * side * (mn || 1e-9))
+    );
+  };
+  while (rest.length > 0) {
+    const side = Math.min(cw, ch);
+    const row: Array<{ val: number; i: number }> = [];
+    let best = Number.POSITIVE_INFINITY;
+    while (rest.length > 0) {
+      const candidate = [...row, rest[0]!];
+      const score = worst(candidate, side);
+      if (score <= best) {
+        best = score;
+        row.push(rest.shift()!);
+      } else break;
+    }
+    if (row.length === 0) row.push(rest.shift()!);
+    const rowSum = row.reduce((a, e) => a + Math.max(0, e.val), 0) * scale;
+    if (cw >= ch) {
+      const rowW = rowSum / ch;
+      let ry = cy;
+      for (const e of row) {
+        const eh = (Math.max(0, e.val) * scale) / rowW;
+        out[e.i] = { x: cx, y: ry, w: rowW, h: eh };
+        ry += eh;
+      }
+      cx += rowW;
+      cw -= rowW;
+    } else {
+      const rowH = rowSum / cw;
+      let rx = cx;
+      for (const e of row) {
+        const ew = (Math.max(0, e.val) * scale) / rowH;
+        out[e.i] = { x: rx, y: cy, w: ew, h: rowH };
+        rx += ew;
+      }
+      cy += rowH;
+      ch -= rowH;
+    }
+  }
+  return out;
+}
+
+function treemapLeaves(
+  ctx: ChartRenderContext,
+  ser: ChartSeries,
+  sIdx: number,
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  data: Array<Record<string, unknown>>,
+  depth: number,
+  counter: { n: number },
+  out: TreemapLeaf[]
+): void {
+  const colorFor = ctx.colorFor;
+  const items = data.map((d) => ({
+    cat: String(d[ser.categoryProperty] ?? ''),
+    val: Number(d[ser.valueProperty]),
+    item: d,
+  }));
+  const rects = squarify(items, x, y, w, h);
+  const kidsProp = ser.childrenProperty ?? 'children';
+  items.forEach((it, i) => {
+    const r = rects[i]!;
+    const raw = data[i]?.[kidsProp];
+    const kids = Array.isArray(raw) ? raw : [];
+    if (kids.length > 0 && depth < 8) {
+      treemapLeaves(
+        ctx,
+        ser,
+        sIdx,
+        r.x,
+        r.y,
+        r.w,
+        r.h,
+        kids,
+        depth + 1,
+        counter,
+        out
+      );
+      return;
+    }
+    const n = counter.n++;
+    out.push({
+      ...it,
+      color: colorFor(sIdx + n, ser),
+      x: r.x,
+      y: r.y,
+      w: r.w,
+      h: r.h,
+    });
+  });
+}
+
+function renderTreemap(
+  ctx: ChartRenderContext,
+  ser: ChartSeries,
+  sIdx: number,
+  pts: ChartPoint[],
+  color: string
+): ReactNode {
+  const { pad, plotW, plotH, tooltipVisible, showTip, hideTip } = ctx;
+  void pts;
+  void color;
+  const counter = { n: 0 };
+  const leaves: TreemapLeaf[] = [];
+  treemapLeaves(
+    ctx,
+    ser,
+    sIdx,
+    pad.l,
+    pad.t,
+    plotW,
+    plotH,
+    ser.data,
+    0,
+    counter,
+    leaves
+  );
+  return seriesHead(
+    sIdx,
+    ser,
+    leaves.map((leaf, i) => (
+      <g key={i} role="listitem">
+        <rect
+          x={leaf.x}
+          y={leaf.y}
+          width={Math.max(0, leaf.w)}
+          height={Math.max(0, leaf.h)}
+          fill={leaf.color}
+          stroke="var(--dx-surface-color)"
+          strokeWidth={1}
+          onMouseEnter={() =>
+            tooltipVisible &&
+            showTip(
+              leaf.x + leaf.w / 2,
+              leaf.y,
+              `${ser.title ?? leaf.cat}: ${leaf.val}`
+            )
+          }
+          onMouseLeave={() => hideTip()}
+          onClick={() => ctx.handleClick(ser, leaf.cat, leaf.val, leaf.item)}
+          style={{ cursor: 'pointer' }}
+        />
+        {leaf.w > 28 && leaf.h > 18 && (
+          <text
+            x={leaf.x + leaf.w / 2}
+            y={leaf.y + leaf.h / 2 + 4}
+            textAnchor="middle"
+            className={styles.dataLabel}
+          >
+            {leaf.cat}
+          </text>
+        )}
+      </g>
+    ))
+  );
+}
+
+/**
+ * Pyramid (uikit#95): funnel geometry inverted — segments widen
+ * downward instead of narrowing. Shares the funnel's tooltip/click/
+ * label contract.
+ */
+function renderPyramid(
+  ctx: ChartRenderContext,
+  ser: ChartSeries,
+  sIdx: number,
+  pts: ChartPoint[],
+  color: string
+): ReactNode {
+  const { pad, plotW, plotH, tooltipVisible, showTip, hideTip } = ctx;
+  const rows = pts;
+  const maxVal = Math.max(1, ...rows.map((p) => Math.max(0, p.val)));
+  const rowH = plotH / Math.max(1, rows.length);
+  const cx = pad.l + plotW / 2;
+  return seriesHead(
+    sIdx,
+    ser,
+    rows.map((p, i) => {
+      const v = Math.max(0, p.val);
+      // Stepped pyramid: each segment spans its own width up top and the
+      // next segment's width below, so ascending data (small on top)
+      // widens toward the base. The last row keeps its own width (no
+      // funnel-style shrink).
+      const wTop = (v / maxVal) * plotW;
+      const next = rows[i + 1];
+      const wBottom = next ? (Math.max(0, next.val) / maxVal) * plotW : wTop;
+      const y = pad.t + i * rowH + 2;
+      const h = Math.max(4, rowH - 6);
+      return (
+        <g key={i} role="listitem">
+          <path
+            d={`M ${cx - wTop / 2} ${y} L ${cx + wTop / 2} ${y} L ${cx + wBottom / 2} ${y + h} L ${cx - wBottom / 2} ${y + h} Z`}
+            fill={color}
+            fillOpacity={0.9}
+            stroke="var(--dx-surface-color)"
+            strokeWidth={1}
+            onMouseEnter={() =>
+              tooltipVisible &&
+              showTip(cx, y, `${ser.title ?? p.cat}: ${p.val}`)
+            }
+            onMouseLeave={() => hideTip()}
+            onClick={() => ctx.handleClick(ser, p.cat, p.val, p.item)}
+            style={{ cursor: 'pointer' }}
+          />
+          <text
+            x={cx}
+            y={y + h / 2 + 4}
+            textAnchor="middle"
+            className={styles.dataLabel}
+          >
+            {p.cat} · {p.val}
+          </text>
+        </g>
+      );
+    })
+  );
+}
+
 export function renderSeries(
   ctx: ChartRenderContext,
   ser: ChartSeries,
@@ -1069,6 +1330,10 @@ export function renderSeries(
     case 'trendline':
     case 'movingaverage':
       return renderDerived(ctx, ser, sIdx, color);
+    case 'treemap':
+      return renderTreemap(ctx, ser, sIdx, pts, color);
+    case 'pyramid':
+      return renderPyramid(ctx, ser, sIdx, pts, color);
     default:
       return renderBars(ctx, ser, sIdx, pts, color);
   }
