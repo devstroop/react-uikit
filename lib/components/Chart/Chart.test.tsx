@@ -546,7 +546,13 @@ describe('Chart derived series (#95)', () => {
       <Chart
         series={[
           source,
-          { type: 'trendline' as const, title: 'Trend', data: [] },
+          {
+            type: 'trendline' as const,
+            title: 'Trend',
+            data: [],
+            categoryProperty: 'm',
+            valueProperty: 'v',
+          },
         ]}
       />
     );
@@ -578,6 +584,8 @@ describe('Chart derived series (#95)', () => {
             title: 'Trend',
             source: 'Other',
             data: [],
+            categoryProperty: 'm',
+            valueProperty: 'v',
           },
         ]}
       />
@@ -597,6 +605,8 @@ describe('Chart derived series (#95)', () => {
             title: 'MA',
             period: 2,
             data: [],
+            categoryProperty: 'm',
+            valueProperty: 'v',
           },
         ]}
       />
@@ -619,7 +629,13 @@ describe('Chart derived series (#95)', () => {
       <Chart
         series={[
           source,
-          { type: 'trendline' as const, title: 'Trend', data: [] },
+          {
+            type: 'trendline' as const,
+            title: 'Trend',
+            data: [],
+            categoryProperty: 'm',
+            valueProperty: 'v',
+          },
         ]}
         onSeriesClick={fn}
       />
@@ -638,7 +654,15 @@ describe('Chart derived series (#95)', () => {
   it('renders nothing without a usable source', () => {
     const { container } = render(
       <Chart
-        series={[{ type: 'trendline' as const, title: 'Lonely', data: [] }]}
+        series={[
+          {
+            type: 'trendline' as const,
+            title: 'Lonely',
+            data: [],
+            categoryProperty: 'm',
+            valueProperty: 'v',
+          },
+        ]}
       />
     );
     expect(
