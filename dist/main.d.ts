@@ -55,6 +55,8 @@ export type { DialogApi, DialogProviderProps, ConfirmOptions, AlertOptions, Open
 export { ToastProvider, useToast } from './components/Toast/Toast';
 export { ArcGauge } from './components/Gauges/ArcGauge';
 export type { ArcGaugeProps, ArcColorStop } from './components/Gauges/ArcGauge';
+export { LinearGauge } from './components/Gauges/LinearGauge';
+export type { LinearGaugeProps, LinearGaugeRange } from './components/Gauges/LinearGauge';
 export { AIChat } from './components/AIChat/AIChat';
 export type { AIChatProps, ChatMessage, ChatRole, } from './components/AIChat/AIChat';
 export { Login } from './components/Login/Login';

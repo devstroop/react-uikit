@@ -12,3 +12,8 @@
   font-size: var(--dx-font-size-md);
   font-weight: var(--dx-font-weight-bold);
 }
+
+.tick {
+  fill: var(--dx-text-muted-color);
+  font-size: var(--dx-font-size-sm);
+}
