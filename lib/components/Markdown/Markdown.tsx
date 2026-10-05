@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import DOMPurify from 'dompurify';
-import { renderMarkdown } from './markdown';
+import { renderMarkdown } from './markdownParser';
 import styles from './Markdown.module.css';
 
 export interface MarkdownProps {

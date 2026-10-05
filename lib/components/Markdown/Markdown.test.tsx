@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { Markdown } from './Markdown';
-import { renderMarkdown } from './markdown';
+import { renderMarkdown } from './markdownParser';
 
 /**
  * Shared contract vectors (uikit#100): the htmx twin
