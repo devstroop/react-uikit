@@ -2,7 +2,7 @@ node_modules/
 *.log
 .DS_Store
 
-preview/dist
+demos/dist
 
 test-results
 

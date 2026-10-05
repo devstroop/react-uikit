@@ -5,6 +5,7 @@ import { defineConfig } from 'vite';
 // served by `vite preview demos`. Never shipped in the package.
 export default defineConfig({
   root: __dirname,
+  base: process.env.GH_PAGES_BASE || '/',
   build: {
     outDir: 'dist',
     emptyOutDir: true,
