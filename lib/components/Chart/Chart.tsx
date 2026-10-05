@@ -227,7 +227,9 @@ export function Chart({
             {categoryAxis.title}
           </text>
         )}
-        {series.some((s) => s.type === 'radar') && renderRadarGrid(ctx)}
+        {(series.some((s) => s.type === 'radar') ||
+          series.some((s) => s.type === 'spider')) &&
+          renderRadarGrid(ctx)}
         {plotSeries.map((ser, sIdx) => renderSeries(ctx, ser, sIdx))}
       </svg>
       {tip && (

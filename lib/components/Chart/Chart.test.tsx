@@ -789,3 +789,72 @@ describe('Chart treemap + pyramid (#95)', () => {
     expect(group.textContent).toContain('C · 100');
   });
 });
+
+describe('Chart spider (#95)', () => {
+  const spiderA = {
+    type: 'spider' as const,
+    title: 'Small',
+    data: [
+      { dim: 'Speed', v: 10 },
+      { dim: 'Power', v: 20 },
+    ],
+    categoryProperty: 'dim',
+    valueProperty: 'v',
+  };
+  const spiderB = {
+    type: 'spider' as const,
+    title: 'Big',
+    data: [
+      { dim: 'Speed', v: 100 },
+      { dim: 'Power', v: 200 },
+    ],
+    categoryProperty: 'dim',
+    valueProperty: 'v',
+  };
+
+  it('normalizes each spoke to its own maximum', () => {
+    const { container } = render(<Chart series={[spiderA, spiderB]} />);
+    const groups = container.querySelectorAll('g[data-chart-type="spider"]');
+    expect(groups.length).toBe(2);
+    // Small/Speed = 10 against the Speed spoke max of 100: the vertex
+    // sits at 0.1 of the web radius (a shared scale would give 0.05
+    // against the global max of 200).
+    const poly = groups[0]!
+      .querySelector('polygon')!
+      .getAttribute('points')!
+      .split(' ')[0]!
+      .split(',')
+      .map(Number);
+    const dx = poly[0]! - 320;
+    const dy = poly[1]! - 188;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    expect(dist / 148).toBeCloseTo(0.1, 2);
+    // Big fills its spokes fully
+    const big = groups[1]!
+      .querySelector('polygon')!
+      .getAttribute('points')!
+      .split(' ')[0]!
+      .split(',')
+      .map(Number);
+    const bdx = big[0]! - 320;
+    const bdy = big[1]! - 188;
+    expect(Math.sqrt(bdx * bdx + bdy * bdy) / 148).toBeCloseTo(1, 2);
+  });
+
+  it('draws the shared web grid without a radar series', () => {
+    const { container } = render(<Chart series={[spiderA]} />);
+    expect(
+      container.querySelector('g[data-chart-type="radar-grid"]')
+    ).not.toBeNull();
+  });
+
+  it('clicks report the raw value', () => {
+    const fn = vi.fn();
+    render(<Chart series={[spiderA]} onSeriesClick={fn} />);
+    const group = document.querySelector('g[data-chart-type="spider"]')!;
+    fireEvent.click(group.querySelector('circle[r="12"]')!);
+    expect(fn).toHaveBeenCalledWith(
+      expect.objectContaining({ seriesTitle: 'Small', value: 10 })
+    );
+  });
+});
