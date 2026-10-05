@@ -25,7 +25,8 @@ export interface ChartSeries {
     | 'trendline'
     | 'movingaverage'
     | 'treemap'
-    | 'pyramid';
+    | 'pyramid'
+    | 'spider';
   data: Record<string, unknown>[];
   categoryProperty: string;
   valueProperty: string;

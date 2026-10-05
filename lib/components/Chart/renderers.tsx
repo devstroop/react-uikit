@@ -1298,6 +1298,103 @@ function renderPyramid(
   );
 }
 
+/**
+ * Spider (uikit#95): radar geometry with per-category (per-spoke)
+ * scaling instead of the shared value scale — each spoke normalizes to
+ * its own maximum across spider series, so mixed-magnitude series stay
+ * comparable. Reuses the radar web grid; polygon, markers, labels,
+ * tooltips, and clicks follow the line-series contract.
+ */
+function renderSpider(
+  ctx: ChartRenderContext,
+  ser: ChartSeries,
+  sIdx: number,
+  pts: ChartPoint[],
+  color: string
+): ReactNode {
+  const { categories, tooltipVisible, showTip, hideTip, series } = ctx;
+  const { vertexFor } = radarGeom(ctx);
+  const topFor = (cat: string): number => {
+    let top = 0;
+    for (const other of series) {
+      if (other.type !== 'spider') continue;
+      for (const d of other.data) {
+        if (String(d[other.categoryProperty] ?? '') === cat) {
+          const v = Number(d[other.valueProperty]);
+          if (!Number.isNaN(v)) top = Math.max(top, v);
+        }
+      }
+    }
+    return top || 1;
+  };
+  const valueFor = (cat: string) => pts.find((p) => p.cat === cat)?.val ?? 0;
+  const polygon = categories
+    .map((cat, i) => {
+      const ratio = Math.min(1, Math.max(0, valueFor(cat) / topFor(cat)));
+      const [x, y] = vertexFor(i, ratio);
+      return `${x},${y}`;
+    })
+    .join(' ');
+  return seriesHead(
+    sIdx,
+    ser,
+    <>
+      <polygon
+        points={polygon}
+        fill={color}
+        fillOpacity={0.25}
+        stroke={color}
+        strokeWidth={ser.lineWidth ?? 2}
+        strokeDasharray={dashAttr(ser.dash)}
+      />
+      {categories.map((cat, i) => {
+        const ratio = Math.min(1, Math.max(0, valueFor(cat) / topFor(cat)));
+        const [x, y] = vertexFor(i, ratio);
+        const [lx, ly] = vertexFor(i, 1);
+        return (
+          <g key={cat} role="listitem">
+            {renderMarker(x, y, color, ser, 3.5)}
+            <circle
+              cx={x}
+              cy={y}
+              r={12}
+              fill="transparent"
+              onMouseEnter={() =>
+                tooltipVisible &&
+                showTip(lx, ly, `${ser.title ?? cat}: ${valueFor(cat)}`)
+              }
+              onMouseLeave={() => hideTip()}
+              onClick={() => {
+                const p = pts.find((pt) => pt.cat === cat);
+                if (p) ctx.handleClick(ser, p.cat, p.val, p.item);
+              }}
+              style={{ cursor: 'pointer' }}
+            />
+            {ser.labels?.visible && (
+              <text
+                x={lx}
+                y={ly + 16}
+                textAnchor="middle"
+                className={styles.dataLabel}
+              >
+                {valueFor(cat)}
+              </text>
+            )}
+            <text
+              x={lx}
+              y={ly + 4}
+              textAnchor="middle"
+              className={styles.tickLabel}
+            >
+              {cat}
+            </text>
+          </g>
+        );
+      })}
+    </>
+  );
+}
+
 export function renderSeries(
   ctx: ChartRenderContext,
   ser: ChartSeries,
@@ -1334,6 +1431,8 @@ export function renderSeries(
       return renderTreemap(ctx, ser, sIdx, pts, color);
     case 'pyramid':
       return renderPyramid(ctx, ser, sIdx, pts, color);
+    case 'spider':
+      return renderSpider(ctx, ser, sIdx, pts, color);
     default:
       return renderBars(ctx, ser, sIdx, pts, color);
   }
