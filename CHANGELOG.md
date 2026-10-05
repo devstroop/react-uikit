@@ -16,7 +16,7 @@ Versioning follows the release flow in `docs/DEVELOPMENT_STRATEGY.md`
   `ToggleButton`, `Splitbutton` → `SplitButton`, `Textbox` → `TextBox`,
   `Textarea` → `TextArea`, `Listbox` → `ListBox`, `Dropdown` →
   `DropDown` (components, `*Props`/`*Option`/`*Size` types, folders,
-  files, barrel exports, preview titles). Slugs, CSS vars, and runtime
+  files, barrel exports, demos titles). Slugs, CSS vars, and runtime
   behavior unchanged. No backward-compat aliases (pre-release).
 - Codemod: global replace old → new identifiers listed above.
 
@@ -37,7 +37,7 @@ Versioning follows the release flow in `docs/DEVELOPMENT_STRATEGY.md`
   now defaults to the 24px token (was the 16px md tier).
 - Codemod: `name=` → `icon=` plus the ligature map above.
 
-### Fixed — accessibility (preview axe crawl)
+### Fixed — accessibility (demos axe crawl)
 
 - `PanelMenu`: triggers inside an expanded panel now carry
   `role="menuitem"` (nested groups included) — a visible `role="menu"`
@@ -106,7 +106,7 @@ Versioning follows the release flow in `docs/DEVELOPMENT_STRATEGY.md`
 - `Body` no longer lays its children out as a flex row. Each child was
   a content-sized flex item, so page content stopped wherever its
   fit-content width landed instead of using the space right of the
-  sidebar (measured gaps of 60–590px on 38 of 87 preview routes —
+  sidebar (measured gaps of 60–590px on 38 of 87 demos routes —
   `#/row` ended 586px early). Children now flow as normal blocks at
   full available width, matching Radzen's `.rz-body` (a plain block);
   `flex: 1`, `padded`/`bare`, scrolling and Layout slot sizing are
@@ -125,7 +125,7 @@ Versioning follows the release flow in `docs/DEVELOPMENT_STRATEGY.md`
   (dashed, transparent, tone colors, `currentColor` fallbacks) —
   never a numeric width. Pixel-preserving at the default root.
 - `--dx-outline-width` (1px) is **removed**. It was consumed only as a
-  mis-named focus width, and preview palette scopes redefine it to
+  mis-named focus width, and demos palette scopes redefine it to
   2px — so Button/Link/Card-family focus rings rendered 1px under the
   default theme and 2px under fluent/material3. Codemod:
 
@@ -148,11 +148,11 @@ Versioning follows the release flow in `docs/DEVELOPMENT_STRATEGY.md`
   `var(--dx-border-width-strong)` — same 2px, now retunable.
   Negative `outline-offset` (inset focus variants) and the transparent
   scrollbar gutter ring stay literal by design.
-- Preview demo style objects migrate too (`preview/pages/*`), so no
+- Demos demo style objects migrate too (`demos/pages/*`), so no
   inline `1px solid …` literals remain outside vendored palette
   stylesheets.
 - Enforcement: `lib/styles/tokens.test.ts` ratchets raw thickness px
-  across lib CSS and preview style objects (token definitions pin
+  across lib CSS and demos style objects (token definitions pin
   `--dx-border-width-strong: 2px`, the composites, and the
   `--dx-outline-width` ban); `e2e/focus-ring.spec.ts` asserts
   computed 2px rings / 1px borders / the 2px Tabs indicator on
@@ -280,7 +280,7 @@ applied until an explicit choice exists, and controlled mode never
 writes the document or storage, so the parent stays the single writer.
 Migrating a dark-mode switch: rename the import to `ThemeToggle` — and
 mind that both components are now pure UI in controlled mode (neither
-writes its document attribute while `value` is set). The preview
+writes its document attribute while `value` is set). The demos
 header now uses both components.
 
 ### Added — `ThemeToggle` appearance switch

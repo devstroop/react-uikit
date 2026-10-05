@@ -112,7 +112,7 @@ export function ThemeDemos({ slug }: { slug: string }) {
             id: 'themeswitcher-uncontrolled',
             title: 'Uncontrolled',
             description:
-              'Persistence off for the showcase; choosing a theme writes it to <html data-demo-theme> — the attribute prop overrides the default data-palette so the preview chrome stays the single owner of the real palettes.',
+              'Persistence off for the showcase; choosing a theme writes it to <html data-demo-theme> — the attribute prop overrides the default data-palette so the demos chrome stays the single owner of the real palettes.',
             content: <UncontrolledThemeSwitcherDemo />,
           },
           {

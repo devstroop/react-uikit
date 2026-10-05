@@ -18,7 +18,7 @@ import {
 import { DEMO_GROUPS } from '../nav';
 
 /**
- * Docs layout: the preview app's chrome (Blazor `MainLayout` parity).
+ * Docs layout: the demos app's chrome (Blazor `MainLayout` parity).
  * Owns only layout chrome — header, sidebar nav, body frame. Route
  * content arrives as children; routing, theme and dark-mode state stay
  * in the shell (`App.tsx`) and flow in as props, like Blazor's
@@ -43,7 +43,7 @@ export function DocsLayout({
     () => typeof window === 'undefined' || window.innerWidth >= 768
   );
 
-  // viewport crossing parity (htmx preview): desktop keeps the nav open,
+  // viewport crossing parity (htmx demos): desktop keeps the nav open,
   // crossing under 768px collapses it; crossing back reopens it
   useEffect(() => {
     if (typeof window === 'undefined' || !window.matchMedia) return;
@@ -53,7 +53,7 @@ export function DocsLayout({
     return () => mq.removeEventListener('change', sync);
   }, []);
 
-  // mobile: collapse the drawer after navigating (htmx preview parity)
+  // mobile: collapse the drawer after navigating (htmx demos parity)
   useEffect(() => {
     const onHash = () => {
       if (
@@ -112,12 +112,12 @@ export function DocsLayout({
         >
           <ThemeSwitcher
             size="sm"
-            id="preview-theme"
+            id="demos-theme"
             value={theme}
             onChange={onThemeChange}
           />
           <ThemeToggle
-            id="preview-dark"
+            id="demos-dark"
             size="sm"
             value={dark ? 'dark' : 'light'}
             onChange={(next) => onDarkChange(next === 'dark')}

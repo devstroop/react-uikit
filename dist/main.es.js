@@ -10361,28 +10361,28 @@ const YS = ({
     }
   );
 }, ft = {
-  "dx-timespanpicker": "_dx-timespanpicker_7t357_1",
-  "dx-timespanpicker-inline": "_dx-timespanpicker-inline_7t357_9",
-  "dx-timespanpicker-input": "_dx-timespanpicker-input_7t357_13",
-  "dx-timespanpicker-input-invalid": "_dx-timespanpicker-input-invalid_7t357_43",
-  "dx-timespanpicker-input--xs": "_dx-timespanpicker-input--xs_7t357_50",
-  "dx-timespanpicker-input--sm": "_dx-timespanpicker-input--sm_7t357_56",
-  "dx-timespanpicker-input--md": "_dx-timespanpicker-input--md_7t357_62",
-  "dx-timespanpicker-input--lg": "_dx-timespanpicker-input--lg_7t357_68",
-  "dx-timespanpicker-input--xl": "_dx-timespanpicker-input--xl_7t357_74",
-  "dx-timespanpicker-trigger": "_dx-timespanpicker-trigger_7t357_80",
-  "dx-timespanpicker-clear": "_dx-timespanpicker-clear_7t357_115",
-  "dx-timespanpicker-popup": "_dx-timespanpicker-popup_7t357_145",
-  "dx-timespanpicker-panel": "_dx-timespanpicker-panel_7t357_157",
-  "dx-timespanpicker-preview": "_dx-timespanpicker-preview_7t357_164",
-  "dx-timespanpicker-units": "_dx-timespanpicker-units_7t357_173",
-  "dx-timespanpicker-unit": "_dx-timespanpicker-unit_7t357_173",
-  "dx-timespanpicker-unit-label": "_dx-timespanpicker-unit-label_7t357_185",
-  "dx-timespanpicker-unit-control": "_dx-timespanpicker-unit-control_7t357_190",
-  "dx-timespanpicker-unit-input": "_dx-timespanpicker-unit-input_7t357_194",
-  "dx-timespanpicker-unit-buttons": "_dx-timespanpicker-unit-buttons_7t357_214",
-  "dx-timespanpicker-footer": "_dx-timespanpicker-footer_7t357_242",
-  "dx-timespanpicker-ok": "_dx-timespanpicker-ok_7t357_250"
+  "dx-timespanpicker": "_dx-timespanpicker_9lmd1_1",
+  "dx-timespanpicker-inline": "_dx-timespanpicker-inline_9lmd1_9",
+  "dx-timespanpicker-input": "_dx-timespanpicker-input_9lmd1_13",
+  "dx-timespanpicker-input-invalid": "_dx-timespanpicker-input-invalid_9lmd1_43",
+  "dx-timespanpicker-input--xs": "_dx-timespanpicker-input--xs_9lmd1_50",
+  "dx-timespanpicker-input--sm": "_dx-timespanpicker-input--sm_9lmd1_56",
+  "dx-timespanpicker-input--md": "_dx-timespanpicker-input--md_9lmd1_62",
+  "dx-timespanpicker-input--lg": "_dx-timespanpicker-input--lg_9lmd1_68",
+  "dx-timespanpicker-input--xl": "_dx-timespanpicker-input--xl_9lmd1_74",
+  "dx-timespanpicker-trigger": "_dx-timespanpicker-trigger_9lmd1_80",
+  "dx-timespanpicker-clear": "_dx-timespanpicker-clear_9lmd1_115",
+  "dx-timespanpicker-popup": "_dx-timespanpicker-popup_9lmd1_145",
+  "dx-timespanpicker-panel": "_dx-timespanpicker-panel_9lmd1_157",
+  "dx-timespanpicker-demos": "_dx-timespanpicker-demos_9lmd1_164",
+  "dx-timespanpicker-units": "_dx-timespanpicker-units_9lmd1_173",
+  "dx-timespanpicker-unit": "_dx-timespanpicker-unit_9lmd1_173",
+  "dx-timespanpicker-unit-label": "_dx-timespanpicker-unit-label_9lmd1_185",
+  "dx-timespanpicker-unit-control": "_dx-timespanpicker-unit-control_9lmd1_190",
+  "dx-timespanpicker-unit-input": "_dx-timespanpicker-unit-input_9lmd1_194",
+  "dx-timespanpicker-unit-buttons": "_dx-timespanpicker-unit-buttons_9lmd1_214",
+  "dx-timespanpicker-footer": "_dx-timespanpicker-footer_9lmd1_242",
+  "dx-timespanpicker-ok": "_dx-timespanpicker-ok_9lmd1_250"
 }, Pv = "-10675199.02:48:05.4775808", jv = "10675199.02:48:05.4775808", Pn = 86400, jn = 3600, vn = 60, Ho = {
   days: "Days",
   hours: "Hours",
@@ -10602,7 +10602,7 @@ const XS = at(
     ), X = P ? r ? ma(r, l) : "" : B, ee = P ? !!r : B.length > 0, ye = g || se, ce = be ?? ue ?? 0, Te = ha(ce), je = Bv[l], et = ["days", "hours", "minutes", "seconds"].filter(
       (ae) => _a[ae] >= je && (ae === "days" ? d : ae === "hours" ? u : ae === "minutes" ? f : y)
     ), ot = t === "xs" ? ft["dx-timespanpicker-input--xs"] : t === "sm" ? ft["dx-timespanpicker-input--sm"] : t === "lg" ? ft["dx-timespanpicker-input--lg"] : t === "xl" ? ft["dx-timespanpicker-input--xl"] : ft["dx-timespanpicker-input--md"], Zt = /* @__PURE__ */ I("div", { className: ft["dx-timespanpicker-panel"], children: [
-      /* @__PURE__ */ o("div", { className: ft["dx-timespanpicker-preview"], "aria-live": "polite", children: ts(ce, l) }),
+      /* @__PURE__ */ o("div", { className: ft["dx-timespanpicker-demos"], "aria-live": "polite", children: ts(ce, l) }),
       /* @__PURE__ */ o("div", { className: ft["dx-timespanpicker-units"], children: et.map((ae) => /* @__PURE__ */ I("label", { className: ft["dx-timespanpicker-unit"], children: [
         /* @__PURE__ */ o("span", { className: ft["dx-timespanpicker-unit-label"], children: Ho[ae] }),
         /* @__PURE__ */ I("span", { className: ft["dx-timespanpicker-unit-control"], children: [

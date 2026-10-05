@@ -451,7 +451,7 @@ export function ButtonDemos({ slug }: { slug: string }) {
                 items={[
                   { key: 'pdf', label: 'Export as PDF', icon: 'file' },
                   { key: 'csv', label: 'Export as CSV', icon: 'download' },
-                  { key: 'preview', label: 'Preview', icon: 'eye' },
+                  { key: 'demos', label: 'Demos', icon: 'eye' },
                   {
                     key: 'share',
                     label: 'Share',

@@ -1536,7 +1536,7 @@ function SignatureExportDemo() {
       {dataUrl ? (
         <img
           src={dataUrl}
-          alt="Exported signature preview"
+          alt="Exported signature demos"
           style={{ maxWidth: 320, border: 'var(--dx-border)' }}
         />
       ) : (
@@ -2657,7 +2657,7 @@ function UploadDemosPage() {
           id: 'upload-basic',
           title: 'Auto upload',
           description:
-            'auto=true posts each file immediately; the preview host has no /upload endpoint, so the log truthfully shows the error path (progress/complete land against a real server).',
+            'auto=true posts each file immediately; the demos host has no /upload endpoint, so the log truthfully shows the error path (progress/complete land against a real server).',
           content: <UploadBasicDemo />,
         },
         {

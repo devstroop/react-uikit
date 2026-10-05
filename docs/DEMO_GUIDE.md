@@ -1,6 +1,6 @@
 # Demo Guide — Radzen-grade component demos
 
-The preview app (`npm run dev` → `http://localhost:5199/#/<slug>`) is our
+The demos app (`npm run dev` → `http://localhost:5199/#/<slug>`) is our
 Radzen dogfooding surface: every component gets a curated, interactive demo
 page. This guide is the standard each page is written to and enforced by
 tests.
@@ -36,22 +36,22 @@ Every routed demo page (except `''` index) must satisfy all of:
 | Composition      | nested/combined with sibling components (forms, layout)  |
 | Keyboard         | `KeyboardTable` as the last section of interactive pages |
 
-Reference implementation: `preview/pages/buttons.tsx` (the Button page) —
+Reference implementation: `demos/pages/buttons.tsx` (the Button page) —
 7 sections covering Basic, Matrix, Sizes, States, Content, Composition,
 Keyboard.
 
 ## Shared demo building blocks
 
-- `preview/pages/demo-page.tsx` — `DemoPage` frame: H1 + subtitle,
+- `demos/pages/demo-page.tsx` — `DemoPage` frame: H1 + subtitle,
   per-section cards, sticky right TOC (≥2 sections).
-- `preview/pages/section.tsx` — `DemoSection` page wrapper (`aria-label`).
-- `preview/pages/shared/axes.ts` — `SEVERITIES` / `VARIANTS` / `SHADES`
+- `demos/pages/section.tsx` — `DemoSection` page wrapper (`aria-label`).
+- `demos/pages/shared/axes.ts` — `SEVERITIES` / `VARIANTS` / `SHADES`
   grids + `capitalize`; one source for every matrix demo.
-- `preview/pages/shared/EventLog.tsx` — Radzen `EventConsole` parity;
+- `demos/pages/shared/EventLog.tsx` — Radzen `EventConsole` parity;
   use under every bound demo (`emptyText` for component-specific copy).
-- `preview/pages/shared/KeyboardTable.tsx` — Radzen
+- `demos/pages/shared/KeyboardTable.tsx` — Radzen
   `KeyboardNavigationDataGrid` parity; canonical keyboard section.
-- `preview/nav.ts` / `preview/routes.ts` — slug registry; a new component
+- `demos/nav.ts` / `demos/routes.ts` — slug registry; a new component
   needs an entry in both.
 
 ## Enforcement

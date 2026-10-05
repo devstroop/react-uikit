@@ -131,7 +131,7 @@ a:focus {
   color: var(--dx-link-hover-color);
 }
 
-/* ---- preview shell ---- */
+/* ---- demos shell ---- */
 
 /* The document scrolls (Layout grid grows past 100vh), so Body must not
    open its own scrollport: position:sticky on the right TOC pins against
@@ -143,7 +143,7 @@ main.app-body {
 }
 
 :root {
-  /* sticky header height (default theme, px) — matches htmx preview's
+  /* sticky header height (default theme, px) — matches htmx demos's
      --app-header-h pattern; keep in sync if the header changes */
   --app-header-h: 73px;
 }

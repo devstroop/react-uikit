@@ -230,7 +230,7 @@ describe('foundation tokens', () => {
     };
     const libDir = join(here, '..');
     walk(libDir, 'lib', /\.css$/); // components + utilities + tokens
-    walk(join(here, '..', '..', 'preview'), 'preview', /\.tsx?$/);
+    walk(join(here, '..', '..', 'demos'), 'demos', /\.tsx?$/);
     expect(sources.length).toBeGreaterThan(100); // sanity: the walk found the tree
     for (const [where, raw] of sources) {
       let text = raw;
@@ -338,7 +338,7 @@ describe('foundation tokens', () => {
           dirname(fileURLToPath(import.meta.url)),
           '..',
           '..',
-          'preview',
+          'demos',
           'pages',
           'display.tsx'
         ),

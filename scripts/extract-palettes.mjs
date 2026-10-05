@@ -1,6 +1,6 @@
 /**
  * Palette extraction — one-shot transform of the vendored Radzen theme
- * stylesheets in preview/styles/, run manually whenever the vendored
+ * stylesheets in demos/styles/, run manually whenever the vendored
  * sources are replaced:
  *
  *   node scripts/extract-palettes.mjs
@@ -39,7 +39,7 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 
 /**
  * WCAG fixes applied to the vendored source at transform time. Radzen
- * ships a couple of values that axe flags once the preview renders real
+ * ships a couple of values that axe flags once the demos renders real
  * content (measured on the docs index page):
  *
  * - fluent light `--dx-secondary: #8a8886` + white badge text = 3.53:1.
@@ -53,29 +53,29 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
  * Each pattern must match exactly once — the run aborts otherwise.
  */
 const VALUE_FIXES = {
-  'preview/styles/fluent-base.css': {
+  'demos/styles/fluent-base.css': {
     '--dx-secondary': '#6b6966',
     '--dx-secondary-dark': '#5b5a58',
   },
-  'preview/styles/material3-base.css': {
+  'demos/styles/material3-base.css': {
     '--dx-primary': '#1565c0',
   },
 };
 
 const FILES = [
-  { path: 'preview/styles/fluent-base.css', palette: 'fluent', dark: false },
+  { path: 'demos/styles/fluent-base.css', palette: 'fluent', dark: false },
   {
-    path: 'preview/styles/fluent-dark-base.css',
+    path: 'demos/styles/fluent-dark-base.css',
     palette: 'fluent',
     dark: true,
   },
   {
-    path: 'preview/styles/material3-base.css',
+    path: 'demos/styles/material3-base.css',
     palette: 'material-3',
     dark: false,
   },
   {
-    path: 'preview/styles/material3-dark-base.css',
+    path: 'demos/styles/material3-dark-base.css',
     palette: 'material-3',
     dark: true,
   },

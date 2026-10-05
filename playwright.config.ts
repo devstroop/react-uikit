@@ -12,7 +12,7 @@ export default defineConfig({
   },
   webServer: {
     command:
-      'npm run preview:build && npx vite preview preview --host 127.0.0.1 --port 4199 --strictPort',
+      'npm run demos:build && npx vite preview demos --host 127.0.0.1 --port 4199 --strictPort',
     url: 'http://127.0.0.1:4199',
     reuseExistingServer: !process.env.CI,
     timeout: 60_000,

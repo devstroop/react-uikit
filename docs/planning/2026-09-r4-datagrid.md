@@ -39,7 +39,7 @@ hits) is merged to `develop` and green.
   covering nesting/collapse, aggregates (incl. filtered-set semantics), CSV
   escaping, range reporting (mount/page/sort/filter + no client filtering),
   and virtual window/scroll/aria.
-- Demo: DataGrid preview page gains aggregates+grouping+export, 500-row
+- Demo: DataGrid demos page gains aggregates+grouping+export, 500-row
   virtualized, and server-mode sections (mock server reuses `applyGridState`).
 
 ## Next

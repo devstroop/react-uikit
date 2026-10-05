@@ -18,7 +18,7 @@
   },
   "include": [
     "lib",
-    "preview",
+    "demos",
     "e2e",
     "playwright.config.ts",
     "vitest.setup.ts",

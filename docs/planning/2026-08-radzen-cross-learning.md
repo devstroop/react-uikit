@@ -40,13 +40,13 @@ arbiter — component-parity learnings drive the fix chain.
 | Empty-state | none (DataGrid EmptyTemplate only)                                                                                                                                                      | icon + title + description                                                                         | Ahead ✓                                                                                  |
 | Card        | `Variant` (Filled/Outlined/Text) + width utilities                                                                                                                                      | elevated/outlined/interactive + header/footer                                                      | **Delta (low):** text/flat variant                                                       |
 | Icon        | Material icon font by name + `IconColor` (theme palette)                                                                                                                                | 40-glyph inline SVG set, size/strokeWidth                                                          | **Delta (low):** color prop, bigger set — out of scope                                   |
-| Theming     | RadzenTheme (presets, custom theme), `--rz-*` vars, **RadzenAppearanceToggle** (light/dark UI control)                                                                                  | `--dt-*` tokens per theme, `[data-theme="dark"]`, switcher only in preview                         | **Delta (med-high):** ship first-class ThemeSwitcher/appearance-toggle                   |
+| Theming     | RadzenTheme (presets, custom theme), `--rz-*` vars, **RadzenAppearanceToggle** (light/dark UI control)                                                                                  | `--dt-*` tokens per theme, `[data-theme="dark"]`, switcher only in demos                           | **Delta (med-high):** ship first-class ThemeSwitcher/appearance-toggle                   |
 
 ---
 
 ## Chain of fixes (prioritized backlog)
 
-Executed one batch at a time, each validated: specs → parity → htmx build + vendor copy → react build + tests → preview:build → audit-colors exit 0 → visual-verify.
+Executed one batch at a time, each validated: specs → parity → htmx build + vendor copy → react build + tests → demos:build → audit-colors exit 0 → visual-verify.
 
 ### P0 — small, high value
 
@@ -59,7 +59,7 @@ Executed one batch at a time, each validated: specs → parity → htmx build + 
 4. **Toast severity + position** — tone variants (icon + tint like Alert) and viewport positions (Radzen Notification parity).
 5. **Button extensions** — sizes `lg`/`xs`, icon-only circular (aria-label), `success`/`danger`/`info` styles.
 6. **Progress circular** — `circular` variant with `size` tiers (Radzen ProgressBarCircular parity).
-7. **ThemeSwitcher utility** — react component + htmx behavior from preview switcher logic (RadzenAppearanceToggle parity).
+7. **ThemeSwitcher utility** — react component + htmx behavior from demos switcher logic (RadzenAppearanceToggle parity).
 
 ### P2 — low priority / roadmap
 

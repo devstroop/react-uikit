@@ -42,7 +42,7 @@ const PALETTE_LOADERS: Record<string, (() => Promise<unknown>)[]> = {
 };
 
 /**
- * Preview shell: layout-agnostic app root (Blazor `Routes.razor` parity).
+ * Demos shell: layout-agnostic app root (Blazor `Routes.razor` parity).
  * Owns routing state (hash slug), global theme/dark state, and layout
  * selection. Every slug — including unknown ones — renders inside
  * `DocsLayout`; an unknown slug shows the styled not-found page in the
@@ -83,12 +83,12 @@ export function App() {
 
   useEffect(() => {
     document.title = slug
-      ? `${routeTitle(slug)} · React UIKit Preview`
-      : 'React UIKit Preview';
+      ? `${routeTitle(slug)} · React UIKit Demos`
+      : 'React UIKit Demos';
   }, [slug]);
 
   // section deep link: #/slug/sectionId scrolls to the card after render
-  // (mirrors the htmx preview's targetId scroll)
+  // (mirrors the htmx demos's targetId scroll)
   useEffect(() => {
     if (!anchor) return;
     const el = document.getElementById(anchor);

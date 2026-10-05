@@ -102,7 +102,7 @@ borders — override `--dx-border` / `--dx-border-strong` alongside it,
 or set the `border-color` longhand on the closer scope.
 
 `lib/styles/tokens.test.ts` ratchets raw thickness px across lib CSS
-and preview style objects; `e2e/focus-ring.spec.ts` asserts the
+and demos style objects; `e2e/focus-ring.spec.ts` asserts the
 computed 2px ring / 1px border values.
 
 ## Specificity note (verified live)

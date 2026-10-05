@@ -8,7 +8,7 @@ import {
 import { Select, type SelectSize } from '../Select/Select';
 import styles from './ThemeSwitcher.module.css';
 
-/** Default theme names offered by the picker (the preview palettes). */
+/** Default theme names offered by the picker (the demos palettes). */
 export const DEFAULT_THEMES = [
   'default',
   'fluent',
@@ -32,7 +32,7 @@ export interface ThemeSwitcherProps {
   storageKey?: string | null;
   /**
    * Document attribute written in uncontrolled mode. Defaults to
-   * `"data-palette"` (the preview's palette hook).
+   * `"data-palette"` (the demos's palette hook).
    */
   attribute?: string;
   onChange?: (theme: string) => void;
@@ -95,7 +95,7 @@ export function ThemeSwitcher({
   const selected = applicable ?? '';
 
   // Uncontrolled mode owns `<html data-palette>`; controlled mode is pure
-  // UI so the parent (e.g. the preview's palette loader) stays the single
+  // UI so the parent (e.g. the demos's palette loader) stays the single
   // writer. Nothing is applied until an explicit choice exists, so a host
   // whose default theme needs no attribute is never overridden. The applied
   // value is sticky across unmount (the picked theme must survive closing

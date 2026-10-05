@@ -69,7 +69,7 @@ export function IndexPage() {
   return (
     <>
       <Text textStyle="h1" tagName="h1" className="dx-mb-4">
-        react-uikit preview
+        react-uikit demos
       </Text>
       <Text textStyle="subtitle1" tagName="p" className="dx-text-muted dx-pb-8">
         All {COMPONENT_COUNT} components, live and interactive — browse the
@@ -95,7 +95,7 @@ export function IndexPage() {
         <Text textStyle="h2" tagName="h2">
           Tooltip
         </Text>
-        <Tooltip content="Preview tooltip">
+        <Tooltip content="Demos tooltip">
           <span>Hover for tooltip</span>
         </Tooltip>
       </section>
@@ -122,7 +122,7 @@ export function IndexPage() {
       <Dialog
         open={dialogOpen}
         onClose={() => setDialogOpen(false)}
-        title="Preview dialog"
+        title="Demos dialog"
         description="Verifies focus, Esc, and axe cleanliness."
         footer={
           <Button variant="text" onClick={() => setDialogOpen(false)}>
