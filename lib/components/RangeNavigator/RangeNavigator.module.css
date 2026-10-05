@@ -1,0 +1,51 @@
+/* range-navigator: zoom/pan window over a value domain. Geometry is
+   inline (percent positioning); this file owns chrome + handles. */
+.navigator {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dx-space-1);
+}
+
+.track {
+  position: relative;
+  height: 44px;
+  border: var(--dx-border);
+  border-radius: var(--dx-radius);
+  background: var(--dx-color-surface);
+  touch-action: none;
+  cursor: ew-resize;
+}
+
+.spark {
+  position: absolute;
+  inset: 4px;
+  width: calc(100% - 8px);
+  height: calc(100% - 8px);
+  color: var(--dx-text-muted-color);
+  pointer-events: none;
+}
+
+.window {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-inline: var(--dx-border-width) solid var(--dx-primary-color);
+  background: color-mix(in srgb, var(--dx-primary-color) 12%, transparent);
+  pointer-events: none;
+}
+
+.handle {
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  width: 12px;
+  margin-inline-start: -6px;
+  border-radius: var(--dx-radius);
+  background: var(--dx-primary-color);
+  cursor: ew-resize;
+}
+
+.handle:focus-visible {
+  outline: var(--dx-focus-ring-width) solid var(--dx-focus-color);
+  outline-offset: var(--dx-focus-ring-offset);
+}
