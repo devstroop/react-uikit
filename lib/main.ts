@@ -216,8 +216,8 @@ export { Login } from './components/Login/Login';
 export type { LoginProps, LoginCredentials } from './components/Login/Login';
 export { Markdown } from './components/Markdown/Markdown';
 export type { MarkdownProps } from './components/Markdown/Markdown';
-export { renderMarkdown } from './components/Markdown/markdown';
-export type { MarkdownRenderOptions } from './components/Markdown/markdown';
+export { renderMarkdown } from './components/Markdown/markdown-renderer';
+export type { MarkdownRenderOptions } from './components/Markdown/markdown-renderer';
 export { HtmlEditor } from './components/HtmlEditor/HtmlEditor';
 export type {
   HtmlEditorProps,
