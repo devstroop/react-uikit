@@ -21,3 +21,9 @@ jobs:
       - run: npm run typecheck
       - run: npm run test
       - run: npm run build
+      - name: dist/ must match lib/ (rebuild + commit if this fails)
+        run: |
+          if ! git diff --exit-code dist/; then
+            echo "::error::dist/ is stale. Run 'npm run build' and commit the result."
+            exit 1
+          fi
