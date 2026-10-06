@@ -3,7 +3,7 @@ export interface PivotField {
     title?: string;
 }
 export interface PivotAggregate extends PivotField {
-    aggregate: 'Sum' | 'Average' | 'Count' | 'Min' | 'Max';
+    aggregate: 'Sum' | 'Average' | 'Count' | 'Min' | 'Max' | 'First' | 'Last';
 }
 export interface PivotProps {
     data: Record<string, unknown>[];

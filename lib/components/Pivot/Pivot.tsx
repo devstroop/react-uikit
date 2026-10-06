@@ -6,7 +6,7 @@ export interface PivotField {
 }
 
 export interface PivotAggregate extends PivotField {
-  aggregate: 'Sum' | 'Average' | 'Count' | 'Min' | 'Max';
+  aggregate: 'Sum' | 'Average' | 'Count' | 'Min' | 'Max' | 'First' | 'Last';
 }
 
 export interface PivotProps {
@@ -29,6 +29,8 @@ const AGG: Record<PivotAggregate['aggregate'], (vals: number[]) => number> = {
   Count: (v) => v.length,
   Min: (v) => Math.min(...v),
   Max: (v) => Math.max(...v),
+  First: (v) => v[0] ?? 0,
+  Last: (v) => v[v.length - 1] ?? 0,
 };
 
 function fmt(n: number): string {
@@ -68,8 +70,18 @@ export function Pivot({
     });
   };
 
-  const keyOf = (row: Record<string, unknown>, fields: PivotField[]): string =>
-    fields.map((f) => String(row[f.property])).join('');
+  const keyOf = (
+    row: Record<string, unknown>,
+    fields: PivotField[]
+  ): string => {
+    if (fields.length === 0) return '';
+    if (fields.length === 1) return String(row[fields[0]!.property]);
+    return fields
+      .map((f) =>
+        String(row[f.property]).replace(/\\/g, '\\\\').split('').join('\\x01')
+      )
+      .join('');
+  };
 
   const rowKeys = [
     ...new Set(rows.length ? data.map((r) => keyOf(r, rows)) : ['']),
@@ -78,21 +90,35 @@ export function Pivot({
     ...new Set(cols.length ? data.map((r) => keyOf(r, cols)) : ['']),
   ].sort();
 
-  const cellValue = (
-    rowKey: string,
-    colKey: string,
+  const matched = (rowKey?: string, colKey?: string) =>
+    data.filter(
+      (r) =>
+        (rowKey == null || keyOf(r, rows) === rowKey) &&
+        (colKey == null || keyOf(r, cols) === colKey)
+    );
+
+  const aggregate = (
+    items: Record<string, unknown>[],
     agg: PivotAggregate
   ): number => {
-    const matched = data.filter(
-      (r) => keyOf(r, rows) === rowKey && keyOf(r, cols) === colKey
-    );
-    const vals = matched
+    if (agg.aggregate === 'Count') return items.length;
+    const vals = items
       .map((r) => Number(r[agg.property]))
       .filter((n) => !Number.isNaN(n));
-    if (!vals.length && agg.aggregate !== 'Count') return 0;
-    return AGG[agg.aggregate](
-      agg.aggregate === 'Count' ? matched.map(() => 1) : vals
-    );
+    if (!vals.length) return 0;
+    return AGG[agg.aggregate](vals);
+  };
+
+  // One aggregate renders bare (stable output); multiple aggregates are
+  // labelled so cell, row-total, and column-total values stay readable.
+  const fmtAggs = (items: Record<string, unknown>[]): string => {
+    const labelled = aggs.length > 1;
+    return aggs
+      .map((a) => {
+        const text = fmt(aggregate(items, a));
+        return labelled ? `${text} (${a.aggregate})` : text;
+      })
+      .join(', ');
   };
 
   const chip = (
@@ -143,34 +169,13 @@ export function Pivot({
               {colKeys.map((ck) => (
                 <td
                   key={ck}
-                  title={fmt(
-                    cellValue(
-                      rk,
-                      ck,
-                      aggs[0] ?? { property: '', aggregate: 'Count' }
-                    )
-                  )}
+                  title={aggs.length ? fmtAggs(matched(rk, ck)) : undefined}
                 >
-                  {aggs.length ? fmt(cellValue(rk, ck, aggs[0]!)) : ''}
+                  {aggs.length ? fmtAggs(matched(rk, ck)) : ''}
                 </td>
               ))}
               <td className={styles.total}>
-                {aggs.length
-                  ? fmt(
-                      AGG[aggs[0]!.aggregate](
-                        colKeys
-                          .flatMap((ck) =>
-                            data
-                              .filter(
-                                (r) =>
-                                  keyOf(r, rows) === rk && keyOf(r, cols) === ck
-                              )
-                              .map((r) => Number(r[aggs[0]!.property]))
-                          )
-                          .filter((n) => !Number.isNaN(n))
-                      )
-                    )
-                  : ''}
+                {aggs.length ? fmtAggs(matched(rk)) : ''}
               </td>
             </tr>
           ))}
@@ -178,29 +183,10 @@ export function Pivot({
             <th scope="row">Total</th>
             {colKeys.map((ck) => (
               <td key={ck}>
-                {aggs.length
-                  ? fmt(
-                      AGG[aggs[0]!.aggregate](
-                        data
-                          .filter((r) => keyOf(r, cols) === ck)
-                          .map((r) => Number(r[aggs[0]!.property]))
-                          .filter((n) => !Number.isNaN(n))
-                      )
-                    )
-                  : ''}
+                {aggs.length ? fmtAggs(matched(undefined, ck)) : ''}
               </td>
             ))}
-            <td>
-              {aggs.length
-                ? fmt(
-                    AGG[aggs[0]!.aggregate](
-                      data
-                        .map((r) => Number(r[aggs[0]!.property]))
-                        .filter((n) => !Number.isNaN(n))
-                    )
-                  )
-                : ''}
-            </td>
+            <td>{aggs.length ? fmtAggs(data) : ''}</td>
           </tr>
         </tbody>
       </table>

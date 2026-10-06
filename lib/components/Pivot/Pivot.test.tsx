@@ -75,4 +75,77 @@ describe('Pivot', () => {
     );
     expect(screen.getAllByText('4').length).toBeGreaterThan(0);
   });
+  it('renders every aggregate in cells and totals', () => {
+    render(
+      <Pivot
+        data={data}
+        rowFields={[{ property: 'region' }]}
+        aggregateFields={[
+          { property: 'amount', aggregate: 'Sum' },
+          { property: 'amount', aggregate: 'Count' },
+        ]}
+      />
+    );
+    // East = 10+20, West = 30+40, grand = 100; count = rows per slice
+    expect(screen.getAllByText('30 (Sum), 2 (Count)').length).toBeGreaterThan(
+      0
+    );
+    expect(screen.getAllByText('70 (Sum), 2 (Count)').length).toBeGreaterThan(
+      0
+    );
+    expect(screen.getAllByText('100 (Sum), 4 (Count)').length).toBeGreaterThan(
+      0
+    );
+  });
+
+  it('supports First and Last aggregates', () => {
+    render(
+      <Pivot
+        data={data}
+        rowFields={[{ property: 'region' }]}
+        aggregateFields={[
+          { property: 'amount', aggregate: 'First' },
+          { property: 'amount', aggregate: 'Last' },
+        ]}
+      />
+    );
+    expect(screen.getAllByText('10 (First), 20 (Last)').length).toBeGreaterThan(
+      0
+    );
+    expect(screen.getAllByText('10 (First), 40 (Last)').length).toBeGreaterThan(
+      0
+    );
+  });
+
+  it('keeps multi-field keys distinct for values that collide on plain join', () => {
+    render(
+      <Pivot
+        data={[
+          { a: 'x', b: 'yz', amount: 1 },
+          { a: 'xy', b: 'z', amount: 2 },
+        ]}
+        rowFields={[{ property: 'a' }, { property: 'b' }]}
+        aggregateFields={[{ property: 'amount', aggregate: 'Sum' }]}
+      />
+    );
+    // header + 2 data rows + total = 4; a plain join merges both into one
+    expect(screen.getAllByRole('row')).toHaveLength(4);
+    expect(screen.getAllByText('1').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('2').length).toBeGreaterThan(0);
+  });
+
+  it('escapes the key separator inside multi-field values', () => {
+    render(
+      <Pivot
+        data={[
+          { a: 'x', b: 'y\u0001z', amount: 5 },
+          { a: 'x\u0001y', b: 'z', amount: 6 },
+        ]}
+        rowFields={[{ property: 'a' }, { property: 'b' }]}
+        aggregateFields={[{ property: 'amount', aggregate: 'Sum' }]}
+      />
+    );
+    // unescaped, both rows join to the same x-US-y-US-z key
+    expect(screen.getAllByRole('row')).toHaveLength(4);
+  });
 });
