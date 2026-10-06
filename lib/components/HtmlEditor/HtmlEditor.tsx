@@ -664,6 +664,7 @@ export const HtmlEditor = forwardRef<HtmlEditorHandle, HtmlEditorProps>(
             contentEditable={!readOnly && !disabled}
             suppressContentEditableWarning
             role="textbox"
+            tabIndex={0}
             aria-label={ariaLabel}
             aria-multiline="true"
             aria-readonly={readOnly || undefined}

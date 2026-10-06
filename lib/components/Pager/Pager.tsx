@@ -194,6 +194,7 @@ export function Pager({
             : formatSummary(pagingSummaryFormat, current, pageCount, count)}
         </span>
       )}
+      {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- key handling is delegated to the pager buttons inside this group */}
       <div
         className={styles.controls}
         role="group"

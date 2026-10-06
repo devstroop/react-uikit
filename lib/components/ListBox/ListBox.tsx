@@ -141,10 +141,12 @@ export function ListBox({
         const selected = selectedValues.includes(option.value);
         const active = index === activeIndex;
         return (
+          // eslint-disable-next-line jsx-a11y/click-events-have-key-events -- Enter/Space handled by the listbox container's keydown handler
           <div
             key={option.value}
             id={`${baseId}-option-${index}`}
             role="option"
+            tabIndex={-1}
             aria-selected={selected}
             aria-disabled={option.disabled || undefined}
             className={[

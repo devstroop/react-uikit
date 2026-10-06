@@ -137,7 +137,9 @@ export function Tree({
   allowCheckChildren = true,
   className,
 }: TreeProps) {
-  const effectiveData = data ?? Data ?? [];
+  // Memoized: `?? []` would mint a new array each render and churn every
+  // memo/callback downstream that depends on effectiveData.
+  const effectiveData = useMemo(() => data ?? Data ?? [], [data, Data]);
   const childrenGetter = children ?? Children;
   const effectiveTextProp = textProperty ?? TextProperty ?? 'text';
   const effectiveKeyProp = keyProperty ?? KeyProperty ?? 'id';
@@ -517,8 +519,11 @@ export function Tree({
   const [internalCheckedKeys, setInternalCheckedKeys] = useState<Set<string>>(
     () => new Set(defaultCheckedKeys ?? [])
   );
-  const checkedSet: Set<string> =
-    checkedKeys !== undefined ? new Set(checkedKeys) : internalCheckedKeys;
+  const checkedSet: Set<string> = useMemo(
+    () =>
+      checkedKeys !== undefined ? new Set(checkedKeys) : internalCheckedKeys,
+    [checkedKeys, internalCheckedKeys]
+  );
 
   // Cascade contract: toggleCheck never adds/removes disabled descendants,
   // so derivation ignores them too — a parent with an unchecked disabled
@@ -645,7 +650,6 @@ export function Tree({
     loadedChildren,
     expandedKeys,
     effectiveLoadChildData,
-    loadingKeys,
   ]);
 
   // Focus management
@@ -656,7 +660,12 @@ export function Tree({
   const typeaheadTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const treeRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  const [prevFocus, setPrevFocus] = useState({
+    key: focusedKey,
+    nodes: visibleNodes,
+  });
+  if (prevFocus.key !== focusedKey || prevFocus.nodes !== visibleNodes) {
+    setPrevFocus({ key: focusedKey, nodes: visibleNodes });
     if (!focusedKey && visibleNodes.length > 0) {
       const first = visibleNodes[0];
       if (first) setFocusedKey(first.key);
@@ -665,7 +674,7 @@ export function Tree({
       if (first) setFocusedKey(first.key);
       else setFocusedKey(null);
     }
-  }, [visibleNodes, focusedKey]);
+  }
 
   useEffect(() => {
     if (focusedKey) {
@@ -835,6 +844,7 @@ export function Tree({
       getParentKey,
       allowCheckBoxes,
       toggleCheck,
+      findItemByKey,
     ]
   );
 
@@ -884,6 +894,7 @@ export function Tree({
 
           return (
             <li key={key} role="none" className={styles.itemWrapper}>
+              {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events -- Enter/Space handled by the tree container's keydown handler */}
               <div
                 role="treeitem"
                 data-key={key}

@@ -25,7 +25,6 @@ export function Timeline({
       className={[styles.root, reverse ? styles.reverse : '', className]
         .filter(Boolean)
         .join(' ')}
-      role="list"
       aria-label={ariaLabel}
     >
       {ordered.map((item, i) => (

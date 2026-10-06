@@ -23,21 +23,26 @@ export function useFormField<T = string>(
   const [dirty, setDirty] = useState(false);
 
   const validateRef = useRef<() => string[]>(() => []);
-  validateRef.current = () => runValidators(options?.validate ?? [], value);
+  useEffect(() => {
+    validateRef.current = () => runValidators(options?.validate ?? [], value);
+  });
 
   useEffect(() => {
     registerField({ name, validate: () => validateRef.current() });
     return () => unregisterField(name);
   }, [name, registerField, unregisterField]);
 
-  useEffect(() => {
+  const [prevSubmitCount, setPrevSubmitCount] = useState(submitCount);
+  if (submitCount !== prevSubmitCount) {
+    setPrevSubmitCount(submitCount);
     if (submitCount > 0) {
       setHasSubmitted(true);
       setDirty(false);
     }
-  }, [submitCount]);
+  }
 
-  const errors = hasSubmitted && !dirty ? validateRef.current() : [];
+  const errors =
+    hasSubmitted && !dirty ? runValidators(options?.validate ?? [], value) : [];
 
   const setValueAndDirty = (next: T) => {
     setValue(next);

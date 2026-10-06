@@ -153,7 +153,8 @@ export const SignaturePad = forwardRef<SignaturePadHandle, SignaturePadProps>(
           ref={canvasRef}
           role="img"
           aria-label={ariaLabel}
-          aria-disabled={disabled || undefined}
+          // aria-disabled is not supported on role=img; handlers no-op and
+          // styles.disabled plus the disabled Clear button carry the state.
           style={{
             width: width ? `${width}px` : undefined,
             height: `${height}px`,

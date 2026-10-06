@@ -83,6 +83,7 @@ export const Rating = ({
   return (
     <div
       role="radiogroup"
+      tabIndex={-1}
       aria-label={ariaLabel}
       aria-readonly={readOnly || undefined}
       className={[

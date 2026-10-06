@@ -212,8 +212,9 @@ export function Dialog({
 
   return (
     // Backdrop dismissal is mouse-only by design; keyboard users close
-    // via ESC (cancel path above) or the X button.
-    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
+    // via ESC (cancel path above) or the X button. The dialog's own
+    // onKeyDown={keepFocusInside} satisfies the keyboard-listener rules.
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- backdrop click closes the dialog; ESC and the close button are the keyboard paths
     <dialog
       ref={ref}
       className={[

@@ -790,6 +790,7 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(
         <div
           ref={gridRef}
           role="grid"
+          tabIndex={-1}
           className={styles['dx-datepicker-grid']}
           onKeyDown={handleGridKeyDown}
         >

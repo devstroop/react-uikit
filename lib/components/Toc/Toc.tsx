@@ -40,7 +40,11 @@ export function Toc({
     () => items[0]?.selector ?? null
   );
   const activeSelectorRef = useRef(activeSelector);
-  activeSelectorRef.current = activeSelector;
+  // Mirrored via effect: the ref is read from scroll/observer callbacks
+  // and selection handlers, all of which fire after effects flush.
+  useEffect(() => {
+    activeSelectorRef.current = activeSelector;
+  });
 
   const handleSelect = useCallback(
     (item: TocItem, el: Element | null) => {

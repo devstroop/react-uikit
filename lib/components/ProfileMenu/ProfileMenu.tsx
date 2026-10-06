@@ -245,6 +245,7 @@ export function ProfileMenu({
               const disabled = !!item.disabled;
               const isActive = idx === activeIndex;
               return (
+                // eslint-disable-next-line jsx-a11y/click-events-have-key-events -- Enter/Space handled by handleMenuKeyDown on the menu container
                 <div
                   key={`${item.text}-${idx}`}
                   id={`${baseId}-item-${idx}`}

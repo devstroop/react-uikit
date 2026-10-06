@@ -178,6 +178,7 @@ function PanelMenuItemNode({
   // (except the ancestor chain) when the menu is not `multiple`.
   useEffect(() => {
     if (ctx.collapseSignal > 0 && !ctx.collapseSkipRef.current.has(itemKey)) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- signal checked against parent-owned skip ref; must run post-commit (render-adjust would read a ref during render)
       setOpen(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps -- signal trigger only
@@ -500,6 +501,7 @@ export function PanelMenu({
   );
 
   return (
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- arrow-key navigation is delegated from child links to this nav's keydown handler
     <nav
       aria-label={ariaLabel}
       className={[

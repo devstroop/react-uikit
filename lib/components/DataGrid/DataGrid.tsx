@@ -577,6 +577,7 @@ export function DataGrid<TItem = unknown>({
         showExportButton) && (
         <div className={styles.toolbar}>
           {allowGrouping && (
+            // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- drop target for drag-to-group (pointer affordance)
             <div
               className={[
                 styles.groupPanel,
@@ -774,6 +775,7 @@ export function DataGrid<TItem = unknown>({
                       (c.title ?? c.property)
                     )}
                     {allowColumnResize && (
+                      // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- pointer-drag column resize; keyboard column resize is not implemented
                       <span
                         className={styles.resizeHandle}
                         data-dx-grid-resize

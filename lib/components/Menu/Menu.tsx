@@ -120,8 +120,15 @@ function useDisclosure(
     },
     [controlled, onChange]
   );
+  // External close broadcast: internal state adjusts during render (pure);
+  // onChange fires post-commit from the effect below.
+  const [prevCloseSignal, setPrevCloseSignal] = useState(closeSignal);
+  if (closeSignal !== prevCloseSignal) {
+    setPrevCloseSignal(closeSignal);
+    if (closeSignal > 0 && !controlled) setInternal(false);
+  }
   useEffect(() => {
-    if (closeSignal > 0) set(false);
+    if (closeSignal > 0) onChange?.(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps -- closeSignal only trigger
   }, [closeSignal]);
   return [open, set];
@@ -260,9 +267,11 @@ function MenuItemNode({
 
   const submenuId = `${ctx.baseId}-submenu-${itemKey}`;
   const [nestedOpenKey, setNestedOpenKey] = useState<string | null>(null);
-  useEffect(() => {
+  const [prevNestedClose, setPrevNestedClose] = useState(ctx.closeSignal);
+  if (ctx.closeSignal !== prevNestedClose) {
+    setPrevNestedClose(ctx.closeSignal);
     if (ctx.closeSignal > 0) setNestedOpenKey(null);
-  }, [ctx.closeSignal]);
+  }
   const nestedCtx = useMemo<MenuContextValue>(
     () => ({
       baseId: ctx.baseId,
@@ -337,6 +346,7 @@ function MenuItemNode({
           <div
             id={submenuId}
             role="menu"
+            tabIndex={-1}
             aria-label={text}
             className={[
               styles.submenu,
@@ -668,7 +678,6 @@ export function Menu({
           <Icon icon="menu" size={20} />
         </button>
       ) : null}
-      {/* eslint-disable-next-line jsx-a11y/interactive-supports-focus */}
       <div
         ref={menubarRef}
         role={isContextMenu ? 'menu' : 'menubar'}

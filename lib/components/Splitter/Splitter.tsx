@@ -1,6 +1,5 @@
 import {
   useCallback,
-  useEffect,
   useRef,
   useState,
   type PointerEvent as ReactPointerEvent,
@@ -98,10 +97,12 @@ export function Splitter({
   // remember previous sizes for expand
   const prevSizesRef = useRef<number[]>(sizes);
 
-  useEffect(() => {
-    // sync if collapsed prop changes externally
+  // sync if collapsed prop changes externally (render-adjust pattern)
+  const [prevPanes, setPrevPanes] = useState(panes);
+  if (panes !== prevPanes) {
+    setPrevPanes(panes);
     setCollapsed(panes.map((p) => !!p.collapsed));
-  }, [panes]);
+  }
 
   const getMins = useCallback(
     () => panes.map((p) => parsePercent(p.min, 0)),
@@ -177,7 +178,7 @@ export function Splitter({
         });
       }
     },
-    [collapsed, sizes, panes.length, emitCollapse]
+    [collapsed, sizes, panes, emitCollapse]
   );
 
   // dragging state
@@ -468,6 +469,7 @@ export function Splitter({
               </button>
             ) : null}
             {hasHandleAfter ? (
+              // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- focusable separator with arrow-key resize (handleSeparatorKeyDown); pointer drag is the mouse equivalent
               <div
                 role="separator"
                 aria-orientation={orient}

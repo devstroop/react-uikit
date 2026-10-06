@@ -30,6 +30,7 @@ const MENU_EMPTY_LOG = 'Click a menu item to log events.';
 function ContextClickArea({ onLog }: { onLog: (msg: string) => void }) {
   const menu = useContextMenu();
   return (
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- demo surface for right-click; the menu opens from the browser contextmenu event
     <div
       onContextMenu={(e) =>
         menu.open(e, {

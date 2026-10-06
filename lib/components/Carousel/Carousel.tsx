@@ -136,11 +136,13 @@ export function Carousel({
   if (items.length === 0) return null;
 
   return (
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- hover pause/play plus arrow-key handlers; this region is the carousel's keyboard control surface
     <div
       ref={containerRef}
       role="region"
       aria-roledescription="carousel"
       aria-label={ariaLabel}
+      // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- focusable region so keyboard users can reach the carousel controls (WAI-ARIA carousel pattern)
       tabIndex={0}
       className={[styles.root, className].filter(Boolean).join(' ')}
       onKeyDown={handleKeyDown}

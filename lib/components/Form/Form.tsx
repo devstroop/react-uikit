@@ -2,6 +2,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -56,7 +57,11 @@ export function Form({
   const [fields, setFields] = useState<Record<string, FormFieldDescriptor>>({});
   const [submitCount, setSubmitCount] = useState(0);
   const fieldsRef = useRef(fields);
-  fieldsRef.current = fields;
+  // Mirrored via effect: fieldsRef is only read from the submit handler,
+  // which cannot run before effects flush after commit.
+  useEffect(() => {
+    fieldsRef.current = fields;
+  });
 
   const registerField = useCallback((field: FormFieldDescriptor) => {
     setFields((prev) =>

@@ -338,6 +338,7 @@ export function ToastProvider({
     <ToastContext.Provider value={value}>
       {children}
       {positions.map((pos) => (
+        // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- hover listeners pause auto-dismiss; the live region itself is not interactive
         <div
           key={pos}
           className={[styles.viewport, styles[positionClass[pos]], className]
@@ -351,6 +352,7 @@ export function ToastProvider({
           {toasts
             .filter((t) => t.position === pos)
             .map((t) => (
+              // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- click-to-close is a pointer affordance; the dismiss button provides the keyboard path
               <div
                 key={t.id}
                 role={t.severity === 'danger' ? 'alert' : 'status'}

@@ -137,7 +137,7 @@ export function RangeNavigator({
     };
   }, [commit, toDomain, window_]);
 
-  const onHandleDown = (mode: 'start' | 'end') => (e: RPointerEvent) => {
+  const onHandleDown = (mode: 'start' | 'end', e: RPointerEvent) => {
     e.preventDefault();
     (e.target as HTMLElement).focus?.();
     dragRef.current = { mode, grabOffset: 0 };
@@ -241,7 +241,7 @@ export function RangeNavigator({
             .filter(Boolean)
             .join(' ')}
           style={{ left: `${left}%` }}
-          onPointerDown={onHandleDown('start')}
+          onPointerDown={(e) => onHandleDown('start', e)}
           onKeyDown={onHandleKey('start')}
         />
         <div
@@ -255,7 +255,7 @@ export function RangeNavigator({
             .filter(Boolean)
             .join(' ')}
           style={{ left: `${left + width}%` }}
-          onPointerDown={onHandleDown('end')}
+          onPointerDown={(e) => onHandleDown('end', e)}
           onKeyDown={onHandleKey('end')}
         />
       </div>

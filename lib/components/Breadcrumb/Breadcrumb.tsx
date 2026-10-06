@@ -77,11 +77,7 @@ export function Breadcrumb({
                     <span className={styles.text}>{item.text}</span>
                   </a>
                 ) : (
-                  <span
-                    className={styles.current}
-                    aria-current="page"
-                    tabIndex={0}
-                  >
+                  <span className={styles.current} aria-current="page">
                     {item.icon ? (
                       <span className={styles.icon} aria-hidden="true">
                         {item.icon}

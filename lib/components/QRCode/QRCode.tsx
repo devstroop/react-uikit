@@ -46,10 +46,11 @@ export function QRCode({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   // Theme change subscriptions for canvas art (no CSS to inherit it).
   const osTheme = useMediaQuery('(prefers-color-scheme: dark)');
-  const [attrTheme, setAttrTheme] = useState<string | null>(null);
+  const [attrTheme, setAttrTheme] = useState<string | null>(
+    () => document.documentElement.dataset.theme ?? null
+  );
   useEffect(() => {
     const root = document.documentElement;
-    setAttrTheme(root.dataset.theme ?? null);
     const observer = new MutationObserver(() => {
       setAttrTheme(root.dataset.theme ?? null);
     });

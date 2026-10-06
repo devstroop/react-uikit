@@ -1,6 +1,7 @@
 import {
   createContext,
   useContext,
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -138,9 +139,13 @@ export function DialogProvider({ children }: DialogProviderProps) {
     return seqRef.current;
   };
   // The memoized api below must see the live queue (memoized closures
-  // capture the first render's bindings), so mirror it in a ref.
+  // capture the first render's bindings), so mirror it in a ref. Written
+  // from an effect: settle is only reachable from event handlers, which
+  // can't fire before effects flush after commit.
   const queueRef = useRef<DialogRequest[]>([]);
-  queueRef.current = queue;
+  useEffect(() => {
+    queueRef.current = queue;
+  });
 
   /** Settle the head of the live queue (used by the memoized api). */
   const settleHead = (result: unknown) => {
@@ -201,7 +206,6 @@ export function DialogProvider({ children }: DialogProviderProps) {
       refresh: () => setRev((n) => n + 1),
     }),
     // settleHead reads the live queue ref, so the empty dep list is safe.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
 

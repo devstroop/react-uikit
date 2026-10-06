@@ -86,6 +86,7 @@ export function Tabs({
       <div
         ref={tabListRef}
         role="tablist"
+        tabIndex={-1}
         className={[styles.tabList, styles[variant], styles[position]]
           .filter(Boolean)
           .join(' ')}

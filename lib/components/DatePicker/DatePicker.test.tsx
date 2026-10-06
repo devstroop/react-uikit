@@ -215,6 +215,7 @@ describe('DatePicker', () => {
         size="lg"
         invalid
         placeholder="Pick a date"
+        // eslint-disable-next-line jsx-a11y/tabindex-no-positive -- arbitrary positive tabIndex must be forwarded verbatim
         tabIndex={3}
       />
     );

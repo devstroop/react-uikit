@@ -217,10 +217,12 @@ export function AutoComplete({
         ) : (
           <div id={listboxId} role="listbox" className={styles.menu}>
             {filtered.map((option, index) => (
+              // eslint-disable-next-line jsx-a11y/click-events-have-key-events -- Enter/Space select the active option through the input's keydown handler
               <div
                 key={option.value}
                 id={`${baseId}-option-${index}`}
                 role="option"
+                tabIndex={-1}
                 aria-selected={false}
                 aria-disabled={option.disabled || undefined}
                 className={[

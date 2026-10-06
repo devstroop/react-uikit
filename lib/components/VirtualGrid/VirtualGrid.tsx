@@ -61,7 +61,7 @@ export function VirtualGrid({
 
   useEffect(() => {
     ensure(first, last);
-  }, [first, last]);
+  }, [first, last, ensure]);
 
   const items: React.ReactNode[] = [];
   for (let i = first; i < last; i++) {

@@ -165,6 +165,7 @@ export function DropDown({
   );
 
   return (
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- delegates keyboard handling to the trigger and popup; the root has no click semantics of its own
     <div
       ref={rootRef}
       className={[styles.root, className].filter(Boolean).join(' ')}
@@ -208,6 +209,7 @@ export function DropDown({
           aria-activedescendant={
             activeIndex >= 0 ? `${baseId}-option-${activeIndex}` : undefined
           }
+          tabIndex={-1}
           className={styles.menu}
         >
           {options.map((option, index) =>
@@ -220,10 +222,12 @@ export function DropDown({
                 {option.value}
               </div>
             ) : (
+              // eslint-disable-next-line jsx-a11y/click-events-have-key-events -- Enter/Space select the active option via the root keydown handler
               <div
                 key={option.value}
                 id={`${baseId}-option-${index}`}
                 role="option"
+                tabIndex={-1}
                 aria-selected={option.value === selectedValue}
                 aria-disabled={option.disabled || undefined}
                 className={[

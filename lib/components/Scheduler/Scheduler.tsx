@@ -132,7 +132,6 @@ export function Scheduler({
             role="presentation"
             title={day.toLocaleDateString()}
             onClick={() => onSlotClick?.({ date: day })}
-            tabIndex={0}
             aria-label={day.toLocaleDateString()}
           >
             <div className={styles.dayHeader}>
@@ -143,6 +142,7 @@ export function Scheduler({
               })}
             </div>
             {hours.map((h) => (
+              // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- hour slots refine the day-column click for the mouse; event buttons inside are native buttons
               <div
                 key={h}
                 className={styles.slot}

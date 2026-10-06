@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { Icon } from '../Icon/Icon';
 import styles from './PickList.module.css';
 
@@ -92,16 +92,23 @@ export function PickList({
     ...initialTarget,
   ]);
 
-  // sync when props change (controlled)
-  useEffect(() => {
-    const nextSource = source ?? Source ?? value ?? Value ?? data ?? Data;
+  // sync when props change (controlled) — render-adjust pattern
+  // (React docs: "you might not need an Effect" / adjusting state when
+  // props change). Event handlers can't interleave with a render pass,
+  // so the source of truth stays consistent.
+  const nextSource = source ?? Source ?? value ?? Value ?? data ?? Data;
+  const [prevSource, setPrevSource] = useState(nextSource);
+  if (nextSource !== prevSource) {
+    setPrevSource(nextSource);
     if (nextSource !== undefined) setSourceItems([...nextSource]);
-  }, [source, Source, value, Value, data, Data]);
+  }
 
-  useEffect(() => {
-    const nextTarget = target ?? Target ?? targetValue ?? TargetValue;
+  const nextTarget = target ?? Target ?? targetValue ?? TargetValue;
+  const [prevTarget, setPrevTarget] = useState(nextTarget);
+  if (nextTarget !== prevTarget) {
+    setPrevTarget(nextTarget);
     if (nextTarget !== undefined) setTargetItems([...nextTarget]);
-  }, [target, Target, targetValue, TargetValue]);
+  }
 
   const [sourceSelected, setSourceSelected] = useState<Set<string>>(
     () => new Set()
@@ -131,8 +138,19 @@ export function PickList({
     [targetItems]
   );
 
-  // Keep active indexes within bounds
-  useEffect(() => {
+  // Keep active indexes within bounds (render-adjust; see sync note above)
+  const srcClamp = {
+    active: sourceActive,
+    len: sourceItems.length,
+    idxs: sourceEnabledIdxs,
+  };
+  const [prevSrcClamp, setPrevSrcClamp] = useState(srcClamp);
+  if (
+    prevSrcClamp.active !== srcClamp.active ||
+    prevSrcClamp.len !== srcClamp.len ||
+    prevSrcClamp.idxs !== srcClamp.idxs
+  ) {
+    setPrevSrcClamp(srcClamp);
     if (sourceActive >= sourceItems.length) {
       const lastEnabled = sourceEnabledIdxs[sourceEnabledIdxs.length - 1];
       setSourceActive(lastEnabled ?? 0);
@@ -144,9 +162,20 @@ export function PickList({
       const first = sourceEnabledIdxs[0];
       if (first !== undefined) setSourceActive(first);
     }
-  }, [sourceActive, sourceItems.length, sourceEnabledIdxs]);
+  }
 
-  useEffect(() => {
+  const tgtClamp = {
+    active: targetActive,
+    len: targetItems.length,
+    idxs: targetEnabledIdxs,
+  };
+  const [prevTgtClamp, setPrevTgtClamp] = useState(tgtClamp);
+  if (
+    prevTgtClamp.active !== tgtClamp.active ||
+    prevTgtClamp.len !== tgtClamp.len ||
+    prevTgtClamp.idxs !== tgtClamp.idxs
+  ) {
+    setPrevTgtClamp(tgtClamp);
     if (targetActive >= targetItems.length) {
       const lastEnabled = targetEnabledIdxs[targetEnabledIdxs.length - 1];
       setTargetActive(lastEnabled ?? 0);
@@ -158,10 +187,15 @@ export function PickList({
       const first = targetEnabledIdxs[0];
       if (first !== undefined) setTargetActive(first);
     }
-  }, [targetActive, targetItems.length, targetEnabledIdxs]);
+  }
 
-  // clean selected keys when items change (remove keys no longer present or disabled?)
-  useEffect(() => {
+  // clean selected keys when items change (remove keys no longer present or disabled)
+  const [prevPruneS, setPrevPruneS] = useState({
+    items: sourceItems,
+    key: effectiveKeyProp,
+  });
+  if (prevPruneS.items !== sourceItems || prevPruneS.key !== effectiveKeyProp) {
+    setPrevPruneS({ items: sourceItems, key: effectiveKeyProp });
     setSourceSelected((prev) => {
       const next = new Set<string>();
       for (const k of prev) {
@@ -170,11 +204,16 @@ export function PickList({
         );
         if (exists) next.add(k);
       }
-      return next;
+      return next.size === prev.size ? prev : next;
     });
-  }, [sourceItems, effectiveKeyProp]);
+  }
 
-  useEffect(() => {
+  const [prevPruneT, setPrevPruneT] = useState({
+    items: targetItems,
+    key: effectiveKeyProp,
+  });
+  if (prevPruneT.items !== targetItems || prevPruneT.key !== effectiveKeyProp) {
+    setPrevPruneT({ items: targetItems, key: effectiveKeyProp });
     setTargetSelected((prev) => {
       const next = new Set<string>();
       for (const k of prev) {
@@ -183,9 +222,9 @@ export function PickList({
         );
         if (exists) next.add(k);
       }
-      return next;
+      return next.size === prev.size ? prev : next;
     });
-  }, [targetItems, effectiveKeyProp]);
+  }
 
   const emitSourceChange = useCallback(
     (next: PickListItem[]) => {
@@ -328,14 +367,7 @@ export function PickList({
       moved,
       direction: 'allToTarget',
     });
-  }, [
-    sourceItems,
-    targetItems,
-    effectiveKeyProp,
-    emitSourceChange,
-    emitTargetChange,
-    emitMove,
-  ]);
+  }, [sourceItems, targetItems, emitSourceChange, emitTargetChange, emitMove]);
 
   const moveAllToSource = useCallback(() => {
     const moved = targetItems.filter((it) => !it.disabled);
@@ -607,6 +639,7 @@ export function PickList({
               const active = idx === sourceActive;
               const disabled = !!item.disabled;
               return (
+                // eslint-disable-next-line jsx-a11y/click-events-have-key-events -- Enter/Space handled by handleSourceKeyDown on the list container
                 <div
                   key={key}
                   role="option"
@@ -721,6 +754,7 @@ export function PickList({
               const active = idx === targetActive;
               const disabled = !!item.disabled;
               return (
+                // eslint-disable-next-line jsx-a11y/click-events-have-key-events -- Enter/Space handled by handleTargetKeyDown on the list container
                 <div
                   key={key}
                   role="option"

@@ -49,10 +49,7 @@ import {
 import { Code } from './shared/Code';
 import { DemoPage } from './demo-page';
 import { EventLog } from './shared/EventLog';
-import {
-  KeyboardTable,
-  type KeyboardBinding,
-} from './shared/KeyboardTable';
+import { KeyboardTable, type KeyboardBinding } from './shared/KeyboardTable';
 
 /** Cards clip by design; popup demos need the overflow escape hatch. */
 const POPUP_CARD: CSSProperties = { overflow: 'visible' };
@@ -3029,7 +3026,8 @@ function HtmlEditorToolbarDemo() {
             id: 'shout',
             label: 'Shout',
             glyph: '!',
-            onExecute: (api) => log(`shout: getHtml ${api.getHtml().length} chars`),
+            onExecute: (api) =>
+              log(`shout: getHtml ${api.getHtml().length} chars`),
           },
         ]}
       />
@@ -3053,7 +3051,8 @@ function HtmlEditorToolbarDemo() {
 const HTML_EDITOR_KEYS: KeyboardBinding[] = [
   {
     keys: 'Ctrl/Cmd + B / I / U',
-    action: 'Bold, italic, underline (test: ctrl+b/i/u run the matching command)',
+    action:
+      'Bold, italic, underline (test: ctrl+b/i/u run the matching command)',
   },
   {
     keys: 'Tab',

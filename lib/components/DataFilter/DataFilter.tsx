@@ -246,6 +246,7 @@ export function DataFilter<TItem = unknown>({
 
   useEffect(() => {
     if (viewChanged != null && items != null) viewChanged(applied ?? []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- notification fires when the computed view (`applied`) changes; viewChanged is an event callback and items only matter through `applied` — adding them would duplicate-fire
   }, [applied]);
 
   const propertyOf = (name: string): DataFilterProperty =>

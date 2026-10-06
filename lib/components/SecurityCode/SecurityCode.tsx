@@ -167,6 +167,7 @@ export const SecurityCode = forwardRef<HTMLInputElement, SecurityCodeProps>(
               disabled={disabled}
               aria-label={`Digit ${index + 1} of ${length}`}
               aria-invalid={invalid && digit !== '' ? true : undefined}
+              // eslint-disable-next-line jsx-a11y/no-autofocus -- autofocus on the first OTP input is intentional (OTP convention)
               autoFocus={autoFocus && index === 0}
               className={[
                 styles.cell,

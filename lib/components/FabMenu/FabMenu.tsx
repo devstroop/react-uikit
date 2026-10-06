@@ -120,6 +120,7 @@ export function FabMenu({
         <div
           id={menuId}
           role="menu"
+          tabIndex={-1}
           aria-label={ariaLabel}
           className={styles.menu}
           onKeyDown={handleMenuKeyDown}

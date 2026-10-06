@@ -105,22 +105,19 @@ export function Steps({
   };
 
   return (
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- Home/End and arrow keys are delegated to the step buttons inside this nav
     <nav
       aria-label={ariaLabel}
       className={[styles.root, className].filter(Boolean).join(' ')}
       onKeyDown={handleKeyDown}
     >
-      <ol ref={listRef} role="list" className={styles.list}>
+      <ol ref={listRef} className={styles.list}>
         {items.map((item, index) => {
           const isActive = index === clampedActive;
           const isCompleted = index < clampedActive;
           const disabled = isStepDisabled(index, item);
           return (
-            <li
-              key={`${item.text}-${index}`}
-              role="listitem"
-              className={styles.item}
-            >
+            <li key={`${item.text}-${index}`} className={styles.item}>
               {index > 0 ? (
                 <span
                   className={[
