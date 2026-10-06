@@ -69,7 +69,11 @@ export function DocsLayout({
   }, []);
   const [query, setQuery] = useState('');
   const componentCount = useMemo(
-    () => DEMO_GROUPS.reduce((n, g) => n + g.routes.length, 0),
+    () =>
+      DEMO_GROUPS.reduce(
+        (n, g) => n + (g.title === 'Recipes' ? 0 : g.routes.length),
+        0
+      ),
     []
   );
   const visibleGroups = useMemo(() => {

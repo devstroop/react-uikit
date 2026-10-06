@@ -14,7 +14,10 @@ import {
 } from '../../lib/main';
 import { DEMO_GROUPS } from '../nav';
 
-const COMPONENT_COUNT = DEMO_GROUPS.reduce((n, g) => n + g.routes.length, 0);
+const COMPONENT_COUNT = DEMO_GROUPS.reduce(
+  (n, g) => n + (g.title === 'Recipes' ? 0 : g.routes.length),
+  0
+);
 
 /** Grouped card catalog — every demo route reachable from the front door. */
 function ComponentCatalog() {
