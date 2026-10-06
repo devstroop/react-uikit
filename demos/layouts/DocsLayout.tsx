@@ -12,9 +12,9 @@ import {
   Stack,
   Text,
   TextBox,
-  ThemeSwitcher,
   ThemeToggle,
 } from '../../lib/main';
+import { ThemeSwitcher } from '../components/ThemeSwitcher/ThemeSwitcher';
 import { DEMO_GROUPS } from '../nav';
 
 /**

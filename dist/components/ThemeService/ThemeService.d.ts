@@ -1,6 +1,6 @@
 /**
  * Theme service (uikit#98): the imperative counterpart of the
- * ThemeSwitcher/ThemeToggle components. Owns `<html data-palette>` and
+ * ThemeToggle component (and the demos' ThemeSwitcher). Owns `<html data-palette>` and
  * `<html data-theme>` plus `dx-palette`/`dx-theme` storage, and notifies
  * subscribers on every change. Components stay thin: they read through
  * `useThemeService` and write through the service verbs, so app code,

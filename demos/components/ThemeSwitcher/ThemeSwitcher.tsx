@@ -5,7 +5,7 @@ import {
   type ChangeEvent,
   type ReactNode,
 } from 'react';
-import { Select, type SelectSize } from '../Select/Select';
+import { Select, type SelectSize } from '../../../lib/main';
 import styles from './ThemeSwitcher.module.css';
 
 /** Default theme names offered by the picker (the demos palettes). */
@@ -16,6 +16,7 @@ export const DEFAULT_THEMES = [
   'material',
   'material-3',
   'shadcn',
+  'zen',
 ] as const;
 
 export interface ThemeSwitcherProps {

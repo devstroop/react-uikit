@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Stack, Text, ThemeSwitcher, ThemeToggle } from '../../lib/main';
+import { Stack, Text, ThemeToggle } from '../../lib/main';
+import { ThemeSwitcher } from '../components/ThemeSwitcher/ThemeSwitcher';
 import { DemoPage } from './demo-page';
 import { EventLog } from './shared/EventLog';
 import { KeyboardTable, type KeyboardBinding } from './shared/KeyboardTable';

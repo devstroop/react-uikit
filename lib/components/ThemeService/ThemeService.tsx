@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 /**
  * Theme service (uikit#98): the imperative counterpart of the
- * ThemeSwitcher/ThemeToggle components. Owns `<html data-palette>` and
+ * ThemeToggle component (and the demos' ThemeSwitcher). Owns `<html data-palette>` and
  * `<html data-theme>` plus `dx-palette`/`dx-theme` storage, and notifies
  * subscribers on every change. Components stay thin: they read through
  * `useThemeService` and write through the service verbs, so app code,
@@ -64,7 +64,7 @@ function readStored(key: string): string | null {
 }
 
 // Reads are always fresh from the DOM (the live source of truth), so
-// writes from ThemeSwitcher/ThemeToggle — which carry their own richer
+// writes from ThemeToggle and the demos' ThemeSwitcher — which carry their own richer
 // local logic on the same keys — are visible to the service immediately.
 // Storage seeds the DOM once per process when no attribute is applied.
 let adopted = false;

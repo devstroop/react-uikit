@@ -39,6 +39,10 @@ const PALETTE_LOADERS: Record<string, (() => Promise<unknown>)[]> = {
     () => import('./styles/material3-dark-base.css'),
   ],
   shadcn: [() => import('./styles/shadcn.css')],
+  zen: [
+    () => import('./styles/zen-base.css'),
+    () => import('./styles/zen-dark-base.css'),
+  ],
 };
 
 /**

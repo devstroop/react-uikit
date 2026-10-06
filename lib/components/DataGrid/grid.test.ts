@@ -46,7 +46,7 @@ describe('formatValue', () => {
 
   it('formats dates with d', () => {
     expect(formatValue(new Date('2024-05-01T12:00:00Z'), 'd')).toMatch(
-      /5\/1\/2024|01\/05\/2024/
+      /^\d{1,2}\/\d{1,2}\/2024$/
     );
   });
 

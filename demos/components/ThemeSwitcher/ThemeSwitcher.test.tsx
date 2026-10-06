@@ -17,10 +17,10 @@ afterEach(() => {
 });
 
 describe('ThemeSwitcher', () => {
-  it('offers the default six themes when themes is omitted', () => {
+  it('offers the default themes when themes is omitted', () => {
     render(<ThemeSwitcher />);
     expect(optionsOf()).toEqual([...DEFAULT_THEMES]);
-    expect(DEFAULT_THEMES).toHaveLength(6);
+    expect(DEFAULT_THEMES).toHaveLength(7);
   });
 
   it('accepts a custom themes list', () => {

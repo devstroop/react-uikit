@@ -121,10 +121,10 @@ pie, donut, gauge, radar, funnel, heatmap; stacked series via `stack`) ·
 
 ### Theme
 
-`ThemeSwitcher` (theme-picker dropdown — default, fluent, github,
-material, material-3, shadcn; applies `data-palette`) · `ThemeToggle`
-(light/dark/system appearance with persistence, applies `data-theme`) ·
-tokens below in [Theming](#theming)
+`ThemeToggle` (light/dark/system appearance with persistence, applies
+`data-theme`) · `ThemeService` · tokens below in [Theming](#theming).
+The palette picker used by the demos (`ThemeSwitcher`) lives in
+`demos/components/`, not the shipped library.
 
 ### Hooks & utilities
 

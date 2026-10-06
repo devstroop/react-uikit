@@ -314,11 +314,6 @@ export { shadeClass } from './types/shade';
 export type { Variant } from './types/variant';
 export { resolveVariant } from './types/variant';
 
-export {
-  ThemeSwitcher,
-  DEFAULT_THEMES,
-} from './components/ThemeSwitcher/ThemeSwitcher';
-export type { ThemeSwitcherProps } from './components/ThemeSwitcher/ThemeSwitcher';
 export { ThemeToggle } from './components/ThemeToggle/ThemeToggle';
 export type {
   ThemeToggleProps,

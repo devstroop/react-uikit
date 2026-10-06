@@ -106,8 +106,6 @@ export type { Shade } from './types/shade';
 export { shadeClass } from './types/shade';
 export type { Variant } from './types/variant';
 export { resolveVariant } from './types/variant';
-export { ThemeSwitcher, DEFAULT_THEMES, } from './components/ThemeSwitcher/ThemeSwitcher';
-export type { ThemeSwitcherProps } from './components/ThemeSwitcher/ThemeSwitcher';
 export { ThemeToggle } from './components/ThemeToggle/ThemeToggle';
 export type { ThemeToggleProps, ThemeName, } from './components/ThemeToggle/ThemeToggle';
 export { getAppearance, getTheme, setAppearance, setTheme, subscribe, useThemeService, } from './components/ThemeService/ThemeService';

@@ -9,6 +9,7 @@ const THEMES = [
   'material',
   'material-3',
   'shadcn',
+  'zen',
 ] as const;
 
 /**
