@@ -424,4 +424,81 @@ describe('Menu', () => {
     fireEvent.mouseOver(nav);
     expect(onMouseOver).toHaveBeenCalled();
   });
+  it('keeps a single tab stop per menu surface (roving tabindex)', async () => {
+    const user = userEvent.setup();
+    render(<BasicMenu />);
+    const home = screen.getByRole('menuitem', { name: /Home/ });
+    const products = screen.getByRole('menuitem', { name: /Products/ });
+    const about = screen.getByRole('menuitem', { name: /About/ });
+    expect(home).toHaveAttribute('tabindex', '0');
+    expect(products).toHaveAttribute('tabindex', '-1');
+    expect(about).toHaveAttribute('tabindex', '-1');
+    home.focus();
+    await user.keyboard('{ArrowRight}');
+    expect(products).toHaveFocus();
+    expect(products).toHaveAttribute('tabindex', '0');
+    expect(home).toHaveAttribute('tabindex', '-1');
+  });
+
+  it('keeps the tab stop on the last focused item', () => {
+    render(<BasicMenu />);
+    const home = screen.getByRole('menuitem', { name: /Home/ });
+    const products = screen.getByRole('menuitem', { name: /Products/ });
+    products.focus();
+    home.focus();
+    expect(home).toHaveAttribute('tabindex', '0');
+    expect(products).toHaveAttribute('tabindex', '-1');
+  });
+
+  it('picks the first enabled item as the initial tab stop', () => {
+    render(
+      <Menu ariaLabel="Skip">
+        <MenuItem text="First" disabled />
+        <MenuItem text="Second" />
+      </Menu>
+    );
+    expect(screen.getByRole('menuitem', { name: /Second/ })).toHaveAttribute(
+      'tabindex',
+      '0'
+    );
+    expect(screen.getByRole('menuitem', { name: /First/ })).toHaveAttribute(
+      'tabindex',
+      '-1'
+    );
+  });
+
+  it('gives an open submenu a single tab stop of its own', async () => {
+    const user = userEvent.setup();
+    render(<BasicMenu />);
+    await user.click(screen.getByRole('menuitem', { name: /Products/ }));
+    const a = screen.getByRole('menuitem', { name: 'A' });
+    const b = screen.getByRole('menuitem', { name: 'B' });
+    expect(a).toHaveAttribute('tabindex', '0');
+    expect(b).toHaveAttribute('tabindex', '-1');
+    a.focus();
+    expect(a).toHaveAttribute('tabindex', '0');
+    expect(b).toHaveAttribute('tabindex', '-1');
+  });
+
+  it('moves top-level focus with ArrowDown/Up in context menu mode', async () => {
+    const user = userEvent.setup();
+    render(
+      <Menu isContextMenu ariaLabel="Ctx">
+        <MenuItem text="Cut" />
+        <MenuItem text="Copy" />
+        <MenuItem text="Paste" disabled />
+      </Menu>
+    );
+    const cut = screen.getByRole('menuitem', { name: 'Cut' });
+    const copy = screen.getByRole('menuitem', { name: 'Copy' });
+    expect(cut).toHaveAttribute('tabindex', '0');
+    expect(copy).toHaveAttribute('tabindex', '-1');
+    cut.focus();
+    await user.keyboard('{ArrowDown}');
+    expect(copy).toHaveFocus();
+    await user.keyboard('{ArrowDown}');
+    expect(cut).toHaveFocus();
+    await user.keyboard('{ArrowUp}');
+    expect(copy).toHaveFocus();
+  });
 });

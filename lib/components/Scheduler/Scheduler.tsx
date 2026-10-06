@@ -106,12 +106,7 @@ export function Scheduler({
       {resources && (
         <div className={styles.resources}>
           {resources.map((r) => (
-            <div
-              key={r.id}
-              className={styles.resource}
-              role="presentation"
-              aria-label={r.name}
-            >
+            <div key={r.id} className={styles.resource}>
               {r.name}
             </div>
           ))}
@@ -126,10 +121,11 @@ export function Scheduler({
           ))}
         </div>
         {days.map((day) => (
+          // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions -- day-level create affordance for the pointer; hour slots refine it and event buttons inside are the keyboard path
           <div
             key={day.toISOString()}
             className={styles.dayCol}
-            role="presentation"
+            role="group"
             title={day.toLocaleDateString()}
             onClick={() => onSlotClick?.({ date: day })}
             aria-label={day.toLocaleDateString()}
@@ -147,7 +143,8 @@ export function Scheduler({
                 key={h}
                 className={styles.slot}
                 tabIndex={-1}
-                onClick={() => {
+                onClick={(event) => {
+                  event.stopPropagation();
                   const d = new Date(day);
                   d.setHours(h);
                   onSlotClick?.({ date: d });

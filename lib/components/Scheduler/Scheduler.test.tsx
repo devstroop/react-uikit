@@ -58,4 +58,44 @@ describe('Scheduler', () => {
     fireEvent.click(screen.getByLabelText('Next'));
     expect(fn).toHaveBeenCalled();
   });
+  it('exposes the day column as a labelled group, not presentation', () => {
+    render(
+      <Scheduler data={events} date={new Date('2024-12-02')} view="day" />
+    );
+    const day = screen.getAllByLabelText(/2024/)[0]!;
+    expect(day).toHaveAttribute('role', 'group');
+    expect(day.getAttribute('aria-label')).toContain('2024');
+  });
+  it('renders resource labels as plain visible text', () => {
+    render(
+      <Scheduler
+        data={[]}
+        date={new Date('2024-12-02')}
+        view="day"
+        resources={[{ id: 'r1', name: 'Room A' }]}
+      />
+    );
+    const res = screen.getByText('Room A');
+    expect(res).not.toHaveAttribute('role');
+    expect(res).not.toHaveAttribute('aria-label');
+  });
+  it('fires onSlotClick once for an hour slot, with the hour set', () => {
+    const fn = vi.fn();
+    render(
+      <Scheduler
+        data={events}
+        date={new Date('2024-12-02')}
+        view="day"
+        onSlotClick={fn}
+      />
+    );
+    const day = screen.getAllByLabelText(/2024/)[0]!;
+    const slot = Array.from(day.children).find(
+      (el) => el.tagName === 'DIV' && el.textContent === ''
+    );
+    expect(slot).toBeDefined();
+    fireEvent.click(slot!);
+    expect(fn).toHaveBeenCalledTimes(1);
+    expect(fn.mock.calls[0]![0].date.getHours()).toBe(8);
+  });
 });

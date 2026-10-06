@@ -86,6 +86,9 @@ interface MenuContextValue {
   closeAll: () => void;
   openKey: string | null;
   setOpenKey: (key: string | null) => void;
+  activeKey: string | null;
+  setActiveKey: (key: string | null) => void;
+  defaultStopKey: string | null;
 }
 
 const MenuContext = createContext<MenuContextValue | null>(null);
@@ -220,6 +223,13 @@ function MenuItemNode({
     return () => window.removeEventListener('hashchange', onHash);
   }, [path]);
   const isActive = path && !hasChildren ? activePath(path, props.match) : false;
+  // Roving tabindex: one tab stop per menu surface — the explicitly focused
+  // item, or the first enabled item while nothing has been focused yet.
+  const isTabStop =
+    !isDisabled &&
+    (ctx.activeKey === itemKey ||
+      (ctx.activeKey == null && ctx.defaultStopKey === itemKey));
+  const onItemFocus = () => ctx.setActiveKey(itemKey);
 
   const fire = useCallback(
     (e: React.MouseEvent) => {
@@ -267,6 +277,15 @@ function MenuItemNode({
 
   const submenuId = `${ctx.baseId}-submenu-${itemKey}`;
   const [nestedOpenKey, setNestedOpenKey] = useState<string | null>(null);
+  const [subActiveKey, setSubActiveKey] = useState<string | null>(null);
+  const defaultSubStopKey = useMemo(() => {
+    const idx = childItems.findIndex(
+      (child) =>
+        isMenuItem(child) &&
+        !(child as React.ReactElement<MenuItemProps>).props.disabled
+    );
+    return idx >= 0 ? `${itemKey}-${idx}` : null;
+  }, [childItems, itemKey]);
   const [prevNestedClose, setPrevNestedClose] = useState(ctx.closeSignal);
   if (ctx.closeSignal !== prevNestedClose) {
     setPrevNestedClose(ctx.closeSignal);
@@ -283,8 +302,11 @@ function MenuItemNode({
       closeAll: ctx.closeAll,
       openKey: nestedOpenKey,
       setOpenKey: setNestedOpenKey,
+      activeKey: subActiveKey,
+      setActiveKey: setSubActiveKey,
+      defaultStopKey: defaultSubStopKey,
     }),
-    [ctx, nestedOpenKey]
+    [ctx, nestedOpenKey, subActiveKey, defaultSubStopKey]
   );
 
   const caret = hasChildren ? (
@@ -329,7 +351,7 @@ function MenuItemNode({
           aria-haspopup="menu"
           aria-expanded={groupOpen}
           aria-controls={submenuId}
-          tabIndex={isDisabled ? -1 : 0}
+          tabIndex={isTabStop ? 0 : -1}
           disabled={isDisabled}
           className={[
             styles.item,
@@ -339,6 +361,7 @@ function MenuItemNode({
             .filter(Boolean)
             .join(' ')}
           onClick={handleTriggerClick}
+          onFocus={onItemFocus}
         >
           {content}
         </button>
@@ -424,7 +447,8 @@ function MenuItemNode({
     role: 'menuitem' as const,
     'aria-disabled': isDisabled || undefined,
     'aria-current': isActive ? ('page' as const) : undefined,
-    tabIndex: isDisabled ? -1 : 0,
+    tabIndex: isTabStop ? 0 : -1,
+    onFocus: onItemFocus,
     'data-dx-menu-item': '',
     className: [styles.submenuItem, isDisabled ? styles.disabled : null]
       .filter(Boolean)
@@ -474,6 +498,7 @@ export function Menu({
   const rootRef = useRef<HTMLElement>(null);
   const menubarRef = useRef<HTMLDivElement>(null);
   const [openKey, setOpenKey] = useState<string | null>(null);
+  const [topActiveKey, setTopActiveKey] = useState<string | null>(null);
   const [closeSignal, setCloseSignal] = useState(0);
   const [mobileOpen, setMobileOpen] = useState(false);
   const pendingFocusRef = useRef<string | null>(null);
@@ -513,6 +538,19 @@ export function Menu({
     }
   }, [openKey, baseId]);
 
+  const topItems = useMemo(
+    () => Children.toArray(children).filter(isValidElement),
+    [children]
+  );
+  const defaultStopKey = useMemo(() => {
+    const idx = topItems.findIndex(
+      (child) =>
+        isMenuItem(child) &&
+        !(child as React.ReactElement<MenuItemProps>).props.disabled
+    );
+    return idx >= 0 ? String(idx) : null;
+  }, [topItems]);
+
   const ctx = useMemo<MenuContextValue>(
     () => ({
       baseId,
@@ -524,13 +562,21 @@ export function Menu({
       closeAll,
       openKey,
       setOpenKey,
+      activeKey: topActiveKey,
+      setActiveKey: setTopActiveKey,
+      defaultStopKey,
     }),
-    [baseId, flyout, clickToOpen, closeSignal, emit, closeAll, openKey]
-  );
-
-  const topItems = useMemo(
-    () => Children.toArray(children).filter(isValidElement),
-    [children]
+    [
+      baseId,
+      flyout,
+      clickToOpen,
+      closeSignal,
+      emit,
+      closeAll,
+      openKey,
+      topActiveKey,
+      defaultStopKey,
+    ]
   );
 
   const handleMenubarKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
@@ -609,6 +655,23 @@ export function Menu({
           ? topButtons.length - 1
           : (idx - 1 + topButtons.length) % topButtons.length
       ]?.focus();
+      return;
+    }
+    if (
+      isContextMenu &&
+      (event.key === 'ArrowDown' || event.key === 'ArrowUp')
+    ) {
+      event.preventDefault();
+      if (topButtons.length === 0) return;
+      const next =
+        event.key === 'ArrowDown'
+          ? topButtons[idx === -1 ? 0 : (idx + 1) % topButtons.length]
+          : topButtons[
+              idx === -1
+                ? topButtons.length - 1
+                : (idx - 1 + topButtons.length) % topButtons.length
+            ];
+      next?.focus();
       return;
     }
     if (event.key === 'ArrowDown') {
