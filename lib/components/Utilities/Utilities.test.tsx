@@ -209,6 +209,16 @@ describe('Utilities parity (#75)', () => {
     expect(REACT_CSS).toContain('prefers-reduced-motion');
   });
 
+  it('ships a global prefers-reduced-motion block (WCAG 2.3.3)', () => {
+    expect(REACT_CSS).toContain(
+      '@media (prefers-reduced-motion: reduce) {\n  *,\n  *::before,\n  *::after {\n    animation-duration: 1ms !important;'
+    );
+    expect(REACT_CSS).toContain('transition-duration: 1ms !important;');
+    expect(REACT_CSS).toContain('animation-delay: 0ms !important;');
+    expect(REACT_CSS).toContain('transition-delay: 0ms !important;');
+    expect(REACT_CSS).toContain('scroll-behavior: auto !important;');
+  });
+
   it('ships Radzen text-align / wrap / transform utilities', () => {
     expect(REACT_CSS).toContain(
       '.dx-text-align-center { text-align: center; }'
