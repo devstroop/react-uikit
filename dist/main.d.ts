@@ -70,7 +70,7 @@ export type { MarkdownProps } from './components/Markdown/Markdown';
 export { renderMarkdown } from './components/Markdown/markdown-renderer';
 export type { MarkdownRenderOptions } from './components/Markdown/markdown-renderer';
 export { HtmlEditor } from './components/HtmlEditor/HtmlEditor';
-export type { HtmlEditorProps, HtmlEditorTool, } from './components/HtmlEditor/HtmlEditor';
+export type { HtmlEditorProps, HtmlEditorTool, HtmlEditorHandle, } from './components/HtmlEditor/HtmlEditor';
 export { PopupProvider, usePopup } from './components/Popup/Popup';
 export type { PopupApi, PopupOpenOptions } from './components/Popup/Popup';
 export type { ToastProviderProps, ToastOptions, ToastTone, ToastPosition, NotifyMessage, } from './components/Toast/Toast';
