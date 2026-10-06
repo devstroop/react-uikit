@@ -198,7 +198,8 @@ A workflow triggered on a branch that does not exist is a silent CI outage.
 1. All cycle issues are merged into `develop`; milestone shows 100% complete.
 2. A **release PR** `develop → main` is prepared with:
    - Version bump (conventional commit `chore: release vX.Y.Z`)
-   - Changelog summary (collected from squash messages of the cycle)
+   - Changelog summary — `CHANGELOG.md` updated in the release PR
+     (collected from squash messages of the cycle)
 3. The release PR is merged once CI is green — the sole gate (no mandatory human review).
 4. The merge is tagged `vX.Y.Z` and the milestone is closed.
 5. Accumulators are rebased onto the new `main`/`develop` state so the next

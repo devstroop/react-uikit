@@ -15,7 +15,8 @@ release PR (see `docs/DEVELOPMENT_STRATEGY.md`):
 }
 ```
 
-Until the first tag is cut, pin a branch or an exact commit:
+To track unreleased `main` instead of a release, pin the branch or an
+exact commit:
 
 ```json
 "dependencies": {
@@ -123,8 +124,11 @@ pie, donut, gauge, radar, funnel, heatmap; stacked series via `stack`) ·
 
 `ThemeToggle` (light/dark/system appearance with persistence, applies
 `data-theme`) · `ThemeService` · tokens below in [Theming](#theming).
-The palette picker used by the demos (`ThemeSwitcher`) lives in
-`demos/components/`, not the shipped library.
+`ThemeToggle` is the package's dark/light control. Selecting a
+runtime theme (fluent / material-3 / zen / …) is a project-level
+implementation, not a uikit component — the demos ship theirs as
+`demos/components/ThemeSwitcher`, and nothing in the package exports
+a palette picker.
 
 ### Hooks & utilities
 

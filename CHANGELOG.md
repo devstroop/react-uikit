@@ -4,7 +4,76 @@ All notable changes to `@devstroop/react-uikit` are documented here.
 Versioning follows the release flow in `docs/DEVELOPMENT_STRATEGY.md`
 (`develop` → `main` release PR, tag `vX.Y.Z`).
 
-## [Unreleased] — toward 2.0.0
+## [Unreleased]
+
+## [1.0.0] - 2026-10-06
+
+### Fixed — eslint warnings burned down to zero (#113)
+
+- `npx eslint .` went from 79 warnings to 0 with no behavior changes:
+  `react-hooks/refs` fixed via effect writes (DialogProvider, Form, Toc)
+  and an uncurried handler (RangeNavigator); `set-state-in-effect`
+  fixed with a render-adjust pattern (PickList, Splitter, Tree, Menu,
+  QRCode); stale `exhaustive-deps` fixed by memoizing Tree derived data
+  and dropping dead dependencies; composite widgets gained the missing
+  `tabIndex` roving/option stops (AutoComplete, DropDown, ListBox,
+  DatePicker, FabMenu, Menu, Rating, Tabs, HtmlEditor); dead tab stops
+  removed (Breadcrumb current, Scheduler day column); redundant list
+  roles and state-less `aria-disabled` dropped (Steps, Timeline,
+  DropZone, SignaturePad). Intentional patterns — container
+  key-delegation, pointer-only affordances that keep a real keyboard
+  path, OTP autofocus — carry targeted `eslint-disable-next-line`
+  comments with an inline `-- reason` instead of config downgrades.
+
+### Added — CI fails when the committed `dist/` drifts from `lib/` (#112)
+
+- The lib build output is committed; the `ci` workflow rebuilds and
+  runs `git diff --exit-code dist/` so a stale bundle can never merge.
+  The stray `demos/dist` files are untracked — Pages rebuilds them on
+  every deploy.
+
+### Changed — zen palette wired, `ThemeSwitcher` moved out of the package (#115)
+
+- The committed zen light/dark stylesheets are scoped per palette
+  scope, wired into `PALETTE_LOADERS` / `DEFAULT_THEMES` and the e2e
+  axe matrix, so `zen` is selectable in the demos theme picker.
+- `ThemeSwitcher` (the runtime palette picker: fluent / material-3 /
+  zen / … by name) moved out of `lib/` into `demos/components` — it is
+  a project-level implementation, not a uikit component, and the
+  package no longer exports any palette picker (this supersedes its
+  entry below). The split is now policy (CONTRIBUTING ground rule 9):
+  uikit owns dark/light via `ThemeToggle` + `ThemeService`; the app
+  owns theme rendering.
+
+### Fixed — favicon 404 on the deployed demos (#110)
+
+- An SVG favicon replaces the missing `favicon.ico` request on the
+  Pages site.
+
+### Fixed — case-insensitive build collision in the Markdown slice
+
+- `markdown.ts` renamed to `markdown-renderer.ts` so the lib build
+  resolves on case-insensitive filesystems.
+
+### Fixed — demos component count excludes Recipes (#109)
+
+- The header count badge no longer counts the Recipes mock links.
+
+### Added — demos deploy to GitHub Pages (#107)
+
+- `pages.yml` builds the demos (with a configurable `GH_PAGES_BASE`,
+  `/react-uikit/` for project pages) and deploys on every push to
+  `main`.
+
+### Changed — `preview/` renamed to `demos/` (#106)
+
+- Repository layout: `preview/` → `demos/` (Radzen-style naming);
+  configs, imports and docs follow. Consumer-facing paths are
+  unaffected.
+
+### Added — Sankey flow diagram chart (#100)
+
+- New Sankey chart in the Chart suite (slice of #95).
 
 ### Added — demo pages for the remaining components (#111)
 
@@ -467,7 +536,7 @@ Notes:
 secondary, success, danger, warning, info, light, base, dark, neutral,
 soft). Values are unchanged, only renamed.
 
-Compat: the old names survive as reference aliases (remove in 3.0),
+Compat: the old names survive as reference aliases (remove in 2.0.0),
 so unmigrated stylesheets keep resolving. Migrate at leisure; dropping
 the aliases is the only later break.
 

@@ -48,6 +48,14 @@
    transparent scrollbar gutter ring. `lib/styles/tokens.test.ts`
    ratchets this across lib CSS and demos style objects;
    `e2e/focus-ring.spec.ts` locks the computed 1px/2px values.
+9. **`ThemeToggle` ships; theme pickers do not.** The package owns the
+   dark/light responsibility: `ThemeToggle` (light/dark/system with
+   persistence, applies `data-theme`) backed by `ThemeService`.
+   Rendering a _theme_ at runtime — selecting fluent / material-3 /
+   zen / ... by name, wiring `PALETTE_LOADERS`, managing `data-palette`
+   — is a project-level concern and lives in the consuming app (the
+   demos ship theirs in `demos/components/ThemeSwitcher`). Never add a
+   theme picker component to `lib/` or export one from the package.
 
 ## Workflow
 
