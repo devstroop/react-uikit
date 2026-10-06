@@ -73,6 +73,8 @@ export const DEMO_GROUPS: DemoGroup[] = [
       { slug: 'signaturepad', title: 'SignaturePad' },
       { slug: 'selectbar', title: 'SelectBar' },
       { slug: 'label', title: 'Label' },
+      { slug: 'login', title: 'Login' },
+      { slug: 'htmleditor', title: 'HtmlEditor' },
     ],
   },
   {
@@ -85,6 +87,7 @@ export const DEMO_GROUPS: DemoGroup[] = [
       { slug: 'toast', title: 'Toast' },
       { slug: 'dialog', title: 'Dialog' },
       { slug: 'tooltip', title: 'Tooltip' },
+      { slug: 'popup', title: 'Popup' },
     ],
   },
   {
@@ -120,6 +123,7 @@ export const DEMO_GROUPS: DemoGroup[] = [
       { slug: 'datafilter', title: 'DataFilter' },
       { slug: 'qrcode', title: 'QRCode' },
       { slug: 'barcode', title: 'Barcode' },
+      { slug: 'rangenavigator', title: 'RangeNavigator' },
     ],
   },
   {
@@ -133,6 +137,7 @@ export const DEMO_GROUPS: DemoGroup[] = [
       { slug: 'carousel', title: 'Carousel' },
       { slug: 'splitter', title: 'Splitter' },
       { slug: 'markdown', title: 'Markdown' },
+      { slug: 'aichat', title: 'AIChat' },
     ],
   },
   {

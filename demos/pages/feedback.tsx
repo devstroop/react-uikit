@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import {
   Alert,
   Button,
@@ -8,6 +8,7 @@ import {
   EmptyState,
   Icon,
   Progress,
+  PopupProvider,
   Row,
   Skeleton,
   Slider,
@@ -16,6 +17,7 @@ import {
   ToastProvider,
   Tooltip,
   useDialog,
+  usePopup,
   useToast,
 } from '../../lib/main';
 import { DemoPage } from './demo-page';
@@ -713,7 +715,172 @@ function ToastPage() {
   );
 }
 
+// ---------------------------------------------------------------------------
+// Popup
+// ---------------------------------------------------------------------------
+
+const POPUP_CARD = { overflow: 'visible' as const };
+
+function PopupBasicInner() {
+  const popup = usePopup();
+  const closerRef = useRef<(() => void) | null>(null);
+  const [events, setEvents] = useState<string[]>([]);
+  const log = (message: string) => setEvents((prev) => [message, ...prev]);
+  return (
+    <Stack orientation="vertical" gap={12}>
+      <Row gap={12} wrap>
+        <Button
+          onClick={(e) => {
+            closerRef.current = popup.open({
+              anchor: e.currentTarget,
+              content: (
+                <Stack orientation="vertical" gap={8}>
+                  <Text textStyle="body1">
+                    Panel body — role="dialog", focused on open.
+                  </Text>
+                  <Button size="sm" onClick={() => closerRef.current?.()}>
+                    Close panel
+                  </Button>
+                </Stack>
+              ),
+              ariaLabel: 'Demo popup',
+              onOpen: () => log('onOpen'),
+              onClose: () => log('onClose'),
+            });
+          }}
+        >
+          Open popup
+        </Button>
+        <Button
+          variant="outlined"
+          onClick={() => {
+            popup.close();
+            log('close() via api');
+          }}
+        >
+          Close via api
+        </Button>
+      </Row>
+      <EventLog
+        events={events}
+        emptyText="Open or close the popup to log callbacks."
+      />
+    </Stack>
+  );
+}
+
+function PopupBasicDemo() {
+  return (
+    <PopupProvider>
+      <PopupBasicInner />
+    </PopupProvider>
+  );
+}
+
+function PopupOptionsInner() {
+  const popup = usePopup();
+  const [events, setEvents] = useState<string[]>([]);
+  const log = (message: string) => setEvents((prev) => [message, ...prev]);
+  return (
+    <Stack orientation="vertical" gap={12}>
+      <Row gap={12} wrap>
+        <Button
+          onClick={(e) =>
+            popup.open({
+              anchor: e.currentTarget,
+              content: 'Fixed-size panel (width 240, height 120).',
+              width: 240,
+              height: 120,
+              ariaLabel: 'Sized popup',
+              onOpen: () => log('sized popup: onOpen'),
+              onClose: () => log('sized popup: onClose'),
+            })
+          }
+        >
+          Open sized popup
+        </Button>
+        <Button
+          variant="outlined"
+          onClick={(e) =>
+            popup.open({
+              anchor: e.currentTarget,
+              content: 'Second panel — it replaces the first one.',
+              ariaLabel: 'Second popup',
+              onOpen: () => log('second popup: onOpen'),
+              onClose: () => log('second popup: onClose'),
+            })
+          }
+        >
+          Open replacing popup
+        </Button>
+      </Row>
+      <EventLog
+        events={events}
+        emptyText="Open both panels in a row: the second replaces the first (isOpen stays true)."
+      />
+    </Stack>
+  );
+}
+
+function PopupOptionsDemo() {
+  return (
+    <PopupProvider>
+      <PopupOptionsInner />
+    </PopupProvider>
+  );
+}
+
+const POPUP_KEYS: KeyboardBinding[] = [
+  { keys: 'Escape', action: 'Close the panel and return focus to the anchor' },
+  { keys: 'Tab', action: 'Move from the trigger into the panel content' },
+  { keys: 'Click outside', action: 'Dismiss the panel' },
+  { keys: 'Resize', action: 'Dismiss the panel' },
+];
+
+function PopupDemosPage() {
+  return (
+    <DemoPage
+      title="Popup"
+      description="PopupProvider + usePopup render an anchored, smart-positioned role=dialog panel — Escape, outside pointer, resize and route change dismiss it, and closing restores focus to the invoker."
+      sections={[
+        {
+          id: 'popup-basic',
+          title: 'Basic',
+          description:
+            'popup.open anchors the panel to the invoking element and returns a close function; onOpen/onClose land in the log, close() is also exposed on the api (tests: opens an anchored, labelled panel and fires onOpen, Escape closes and fires onClose, returned closer shuts only its own panel).',
+          cardStyle: POPUP_CARD,
+          content: <PopupBasicDemo />,
+        },
+        {
+          id: 'popup-options',
+          title: 'Sizes and replacement',
+          description:
+            'width/height/ariaLabel are per-open options; opening a second panel replaces the first (Radzen openPopup parity) and each closer is scoped to its own panel.',
+          cardStyle: POPUP_CARD,
+          content: <PopupOptionsDemo />,
+        },
+        {
+          id: 'popup-dismissal',
+          title: 'Dismissal and focus',
+          description:
+            'Outside pointerdown, Escape, viewport resize and route changes close the panel; the panel takes focus on open and the invoker regains it on close.',
+          cardStyle: POPUP_CARD,
+          content: <PopupBasicDemo />,
+        },
+        {
+          id: 'popup-keyboard',
+          title: 'Keyboard',
+          content: <KeyboardTable bindings={POPUP_KEYS} />,
+        },
+      ]}
+    />
+  );
+}
+
 export function FeedbackDemos({ slug }: { slug: string }) {
+  if (slug === 'popup') {
+    return <PopupDemosPage />;
+  }
   if (slug === 'progress') {
     return (
       <DemoPage

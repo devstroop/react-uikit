@@ -6,6 +6,17 @@ Versioning follows the release flow in `docs/DEVELOPMENT_STRATEGY.md`
 
 ## [Unreleased] — toward 2.0.0
 
+### Added — demo pages for the remaining components (#111)
+
+- Dedicated docs pages for `Login`, `HtmlEditor`, `AIChat`,
+  `RangeNavigator` and `Popup` (demos + nav entries + route wiring);
+  each follows the DEMO_GUIDE checklist (≥3 titled sections, EventLog on
+  bound demos, KeyboardTable last).
+- `e2e/demo-completeness.spec.ts` now also asserts every directory in
+  `lib/components` has a matching nav slug, with an explicit, justified
+  exemption list (DialogService, LiveRegion, MediaQuery,
+  NotificationService, ThemeService, Utilities, Validators).
+
 ### Changed — PascalCase component renames (BREAKING)
 
 - Correct per-word PascalCase (Radzen parity): `Autocomplete` →

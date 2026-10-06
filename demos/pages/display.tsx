@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import {
   Accordion,
+  AIChat,
   Avatar,
   Badge,
   Button,
@@ -13,6 +14,7 @@ import {
   Stat,
   Text,
   type ComponentSize,
+  type ChatMessage,
 } from '../../lib/main';
 import { DemoPage } from './demo-page';
 import { Code } from './shared/Code';
@@ -200,7 +202,136 @@ function SplitterEventsDemo() {
   );
 }
 
+function AIChatBasicDemo() {
+  return (
+    <AIChat
+      messages={[
+        { role: 'system', content: 'You are a terse assistant.' },
+        { role: 'user', content: 'Hello' },
+        { role: 'assistant', content: 'Hi — how can I help?' },
+      ]}
+    />
+  );
+}
+
+function AIChatBoundDemo() {
+  const [messages, setMessages] = useState<ChatMessage[]>([
+    { role: 'assistant', content: 'Ask me something.' },
+  ]);
+  const [loading, setLoading] = useState(false);
+  const [events, setEvents] = useState<string[]>([]);
+  const log = (message: string) => setEvents((prev) => [message, ...prev]);
+  async function onSend(text: string) {
+    log(`send: "${text}"`);
+    setMessages((prev) => [...prev, { role: 'user', content: text }]);
+    setLoading(true);
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    setLoading(false);
+    setMessages((prev) => [
+      ...prev,
+      { role: 'assistant', content: `Echo: ${text}` },
+    ]);
+  }
+  return (
+    <Stack orientation="vertical" gap={12}>
+      <AIChat messages={messages} onSend={onSend} loading={loading} />
+      <EventLog
+        events={events}
+        emptyText="Send a message to log the round trip."
+      />
+    </Stack>
+  );
+}
+
+function AIChatTemplatesDemo() {
+  return (
+    <AIChat
+      messages={[
+        { role: 'user', content: 'Template hello' },
+        { role: 'assistant', content: 'Template reply' },
+      ]}
+      messageTemplate={(message) => (
+        <Text textStyle="body1">
+          <b>{message.role}:</b> {message.content}
+        </Text>
+      )}
+      inputTemplate={(input) => (
+        <Stack orientation="vertical" gap={4}>
+          {input}
+          <Text textStyle="caption" className="dx-text-muted">
+            The default input row wrapped by inputTemplate.
+          </Text>
+        </Stack>
+      )}
+    />
+  );
+}
+
+const AI_CHAT_KEYS: KeyboardBinding[] = [
+  { keys: 'Enter', action: 'Send the draft message' },
+  { keys: 'Tab', action: 'Move between the input and send button' },
+  {
+    keys: 'Space',
+    action: 'Activate the send button when focused',
+  },
+];
+
+function AIChatDemosPage() {
+  return (
+    <DemoPage
+      title="AIChat"
+      description="A non-streaming chat surface: role-styled message list announced via an aria-live log, trimmed input with submit, and loading state for the pending reply."
+      sections={[
+        {
+          id: 'aichat-basic',
+          title: 'Basic',
+          description:
+            'Messages render with role styling inside role="log" aria-live="polite" (test: renders messages with roles and an aria-live log).',
+          content: <AIChatBasicDemo />,
+        },
+        {
+          id: 'aichat-bound',
+          title: 'Bound conversation',
+          description:
+            'onSend appends the user message, loading shows the typing dots, then the assistant reply lands — both in the list and the EventLog.',
+          content: <AIChatBoundDemo />,
+        },
+        {
+          id: 'aichat-templates',
+          title: 'Templates',
+          description:
+            'messageTemplate overrides per-message markup; inputTemplate wraps the default input row (test: honors message and input templates).',
+          content: <AIChatTemplatesDemo />,
+        },
+        {
+          id: 'aichat-states',
+          title: 'States',
+          description:
+            'loading shows the typing indicator and disables send; disabled blocks the whole form.',
+          content: (
+            <Stack orientation="vertical" gap={16}>
+              <AIChat
+                messages={[{ role: 'user', content: 'Still there?' }]}
+                loading
+              />
+              <AIChat messages={[]} disabled placeholder="Input disabled" />
+            </Stack>
+          ),
+        },
+        {
+          id: 'aichat-keyboard',
+          title: 'Keyboard',
+          content: <KeyboardTable bindings={AI_CHAT_KEYS} />,
+        },
+      ]}
+    />
+  );
+}
+
 export function DisplayDemos({ slug }: { slug: string }) {
+  if (slug === 'aichat') {
+    return <AIChatDemosPage />;
+  }
   if (slug === 'badge') {
     return (
       <DemoPage

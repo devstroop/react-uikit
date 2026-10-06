@@ -222,6 +222,7 @@ export { HtmlEditor } from './components/HtmlEditor/HtmlEditor';
 export type {
   HtmlEditorProps,
   HtmlEditorTool,
+  HtmlEditorHandle,
 } from './components/HtmlEditor/HtmlEditor';
 export { PopupProvider, usePopup } from './components/Popup/Popup';
 export type { PopupApi, PopupOpenOptions } from './components/Popup/Popup';

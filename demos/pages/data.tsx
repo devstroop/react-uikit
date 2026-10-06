@@ -896,8 +896,123 @@ function GaugesDemosPage() {
   );
 }
 
+const SPARKLINE: number[] = Array.from({ length: 24 }, (_, i) =>
+  Math.round(40 + 30 * Math.sin(i / 2))
+);
+
+function RangeNavigatorBasicDemo() {
+  const [events, setEvents] = useState<string[]>([]);
+  const log = (message: string) => setEvents((prev) => [message, ...prev]);
+  return (
+    <Stack orientation="vertical" gap={12}>
+      <RangeNavigator
+        min={0}
+        max={100}
+        defaultValue={{ start: 20, end: 80 }}
+        onChange={(w) =>
+          log(`onChange: ${Math.round(w.start)}–${Math.round(w.end)}`)
+        }
+      />
+      <EventLog
+        events={events}
+        emptyText="Drag a handle or the window body to log onChange."
+      />
+    </Stack>
+  );
+}
+
+function RangeNavigatorBoundDemo() {
+  const [range, setRange] = useState({ start: 25, end: 75 });
+  const [events, setEvents] = useState<string[]>([]);
+  const log = (message: string) => setEvents((prev) => [message, ...prev]);
+  return (
+    <Stack orientation="vertical" gap={12}>
+      <RangeNavigator
+        min={0}
+        max={100}
+        value={range}
+        onChange={(w) => {
+          setRange(w);
+          log(`onChange: ${Math.round(w.start)}–${Math.round(w.end)}`);
+        }}
+        data={SPARKLINE}
+        ariaLabel="Zoom window"
+      />
+      <Text textStyle="body2" className="dx-text-muted">
+        Window: {Math.round(range.start)}–{Math.round(range.end)} of 0–100
+      </Text>
+      <EventLog
+        events={events}
+        emptyText="Drag the handles — the readout and log track the window."
+      />
+    </Stack>
+  );
+}
+
+const RANGE_KEYS = [
+  {
+    keys: 'ArrowLeft / ArrowDown',
+    action: 'Shrink the focused edge by one step',
+  },
+  {
+    keys: 'ArrowRight / ArrowUp',
+    action: 'Grow the focused edge by one step',
+  },
+  { keys: 'Shift + Arrow', action: 'Ten steps at once' },
+  { keys: 'Home / End', action: 'Jump the focused edge to a domain edge' },
+];
+
+function RangeNavigatorDemosPage() {
+  return (
+    <DemoPage
+      title="RangeNavigator"
+      description="A zoom/pan window over a numeric domain — two slider handles bound the window, drag the body to pan, arrow keys drive the focused handle, and onChange feeds chart axes for linked zooming."
+      sections={[
+        {
+          id: 'rangenavigator-basic',
+          title: 'Basic',
+          description:
+            'Uncontrolled with a default window; every committed change logs.',
+          content: <RangeNavigatorBasicDemo />,
+        },
+        {
+          id: 'rangenavigator-bound',
+          title: 'Bound window and sparkline',
+          description:
+            'Controlled value plus data renders the sparkline track; the readout and EventLog prove the event stream.',
+          content: <RangeNavigatorBoundDemo />,
+        },
+        {
+          id: 'rangenavigator-minspan',
+          title: 'Min span',
+          description:
+            'minSpan clamps the window narrower than 10 domain units — drag a handle to the edge and watch it hold.',
+          content: (
+            <Stack orientation="vertical" gap={12}>
+              <RangeNavigator
+                min={0}
+                max={100}
+                defaultValue={{ start: 45, end: 55 }}
+                minSpan={10}
+                onChange={() => undefined}
+              />
+            </Stack>
+          ),
+        },
+        {
+          id: 'rangenavigator-keyboard',
+          title: 'Keyboard',
+          content: <KeyboardTable bindings={RANGE_KEYS} />,
+        },
+      ]}
+    />
+  );
+}
+
 export function DataDemos({ slug }: { slug: string }) {
   switch (slug) {
+    case 'rangenavigator':
+      return <RangeNavigatorDemosPage />;
     case 'datagrid':
       return (
         <DemoPage

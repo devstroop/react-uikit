@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs';
+import { readdirSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { expect, test } from '@playwright/test';
 import { DEMO_GROUPS } from '../demos/nav';
@@ -48,6 +48,44 @@ test.describe('demo completeness — registries', () => {
     expect(routed.filter((slug) => slug !== '').sort()).toEqual(
       [...SLUGS].sort()
     );
+  });
+
+  test('every lib component has a demo slug (or a documented exemption)', () => {
+    // Directories that legitimately have no slug of their own. Each entry
+    // must name an existing directory and carry a reason.
+    const NAV_EXEMPT: Record<string, string> = {
+      DialogService:
+        'imperative wrapper over Dialog; exercised through the Dialog demo',
+      LiveRegion: 'accessibility helper, no visual surface to demo',
+      MediaQuery: 'hook-only utility, no visual surface to demo',
+      NotificationService: 'service wrapper; surfaced by the Toast demo',
+      ThemeService: 'theming core; surfaced by themetoggle/themeswitcher',
+      Utilities: 'helper functions, not a component',
+      Validators: 'field validators exercised inside the Form demo',
+    };
+
+    const componentsDir = fileURLToPath(
+      new URL('../lib/components', import.meta.url)
+    );
+    const dirs = readdirSync(componentsDir, { withFileTypes: true })
+      .filter((entry) => entry.isDirectory())
+      .map((entry) => entry.name);
+
+    const missing = dirs.filter(
+      (dir) => !SLUGS.includes(dir.toLowerCase()) && !(dir in NAV_EXEMPT)
+    );
+    expect(
+      missing,
+      'lib/components directories with no matching nav slug — add a demo page and a nav entry, or document the exemption here'
+    ).toEqual([]);
+
+    const staleExemptions = Object.keys(NAV_EXEMPT).filter(
+      (dir) => !dirs.includes(dir)
+    );
+    expect(
+      staleExemptions,
+      'exemption list names a directory that no longer exists'
+    ).toEqual([]);
   });
 });
 

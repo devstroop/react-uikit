@@ -13,14 +13,18 @@ import {
   Fieldset,
   Form,
   FormField,
+  HtmlEditor,
+  type HtmlEditorHandle,
   Input,
   Label,
   ListBox,
+  Login,
   Mask,
   Numeric,
   Password,
   RadioButtonList,
   Rating,
+  Row,
   Select,
   SelectBar,
   SecurityCode,
@@ -45,7 +49,10 @@ import {
 import { Code } from './shared/Code';
 import { DemoPage } from './demo-page';
 import { EventLog } from './shared/EventLog';
-import { KeyboardTable } from './shared/KeyboardTable';
+import {
+  KeyboardTable,
+  type KeyboardBinding,
+} from './shared/KeyboardTable';
 
 /** Cards clip by design; popup demos need the overflow escape hatch. */
 const POPUP_CARD: CSSProperties = { overflow: 'visible' };
@@ -2846,8 +2853,270 @@ function ListBoxDemosPage() {
   );
 }
 
+function LoginBasicDemo() {
+  const [events, setEvents] = useState<string[]>([]);
+  const log = (message: string) => setEvents((prev) => [message, ...prev]);
+  return (
+    <Stack orientation="vertical" gap={12}>
+      <Login
+        title="Welcome back"
+        onLogin={async (creds) => {
+          log(`onLogin: ${creds.username}, rememberMe=${creds.rememberMe}`);
+          await new Promise((resolve) => setTimeout(resolve, 400));
+        }}
+        onRegister={() => log('onRegister')}
+        onForgotPassword={() => log('onForgotPassword')}
+      />
+      <EventLog
+        events={events}
+        emptyText="Submit empty to see validation, then sign in, register or recover."
+      />
+    </Stack>
+  );
+}
+
+function LoginStatesDemo() {
+  return (
+    <Row gap={16} wrap align="start">
+      <Login
+        title="Busy sign-in"
+        submitText="Signing in…"
+        rememberMe={false}
+        loading
+      />
+      <Login
+        title="Custom labels"
+        usernameLabel="Email"
+        passwordLabel="Passcode"
+        submitText="Continue"
+        rememberMe={false}
+      />
+    </Row>
+  );
+}
+
+function LoginContentDemo() {
+  const [events, setEvents] = useState<string[]>([]);
+  const log = (message: string) => setEvents((prev) => [message, ...prev]);
+  return (
+    <Stack orientation="vertical" gap={12}>
+      <Login
+        title={
+          <Text textStyle="h6" tagName="h3">
+            Create your account
+          </Text>
+        }
+        usernameLabel="Handle"
+        passwordLabel="Passphrase"
+        submitText="Create account"
+        registerContent="Back to sign in"
+        forgotPasswordContent="Need a recovery code?"
+        onLogin={() => log('onLogin')}
+        onRegister={() => log('onRegister')}
+        onForgotPassword={() => log('onForgotPassword')}
+      />
+      <EventLog
+        events={events}
+        emptyText="Submit, or use the two custom link labels."
+      />
+    </Stack>
+  );
+}
+
+const LOGIN_KEYS: KeyboardBinding[] = [
+  {
+    keys: 'Tab / Shift+Tab',
+    action: 'Move between username, password, remember-me and the actions',
+  },
+  { keys: 'Enter', action: 'Submit the form from any field' },
+  { keys: 'Space', action: 'Toggle the remember-me checkbox' },
+];
+
+function LoginDemosPage() {
+  return (
+    <DemoPage
+      title="Login"
+      description="A credentials form with built-in validation, remember-me persistence and a pending state — SPA apps pass onLogin, native apps pass action."
+      sections={[
+        {
+          id: 'login-basic',
+          title: 'Basic',
+          description:
+            'Empty fields block submit with per-field errors; a valid submit runs onLogin with the credentials (tests: blocks empty submit with field errors, submits credentials incl. rememberMe and persists the username).',
+          content: <LoginBasicDemo />,
+        },
+        {
+          id: 'login-states',
+          title: 'States and labels',
+          description:
+            'loading OR-eds with the internal pending state to disable inputs and show the spinner; labels and submit text are overridable. Pass action without onLogin to post natively instead of intercepting.',
+          content: <LoginStatesDemo />,
+        },
+        {
+          id: 'login-content',
+          title: 'Content slots',
+          description:
+            'title/usernameLabel/passwordLabel/submitText and the register/forgot slots relabel the whole form without restyle (test: fires register and forgot-password events).',
+          content: <LoginContentDemo />,
+        },
+        {
+          id: 'login-keyboard',
+          title: 'Keyboard',
+          content: <KeyboardTable bindings={LOGIN_KEYS} />,
+        },
+      ]}
+    />
+  );
+}
+
+function HtmlEditorBasicDemo() {
+  const [html, setHtml] = useState('<p>Hello <b>demo</b></p>');
+  const [events, setEvents] = useState<string[]>([]);
+  const log = (message: string) => setEvents((prev) => [message, ...prev]);
+  return (
+    <Stack orientation="vertical" gap={12}>
+      <HtmlEditor
+        value={html}
+        onChange={(next) => {
+          setHtml(next);
+          log(`onChange: ${next.length} chars`);
+        }}
+      />
+      <EventLog
+        events={events}
+        emptyText="Type in the editor to log sanitized onChange."
+      />
+    </Stack>
+  );
+}
+
+function HtmlEditorSourceDemo() {
+  const [html, setHtml] = useState('<p>Toggle source, edit, toggle back.</p>');
+  const [events, setEvents] = useState<string[]>([]);
+  const log = (message: string) => setEvents((prev) => [message, ...prev]);
+  return (
+    <Stack orientation="vertical" gap={12}>
+      <HtmlEditor
+        value={html}
+        onChange={(next) => {
+          setHtml(next);
+          log(`onChange: ${next}`);
+        }}
+      />
+      <EventLog
+        events={events}
+        emptyText="Toggle source, paste a <script> payload — it is stripped on the way back."
+      />
+    </Stack>
+  );
+}
+
+function HtmlEditorToolbarDemo() {
+  const ref = useRef<HtmlEditorHandle>(null);
+  const [events, setEvents] = useState<string[]>([]);
+  const log = (message: string) => setEvents((prev) => [message, ...prev]);
+  return (
+    <Stack orientation="vertical" gap={12}>
+      <HtmlEditor
+        ref={ref}
+        defaultValue="<p>Custom toolbar below.</p>"
+        toolbar={[
+          'bold',
+          'italic',
+          'separator',
+          'source',
+          {
+            id: 'shout',
+            label: 'Shout',
+            glyph: '!',
+            onExecute: (api) => log(`shout: getHtml ${api.getHtml().length} chars`),
+          },
+        ]}
+      />
+      <Button
+        size="sm"
+        onClick={() => {
+          ref.current?.execCommand('bold');
+          log('ref.execCommand("bold")');
+        }}
+      >
+        Bold via ref
+      </Button>
+      <EventLog
+        events={events}
+        emptyText="Use the Shout custom tool or the ref button."
+      />
+    </Stack>
+  );
+}
+
+const HTML_EDITOR_KEYS: KeyboardBinding[] = [
+  {
+    keys: 'Ctrl/Cmd + B / I / U',
+    action: 'Bold, italic, underline (test: ctrl+b/i/u run the matching command)',
+  },
+  {
+    keys: 'Tab',
+    action: 'Move focus across toolbar controls, the area and dialogs',
+  },
+  { keys: 'Enter / Space', action: 'Activate the focused toolbar button' },
+];
+
+function HtmlEditorDemosPage() {
+  return (
+    <DemoPage
+      title="HtmlEditor"
+      description="ContentEditable rich-text editor with a sanitized HTML event stream, toolbar presets, source mode and a ref handle."
+      sections={[
+        {
+          id: 'htmleditor-basic',
+          title: 'Basic',
+          description:
+            'Controlled value with onChange emitting sanitized HTML on every edit (test: emits sanitized HTML, stripping scripts).',
+          content: <HtmlEditorBasicDemo />,
+        },
+        {
+          id: 'htmleditor-source',
+          title: 'Source mode',
+          description:
+            'The source toggle swaps the area for a textarea; edits round-trip and sanitize on the way back (test: source mode edits round-trip through the toggle).',
+          content: <HtmlEditorSourceDemo />,
+        },
+        {
+          id: 'htmleditor-toolbar',
+          title: 'Toolbar and custom tools',
+          description:
+            'toolbar accepts a subset of built-ins plus custom tools that receive the tool API; the ref handle runs execCommand/getHtml from outside.',
+          content: <HtmlEditorToolbarDemo />,
+        },
+        {
+          id: 'htmleditor-states',
+          title: 'States',
+          description:
+            'readOnly keeps the document visible without editing; disabled drops contenteditable and blocks every tool.',
+          content: (
+            <Stack orientation="vertical" gap={12}>
+              <HtmlEditor defaultValue="<p>Read-only copy.</p>" readOnly />
+              <HtmlEditor defaultValue="<p>Disabled copy.</p>" disabled />
+            </Stack>
+          ),
+        },
+        {
+          id: 'htmleditor-keyboard',
+          title: 'Keyboard',
+          content: <KeyboardTable bindings={HTML_EDITOR_KEYS} />,
+        },
+      ]}
+    />
+  );
+}
+
 export function FormDemos({ slug }: { slug: string }) {
   switch (slug) {
+    case 'login':
+      return <LoginDemosPage />;
+    case 'htmleditor':
+      return <HtmlEditorDemosPage />;
     case 'form':
       return <FormDemosPage />;
     case 'field':
