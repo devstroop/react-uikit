@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
+import { useMediaQuery } from '../../hooks/useMediaQuery';
 import styles from './Carousel.module.css';
 
 export interface CarouselProps {
@@ -94,14 +95,23 @@ export function Carousel({
     [emitChange]
   );
 
-  // auto play
+  // auto play — WCAG 2.3.3: no auto-advance for reduced-motion users
+  const reducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
   useEffect(() => {
-    if (!isAuto || paused || items.length <= 1) return;
+    if (!isAuto || paused || reducedMotion || items.length <= 1) return;
     const id = setInterval(() => {
       emitChange(clamped + 1);
     }, intervalMs);
     return () => clearInterval(id);
-  }, [isAuto, paused, intervalMs, clamped, emitChange, items.length]);
+  }, [
+    isAuto,
+    paused,
+    reducedMotion,
+    intervalMs,
+    clamped,
+    emitChange,
+    items.length,
+  ]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (items.length === 0) return;

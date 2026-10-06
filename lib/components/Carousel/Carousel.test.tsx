@@ -163,6 +163,28 @@ describe('Carousel', () => {
     expect(getSlides(container)[2]).not.toHaveAttribute('hidden');
   });
 
+  it('does not autoplay under prefers-reduced-motion', async () => {
+    vi.useFakeTimers();
+    vi.stubGlobal(
+      'matchMedia',
+      vi.fn(() => ({
+        matches: true,
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+        addListener: vi.fn(),
+        removeListener: vi.fn(),
+      }))
+    );
+    const { container } = render(
+      <Carousel items={items} auto interval={1000} defaultIndex={0} />
+    );
+    await act(async () => {
+      vi.advanceTimersByTime(3000);
+    });
+    expect(getSlides(container)[0]).not.toHaveAttribute('hidden');
+    vi.unstubAllGlobals();
+  });
+
   it('pause button toggles paused state and aria-pressed', async () => {
     const user = userEvent.setup();
     render(<Carousel items={items} auto interval={1000} />);
