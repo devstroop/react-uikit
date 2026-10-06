@@ -60,6 +60,29 @@ describe('pattern', () => {
   it('passes empty values', () => {
     expect(pattern(/^\d+$/)('')).toBeNull();
   });
+
+  it('is stable across calls with a global regex', () => {
+    const v = pattern(/\d+/g, 'digits only');
+    expect(v('123')).toBeNull();
+    expect(v('123')).toBeNull();
+    expect(v('123')).toBeNull();
+    expect(v('abc')).toBe('digits only');
+  });
+
+  it('is stable across calls with a sticky regex', () => {
+    const v = pattern(/\d+/y, 'digits only');
+    expect(v('123')).toBeNull();
+    expect(v('123')).toBeNull();
+    expect(v('123')).toBeNull();
+    expect(v('abc')).toBe('digits only');
+  });
+
+  it('restores the caller lastIndex', () => {
+    const re = /\d+/g;
+    re.lastIndex = 2;
+    pattern(re)('123');
+    expect(re.lastIndex).toBe(2);
+  });
 });
 
 describe('minLength / maxLength', () => {

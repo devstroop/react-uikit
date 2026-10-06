@@ -21,7 +21,14 @@ export const pattern =
   (regexp: RegExp, message = 'Invalid format'): Validator =>
   (value) => {
     if (isEmpty(value)) return null;
-    return regexp.test(String(value)) ? null : message;
+    // Global/sticky regexes are stateful: `test` advances lastIndex, so the
+    // same input would flip pass/fail on alternate calls. Run each test from
+    // index 0 and restore whatever the caller's lastIndex was.
+    const prevLastIndex = regexp.lastIndex;
+    regexp.lastIndex = 0;
+    const ok = regexp.test(String(value));
+    regexp.lastIndex = prevLastIndex;
+    return ok ? null : message;
   };
 
 export const minLength =
