@@ -28,6 +28,25 @@
   left: var(--dx-space-6);
 }
 
+/* Top corners: the trigger stays pinned to the top edge and the menu
+ * expands downward (reverse the root so the trigger renders first). */
+.topRight,
+.topLeft {
+  flex-direction: column-reverse;
+}
+
+/* Children align to the anchored edge so opening never nudges the
+ * trigger out of its corner (centered alignment would drift inward). */
+.bottomLeft,
+.topLeft {
+  align-items: flex-start;
+}
+
+.bottomRight,
+.topRight {
+  align-items: flex-end;
+}
+
 .bottomRight .menu,
 .bottomLeft .menu {
   flex-direction: column-reverse;
@@ -36,6 +55,18 @@
 .topRight .menu,
 .topLeft .menu {
   flex-direction: column;
+}
+
+/* Per-row buttons line up on the anchored edge even though tooltip
+ * widths differ between rows. */
+.bottomLeft .menu,
+.topLeft .menu {
+  align-items: flex-start;
+}
+
+.bottomRight .menu,
+.topRight .menu {
+  align-items: flex-end;
 }
 
 .menu {
