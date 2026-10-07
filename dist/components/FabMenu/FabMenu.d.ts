@@ -1,6 +1,7 @@
+import { IconName } from '../Icon/Icon';
 export interface FabMenuItem {
     text: string;
-    icon?: string;
+    icon?: IconName;
     value?: string;
     disabled?: boolean;
 }
@@ -12,7 +13,7 @@ export type FabMenuPosition = 'bottom-right' | 'bottom-left' | 'top-right' | 'to
 export interface FabMenuProps {
     items: FabMenuItem[];
     position?: FabMenuPosition;
-    icon?: string;
+    icon?: IconName;
     onClick?: (args: FabMenuItemEventArgs) => void;
     ariaLabel?: string;
     className?: string;

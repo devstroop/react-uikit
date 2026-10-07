@@ -1,10 +1,10 @@
 import { useCallback, useRef, useState } from 'react';
-import { Icon } from '../Icon/Icon';
+import { Icon, type IconName } from '../Icon/Icon';
 import styles from './Steps.module.css';
 
 export interface StepsItem {
   text: string;
-  icon?: string;
+  icon?: IconName;
   disabled?: boolean;
 }
 
@@ -155,7 +155,9 @@ export function Steps({
                       <Icon icon="check" size="sm" />
                     </span>
                   ) : item.icon ? (
-                    <span className={styles.icon}>{item.icon}</span>
+                    <span className={styles.icon}>
+                      <Icon icon={item.icon} size={14} />
+                    </span>
                   ) : (
                     <span className={styles.number}>{index + 1}</span>
                   )}

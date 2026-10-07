@@ -37,7 +37,7 @@ const BUTTON_ICONS: Record<
 
 const SPLIT_ITEMS = [
   { key: 'edit', label: 'Edit', icon: 'edit' as const },
-  { key: 'duplicate', label: 'Duplicate', icon: 'copy' as const },
+  { key: 'duplicate', label: 'Duplicate', icon: 'content_copy' as const },
   { key: 'download', label: 'Download', icon: 'download' as const },
 ];
 
@@ -108,95 +108,136 @@ const FAB_POSITIONS = [
   'top-left',
 ] as const;
 
-function FabMenuBasicDemo() {
-  const [events, setEvents] = useState<string[]>([]);
-  const log = (message: string) => setEvents((prev) => [message, ...prev]);
-  return (
-    <Stack orientation="vertical" gap={8}>
-      <FabMenu
-        ariaLabel="Quick actions"
-        items={[
-          { text: 'New draft', value: 'draft', icon: 'plus' },
-          { text: 'Refresh', value: 'refresh', icon: 'refresh' },
-          { text: 'Publish', value: 'publish', icon: 'check-circle' },
-        ]}
-        onClick={({ text, value }) =>
-          log(`activate ${text} (value: ${value ?? '-'})`)
-        }
-      />
-      <Text textStyle="body2" className="dx-text-muted">
-        The floating menu sits in the viewport corner wherever you scroll — open
-        it and pick an item, click outside to dismiss.
-      </Text>
-      <EventLog
-        events={events}
-        emptyText="Open the FAB and activate an item to log onClick."
-      />
-    </Stack>
-  );
-}
+const FAB_ITEMS = [
+  { text: 'New draft', value: 'draft', icon: 'add' },
+  { text: 'Refresh', value: 'refresh', icon: 'refresh' },
+  { text: 'Publish', value: 'publish', icon: 'check_circle' },
+  { text: 'Delete', value: 'delete', icon: 'delete', disabled: true },
+];
 
-function FabMenuPositionDemo() {
+const FAB_TRIGGER_ICONS = [
+  { value: 'add', label: "default ('add')" },
+  { value: 'settings', label: "custom ('settings')" },
+];
+
+/** Single page-level FAB: exactly one trigger is mounted, and the
+ * position/icon selects retarget it (one corner at a time). */
+function FabMenuDemo() {
   const [position, setPosition] =
-    useState<(typeof FAB_POSITIONS)[number]>('bottom-left');
+    useState<(typeof FAB_POSITIONS)[number]>('bottom-right');
+  const [icon, setIcon] = useState<IconName>('add');
   const [events, setEvents] = useState<string[]>([]);
   const log = (message: string) => setEvents((prev) => [message, ...prev]);
-  return (
-    <Stack orientation="vertical" gap={8}>
-      <Stack orientation="horizontal" gap={8} align="center">
-        <Text textStyle="caption">position</Text>
-        <Select
-          aria-label="FAB position"
-          value={position}
-          onChange={(e) =>
-            setPosition(e.target.value as (typeof FAB_POSITIONS)[number])
-          }
-          options={FAB_POSITIONS.map((v) => ({ value: v, label: v }))}
-        />
-        <Text textStyle="caption" className="dx-text-muted">
-          {position}
-        </Text>
-      </Stack>
-      <FabMenu
-        position={position}
-        items={[
-          { text: 'Compose', value: 'compose' },
-          { text: 'Upload', value: 'upload' },
-        ]}
-        onClick={({ text }) => log(`${position}: ${text}`)}
-      />
-      <EventLog events={events} emptyText="Pick a corner, then use the menu." />
-    </Stack>
-  );
-}
 
-function FabMenuStatesDemo() {
-  const [events, setEvents] = useState<string[]>([]);
-  const log = (message: string) => setEvents((prev) => [message, ...prev]);
   return (
-    <Stack orientation="vertical" gap={8}>
-      <FabMenu
-        position="top-left"
-        ariaLabel="Overflow actions"
-        icon="settings"
-        items={[
-          { text: 'Edit', value: 'edit', icon: 'edit' },
-          { text: 'Duplicate', value: 'duplicate', icon: 'copy' },
-          { text: 'Delete', value: 'delete', disabled: true },
-        ]}
-        onClick={({ text }) => log(`activate ${text}`)}
-      />
-      <Text textStyle="body2" className="dx-text-muted">
-        Custom trigger icon + ariaLabel; the disabled Delete item keeps
-        role="menuitem" but exposes aria-disabled and never fires onClick
-        (tests: marks disabled item with aria-disabled and disables button, does
-        not fire for disabled item). Each item also carries a title tooltip.
-      </Text>
-      <EventLog
-        events={events}
-        emptyText="Delete is disabled — activate Edit or Duplicate to log."
-      />
-    </Stack>
+    <DemoPage
+      title="FabMenu"
+      description="Floating action button that expands into a corner menu — aria-expanded on the trigger, menu items in DOM order and Escape to dismiss."
+      sections={[
+        {
+          id: 'fabmenu-basic',
+          title: 'Basic',
+          description:
+            'Exactly one FAB is mounted for the page; the controls below retarget it. The trigger reports aria-haspopup="menu" and aria-expanded; opening rotates the icon 45° and renders role="menu" items with value payloads (tests: aria-haspopup/aria-expanded false, toggles menu on click, fires onClick with value, closes on outside click).',
+          content: (
+            <Stack orientation="vertical" gap={8}>
+              <FabMenu
+                position={position}
+                icon={icon}
+                items={FAB_ITEMS}
+                onClick={({ text, value }) =>
+                  log(`activate ${text} (value: ${value ?? '-'})`)
+                }
+              />
+              <Text textStyle="body2" className="dx-text-muted">
+                The floating trigger follows the position chosen below — one
+                corner at a time, never stacked with a second FAB.
+              </Text>
+              <EventLog
+                events={events}
+                emptyText="Open the FAB and activate an item to log onClick."
+              />
+            </Stack>
+          ),
+        },
+        {
+          id: 'fabmenu-positions',
+          title: 'Positions',
+          description:
+            'position pins the FAB to one of the four viewport corners — fixed positioning, so it floats above card clipping (test: applies position class for each position). The menu expands away from the anchored edge (down for top corners, up for bottom), aligned to that side, and the trigger never shifts while opening.',
+          content: (
+            <Row align="center" gap={8} wrap>
+              <Text textStyle="caption">position</Text>
+              <Select
+                aria-label="FAB position"
+                value={position}
+                onChange={(e) => {
+                  const next = e.target.value as (typeof FAB_POSITIONS)[number];
+                  setPosition(next);
+                  log(`position: ${next}`);
+                }}
+                options={FAB_POSITIONS.map((v) => ({ value: v, label: v }))}
+              />
+              <Text textStyle="caption" className="dx-text-muted">
+                {position}
+              </Text>
+            </Row>
+          ),
+        },
+        {
+          id: 'fabmenu-states',
+          title: 'Icons & disabled items',
+          description:
+            'Custom trigger icon and per-item disabled state: the disabled Delete item keeps role="menuitem" but exposes aria-disabled and never fires onClick (tests: renders custom main icon, marks disabled item, does not fire for disabled item). Each item also carries a title tooltip.',
+          content: (
+            <Row align="center" gap={8} wrap>
+              <Text textStyle="caption">trigger icon</Text>
+              <Select
+                aria-label="FAB trigger icon"
+                value={icon}
+                onChange={(e) => {
+                  const next = e.target.value as IconName;
+                  setIcon(next);
+                  log(`trigger icon: ${next}`);
+                }}
+                options={FAB_TRIGGER_ICONS}
+              />
+              <Text textStyle="caption" className="dx-text-muted">
+                {icon}
+              </Text>
+            </Row>
+          ),
+        },
+        {
+          id: 'fabmenu-keyboard',
+          title: 'Keyboard',
+          content: (
+            <KeyboardTable
+              bindings={[
+                {
+                  keys: 'Enter / Space / ArrowDown',
+                  action:
+                    'Open the menu from the trigger (test: main button Enter opens menu)',
+                },
+                {
+                  keys: 'Tab',
+                  action: 'Move from the trigger into the menu items, then out',
+                },
+                {
+                  keys: 'Enter / Space',
+                  action: 'Activate the focused item (native button)',
+                },
+                {
+                  keys: 'Escape',
+                  action:
+                    'Close the menu and refocus the trigger (test: closes on Escape and returns focus to main)',
+                },
+              ]}
+            />
+          ),
+        },
+      ]}
+    />
   );
 }
 
@@ -449,9 +490,9 @@ export function ButtonDemos({ slug }: { slug: string }) {
               <SplitButton
                 label="Export"
                 items={[
-                  { key: 'pdf', label: 'Export as PDF', icon: 'file' },
+                  { key: 'pdf', label: 'Export as PDF', icon: 'description' },
                   { key: 'csv', label: 'Export as CSV', icon: 'download' },
-                  { key: 'demos', label: 'Demos', icon: 'eye' },
+                  { key: 'demos', label: 'Demos', icon: 'visibility' },
                   {
                     key: 'share',
                     label: 'Share',
@@ -461,7 +502,7 @@ export function ButtonDemos({ slug }: { slug: string }) {
                   {
                     key: 'archive',
                     label: 'Archive',
-                    icon: 'trash',
+                    icon: 'delete',
                     danger: true,
                   },
                 ]}
@@ -497,64 +538,7 @@ export function ButtonDemos({ slug }: { slug: string }) {
     );
   }
   if (slug === 'fabmenu') {
-    return (
-      <DemoPage
-        title="FabMenu"
-        description="Floating action button that expands into a corner menu — aria-expanded on the trigger, menu items in DOM order and Escape to dismiss."
-        sections={[
-          {
-            id: 'fabmenu-basic',
-            title: 'Basic',
-            description:
-              'The trigger reports aria-haspopup="menu" and aria-expanded; opening swaps the + icon through a 45° rotation and renders role="menu" items with value payloads (tests: renders main button with aria-haspopup and aria-expanded false, toggles menu on main button click, fires onClick with value when item clicked, closes on outside click).',
-            content: <FabMenuBasicDemo />,
-          },
-          {
-            id: 'fabmenu-positions',
-            title: 'Positions',
-            description:
-              'position pins the FAB to one of the four viewport corners — fixed positioning, so it floats above card clipping (test: applies position class for each position). Drive it from the select; the demos on this page start in distinct corners (bottom-right, bottom-left, top-left) so they never stack over each other.',
-            content: <FabMenuPositionDemo />,
-          },
-          {
-            id: 'fabmenu-states',
-            title: 'Icons & disabled items',
-            description:
-              'Custom trigger icon, custom ariaLabel and per-item disabled state (tests: renders custom main icon, uses custom ariaLabel, marks disabled item with aria-disabled and disables button, item has title tooltip).',
-            content: <FabMenuStatesDemo />,
-          },
-          {
-            id: 'fabmenu-keyboard',
-            title: 'Keyboard',
-            content: (
-              <KeyboardTable
-                bindings={[
-                  {
-                    keys: 'Enter / Space / ArrowDown',
-                    action:
-                      'Open the menu from the trigger (test: main button Enter opens menu)',
-                  },
-                  {
-                    keys: 'Tab',
-                    action:
-                      'Move from the trigger into the menu items, then out',
-                  },
-                  {
-                    keys: 'Enter / Space',
-                    action: 'Activate the focused item (native button)',
-                  },
-                  {
-                    keys: 'Escape',
-                    action:
-                      'Close the menu and refocus the trigger (test: closes on Escape and returns focus to main)',
-                  },
-                ]}
-              />
-            ),
-          },
-        ]}
-      />
-    );
+    return <FabMenuDemo />;
   }
   return (
     <DemoPage
