@@ -147,6 +147,7 @@ describe('Steps', () => {
   it('renders icon when provided and number fallback', () => {
     render(<Steps items={items} />);
     expect(screen.getByText('1')).toBeInTheDocument();
+    expect(screen.getByText('1').className).toMatch(/icon/);
     // step3 has no icon, should show number 3
     expect(screen.getByText('3')).toBeInTheDocument();
   });

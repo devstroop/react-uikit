@@ -6,12 +6,13 @@ import {
   useState,
   type ReactNode,
 } from 'react';
+import { Icon, type IconName } from '../Icon/Icon';
 import styles from './ProfileMenu.module.css';
 
 export interface ProfileMenuItem {
   text: string;
   path?: string;
-  icon?: string;
+  icon?: IconName;
   disabled?: boolean;
 }
 
@@ -268,7 +269,7 @@ export function ProfileMenu({
                 >
                   {item.icon ? (
                     <span className={styles.icon} aria-hidden="true">
-                      {item.icon}
+                      <Icon icon={item.icon} size="sm" />
                     </span>
                   ) : null}
                   <span className={styles.text}>{item.text}</span>

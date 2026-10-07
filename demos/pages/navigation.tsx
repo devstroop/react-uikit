@@ -98,7 +98,7 @@ function ContextContentArea({ onLog }: { onLog: (msg: string) => void }) {
                 }}
               >
                 <MenuItem text="Refresh" icon="refresh" />
-                <MenuItem text="Copy link" icon="copy" />
+                <MenuItem text="Copy link" icon="content_copy" />
                 <MenuItem text="Pin" icon="star" disabled />
               </Menu>
             </>
@@ -196,21 +196,21 @@ function MenuDemos() {
             <>
               <Menu ariaLabel="Basic menu" onClick={(a) => logParent(a.text)}>
                 <MenuItem text="General" icon="home">
-                  <MenuItem text="Buttons" path="#/button" icon="plus" />
+                  <MenuItem text="Buttons" path="#/button" icon="add" />
                   <MenuItem text="Menu" path="#/menu" icon="menu" disabled />
                   <MenuItem
                     text="ChildClick"
-                    icon="file"
+                    icon="description"
                     onClick={(a) => logChild(a.text)}
                     disabled
                   />
-                  <MenuItem text="Dialog" path="#/dialog" icon="copy" />
+                  <MenuItem text="Dialog" path="#/dialog" icon="content_copy" />
                 </MenuItem>
                 <MenuItem text="Inputs" icon="settings" disabled>
                   <MenuItem text="CheckBox" path="#/checkbox" />
                   <MenuItem text="TextBox" path="#/textbox" />
                 </MenuItem>
-                <MenuItem text="Data" icon="file">
+                <MenuItem text="Data" icon="description">
                   <MenuItem text="DataGrid" path="#/datagrid" />
                   <MenuItem text="DataList" path="#/datalist" />
                 </MenuItem>
@@ -250,7 +250,7 @@ function MenuDemos() {
                   <MenuItem text="Buttons" path="#/button" />
                   <MenuItem text="Dialog" path="#/dialog" />
                 </MenuItem>
-                <MenuItem text="Data" icon="file">
+                <MenuItem text="Data" icon="description">
                   <MenuItem text="DataGrid" path="#/datagrid" />
                   <MenuItem text="DataList" path="#/datalist" />
                 </MenuItem>
@@ -329,9 +329,13 @@ function PanelMenuDemos() {
                   multiple={multiple}
                 >
                   <PanelMenuItem text="General" icon="home">
-                    <PanelMenuItem text="Buttons" path="#/button" icon="plus" />
+                    <PanelMenuItem text="Buttons" path="#/button" icon="add" />
                     <PanelMenuItem text="Menu" path="#/menu" icon="menu" />
-                    <PanelMenuItem text="Dialog" path="#/dialog" icon="copy" />
+                    <PanelMenuItem
+                      text="Dialog"
+                      path="#/dialog"
+                      icon="content_copy"
+                    />
                   </PanelMenuItem>
                   <PanelMenuItem text="Inputs" icon="settings">
                     <PanelMenuItem text="CheckBox" path="#/checkbox" />
@@ -359,7 +363,7 @@ function PanelMenuDemos() {
                       </PanelMenuItem>
                     </PanelMenuItem>
                   </PanelMenuItem>
-                  <PanelMenuItem text="Disabled Menu" icon="ban" disabled />
+                  <PanelMenuItem text="Disabled Menu" icon="block" disabled />
                 </PanelMenu>
               </div>
               <EventLog events={events} emptyText={MENU_EMPTY_LOG} />
@@ -409,7 +413,7 @@ function PanelMenuDemos() {
                   multiple={false}
                 >
                   <PanelMenuItem text="General" icon="home">
-                    <PanelMenuItem text="Buttons" path="#/button" icon="plus" />
+                    <PanelMenuItem text="Buttons" path="#/button" icon="add" />
                     <PanelMenuItem text="Menu" path="#/menu" icon="menu" />
                   </PanelMenuItem>
                   <PanelMenuItem text="Inputs" icon="settings">
@@ -436,8 +440,12 @@ function PanelMenuDemos() {
                   icon="folder"
                   path="#/resources"
                 />
-                <PanelMenuItem text="Console" icon="file" path="#/console" />
-                <PanelMenuItem text="Logs" icon="copy" path="#/logs" />
+                <PanelMenuItem
+                  text="Console"
+                  icon="description"
+                  path="#/console"
+                />
+                <PanelMenuItem text="Logs" icon="content_copy" path="#/logs" />
               </PanelMenu>
             </div>
           ),
@@ -514,7 +522,7 @@ function ProfileMenuStatesDemo() {
       <ProfileMenu
         ariaLabel="States profile menu"
         items={[
-          { text: 'Profile', icon: 'user', path: '/profile' },
+          { text: 'Profile', icon: 'person', path: '/profile' },
           { text: 'Admin', icon: 'settings', disabled: true },
           { text: 'Billing', path: '/billing' },
         ]}
@@ -785,7 +793,7 @@ export function NavigationDemos({ slug }: { slug: string }) {
                 <Link
                   href="https://example.com"
                   target="_blank"
-                  icon="external-link"
+                  icon="open_in_new"
                 >
                   External with icon
                 </Link>
