@@ -9,7 +9,7 @@ const positions = [
 
 test.describe('FabMenu positioning', () => {
   for (const pos of positions) {
-    test(`FabMenu ${pos} — trigger stays pinned, menu opens away edge-aligned`, async ({
+    test(`FabMenu ${pos} — trigger stays pinned, menu opens away, icons share the trigger axis`, async ({
       page,
     }) => {
       await page.goto('/#/fabmenu');
@@ -27,26 +27,30 @@ test.describe('FabMenu positioning', () => {
 
       const after = await trigger.boundingBox();
       const m = await menu.boundingBox();
-      const first = await menu.getByRole('menuitem').first().boundingBox();
       expect(after).not.toBeNull();
       expect(m).not.toBeNull();
-      expect(first).not.toBeNull();
 
       // Opening must not nudge the trigger out of its corner.
       expect(after).toEqual(before);
 
       const opensDown = pos.startsWith('top');
-      const alignLeft = pos.endsWith('left');
       if (opensDown) {
         expect(m!.y).toBeGreaterThanOrEqual(after!.y + after!.height);
       } else {
         expect(m!.y + m!.height).toBeLessThanOrEqual(after!.y);
       }
-      if (alignLeft) {
-        expect(Math.abs(first!.x - after!.x)).toBeLessThanOrEqual(1);
-      } else {
+      // Every child icon sits on the trigger's icon axis: the 44px item
+      // circles are inset (56-44)/2 from the anchored edge so their
+      // centers coincide with the 56px trigger's center (≤1px tolerance).
+      const triggerCx = after!.x + after!.width / 2;
+      const items = menu.getByRole('menuitem');
+      const count = await items.count();
+      expect(count).toBeGreaterThan(0);
+      for (let i = 0; i < count; i++) {
+        const box = await items.nth(i).boundingBox();
+        expect(box).not.toBeNull();
         expect(
-          Math.abs(first!.x + first!.width - (after!.x + after!.width))
+          Math.abs(box!.x + box!.width / 2 - triggerCx)
         ).toBeLessThanOrEqual(1);
       }
 
