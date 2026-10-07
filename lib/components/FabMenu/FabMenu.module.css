@@ -69,6 +69,20 @@
   align-items: flex-end;
 }
 
+/* The trigger is 56px and items are 44px: pure edge alignment would put
+ * the child-icon column (56-44)/2 = 6px off the trigger's icon axis.
+ * Inset the menu on the anchored side so both icon axes coincide —
+ * the trigger itself is untouched, so opening cannot drift. */
+.bottomRight .menu,
+.topRight .menu {
+  margin-right: calc((56px - 44px) / 2);
+}
+
+.bottomLeft .menu,
+.topLeft .menu {
+  margin-left: calc((56px - 44px) / 2);
+}
+
 .menu {
   display: flex;
   flex-direction: column;
