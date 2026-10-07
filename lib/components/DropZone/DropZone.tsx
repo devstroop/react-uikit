@@ -92,12 +92,11 @@ export const DropZone = forwardRef<DropZoneHandle, DropZoneProps>(
     }));
 
     return (
-      // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- file-drop target; keyboard users pick files via the browse control
+      // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/role-supports-aria-props -- file-drop target; keyboard users pick files via the browse control; aria-disabled is the only AT-visible disabled signal on a non-form region
       <div
         role="region"
         aria-label={label}
-        // aria-disabled is not supported on role=region; disabled state is
-        // conveyed by styles.disabled and the hidden browse affordance.
+        aria-disabled={disabled || undefined}
         className={[
           styles.zone,
           dragging ? styles.dragging : null,
@@ -125,6 +124,7 @@ export const DropZone = forwardRef<DropZoneHandle, DropZoneProps>(
           ref={inputRef}
           type="file"
           hidden
+          disabled={disabled}
           multiple={multiple}
           accept={accept}
           data-testid="dropzone-input"
