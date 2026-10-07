@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
+import { Icon, type IconName } from '../Icon/Icon';
 import styles from './FabMenu.module.css';
 
 export interface FabMenuItem {
   text: string;
-  icon?: string;
+  icon?: IconName;
   value?: string;
   disabled?: boolean;
 }
@@ -19,7 +20,7 @@ export type FabMenuPosition =
 export interface FabMenuProps {
   items: FabMenuItem[];
   position?: FabMenuPosition;
-  icon?: string;
+  icon?: IconName;
   onClick?: (args: FabMenuItemEventArgs) => void;
   ariaLabel?: string;
   className?: string;
@@ -28,7 +29,7 @@ export interface FabMenuProps {
 export function FabMenu({
   items,
   position,
-  icon = '+',
+  icon = 'add',
   onClick,
   ariaLabel = 'Open menu',
   className,
@@ -146,7 +147,11 @@ export function FabMenu({
                   onClick={() => emit(item)}
                 >
                   <span className={styles.itemIcon} aria-hidden="true">
-                    {item.icon ?? '•'}
+                    {item.icon ? (
+                      <Icon icon={item.icon} size={18} />
+                    ) : (
+                      <span>•</span>
+                    )}
                   </span>
                 </button>
               </div>
@@ -171,7 +176,7 @@ export function FabMenu({
             .filter(Boolean)
             .join(' ')}
         >
-          {icon}
+          <Icon icon={icon} size={24} />
         </span>
       </button>
     </div>

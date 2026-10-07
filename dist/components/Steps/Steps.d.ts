@@ -1,6 +1,7 @@
+import { IconName } from '../Icon/Icon';
 export interface StepsItem {
     text: string;
-    icon?: string;
+    icon?: IconName;
     disabled?: boolean;
 }
 export interface StepsProps {

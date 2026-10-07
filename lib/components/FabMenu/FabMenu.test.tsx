@@ -125,6 +125,14 @@ describe('FabMenu', () => {
     expect(screen.getByText('★')).toBeInTheDocument();
   });
 
+  it('renders main and item icons through the icon-font span', async () => {
+    const user = userEvent.setup();
+    render(<FabMenu items={items} />);
+    expect(screen.getByText('add').className).toMatch(/icon/);
+    await user.click(screen.getByRole('button', { name: 'Open menu' }));
+    expect(screen.getByText('+').className).toMatch(/icon/);
+  });
+
   it('main button Enter opens menu', async () => {
     const user = userEvent.setup();
     render(<FabMenu items={items} />);

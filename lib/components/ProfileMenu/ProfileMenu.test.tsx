@@ -166,6 +166,7 @@ describe('ProfileMenu', () => {
     render(<ProfileMenu items={items} />);
     await user.click(screen.getByRole('button', { name: /Profile menu/ }));
     expect(screen.getByText('👤')).toBeInTheDocument();
+    expect(screen.getByText('👤').className).toMatch(/icon/);
   });
 
   it('has nav landmark with ariaLabel', () => {

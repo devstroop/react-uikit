@@ -37,7 +37,7 @@ const BUTTON_ICONS: Record<
 
 const SPLIT_ITEMS = [
   { key: 'edit', label: 'Edit', icon: 'edit' as const },
-  { key: 'duplicate', label: 'Duplicate', icon: 'copy' as const },
+  { key: 'duplicate', label: 'Duplicate', icon: 'content_copy' as const },
   { key: 'download', label: 'Download', icon: 'download' as const },
 ];
 
@@ -116,9 +116,9 @@ function FabMenuBasicDemo() {
       <FabMenu
         ariaLabel="Quick actions"
         items={[
-          { text: 'New draft', value: 'draft', icon: 'plus' },
+          { text: 'New draft', value: 'draft', icon: 'add' },
           { text: 'Refresh', value: 'refresh', icon: 'refresh' },
-          { text: 'Publish', value: 'publish', icon: 'check-circle' },
+          { text: 'Publish', value: 'publish', icon: 'check_circle' },
         ]}
         onClick={({ text, value }) =>
           log(`activate ${text} (value: ${value ?? '-'})`)
@@ -181,7 +181,7 @@ function FabMenuStatesDemo() {
         icon="settings"
         items={[
           { text: 'Edit', value: 'edit', icon: 'edit' },
-          { text: 'Duplicate', value: 'duplicate', icon: 'copy' },
+          { text: 'Duplicate', value: 'duplicate', icon: 'content_copy' },
           { text: 'Delete', value: 'delete', disabled: true },
         ]}
         onClick={({ text }) => log(`activate ${text}`)}
@@ -449,9 +449,9 @@ export function ButtonDemos({ slug }: { slug: string }) {
               <SplitButton
                 label="Export"
                 items={[
-                  { key: 'pdf', label: 'Export as PDF', icon: 'file' },
+                  { key: 'pdf', label: 'Export as PDF', icon: 'description' },
                   { key: 'csv', label: 'Export as CSV', icon: 'download' },
-                  { key: 'demos', label: 'Demos', icon: 'eye' },
+                  { key: 'demos', label: 'Demos', icon: 'visibility' },
                   {
                     key: 'share',
                     label: 'Share',
@@ -461,7 +461,7 @@ export function ButtonDemos({ slug }: { slug: string }) {
                   {
                     key: 'archive',
                     label: 'Archive',
-                    icon: 'trash',
+                    icon: 'delete',
                     danger: true,
                   },
                 ]}

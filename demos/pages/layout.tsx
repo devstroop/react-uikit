@@ -333,7 +333,7 @@ function FooterLinksDemo() {
           </Link>
           <Link
             href="#/footer"
-            icon="external-link"
+            icon="open_in_new"
             onClick={(e) => {
               e.preventDefault();
               log('Status link clicked (external)');

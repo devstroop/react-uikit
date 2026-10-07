@@ -129,6 +129,7 @@ describe('Breadcrumb', () => {
   it('renders icon when provided', () => {
     render(<Breadcrumb items={items} />);
     expect(screen.getByText('📁')).toBeInTheDocument();
+    expect(screen.getByText('📁').className).toMatch(/icon/);
   });
 
   it('current page without path is span with aria-current', () => {

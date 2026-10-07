@@ -1,8 +1,9 @@
 import { ReactNode } from 'react';
+import { IconName } from '../Icon/Icon';
 export interface ProfileMenuItem {
     text: string;
     path?: string;
-    icon?: string;
+    icon?: IconName;
     disabled?: boolean;
 }
 export interface ProfileMenuItemEventArgs {

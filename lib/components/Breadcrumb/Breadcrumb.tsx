@@ -1,9 +1,10 @@
+import { Icon, type IconName } from '../Icon/Icon';
 import styles from './Breadcrumb.module.css';
 
 export interface BreadcrumbItem {
   text: string;
   path?: string;
-  icon?: string;
+  icon?: IconName;
   disabled?: boolean;
 }
 
@@ -54,7 +55,7 @@ export function Breadcrumb({
                   >
                     {item.icon ? (
                       <span className={styles.icon} aria-hidden="true">
-                        {item.icon}
+                        <Icon icon={item.icon} size="sm" />
                       </span>
                     ) : null}
                     {item.text}
@@ -71,7 +72,7 @@ export function Breadcrumb({
                   >
                     {item.icon ? (
                       <span className={styles.icon} aria-hidden="true">
-                        {item.icon}
+                        <Icon icon={item.icon} size="sm" />
                       </span>
                     ) : null}
                     <span className={styles.text}>{item.text}</span>
@@ -80,7 +81,7 @@ export function Breadcrumb({
                   <span className={styles.current} aria-current="page">
                     {item.icon ? (
                       <span className={styles.icon} aria-hidden="true">
-                        {item.icon}
+                        <Icon icon={item.icon} size="sm" />
                       </span>
                     ) : null}
                     {item.text}
@@ -96,7 +97,7 @@ export function Breadcrumb({
                 >
                   {item.icon ? (
                     <span className={styles.icon} aria-hidden="true">
-                      {item.icon}
+                      <Icon icon={item.icon} size="sm" />
                     </span>
                   ) : null}
                   <span className={styles.text}>{item.text}</span>
@@ -112,7 +113,7 @@ export function Breadcrumb({
                 >
                   {item.icon ? (
                     <span className={styles.icon} aria-hidden="true">
-                      {item.icon}
+                      <Icon icon={item.icon} size="sm" />
                     </span>
                   ) : null}
                   <span className={styles.text}>{item.text}</span>
@@ -126,7 +127,7 @@ export function Breadcrumb({
                 >
                   {item.icon ? (
                     <span className={styles.icon} aria-hidden="true">
-                      {item.icon}
+                      <Icon icon={item.icon} size="sm" />
                     </span>
                   ) : null}
                   <span className={styles.text}>{item.text}</span>

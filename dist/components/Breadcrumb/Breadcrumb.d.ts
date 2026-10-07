@@ -1,7 +1,8 @@
+import { IconName } from '../Icon/Icon';
 export interface BreadcrumbItem {
     text: string;
     path?: string;
-    icon?: string;
+    icon?: IconName;
     disabled?: boolean;
 }
 export interface BreadcrumbItemEventArgs {
