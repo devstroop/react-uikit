@@ -11129,12 +11129,13 @@ const KS = at(
     };
     return ko(d, () => ({
       open: () => u.current?.click()
-    })), // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- file-drop target; keyboard users pick files via the browse control
+    })), // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/role-supports-aria-props -- file-drop target; keyboard users pick files via the browse control; aria-disabled is the only AT-visible disabled signal on a non-form region
     /* @__PURE__ */ D(
       "div",
       {
         role: "region",
         "aria-label": a,
+        "aria-disabled": s || void 0,
         className: [
           Hr.zone,
           p ? Hr.dragging : null,
@@ -11162,6 +11163,7 @@ const KS = at(
               ref: u,
               type: "file",
               hidden: !0,
+              disabled: s,
               multiple: n,
               accept: t,
               "data-testid": "dropzone-input",
@@ -12173,7 +12175,7 @@ function ZS({
     }
   );
 }
-const r2 = "_root_vv0xs_1", o2 = "_bottomRight_vv0xs_11", s2 = "_bottomLeft_vv0xs_16", a2 = "_topRight_vv0xs_21", l2 = "_topLeft_vv0xs_26", i2 = "_menu_vv0xs_31", c2 = "_itemWrapper_vv0xs_48", d2 = "_tooltip_vv0xs_54", u2 = "_main_vv0xs_76", f2 = "_mainIcon_vv0xs_104", p2 = "_mainOpen_vv0xs_109", _2 = "_item_vv0xs_48", h2 = "_disabled_vv0xs_141", m2 = "_itemIcon_vv0xs_148", Kt = {
+const r2 = "_root_bt0z7_1", o2 = "_bottomRight_bt0z7_11", s2 = "_bottomLeft_bt0z7_16", a2 = "_topRight_bt0z7_21", l2 = "_topLeft_bt0z7_26", i2 = "_menu_bt0z7_50", c2 = "_itemWrapper_bt0z7_79", d2 = "_tooltip_bt0z7_85", u2 = "_main_bt0z7_107", f2 = "_mainIcon_bt0z7_135", p2 = "_mainOpen_bt0z7_140", _2 = "_item_bt0z7_79", h2 = "_disabled_bt0z7_172", m2 = "_itemIcon_bt0z7_179", Kt = {
   root: r2,
   bottomRight: o2,
   bottomLeft: s2,
