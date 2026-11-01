@@ -68,4 +68,24 @@ describe('LinearGauge', () => {
     );
     expect(Math.max(...widths)).toBeLessThanOrEqual(272);
   });
+
+  it('places ticks on an explicit step and rounds the rest', () => {
+    // The reference dashboard's linear scale is Min=0 Max=100 Step=20; the
+    // default 5-mark split could only offer 0/25/50/75/100.
+    const { container } = render(
+      <LinearGauge value={40} min={0} max={100} ticks={{ step: 20 }} />
+    );
+    expect(
+      [...container.querySelectorAll('svg text')].map((t) => t.textContent)
+    ).toEqual(['0', '20', '40', '60', '80', '100']);
+  });
+
+  it('never prints a raw tick float', () => {
+    const { container } = render(
+      <LinearGauge value={2} min={0} max={5} ticks={{ count: 8 }} />
+    );
+    expect(
+      [...container.querySelectorAll('svg text')].map((t) => t.textContent)
+    ).toEqual(['0', '0.71', '1.43', '2.14', '2.86', '3.57', '4.29', '5']);
+  });
 });
