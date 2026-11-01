@@ -83,4 +83,20 @@ describe('Tabs', () => {
     await user.keyboard('{ArrowRight}');
     expect(screen.getByRole('tab', { name: 'A' })).toHaveFocus();
   });
+
+  it('names the tablist with ariaLabel and ariaLabelledBy', () => {
+    render(
+      <>
+        <h2 id="sections-heading">Sections</h2>
+        <Tabs
+          items={items}
+          defaultValue="overview"
+          ariaLabelledBy="sections-heading"
+        />
+      </>
+    );
+    expect(screen.getByRole('tablist')).toHaveAccessibleName('Sections');
+    render(<Tabs items={items} defaultValue="overview" ariaLabel="Records" />);
+    expect(screen.getAllByRole('tablist')[1]).toHaveAccessibleName('Records');
+  });
 });

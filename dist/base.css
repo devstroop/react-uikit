@@ -1,0 +1,59 @@
+/* Opt-in document defaults — import AFTER tokens.css, never from a component:
+ * a library that restyles <body> on mount breaks the host page.
+ *
+ * Radzen's shipped base stylesheet carries exactly one document rule
+ * (`body{margin:0}`, from _spacing.scss:2) plus the --rz-root-font-size /
+ * --rz-body-font-size / --rz-body-line-height tokens; it only applies those to
+ * html/body in the non-base themes (_typography.scss:154-170, guarded by
+ * `$base == false`). Everywhere else the font reaches text because every .rz-*
+ * component re-declares it. This kit styles with CSS Modules and no component
+ * sets a document-level font, so the three defaults are applied here instead —
+ * a consumer porting from material-base.css gets the same reading experience
+ * without Radzen's per-component repetition.
+ *
+ * Nothing here sets a colour the tokens do not already carry: text and surface
+ * come from --dx-text-color / --dx-background-color, so theme switching keeps
+ * working through the tokens.css blocks alone. */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: var(--dx-root-font-size);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: var(--dx-background-color);
+  color: var(--dx-text-color);
+  font-family: var(--dx-font-sans);
+  font-size: var(--dx-body-font-size);
+  line-height: var(--dx-body-line-height);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+figure,
+blockquote {
+  margin: 0;
+}
+
+a {
+  color: var(--dx-link-color);
+  text-decoration-skip-ink: auto;
+}
+
+a:hover {
+  color: var(--dx-link-hover-color);
+}

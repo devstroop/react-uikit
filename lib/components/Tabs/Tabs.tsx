@@ -25,6 +25,10 @@ export interface TabsProps {
   variant?: TabsVariant;
   position?: TabsPosition;
   className?: string;
+  /** Accessible name for the `role="tablist"`. Radzen `AriaLabel` parity. */
+  ariaLabel?: string;
+  /** id of the element naming the `role="tablist"`. Radzen `AriaLabelledBy` parity. */
+  ariaLabelledBy?: string;
 }
 
 export function Tabs({
@@ -35,6 +39,8 @@ export function Tabs({
   variant = 'underline',
   position = 'top',
   className,
+  ariaLabel,
+  ariaLabelledBy,
 }: TabsProps) {
   const baseId = useId();
   const tabListRef = useRef<HTMLDivElement>(null);
@@ -86,6 +92,8 @@ export function Tabs({
       <div
         ref={tabListRef}
         role="tablist"
+        aria-label={ariaLabel}
+        aria-labelledby={ariaLabelledBy}
         tabIndex={-1}
         className={[styles.tabList, styles[variant], styles[position]]
           .filter(Boolean)

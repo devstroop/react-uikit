@@ -48,6 +48,15 @@ export interface MenuItemProps {
     open?: boolean;
     defaultOpen?: boolean;
     onOpenChange?: (open: boolean) => void;
+    /** Controlled selected state. Radzen `@bind-Selected` parity. When uncontrolled
+     * (no `selected`/`onSelectedChange`), selection follows the URL, re-derived on
+     * `hashchange` and `popstate` — a bare `history.pushState` router is not covered
+     * (GAP-001) — and a click that the router cancels still selects the row. */
+    selected?: boolean;
+    defaultSelected?: boolean;
+    /** Fires with `true` when this row is selected. Never fires `false` for the row
+     * it deselects, matching Radzen's per-item binding: clear siblings yourself. */
+    onSelectedChange?: (selected: boolean) => void;
     children?: ReactNode;
 }
 export declare function MenuItem(props: MenuItemProps): import("react").JSX.Element;
