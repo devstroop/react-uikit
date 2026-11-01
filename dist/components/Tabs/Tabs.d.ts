@@ -15,5 +15,9 @@ export interface TabsProps {
     variant?: TabsVariant;
     position?: TabsPosition;
     className?: string;
+    /** Accessible name for the `role="tablist"`. Radzen `AriaLabel` parity. */
+    ariaLabel?: string;
+    /** id of the element naming the `role="tablist"`. Radzen `AriaLabelledBy` parity. */
+    ariaLabelledBy?: string;
 }
-export declare function Tabs({ items, value, defaultValue, onChange, variant, position, className, }: TabsProps): import("react").JSX.Element;
+export declare function Tabs({ items, value, defaultValue, onChange, variant, position, className, ariaLabel, ariaLabelledBy, }: TabsProps): import("react").JSX.Element;

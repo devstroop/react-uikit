@@ -6,6 +6,63 @@ Versioning follows the release flow in `docs/DEVELOPMENT_STRATEGY.md`
 
 ## [Unreleased]
 
+Findings-driven work from the Radzen Blazor parity harness
+(`1km-workspace/parity/`): the same pages built with `Radzen.Blazor`
+and with this kit, measured in one document, item by item.
+
+### Fixed — navigation active state reaches Radzen parity (GAP-016/017/018/021)
+
+- New navigation token group (`--dx-navigation-item-active-color`,
+  `…-background-color`, `…-indicator-color`, `…-indicator-width`),
+  declared in all three theme blocks. `Menu` and `PanelMenu` leaves
+  now render Radzen's four-channel active treatment — text, 12% tint,
+  icon color and a 4px leading bar — where before the only signal was
+  a color swap (Radzen
+  `themes/components/blazor/_panel-menu.scss:118-132`).
+- The active text channel is `var(--dx-text-primary-color)`, never
+  the raw brand fill: `#2563eb` on the dark `#1e293b` surface
+  measures 2.83:1 and fails AA; the theme-aware sibling is 5.20:1
+  dark / 5.75:1 light. The dark blocks re-derive the tint and the
+  indicator for the same reason.
+- `MenuItem` gains Radzen `@bind-Selected` parity: `selected`,
+  `defaultSelected` and `onSelectedChange`, with `PanelMenuItem`'s
+  exact precedence (controlled wins over the URL).
+- Uncontrolled selection in `PanelMenu` could leave two rows
+  `aria-current="page"` at once (a per-item boolean never learned the
+  route had moved on). Click selection now lives in one menu-wide
+  slot cleared on `hashchange`, in both components.
+- Hover guards moved into `:where()` in both stylesheets so hovering
+  a selected row no longer erases its tint.
+- `tokens-contrast.test.ts` ratchets the treatment: the text channel
+  must stay a `var()` reference, must clear AA on both surfaces, and
+  the dark blocks must re-derive tint and indicator. Documented in
+  `docs/THEMING.md`.
+
+### Added — opt-in document base layer, `@devstroop/react-uikit/base.css` (GAP-022)
+
+- `tokens.css` carries 395 tokens and styles no document element, so
+  a kit app rendered bare defaults outside components: 8px body
+  margin, Times New Roman, white surface. `lib/styles/base.css`
+  applies Radzen's base-layer set — `margin: 0`, `--dx-font-sans`,
+  token text/background, body line-height, `border-box` — and nothing
+  the tokens don't already carry, so theme switching is unaffected.
+- Opt-in by design: a library that restyles `body` on import is
+  unwelcome in a host page. It cannot ride in `style.css` (that file
+  folds every CSS the entry graph touches), so `vite.config.ts`
+  copies it verbatim to `dist/base.css` at `closeBundle` and
+  `package.json` exports the `./base.css` subpath.
+- New theme-independent tokens `--dx-root-font-size`,
+  `--dx-body-font-size`, `--dx-body-line-height` (Radzen
+  `--rz-root-font-size` / `--rz-body-font-size` /
+  `--rz-body-line-height`).
+
+### Added — `Tabs` accessible name (GAP-009)
+
+- `ariaLabel` / `ariaLabelledBy` props land on the `role="tablist"`
+  element, matching `RadzenTabs.razor:16-18`. Tests assert the
+  computed accessible name, so a mis-placed attribute on the wrapper
+  would fail.
+
 ## [1.0.0] - 2026-10-06
 
 ### Fixed — eslint warnings burned down to zero (#113)
