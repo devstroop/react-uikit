@@ -10,6 +10,38 @@ Findings-driven work from the Radzen Blazor parity harness
 (`1km-workspace/parity/`): the same pages built with `Radzen.Blazor`
 and with this kit, measured in one document, item by item.
 
+### Breaking — the theme is an explicit import, not a side effect (GAP-015)
+
+`lib/main.ts` no longer imports `styles/tokens.css` and `utilities.css`.
+It never worked reliably: the manifest declares `sideEffects: ["*.css"]`,
+a glob Rolldown never matched against those module ids, so any consumer
+bundling from kit source got a themed `vite dev` and a production bundle
+with every `var(--dx-*)` unresolved — 0 `@font-face`, 0 token
+definitions, no warning. Six glob spellings were tried; only
+`sideEffects: true`/`["**"]` kept the CSS, at +69 kB (+14.8%) of JS for
+every consumer.
+
+Instead the theme is now published as named entry points and imported by
+name, so dev and prod behave identically:
+
+- `exports["./tokens.css"]` and `exports["./utilities.css"]` → `dist/`,
+  copied verbatim by the build next to the existing `./style.css` and
+  `./base.css`.
+- Source consumers import `lib/styles/tokens.css` + `lib/utilities.css`
+  in their own entry (`demos/main.tsx` already did; the parity harness
+  islands already did).
+- `dist/style.css` is unchanged for packaged consumers (1,826,996 bytes,
+  3 `@font-face`, 3 `--dx-primary-color` definitions) because the build
+  gained a `theme` entry. A CSS input is not possible while
+  `build.cssCodeSplit: false`, which is what forces the near-empty
+  `theme.es.js`/`theme.cjs.js` chunks; they are not in `exports`.
+- `lib/utils/theme-contract.ts` warns once, dev-only, when
+  `--dx-primary-color` resolves to nothing — so the failure is loud
+  rather than silent. `import.meta.env.DEV` folds to false in the
+  shipped bundles, and the CJS output contains no `import.meta`.
+
+No component CSS, token value or class name changed.
+
 ### Fixed — navigation active state reaches Radzen parity (GAP-016/017/018/021)
 
 - New navigation token group (`--dx-navigation-item-active-color`,

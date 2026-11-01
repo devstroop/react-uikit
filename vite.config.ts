@@ -7,17 +7,20 @@ import dts from 'vite-plugin-dts';
 
 const libRoot = resolve(dirname(fileURLToPath(import.meta.url)), 'lib');
 
-// styles/base.css is opt-in document defaults, so it cannot ride along in
-// style.css (cssCodeSplit: false folds every CSS the entry graph touches).
-// Only dist/ is published, so the file is copied verbatim and exported as
-// "./base.css".
-const copyBaseCss = {
-  name: 'copy-base-css',
+// tokens.css/utilities.css/base.css ship as standalone subpath exports as well
+// as folded into style.css, so they are copied verbatim into dist. Only dist/ is
+// published, and base.css must stay out of style.css: it is an opt-in document
+// layer, and cssCodeSplit: false would fold every CSS the entry graph touches.
+const copyStandaloneCss = {
+  name: 'copy-standalone-css',
   closeBundle() {
-    copyFileSync(
-      resolve(libRoot, 'styles/base.css'),
-      resolve(libRoot, '../dist/base.css')
-    );
+    for (const [from, to] of [
+      ['styles/base.css', 'base.css'],
+      ['styles/tokens.css', 'tokens.css'],
+      ['utilities.css', 'utilities.css'],
+    ] as const) {
+      copyFileSync(resolve(libRoot, from), resolve(libRoot, '../dist', to));
+    }
   },
 };
 
@@ -28,14 +31,14 @@ export default defineConfig({
       exclude: ['**/*.test.tsx', '**/*.test.ts', '**/*.test.d.ts'],
       tsconfigPath: './tsconfig.json',
     }),
-    copyBaseCss,
+    copyStandaloneCss,
   ],
   build: {
     lib: {
-      entry: 'lib/main.ts',
+      entry: { main: 'lib/main.ts', theme: 'lib/theme.ts' },
       formats: ['es', 'cjs'],
       cssFileName: 'style',
-      fileName: (format) => (format === 'es' ? 'main.es.js' : 'main.cjs.js'),
+      fileName: (format, name) => `${name}.${format}.js`,
     },
     rollupOptions: {
       external: ['react', 'react-dom', 'react/jsx-runtime'],

@@ -4,6 +4,24 @@ How to re-seed this library (`--dx-primary-color`, …) without silently
 inheriting values tuned for the stock ramp. Read this before overriding
 any token in a product theme.
 
+## Importing the theme
+
+Nothing imports the theme for you. `lib/main.ts` carries no CSS side effect —
+that is GAP-015, and the kit's own `demos/main.tsx` and the parity islands list
+the files explicitly:
+
+| consumer          | import                                                                                                               |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------- |
+| packaged          | `@devstroop/react-uikit/style.css` (tokens + utilities + component CSS), or `…/tokens.css` + `…/utilities.css` alone |
+| from source       | `lib/styles/tokens.css` + `lib/utilities.css` in the app's own entry                                                 |
+| document defaults | `…/base.css`, opt-in, because it restyles `body`                                                                     |
+
+In dev only, a document whose `--dx-primary-color` resolves to nothing warns
+once and names the files (`lib/utils/theme-contract.ts`). Everything below
+presumes the theme actually loaded: a page that never imported the tokens
+renders in browser defaults, which looks exactly like a bad re-seed and is not
+one.
+
 ## The rule
 
 Some tokens are **live references** (`var(--dx-primary-color)`) and

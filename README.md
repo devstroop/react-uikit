@@ -46,6 +46,20 @@ export function SignInForm() {
 }
 ```
 
+### Which stylesheet
+
+| import                                                  | gets you                                                                                                              |
+| ------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `@devstroop/react-uikit/style.css`                      | tokens + utilities + every component sheet — the normal choice, once, in your entry                                   |
+| `@devstroop/react-uikit/tokens.css` + `…/utilities.css` | the `--dx-*` sheet and the utility classes alone                                                                      |
+| `@devstroop/react-uikit/base.css`                       | opt-in document layer (`body` font/color/margin, `box-sizing`), for when text outside components should be themed too |
+
+Consuming the kit **from source** — aliasing `lib/main.ts`, the way `demos/` and
+the parity harness do — means importing `lib/styles/tokens.css` and
+`lib/utilities.css` in your own entry; `demos/main.tsx:2-3` is the reference.
+Skip it and a dev build warns on the console instead of rendering quietly
+unstyled, and `vite dev` and `vite build` now agree about being unthemed.
+
 ## Components
 
 Every component below is exported from `@devstroop/react-uikit`; most are
@@ -141,7 +155,7 @@ controls, `role="switch"` for `Switch`, keyboard focus-visible rings.
 
 ## Theming
 
-Components consume design tokens exclusively — no hardcoded values. Tokens are hand-maintained in `lib/styles/tokens.css` (`--dx-*`), bundled into the published `style.css` (imported once via `lib/main.ts`):
+Components consume design tokens exclusively — no hardcoded values. Tokens are hand-maintained in `lib/styles/tokens.css` (`--dx-*`), bundled into the published `style.css`, and also copied to the standalone `./tokens.css` / `./utilities.css` exports. Nothing imports CSS for you: `lib/main.ts` deliberately carries no CSS side effect, because a `sideEffects` glob never survived Rolldown's tree-shaking, so `vite dev` rendered themed while `vite build` shipped every `var(--dx-*)` unresolved (GAP-015).
 
 - Light defaults on `:root`; dark values under `[data-theme="dark"]` on `<html>`. Hosts without an explicit `data-theme` get an OS-dark fallback via `@media (prefers-color-scheme: dark)` (specificity-capped with `:where()` so app `:root` rules win ties).
 - Toggle at runtime with the `ThemeToggle` component, or set `document.documentElement.dataset.theme` to `"light"` / `"dark"` yourself.

@@ -14,7 +14,9 @@
       "require": "./dist/main.cjs.js"
     },
     "./style.css": "./dist/style.css",
-    "./base.css": "./dist/base.css"
+    "./base.css": "./dist/base.css",
+    "./tokens.css": "./dist/tokens.css",
+    "./utilities.css": "./dist/utilities.css"
   },
   "files": [
     "dist"
