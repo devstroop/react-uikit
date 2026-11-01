@@ -1,6 +1,25 @@
 /// <reference types="vitest/config" />
+import { copyFileSync } from 'node:fs';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
+
+const libRoot = resolve(dirname(fileURLToPath(import.meta.url)), 'lib');
+
+// styles/base.css is opt-in document defaults, so it cannot ride along in
+// style.css (cssCodeSplit: false folds every CSS the entry graph touches).
+// Only dist/ is published, so the file is copied verbatim and exported as
+// "./base.css".
+const copyBaseCss = {
+  name: 'copy-base-css',
+  closeBundle() {
+    copyFileSync(
+      resolve(libRoot, 'styles/base.css'),
+      resolve(libRoot, '../dist/base.css')
+    );
+  },
+};
 
 export default defineConfig({
   plugins: [
@@ -9,6 +28,7 @@ export default defineConfig({
       exclude: ['**/*.test.tsx', '**/*.test.ts', '**/*.test.d.ts'],
       tsconfigPath: './tsconfig.json',
     }),
+    copyBaseCss,
   ],
   build: {
     lib: {
