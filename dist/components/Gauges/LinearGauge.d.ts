@@ -8,9 +8,12 @@ export interface LinearGaugeProps {
     min?: number;
     max?: number;
     orientation?: 'horizontal' | 'vertical';
-    /** Scale ticks + labels. Defaults to 5 ticks shown. */
+    /** Scale ticks + labels. `step` places a tick every `step` units, the way
+     * Radzen's `RadzenLinearGaugeScale Step` does; without it the range is split
+     * into `count` marks (5 by default). `count: 0` hides the scale. */
     ticks?: {
         count?: number;
+        step?: number;
         showLabels?: boolean;
     };
     /** Background range bands drawn under the fill. */
