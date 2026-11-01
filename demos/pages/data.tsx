@@ -832,12 +832,14 @@ function GaugesDemosPage() {
         {
           id: 'gauges-linear',
           title: 'Linear',
+          description: 'ticks.step puts a mark on every exact value.',
           content: (
             <LinearGauge
               value={68}
               min={0}
               max={100}
               ariaLabel="Linear gauge"
+              ticks={{ step: 20 }}
               ranges={[{ from: 0, to: 50, color: '#22c55e' }]}
             />
           ),
@@ -845,12 +847,14 @@ function GaugesDemosPage() {
         {
           id: 'gauges-radial',
           title: 'Radial',
+          description: 'step 25 lands the marks on 0/25/50/75/100.',
           content: (
             <RadialGauge
               value={68}
               min={0}
               max={100}
               ariaLabel="Radial gauge"
+              ticks={{ step: 25 }}
               pointers={[{ value: 90, color: '#ef4444' }]}
             />
           ),
@@ -1454,6 +1458,54 @@ export function DataDemos({ slug }: { slug: string }) {
                     },
                   ]}
                 />
+              ),
+            },
+            {
+              id: 'chart-pie',
+              title: 'Pie & donut',
+              description:
+                'Slices take the palette per category and the legend lists the categories.',
+              content: (
+                <Row gap={16} wrap align="center">
+                  <Chart
+                    width={300}
+                    height={240}
+                    series={[
+                      {
+                        type: 'pie',
+                        title: 'Share',
+                        data: [
+                          { region: 'North', v: 42 },
+                          { region: 'South', v: 28 },
+                          { region: 'East', v: 18 },
+                          { region: 'West', v: 12 },
+                        ],
+                        categoryProperty: 'region',
+                        valueProperty: 'v',
+                        labels: { visible: true },
+                      },
+                    ]}
+                  />
+                  <Chart
+                    width={300}
+                    height={240}
+                    series={[
+                      {
+                        type: 'donut',
+                        title: 'Share',
+                        innerRadius: 44,
+                        data: [
+                          { region: 'North', v: 42 },
+                          { region: 'South', v: 28 },
+                          { region: 'East', v: 18 },
+                          { region: 'West', v: 12 },
+                        ],
+                        categoryProperty: 'region',
+                        valueProperty: 'v',
+                      },
+                    ]}
+                  />
+                </Row>
               ),
             },
             {
