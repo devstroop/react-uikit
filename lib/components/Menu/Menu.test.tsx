@@ -307,6 +307,33 @@ describe('Menu', () => {
     );
   });
 
+  it('re-derives selection on popstate, not only on hashchange', () => {
+    window.location.hash = '#/b';
+    render(
+      <Menu>
+        <MenuItem text="A" path="#/a" />
+        <MenuItem text="B" path="#/b" />
+      </Menu>
+    );
+    expect(screen.getByRole('menuitem', { name: 'B' })).toHaveAttribute(
+      'aria-current',
+      'page'
+    );
+    // Back/forward fires popstate without a hashchange: the click slot must
+    // clear and the URL match must re-derive, or both rows read as current.
+    window.location.hash = '#/a';
+    fireEvent.click(screen.getByRole('menuitem', { name: 'A' }));
+    window.location.hash = '#/b';
+    fireEvent(window, new PopStateEvent('popstate'));
+    expect(screen.getByRole('menuitem', { name: 'A' })).not.toHaveAttribute(
+      'aria-current'
+    );
+    expect(screen.getByRole('menuitem', { name: 'B' })).toHaveAttribute(
+      'aria-current',
+      'page'
+    );
+  });
+
   it('supports controlled selected and onSelectedChange', () => {
     const onSelectedChange = vi.fn();
     render(

@@ -59,6 +59,13 @@ The indicator renders only on vertical surfaces (`.vertical` in
 `Menu.module.css`); horizontal top-level rows get tint + text, matching
 Radzen, which hides `:before` there (`_menu.scss:95-100`).
 
+Selection is per-row, so **nothing clears a sibling for you**: uncontrolled
+rows take their state from the URL (re-derived on `hashchange` and
+`popstate`) or from the menu-wide click slot, while
+`selected`/`onSelectedChange` puts the app in charge and fires only `true` —
+Radzen's `@bind-Selected` behaves the same way. A bare `history.pushState`
+fires neither event, so path-routed apps still need GAP-001's fix.
+
 ## Icon font override
 
 `<Icon/>` renders ligature text in `var(--dx-icon-font-family)`

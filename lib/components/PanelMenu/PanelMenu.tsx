@@ -72,9 +72,13 @@ export interface PanelMenuItemProps {
   defaultExpanded?: boolean;
   onExpandedChange?: (expanded: boolean) => void;
   /** Controlled selected state. Radzen `@bind-Selected` parity. When uncontrolled
-   * (no `onSelectedChange`), selection syncs from the URL like Radzen. */
+   * (no `onSelectedChange`), selection syncs from the URL like Radzen, re-derived
+   * on `hashchange` and `popstate` — a bare `history.pushState` router is not
+   * covered (GAP-001). */
   selected?: boolean;
   defaultSelected?: boolean;
+  /** Fires with `true` when this row is selected. Never fires `false` for the row
+   * it deselects, matching Radzen's per-item binding: clear siblings yourself. */
   onSelectedChange?: (selected: boolean) => void;
   /** Item-level click: fires after the parent PanelMenu `onClick`. Radzen item `Click` parity.
    * Return `false` to cancel anchor navigation (client-side routers). */
@@ -190,7 +194,7 @@ function PanelMenuItemNode({
 
   const selectedControlled =
     props.onSelectedChange !== undefined || props.selected !== undefined;
-  const [internalSelected] = useState(props.defaultSelected ?? false);
+  const internalSelected = props.defaultSelected ?? false;
   const urlSelected =
     !selectedControlled && path ? pathMatches(path, match) : false;
   const selected = selectedControlled
@@ -202,9 +206,15 @@ function PanelMenuItemNode({
   const [, forceHash] = useState(0);
   useEffect(() => {
     if (!path) return;
-    const onHash = () => forceHash((v) => v + 1);
-    window.addEventListener('hashchange', onHash);
-    return () => window.removeEventListener('hashchange', onHash);
+    const onUrl = () => forceHash((v) => v + 1);
+    // hashchange covers the hash router the kit is coupled to (GAP-001),
+    // popstate covers back/forward.
+    window.addEventListener('hashchange', onUrl);
+    window.addEventListener('popstate', onUrl);
+    return () => {
+      window.removeEventListener('hashchange', onUrl);
+      window.removeEventListener('popstate', onUrl);
+    };
   }, [path]);
 
   const childCtx = useMemo<PanelMenuContextValue>(
@@ -431,9 +441,13 @@ export function PanelMenu({
   // outlive it — otherwise the row that moved the router stays `aria-current`
   // together with the row the new URL matches.
   useEffect(() => {
-    const onHash = () => setClickedKey(null);
-    window.addEventListener('hashchange', onHash);
-    return () => window.removeEventListener('hashchange', onHash);
+    const onUrl = () => setClickedKey(null);
+    window.addEventListener('hashchange', onUrl);
+    window.addEventListener('popstate', onUrl);
+    return () => {
+      window.removeEventListener('hashchange', onUrl);
+      window.removeEventListener('popstate', onUrl);
+    };
   }, []);
 
   const emit = useCallback(

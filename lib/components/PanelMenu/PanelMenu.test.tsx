@@ -237,6 +237,33 @@ describe('PanelMenu', () => {
     );
   });
 
+  it('re-derives selection on popstate, not only on hashchange', () => {
+    window.location.hash = '#/b';
+    render(
+      <PanelMenu>
+        <PanelMenuItem text="A" path="#/a" />
+        <PanelMenuItem text="B" path="#/b" />
+      </PanelMenu>
+    );
+    expect(screen.getByRole('link', { name: /B/ })).toHaveAttribute(
+      'aria-current',
+      'page'
+    );
+    // Back/forward fires popstate without a hashchange: the click slot must
+    // clear and the URL match must re-derive, or both rows read as current.
+    window.location.hash = '#/a';
+    fireEvent.click(screen.getByRole('link', { name: /A/ }));
+    window.location.hash = '#/b';
+    fireEvent(window, new PopStateEvent('popstate'));
+    expect(screen.getByRole('link', { name: /A/ })).not.toHaveAttribute(
+      'aria-current'
+    );
+    expect(screen.getByRole('link', { name: /B/ })).toHaveAttribute(
+      'aria-current',
+      'page'
+    );
+  });
+
   it('expands ancestors of a URL-selected deep item', () => {
     window.location.hash = '#/deep';
     render(
