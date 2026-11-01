@@ -11269,16 +11269,7 @@ function ds({
       const V = { text: r, value: a, path: i };
       [n.emit(V), t.onClick?.(V)].includes(!1) && J.preventDefault(), N || n.setClickedKey(e), t.onSelectedChange?.(!0), n.closeAll();
     },
-    [
-      f,
-      r,
-      a,
-      i,
-      n,
-      t,
-      N,
-      e
-    ]
+    [f, r, a, i, n, t, N, e]
   ), A = H(() => {
     if (!f) {
       if (m && (Date.now() - p.current < 600 || !n.clickToOpen)) {

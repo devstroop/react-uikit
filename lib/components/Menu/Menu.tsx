@@ -275,16 +275,7 @@ function MenuItemNode({
       props.onSelectedChange?.(true);
       ctx.closeAll();
     },
-    [
-      isDisabled,
-      text,
-      value,
-      path,
-      ctx,
-      props,
-      selectedControlled,
-      itemKey,
-    ]
+    [isDisabled, text, value, path, ctx, props, selectedControlled, itemKey]
   );
 
   const handleTriggerClick = useCallback(() => {
