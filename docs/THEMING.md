@@ -4,6 +4,24 @@ How to re-seed this library (`--dx-primary-color`, …) without silently
 inheriting values tuned for the stock ramp. Read this before overriding
 any token in a product theme.
 
+## Importing the theme
+
+Nothing imports the theme for you. `lib/main.ts` carries no CSS side effect —
+that is GAP-015, and the kit's own `demos/main.tsx` and the parity islands list
+the files explicitly:
+
+| consumer          | import                                                                                                               |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------- |
+| packaged          | `@devstroop/react-uikit/style.css` (tokens + utilities + component CSS), or `…/tokens.css` + `…/utilities.css` alone |
+| from source       | `lib/styles/tokens.css` + `lib/utilities.css` in the app's own entry                                                 |
+| document defaults | `…/base.css`, opt-in, because it restyles `body`                                                                     |
+
+In dev only, a document whose `--dx-primary-color` resolves to nothing warns
+once and names the files (`lib/utils/theme-contract.ts`). Everything below
+presumes the theme actually loaded: a page that never imported the tokens
+renders in browser defaults, which looks exactly like a bad re-seed and is not
+one.
+
 ## The rule
 
 Some tokens are **live references** (`var(--dx-primary-color)`) and
@@ -31,6 +49,40 @@ theme block (light `:root`, explicit dark, OS-dark fallback):
 - `on-{secondary,success,warning,danger,info}-*` and their hovers
   (verify contrast against the re-seeded fills, not just presence);
 - `inverse-*` surfaces (they flip meaning between light and dark).
+
+## Navigation active state
+
+`Menu`, `PanelMenu` and sidebar rows mark the current page with four
+channels, all fed by one token group, so a re-seed moves them together:
+
+| token                                          | role            |
+| ---------------------------------------------- | --------------- |
+| `--dx-navigation-item-active-color`            | row text + icon |
+| `--dx-navigation-item-active-background-color` | row tint        |
+| `--dx-navigation-item-active-indicator-color`  | leading bar     |
+| `--dx-navigation-item-active-indicator-width`  | bar width (4px) |
+
+Two constraints that the ratchet tests hold:
+
+- the text channel is `var(--dx-text-primary-color)`, never
+  `--dx-primary-color`. The brand fill is held at `#2563eb` across
+  themes, which measures 2.83:1 on the dark `#1e293b` surface;
+  `text-primary-color` is the theme-aware sibling (5.75:1 on light
+  white, 5.20:1 on dark).
+- the dark blocks re-derive the tint and the indicator. `color-mix(...,
+var(--dx-primary-color) 12%, transparent)` is invisible on `#1e293b`,
+  so dark re-mixes from `--dx-text-primary-color` instead.
+
+The indicator renders only on vertical surfaces (`.vertical` in
+`Menu.module.css`); horizontal top-level rows get tint + text, matching
+Radzen, which hides `:before` there (`_menu.scss:95-100`).
+
+Selection is per-row, so **nothing clears a sibling for you**: uncontrolled
+rows take their state from the URL (re-derived on `hashchange` and
+`popstate`) or from the menu-wide click slot, while
+`selected`/`onSelectedChange` puts the app in charge and fires only `true` —
+Radzen's `@bind-Selected` behaves the same way. A bare `history.pushState`
+fires neither event, so path-routed apps still need GAP-001's fix.
 
 ## Icon font override
 

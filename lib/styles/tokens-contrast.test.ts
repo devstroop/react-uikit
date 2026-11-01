@@ -84,6 +84,10 @@ const TEXT_PAIRS: Array<[fg: string, bg: string]> = [
   ['on-success-color', 'success-color'],
   ['on-warning-color', 'warning-color'],
   ['on-info-color', 'info-color'],
+  // Navigation "current page" text is the one place the raw brand primary was
+  // used directly: #2563eb is held across themes, and on the dark surface it
+  // lands at 2.83:1. --dx-text-primary-color is the theme-aware sibling.
+  ['text-primary-color', 'surface-color'],
 ];
 
 describe('token contrast + derivation', () => {
@@ -118,6 +122,41 @@ describe('token contrast + derivation', () => {
           `${blockName} ${name} got ${v}`
         ).toBe('derived');
       }
+    }
+  });
+
+  it('derives the navigation active state from the theme-safe primary', () => {
+    // Active text is a var() reference, so it re-tints with the block that
+    // wins for --dx-text-primary-color instead of pinning a hex per theme.
+    expect(value(BLOCKS.light!, 'navigation-item-active-color')).toBe(
+      'var(--dx-text-primary-color)'
+    );
+    // The tint and the indicator mix/reference the brand, so the dark blocks
+    // must re-derive them: on #1e293b a 12% #2563eb wash and a slate bar are
+    // both nearly invisible, which is where "the menu ignores the theme" comes
+    // from.
+    for (const name of ['dark', 'os-dark']) {
+      const block = BLOCKS[name]!;
+      expect(
+        value(block, 'navigation-item-active-background-color'),
+        name
+      ).toMatch(/--dx-text-primary-color/);
+      expect(
+        value(block, 'navigation-item-active-indicator-color'),
+        name
+      ).toMatch(/--dx-text-primary-color/);
+    }
+  });
+
+  it('resolves navigation active text >= 4.5:1 on every surface', () => {
+    for (const [blockName, block] of Object.entries(BLOCKS)) {
+      const fg = value(block, 'text-primary-color');
+      const bg = value(block, 'surface-color');
+      expect(HEX.test(fg), `${blockName} text-primary-color`).toBe(true);
+      expect(
+        ratio(fg, bg),
+        `${blockName} navigation active on surface`
+      ).toBeGreaterThanOrEqual(4.5);
     }
   });
 });

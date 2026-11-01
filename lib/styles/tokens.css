@@ -71,6 +71,19 @@
   --dx-text-success-color: #107736;
   --dx-text-warning-color: #9d5604;
   --dx-text-danger-color: #c42020;
+  /* Navigation active state (Radzen --rz-panel-menu-item-active-* parity).
+   * Radzen marks the current row with four channels — tint, text, icon and a
+   * leading indicator bar; a color swap alone reads as a hover state in a
+   * sidebar of icon+label rows. All four are theme tokens so a seeded brand
+   * moves the whole treatment together. */
+  --dx-navigation-item-active-color: var(--dx-text-primary-color);
+  --dx-navigation-item-active-background-color: color-mix(
+    in srgb,
+    var(--dx-primary-color) 12%,
+    transparent
+  );
+  --dx-navigation-item-active-indicator-color: var(--dx-secondary-color);
+  --dx-navigation-item-active-indicator-width: 4px;
   --dx-palette-0-color: #2563eb;
   --dx-palette-1-color: #7c3aed;
   --dx-palette-2-color: #04825b;
@@ -203,6 +216,12 @@
   --dx-font-sans:
     'Source Sans 3', system-ui, -apple-system, 'Segoe UI', Roboto,
     'Helvetica Neue', Arial, sans-serif;
+  /* Document defaults consumed by the opt-in styles/base.css (Radzen
+   * --rz-root-font-size / --rz-body-font-size / --rz-body-line-height parity).
+   * Theme-independent, so the dark blocks do not re-declare them. */
+  --dx-root-font-size: 100%;
+  --dx-body-font-size: 16px;
+  --dx-body-line-height: 1.5;
   --dx-font-size-xs: 12px;
   --dx-font-size-sm: 14px;
   --dx-font-size-md: 16px;
@@ -620,6 +639,16 @@
   --dx-secondary-color: #606f85;
   --dx-secondary-hover-color: #606f85;
   --dx-on-secondary-color: #f1f5f9;
+  /* Nav active state in dark: the light tint mixes raw --dx-primary-color,
+   * which is held at #2563eb across themes (see the link-contrast note above),
+   * so re-derive it from the lightened text primary to keep the selected row
+   * legible on --dx-surface-color #1e293b. */
+  --dx-navigation-item-active-background-color: color-mix(
+    in srgb,
+    var(--dx-text-primary-color) 18%,
+    transparent
+  );
+  --dx-navigation-item-active-indicator-color: var(--dx-text-primary-color);
   --dx-border-primary-color: #336dec;
   --dx-border-primary-light-color: #3e70de;
   --dx-border-primary-darker-color: #3c6fe0;
@@ -986,6 +1015,13 @@
     --dx-secondary-color: #606f85;
     --dx-secondary-hover-color: #606f85;
     --dx-on-secondary-color: #f1f5f9;
+    /* keep identical to the :root[data-theme="dark"] block above */
+    --dx-navigation-item-active-background-color: color-mix(
+      in srgb,
+      var(--dx-text-primary-color) 18%,
+      transparent
+    );
+    --dx-navigation-item-active-indicator-color: var(--dx-text-primary-color);
     --dx-border-primary-color: #336dec;
     --dx-border-primary-light-color: #3e70de;
     --dx-border-primary-darker-color: #3c6fe0;
