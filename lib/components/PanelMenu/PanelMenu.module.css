@@ -33,7 +33,10 @@
   transition: background var(--dx-transition-fast);
 }
 
-.trigger:hover:not(:disabled):not([aria-disabled='true']) {
+/* Guards live in :where() so the hover state stays at (0,2,0): otherwise
+ * :not(:disabled):not([aria-disabled]) outranks .trigger.selected and hovering
+ * the current page wipes its tint — the selection looks like it drops out. */
+.trigger:hover:where(:not(:disabled):not([aria-disabled='true'])) {
   background-color: var(--dx-surface-hover-color);
 }
 
@@ -53,9 +56,30 @@
   background-color: var(--dx-surface-hover-color);
 }
 
+/* Selected row: tint + text + icon + leading indicator (Radzen
+ * --rz-panel-menu-item-active-* parity, _panel-menu.scss:118-132). Color alone
+ * reads as a hover state in a sidebar, and the raw brand primary is 2.83:1 on
+ * the dark surface, so the text channel uses --dx-navigation-item-active-color. */
 .trigger.selected,
 .trigger[aria-current='page'] {
-  color: var(--dx-primary-color);
+  position: relative;
+  color: var(--dx-navigation-item-active-color);
+  background-color: var(--dx-navigation-item-active-background-color);
+}
+
+.trigger.selected::before,
+.trigger[aria-current='page']::before {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: var(--dx-navigation-item-active-indicator-width);
+  background-color: var(--dx-navigation-item-active-indicator-color);
+}
+
+.trigger.selected .icon,
+.trigger[aria-current='page'] .icon {
+  color: var(--dx-navigation-item-active-color);
 }
 
 .icon {

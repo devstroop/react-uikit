@@ -211,6 +211,32 @@ describe('PanelMenu', () => {
     );
   });
 
+  it('keeps exactly one row current when the route moves after a click', () => {
+    window.location.hash = '#/a';
+    render(
+      <PanelMenu>
+        <PanelMenuItem text="A" path="#/a" />
+        <PanelMenuItem text="B" path="#/b" />
+      </PanelMenu>
+    );
+    fireEvent.click(screen.getByRole('link', { name: /B/ }));
+    expect(screen.getByRole('link', { name: /B/ })).toHaveAttribute(
+      'aria-current',
+      'page'
+    );
+    // The click slot is cleared by the router's hashchange, so A (still
+    // URL-matched) and B (just clicked) can never both read as current.
+    window.location.hash = '#/b';
+    fireEvent(window, new HashChangeEvent('hashchange'));
+    expect(screen.getByRole('link', { name: /B/ })).toHaveAttribute(
+      'aria-current',
+      'page'
+    );
+    expect(screen.getByRole('link', { name: /A/ })).not.toHaveAttribute(
+      'aria-current'
+    );
+  });
+
   it('expands ancestors of a URL-selected deep item', () => {
     window.location.hash = '#/deep';
     render(

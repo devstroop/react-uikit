@@ -95,6 +95,10 @@ interface PanelMenuContextValue {
   emit: (args: PanelMenuItemEventArgs) => unknown;
   notifyOpened: (id: string, ancestors: string[]) => void;
   openAncestors: () => void;
+  /** Menu-wide slot for uncontrolled click selection, shared by every level:
+   * a per-item boolean cannot clear the row the route left behind. */
+  clickedKey: string | null;
+  setClickedKey: (key: string | null) => void;
 }
 
 const PanelMenuContext = createContext<PanelMenuContextValue | null>(null);
@@ -186,14 +190,14 @@ function PanelMenuItemNode({
 
   const selectedControlled =
     props.onSelectedChange !== undefined || props.selected !== undefined;
-  const [internalSelected, setInternalSelected] = useState(
-    props.defaultSelected ?? false
-  );
+  const [internalSelected] = useState(props.defaultSelected ?? false);
   const urlSelected =
     !selectedControlled && path ? pathMatches(path, match) : false;
-  const selected =
-    props.selected ??
-    (selectedControlled ? internalSelected : urlSelected || internalSelected);
+  const selected = selectedControlled
+    ? (props.selected ?? internalSelected)
+    : urlSelected ||
+      internalSelected ||
+      (ctx.clickedKey != null && ctx.clickedKey === itemKey);
 
   const [, forceHash] = useState(0);
   useEffect(() => {
@@ -233,10 +237,10 @@ function PanelMenuItemNode({
       // browser follows href.
       const results = [ctx.emit(args), props.onClick?.(args)];
       if (results.includes(false)) e.preventDefault();
-      if (!selectedControlled) setInternalSelected(true);
+      if (!selectedControlled) ctx.setClickedKey(itemKey);
       props.onSelectedChange?.(true);
     },
-    [isDisabled, text, value, path, ctx, props, selectedControlled]
+    [isDisabled, text, value, path, ctx, props, selectedControlled, itemKey]
   );
 
   const toggle = useCallback(() => {
@@ -421,6 +425,16 @@ export function PanelMenu({
   const baseId = useId();
   const [collapseSignal, setCollapseSignal] = useState(0);
   const collapseSkipRef = useRef<Set<string>>(new Set());
+  const [clickedKey, setClickedKey] = useState<string | null>(null);
+
+  // A route change re-derives selection from the URL, so the click slot must not
+  // outlive it — otherwise the row that moved the router stays `aria-current`
+  // together with the row the new URL matches.
+  useEffect(() => {
+    const onHash = () => setClickedKey(null);
+    window.addEventListener('hashchange', onHash);
+    return () => window.removeEventListener('hashchange', onHash);
+  }, []);
 
   const emit = useCallback(
     (args: PanelMenuItemEventArgs) => onClick?.(args),
@@ -481,6 +495,8 @@ export function PanelMenu({
       emit,
       notifyOpened,
       openAncestors: () => undefined,
+      clickedKey,
+      setClickedKey,
     }),
     [
       baseId,
@@ -492,6 +508,7 @@ export function PanelMenu({
       collapseSignal,
       emit,
       notifyOpened,
+      clickedKey,
     ]
   );
 

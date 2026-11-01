@@ -32,6 +32,33 @@ theme block (light `:root`, explicit dark, OS-dark fallback):
   (verify contrast against the re-seeded fills, not just presence);
 - `inverse-*` surfaces (they flip meaning between light and dark).
 
+## Navigation active state
+
+`Menu`, `PanelMenu` and sidebar rows mark the current page with four
+channels, all fed by one token group, so a re-seed moves them together:
+
+| token                                          | role            |
+| ---------------------------------------------- | --------------- |
+| `--dx-navigation-item-active-color`            | row text + icon |
+| `--dx-navigation-item-active-background-color` | row tint        |
+| `--dx-navigation-item-active-indicator-color`  | leading bar     |
+| `--dx-navigation-item-active-indicator-width`  | bar width (4px) |
+
+Two constraints that the ratchet tests hold:
+
+- the text channel is `var(--dx-text-primary-color)`, never
+  `--dx-primary-color`. The brand fill is held at `#2563eb` across
+  themes, which measures 2.83:1 on the dark `#1e293b` surface;
+  `text-primary-color` is the theme-aware sibling (5.75:1 on light
+  white, 5.20:1 on dark).
+- the dark blocks re-derive the tint and the indicator. `color-mix(...,
+var(--dx-primary-color) 12%, transparent)` is invisible on `#1e293b`,
+  so dark re-mixes from `--dx-text-primary-color` instead.
+
+The indicator renders only on vertical surfaces (`.vertical` in
+`Menu.module.css`); horizontal top-level rows get tint + text, matching
+Radzen, which hides `:before` there (`_menu.scss:95-100`).
+
 ## Icon font override
 
 `<Icon/>` renders ligature text in `var(--dx-icon-font-family)`

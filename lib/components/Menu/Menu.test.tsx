@@ -281,6 +281,78 @@ describe('Menu', () => {
     );
   });
 
+  it('keeps exactly one row current when the route moves after a click', () => {
+    window.location.hash = '#/a';
+    render(
+      <Menu>
+        <MenuItem text="A" path="#/a" />
+        <MenuItem text="B" path="#/b" />
+      </Menu>
+    );
+    fireEvent.click(screen.getByRole('menuitem', { name: 'B' }));
+    expect(screen.getByRole('menuitem', { name: 'B' })).toHaveAttribute(
+      'aria-current',
+      'page'
+    );
+    // The click slot is cleared by the hashchange the router produces, so A
+    // (still URL-matched) and B (just clicked) can never both read as current.
+    window.location.hash = '#/b';
+    fireEvent(window, new HashChangeEvent('hashchange'));
+    expect(screen.getByRole('menuitem', { name: 'B' })).toHaveAttribute(
+      'aria-current',
+      'page'
+    );
+    expect(screen.getByRole('menuitem', { name: 'A' })).not.toHaveAttribute(
+      'aria-current'
+    );
+  });
+
+  it('supports controlled selected and onSelectedChange', () => {
+    const onSelectedChange = vi.fn();
+    render(
+      <Menu>
+        <MenuItem text="Locked" path="#/locked" selected />
+        <MenuItem
+          text="Chosen"
+          path="#/chosen"
+          onSelectedChange={onSelectedChange}
+        />
+      </Menu>
+    );
+    // `selected` wins over the URL, which does not match in jsdom.
+    expect(screen.getByRole('menuitem', { name: 'Locked' })).toHaveAttribute(
+      'aria-current',
+      'page'
+    );
+    expect(
+      screen.getByRole('menuitem', { name: 'Chosen' })
+    ).not.toHaveAttribute('aria-current');
+    fireEvent.click(screen.getByRole('menuitem', { name: 'Chosen' }));
+    expect(onSelectedChange).toHaveBeenCalledWith(true);
+    // Controlled rows stay under consumer control: the click did not tint it.
+    expect(
+      screen.getByRole('menuitem', { name: 'Chosen' })
+    ).not.toHaveAttribute('aria-current');
+  });
+
+  it('selects a defaultSelected leaf and never a submenu trigger', () => {
+    render(
+      <Menu>
+        <MenuItem text="Preselected" defaultSelected />
+        <MenuItem text="Products" selected>
+          <MenuItem text="A" />
+        </MenuItem>
+      </Menu>
+    );
+    expect(
+      screen.getByRole('menuitem', { name: 'Preselected' })
+    ).toHaveAttribute('aria-current', 'page');
+    // Triggers open submenus; `aria-current="page"` would claim they are pages.
+    expect(
+      screen.getByRole('menuitem', { name: 'Products' })
+    ).not.toHaveAttribute('aria-current');
+  });
+
   it('renders icon, iconColor, image and template', () => {
     const { container } = render(
       <Menu>
