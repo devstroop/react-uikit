@@ -151,6 +151,14 @@ export const PALETTE = [
   'var(--dx-palette-5-color)',
 ];
 
+/** A slice's fill. Pie/donut categories are colored individually, the way
+ * Radzen's pie legend pairs each category with its own swatch; a series that
+ * pins `color` keeps every slice in that color instead. Shared with the legend
+ * so the swatch always matches the arc it names. */
+export function sliceColor(ser: ChartSeries, pointIndex: number): string {
+  return ser.color ?? PALETTE[pointIndex % PALETTE.length]!;
+}
+
 /** Series types drawn against the shared category/value axes. */
 export const VALUE_AXIS_TYPES = new Set([
   'line',
@@ -169,15 +177,35 @@ export const VALUE_AXIS_TYPES = new Set([
 /** Series types showing the bottom category axis (heatmap has x categories). */
 export const CATEGORY_AXIS_TYPES = new Set([...VALUE_AXIS_TYPES, 'heatmap']);
 
+/** Steps a human reads as round numbers, per decade. */
+const NICE_STEPS = [1, 2, 2.5, 5, 10];
+
+/** Axis intervals to aim for. Five is the widest count that still leaves the
+ * tick labels legible at the default chart height (GAP-005). */
+const TARGET_INTERVALS = 5;
+
 export function niceScale(min: number, max: number, step?: number) {
   const range = max - min || 1;
-  const raw = step ?? Math.pow(10, Math.floor(Math.log10(range / 4)));
-  const nMin = Math.floor(min / raw) * raw;
-  const nMax = Math.ceil(max / raw) * raw;
+  // An explicit step is the contract and is used as given; only the derived
+  // step is snapped, by rounding the rough value *up* to the next nice number.
+  const interval =
+    step ??
+    (() => {
+      const rough = range / TARGET_INTERVALS;
+      const magnitude = Math.pow(10, Math.floor(Math.log10(rough)));
+      const normalized = rough / magnitude;
+      const nice = NICE_STEPS.find((s) => s >= normalized) ?? 10;
+      return nice * magnitude;
+    })();
+  const nMin = Math.floor(min / interval) * interval;
+  const nMax = Math.ceil(max / interval) * interval;
+  // Indexed rather than accumulated: repeated += of a fractional interval
+  // drifts, and the drift decides whether the last tick exists.
+  const count = Math.round((nMax - nMin) / interval);
   const ticks: number[] = [];
-  for (let v = nMin; v <= nMax + 1e-9; v += raw)
-    ticks.push(Number(v.toFixed(6)));
-  return { min: nMin, max: nMax, step: raw, ticks };
+  for (let i = 0; i <= count; i++)
+    ticks.push(Number((nMin + i * interval).toFixed(6)));
+  return { min: nMin, max: nMax, step: interval, ticks };
 }
 
 export interface ChartPoint {

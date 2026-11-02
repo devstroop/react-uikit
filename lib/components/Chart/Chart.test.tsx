@@ -101,6 +101,56 @@ describe('Chart', () => {
     expect(container.querySelectorAll('path').length).toBeGreaterThanOrEqual(2);
   });
 
+  it('colors pie slices per category and legends each one', () => {
+    const pie = {
+      type: 'donut' as const,
+      title: 'Traffic',
+      data: [
+        { cat: 'Direct', val: 420 },
+        { cat: 'Search', val: 310 },
+        { cat: 'Social', val: 240 },
+      ],
+      categoryProperty: 'cat',
+      valueProperty: 'val',
+    };
+    const { container } = render(<Chart series={[pie]} />);
+    const fills = [...container.querySelectorAll('svg path')].map((p) =>
+      p.getAttribute('fill')
+    );
+    expect(fills).toEqual([
+      'var(--dx-palette-0-color)',
+      'var(--dx-palette-1-color)',
+      'var(--dx-palette-2-color)',
+    ]);
+    // One row per slice, not one per series: the legend is the only place the
+    // categories are named.
+    const legendText = [...container.querySelectorAll('[class*="legendItem"]')];
+    expect(legendText.map((el) => el.textContent)).toEqual([
+      'Direct',
+      'Search',
+      'Social',
+    ]);
+  });
+
+  it('keeps an explicit pie series color on every slice', () => {
+    const pie = {
+      type: 'pie' as const,
+      title: 'P',
+      color: '#123456',
+      data: [
+        { cat: 'A', val: 30 },
+        { cat: 'B', val: 70 },
+      ],
+      categoryProperty: 'cat',
+      valueProperty: 'val',
+    };
+    const { container } = render(<Chart series={[pie]} />);
+    const fills = [...container.querySelectorAll('svg path')].map((p) =>
+      p.getAttribute('fill')
+    );
+    expect(fills).toEqual(['#123456', '#123456']);
+  });
+
   it('stacked bar sums per category', () => {
     const s1 = {
       type: 'bar' as const,

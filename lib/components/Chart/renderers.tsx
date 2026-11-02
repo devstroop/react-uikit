@@ -4,7 +4,7 @@ import type {
   ChartRenderContext,
   ChartSeries,
 } from './chart-shared';
-import { pointsFor } from './chart-shared';
+import { pointsFor, sliceColor } from './chart-shared';
 import styles from './Chart.module.css';
 
 function seriesHead(
@@ -239,8 +239,7 @@ function renderPie(
   ctx: ChartRenderContext,
   ser: ChartSeries,
   sIdx: number,
-  pts: ChartPoint[],
-  color: string
+  pts: ChartPoint[]
 ): ReactNode {
   const { pad, plotW, plotH } = ctx;
   const cx = pad.l + plotW / 2;
@@ -272,11 +271,12 @@ function renderPie(
       const mid = (start + end) / 2;
       const lx = cx + (outerR + 12) * Math.cos(rad(mid));
       const ly = cy + (outerR + 12) * Math.sin(rad(mid));
+      const fill = sliceColor(ser, i);
       return (
         <g key={i} role="listitem">
           <path
             d={d}
-            fill={color}
+            fill={fill}
             stroke="var(--dx-surface-color)"
             strokeWidth={1}
             onMouseEnter={() =>
@@ -1816,7 +1816,7 @@ export function renderSeries(
   switch (ser.type) {
     case 'pie':
     case 'donut':
-      return renderPie(ctx, ser, sIdx, pts, color);
+      return renderPie(ctx, ser, sIdx, pts);
     case 'scatter':
     case 'bubble':
       return renderPoints(ctx, ser, sIdx, pts, color);

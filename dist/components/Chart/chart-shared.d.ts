@@ -115,6 +115,11 @@ export interface ChartRenderContext {
     series: readonly ChartSeries[];
 }
 export declare const PALETTE: string[];
+/** A slice's fill. Pie/donut categories are colored individually, the way
+ * Radzen's pie legend pairs each category with its own swatch; a series that
+ * pins `color` keeps every slice in that color instead. Shared with the legend
+ * so the swatch always matches the arc it names. */
+export declare function sliceColor(ser: ChartSeries, pointIndex: number): string;
 /** Series types drawn against the shared category/value axes. */
 export declare const VALUE_AXIS_TYPES: Set<string>;
 /** Series types showing the bottom category axis (heatmap has x categories). */

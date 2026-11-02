@@ -11,6 +11,8 @@ import {
   PALETTE,
   VALUE_AXIS_TYPES,
   niceScale,
+  pointsFor,
+  sliceColor,
 } from './chart-shared';
 import { renderRadarGrid, renderSeries } from './renderers';
 
@@ -118,6 +120,24 @@ export function Chart({
 
   const colorFor = (idx: number, ser: ChartSeries) =>
     ser.color ?? PALETTE[idx % PALETTE.length]!;
+
+  // Pie/donut legend the categories, not the series: each slice carries its own
+  // palette color, so one row per series would name a color nothing wears.
+  const legend = series.flatMap((ser, i) =>
+    ser.type === 'pie' || ser.type === 'donut'
+      ? pointsFor(ser).map((p, j) => ({
+          key: `${i}-${j}`,
+          label: p.cat,
+          color: sliceColor(ser, j),
+        }))
+      : [
+          {
+            key: `${i}`,
+            label: ser.title ?? `Series ${i + 1}`,
+            color: colorFor(i, ser),
+          },
+        ]
+  );
 
   const showValueAxis = series.some((s) => VALUE_AXIS_TYPES.has(s.type));
   const showCategoryAxis = series.some((s) => CATEGORY_AXIS_TYPES.has(s.type));
@@ -242,14 +262,14 @@ export function Chart({
       )}
       {showLegend && (
         <div className={styles.legend}>
-          {series.map((ser, i) => (
-            <span key={i} className={styles.legendItem}>
+          {legend.map((entry) => (
+            <span key={entry.key} className={styles.legendItem}>
               <span
                 className={styles.swatch}
-                style={{ backgroundColor: colorFor(i, ser) }}
+                style={{ backgroundColor: entry.color }}
                 aria-hidden="true"
               />
-              {ser.title ?? `Series ${i + 1}`}
+              {entry.label}
             </span>
           ))}
         </div>
