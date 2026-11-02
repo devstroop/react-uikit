@@ -1,5 +1,6 @@
 import styles from './Gauges.module.css';
-import { gaugeTickLabel, gaugeTicks } from './gauge-ticks';
+import { gaugeTicks } from './gauge-ticks';
+import { tickLabel } from '../../utils/tick-label';
 
 export interface LinearGaugeRange {
   from: number;
@@ -93,11 +94,11 @@ export function LinearGauge({
           {showLabels &&
             (vertical ? (
               <text x={-10} y={p + 4} textAnchor="end" className={styles.tick}>
-                {gaugeTickLabel(t)}
+                {tickLabel(t)}
               </text>
             ) : (
               <text x={p} y={-10} textAnchor="middle" className={styles.tick}>
-                {gaugeTickLabel(t)}
+                {tickLabel(t)}
               </text>
             ))}
         </g>

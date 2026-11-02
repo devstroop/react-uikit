@@ -1,5 +1,6 @@
 import styles from './Gauges.module.css';
-import { gaugeTickLabel, gaugeTicks } from './gauge-ticks';
+import { gaugeTicks } from './gauge-ticks';
+import { tickLabel } from '../../utils/tick-label';
 
 export interface RadialGaugeRange {
   from: number;
@@ -174,7 +175,7 @@ export function RadialGauge({
                   textAnchor="middle"
                   className={styles.tick}
                 >
-                  {gaugeTickLabel(t)}
+                  {tickLabel(t)}
                 </text>
               )}
             </g>
