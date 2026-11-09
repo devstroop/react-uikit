@@ -1,4 +1,5 @@
-{
+:root {
+
   --dx-white: #ffffff;
   --dx-black: #000000;
   --dx-base: #edebe9;
@@ -1889,9 +1890,8 @@
   --dx-spreadsheet-header-background-color: var(--dx-white);
   --dx-spreadsheet-header-active-background-color: var(--dx-base-200);
   --dx-spreadsheet-splitter-background-color: var(--dx-base-200);
-}
 
-{
+
   --dx-background-color: var(--dx-body-background-color);
   --dx-surface-color: var(--dx-base-background-color);
   --dx-border-color: var(--dx-base-300);
@@ -1930,9 +1930,21 @@
   --dx-surface-hover-color: var(--dx-base-100);
   --dx-text-muted-color: var(--dx-base-600);
   --dx-border-strong-color: var(--dx-base-500);
+
+  --dx-text-muted-color: var(--dx-base-800);
+  --dx-navigation-item-active-color: var(--dx-text-primary-color);
+  --dx-navigation-item-active-background-color: color-mix(in srgb, var(--dx-primary-color) 12%, transparent);
+  --dx-navigation-item-active-indicator-color: var(--dx-secondary-color);
+  --dx-navigation-item-active-indicator-width: 4px;
+  --dx-text-muted-color: var(--dx-base-800);
+  --dx-navigation-item-active-color: var(--dx-text-primary-color);
+  --dx-navigation-item-active-background-color: color-mix(in srgb, var(--dx-primary-color) 12%, transparent);
+  --dx-navigation-item-active-indicator-color: var(--dx-secondary-color);
+  --dx-navigation-item-active-indicator-width: 4px;
 }
 
-{
+:root[data-theme='dark'] {
+
   --dx-white: #ffffff;
   --dx-black: #0a0a0a;
   --dx-base: #3d3d3d;
@@ -3823,9 +3835,8 @@
   --dx-spreadsheet-header-background-color: var(--dx-base-700);
   --dx-spreadsheet-header-active-background-color: var(--dx-base-500);
   --dx-spreadsheet-splitter-background-color: var(--dx-base-200);
-}
 
-{
+
   --dx-background-color: var(--dx-body-background-color);
   --dx-surface-color: var(--dx-base-background-color);
   --dx-border-color: var(--dx-base-300);
@@ -3864,4 +3875,15 @@
   --dx-surface-hover-color: var(--dx-base-600);
   --dx-text-muted-color: var(--dx-base-100);
   --dx-border-strong-color: var(--dx-base-300);
+
+  --dx-text-muted-color: var(--dx-base-100);
+  --dx-navigation-item-active-color: var(--dx-text-primary-color);
+  --dx-navigation-item-active-background-color: color-mix(in srgb, var(--dx-text-primary-color) 18%, transparent);
+  --dx-navigation-item-active-indicator-color: var(--dx-text-primary-color);
+  --dx-navigation-item-active-indicator-width: 4px;
+  --dx-text-muted-color: var(--dx-base-100);
+  --dx-navigation-item-active-color: var(--dx-text-primary-color);
+  --dx-navigation-item-active-background-color: color-mix(in srgb, var(--dx-text-primary-color) 18%, transparent);
+  --dx-navigation-item-active-indicator-color: var(--dx-text-primary-color);
+  --dx-navigation-item-active-indicator-width: 4px;
 }

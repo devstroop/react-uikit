@@ -28,6 +28,7 @@ function splitRoute(route: string): { slug: string; anchor: string | null } {
  * live (the e2e axe matrix polls it).
  */
 const PALETTE_LOADERS: Record<string, (() => Promise<unknown>)[]> = {
+  default: [() => import('../lib/styles/themes/zen.css')],
   fluent: [
     () => import('./styles/fluent-base.css'),
     () => import('./styles/fluent-dark-base.css'),

@@ -7,7 +7,7 @@
  * than app.css's default teal.
  */
 
-{
+:root {
   color-scheme: light;
 
   /* raw ramp */
@@ -145,6 +145,11 @@
   --dx-outline-danger-color: #d1242f;
   --dx-outline-danger-light-color: #ff8182;
   --dx-outline-danger-darker-color: #82071e;
+  --dx-text-muted-color: var(--dx-base-800);
+  --dx-navigation-item-active-color: var(--dx-text-primary-color);
+  --dx-navigation-item-active-background-color: color-mix(in srgb, var(--dx-primary-color) 12%, transparent);
+  --dx-navigation-item-active-indicator-color: var(--dx-secondary-color);
+  --dx-navigation-item-active-indicator-width: 4px;
 }
 
 :root[data-theme='dark'] {
@@ -285,4 +290,9 @@
   --dx-outline-danger-color: #b62324;
   --dx-outline-danger-light-color: #f85149;
   --dx-outline-danger-darker-color: #8e1c1d;
+  --dx-text-muted-color: var(--dx-base-100);
+  --dx-navigation-item-active-color: var(--dx-text-primary-color);
+  --dx-navigation-item-active-background-color: color-mix(in srgb, var(--dx-text-primary-color) 18%, transparent);
+  --dx-navigation-item-active-indicator-color: var(--dx-text-primary-color);
+  --dx-navigation-item-active-indicator-width: 4px;
 }

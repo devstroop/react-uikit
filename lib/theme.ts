@@ -5,4 +5,5 @@
 // ./utilities.css instead. A CSS input is not an option: vite refuses one while
 // build.cssCodeSplit is false.
 import './styles/tokens.css';
+import './styles/themes/zen.css';
 import './utilities.css';
