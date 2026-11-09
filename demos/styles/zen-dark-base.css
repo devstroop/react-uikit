@@ -44946,3 +44946,9 @@
   --dx-spreadsheet-header-active-background-color: var(--dx-base-500);
   --dx-spreadsheet-splitter-background-color: var(--dx-base-400);
 }
+
+:root[data-palette='zen'] {
+  --dx-primary-color: var(--dx-primary);
+  --dx-text-primary-color: var(--dx-primary);
+  --dx-secondary-color: var(--dx-secondary);
+}
