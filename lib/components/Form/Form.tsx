@@ -21,6 +21,8 @@ export interface FormContextValue {
   unregisterField: (name: string) => void;
   submit: () => void;
   submitCount: number;
+  reset: () => void;
+  resetCount: number;
 }
 
 export const FormContext = createContext<FormContextValue | null>(null);
@@ -56,6 +58,7 @@ export function Form({
 }: FormProps) {
   const [fields, setFields] = useState<Record<string, FormFieldDescriptor>>({});
   const [submitCount, setSubmitCount] = useState(0);
+  const [resetCount, setResetCount] = useState(0);
   const fieldsRef = useRef(fields);
   // Mirrored via effect: fieldsRef is only read from the submit handler,
   // which cannot run before effects flush after commit.
@@ -107,9 +110,14 @@ export function Form({
     submit();
   };
 
+  const reset = useCallback(() => {
+    setResetCount((count) => count + 1);
+    setSubmitCount(0);
+  }, []);
+
   const value = useMemo(
-    () => ({ registerField, unregisterField, submit, submitCount }),
-    [registerField, unregisterField, submit, submitCount]
+    () => ({ registerField, unregisterField, submit, submitCount, reset, resetCount }),
+    [registerField, unregisterField, submit, submitCount, reset, resetCount]
   );
 
   const classNames = [styles.form, className].filter(Boolean).join(' ');

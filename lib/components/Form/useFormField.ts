@@ -21,6 +21,7 @@ export function useFormField<T = string>(
   const registerField = ctx?.registerField;
   const unregisterField = ctx?.unregisterField;
   const submitCount = ctx?.submitCount ?? 0;
+  const resetCount = ctx?.resetCount ?? 0;
   const [value, setValue] = useState<T | undefined>(options?.initialValue);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [dirty, setDirty] = useState(false);
@@ -36,7 +37,14 @@ export function useFormField<T = string>(
     return () => unregisterField(name);
   }, [name, registerField, unregisterField]);
 
+  const [prevResetCount, setPrevResetCount] = useState(resetCount);
   const [prevSubmitCount, setPrevSubmitCount] = useState(submitCount);
+  if (resetCount !== prevResetCount) {
+    setPrevResetCount(resetCount);
+    setValue(options?.initialValue);
+    setHasSubmitted(false);
+    setDirty(false);
+  }
   if (submitCount !== prevSubmitCount) {
     setPrevSubmitCount(submitCount);
     if (submitCount > 0) {
