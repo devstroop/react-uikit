@@ -116,7 +116,14 @@ export function Form({
   }, []);
 
   const value = useMemo(
-    () => ({ registerField, unregisterField, submit, submitCount, reset, resetCount }),
+    () => ({
+      registerField,
+      unregisterField,
+      submit,
+      submitCount,
+      reset,
+      resetCount,
+    }),
     [registerField, unregisterField, submit, submitCount, reset, resetCount]
   );
 

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import styles from './Chart.module.css';
 import type {
   ChartProps,
@@ -37,6 +37,29 @@ export function Chart({
   const [tip, setTip] = useState<{ x: number; y: number; text: string } | null>(
     null
   );
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isResponsive = typeof width === 'string' || typeof height === 'string';
+  const [measured, setMeasured] = useState<{ w: number; h: number }>({
+    w: typeof width === 'number' ? width : 600,
+    h: typeof height === 'number' ? height : 400,
+  });
+  useEffect(() => {
+    if (!isResponsive || !containerRef.current) return;
+    const el = containerRef.current;
+    const update = () => {
+      const w = el.clientWidth || 600;
+      const h = el.clientHeight || 400;
+      setMeasured({ w, h });
+    };
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [isResponsive]);
+
+  const resolvedWidth = typeof width === 'number' ? width : measured.w;
+  const resolvedHeight = typeof height === 'number' ? height : measured.h;
 
   const categories = useMemo(() => {
     const s = new Set<string>();
@@ -111,8 +134,8 @@ export function Chart({
   }, [plotSeries]);
 
   const pad = { t: 16, r: 16, b: 40, l: 56 };
-  const plotW = width - pad.l - pad.r;
-  const plotH = height - pad.t - pad.b;
+  const plotW = resolvedWidth - pad.l - pad.r;
+  const plotH = resolvedHeight - pad.t - pad.b;
 
   // Only a baseline-filled series drags the value axis down to 0 — column, bar,
   // area and anything stacked, which is Radzen's `zeroBased: true` set
@@ -198,142 +221,150 @@ export function Chart({
   };
 
   return (
-    <figure
-      className={[styles.root, className].filter(Boolean).join(' ')}
-      role="img"
-      aria-label={ariaLabel}
-      aria-describedby={`${ariaLabel.replace(/\s+/g, '-')}-table`}
+    <div
+      ref={containerRef}
+      style={{
+        width: typeof width === 'string' ? width : undefined,
+        height: typeof height === 'string' ? height : undefined,
+      }}
     >
-      <svg
-        width={width}
-        height={height}
-        className={styles.svg}
-        role="presentation"
+      <figure
+        className={[styles.root, className].filter(Boolean).join(' ')}
+        role="img"
+        aria-label={ariaLabel}
+        aria-describedby={`${ariaLabel.replace(/\s+/g, '-')}-table`}
       >
-        {showValueAxis &&
-          valueAxis?.gridlines !== false &&
-          scale.ticks.map((t) => (
-            <line
-              key={t}
-              x1={pad.l}
-              x2={pad.l + plotW}
-              y1={yFor(t)}
-              y2={yFor(t)}
-              className={styles.gridline}
-            />
-          ))}
-        {showCategoryAxis &&
-          categoryAxis?.gridlines &&
-          categories.map((_, i) => (
-            <line
-              key={i}
-              x1={xFor(i)}
-              x2={xFor(i)}
-              y1={pad.t}
-              y2={pad.t + plotH}
-              className={styles.gridline}
-            />
-          ))}
-        {showValueAxis &&
-          scale.ticks.map((t) => (
-            <text
-              key={t}
-              x={pad.l - 8}
-              y={yFor(t) + 4}
-              textAnchor="end"
-              className={styles.tickLabel}
-            >
-              {stacked100Percent ? `${fmt(t)}%` : fmt(t)}
-            </text>
-          ))}
-        {showCategoryAxis &&
-          categories.map((c, i) => (
-            <text
-              key={c}
-              x={xFor(i)}
-              y={pad.t + plotH + 16}
-              textAnchor="middle"
-              className={styles.tickLabel}
-            >
-              {catFmt(c)}
-            </text>
-          ))}
-        {showValueAxis && valueAxis?.title && (
-          <text
-            x={12}
-            y={pad.t + plotH / 2}
-            textAnchor="middle"
-            transform={`rotate(-90,12,${pad.t + plotH / 2})`}
-            className={styles.axisTitle}
-          >
-            {valueAxis.title}
-          </text>
-        )}
-        {showCategoryAxis && categoryAxis?.title && (
-          <text
-            x={pad.l + plotW / 2}
-            y={height - 4}
-            textAnchor="middle"
-            className={styles.axisTitle}
-          >
-            {categoryAxis.title}
-          </text>
-        )}
-        {(series.some((s) => s.type === 'radar') ||
-          series.some((s) => s.type === 'spider')) &&
-          renderRadarGrid(ctx)}
-        {plotSeries.map((ser, sIdx) => renderSeries(ctx, ser, sIdx))}
-      </svg>
-      {tip && (
-        <div
-          className={styles.tooltip}
-          style={{ left: tip.x, top: tip.y - 28 }}
+        <svg
+          width={resolvedWidth}
+          height={resolvedHeight}
+          className={styles.svg}
+          role="presentation"
         >
-          {tip.text}
-        </div>
-      )}
-      {showLegend && (
-        <div className={styles.legend}>
-          {legend.map((entry) => (
-            <span key={entry.key} className={styles.legendItem}>
-              <span
-                className={styles.swatch}
-                style={{ backgroundColor: entry.color }}
-                aria-hidden="true"
+          {showValueAxis &&
+            valueAxis?.gridlines !== false &&
+            scale.ticks.map((t) => (
+              <line
+                key={t}
+                x1={pad.l}
+                x2={pad.l + plotW}
+                y1={yFor(t)}
+                y2={yFor(t)}
+                className={styles.gridline}
               />
-              {entry.label}
-            </span>
-          ))}
-        </div>
-      )}
-      <table
-        className={styles.visuallyHidden}
-        id={`${ariaLabel.replace(/\s+/g, '-')}-table`}
-      >
-        <caption>{ariaLabel}</caption>
-        <thead>
-          <tr>
-            <th>Series</th>
-            <th>Category</th>
-            <th>Value</th>
-          </tr>
-        </thead>
-        <tbody>
-          {series.map((ser) =>
-            ser.data.map((d, j) => (
-              <tr key={`${ser.title}-${j}`}>
-                <td>{ser.title ?? ''}</td>
-                <td>
-                  {ser.rowProperty
-                    ? `${String(d[ser.rowProperty] ?? '')} / ${String(d[ser.categoryProperty] ?? '')}`
-                    : String(d[ser.categoryProperty] ?? '')}
-                </td>
-                <td>{String(d[ser.valueProperty] ?? '')}</td>
-              </tr>
-            ))
+            ))}
+          {showCategoryAxis &&
+            categoryAxis?.gridlines &&
+            categories.map((_, i) => (
+              <line
+                key={i}
+                x1={xFor(i)}
+                x2={xFor(i)}
+                y1={pad.t}
+                y2={pad.t + plotH}
+                className={styles.gridline}
+              />
+            ))}
+          {showValueAxis &&
+            scale.ticks.map((t) => (
+              <text
+                key={t}
+                x={pad.l - 8}
+                y={yFor(t) + 4}
+                textAnchor="end"
+                className={styles.tickLabel}
+              >
+                {stacked100Percent ? `${fmt(t)}%` : fmt(t)}
+              </text>
+            ))}
+          {showCategoryAxis &&
+            categories.map((c, i) => (
+              <text
+                key={c}
+                x={xFor(i)}
+                y={pad.t + plotH + 16}
+                textAnchor="middle"
+                className={styles.tickLabel}
+              >
+                {catFmt(c)}
+              </text>
+            ))}
+          {showValueAxis && valueAxis?.title && (
+            <text
+              x={12}
+              y={pad.t + plotH / 2}
+              textAnchor="middle"
+              transform={`rotate(-90,12,${pad.t + plotH / 2})`}
+              className={styles.axisTitle}
+            >
+              {valueAxis.title}
+            </text>
           )}
-        </tbody>
-      </table>
-    </figure>
+          {showCategoryAxis && categoryAxis?.title && (
+            <text
+              x={pad.l + plotW / 2}
+              y={resolvedHeight - 4}
+              textAnchor="middle"
+              className={styles.axisTitle}
+            >
+              {categoryAxis.title}
+            </text>
+          )}
+          {(series.some((s) => s.type === 'radar') ||
+            series.some((s) => s.type === 'spider')) &&
+            renderRadarGrid(ctx)}
+          {plotSeries.map((ser, sIdx) => renderSeries(ctx, ser, sIdx))}
+        </svg>
+        {tip && (
+          <div
+            className={styles.tooltip}
+            style={{ left: tip.x, top: tip.y - 28 }}
+          >
+            {tip.text}
+          </div>
+        )}
+        {showLegend && (
+          <div className={styles.legend}>
+            {legend.map((entry) => (
+              <span key={entry.key} className={styles.legendItem}>
+                <span
+                  className={styles.swatch}
+                  style={{ backgroundColor: entry.color }}
+                  aria-hidden="true"
+                />
+                {entry.label}
+              </span>
+            ))}
+          </div>
+        )}
+        <table
+          className={styles.visuallyHidden}
+          id={`${ariaLabel.replace(/\s+/g, '-')}-table`}
+        >
+          <caption>{ariaLabel}</caption>
+          <thead>
+            <tr>
+              <th>Series</th>
+              <th>Category</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            {series.map((ser) =>
+              ser.data.map((d, j) => (
+                <tr key={`${ser.title}-${j}`}>
+                  <td>{ser.title ?? ''}</td>
+                  <td>
+                    {ser.rowProperty
+                      ? `${String(d[ser.rowProperty] ?? '')} / ${String(d[ser.categoryProperty] ?? '')}`
+                      : String(d[ser.categoryProperty] ?? '')}
+                  </td>
+                  <td>{String(d[ser.valueProperty] ?? '')}</td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </figure>
+    </div>
   );
 }
