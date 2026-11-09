@@ -13,7 +13,10 @@
       "import": "./dist/main.es.js",
       "require": "./dist/main.cjs.js"
     },
-    "./style.css": "./dist/style.css"
+    "./style.css": "./dist/style.css",
+    "./base.css": "./dist/base.css",
+    "./tokens.css": "./dist/tokens.css",
+    "./utilities.css": "./dist/utilities.css"
   },
   "files": [
     "dist"
@@ -31,7 +34,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "demos:build": "vite build --config demos/vite.config.ts",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "demo:audit": "node scripts/audit-demos.mjs"
   },
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0",

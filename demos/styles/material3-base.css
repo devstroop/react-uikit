@@ -40718,3 +40718,7 @@
   --dx-text-muted-color: var(--dx-base-800);
   --dx-border-strong-color: var(--dx-base-500);
 }
+
+:root[data-palette='material-3'] {
+  --dx-text-primary-color: var(--dx-primary);
+}

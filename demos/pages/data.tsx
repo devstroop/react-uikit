@@ -832,12 +832,14 @@ function GaugesDemosPage() {
         {
           id: 'gauges-linear',
           title: 'Linear',
+          description: 'ticks.step puts a mark on every exact value.',
           content: (
             <LinearGauge
               value={68}
               min={0}
               max={100}
               ariaLabel="Linear gauge"
+              ticks={{ step: 20 }}
               ranges={[{ from: 0, to: 50, color: '#22c55e' }]}
             />
           ),
@@ -845,12 +847,14 @@ function GaugesDemosPage() {
         {
           id: 'gauges-radial',
           title: 'Radial',
+          description: 'step 25 lands the marks on 0/25/50/75/100.',
           content: (
             <RadialGauge
               value={68}
               min={0}
               max={100}
               ariaLabel="Radial gauge"
+              ticks={{ step: 25 }}
               pointers={[{ value: 90, color: '#ef4444' }]}
             />
           ),
@@ -1008,6 +1012,14 @@ function RangeNavigatorDemosPage() {
     />
   );
 }
+
+const PRICE = [
+  { d: 'Mon', o: 100.4, h: 105.9, l: 99.1, c: 104.2 },
+  { d: 'Tue', o: 104.2, h: 108.5, l: 102.0, c: 103.1 },
+  { d: 'Wed', o: 103.1, h: 106.7, l: 100.4, c: 105.5 },
+  { d: 'Thu', o: 105.5, h: 110.2, l: 104.9, c: 109.8 },
+  { d: 'Fri', o: 109.8, h: 112.4, l: 106.1, c: 107.2 },
+];
 
 export function DataDemos({ slug }: { slug: string }) {
   switch (slug) {
@@ -1457,6 +1469,54 @@ export function DataDemos({ slug }: { slug: string }) {
               ),
             },
             {
+              id: 'chart-pie',
+              title: 'Pie & donut',
+              description:
+                'Slices take the palette per category and the legend lists the categories.',
+              content: (
+                <Row gap={16} wrap align="center">
+                  <Chart
+                    width={300}
+                    height={240}
+                    series={[
+                      {
+                        type: 'pie',
+                        title: 'Share',
+                        data: [
+                          { region: 'North', v: 42 },
+                          { region: 'South', v: 28 },
+                          { region: 'East', v: 18 },
+                          { region: 'West', v: 12 },
+                        ],
+                        categoryProperty: 'region',
+                        valueProperty: 'v',
+                        labels: { visible: true },
+                      },
+                    ]}
+                  />
+                  <Chart
+                    width={300}
+                    height={240}
+                    series={[
+                      {
+                        type: 'donut',
+                        title: 'Share',
+                        innerRadius: 44,
+                        data: [
+                          { region: 'North', v: 42 },
+                          { region: 'South', v: 28 },
+                          { region: 'East', v: 18 },
+                          { region: 'West', v: 12 },
+                        ],
+                        categoryProperty: 'region',
+                        valueProperty: 'v',
+                      },
+                    ]}
+                  />
+                </Row>
+              ),
+            },
+            {
               id: 'chart-funnel',
               title: 'Funnel',
               content: (
@@ -1503,6 +1563,380 @@ export function DataDemos({ slug }: { slug: string }) {
                       ],
                       categoryProperty: 'day',
                       valueProperty: 'v',
+                    },
+                  ]}
+                />
+              ),
+            },
+            {
+              id: 'chart-axis-format',
+              title: 'Axis formatting',
+              description:
+                'valueAxis.format / categoryAxis.format are the counterpart of Radzen’s RadzenValueAxis Formatter — the reference prints $0/$1,000/$2,000 by formatting, not by guessing. Without a formatter the ticks are still grouped and capped at two decimals.',
+              content: (
+                <Chart
+                  width={560}
+                  height={240}
+                  series={[
+                    {
+                      type: 'column',
+                      title: 'Revenue',
+                      data: [
+                        { zone: 'North', amount: 19940 },
+                        { zone: 'South', amount: 26480 },
+                        { zone: 'East', amount: 31200 },
+                      ],
+                      categoryProperty: 'zone',
+                      valueProperty: 'amount',
+                    },
+                  ]}
+                  valueAxis={{
+                    min: 0,
+                    max: 40000,
+                    step: 10000,
+                    format: (v) => `$${(v / 1000).toFixed(0)}k`,
+                  }}
+                  categoryAxis={{ format: (c) => c.toUpperCase() }}
+                />
+              ),
+            },
+            {
+              id: 'chart-area-bar',
+              title: 'Area & horizontal bar',
+              description:
+                'The area fill closes to the baseline; bar lays categories down the left edge.',
+              content: (
+                <Row gap={16} wrap align="center">
+                  <Chart
+                    width={420}
+                    height={220}
+                    series={[
+                      {
+                        type: 'area',
+                        title: 'Sessions',
+                        data: [
+                          { day: 'Mon', v: 420 },
+                          { day: 'Tue', v: 510 },
+                          { day: 'Wed', v: 380 },
+                          { day: 'Thu', v: 640 },
+                          { day: 'Fri', v: 590 },
+                        ],
+                        categoryProperty: 'day',
+                        valueProperty: 'v',
+                      },
+                    ]}
+                  />
+                  <Chart
+                    width={420}
+                    height={220}
+                    series={[
+                      {
+                        type: 'bar',
+                        title: 'Latency',
+                        data: [
+                          { zone: 'EU', v: 120 },
+                          { zone: 'US', v: 90 },
+                          { zone: 'APAC', v: 210 },
+                        ],
+                        categoryProperty: 'zone',
+                        valueProperty: 'v',
+                      },
+                    ]}
+                  />
+                </Row>
+              ),
+            },
+            {
+              id: 'chart-points',
+              title: 'Scatter & bubble',
+              description:
+                'sizeProperty scales a bubble from the row’s own field.',
+              content: (
+                <Row gap={16} wrap align="center">
+                  <Chart
+                    width={420}
+                    height={220}
+                    series={[
+                      {
+                        type: 'scatter',
+                        title: 'Samples',
+                        data: [
+                          { k: 'a', v: 12 },
+                          { k: 'b', v: 31 },
+                          { k: 'c', v: 24 },
+                          { k: 'd', v: 45 },
+                        ],
+                        categoryProperty: 'k',
+                        valueProperty: 'v',
+                      },
+                    ]}
+                  />
+                  <Chart
+                    width={420}
+                    height={220}
+                    series={[
+                      {
+                        type: 'bubble',
+                        title: 'Orders',
+                        sizeProperty: 'count',
+                        data: [
+                          { k: 'a', v: 12, count: 40 },
+                          { k: 'b', v: 31, count: 260 },
+                          { k: 'c', v: 24, count: 90 },
+                          { k: 'd', v: 45, count: 520 },
+                        ],
+                        categoryProperty: 'k',
+                        valueProperty: 'v',
+                      },
+                    ]}
+                  />
+                </Row>
+              ),
+            },
+            {
+              id: 'chart-ohlc',
+              title: 'Candlestick, OHLC & high-low',
+              description:
+                'openProperty/highProperty/lowProperty/closeProperty feed the price bars; upColor/downColor override the rising and falling fills. None of the three is baselined at zero.',
+              content: (
+                <Row gap={16} wrap>
+                  <Chart
+                    width={380}
+                    height={220}
+                    series={[
+                      {
+                        type: 'candlestick',
+                        title: 'ACME',
+                        data: PRICE,
+                        categoryProperty: 'd',
+                        valueProperty: 'c',
+                        openProperty: 'o',
+                        highProperty: 'h',
+                        lowProperty: 'l',
+                        closeProperty: 'c',
+                      },
+                    ]}
+                  />
+                  <Chart
+                    width={380}
+                    height={220}
+                    series={[
+                      {
+                        type: 'ohlc',
+                        title: 'ACME',
+                        data: PRICE,
+                        categoryProperty: 'd',
+                        valueProperty: 'c',
+                        openProperty: 'o',
+                        highProperty: 'h',
+                        lowProperty: 'l',
+                        closeProperty: 'c',
+                      },
+                    ]}
+                  />
+                  <Chart
+                    width={380}
+                    height={220}
+                    series={[
+                      {
+                        type: 'highlow',
+                        title: 'ACME',
+                        data: PRICE,
+                        categoryProperty: 'd',
+                        valueProperty: 'c',
+                        highProperty: 'h',
+                        lowProperty: 'l',
+                      },
+                    ]}
+                  />
+                </Row>
+              ),
+            },
+            {
+              id: 'chart-derived',
+              title: 'Trendline & moving average',
+              description:
+                'Derived series compute from a source series rather than from data rows: source names it, period sets the window.',
+              content: (
+                <Chart
+                  width={560}
+                  height={240}
+                  series={[
+                    {
+                      type: 'line',
+                      title: 'Actual',
+                      data: [
+                        { m: 'Jan', v: 20 },
+                        { m: 'Feb', v: 35 },
+                        { m: 'Mar', v: 28 },
+                        { m: 'Apr', v: 46 },
+                        { m: 'May', v: 39 },
+                        { m: 'Jun', v: 55 },
+                      ],
+                      categoryProperty: 'm',
+                      valueProperty: 'v',
+                    },
+                    {
+                      type: 'trendline',
+                      title: 'Trend',
+                      source: 'Actual',
+                      dash: [4, 2],
+                      data: [],
+                      categoryProperty: 'm',
+                      valueProperty: 'v',
+                    },
+                    {
+                      type: 'movingaverage',
+                      title: '3-month',
+                      source: 'Actual',
+                      period: 3,
+                      data: [],
+                      categoryProperty: 'm',
+                      valueProperty: 'v',
+                    },
+                  ]}
+                />
+              ),
+            },
+            {
+              id: 'chart-treemap-pyramid',
+              title: 'Treemap, pyramid & funnel labels',
+              description:
+                'childrenProperty nests one level in; every value label now goes through the axis formatter, so 19,940 reads as a number and not as a float.',
+              content: (
+                <Row gap={16} wrap align="center">
+                  <Chart
+                    width={420}
+                    height={220}
+                    series={[
+                      {
+                        type: 'treemap',
+                        title: 'Budget',
+                        childrenProperty: 'parts',
+                        data: [
+                          {
+                            name: 'Product',
+                            v: 19940,
+                            parts: [
+                              { name: 'Eng', v: 12400 },
+                              { name: 'Design', v: 7540 },
+                            ],
+                          },
+                          { name: 'Ops', v: 8100 },
+                          { name: 'Grown', v: 5050 },
+                        ],
+                        categoryProperty: 'name',
+                        valueProperty: 'v',
+                      },
+                    ]}
+                  />
+                  <Chart
+                    width={420}
+                    height={220}
+                    series={[
+                      {
+                        type: 'pyramid',
+                        title: 'Support tiers',
+                        data: [
+                          { tier: 'Enterprise', v: 320 },
+                          { tier: 'Team', v: 1450 },
+                          { tier: 'Free', v: 9800 },
+                        ],
+                        categoryProperty: 'tier',
+                        valueProperty: 'v',
+                      },
+                    ]}
+                  />
+                </Row>
+              ),
+            },
+            {
+              id: 'chart-web-flows',
+              title: 'Spider & sankey',
+              description:
+                'Spider normalizes each spoke to its own maximum, so series of different magnitudes stay comparable; sankey lays nodes out by flow depth.',
+              content: (
+                <Row gap={16} wrap align="center">
+                  <Chart
+                    width={360}
+                    height={240}
+                    series={[
+                      {
+                        type: 'spider',
+                        title: 'Car A',
+                        data: [
+                          { dim: 'Speed', v: 80 },
+                          { dim: 'Power', v: 60 },
+                          { dim: 'Range', v: 45 },
+                          { dim: 'Weight', v: 70 },
+                        ],
+                        categoryProperty: 'dim',
+                        valueProperty: 'v',
+                      },
+                      {
+                        type: 'spider',
+                        title: 'Car B',
+                        data: [
+                          { dim: 'Speed', v: 55 },
+                          { dim: 'Power', v: 90 },
+                          { dim: 'Range', v: 30 },
+                          { dim: 'Weight', v: 65 },
+                        ],
+                        categoryProperty: 'dim',
+                        valueProperty: 'v',
+                      },
+                    ]}
+                  />
+                  <Chart
+                    width={420}
+                    height={240}
+                    series={[
+                      {
+                        type: 'sankey',
+                        title: 'Traffic',
+                        sourceProperty: 'from',
+                        targetProperty: 'to',
+                        data: [
+                          { from: 'Search', to: 'Home', amount: 320 },
+                          { from: 'Direct', to: 'Home', amount: 140 },
+                          { from: 'Home', to: 'Signup', amount: 260 },
+                          { from: 'Home', to: 'Pricing', amount: 120 },
+                          { from: 'Signup', to: 'Paid', amount: 90 },
+                        ],
+                        categoryProperty: 'from',
+                        valueProperty: 'amount',
+                      },
+                    ]}
+                  />
+                </Row>
+              ),
+            },
+            {
+              id: 'chart-contour',
+              title: 'Contour',
+              description:
+                'Density is gridded at resolution cells per axis (28 by default) and traced into levels iso-lines.',
+              content: (
+                <Chart
+                  width={560}
+                  height={240}
+                  series={[
+                    {
+                      type: 'contour',
+                      title: 'Density',
+                      resolution: 16,
+                      data: [
+                        { x: 1, y: 10 },
+                        { x: 1.4, y: 11 },
+                        { x: 2, y: 9.5 },
+                        { x: 8, y: 82 },
+                        { x: 9, y: 90 },
+                        { x: 8.6, y: 88 },
+                        { x: 4.5, y: 47 },
+                        { x: 5, y: 52 },
+                      ],
+                      categoryProperty: 'x',
+                      valueProperty: 'y',
                     },
                   ]}
                 />

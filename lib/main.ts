@@ -1,5 +1,10 @@
-import './styles/tokens.css';
-import './utilities.css';
+import { warnIfThemeMissingInDev } from './utils/theme-contract';
+
+// GAP-015: the theme is an explicit import, not a side effect of this module.
+// A source consumer that skips it now gets the same answer in dev and prod
+// (unstyled, with a dev-only warning) instead of a themed dev server and a
+// production bundle whose every var(--dx-*) resolves to nothing.
+warnIfThemeMissingInDev();
 
 export { Button } from './components/Button/Button';
 export type {

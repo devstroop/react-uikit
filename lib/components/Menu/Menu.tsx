@@ -73,6 +73,15 @@ export interface MenuItemProps {
   open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
+  /** Controlled selected state. Radzen `@bind-Selected` parity. When uncontrolled
+   * (no `selected`/`onSelectedChange`), selection follows the URL, re-derived on
+   * `hashchange` and `popstate` — a bare `history.pushState` router is not covered
+   * (GAP-001) — and a click that the router cancels still selects the row. */
+  selected?: boolean;
+  defaultSelected?: boolean;
+  /** Fires with `true` when this row is selected. Never fires `false` for the row
+   * it deselects, matching Radzen's per-item binding: clear siblings yourself. */
+  onSelectedChange?: (selected: boolean) => void;
   children?: ReactNode;
 }
 
@@ -88,6 +97,10 @@ interface MenuContextValue {
   setOpenKey: (key: string | null) => void;
   activeKey: string | null;
   setActiveKey: (key: string | null) => void;
+  /** Menu-wide slot for click-driven selection. One per <Menu>, not per
+   * surface: nested flyouts select rows in the same navigation as the bar. */
+  clickedKey: string | null;
+  setClickedKey: (key: string | null) => void;
   defaultStopKey: string | null;
 }
 
@@ -218,11 +231,33 @@ function MenuItemNode({
   const [, forceHash] = useState(0);
   useEffect(() => {
     if (!path) return;
-    const onHash = () => forceHash((v) => v + 1);
-    window.addEventListener('hashchange', onHash);
-    return () => window.removeEventListener('hashchange', onHash);
+    const onUrl = () => forceHash((v) => v + 1);
+    // hashchange covers the hash router the kit is coupled to (GAP-001),
+    // popstate covers back/forward.
+    window.addEventListener('hashchange', onUrl);
+    window.addEventListener('popstate', onUrl);
+    return () => {
+      window.removeEventListener('hashchange', onUrl);
+      window.removeEventListener('popstate', onUrl);
+    };
   }, [path]);
-  const isActive = path && !hasChildren ? activePath(path, props.match) : false;
+  // Radzen `@bind-Selected` parity, matching PanelMenuItem's shape. Uncontrolled
+  // selection is URL-first plus the menu-wide click slot: a per-item boolean
+  // would keep the previous row `aria-current` after the route moved on.
+  const selectedControlled =
+    props.selected !== undefined || props.onSelectedChange !== undefined;
+  const internalSelected = props.defaultSelected ?? false;
+  const urlSelected =
+    !hasChildren && !selectedControlled && path
+      ? activePath(path, props.match)
+      : false;
+  const isActive =
+    !hasChildren &&
+    (selectedControlled
+      ? (props.selected ?? internalSelected)
+      : urlSelected ||
+        internalSelected ||
+        (ctx.clickedKey != null && ctx.clickedKey === itemKey));
   // Roving tabindex: one tab stop per menu surface — the explicitly focused
   // item, or the first enabled item while nothing has been focused yet.
   const isTabStop =
@@ -243,9 +278,13 @@ function MenuItemNode({
       // browser follows href.
       const results = [ctx.emit(args), props.onClick?.(args)];
       if (results.includes(false)) e.preventDefault();
+      // Selection is independent of navigation: a router that cancels the
+      // anchor (onClick returning false) still needs this row to read current.
+      if (!selectedControlled) ctx.setClickedKey(itemKey);
+      props.onSelectedChange?.(true);
       ctx.closeAll();
     },
-    [isDisabled, text, value, path, ctx, props]
+    [isDisabled, text, value, path, ctx, props, selectedControlled, itemKey]
   );
 
   const handleTriggerClick = useCallback(() => {
@@ -304,6 +343,8 @@ function MenuItemNode({
       setOpenKey: setNestedOpenKey,
       activeKey: subActiveKey,
       setActiveKey: setSubActiveKey,
+      clickedKey: ctx.clickedKey,
+      setClickedKey: ctx.setClickedKey,
       defaultStopKey: defaultSubStopKey,
     }),
     [ctx, nestedOpenKey, subActiveKey, defaultSubStopKey]
@@ -501,7 +542,21 @@ export function Menu({
   const [topActiveKey, setTopActiveKey] = useState<string | null>(null);
   const [closeSignal, setCloseSignal] = useState(0);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [clickedKey, setClickedKey] = useState<string | null>(null);
   const pendingFocusRef = useRef<string | null>(null);
+
+  // A route change re-derives selection from the URL, so the click slot must not
+  // outlive it — otherwise the row that moved the router stays `aria-current`
+  // together with the row the new URL matches.
+  useEffect(() => {
+    const onUrl = () => setClickedKey(null);
+    window.addEventListener('hashchange', onUrl);
+    window.addEventListener('popstate', onUrl);
+    return () => {
+      window.removeEventListener('hashchange', onUrl);
+      window.removeEventListener('popstate', onUrl);
+    };
+  }, []);
 
   const emit = useCallback(
     (args: MenuItemEventArgs) => onClick?.(args),
@@ -564,6 +619,8 @@ export function Menu({
       setOpenKey,
       activeKey: topActiveKey,
       setActiveKey: setTopActiveKey,
+      clickedKey,
+      setClickedKey,
       defaultStopKey,
     }),
     [
@@ -575,6 +632,7 @@ export function Menu({
       closeAll,
       openKey,
       topActiveKey,
+      clickedKey,
       defaultStopKey,
     ]
   );

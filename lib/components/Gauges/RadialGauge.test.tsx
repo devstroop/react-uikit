@@ -69,4 +69,68 @@ describe('RadialGauge', () => {
     );
     expect(container.querySelectorAll('text').length).toBe(0);
   });
+
+  it('labels ticks with display text, not raw floats', () => {
+    // GAP-007: an 8-tick split of any range lands on repeating decimals, and
+    // the unrounded strings collided around the arc.
+    const { container } = render(
+      <RadialGauge value={2.5} min={0} max={5} ticks={{ count: 8 }} />
+    );
+    expect(
+      [...container.querySelectorAll('svg text')].map((t) => t.textContent)
+    ).toEqual(['0', '0.71', '1.43', '2.14', '2.86', '3.57', '4.29', '5']);
+  });
+  it('groups large tick values', () => {
+    const { container } = render(
+      <RadialGauge value={9000} min={0} max={19940} ticks={{ count: 8 }} />
+    );
+    expect(
+      [...container.querySelectorAll('svg text')].map((t) => t.textContent)
+    ).toEqual([
+      '0',
+      '2,848.57',
+      '5,697.14',
+      '8,545.71',
+      '11,394.29',
+      '14,242.86',
+      '17,091.43',
+      '19,940',
+    ]);
+  });
+
+  it('keeps whole-number ticks bare', () => {
+    const { container } = render(
+      <RadialGauge value={40} min={0} max={100} ticks={{ count: 5 }} />
+    );
+    expect(
+      [...container.querySelectorAll('svg text')].map((t) => t.textContent)
+    ).toEqual(['0', '25', '50', '75', '100']);
+  });
+
+  it('places ticks on an explicit step, Radzen Scale Step parity', () => {
+    // The reference dashboard asks Radzen for Step=1 on a 0-5 scale; the even
+    // 8-mark split could not land on integers.
+    const { container } = render(
+      <RadialGauge value={2.5} min={0} max={5} ticks={{ step: 1 }} />
+    );
+    expect(
+      [...container.querySelectorAll('svg text')].map((t) => t.textContent)
+    ).toEqual(['0', '1', '2', '3', '4', '5']);
+  });
+
+  it('stops stepping at max', () => {
+    const { container } = render(
+      <RadialGauge value={9} min={0} max={9} ticks={{ step: 2 }} />
+    );
+    expect(
+      [...container.querySelectorAll('svg text')].map((t) => t.textContent)
+    ).toEqual(['0', '2', '4', '6', '8']);
+  });
+
+  it('hides the scale on count 0 even with a step', () => {
+    const { container } = render(
+      <RadialGauge value={40} ticks={{ count: 0, step: 10 }} />
+    );
+    expect(container.querySelectorAll('svg text').length).toBe(0);
+  });
 });

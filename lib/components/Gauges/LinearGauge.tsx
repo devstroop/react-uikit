@@ -1,4 +1,6 @@
 import styles from './Gauges.module.css';
+import { gaugeTicks } from './gauge-ticks';
+import { tickLabel } from '../../utils/tick-label';
 
 export interface LinearGaugeRange {
   from: number;
@@ -11,8 +13,10 @@ export interface LinearGaugeProps {
   min?: number;
   max?: number;
   orientation?: 'horizontal' | 'vertical';
-  /** Scale ticks + labels. Defaults to 5 ticks shown. */
-  ticks?: { count?: number; showLabels?: boolean };
+  /** Scale ticks + labels. `step` places a tick every `step` units, the way
+   * Radzen's `RadzenLinearGaugeScale Step` does; without it the range is split
+   * into `count` marks (5 by default). `count: 0` hides the scale. */
+  ticks?: { count?: number; step?: number; showLabels?: boolean };
   /** Background range bands drawn under the fill. */
   ranges?: LinearGaugeRange[];
   /** Fill color. Defaults to the primary token. */
@@ -25,14 +29,6 @@ export interface LinearGaugeProps {
   formatValue?: (value: number) => string;
   ariaLabel?: string;
   className?: string;
-}
-
-function tickValues(min: number, max: number, count: number): number[] {
-  if (count <= 1) return [min];
-  return Array.from(
-    { length: count },
-    (_, i) => min + ((max - min) * i) / (count - 1)
-  );
 }
 
 /**
@@ -57,7 +53,7 @@ export function LinearGauge({
   const span = max - min || 1;
   const vertical = orientation === 'vertical';
   const main = length ?? (vertical ? 220 : 280);
-  const { count = 5, showLabels = true } = ticks;
+  const { count = 5, step, showLabels = true } = ticks;
   const fill = color ?? 'var(--dx-primary-color)';
   const track = 'var(--dx-border-color)';
   // Plot area inside the tick labels: leave headroom on both ends.
@@ -71,9 +67,8 @@ export function LinearGauge({
       : pad + frac * (main - pad * 2);
   };
 
-  const renderTicks = () => {
-    if (count <= 0) return null;
-    return tickValues(min, max, count).map((t, i) => {
+  const renderTicks = () =>
+    gaugeTicks(min, max, count, step).map((t, i) => {
       const p = pos(t);
       return (
         <g key={i}>
@@ -99,17 +94,16 @@ export function LinearGauge({
           {showLabels &&
             (vertical ? (
               <text x={-10} y={p + 4} textAnchor="end" className={styles.tick}>
-                {t}
+                {tickLabel(t)}
               </text>
             ) : (
               <text x={p} y={-10} textAnchor="middle" className={styles.tick}>
-                {t}
+                {tickLabel(t)}
               </text>
             ))}
         </g>
       );
     });
-  };
 
   const renderRanges = () =>
     ranges.map((r, i) => {

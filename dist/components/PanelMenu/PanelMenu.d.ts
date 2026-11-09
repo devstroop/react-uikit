@@ -49,9 +49,13 @@ export interface PanelMenuItemProps {
     defaultExpanded?: boolean;
     onExpandedChange?: (expanded: boolean) => void;
     /** Controlled selected state. Radzen `@bind-Selected` parity. When uncontrolled
-     * (no `onSelectedChange`), selection syncs from the URL like Radzen. */
+     * (no `onSelectedChange`), selection syncs from the URL like Radzen, re-derived
+     * on `hashchange` and `popstate` — a bare `history.pushState` router is not
+     * covered (GAP-001). */
     selected?: boolean;
     defaultSelected?: boolean;
+    /** Fires with `true` when this row is selected. Never fires `false` for the row
+     * it deselects, matching Radzen's per-item binding: clear siblings yourself. */
     onSelectedChange?: (selected: boolean) => void;
     /** Item-level click: fires after the parent PanelMenu `onClick`. Radzen item `Click` parity.
      * Return `false` to cancel anchor navigation (client-side routers). */

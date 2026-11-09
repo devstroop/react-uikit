@@ -1,4 +1,6 @@
 import styles from './Gauges.module.css';
+import { gaugeTicks } from './gauge-ticks';
+import { tickLabel } from '../../utils/tick-label';
 
 export interface RadialGaugeRange {
   from: number;
@@ -19,8 +21,10 @@ export interface RadialGaugeProps {
   startAngle?: number;
   /** End angle in degrees. Defaults to 360 (full circle). */
   endAngle?: number;
-  /** Scale ticks + labels. Defaults to 8 ticks shown. */
-  ticks?: { count?: number; showLabels?: boolean };
+  /** Scale ticks + labels. `step` places a tick every `step` units, the way
+   * Radzen's `RadzenRadialGaugeScale Step` does; without it the range is split
+   * into `count` marks (8 by default). `count: 0` hides the scale. */
+  ticks?: { count?: number; step?: number; showLabels?: boolean };
   /** Colored arc bands. */
   ranges?: RadialGaugeRange[];
   /** Extra needles beyond the value needle. */
@@ -58,14 +62,6 @@ function arcPath(
   return `M ${x1} ${y1} A ${radius} ${radius} 0 ${large} 1 ${x2} ${y2}`;
 }
 
-function tickValues(min: number, max: number, count: number): number[] {
-  if (count <= 1) return [min];
-  return Array.from(
-    { length: count },
-    (_, i) => min + ((max - min) * i) / (count - 1)
-  );
-}
-
 /**
  * Radial gauge (uikit#97): circular scale with ticks, range bands, needle
  * pointer(s), and a value label. Meter semantics throughout.
@@ -96,7 +92,7 @@ export function RadialGauge({
     startAngle + (paintEnd - startAngle) * frac(v);
   const needle = color ?? 'var(--dx-primary-color)';
   const track = 'var(--dx-border-color)';
-  const { count = 8, showLabels = true } = ticks;
+  const { count = 8, step, showLabels = true } = ticks;
   const cx = 100;
   const cy = 100;
   const radius = 78;
@@ -158,34 +154,33 @@ export function RadialGauge({
           />
         ))}
         {/* ticks */}
-        {count > 0 &&
-          tickValues(min, max, count).map((t, i) => {
-            const [x1, y1] = polar(cx, cy, radius - 10, angleFor(t));
-            const [x2, y2] = polar(cx, cy, radius - 16, angleFor(t));
-            const [lx, ly] = polar(cx, cy, radius - 26, angleFor(t));
-            return (
-              <g key={i}>
-                <line
-                  x1={x1}
-                  y1={y1}
-                  x2={x2}
-                  y2={y2}
-                  stroke={track}
-                  strokeWidth={1.5}
-                />
-                {showLabels && (
-                  <text
-                    x={lx}
-                    y={ly + 4}
-                    textAnchor="middle"
-                    className={styles.tick}
-                  >
-                    {t}
-                  </text>
-                )}
-              </g>
-            );
-          })}
+        {gaugeTicks(min, max, count, step).map((t, i) => {
+          const [x1, y1] = polar(cx, cy, radius - 10, angleFor(t));
+          const [x2, y2] = polar(cx, cy, radius - 16, angleFor(t));
+          const [lx, ly] = polar(cx, cy, radius - 26, angleFor(t));
+          return (
+            <g key={i}>
+              <line
+                x1={x1}
+                y1={y1}
+                x2={x2}
+                y2={y2}
+                stroke={track}
+                strokeWidth={1.5}
+              />
+              {showLabels && (
+                <text
+                  x={lx}
+                  y={ly + 4}
+                  textAnchor="middle"
+                  className={styles.tick}
+                >
+                  {tickLabel(t)}
+                </text>
+              )}
+            </g>
+          );
+        })}
         {/* value needle + extras */}
         {renderNeedle(value, needle, 'value')}
         {pointers.map((p, i) =>

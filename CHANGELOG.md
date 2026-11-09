@@ -6,6 +6,162 @@ Versioning follows the release flow in `docs/DEVELOPMENT_STRATEGY.md`
 
 ## [Unreleased]
 
+Findings-driven work from the Radzen Blazor parity harness
+(`1km-workspace/parity/`): the same pages built with `Radzen.Blazor`
+and with this kit, measured in one document, item by item.
+
+### Breaking — the theme is an explicit import, not a side effect (GAP-015)
+
+`lib/main.ts` no longer imports `styles/tokens.css` and `utilities.css`.
+It never worked reliably: the manifest declares `sideEffects: ["*.css"]`,
+a glob Rolldown never matched against those module ids, so any consumer
+bundling from kit source got a themed `vite dev` and a production bundle
+with every `var(--dx-*)` unresolved — 0 `@font-face`, 0 token
+definitions, no warning. Six glob spellings were tried; only
+`sideEffects: true`/`["**"]` kept the CSS, at +69 kB (+14.8%) of JS for
+every consumer.
+
+Instead the theme is now published as named entry points and imported by
+name, so dev and prod behave identically:
+
+- `exports["./tokens.css"]` and `exports["./utilities.css"]` → `dist/`,
+  copied verbatim by the build next to the existing `./style.css` and
+  `./base.css`.
+- Source consumers import `lib/styles/tokens.css` + `lib/utilities.css`
+  in their own entry (`demos/main.tsx` already did; the parity harness
+  islands already did).
+- `dist/style.css` is unchanged for packaged consumers (1,826,996 bytes,
+  3 `@font-face`, 3 `--dx-primary-color` definitions) because the build
+  gained a `theme` entry. A CSS input is not possible while
+  `build.cssCodeSplit: false`, which is what forces the near-empty
+  `theme.es.js`/`theme.cjs.js` chunks; they are not in `exports`.
+- `lib/utils/theme-contract.ts` warns once, dev-only, when
+  `--dx-primary-color` resolves to nothing — so the failure is loud
+  rather than silent. `import.meta.env.DEV` folds to false in the
+  shipped bundles, and the CJS output contains no `import.meta`.
+
+No component CSS, token value or class name changed.
+
+### Fixed — category bands, axis text and the value-axis domain (parity GAP-023/005b)
+
+- `xFor` is a band scale, not a point scale. Categories were spread across
+  `plotW` with `catIdx / (n - 1)`, so the first mark landed exactly on the value
+  axis and the last exactly on the right edge: a four-category column chart drew
+  its first bar from `x = -8` (64px inside the tick-label column) and its last
+  to `644` (60px past the plot), and line markers were half-clipped at both
+  ends. Marks now sit at `pad.l + (catIdx + 0.5) * bandW`, which is the layout
+  measured off the Radzen reference (uniform 33.8px band centres, first one a
+  half-band inside the axis). Category labels and gridlines follow the same
+  function, so they stay under their marks.
+- A grouped column block is centred on its category instead of stepping right of
+  it, and the bar slot no longer subtracts its 4px gap twice — `barW` was
+  `groupW / n - 4` and the painted width `barW - 4`, so columns came out thinner
+  than the band allowed.
+- `valueAxis.format` and `categoryAxis.format` are the counterpart of Radzen's
+  `RadzenValueAxis Formatter` / `RadzenCategoryAxis Formatter`, which is how the
+  reference prints `$0 / $1,000 / $2,000`. The kit had no formatter knob at all,
+  so that output was unreachable. Tick text, `%` labels in full-stacked mode,
+  every renderer data label and the tooltips now go through one formatter.
+- Default tick text is grouped and capped at two decimals via the new
+  `lib/utils/tick-label.ts`, which the gauges also use (their local
+  `gaugeTickLabel` moved there). `0/10000/20000` reads `0/10,000/20,000`.
+- The value axis is zero-based only where Radzen baselines it. Column, bar, area
+  and stacked series extend to 0 (`RadzenColumnSeries.razor.cs:139`); line,
+  point, price and range series fit the plotted values
+  (`CartesianSeries.cs:554`), so a 99–112 candlestick no longer collapses into
+  the top of a 0–125 axis. Range series' `minProperty`/`maxProperty` are now part
+  of the domain instead of drawing past it.
+- Missing values no longer destroy a chart: one non-numeric row made
+  `Math.max(0, NaN)` poison the pyramid's `maxVal`, so every width became NaN and
+  the whole series vanished; a heatmap hole got `fill-opacity="NaN"`, which the
+  browser drops, painting an absent reading as the hottest cell on the grid; a
+  zero treemap leaf was stroked as a full-height line at the grid edge. Each now
+  degrades to an empty row/cell/leaf.
+- The demos gained the 14 series types they had never rendered (area, bar,
+  scatter, bubble, candlestick/OHLC, trendline + moving average, treemap +
+  pyramid, spider, sankey, contour, formatted axes). Every type had unit tests
+  but no picture — which is how the point-scale defect stayed green.
+
+### Fixed — chart value axis, pie colors and gauge ticks (parity GAP-005/006/007)
+
+- `niceScale` replaced the raw decade floor with Radzen's own nice-number
+  rounding: `{1, 2, 5, 10} × 10^k` at the `<1.5 / <3 / <7` thresholds of
+  `ScaleBase.cs:138-194`, asked for `ceil(plotHeight / 100)` intervals to match
+  its `TickDistance = 100`. The dashboard revenue axis (0–3,100) rendered **32**
+  tick labels on top of each other and the cumulative axis (0–19,940) rendered
+  21; both now render 5 — `0/1,000/2,000/3,000/4,000` and
+  `0/5,000/10,000/15,000/20,000`, which is exactly what the Radzen reference
+  draws. An explicit `valueAxis.step` is still used verbatim, and ticks are
+  generated by index so a fractional step can no longer drift the last tick off
+  the axis.
+- Pie and donut slices are colored per category from `PALETTE`, and the legend
+  lists one entry per slice. A four-category donut used to be a single blue
+  circle with one legend row naming the series; it now paints four colors and
+  legends the categories, matching Radzen. A series that sets `color` keeps
+  every slice in that color.
+- `RadialGauge`/`LinearGauge` tick labels are formatted (max two decimals,
+  thousands grouped) instead of printing the raw float: an 8-mark split of 0–5
+  read `0.7142857142857143` and the strings collided around the arc; they now
+  read `0 / 0.71 / 1.43 / … / 5`.
+- Both gauges gained `ticks.step`, the parity counterpart of Radzen's
+  `RadzenRadialGaugeScale Step` / `RadzenLinearGaugeScale Step`: ticks land on
+  multiples of `step` from `min` up to `max`. With `step: 1` the 0–5 priority
+  gauge now draws `0…5` where the count-based split could only offer
+  `0/0.71/1.43/…`. `count: 0` still hides the scale and takes precedence.
+
+### Fixed — navigation active state reaches Radzen parity (GAP-016/017/018/021)
+
+- New navigation token group (`--dx-navigation-item-active-color`,
+  `…-background-color`, `…-indicator-color`, `…-indicator-width`),
+  declared in all three theme blocks. `Menu` and `PanelMenu` leaves
+  now render Radzen's four-channel active treatment — text, 12% tint,
+  icon color and a 4px leading bar — where before the only signal was
+  a color swap (Radzen
+  `themes/components/blazor/_panel-menu.scss:118-132`).
+- The active text channel is `var(--dx-text-primary-color)`, never
+  the raw brand fill: `#2563eb` on the dark `#1e293b` surface
+  measures 2.83:1 and fails AA; the theme-aware sibling is 5.20:1
+  dark / 5.75:1 light. The dark blocks re-derive the tint and the
+  indicator for the same reason.
+- `MenuItem` gains Radzen `@bind-Selected` parity: `selected`,
+  `defaultSelected` and `onSelectedChange`, with `PanelMenuItem`'s
+  exact precedence (controlled wins over the URL).
+- Uncontrolled selection in `PanelMenu` could leave two rows
+  `aria-current="page"` at once (a per-item boolean never learned the
+  route had moved on). Click selection now lives in one menu-wide
+  slot cleared on `hashchange`, in both components.
+- Hover guards moved into `:where()` in both stylesheets so hovering
+  a selected row no longer erases its tint.
+- `tokens-contrast.test.ts` ratchets the treatment: the text channel
+  must stay a `var()` reference, must clear AA on both surfaces, and
+  the dark blocks must re-derive tint and indicator. Documented in
+  `docs/THEMING.md`.
+
+### Added — opt-in document base layer, `@devstroop/react-uikit/base.css` (GAP-022)
+
+- `tokens.css` carries 395 tokens and styles no document element, so
+  a kit app rendered bare defaults outside components: 8px body
+  margin, Times New Roman, white surface. `lib/styles/base.css`
+  applies Radzen's base-layer set — `margin: 0`, `--dx-font-sans`,
+  token text/background, body line-height, `border-box` — and nothing
+  the tokens don't already carry, so theme switching is unaffected.
+- Opt-in by design: a library that restyles `body` on import is
+  unwelcome in a host page. It cannot ride in `style.css` (that file
+  folds every CSS the entry graph touches), so `vite.config.ts`
+  copies it verbatim to `dist/base.css` at `closeBundle` and
+  `package.json` exports the `./base.css` subpath.
+- New theme-independent tokens `--dx-root-font-size`,
+  `--dx-body-font-size`, `--dx-body-line-height` (Radzen
+  `--rz-root-font-size` / `--rz-body-font-size` /
+  `--rz-body-line-height`).
+
+### Added — `Tabs` accessible name (GAP-009)
+
+- `ariaLabel` / `ariaLabelledBy` props land on the `role="tablist"`
+  element, matching `RadzenTabs.razor:16-18`. Tests assert the
+  computed accessible name, so a mis-placed attribute on the wrapper
+  would fail.
+
 ## [1.0.0] - 2026-10-06
 
 ### Fixed — eslint warnings burned down to zero (#113)

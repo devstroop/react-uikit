@@ -101,6 +101,56 @@ describe('Chart', () => {
     expect(container.querySelectorAll('path').length).toBeGreaterThanOrEqual(2);
   });
 
+  it('colors pie slices per category and legends each one', () => {
+    const pie = {
+      type: 'donut' as const,
+      title: 'Traffic',
+      data: [
+        { cat: 'Direct', val: 420 },
+        { cat: 'Search', val: 310 },
+        { cat: 'Social', val: 240 },
+      ],
+      categoryProperty: 'cat',
+      valueProperty: 'val',
+    };
+    const { container } = render(<Chart series={[pie]} />);
+    const fills = [...container.querySelectorAll('svg path')].map((p) =>
+      p.getAttribute('fill')
+    );
+    expect(fills).toEqual([
+      'var(--dx-palette-0-color)',
+      'var(--dx-palette-1-color)',
+      'var(--dx-palette-2-color)',
+    ]);
+    // One row per slice, not one per series: the legend is the only place the
+    // categories are named.
+    const legendText = [...container.querySelectorAll('[class*="legendItem"]')];
+    expect(legendText.map((el) => el.textContent)).toEqual([
+      'Direct',
+      'Search',
+      'Social',
+    ]);
+  });
+
+  it('keeps an explicit pie series color on every slice', () => {
+    const pie = {
+      type: 'pie' as const,
+      title: 'P',
+      color: '#123456',
+      data: [
+        { cat: 'A', val: 30 },
+        { cat: 'B', val: 70 },
+      ],
+      categoryProperty: 'cat',
+      valueProperty: 'val',
+    };
+    const { container } = render(<Chart series={[pie]} />);
+    const fills = [...container.querySelectorAll('svg path')].map((p) =>
+      p.getAttribute('fill')
+    );
+    expect(fills).toEqual(['#123456', '#123456']);
+  });
+
   it('stacked bar sums per category', () => {
     const s1 = {
       type: 'bar' as const,
@@ -982,5 +1032,301 @@ describe('Chart contour (#95)', () => {
     expect(fn).toHaveBeenCalledWith(
       expect.objectContaining({ seriesTitle: 'Density' })
     );
+  });
+});
+
+describe('Chart category band (GAP-023)', () => {
+  const four = (type: 'line' | 'column') => ({
+    type,
+    title: 'Q',
+    data: [
+      { cat: 'Q1', val: 100 },
+      { cat: 'Q2', val: 200 },
+      { cat: 'Q3', val: 150 },
+      { cat: 'Q4', val: 300 },
+    ],
+    categoryProperty: 'cat',
+    valueProperty: 'val',
+  });
+
+  // 600x400 with pad {t:16,r:16,b:40,l:56} -> plot x 56..584, four 132-wide bands
+  it('centres marks in their band instead of pinning them to the plot edges', () => {
+    const { container } = render(<Chart series={[four('line')]} />);
+    const xs = [
+      ...container.querySelectorAll('g[data-chart-type="line"] circle'),
+    ].map((c) => Number(c.getAttribute('cx')));
+    expect(xs).toEqual([122, 254, 386, 518]);
+  });
+
+  it('draws every column inside the plot, clear of the value-label column', () => {
+    const { container } = render(<Chart series={[four('column')]} />);
+    const rects = [
+      ...container.querySelectorAll("g[data-chart-type='column'] rect[rx='2']"),
+    ].map((r) => ({
+      x: Number(r.getAttribute('x')),
+      w: Number(r.getAttribute('width')),
+    }));
+    expect(rects).toHaveLength(4);
+    for (const r of rects) {
+      expect(r.x).toBeGreaterThanOrEqual(56);
+      expect(r.x + r.w).toBeLessThanOrEqual(584);
+    }
+  });
+
+  it('centres a grouped column block on its category', () => {
+    const { container } = render(
+      <Chart
+        series={[
+          { ...four('column'), title: 'A' },
+          { ...four('column'), title: 'B' },
+        ]}
+      />
+    );
+    const columns = container.querySelectorAll('g[data-chart-type="column"]');
+    expect(columns).toHaveLength(2);
+    const centreOf = (group: Element) => {
+      const r = group.querySelector("rect[rx='2']")!;
+      return Number(r.getAttribute('x')) + Number(r.getAttribute('width')) / 2;
+    };
+    // the pair straddles the Q1 band centre rather than stepping right of it
+    expect((centreOf(columns[0]!) + centreOf(columns[1]!)) / 2).toBeCloseTo(
+      122,
+      1
+    );
+    expect(centreOf(columns[1]!)).toBeGreaterThan(centreOf(columns[0]!));
+  });
+
+  it('holds the single category in the middle of the plot', () => {
+    const { container } = render(
+      <Chart series={[{ ...four('line'), data: [{ cat: 'Only', val: 10 }] }]} />
+    );
+    const cx = container
+      .querySelector('g[data-chart-type="line"] circle')!
+      .getAttribute('cx');
+    expect(Number(cx)).toBeCloseTo(320, 1);
+  });
+});
+
+describe('Chart axis text (GAP-005b)', () => {
+  const big = {
+    type: 'column' as const,
+    title: 'Revenue',
+    data: [
+      { cat: 'North', val: 19940 },
+      { cat: 'South', val: 30500 },
+    ],
+    categoryProperty: 'cat',
+    valueProperty: 'val',
+    labels: { visible: true },
+  };
+
+  const axisText = (container: HTMLElement) =>
+    [...container.querySelectorAll('svg text')].map((t) => t.textContent);
+
+  it('groups thousands in the value ticks by default', () => {
+    const { container } = render(<Chart series={[big]} />);
+    const text = axisText(container);
+    expect(text).toContain('10,000');
+    expect(text).toContain('30,000');
+    expect(text).not.toContain('10000');
+  });
+
+  it('routes value ticks through valueAxis.format, the Radzen Formatter counterpart', () => {
+    const { container } = render(
+      <Chart
+        series={[big]}
+        valueAxis={{
+          min: 0,
+          max: 40000,
+          step: 10000,
+          format: (v) => `$${v / 1000}k`,
+        }}
+      />
+    );
+    const text = axisText(container);
+    expect(text).toContain('$0k');
+    expect(text).toContain('$40k');
+  });
+
+  it('routes category labels through categoryAxis.format', () => {
+    const { container } = render(
+      <Chart
+        series={[big]}
+        categoryAxis={{ format: (c) => c.slice(0, 1).toUpperCase() }}
+      />
+    );
+    const text = axisText(container);
+    expect(text).toContain('N');
+    expect(text).not.toContain('North');
+  });
+
+  it('routes data labels through the value formatter too', () => {
+    const { container } = render(
+      <Chart
+        series={[big]}
+        valueAxis={{ format: (v) => `${Math.round(v / 1000)}k` }}
+      />
+    );
+    expect(axisText(container)).toContain('20k');
+  });
+});
+
+describe('Chart missing values', () => {
+  it('keeps a pyramid legible when one row has no number', () => {
+    const { container } = render(
+      <Chart
+        series={[
+          {
+            type: 'pyramid',
+            title: 'P',
+            data: [
+              { cat: 'A', val: 100 },
+              { cat: 'B', val: undefined },
+              { cat: 'C', val: 40 },
+            ],
+            categoryProperty: 'cat',
+            valueProperty: 'val',
+          },
+        ]}
+      />
+    );
+    const paths = [
+      ...container.querySelectorAll('g[data-chart-type="pyramid"] path'),
+    ];
+    expect(paths).toHaveLength(3);
+    for (const p of paths) expect(p.getAttribute('d')).not.toMatch(/NaN/);
+    expect(container.textContent).not.toContain('NaN');
+  });
+
+  it('paints a heatmap hole as empty rather than as the hottest cell', () => {
+    const { container } = render(
+      <Chart
+        series={[
+          {
+            type: 'heatmap',
+            title: 'H',
+            data: [
+              { row: 'R1', cat: 'Q1', val: 10 },
+              { row: 'R1', cat: 'Q2', val: undefined },
+              { row: 'R2', cat: 'Q1', val: 20 },
+              { row: 'R2', cat: 'Q2', val: 30 },
+            ],
+            categoryProperty: 'cat',
+            valueProperty: 'val',
+            rowProperty: 'row',
+            labels: { visible: true },
+          },
+        ]}
+      />
+    );
+    const opacities = [
+      ...container.querySelectorAll('g[data-chart-type="heatmap"] rect'),
+    ].map((r) => r.getAttribute('fill-opacity'));
+    expect(opacities).toContain('0.06');
+    expect(opacities.some((o) => o === 'NaN')).toBe(false);
+    expect(container.textContent).not.toContain('NaN');
+  });
+
+  it('skips a zero-value treemap leaf instead of stroking a full-height line', () => {
+    const { container } = render(
+      <Chart
+        series={[
+          {
+            type: 'treemap',
+            title: 'T',
+            data: [
+              { cat: 'A', val: 30 },
+              { cat: 'B', val: 70 },
+              { cat: 'Z', val: 0 },
+            ],
+            categoryProperty: 'cat',
+            valueProperty: 'val',
+          },
+        ]}
+      />
+    );
+    const rects = [
+      ...container.querySelectorAll('g[data-chart-type="treemap"] rect'),
+    ];
+    expect(rects.every((r) => Number(r.getAttribute('width')) >= 1)).toBe(true);
+  });
+});
+
+describe('Chart value axis domain (Radzen zeroBased)', () => {
+  const prices = [
+    { d: 'Mon', o: 100.4, h: 105.9, l: 99.1, c: 104.2 },
+    { d: 'Tue', o: 104.2, h: 108.5, l: 102.0, c: 103.1 },
+    { d: 'Wed', o: 103.1, h: 106.7, l: 100.4, c: 105.5 },
+  ];
+  const candle = {
+    type: 'candlestick' as const,
+    title: 'ACME',
+    data: prices,
+    categoryProperty: 'd',
+    valueProperty: 'c',
+    openProperty: 'o',
+    highProperty: 'h',
+    lowProperty: 'l',
+    closeProperty: 'c',
+  };
+
+  const ticks = (container: HTMLElement) =>
+    [...container.querySelectorAll('svg text')]
+      .map((t) => t.textContent ?? '')
+      .filter((s) => /^-?[\d.,]+$/.test(s))
+      .map((s) => Number(s.replace(/,/g, '')));
+
+  it('fits a price series to its own range instead of pinning it to zero', () => {
+    const { container } = render(<Chart series={[candle]} height={300} />);
+    const axis = ticks(container);
+    // 99.1-108.5 would sit in the top sliver of a 0-125 axis; Radzen leaves the
+    // baseline out for price series (CartesianSeries.cs:554).
+    expect(Math.min(...axis)).toBeGreaterThanOrEqual(95);
+    expect(Math.max(...axis)).toBeLessThanOrEqual(110);
+  });
+
+  it('still baselines columns at zero', () => {
+    const { container } = render(
+      <Chart
+        series={[
+          {
+            type: 'column',
+            data: [
+              { cat: 'A', val: 90 },
+              { cat: 'B', val: 110 },
+            ],
+            categoryProperty: 'cat',
+            valueProperty: 'val',
+          },
+        ]}
+        height={300}
+      />
+    );
+    expect(Math.min(...ticks(container))).toBe(0);
+  });
+
+  it('includes a range series min and max in the domain', () => {
+    const { container } = render(
+      <Chart
+        series={[
+          {
+            type: 'line',
+            title: 'Band',
+            data: [
+              { cat: 'A', val: 60, lo: 20, hi: 240 },
+              { cat: 'B', val: 70, lo: 35, hi: 260 },
+            ],
+            categoryProperty: 'cat',
+            valueProperty: 'val',
+            minProperty: 'lo',
+            maxProperty: 'hi',
+          },
+        ]}
+        height={300}
+      />
+    );
+    const axis = ticks(container);
+    expect(Math.max(...axis)).toBeGreaterThanOrEqual(260);
+    expect(Math.min(...axis)).toBeLessThanOrEqual(20);
   });
 });

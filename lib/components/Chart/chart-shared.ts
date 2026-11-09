@@ -93,8 +93,17 @@ export interface ChartProps {
     step?: number;
     title?: string;
     gridlines?: boolean;
+    /** Tick text. Parity for Radzen's `RadzenValueAxis Formatter`, which is how
+     * the reference renders `$1,000`: without a knob here a consumer cannot
+     * reach that output at all. Defaults to grouped, 2-decimal text. */
+    format?: (value: number) => string;
   };
-  categoryAxis?: { title?: string; gridlines?: boolean };
+  categoryAxis?: {
+    title?: string;
+    gridlines?: boolean;
+    /** Category label text, the counterpart of `RadzenCategoryAxis Formatter`. */
+    format?: (category: string) => string;
+  };
   showLegend?: boolean;
   /** Normalize every stack group to percentages (full-stacked). */
   stacked100Percent?: boolean;
@@ -127,6 +136,9 @@ export interface ChartRenderContext {
   plotH: number;
   xFor: (catIdx: number) => number;
   yFor: (val: number) => number;
+  /** Numeric text for ticks and data labels: the axis `format` when given,
+   * otherwise the shared grouped tick formatter. */
+  fmt: (val: number) => string;
   colorFor: (idx: number, ser: ChartSeries) => string;
   tooltipVisible: boolean;
   /** Full-stacked percent mode: value labels/tooltips carry a % suffix. */
@@ -151,6 +163,14 @@ export const PALETTE = [
   'var(--dx-palette-5-color)',
 ];
 
+/** A slice's fill. Pie/donut categories are colored individually, the way
+ * Radzen's pie legend pairs each category with its own swatch; a series that
+ * pins `color` keeps every slice in that color instead. Shared with the legend
+ * so the swatch always matches the arc it names. */
+export function sliceColor(ser: ChartSeries, pointIndex: number): string {
+  return ser.color ?? PALETTE[pointIndex % PALETTE.length]!;
+}
+
 /** Series types drawn against the shared category/value axes. */
 export const VALUE_AXIS_TYPES = new Set([
   'line',
@@ -169,15 +189,49 @@ export const VALUE_AXIS_TYPES = new Set([
 /** Series types showing the bottom category axis (heatmap has x categories). */
 export const CATEGORY_AXIS_TYPES = new Set([...VALUE_AXIS_TYPES, 'heatmap']);
 
-export function niceScale(min: number, max: number, step?: number) {
+/** Series Radzen fills from a baseline, and therefore extends the value axis to
+ * include 0 for. Range, price, line and point series are excluded. */
+export const BASELINE_AXIS_TYPES = new Set(['bar', 'column', 'area']);
+
+/** Radzen's nice-number rounding (`ScaleBase.cs:138-194`): the set is
+ * {1, 2, 5, 10} per decade with thresholds <1.5, <3, <7. There is no 2.5 —
+ * the previous set could invent a step Radzen never draws. */
+function niceNumber(value: number): number {
+  const magnitude = Math.pow(10, Math.floor(Math.log10(value)));
+  const normalized = value / magnitude;
+  const nice =
+    normalized < 1.5 ? 1 : normalized < 3 ? 2 : normalized < 7 ? 5 : 10;
+  return nice * magnitude;
+}
+
+/** Radzen spaces ticks by pixels rather than by a fixed count: `TickDistance`
+ * is 100 (`AxisBase.cs:83`) over the axis extent (`LinearScale.cs:87`). */
+export const TICK_DISTANCE = 100;
+
+export const axisIntervals = (axisPixels: number): number =>
+  Math.max(1, Math.ceil(Math.abs(axisPixels) / TICK_DISTANCE));
+
+/** `intervals` defaults to what a ~350px plot yields, the height the parity
+ * reference draws at. */
+export function niceScale(
+  min: number,
+  max: number,
+  step?: number,
+  intervals = 4
+) {
   const range = max - min || 1;
-  const raw = step ?? Math.pow(10, Math.floor(Math.log10(range / 4)));
-  const nMin = Math.floor(min / raw) * raw;
-  const nMax = Math.ceil(max / raw) * raw;
+  // An explicit step is the contract and is used as given; only the derived
+  // step is snapped to a nice number.
+  const interval = step ?? niceNumber(range / Math.max(1, intervals));
+  const nMin = Math.floor(min / interval) * interval;
+  const nMax = Math.ceil(max / interval) * interval;
+  // Indexed rather than accumulated: repeated += of a fractional interval
+  // drifts, and the drift decides whether the last tick exists.
+  const count = Math.round((nMax - nMin) / interval);
   const ticks: number[] = [];
-  for (let v = nMin; v <= nMax + 1e-9; v += raw)
-    ticks.push(Number(v.toFixed(6)));
-  return { min: nMin, max: nMax, step: raw, ticks };
+  for (let i = 0; i <= count; i++)
+    ticks.push(Number((nMin + i * interval).toFixed(6)));
+  return { min: nMin, max: nMax, step: interval, ticks };
 }
 
 export interface ChartPoint {

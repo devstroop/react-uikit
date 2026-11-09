@@ -87,9 +87,10 @@
   border-color: var(--dx-border-color);
 }
 
-.item[aria-current='page'] {
-  color: var(--dx-primary-color);
-}
+/* aria-current is emitted only on leaves (Menu.tsx:225 requires !hasChildren),
+ * and every leaf — top-level or nested — carries .submenuItem, so .item never
+ * needs an active rule. The leading indicator is scoped to vertical surfaces
+ * because Radzen hides it on horizontal top-level rows (_menu.scss:95-100). */
 
 .submenu {
   position: absolute;
@@ -135,8 +136,34 @@
     color var(--dx-transition-fast);
 }
 
-.submenuItem:hover:not(:disabled):not([aria-disabled='true']) {
+/* See the note in PanelMenu.module.css: the :not() guards must not outrank the
+ * active-state rule, or hovering a selected row in a flyout erases its tint. */
+.submenuItem:hover:where(:not(:disabled):not([aria-disabled='true'])) {
   background-color: var(--dx-surface-hover-color);
+}
+
+/* aria-current lands here for every selected leaf (Menu.tsx:449). Without a
+ * rule a selected row is visually identical to an unselected one. */
+.submenuItem[aria-current='page'] {
+  color: var(--dx-navigation-item-active-color);
+  background-color: var(--dx-navigation-item-active-background-color);
+}
+
+.vertical .submenuItem[aria-current='page'] {
+  position: relative;
+}
+
+.vertical .submenuItem[aria-current='page']::before {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: var(--dx-navigation-item-active-indicator-width);
+  background-color: var(--dx-navigation-item-active-indicator-color);
+}
+
+.submenuItem[aria-current='page'] .icon {
+  color: var(--dx-navigation-item-active-color);
 }
 
 .submenuItem:focus-visible {
