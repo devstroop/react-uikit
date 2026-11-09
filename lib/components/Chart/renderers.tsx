@@ -95,7 +95,7 @@ function dashAttr(dash: ChartSeries['dash']): string | undefined {
 }
 
 function fmtVal(ctx: ChartRenderContext, val: number): string {
-  return ctx.percent ? `${val}%` : String(val);
+  return ctx.percent ? `${ctx.fmt(val)}%` : ctx.fmt(val);
 }
 
 const CARTESIAN_SOURCE_TYPES = new Set([
@@ -281,7 +281,11 @@ function renderPie(
             strokeWidth={1}
             onMouseEnter={() =>
               ctx.tooltipVisible &&
-              ctx.showTip(lx, ly, `${ser.title ?? p.cat}: ${p.val}`)
+              ctx.showTip(
+                lx,
+                ly,
+                `${ser.title ?? p.cat}: ${fmtVal(ctx, p.val)}`
+              )
             }
             onMouseLeave={() => ctx.hideTip()}
             onClick={() => ctx.handleClick(ser, p.cat, p.val, p.item)}
@@ -294,7 +298,7 @@ function renderPie(
               textAnchor="middle"
               className={styles.dataLabel}
             >
-              {p.val}
+              {fmtVal(ctx, p.val)}
             </text>
           )}
         </g>
@@ -337,7 +341,7 @@ function renderPoints(
             fill="transparent"
             onMouseEnter={() =>
               ctx.tooltipVisible &&
-              ctx.showTip(x, y, `${ser.title ?? p.cat}: ${p.val}`)
+              ctx.showTip(x, y, `${ser.title ?? p.cat}: ${fmtVal(ctx, p.val)}`)
             }
             onMouseLeave={() => ctx.hideTip()}
             onClick={() => ctx.handleClick(ser, p.cat, p.val, p.item)}
@@ -491,12 +495,24 @@ function renderBars(
         (s) => !s.stack || s.stack === ser.stack
       ).length;
       const groupW = plotW / Math.max(1, categories.length);
-      const barW = isBar
+      // `slot` is the band divided between the columns standing in it; the
+      // painted bar keeps a 4px gap and sits in the middle of its slot. The old
+      // width subtracted the gap before the division *and* again after, so
+      // columns came out thinner than the band allowed and a grouped block sat
+      // off its category centre.
+      const slot = isBar
         ? 18
-        : Math.max(12, groupW / (ser.stack ? 1 : series.length) - 4);
+        : Math.max(12, groupW / (ser.stack ? 1 : nSeries));
+      const colW = Math.max(1, slot - 4);
+      const nSlots = ser.stack ? 1 : nSeries;
       const x = isBar
         ? pad.l + (stackOffset / (scale.max - scale.min || 1)) * plotW
-        : xFor(ci) - barW / 2 + (ser.stack ? 0 : (sIdx % nSeries) * barW);
+        : // Grouped columns are centred as a block in the band: anchoring on the
+          // first bar's left edge pushed the whole group right of its category.
+          xFor(ci) -
+          (nSlots * slot) / 2 +
+          (sIdx % nSlots) * slot +
+          (slot - colW) / 2;
       const y = isBar
         ? pad.t + (ci * plotH) / Math.max(1, categories.length) + 4
         : hasRange
@@ -506,7 +522,7 @@ function renderBars(
         ? hasRange
           ? ((p.max! - p.min!) / (scale.max - scale.min || 1)) * plotW
           : (p.val / (scale.max - scale.min || 1)) * plotW
-        : barW - 4;
+        : colW;
       const h = isBar
         ? 16
         : hasRange
@@ -526,14 +542,14 @@ function renderBars(
           <rect
             x={rx}
             y={ry}
-            width={isBar ? w : barW - 4}
+            width={w}
             height={isBar ? h : h}
             fill={color}
             rx={2}
             onMouseEnter={() =>
               ctx.tooltipVisible &&
               ctx.showTip(
-                rx + (isBar ? w : barW) / 2,
+                rx + w / 2,
                 ry,
                 `${ser.title ?? p.cat}: ${fmtVal(ctx, p.val)}`
               )
@@ -544,7 +560,7 @@ function renderBars(
           />
           {ser.labels?.visible && (
             <text
-              x={rx + (isBar ? w : barW) / 2}
+              x={rx + w / 2}
               y={ry - 4}
               textAnchor="middle"
               className={styles.dataLabel}
@@ -805,7 +821,7 @@ function renderFunnel(
             strokeWidth={1}
             onMouseEnter={() =>
               tooltipVisible &&
-              showTip(cx, y, `${ser.title ?? p.cat}: ${p.val}`)
+              showTip(cx, y, `${ser.title ?? p.cat}: ${fmtVal(ctx, p.val)}`)
             }
             onMouseLeave={() => hideTip()}
             onClick={() => ctx.handleClick(ser, p.cat, p.val, p.item)}
@@ -817,7 +833,7 @@ function renderFunnel(
             textAnchor="middle"
             className={styles.dataLabel}
           >
-            {p.cat} · {p.val}
+            {p.cat} · {fmtVal(ctx, p.val)}
           </text>
         </g>
       );
@@ -845,6 +861,10 @@ function renderHeatmap(
   const colW = plotW / Math.max(1, categories.length);
   const rowH = plotH / Math.max(1, rowKeys.length);
   const opacityFor = (v: number) => {
+    // A missing value is NaN, and `fill-opacity="NaN"` is dropped by the
+    // renderer, so the cell fell back to full opacity — an absent reading
+    // painted as the hottest one on the grid. It now reads as an empty cell.
+    if (!Number.isFinite(v)) return 0.06;
     if (vmax === vmin) return 0.6;
     return 0.15 + 0.85 * ((v - vmin) / (vmax - vmin));
   };
@@ -883,20 +903,24 @@ function renderHeatmap(
               fillOpacity={opacityFor(p.val)}
               onMouseEnter={() =>
                 tooltipVisible &&
-                showTip(x + colW / 2, y, `${ser.title ?? p.cat}: ${p.val}`)
+                showTip(
+                  x + colW / 2,
+                  y,
+                  `${ser.title ?? p.cat}: ${fmtVal(ctx, p.val)}`
+                )
               }
               onMouseLeave={() => hideTip()}
               onClick={() => ctx.handleClick(ser, p.cat, p.val, p.item)}
               style={{ cursor: 'pointer' }}
             />
-            {ser.labels?.visible && (
+            {ser.labels?.visible && Number.isFinite(p.val) && (
               <text
                 x={x + colW / 2}
                 y={y + rowH / 2 + 4}
                 textAnchor="middle"
                 className={styles.dataLabel}
               >
-                {p.val}
+                {fmtVal(ctx, p.val)}
               </text>
             )}
           </g>
@@ -1200,40 +1224,44 @@ function renderTreemap(
   return seriesHead(
     sIdx,
     ser,
-    leaves.map((leaf, i) => (
-      <g key={i} role="listitem">
-        <rect
-          x={leaf.x}
-          y={leaf.y}
-          width={Math.max(0, leaf.w)}
-          height={Math.max(0, leaf.h)}
-          fill={leaf.color}
-          stroke="var(--dx-surface-color)"
-          strokeWidth={1}
-          onMouseEnter={() =>
-            tooltipVisible &&
-            showTip(
-              leaf.x + leaf.w / 2,
-              leaf.y,
-              `${ser.title ?? leaf.cat}: ${leaf.val}`
-            )
-          }
-          onMouseLeave={() => hideTip()}
-          onClick={() => ctx.handleClick(ser, leaf.cat, leaf.val, leaf.item)}
-          style={{ cursor: 'pointer' }}
-        />
-        {leaf.w > 28 && leaf.h > 18 && (
-          <text
-            x={leaf.x + leaf.w / 2}
-            y={leaf.y + leaf.h / 2 + 4}
-            textAnchor="middle"
-            className={styles.dataLabel}
-          >
-            {leaf.cat}
-          </text>
-        )}
-      </g>
-    ))
+    leaves.map((leaf, i) =>
+      // A zero or negative leaf still carries a stroke, so it painted as a
+      // full-height line at the right edge of the grid rather than nothing.
+      leaf.w < 1 || leaf.h < 1 ? null : (
+        <g key={i} role="listitem">
+          <rect
+            x={leaf.x}
+            y={leaf.y}
+            width={Math.max(0, leaf.w)}
+            height={Math.max(0, leaf.h)}
+            fill={leaf.color}
+            stroke="var(--dx-surface-color)"
+            strokeWidth={1}
+            onMouseEnter={() =>
+              tooltipVisible &&
+              showTip(
+                leaf.x + leaf.w / 2,
+                leaf.y,
+                `${ser.title ?? leaf.cat}: ${fmtVal(ctx, leaf.val)}`
+              )
+            }
+            onMouseLeave={() => hideTip()}
+            onClick={() => ctx.handleClick(ser, leaf.cat, leaf.val, leaf.item)}
+            style={{ cursor: 'pointer' }}
+          />
+          {leaf.w > 28 && leaf.h > 18 && (
+            <text
+              x={leaf.x + leaf.w / 2}
+              y={leaf.y + leaf.h / 2 + 4}
+              textAnchor="middle"
+              className={styles.dataLabel}
+            >
+              {leaf.cat}
+            </text>
+          )}
+        </g>
+      )
+    )
   );
 }
 
@@ -1251,21 +1279,25 @@ function renderPyramid(
 ): ReactNode {
   const { pad, plotW, plotH, tooltipVisible, showTip, hideTip } = ctx;
   const rows = pts;
-  const maxVal = Math.max(1, ...rows.map((p) => Math.max(0, p.val)));
+  // A missing value is Number.NaN, and Math.max propagates it: one blank row
+  // used to make maxVal NaN, which made every width NaN and hid the whole
+  // series. A pyramid row is a shape, not a gap, so it reads as zero.
+  const size = (val: number) => (Number.isFinite(val) ? Math.max(0, val) : 0);
+  const maxVal = Math.max(1, ...rows.map((p) => size(p.val)));
   const rowH = plotH / Math.max(1, rows.length);
   const cx = pad.l + plotW / 2;
   return seriesHead(
     sIdx,
     ser,
     rows.map((p, i) => {
-      const v = Math.max(0, p.val);
+      const v = size(p.val);
       // Stepped pyramid: each segment spans its own width up top and the
       // next segment's width below, so ascending data (small on top)
       // widens toward the base. The last row keeps its own width (no
       // funnel-style shrink).
       const wTop = (v / maxVal) * plotW;
       const next = rows[i + 1];
-      const wBottom = next ? (Math.max(0, next.val) / maxVal) * plotW : wTop;
+      const wBottom = next ? (size(next.val) / maxVal) * plotW : wTop;
       const y = pad.t + i * rowH + 2;
       const h = Math.max(4, rowH - 6);
       return (
@@ -1278,7 +1310,7 @@ function renderPyramid(
             strokeWidth={1}
             onMouseEnter={() =>
               tooltipVisible &&
-              showTip(cx, y, `${ser.title ?? p.cat}: ${p.val}`)
+              showTip(cx, y, `${ser.title ?? p.cat}: ${fmtVal(ctx, v)}`)
             }
             onMouseLeave={() => hideTip()}
             onClick={() => ctx.handleClick(ser, p.cat, p.val, p.item)}
@@ -1290,7 +1322,7 @@ function renderPyramid(
             textAnchor="middle"
             className={styles.dataLabel}
           >
-            {p.cat} · {p.val}
+            {p.cat} · {fmtVal(ctx, v)}
           </text>
         </g>
       );
@@ -1377,7 +1409,7 @@ function renderSpider(
                 textAnchor="middle"
                 className={styles.dataLabel}
               >
-                {valueFor(cat)}
+                {fmtVal(ctx, valueFor(cat))}
               </text>
             )}
             <text

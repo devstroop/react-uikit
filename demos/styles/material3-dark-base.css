@@ -43351,3 +43351,7 @@
   --dx-text-muted-color: var(--dx-base-100);
   --dx-border-strong-color: var(--dx-base-300);
 }
+
+:root[data-palette='material-3'] {
+  --dx-text-primary-color: var(--dx-primary);
+}

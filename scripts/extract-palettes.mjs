@@ -89,6 +89,7 @@ const SHARED_APPENDIX = {
   '--dx-primary-color': 'var(--dx-primary)',
   '--dx-primary-hover-color': 'var(--dx-primary-dark)',
   '--dx-on-primary-color': 'var(--dx-on-primary)',
+  '--dx-text-primary-color': 'var(--dx-primary)',
   '--dx-danger-color': 'var(--dx-danger)',
   '--dx-danger-hover-color': 'var(--dx-danger-dark)',
   '--dx-on-danger-color': 'var(--dx-on-danger)',

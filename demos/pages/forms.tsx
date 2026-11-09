@@ -466,6 +466,13 @@ function PasswordBasicDemo() {
   );
 }
 
+const TEXTAREA_KEYS = [
+  { keys: 'Tab', action: 'Move focus to the next focusable control' },
+  { keys: 'Shift+Tab', action: 'Move focus to the previous focusable control' },
+  { keys: 'Type', action: 'Inserts text; fires onChange on every keystroke' },
+  { keys: 'Enter', action: 'Inserts a newline (no form submit)' },
+] as const;
+
 const PASSWORD_KEYS = [
   { keys: 'Tab', action: 'Focus the password input, then the reveal toggle' },
   {
@@ -473,6 +480,17 @@ const PASSWORD_KEYS = [
     action: 'Press the toggle — aria-pressed flips with visibility',
   },
   { keys: 'Type', action: 'Characters render masked until revealed' },
+] as const;
+
+const TEXTBOX_KEYS = [
+  { keys: 'Tab', action: 'Move focus to the next focusable control' },
+  { keys: 'Shift+Tab', action: 'Move focus to the previous focusable control' },
+  { keys: 'Type', action: 'Inserts text; fires onChange on every keystroke' },
+  { keys: 'Enter', action: 'Submits the enclosing form (type="submit")' },
+  {
+    keys: 'Backspace / Delete',
+    action: 'Removes characters; maxLength caps input',
+  },
 ] as const;
 
 // ---------------------------------------------------------------------------
@@ -724,6 +742,12 @@ function SliderRangeDemo() {
     </Stack>
   );
 }
+
+const CHECKBOX_KEYS = [
+  { keys: 'Space', action: 'Toggle the checkbox' },
+  { keys: 'Tab', action: 'Move focus to the next focusable control' },
+  { keys: 'Shift+Tab', action: 'Move focus to the previous focusable control' },
+] as const;
 
 const SLIDER_KEYS = [
   { keys: 'Arrow keys', action: 'Step by step, clamped to min/max' },
@@ -1882,6 +1906,52 @@ function TextBoxDemosPage() {
             </Stack>
           ),
         },
+        {
+          id: 'textbox-sizes',
+          title: 'Sizes',
+          description: 'All five tiers of the shared size scale.',
+          content: (
+            <Stack orientation="vertical" gap={8}>
+              {(['xs', 'sm', 'md', 'lg', 'xl'] as const).map((size) => (
+                <TextBox
+                  key={size}
+                  size={size}
+                  aria-label={`Size ${size}`}
+                  placeholder={`size="${size}"`}
+                />
+              ))}
+            </Stack>
+          ),
+        },
+        {
+          id: 'textbox-composition',
+          title: 'Composition with FormField',
+          description:
+            'TextBox is the control; FormField owns label, helper and validation wiring.',
+          content: (
+            <Stack orientation="vertical" gap={12} style={{ maxWidth: 360 }}>
+              <FormField text="Email" helper="We never share it.">
+                <TextBox
+                  id="email"
+                  type="email"
+                  placeholder="you@example.com"
+                />
+              </FormField>
+              <FormField
+                text="Username"
+                invalid
+                helper="Username is already taken."
+              >
+                <TextBox id="username" defaultValue="ada" invalid />
+              </FormField>
+            </Stack>
+          ),
+        },
+        {
+          id: 'textbox-keyboard',
+          title: 'Keyboard',
+          content: <KeyboardTable bindings={TEXTBOX_KEYS} />,
+        },
       ]}
     />
   );
@@ -1968,6 +2038,29 @@ function TextAreaDemosPage() {
               />
             </Stack>
           ),
+        },
+        {
+          id: 'textarea-sizes',
+          title: 'Sizes',
+          description: 'All five tiers of the shared size scale.',
+          content: (
+            <Stack orientation="vertical" gap={8}>
+              {(['xs', 'sm', 'md', 'lg', 'xl'] as const).map((size) => (
+                <TextArea
+                  key={size}
+                  size={size}
+                  rows={2}
+                  aria-label={`Size ${size}`}
+                  defaultValue={`size="${size}"`}
+                />
+              ))}
+            </Stack>
+          ),
+        },
+        {
+          id: 'textarea-keyboard',
+          title: 'Keyboard',
+          content: <KeyboardTable bindings={TEXTAREA_KEYS} />,
         },
       ]}
     />
@@ -2155,6 +2248,11 @@ function CheckBoxDemosPage() {
               </label>
             </Stack>
           ),
+        },
+        {
+          id: 'checkbox-keyboard',
+          title: 'Keyboard',
+          content: <KeyboardTable bindings={CHECKBOX_KEYS} />,
         },
       ]}
     />

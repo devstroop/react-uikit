@@ -8,7 +8,10 @@ export interface FormContextValue {
     unregisterField: (name: string) => void;
     submit: () => void;
     submitCount: number;
+    reset: () => void;
+    resetCount: number;
 }
+export declare const FormContext: import('react').Context<FormContextValue | null>;
 export declare function useFormContext(): FormContextValue;
 export type FormMethod = 'get' | 'post';
 export interface FormProps {

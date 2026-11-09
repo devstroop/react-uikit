@@ -63,18 +63,24 @@ export interface ChartSeries {
 }
 export interface ChartProps {
     series: ChartSeries[];
-    width?: number;
-    height?: number;
+    width?: number | string;
+    height?: number | string;
     valueAxis?: {
         min?: number;
         max?: number;
         step?: number;
         title?: string;
         gridlines?: boolean;
+        /** Tick text. Parity for Radzen's `RadzenValueAxis Formatter`, which is how
+         * the reference renders `$1,000`: without a knob here a consumer cannot
+         * reach that output at all. Defaults to grouped, 2-decimal text. */
+        format?: (value: number) => string;
     };
     categoryAxis?: {
         title?: string;
         gridlines?: boolean;
+        /** Category label text, the counterpart of `RadzenCategoryAxis Formatter`. */
+        format?: (category: string) => string;
     };
     showLegend?: boolean;
     /** Normalize every stack group to percentages (full-stacked). */
@@ -105,6 +111,9 @@ export interface ChartRenderContext {
     plotH: number;
     xFor: (catIdx: number) => number;
     yFor: (val: number) => number;
+    /** Numeric text for ticks and data labels: the axis `format` when given,
+     * otherwise the shared grouped tick formatter. */
+    fmt: (val: number) => string;
     colorFor: (idx: number, ser: ChartSeries) => string;
     tooltipVisible: boolean;
     /** Full-stacked percent mode: value labels/tooltips carry a % suffix. */
@@ -124,7 +133,16 @@ export declare function sliceColor(ser: ChartSeries, pointIndex: number): string
 export declare const VALUE_AXIS_TYPES: Set<string>;
 /** Series types showing the bottom category axis (heatmap has x categories). */
 export declare const CATEGORY_AXIS_TYPES: Set<string>;
-export declare function niceScale(min: number, max: number, step?: number): {
+/** Series Radzen fills from a baseline, and therefore extends the value axis to
+ * include 0 for. Range, price, line and point series are excluded. */
+export declare const BASELINE_AXIS_TYPES: Set<string>;
+/** Radzen spaces ticks by pixels rather than by a fixed count: `TickDistance`
+ * is 100 (`AxisBase.cs:83`) over the axis extent (`LinearScale.cs:87`). */
+export declare const TICK_DISTANCE = 100;
+export declare const axisIntervals: (axisPixels: number) => number;
+/** `intervals` defaults to what a ~350px plot yields, the height the parity
+ * reference draws at. */
+export declare function niceScale(min: number, max: number, step?: number, intervals?: number): {
     min: number;
     max: number;
     step: number;

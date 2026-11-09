@@ -39684,3 +39684,7 @@
   --dx-text-muted-color: var(--dx-base-600);
   --dx-border-strong-color: var(--dx-base-500);
 }
+
+:root[data-palette='fluent'] {
+  --dx-text-primary-color: var(--dx-primary);
+}

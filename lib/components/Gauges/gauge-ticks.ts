@@ -1,5 +1,5 @@
 /**
- * Tick placement + label text for the gauges.
+ * Tick placement for the gauges.
  *
  * Radzen drives its gauge scales with an explicit `Step`
  * (`RadzenRadialGaugeScale Step="1"`), while the kit's documented knob is a
@@ -31,9 +31,3 @@ export function gaugeTicks(
     (_, i) => min + ((max - min) * i) / (count - 1)
   );
 }
-
-/** Label text for a tick value. An even split of most ranges lands on repeating
- * decimals — 0-5 in 8 marks yields 0.7142857142857143 — and the unrounded
- * strings collide around the arc (GAP-007). */
-export const gaugeTickLabel = (value: number): string =>
-  new Intl.NumberFormat(undefined, { maximumFractionDigits: 2 }).format(value);
