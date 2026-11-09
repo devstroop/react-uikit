@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { runValidators, type Validator } from '../Validators';
-import { useFormContext } from './Form';
+import { FormContext } from './Form';
 
 export interface UseFormFieldOptions<T> {
   validate?: Validator[];
@@ -17,7 +17,10 @@ export function useFormField<T = string>(
   name: string,
   options?: UseFormFieldOptions<T>
 ): FormFieldApi<T> {
-  const { registerField, unregisterField, submitCount } = useFormContext();
+  const ctx = useContext(FormContext);
+  const registerField = ctx?.registerField;
+  const unregisterField = ctx?.unregisterField;
+  const submitCount = ctx?.submitCount ?? 0;
   const [value, setValue] = useState<T | undefined>(options?.initialValue);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [dirty, setDirty] = useState(false);
@@ -28,6 +31,7 @@ export function useFormField<T = string>(
   });
 
   useEffect(() => {
+    if (!registerField || !unregisterField) return;
     registerField({ name, validate: () => validateRef.current() });
     return () => unregisterField(name);
   }, [name, registerField, unregisterField]);

@@ -23,7 +23,7 @@ export interface FormContextValue {
   submitCount: number;
 }
 
-const FormContext = createContext<FormContextValue | null>(null);
+export const FormContext = createContext<FormContextValue | null>(null);
 
 export function useFormContext(): FormContextValue {
   const ctx = useContext(FormContext);
