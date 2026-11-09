@@ -44948,8 +44948,40 @@
 }
 
 :root[data-palette='zen'] {
+  --dx-background-color: var(--dx-body-background-color);
+  --dx-surface-color: var(--dx-base-background-color);
+  --dx-border-color: var(--dx-base-300);
   --dx-primary-color: var(--dx-primary);
+  --dx-primary-hover-color: var(--dx-primary-dark);
   --dx-on-primary-color: var(--dx-on-primary);
   --dx-text-primary-color: var(--dx-primary);
+  --dx-danger-color: var(--dx-danger);
+  --dx-danger-hover-color: var(--dx-danger-dark);
+  --dx-on-danger-color: var(--dx-on-danger);
+  --dx-success-color: var(--dx-success);
+  --dx-success-hover-color: var(--dx-success-dark);
+  --dx-on-success-color: var(--dx-on-success);
+  --dx-warning-color: var(--dx-warning);
+  --dx-warning-hover-color: var(--dx-warning-dark);
+  --dx-on-warning-color: var(--dx-on-warning);
+  --dx-info-color: var(--dx-info);
+  --dx-info-hover-color: var(--dx-info-dark);
+  --dx-on-info-color: var(--dx-on-info);
   --dx-secondary-color: var(--dx-secondary);
+  --dx-secondary-hover-color: var(--dx-secondary-dark);
+  --dx-on-secondary-color: var(--dx-on-secondary);
+  --dx-soft-color: var(--dx-secondary);
+  --dx-soft-hover-color: var(--dx-secondary-dark);
+  --dx-on-soft-color: var(--dx-on-secondary);
+  --dx-neutral-color: var(--dx-secondary);
+  --dx-neutral-hover-color: var(--dx-secondary-dark);
+  --dx-on-neutral-color: var(--dx-on-secondary);
+  --dx-focus-color: color-mix(in srgb, var(--dx-primary) 40%, transparent);
+  --dx-font-sans: var(--dx-text-font-family);
+  --dx-palette-0-color: var(--dx-series-1);
+  --dx-palette-1-color: var(--dx-series-2);
+  --dx-palette-2-color: var(--dx-series-3);
+  --dx-palette-3-color: var(--dx-series-4);
+  --dx-palette-4-color: var(--dx-series-5);
+  --dx-palette-5-color: var(--dx-series-6);
 }
