@@ -1,6 +1,5 @@
 import { createRoot } from 'react-dom/client';
 import '../lib/styles/tokens.css';
-import '../lib/styles/themes/zen.css';
 import '../lib/utilities.css';
 import { App } from './App';
 
