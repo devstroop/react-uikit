@@ -23,11 +23,6 @@ export interface SchedulerProps {
         date: Date;
         resource?: string;
     }) => void;
-    onEventChange?: (args: {
-        event: SchedulerEvent;
-        newStart: Date;
-        newEnd: Date;
-    }) => void;
     ariaLabel?: string;
     className?: string;
 }

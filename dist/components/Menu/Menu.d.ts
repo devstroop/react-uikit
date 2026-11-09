@@ -23,6 +23,10 @@ export interface MenuProps extends Omit<HTMLAttributes<HTMLElement>, 'onClick'> 
     /** Fired when the menu requests dismissal (Escape at root). Radzen `Close` parity. */
     onClose?: () => void;
     ariaLabel?: string;
+    /** Match active state against the URL (default true). Set false to drive
+     * selection entirely via `selected`/`onSelectedChange` for non-hash routers
+     * (GAP-001). */
+    urlMatching?: boolean;
     /** Hamburger toggle aria-label. Radzen `ToggleAriaLabel` parity. */
     toggleAriaLabel?: string;
 }
@@ -60,4 +64,4 @@ export interface MenuItemProps {
     children?: ReactNode;
 }
 export declare function MenuItem(props: MenuItemProps): import("react").JSX.Element;
-export declare function Menu({ children, clickToOpen, flyout, responsive, isContextMenu, onClick, onClose, ariaLabel, toggleAriaLabel, className, ...rest }: MenuProps): import("react").JSX.Element;
+export declare function Menu({ children, clickToOpen, flyout, responsive, urlMatching, isContextMenu, onClick, onClose, ariaLabel, toggleAriaLabel, className, ...rest }: MenuProps): import("react").JSX.Element;
