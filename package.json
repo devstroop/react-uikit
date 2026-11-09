@@ -1,6 +1,6 @@
 {
   "name": "@devstroop/react-uikit",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Generic React UI primitives for Devstroop web apps \u2014 presentational, themeable, project-agnostic.",
   "type": "module",
   "license": "MIT",
