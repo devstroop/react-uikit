@@ -1931,7 +1931,11 @@ function TextBoxDemosPage() {
           content: (
             <Stack orientation="vertical" gap={12} style={{ maxWidth: 360 }}>
               <FormField text="Email" helper="We never share it.">
-                <TextBox id="email" type="email" placeholder="you@example.com" />
+                <TextBox
+                  id="email"
+                  type="email"
+                  placeholder="you@example.com"
+                />
               </FormField>
               <FormField
                 text="Username"

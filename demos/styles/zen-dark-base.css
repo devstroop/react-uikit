@@ -44949,6 +44949,7 @@
 
 :root[data-palette='zen'] {
   --dx-primary-color: var(--dx-primary);
+  --dx-on-primary-color: var(--dx-on-primary);
   --dx-text-primary-color: var(--dx-primary);
   --dx-secondary-color: var(--dx-secondary);
 }
