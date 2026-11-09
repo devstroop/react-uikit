@@ -1,7 +1,7 @@
 {
   "name": "@devstroop/react-uikit",
   "version": "1.1.0",
-  "description": "Generic React UI primitives for Devstroop web apps — presentational, themeable, project-agnostic.",
+  "description": "Generic React UI primitives for Devstroop web apps \u2014 presentational, themeable, project-agnostic.",
   "type": "module",
   "license": "MIT",
   "main": "./dist/main.cjs.js",
@@ -16,7 +16,13 @@
     "./style.css": "./dist/style.css",
     "./base.css": "./dist/base.css",
     "./tokens.css": "./dist/tokens.css",
-    "./utilities.css": "./dist/utilities.css"
+    "./utilities.css": "./dist/utilities.css",
+    "./themes/zen.css": "./dist/themes/zen.css",
+    "./themes/fluent.css": "./dist/themes/fluent.css",
+    "./themes/material-3.css": "./dist/themes/material-3.css",
+    "./themes/github.css": "./dist/themes/github.css",
+    "./themes/material.css": "./dist/themes/material.css",
+    "./themes/shadcn.css": "./dist/themes/shadcn.css"
   },
   "files": [
     "dist"
@@ -25,7 +31,7 @@
     "*.css"
   ],
   "scripts": {
-    "build": "vite build",
+    "build": "vite build && mkdir -p dist/themes && cp lib/styles/themes/*.css dist/themes/",
     "dev": "vite --config demos/vite.config.ts --port 5199 --strictPort",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
