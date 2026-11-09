@@ -54,7 +54,7 @@ const PALETTE_LOADERS: Record<string, (() => Promise<unknown>)[]> = {
  */
 export function App() {
   const [route, setRoute] = useState(routeFromHash);
-  const [theme, setTheme] = useState<string>('default');
+  const [theme, setTheme] = useState<string>('zen');
   const [dark, setDark] = useState(false);
 
   useEffect(() => {

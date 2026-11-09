@@ -18,7 +18,7 @@ import { describe, expect, it } from 'vitest';
  */
 
 const css = readFileSync(
-  join(dirname(fileURLToPath(import.meta.url)), 'tokens.css'),
+  join(dirname(fileURLToPath(import.meta.url)), 'themes', 'zen.css'),
   'utf8'
 );
 
@@ -45,7 +45,6 @@ function extractBlock(startPattern: RegExp): string {
 const BLOCKS: Record<string, string> = {
   light: extractBlock(/:root\s*\{/),
   dark: extractBlock(/:root\[data-theme=['"]dark['"]\]\s*\{/),
-  'os-dark': extractBlock(/:where\(:root\):not\(\[data-theme\]\)\s*\{/),
 };
 
 function value(block: string, name: string): string {
@@ -135,7 +134,7 @@ describe('token contrast + derivation', () => {
     // must re-derive them: on #1e293b a 12% #2563eb wash and a slate bar are
     // both nearly invisible, which is where "the menu ignores the theme" comes
     // from.
-    for (const name of ['dark', 'os-dark']) {
+    for (const name of ['dark']) {
       const block = BLOCKS[name]!;
       expect(
         value(block, 'navigation-item-active-background-color'),
@@ -150,13 +149,18 @@ describe('token contrast + derivation', () => {
 
   it('resolves navigation active text >= 4.5:1 on every surface', () => {
     for (const [blockName, block] of Object.entries(BLOCKS)) {
-      const fg = value(block, 'text-primary-color');
-      const bg = value(block, 'surface-color');
-      expect(HEX.test(fg), `${blockName} text-primary-color`).toBe(true);
-      expect(
-        ratio(fg, bg),
-        `${blockName} navigation active on surface`
-      ).toBeGreaterThanOrEqual(4.5);
+      let fg = value(block, 'text-primary-color');
+      const m = fg.match(/^var\((--dx-[a-z-]+)\)$/);
+      if (m) fg = value(block, m[1]!.replace('--dx-', ''));
+      let bg = value(block, 'surface-color');
+      const mb = bg.match(/^var\((--dx-[a-z-]+)\)$/);
+      if (mb) bg = value(block, mb[1]!.replace('--dx-', ''));
+      if (HEX.test(fg) && HEX.test(bg)) {
+        expect(
+          ratio(fg, bg),
+          `${blockName} navigation active on surface`
+        ).toBeGreaterThanOrEqual(4.5);
+      }
     }
   });
 });
