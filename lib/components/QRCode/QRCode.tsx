@@ -87,10 +87,7 @@ export function QRCode({
       return;
     }
     const message = `[QRCode] value too long to encode (${value.length} chars)`;
-    if (
-      typeof process !== 'undefined' &&
-      process.env?.NODE_ENV !== 'production'
-    ) {
+    if (typeof import.meta !== 'undefined' && import.meta.env?.DEV) {
       console.error(message);
     }
     if (

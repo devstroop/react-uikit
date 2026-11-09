@@ -23,11 +23,6 @@ export interface SchedulerProps {
   resources?: SchedulerResource[];
   onEventClick?: (args: { event: SchedulerEvent }) => void;
   onSlotClick?: (args: { date: Date; resource?: string }) => void;
-  onEventChange?: (args: {
-    event: SchedulerEvent;
-    newStart: Date;
-    newEnd: Date;
-  }) => void;
   ariaLabel?: string;
   className?: string;
 }

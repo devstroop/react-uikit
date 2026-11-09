@@ -9,6 +9,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  align-self: flex-start;
   gap: var(--dx-space-2);
   border: var(--dx-border-width) solid transparent;
   border-radius: var(--dx-radius-button);
