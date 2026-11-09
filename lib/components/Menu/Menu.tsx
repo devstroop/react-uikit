@@ -47,6 +47,10 @@ export interface MenuProps extends Omit<
   /** Fired when the menu requests dismissal (Escape at root). Radzen `Close` parity. */
   onClose?: () => void;
   ariaLabel?: string;
+  /** Match active state against the URL (default true). Set false to drive
+   * selection entirely via `selected`/`onSelectedChange` for non-hash routers
+   * (GAP-001). */
+  urlMatching?: boolean;
   /** Hamburger toggle aria-label. Radzen `ToggleAriaLabel` parity. */
   toggleAriaLabel?: string;
 }
@@ -88,6 +92,7 @@ export interface MenuItemProps {
 interface MenuContextValue {
   baseId: string;
   flyout: boolean;
+  urlMatching: boolean;
   clickToOpen: boolean;
   level: number;
   closeSignal: number;
@@ -230,7 +235,7 @@ function MenuItemNode({
 
   const [, forceHash] = useState(0);
   useEffect(() => {
-    if (!path) return;
+    if (!path || !ctx.urlMatching) return;
     const onUrl = () => forceHash((v) => v + 1);
     // hashchange covers the hash router the kit is coupled to (GAP-001),
     // popstate covers back/forward.
@@ -240,7 +245,7 @@ function MenuItemNode({
       window.removeEventListener('hashchange', onUrl);
       window.removeEventListener('popstate', onUrl);
     };
-  }, [path]);
+  }, [path, ctx.urlMatching]);
   // Radzen `@bind-Selected` parity, matching PanelMenuItem's shape. Uncontrolled
   // selection is URL-first plus the menu-wide click slot: a per-item boolean
   // would keep the previous row `aria-current` after the route moved on.
@@ -248,7 +253,7 @@ function MenuItemNode({
     props.selected !== undefined || props.onSelectedChange !== undefined;
   const internalSelected = props.defaultSelected ?? false;
   const urlSelected =
-    !hasChildren && !selectedControlled && path
+    ctx.urlMatching && !hasChildren && !selectedControlled && path
       ? activePath(path, props.match)
       : false;
   const isActive =
@@ -334,6 +339,7 @@ function MenuItemNode({
     () => ({
       baseId: ctx.baseId,
       flyout: ctx.flyout,
+      urlMatching: ctx.urlMatching,
       clickToOpen: ctx.clickToOpen,
       level: ctx.level + 1,
       closeSignal: ctx.closeSignal,
@@ -527,6 +533,7 @@ export function Menu({
   clickToOpen = true,
   flyout = false,
   responsive = true,
+  urlMatching = true,
   isContextMenu = false,
   onClick,
   onClose,
@@ -549,6 +556,7 @@ export function Menu({
   // outlive it — otherwise the row that moved the router stays `aria-current`
   // together with the row the new URL matches.
   useEffect(() => {
+    if (!urlMatching) return;
     const onUrl = () => setClickedKey(null);
     window.addEventListener('hashchange', onUrl);
     window.addEventListener('popstate', onUrl);
@@ -556,7 +564,7 @@ export function Menu({
       window.removeEventListener('hashchange', onUrl);
       window.removeEventListener('popstate', onUrl);
     };
-  }, []);
+  }, [urlMatching]);
 
   const emit = useCallback(
     (args: MenuItemEventArgs) => onClick?.(args),
@@ -610,6 +618,7 @@ export function Menu({
     () => ({
       baseId,
       flyout,
+      urlMatching,
       clickToOpen,
       level: 0,
       closeSignal,
@@ -626,6 +635,7 @@ export function Menu({
     [
       baseId,
       flyout,
+      urlMatching,
       clickToOpen,
       closeSignal,
       emit,

@@ -63,8 +63,8 @@ export interface ChartSeries {
 }
 export interface ChartProps {
     series: ChartSeries[];
-    width?: number;
-    height?: number;
+    width?: number | string;
+    height?: number | string;
     valueAxis?: {
         min?: number;
         max?: number;

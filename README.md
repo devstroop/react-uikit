@@ -60,6 +60,11 @@ the parity harness do — means importing `lib/styles/tokens.css` and
 Skip it and a dev build warns on the console instead of rendering quietly
 unstyled, and `vite dev` and `vite build` now agree about being unthemed.
 
+> **Vite `fs.allow`:** when the kit is aliased from a sibling checkout
+> (`../../react-uikit/lib`), Vite's dev server blocks reads outside the app
+> root by default. Add the kit directory to `server.fs.allow` in your
+> `vite.config.ts` (see `parity/parity-react/vite.config.ts`) to avoid 403s.
+
 ## Components
 
 Every component below is exported from `@devstroop/react-uikit`; most are
