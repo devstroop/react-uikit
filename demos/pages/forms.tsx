@@ -466,6 +466,13 @@ function PasswordBasicDemo() {
   );
 }
 
+const TEXTAREA_KEYS = [
+  { keys: 'Tab', action: 'Move focus to the next focusable control' },
+  { keys: 'Shift+Tab', action: 'Move focus to the previous focusable control' },
+  { keys: 'Type', action: 'Inserts text; fires onChange on every keystroke' },
+  { keys: 'Enter', action: 'Inserts a newline (no form submit)' },
+] as const;
+
 const PASSWORD_KEYS = [
   { keys: 'Tab', action: 'Focus the password input, then the reveal toggle' },
   {
@@ -2027,6 +2034,29 @@ function TextAreaDemosPage() {
               />
             </Stack>
           ),
+        },
+        {
+          id: 'textarea-sizes',
+          title: 'Sizes',
+          description: 'All five tiers of the shared size scale.',
+          content: (
+            <Stack orientation="vertical" gap={8}>
+              {(['xs', 'sm', 'md', 'lg', 'xl'] as const).map((size) => (
+                <TextArea
+                  key={size}
+                  size={size}
+                  rows={2}
+                  aria-label={`Size ${size}`}
+                  defaultValue={`size="${size}"`}
+                />
+              ))}
+            </Stack>
+          ),
+        },
+        {
+          id: 'textarea-keyboard',
+          title: 'Keyboard',
+          content: <KeyboardTable bindings={TEXTAREA_KEYS} />,
         },
       ]}
     />
