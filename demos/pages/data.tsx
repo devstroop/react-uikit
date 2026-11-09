@@ -1013,6 +1013,14 @@ function RangeNavigatorDemosPage() {
   );
 }
 
+const PRICE = [
+  { d: 'Mon', o: 100.4, h: 105.9, l: 99.1, c: 104.2 },
+  { d: 'Tue', o: 104.2, h: 108.5, l: 102.0, c: 103.1 },
+  { d: 'Wed', o: 103.1, h: 106.7, l: 100.4, c: 105.5 },
+  { d: 'Thu', o: 105.5, h: 110.2, l: 104.9, c: 109.8 },
+  { d: 'Fri', o: 109.8, h: 112.4, l: 106.1, c: 107.2 },
+];
+
 export function DataDemos({ slug }: { slug: string }) {
   switch (slug) {
     case 'rangenavigator':
@@ -1689,31 +1697,59 @@ export function DataDemos({ slug }: { slug: string }) {
               id: 'chart-ohlc',
               title: 'Candlestick, OHLC & high-low',
               description:
-                'openProperty/highProperty/lowProperty/closeProperty feed the price bars; upColor/downColor override the rising and falling fills.',
+                'openProperty/highProperty/lowProperty/closeProperty feed the price bars; upColor/downColor override the rising and falling fills. None of the three is baselined at zero.',
               content: (
-                <Chart
-                  width={560}
-                  height={240}
-                  series={[
-                    {
-                      type: 'candlestick',
-                      title: 'ACME',
-                      data: [
-                        { d: 'Mon', o: 100.4, h: 105.9, l: 99.1, c: 104.2 },
-                        { d: 'Tue', o: 104.2, h: 108.5, l: 102.0, c: 103.1 },
-                        { d: 'Wed', o: 103.1, h: 106.7, l: 100.4, c: 105.5 },
-                        { d: 'Thu', o: 105.5, h: 110.2, l: 104.9, c: 109.8 },
-                        { d: 'Fri', o: 109.8, h: 112.4, l: 106.1, c: 107.2 },
-                      ],
-                      categoryProperty: 'd',
-                      valueProperty: 'c',
-                      openProperty: 'o',
-                      highProperty: 'h',
-                      lowProperty: 'l',
-                      closeProperty: 'c',
-                    },
-                  ]}
-                />
+                <Row gap={16} wrap>
+                  <Chart
+                    width={380}
+                    height={220}
+                    series={[
+                      {
+                        type: 'candlestick',
+                        title: 'ACME',
+                        data: PRICE,
+                        categoryProperty: 'd',
+                        valueProperty: 'c',
+                        openProperty: 'o',
+                        highProperty: 'h',
+                        lowProperty: 'l',
+                        closeProperty: 'c',
+                      },
+                    ]}
+                  />
+                  <Chart
+                    width={380}
+                    height={220}
+                    series={[
+                      {
+                        type: 'ohlc',
+                        title: 'ACME',
+                        data: PRICE,
+                        categoryProperty: 'd',
+                        valueProperty: 'c',
+                        openProperty: 'o',
+                        highProperty: 'h',
+                        lowProperty: 'l',
+                        closeProperty: 'c',
+                      },
+                    ]}
+                  />
+                  <Chart
+                    width={380}
+                    height={220}
+                    series={[
+                      {
+                        type: 'highlow',
+                        title: 'ACME',
+                        data: PRICE,
+                        categoryProperty: 'd',
+                        valueProperty: 'c',
+                        highProperty: 'h',
+                        lowProperty: 'l',
+                      },
+                    ]}
+                  />
+                </Row>
               ),
             },
             {
