@@ -40706,7 +40706,7 @@
   --dx-link-hover-text-decoration: underline;
   --dx-link-focus-outline: var(--dx-outline-focus);
   --dx-link-focus-outline-offset: var(--dx-outline-offset);
-  --dx-base-background-color: rgba(255, 255, 255, 0.55);
+  --dx-base-background-color: var(--dx-base-100);
   --dx-border-white: var(--dx-border-width) solid var(--dx-white);
   --dx-border-black: var(--dx-border-width) solid var(--dx-black);
   --dx-border-base: var(--dx-border-width) solid var(--dx-base);
@@ -41073,7 +41073,7 @@
   --dx-layout-body-margin: 0 0.75rem 0.75rem;
   --dx-layout-body-padding: 1rem;
   --dx-layout-body-border-radius: calc(var(--dx-border-radius) * 2);
-  --dx-layout-body-background-color: rgba(255, 255, 255, 0.5);
+  --dx-layout-body-background-color: var(--dx-base-100);
   --dx-accordion-item-padding-block: 1rem;
   --dx-accordion-item-padding-inline: 1rem;
   --dx-accordion-item-margin: 0;
