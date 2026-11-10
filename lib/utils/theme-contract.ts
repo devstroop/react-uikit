@@ -4,7 +4,8 @@ const MESSAGE =
   `react-uikit: ${TOKEN} resolves to nothing on this document, so every ` +
   'var(--dx-*) in the component stylesheets is unresolved and the app renders ' +
   'in browser defaults. The theme is not a side effect of importing the kit ' +
-  '(GAP-015): import "@devstroop/react-uikit/tokens.css" and ' +
+  '(GAP-015): import a theme stylesheet such as ' +
+  '"@devstroop/react-uikit/themes/zen.css" plus ' +
   '"@devstroop/react-uikit/utilities.css" from your entry, or the full ' +
   '"@devstroop/react-uikit/style.css".';
 

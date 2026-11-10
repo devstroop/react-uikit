@@ -1,0 +1,1422 @@
+/*
+ * Design tokens — hand-maintained (generator removed with the monorepo
+ * extraction; historically scripts/generate-css.mjs from themes/default/tokens.json).
+ *
+ * All components consume tokens exclusively — no hardcoded colors, radii,
+ * spacing, or shadows. Consumers theme the library by overriding any
+ * subset of these custom properties, or by importing another theme.
+ */
+
+/* Self-hosted Source Sans 3 variable fonts (OFL) — first preference of
+ * --dx-font-sans, so the stack resolves locally instead of falling back. */
+@font-face {
+  font-family: 'Source Sans 3';
+  src: url('./fonts/SourceSans3VF-Upright.ttf.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Source Sans 3';
+  src: url('./fonts/SourceSans3VF-Italic.ttf.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Self-hosted Material Symbols Outlined (OFL, Google Fonts v374,
+ * wght 100..700 variable instance — sha 40175da6 — the single icon
+ * source for <Icon/>. Ligatures need layout, so display:block keeps
+ * glyphs from flashing as text. Source + hash recorded for refreshes:
+ * https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700 */
+@font-face {
+  font-family: 'Material Symbols Outlined';
+  src: url('./fonts/MaterialSymbolsOutlined.woff2') format('woff2');
+  font-weight: 100 700;
+  font-style: normal;
+  font-display: block;
+}
+
+:root {
+  color-scheme: light;
+  /* color */
+  --dx-background-color: #f8fafc;
+  --dx-surface-color: #ffffff;
+  --dx-surface-hover-color: #f1f5f9;
+  --dx-border-color: #e2e8f0;
+  --dx-border-strong-color: #7791b0;
+  --dx-text-color: #0f172a;
+  --dx-text-muted-color: #475569;
+  --dx-primary-color: #2563eb;
+  --dx-primary-hover-color: #1d4ed8;
+  --dx-on-primary-color: #ffffff;
+  --dx-danger-color: #dc2626;
+  --dx-danger-hover-color: #b91c1c;
+  --dx-on-danger-color: #ffffff;
+  --dx-success-color: #12843c;
+  --dx-success-hover-color: #117c38;
+  --dx-on-success-color: #ffffff;
+  --dx-warning-color: #b16105;
+  --dx-warning-hover-color: #924d06;
+  --dx-on-warning-color: #ffffff;
+  --dx-focus-color: rgb(37 99 235 / 0.35);
+  /* Neutral-gray veil (Radzen dialog-mask parity: base-800 at 50%),
+   * not a blue-black cast — reads softer over light surfaces. */
+  --dx-backdrop-color: rgb(66 66 66 / 0.5);
+  --dx-soft-color: #64748b;
+  --dx-soft-hover-color: #56677f;
+  --dx-on-soft-color: #ffffff;
+  --dx-text-primary-color: #1759ea;
+  --dx-text-success-color: #107736;
+  --dx-text-warning-color: #9d5604;
+  --dx-text-danger-color: #c42020;
+  /* Navigation active state (Radzen --rz-panel-menu-item-active-* parity).
+   * Radzen marks the current row with four channels — tint, text, icon and a
+   * leading indicator bar; a color swap alone reads as a hover state in a
+   * sidebar of icon+label rows. All four are theme tokens so a seeded brand
+   * moves the whole treatment together. */
+  --dx-navigation-item-active-color: var(--dx-text-primary-color);
+  --dx-navigation-item-active-background-color: color-mix(
+    in srgb,
+    var(--dx-primary-color) 12%,
+    transparent
+  );
+  --dx-navigation-item-active-indicator-color: var(--dx-secondary-color);
+  --dx-navigation-item-active-indicator-width: 4px;
+  --dx-palette-0-color: #2563eb;
+  --dx-palette-1-color: #7c3aed;
+  --dx-palette-2-color: #04825b;
+  --dx-palette-3-color: #b16105;
+  --dx-palette-4-color: #dc2626;
+  --dx-palette-5-color: #0b7caf;
+  --dx-info-color: #0b7caf;
+  --dx-info-hover-color: #086193;
+  --dx-on-info-color: #ffffff;
+  --dx-text-info-color: #0a6e9c;
+  --dx-secondary-color: #64748b;
+  --dx-secondary-hover-color: #56677f;
+  --dx-on-secondary-color: #ffffff;
+  --dx-border-primary-color: #2563eb;
+  --dx-border-primary-light-color: #5b8aef;
+  --dx-border-primary-darker-color: #184099;
+  --dx-outline-primary-color: #2563eb;
+  --dx-outline-primary-light-color: #5b8aef;
+  --dx-outline-primary-darker-color: #184099;
+  --dx-border-secondary-color: #64748b;
+  --dx-border-secondary-light-color: #828fa2;
+  --dx-border-secondary-darker-color: #414b5a;
+  --dx-outline-secondary-color: #64748b;
+  --dx-outline-secondary-light-color: #828fa2;
+  --dx-outline-secondary-darker-color: #414b5a;
+  --dx-border-info-color: #0b7caf;
+  --dx-border-info-light-color: #3f97c0;
+  --dx-border-info-darker-color: #075172;
+  --dx-outline-info-color: #0b7caf;
+  --dx-outline-info-light-color: #3f97c0;
+  --dx-outline-info-darker-color: #075172;
+  --dx-border-success-color: #12843c;
+  --dx-border-success-light-color: #529d6f;
+  --dx-border-success-darker-color: #0c5627;
+  --dx-outline-success-color: #12843c;
+  --dx-outline-success-light-color: #529d6f;
+  --dx-outline-success-darker-color: #0c5627;
+  --dx-border-warning-color: #b16105;
+  --dx-border-warning-light-color: #bb803c;
+  --dx-border-warning-darker-color: #733f03;
+  --dx-outline-warning-color: #b16105;
+  --dx-outline-warning-light-color: #bb803c;
+  --dx-outline-warning-darker-color: #733f03;
+  --dx-border-danger-color: #dc2626;
+  --dx-border-danger-light-color: #e46666;
+  --dx-border-danger-darker-color: #8f1919;
+  --dx-outline-danger-color: #dc2626;
+  --dx-outline-danger-light-color: #e46666;
+  --dx-outline-danger-darker-color: #8f1919;
+  /* neutral/base + light + dark tonal roles (no hue concept — see types/severity.ts) */
+  --dx-neutral-color: #64748b;
+  --dx-neutral-hover-color: #56677f;
+  --dx-on-neutral-color: #ffffff;
+  --dx-base-color: #64748b;
+  --dx-base-hover-color: #56677f;
+  --dx-on-base-color: #ffffff;
+  --dx-light-color: #f1f5f9;
+  --dx-light-hover-color: #e2e8f0;
+  --dx-on-light-color: #0f172a;
+  --dx-dark-color: #0f172a;
+  --dx-dark-hover-color: #1e293b;
+  --dx-on-dark-color: #ffffff;
+  --dx-text-neutral-color: #475569;
+  --dx-text-light-color: #475569;
+  --dx-text-dark-color: #0f172a;
+  --dx-border-neutral-color: #64748b;
+  --dx-border-neutral-light-color: #828fa2;
+  --dx-border-neutral-darker-color: #414b5a;
+  --dx-outline-neutral-color: #64748b;
+  --dx-outline-neutral-light-color: #828fa2;
+  --dx-outline-neutral-darker-color: #414b5a;
+  --dx-text-base-color: #475569;
+  --dx-border-base-color: #64748b;
+  --dx-border-base-light-color: #828fa2;
+  --dx-border-base-darker-color: #414b5a;
+  --dx-outline-base-color: #64748b;
+  --dx-outline-base-light-color: #828fa2;
+  --dx-outline-base-darker-color: #414b5a;
+  --dx-border-light-color: #828fa2;
+  --dx-border-light-light-color: #a8b4c6;
+  --dx-border-light-darker-color: #64748b;
+  --dx-outline-light-color: #828fa2;
+  --dx-outline-light-light-color: #a8b4c6;
+  --dx-outline-light-darker-color: #64748b;
+  --dx-border-dark-color: #0f172a;
+  --dx-border-dark-light-color: #1e293b;
+  --dx-border-dark-darker-color: #020617;
+  --dx-outline-dark-color: #0f172a;
+  --dx-outline-dark-light-color: #1e293b;
+  --dx-outline-dark-darker-color: #020617;
+  /* radius (Radzen scale: 4px base + 0.25rem rungs 0..10 + pill full;
+   * one block, identical in all three theme blocks) */
+  --dx-radius: 4px;
+  --dx-radius-0: 0;
+  --dx-radius-1: 0.25rem;
+  --dx-radius-2: 0.5rem;
+  --dx-radius-3: 0.75rem;
+  --dx-radius-4: 1rem;
+  --dx-radius-5: 1.25rem;
+  --dx-radius-6: 1.5rem;
+  --dx-radius-7: 1.75rem;
+  --dx-radius-8: 2rem;
+  --dx-radius-9: 2.25rem;
+  --dx-radius-10: 2.5rem;
+  --dx-radius-full: 9999px;
+  /* radius roles (Radzen derivation parity): components consume roles
+   * or the base — never raw rungs — so a theme retunes geometry by
+   * re-pointing a role. Entry controls sit two rungs up (8px), tiny
+   * controls one rung (4px), surfaces three (12px), emphasis pill. */
+  --dx-radius-input: var(--dx-radius-2);
+  --dx-radius-button: var(--dx-radius-full);
+  --dx-radius-checkbox: var(--dx-radius-1);
+  --dx-radius-surface: var(--dx-radius-3);
+  /* space */
+  --dx-space-0: 0px;
+  --dx-space-1: 4px;
+  --dx-space-2: 8px;
+  --dx-space-3: 12px;
+  --dx-space-4: 16px;
+  --dx-space-5: 20px;
+  --dx-space-6: 24px;
+  --dx-space-7: 28px;
+  --dx-space-8: 32px;
+  --dx-space-9: 36px;
+  --dx-space-10: 40px;
+  --dx-space-11: 44px;
+  --dx-space-12: 48px;
+  --dx-space-05: 2px;
+  /* font */
+  --dx-font-sans:
+    'Source Sans 3', system-ui, -apple-system, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+  /* Document defaults consumed by the opt-in styles/base.css (Radzen
+   * --rz-root-font-size / --rz-body-font-size / --rz-body-line-height parity).
+   * Theme-independent, so the dark blocks do not re-declare them. */
+  --dx-root-font-size: 100%;
+  --dx-body-font-size: 16px;
+  --dx-body-line-height: 1.5;
+  --dx-font-size-xs: 12px;
+  --dx-font-size-sm: 14px;
+  --dx-font-size-md: 16px;
+  --dx-font-size-lg: 18px;
+  --dx-font-size-xl: 22px;
+  --dx-font-display-1: clamp(2.5rem, 4vw + 1rem, 3rem);
+  --dx-font-display-2: clamp(2.25rem, 3.75vw + 0.9rem, 2.75rem);
+  --dx-font-display-3: clamp(2rem, 3.5vw + 0.8rem, 2.5rem);
+  --dx-font-display-4: clamp(1.75rem, 3vw + 0.7rem, 2.25rem);
+  --dx-font-display-5: clamp(1.5rem, 2.5vw + 0.625rem, 2rem);
+  --dx-font-display-6: clamp(1.125rem, 1.5vw + 0.75rem, 1.5rem);
+  --dx-font-weight-regular: 400;
+  --dx-font-weight-medium: 500;
+  --dx-font-weight-bold: 600;
+  /* icon font (single source for <Icon/>): ligature family + default
+   * glyph size. Projects swap the family per scope or on :root
+   * (see docs/THEMING.md) without touching the component. */
+  --dx-icon-font-family: 'Material Symbols Outlined';
+  --dx-icon-size: 24px;
+  /* leading (exact values in use; Text/Dialog/Alert/Table) */
+  --dx-leading-none: 1;
+  --dx-leading-tight: 1.25;
+  --dx-leading-snug: 1.3;
+  --dx-leading-normal: 1.35;
+  --dx-leading-relaxed: 1.4;
+  --dx-leading-text: 1.429;
+  --dx-leading-body: 1.5;
+  --dx-leading-loose: 1.6;
+  /* letterspacing */
+  --dx-letterspacing-display-1: -0.04em;
+  --dx-letterspacing-display-2: -0.035em;
+  --dx-letterspacing-display-3: -0.03em;
+  --dx-letterspacing-display-4: -0.02em;
+  --dx-letterspacing-display-5: -0.015em;
+  --dx-letterspacing-display-6: -0.01em;
+  --dx-letterspacing-overline: 0.08em;
+  --dx-letterspacing-button: 0.25px;
+  --dx-letterspacing-wide: 0.04em;
+  /* shadow */
+  --dx-shadow-sm: 0 1px 2px rgb(15 23 42 / 0.06);
+  --dx-shadow-md: 0 4px 12px rgb(15 23 42 / 0.1);
+  --dx-shadow-lg: 0 12px 32px rgb(15 23 42 / 0.18);
+  /* numbered elevation scale (Radzen material parity; identical in
+   * Radzen light/dark material themes, so theme-independent) */
+  --dx-shadow-0: none;
+  --dx-shadow-1:
+    0px 1px 1px rgb(0 0 0 / 0.14), 0px 2px 1px rgb(0 0 0 / 0.12),
+    0px 1px 3px rgb(0 0 0 / 0.14);
+  --dx-shadow-2:
+    0px 2px 2px rgb(0 0 0 / 0.14), 0px 3px 1px rgb(0 0 0 / 0.12),
+    0px 1px 5px rgb(0 0 0 / 0.14);
+  --dx-shadow-3:
+    0px 3px 4px rgb(0 0 0 / 0.14), 0px 3px 3px rgb(0 0 0 / 0.12),
+    0px 1px 8px rgb(0 0 0 / 0.14);
+  --dx-shadow-4:
+    0px 4px 5px rgb(0 0 0 / 0.14), 0px 1px 10px rgb(0 0 0 / 0.12),
+    0px 2px 4px rgb(0 0 0 / 0.14);
+  --dx-shadow-5:
+    0px 6px 10px rgb(0 0 0 / 0.14), 0px 1px 18px rgb(0 0 0 / 0.12),
+    0px 3px 5px rgb(0 0 0 / 0.14);
+  --dx-shadow-6:
+    0px 8px 10px rgb(0 0 0 / 0.14), 0px 3px 14px rgb(0 0 0 / 0.12),
+    0px 5px 5px rgb(0 0 0 / 0.14);
+  --dx-shadow-7:
+    0px 9px 12px rgb(0 0 0 / 0.14), 0px 3px 16px rgb(0 0 0 / 0.12),
+    0px 5px 6px rgb(0 0 0 / 0.14);
+  --dx-shadow-8:
+    0px 12px 17px rgb(0 0 0 / 0.14), 0px 5px 22px rgb(0 0 0 / 0.12),
+    0px 7px 8px rgb(0 0 0 / 0.14);
+  --dx-shadow-9:
+    0px 16px 24px rgb(0 0 0 / 0.14), 0px 6px 30px rgb(0 0 0 / 0.12),
+    0px 8px 10px rgb(0 0 0 / 0.14);
+  --dx-shadow-10:
+    0px 24px 38px rgb(0 0 0 / 0.14), 0px 9px 46px rgb(0 0 0 / 0.12),
+    0px 11px 15px rgb(0 0 0 / 0.14);
+  /* ripple press duration (Radzen --rz-ripple-duration parity) */
+  --dx-ripple-duration: 0.8s;
+  /* geometry + interaction constants (theme-independent) */
+  --dx-border-width: 1px;
+  --dx-border-width-strong: 2px;
+  --dx-outlined-border-width: 1px;
+  --dx-focus-ring-width: 2px;
+  --dx-focus-ring-offset: 2px;
+  --dx-disabled-opacity: 0.55;
+  /* border shorthand composites (Radzen --rz-border-{color} parity):
+   * components write `border: var(--dx-border)` and never a numeric width */
+  --dx-border: var(--dx-border-width) solid var(--dx-border-color);
+  --dx-border-strong: var(--dx-border-width) solid var(--dx-border-strong-color);
+  /* links (Radzen --rz-link-* parity; alias primary roles) */
+  --dx-link-color: var(--dx-primary-color);
+  --dx-link-hover-color: var(--dx-primary-hover-color);
+  /* transition */
+  --dx-transition-fast: 120ms ease;
+  --dx-transition-base: 200ms ease;
+  --dx-transition-slow: 300ms ease;
+  /* motion */
+  --dx-motion-shimmer: 1.6s;
+  --dx-motion-sweep: 1.4s;
+  /* ease */
+  --dx-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  /* z */
+  --dx-z-tooltip: 1000;
+  --dx-z-popover: 1500;
+  --dx-z-modal: 2000;
+  --dx-z-toast: 3000;
+  /* layout chrome sits above body content but below all overlays */
+  --dx-z-sticky: 100;
+  --dx-layout-sidebar-width: 240px;
+  /* overlay drawer stack: scrim < drawer < toggle, all below overlays */
+  --dx-z-drawer-scrim: 150;
+  --dx-z-drawer: 200;
+  --dx-z-drawer-toggle: 250;
+  /* control */
+  --dx-control-height: 36px;
+  --dx-control-height-xs: 20px;
+  --dx-control-height-sm: 28px;
+  --dx-control-height-md: 36px;
+  --dx-control-height-lg: 44px;
+  --dx-control-height-xl: 52px;
+  /* floating field boxes: raw control height + label zone (cf. Radzen
+   * filled fields at +12-14px over raw inputs). Inner inputs surrender
+   * their fixed heights inside floating fields; the box grows instead.
+   * Padding is asymmetric: top reserves the floated-label zone. */
+  --dx-field-height-xs: 34px;
+  --dx-field-height-sm: 42px;
+  --dx-field-height-md: 50px;
+  --dx-field-height-lg: 58px;
+  --dx-field-height-xl: 66px;
+  --dx-field-padding-xs: 12px 12px 4px;
+  --dx-field-padding-sm: 16px 12px 4px;
+  --dx-field-padding-md: 20px 12px 6px;
+  --dx-field-padding-lg: 24px 12px 8px;
+  --dx-field-padding-xl: 28px 12px 8px;
+
+  /* container roles (M3 system; defaults follow the console palette) */
+  --dx-primary-container-color: #d8e3f9;
+  --dx-on-primary-container-color: #001233;
+  --dx-secondary-container-color: #cfe9da;
+  --dx-on-secondary-container-color: #062017;
+  --dx-tertiary-color: #3d6373;
+  --dx-on-tertiary-color: #ffffff;
+  --dx-tertiary-container-color: #c1e8fb;
+  --dx-on-tertiary-container-color: #001f29;
+  --dx-error-container-color: #ffdad6;
+  --dx-on-error-container-color: #410002;
+  --dx-warn-container-color: #ffdf9e;
+  --dx-on-warn-container-color: #261900;
+  --dx-success-container-color: #78f2c2;
+  --dx-on-success-container-color: #002117;
+  --dx-info-container-color: #c1e8fb;
+  --dx-on-info-container-color: #001f29;
+  /* Shade ramps — 5-step Radzen-Shade scale per chromatic hue. Derived
+   * with color-mix in sRGB from each base (lighter 45% white, light 30%
+   * white, dark 15% black, darker 30% black), so re-seeded or
+   * mode-tuned bases keep matching ramps automatically — derived, never
+   * hardcoded. M3 approximations, AA-unverified like the rest of this
+   * file. Border/outline lighter+dark complete those families. */
+  --dx-primary-lighter-color: color-mix(
+    in srgb,
+    var(--dx-primary-color) 55%,
+    white
+  );
+  --dx-primary-light-color: color-mix(
+    in srgb,
+    var(--dx-primary-color) 70%,
+    white
+  );
+  --dx-primary-dark-color: color-mix(
+    in srgb,
+    var(--dx-primary-color) 85%,
+    black
+  );
+  --dx-primary-darker-color: color-mix(
+    in srgb,
+    var(--dx-primary-color) 70%,
+    black
+  );
+  --dx-secondary-lighter-color: color-mix(
+    in srgb,
+    var(--dx-secondary-color) 55%,
+    white
+  );
+  --dx-secondary-light-color: color-mix(
+    in srgb,
+    var(--dx-secondary-color) 70%,
+    white
+  );
+  --dx-secondary-dark-color: color-mix(
+    in srgb,
+    var(--dx-secondary-color) 85%,
+    black
+  );
+  --dx-secondary-darker-color: color-mix(
+    in srgb,
+    var(--dx-secondary-color) 70%,
+    black
+  );
+  --dx-info-lighter-color: color-mix(in srgb, var(--dx-info-color) 55%, white);
+  --dx-info-light-color: color-mix(in srgb, var(--dx-info-color) 70%, white);
+  --dx-info-dark-color: color-mix(in srgb, var(--dx-info-color) 85%, black);
+  --dx-info-darker-color: color-mix(in srgb, var(--dx-info-color) 70%, black);
+  --dx-success-lighter-color: color-mix(
+    in srgb,
+    var(--dx-success-color) 55%,
+    white
+  );
+  --dx-success-light-color: color-mix(
+    in srgb,
+    var(--dx-success-color) 70%,
+    white
+  );
+  --dx-success-dark-color: color-mix(
+    in srgb,
+    var(--dx-success-color) 85%,
+    black
+  );
+  --dx-success-darker-color: color-mix(
+    in srgb,
+    var(--dx-success-color) 70%,
+    black
+  );
+  --dx-warning-lighter-color: color-mix(
+    in srgb,
+    var(--dx-warning-color) 55%,
+    white
+  );
+  --dx-warning-light-color: color-mix(
+    in srgb,
+    var(--dx-warning-color) 70%,
+    white
+  );
+  --dx-warning-dark-color: color-mix(
+    in srgb,
+    var(--dx-warning-color) 85%,
+    black
+  );
+  --dx-warning-darker-color: color-mix(
+    in srgb,
+    var(--dx-warning-color) 70%,
+    black
+  );
+  --dx-danger-lighter-color: color-mix(
+    in srgb,
+    var(--dx-danger-color) 55%,
+    white
+  );
+  --dx-danger-light-color: color-mix(
+    in srgb,
+    var(--dx-danger-color) 70%,
+    white
+  );
+  --dx-danger-dark-color: color-mix(in srgb, var(--dx-danger-color) 85%, black);
+  --dx-danger-darker-color: color-mix(
+    in srgb,
+    var(--dx-danger-color) 70%,
+    black
+  );
+  --dx-light-lighter-color: #f7fafc;
+  --dx-light-light-color: #f5f8fb;
+  --dx-light-dark-color: #cdd0d4;
+  --dx-light-darker-color: #a9acae;
+  --dx-base-lighter-color: #aab3bf;
+  --dx-base-light-color: #929eae;
+  --dx-base-dark-color: #556376;
+  --dx-base-darker-color: #465161;
+  --dx-dark-lighter-color: #7b7f8a;
+  --dx-dark-light-color: #575d6a;
+  --dx-dark-dark-color: #0d1424;
+  --dx-dark-darker-color: #0a101d;
+  /* Step foregrounds — var() aliases (drift-proof): pale steps take the
+   * hue's darker ink, dark steps take light ink; near-white/-black hues
+   * use the opposite body token. Consumed as --on-* per hue (see below). */
+  --dx-on-primary-lighter-color: color-mix(in srgb, var(--dx-primary-color) 45%, black);
+  --dx-on-primary-light-color: color-mix(in srgb, var(--dx-primary-color) 45%, black);
+  --dx-on-primary-dark-color: var(--dx-on-primary-color);
+  --dx-on-primary-darker-color: var(--dx-on-primary-color);
+  --dx-on-secondary-lighter-color: color-mix(in srgb, var(--dx-secondary-color) 45%, black);
+  --dx-on-secondary-light-color: color-mix(in srgb, var(--dx-secondary-color) 45%, black);
+  --dx-on-secondary-dark-color: var(--dx-on-secondary-color);
+  --dx-on-secondary-darker-color: var(--dx-on-secondary-color);
+  --dx-on-info-lighter-color: color-mix(in srgb, var(--dx-info-color) 45%, black);
+  --dx-on-info-light-color: color-mix(in srgb, var(--dx-info-color) 45%, black);
+  --dx-on-info-dark-color: var(--dx-on-info-color);
+  --dx-on-info-darker-color: var(--dx-on-info-color);
+  --dx-on-success-lighter-color: color-mix(in srgb, var(--dx-success-color) 45%, black);
+  --dx-on-success-light-color: color-mix(in srgb, var(--dx-success-color) 45%, black);
+  --dx-on-success-dark-color: var(--dx-on-success-color);
+  --dx-on-success-darker-color: var(--dx-on-success-color);
+  --dx-on-warning-lighter-color: color-mix(in srgb, var(--dx-warning-color) 45%, black);
+  --dx-on-warning-light-color: color-mix(in srgb, var(--dx-warning-color) 45%, black);
+  --dx-on-warning-dark-color: var(--dx-on-warning-color);
+  --dx-on-warning-darker-color: var(--dx-on-warning-color);
+  --dx-on-danger-lighter-color: color-mix(in srgb, var(--dx-danger-color) 45%, black);
+  --dx-on-danger-light-color: color-mix(in srgb, var(--dx-danger-color) 45%, black);
+  --dx-on-danger-dark-color: var(--dx-on-danger-color);
+  --dx-on-danger-darker-color: var(--dx-on-danger-color);
+  --dx-on-light-lighter-color: var(--dx-dark-color);
+  --dx-on-light-light-color: var(--dx-dark-color);
+  --dx-on-light-dark-color: var(--dx-dark-color);
+  --dx-on-light-darker-color: var(--dx-dark-color);
+  --dx-on-base-lighter-color: color-mix(in srgb, var(--dx-base-color) 45%, black);
+  --dx-on-base-light-color: color-mix(in srgb, var(--dx-base-color) 45%, black);
+  --dx-on-base-dark-color: var(--dx-on-base-color);
+  --dx-on-base-darker-color: var(--dx-on-base-color);
+  --dx-on-dark-lighter-color: var(--dx-light-color);
+  --dx-on-dark-light-color: var(--dx-light-color);
+  --dx-on-dark-dark-color: var(--dx-light-color);
+  --dx-on-dark-darker-color: var(--dx-light-color);
+  --dx-border-primary-lighter-color: #87a9f4;
+  --dx-border-primary-dark-color: #1f54c8;
+  --dx-outline-primary-lighter-color: #87a9f4;
+  --dx-outline-primary-dark-color: #1f54c8;
+  --dx-border-secondary-lighter-color: #aab3bf;
+  --dx-border-secondary-dark-color: #556376;
+  --dx-outline-secondary-lighter-color: #aab3bf;
+  --dx-outline-secondary-dark-color: #556376;
+  --dx-border-info-lighter-color: #79b7d3;
+  --dx-border-info-dark-color: #096995;
+  --dx-outline-info-lighter-color: #79b7d3;
+  --dx-outline-info-dark-color: #096995;
+  --dx-border-success-lighter-color: #7dbb94;
+  --dx-border-success-dark-color: #0f7033;
+  --dx-outline-success-lighter-color: #7dbb94;
+  --dx-outline-success-dark-color: #0f7033;
+  --dx-border-warning-lighter-color: #d4a875;
+  --dx-border-warning-dark-color: #965204;
+  --dx-outline-warning-lighter-color: #d4a875;
+  --dx-outline-warning-dark-color: #965204;
+  --dx-border-danger-lighter-color: #ec8888;
+  --dx-border-danger-dark-color: #bb2020;
+  --dx-outline-danger-lighter-color: #ec8888;
+  --dx-outline-danger-dark-color: #bb2020;
+  /* surface scale extras */
+  --dx-surface-dim-color: #d9dbd5;
+  --dx-surface-bright-color: #f6faf7;
+  --dx-surface-lowest-color: #ffffff;
+  --dx-surface-low-color: #eff4ee;
+  --dx-surface-container-lowest-color: #ffffff;
+  --dx-surface-container-low-color: #f4f7f4;
+  --dx-surface-container-color: #eaefea;
+  --dx-surface-container-high-color: #e4e9e3;
+  --dx-surface-container-highest-color: #dee4dd;
+  /* inverse roles */
+  --dx-inverse-surface-color: #2e312d;
+  --dx-inverse-on-surface-color: #eff2ec;
+  --dx-inverse-primary-color: #78f2c2;
+  /* brand accent (shared console/web gold) */
+  --dx-accent-color: #d9a521;
+  /* motion + elevation + touch target (theme-independent) */
+  --dx-motion-fast: 150ms;
+  --dx-motion-med: 240ms;
+  --dx-motion-slow: 420ms;
+  --dx-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --dx-elev-1: 0 1px 2px rgb(12 32 24 / 0.08), 0 4px 14px rgb(12 32 24 / 0.08);
+  --dx-elev-2: 0 2px 6px rgb(12 32 24 / 0.1), 0 14px 34px rgb(12 32 24 / 0.14);
+  --dx-target-min: 40px;
+}
+
+/* Explicit theme wins outright — INTENTIONAL specificity (0,2,0).
+ * A bare [data-theme="dark"] tied with consumer :root rules and lost
+ * whenever the consumer stylesheet loaded later, so an explicit theme
+ * silently failed to apply (verified live). Consequences for consumers:
+ * to override a dark token, match or beat this specificity, e.g.
+ * `:root[data-theme="dark"] { --dx-surface-color: ...; }` placed after
+ * this import, or set the token on a closer scope (component / subtree).
+ * Plain `:root` overrides keep working for light mode only. */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  /* color */
+  --dx-background-color: #0f172a;
+  --dx-surface-color: #1e293b;
+  --dx-surface-hover-color: #334155;
+  --dx-border-color: #334155;
+  --dx-border-strong-color: #627591;
+  --dx-text-color: #f1f5f9;
+  --dx-text-muted-color: #cbd5e1;
+  --dx-primary-color: #2563eb;
+  --dx-primary-hover-color: #1d4ed8;
+  /* links derive from primary in dark: stock #2563eb on #1e293b is
+   * only 2.83:1 (axe color-contrast), so mix toward white for a
+   * readable tint — derived, never hardcoded, so re-seeded primaries
+   * (mint, teal, …) keep matching links automatically. Stock ramp
+   * resolves ≈#acc4f7 (8+:1 on surface); buttons keep white-on-blue. */
+  --dx-link-color: color-mix(in srgb, var(--dx-primary-color) 38%, white);
+  --dx-link-hover-color: color-mix(in srgb, var(--dx-primary-color) 22%, white);
+  --dx-on-primary-color: #ffffff;
+  --dx-danger-color: #dc2626;
+  --dx-danger-hover-color: #b91c1c;
+  --dx-on-danger-color: #ffffff;
+  --dx-success-color: #17a84c;
+  --dx-success-hover-color: #25ad57;
+  --dx-on-success-color: #000000;
+  --dx-warning-color: #d97706;
+  --dx-warning-hover-color: #b45309;
+  --dx-on-warning-color: #000000;
+  --dx-focus-color: rgb(59 130 246 / 0.4);
+  --dx-backdrop-color: rgb(0 0 0 / 0.6);
+  --dx-soft-color: #606f85;
+  --dx-soft-hover-color: #56677f;
+  --dx-on-soft-color: #ffffff;
+  --dx-text-primary-color: #7098f2;
+  --dx-text-success-color: #19b552;
+  --dx-text-warning-color: #ed8207;
+  --dx-text-danger-color: #e87171;
+  --dx-palette-0-color: #628ef1;
+  --dx-palette-1-color: #a87bf3;
+  --dx-palette-2-color: #05a573;
+  --dx-palette-3-color: #d97706;
+  --dx-palette-4-color: #e76868;
+  --dx-palette-5-color: #0ea5e9;
+  --dx-info-color: #0b7caf;
+  --dx-info-hover-color: #086193;
+  --dx-on-info-color: #ffffff;
+  --dx-text-info-color: #0fa5e9;
+  --dx-secondary-color: #606f85;
+  --dx-secondary-hover-color: #606f85;
+  --dx-on-secondary-color: #f1f5f9;
+  /* Nav active state in dark: the light tint mixes raw --dx-primary-color,
+   * which is held at #2563eb across themes (see the link-contrast note above),
+   * so re-derive it from the lightened text primary to keep the selected row
+   * legible on --dx-surface-color #1e293b. */
+  --dx-navigation-item-active-background-color: color-mix(
+    in srgb,
+    var(--dx-text-primary-color) 18%,
+    transparent
+  );
+  --dx-navigation-item-active-indicator-color: var(--dx-text-primary-color);
+  --dx-border-primary-color: #336dec;
+  --dx-border-primary-light-color: #3e70de;
+  --dx-border-primary-darker-color: #3c6fe0;
+  --dx-outline-primary-color: #336dec;
+  --dx-outline-primary-light-color: #3e70de;
+  --dx-outline-primary-darker-color: #3c6fe0;
+  --dx-border-secondary-color: #66768e;
+  --dx-border-secondary-light-color: #657794;
+  --dx-border-secondary-darker-color: #65758c;
+  --dx-outline-secondary-color: #66768e;
+  --dx-outline-secondary-light-color: #657794;
+  --dx-outline-secondary-darker-color: #65758c;
+  --dx-border-info-color: #0b7caf;
+  --dx-border-info-light-color: #107bb1;
+  --dx-border-info-darker-color: #0b7db0;
+  --dx-outline-info-color: #0b7caf;
+  --dx-outline-info-light-color: #107bb1;
+  --dx-outline-info-darker-color: #0b7db0;
+  --dx-border-success-color: #17a84c;
+  --dx-border-success-light-color: #168546;
+  --dx-border-success-darker-color: #13883e;
+  --dx-outline-success-color: #17a84c;
+  --dx-outline-success-light-color: #168546;
+  --dx-outline-success-darker-color: #13883e;
+  --dx-border-warning-color: #d97706;
+  --dx-border-warning-light-color: #aa6212;
+  --dx-border-warning-darker-color: #b06005;
+  --dx-outline-warning-color: #d97706;
+  --dx-outline-warning-light-color: #aa6212;
+  --dx-outline-warning-darker-color: #b06005;
+  --dx-border-danger-color: #dd2f2f;
+  --dx-border-danger-light-color: #d5383f;
+  --dx-border-danger-darker-color: #dc3232;
+  --dx-outline-danger-color: #dd2f2f;
+  --dx-outline-danger-light-color: #d5383f;
+  --dx-outline-danger-darker-color: #dc3232;
+  --dx-neutral-color: #606f85;
+  --dx-neutral-hover-color: #56677f;
+  --dx-on-neutral-color: #f1f5f9;
+  --dx-base-color: #606f85;
+  --dx-base-hover-color: #56677f;
+  --dx-on-base-color: #f1f5f9;
+  --dx-light-color: #e2e8f0;
+  --dx-light-hover-color: #cbd5e1;
+  --dx-on-light-color: #0f172a;
+  --dx-dark-color: #1e293b;
+  --dx-dark-hover-color: #0f172a;
+  --dx-on-dark-color: #f1f5f9;
+  --dx-text-neutral-color: #cbd5e1;
+  --dx-text-light-color: #cbd5e1;
+  --dx-text-dark-color: #f1f5f9;
+  --dx-border-neutral-color: #66768e;
+  --dx-border-neutral-light-color: #7a8ba3;
+  --dx-border-neutral-darker-color: #55647a;
+  --dx-outline-neutral-color: #66768e;
+  --dx-outline-neutral-light-color: #7a8ba3;
+  --dx-outline-neutral-darker-color: #55647a;
+  --dx-text-base-color: #cbd5e1;
+  --dx-border-base-color: #66768e;
+  --dx-border-base-light-color: #7a8ba3;
+  --dx-border-base-darker-color: #55647a;
+  --dx-outline-base-color: #66768e;
+  --dx-outline-base-light-color: #7a8ba3;
+  --dx-outline-base-darker-color: #55647a;
+  --dx-border-light-color: #7a8ba3;
+  --dx-border-light-light-color: #8fa0b8;
+  --dx-border-light-darker-color: #66768e;
+  --dx-outline-light-color: #7a8ba3;
+  --dx-outline-light-light-color: #8fa0b8;
+  --dx-outline-light-darker-color: #66768e;
+  --dx-border-dark-color: #55647a;
+  --dx-border-dark-light-color: #7a8ba3;
+  --dx-border-dark-darker-color: #3f4b5e;
+  --dx-outline-dark-color: #55647a;
+  --dx-outline-dark-light-color: #7a8ba3;
+  --dx-outline-dark-darker-color: #3f4b5e;
+  /* shadow */
+  --dx-shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
+  --dx-shadow-md: 0 4px 12px rgb(0 0 0 / 0.5);
+  --dx-shadow-lg: 0 12px 32px rgb(0 0 0 / 0.6);
+
+  --dx-primary-container-color: #133276;
+  --dx-on-primary-container-color: #d8e3f9;
+  --dx-secondary-container-color: #354b41;
+  --dx-on-secondary-container-color: #cfe9da;
+  --dx-tertiary-color: #a4cde3;
+  --dx-on-tertiary-color: #073844;
+  --dx-tertiary-container-color: #254c5a;
+  --dx-on-tertiary-container-color: #c1e8fb;
+  --dx-error-container-color: #93000a;
+  --dx-on-error-container-color: #ffdad6;
+  --dx-warn-container-color: #5c4300;
+  --dx-on-warn-container-color: #ffdf9e;
+  --dx-success-container-color: #00513d;
+  --dx-on-success-container-color: #78f2c2;
+  --dx-info-container-color: #254c5a;
+  --dx-on-info-container-color: #c1e8fb;
+  /* Shade ramps — 5-step Radzen-Shade scale per chromatic hue. Derived
+   * with color-mix in sRGB from each base (lighter 45% white, light 30%
+   * white, dark 15% black, darker 30% black), so re-seeded or
+   * mode-tuned bases keep matching ramps automatically — derived, never
+   * hardcoded. M3 approximations, AA-unverified like the rest of this
+   * file. Border/outline lighter+dark complete those families. */
+  --dx-primary-lighter-color: color-mix(
+    in srgb,
+    var(--dx-primary-color) 55%,
+    white
+  );
+  --dx-primary-light-color: color-mix(
+    in srgb,
+    var(--dx-primary-color) 70%,
+    white
+  );
+  --dx-primary-dark-color: color-mix(
+    in srgb,
+    var(--dx-primary-color) 85%,
+    black
+  );
+  --dx-primary-darker-color: color-mix(
+    in srgb,
+    var(--dx-primary-color) 70%,
+    black
+  );
+  --dx-secondary-lighter-color: color-mix(
+    in srgb,
+    var(--dx-secondary-color) 55%,
+    white
+  );
+  --dx-secondary-light-color: color-mix(
+    in srgb,
+    var(--dx-secondary-color) 70%,
+    white
+  );
+  --dx-secondary-dark-color: color-mix(
+    in srgb,
+    var(--dx-secondary-color) 85%,
+    black
+  );
+  --dx-secondary-darker-color: color-mix(
+    in srgb,
+    var(--dx-secondary-color) 70%,
+    black
+  );
+  --dx-info-lighter-color: color-mix(in srgb, var(--dx-info-color) 55%, white);
+  --dx-info-light-color: color-mix(in srgb, var(--dx-info-color) 70%, white);
+  --dx-info-dark-color: color-mix(in srgb, var(--dx-info-color) 85%, black);
+  --dx-info-darker-color: color-mix(in srgb, var(--dx-info-color) 70%, black);
+  --dx-success-lighter-color: color-mix(
+    in srgb,
+    var(--dx-success-color) 55%,
+    white
+  );
+  --dx-success-light-color: color-mix(
+    in srgb,
+    var(--dx-success-color) 70%,
+    white
+  );
+  --dx-success-dark-color: color-mix(
+    in srgb,
+    var(--dx-success-color) 85%,
+    black
+  );
+  --dx-success-darker-color: color-mix(
+    in srgb,
+    var(--dx-success-color) 70%,
+    black
+  );
+  --dx-warning-lighter-color: color-mix(
+    in srgb,
+    var(--dx-warning-color) 55%,
+    white
+  );
+  --dx-warning-light-color: color-mix(
+    in srgb,
+    var(--dx-warning-color) 70%,
+    white
+  );
+  --dx-warning-dark-color: color-mix(
+    in srgb,
+    var(--dx-warning-color) 85%,
+    black
+  );
+  --dx-warning-darker-color: color-mix(
+    in srgb,
+    var(--dx-warning-color) 70%,
+    black
+  );
+  --dx-danger-lighter-color: color-mix(
+    in srgb,
+    var(--dx-danger-color) 55%,
+    white
+  );
+  --dx-danger-light-color: color-mix(
+    in srgb,
+    var(--dx-danger-color) 70%,
+    white
+  );
+  --dx-danger-dark-color: color-mix(in srgb, var(--dx-danger-color) 85%, black);
+  --dx-danger-darker-color: color-mix(
+    in srgb,
+    var(--dx-danger-color) 70%,
+    black
+  );
+  --dx-light-lighter-color: #eff2f7;
+  --dx-light-light-color: #ebeff4;
+  --dx-light-dark-color: #c0c5cc;
+  --dx-light-darker-color: #9ea2a8;
+  --dx-base-lighter-color: #a8b0bc;
+  --dx-base-light-color: #909aaa;
+  --dx-base-dark-color: #525e71;
+  --dx-base-darker-color: #434e5d;
+  --dx-dark-lighter-color: #838993;
+  --dx-dark-light-color: #626976;
+  --dx-dark-dark-color: #1a2332;
+  --dx-dark-darker-color: #151d29;
+  /* Step foregrounds — var() aliases (drift-proof): pale steps take the
+   * hue's darker ink, dark steps take light ink; near-white/-black hues
+   * use the opposite body token. Consumed as --on-* per hue (see below). */
+  --dx-on-primary-lighter-color: color-mix(in srgb, var(--dx-primary-color) 45%, black);
+  --dx-on-primary-light-color: color-mix(in srgb, var(--dx-primary-color) 45%, black);
+  --dx-on-primary-dark-color: var(--dx-on-primary-color);
+  --dx-on-primary-darker-color: var(--dx-on-primary-color);
+  --dx-on-secondary-lighter-color: color-mix(in srgb, var(--dx-secondary-color) 45%, black);
+  --dx-on-secondary-light-color: color-mix(in srgb, var(--dx-secondary-color) 45%, black);
+  --dx-on-secondary-dark-color: var(--dx-on-secondary-color);
+  --dx-on-secondary-darker-color: var(--dx-on-secondary-color);
+  --dx-on-info-lighter-color: color-mix(in srgb, var(--dx-info-color) 45%, black);
+  --dx-on-info-light-color: color-mix(in srgb, var(--dx-info-color) 45%, black);
+  --dx-on-info-dark-color: var(--dx-on-info-color);
+  --dx-on-info-darker-color: var(--dx-on-info-color);
+  --dx-on-success-lighter-color: color-mix(in srgb, var(--dx-success-color) 45%, black);
+  --dx-on-success-light-color: color-mix(in srgb, var(--dx-success-color) 45%, black);
+  --dx-on-success-dark-color: var(--dx-on-success-color);
+  --dx-on-success-darker-color: var(--dx-on-success-color);
+  --dx-on-warning-lighter-color: color-mix(in srgb, var(--dx-warning-color) 45%, black);
+  --dx-on-warning-light-color: color-mix(in srgb, var(--dx-warning-color) 45%, black);
+  --dx-on-warning-dark-color: var(--dx-on-warning-color);
+  --dx-on-warning-darker-color: var(--dx-on-warning-color);
+  --dx-on-danger-lighter-color: color-mix(in srgb, var(--dx-danger-color) 45%, black);
+  --dx-on-danger-light-color: color-mix(in srgb, var(--dx-danger-color) 45%, black);
+  --dx-on-danger-dark-color: var(--dx-on-danger-color);
+  --dx-on-danger-darker-color: var(--dx-on-danger-color);
+  --dx-on-light-lighter-color: var(--dx-dark-color);
+  --dx-on-light-light-color: var(--dx-dark-color);
+  --dx-on-light-dark-color: var(--dx-dark-color);
+  --dx-on-light-darker-color: var(--dx-dark-color);
+  --dx-on-base-lighter-color: color-mix(in srgb, var(--dx-base-color) 45%, black);
+  --dx-on-base-light-color: color-mix(in srgb, var(--dx-base-color) 45%, black);
+  --dx-on-base-dark-color: var(--dx-on-base-color);
+  --dx-on-base-darker-color: var(--dx-on-base-color);
+  --dx-on-dark-lighter-color: var(--dx-light-color);
+  --dx-on-dark-light-color: var(--dx-light-color);
+  --dx-on-dark-dark-color: var(--dx-light-color);
+  --dx-on-dark-darker-color: var(--dx-light-color);
+  --dx-border-primary-lighter-color: #8faff5;
+  --dx-border-primary-dark-color: #2b5dc9;
+  --dx-outline-primary-lighter-color: #8faff5;
+  --dx-outline-primary-dark-color: #2b5dc9;
+  --dx-border-secondary-lighter-color: #abb4c1;
+  --dx-border-secondary-dark-color: #576479;
+  --dx-outline-secondary-lighter-color: #abb4c1;
+  --dx-outline-secondary-dark-color: #576479;
+  --dx-border-info-lighter-color: #79b7d3;
+  --dx-border-info-dark-color: #096995;
+  --dx-outline-info-lighter-color: #79b7d3;
+  --dx-outline-info-dark-color: #096995;
+  --dx-border-success-lighter-color: #7fcf9d;
+  --dx-border-success-dark-color: #148f41;
+  --dx-outline-success-lighter-color: #7fcf9d;
+  --dx-outline-success-dark-color: #148f41;
+  --dx-border-warning-lighter-color: #eab476;
+  --dx-border-warning-dark-color: #b86505;
+  --dx-outline-warning-lighter-color: #eab476;
+  --dx-outline-warning-dark-color: #b86505;
+  --dx-border-danger-lighter-color: #ec8d8d;
+  --dx-border-danger-dark-color: #bc2828;
+  --dx-outline-danger-lighter-color: #ec8d8d;
+  --dx-outline-danger-dark-color: #bc2828;
+  --dx-surface-dim-color: #101413;
+  --dx-surface-bright-color: #363a37;
+  --dx-surface-lowest-color: #0b0e0d;
+  --dx-surface-low-color: #181d1b;
+  --dx-surface-container-lowest-color: #0b0e0d;
+  --dx-surface-container-low-color: #1e2421;
+  --dx-surface-container-color: #1c211f;
+  --dx-surface-container-high-color: #272b28;
+  --dx-surface-container-highest-color: #323633;
+  --dx-inverse-surface-color: #dfe4dd;
+  --dx-inverse-on-surface-color: #2e312d;
+  --dx-inverse-primary-color: #006b54;
+  --dx-accent-color: #e7bd4d;
+  /* radius scale (identical to :root — see comment there) */
+  --dx-radius: 4px;
+  --dx-radius-0: 0;
+  --dx-radius-1: 0.25rem;
+  --dx-radius-2: 0.5rem;
+  --dx-radius-3: 0.75rem;
+  --dx-radius-4: 1rem;
+  --dx-radius-5: 1.25rem;
+  --dx-radius-6: 1.5rem;
+  --dx-radius-7: 1.75rem;
+  --dx-radius-8: 2rem;
+  --dx-radius-9: 2.25rem;
+  --dx-radius-10: 2.5rem;
+  --dx-radius-full: 9999px;
+}
+
+/* OS-dark fallback for apps without an explicit data-theme
+ * (e.g. media-query-only hosts). Generated from the
+ * :root[data-theme="dark"] block above — re-generate, don't hand-edit,
+ * to keep them identical.
+ * :where() keeps specificity at (0,1,0) so app :root rules (later in
+ * import order) always win ties; this block only fills roles the app
+ * doesn't define. Explicit data-theme still wins outright (:not fails). */
+@media (prefers-color-scheme: dark) {
+  :where(:root):not([data-theme]) {
+    color-scheme: dark;
+    /* color */
+    --dx-background-color: #0f172a;
+    --dx-surface-color: #1e293b;
+    --dx-surface-hover-color: #334155;
+    --dx-border-color: #334155;
+    --dx-border-strong-color: #627591;
+    --dx-text-color: #f1f5f9;
+    --dx-text-muted-color: #cbd5e1;
+    --dx-primary-color: #2563eb;
+    --dx-primary-hover-color: #1d4ed8;
+    /* keep identical to the :root[data-theme="dark"] block above */
+    --dx-link-color: color-mix(in srgb, var(--dx-primary-color) 38%, white);
+    --dx-link-hover-color: color-mix(
+      in srgb,
+      var(--dx-primary-color) 22%,
+      white
+    );
+    --dx-on-primary-color: #ffffff;
+    --dx-danger-color: #dc2626;
+    --dx-danger-hover-color: #b91c1c;
+    --dx-on-danger-color: #ffffff;
+    --dx-success-color: #17a84c;
+    --dx-success-hover-color: #25ad57;
+    --dx-on-success-color: #000000;
+    --dx-warning-color: #d97706;
+    --dx-warning-hover-color: #b45309;
+    --dx-on-warning-color: #000000;
+    --dx-focus-color: rgb(59 130 246 / 0.4);
+    --dx-backdrop-color: rgb(0 0 0 / 0.6);
+    --dx-soft-color: #606f85;
+    --dx-soft-hover-color: #56677f;
+    --dx-on-soft-color: #ffffff;
+    --dx-text-primary-color: #7098f2;
+    --dx-text-success-color: #19b552;
+    --dx-text-warning-color: #ed8207;
+    --dx-text-danger-color: #e87171;
+    --dx-palette-0-color: #628ef1;
+    --dx-palette-1-color: #a87bf3;
+    --dx-palette-2-color: #05a573;
+    --dx-palette-3-color: #d97706;
+    --dx-palette-4-color: #e76868;
+    --dx-palette-5-color: #0ea5e9;
+    --dx-info-color: #0b7caf;
+    --dx-info-hover-color: #086193;
+    --dx-on-info-color: #ffffff;
+    --dx-text-info-color: #0fa5e9;
+    --dx-secondary-color: #606f85;
+    --dx-secondary-hover-color: #606f85;
+    --dx-on-secondary-color: #f1f5f9;
+    /* keep identical to the :root[data-theme="dark"] block above */
+    --dx-navigation-item-active-background-color: color-mix(
+      in srgb,
+      var(--dx-text-primary-color) 18%,
+      transparent
+    );
+    --dx-navigation-item-active-indicator-color: var(--dx-text-primary-color);
+    --dx-border-primary-color: #336dec;
+    --dx-border-primary-light-color: #3e70de;
+    --dx-border-primary-darker-color: #3c6fe0;
+    --dx-outline-primary-color: #336dec;
+    --dx-outline-primary-light-color: #3e70de;
+    --dx-outline-primary-darker-color: #3c6fe0;
+    --dx-border-secondary-color: #66768e;
+    --dx-border-secondary-light-color: #657794;
+    --dx-border-secondary-darker-color: #65758c;
+    --dx-outline-secondary-color: #66768e;
+    --dx-outline-secondary-light-color: #657794;
+    --dx-outline-secondary-darker-color: #65758c;
+    --dx-border-info-color: #0b7caf;
+    --dx-border-info-light-color: #107bb1;
+    --dx-border-info-darker-color: #0b7db0;
+    --dx-outline-info-color: #0b7caf;
+    --dx-outline-info-light-color: #107bb1;
+    --dx-outline-info-darker-color: #0b7db0;
+    --dx-border-success-color: #17a84c;
+    --dx-border-success-light-color: #168546;
+    --dx-border-success-darker-color: #13883e;
+    --dx-outline-success-color: #17a84c;
+    --dx-outline-success-light-color: #168546;
+    --dx-outline-success-darker-color: #13883e;
+    --dx-border-warning-color: #d97706;
+    --dx-border-warning-light-color: #aa6212;
+    --dx-border-warning-darker-color: #b06005;
+    --dx-outline-warning-color: #d97706;
+    --dx-outline-warning-light-color: #aa6212;
+    --dx-outline-warning-darker-color: #b06005;
+    --dx-border-danger-color: #dd2f2f;
+    --dx-border-danger-light-color: #d5383f;
+    --dx-border-danger-darker-color: #dc3232;
+    --dx-outline-danger-color: #dd2f2f;
+    --dx-outline-danger-light-color: #d5383f;
+    --dx-outline-danger-darker-color: #dc3232;
+    --dx-neutral-color: #606f85;
+    --dx-neutral-hover-color: #56677f;
+    --dx-on-neutral-color: #f1f5f9;
+    --dx-base-color: #606f85;
+    --dx-base-hover-color: #56677f;
+    --dx-on-base-color: #f1f5f9;
+    --dx-light-color: #e2e8f0;
+    --dx-light-hover-color: #cbd5e1;
+    --dx-on-light-color: #0f172a;
+    --dx-dark-color: #1e293b;
+    --dx-dark-hover-color: #0f172a;
+    --dx-on-dark-color: #f1f5f9;
+    --dx-text-neutral-color: #cbd5e1;
+    --dx-text-light-color: #cbd5e1;
+    --dx-text-dark-color: #f1f5f9;
+    --dx-border-neutral-color: #66768e;
+    --dx-border-neutral-light-color: #7a8ba3;
+    --dx-border-neutral-darker-color: #55647a;
+    --dx-outline-neutral-color: #66768e;
+    --dx-outline-neutral-light-color: #7a8ba3;
+    --dx-outline-neutral-darker-color: #55647a;
+    --dx-text-base-color: #cbd5e1;
+    --dx-border-base-color: #66768e;
+    --dx-border-base-light-color: #7a8ba3;
+    --dx-border-base-darker-color: #55647a;
+    --dx-outline-base-color: #66768e;
+    --dx-outline-base-light-color: #7a8ba3;
+    --dx-outline-base-darker-color: #55647a;
+    --dx-border-light-color: #7a8ba3;
+    --dx-border-light-light-color: #8fa0b8;
+    --dx-border-light-darker-color: #66768e;
+    --dx-outline-light-color: #7a8ba3;
+    --dx-outline-light-light-color: #8fa0b8;
+    --dx-outline-light-darker-color: #66768e;
+    --dx-border-dark-color: #55647a;
+    --dx-border-dark-light-color: #7a8ba3;
+    --dx-border-dark-darker-color: #3f4b5e;
+    --dx-outline-dark-color: #55647a;
+    --dx-outline-dark-light-color: #7a8ba3;
+    --dx-outline-dark-darker-color: #3f4b5e;
+    /* shadow */
+    --dx-shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
+    --dx-shadow-md: 0 4px 12px rgb(0 0 0 / 0.5);
+    --dx-shadow-lg: 0 12px 32px rgb(0 0 0 / 0.6);
+
+    --dx-primary-container-color: #133276;
+    --dx-on-primary-container-color: #d8e3f9;
+    --dx-secondary-container-color: #354b41;
+    --dx-on-secondary-container-color: #cfe9da;
+    --dx-tertiary-color: #a4cde3;
+    --dx-on-tertiary-color: #073844;
+    --dx-tertiary-container-color: #254c5a;
+    --dx-on-tertiary-container-color: #c1e8fb;
+    --dx-error-container-color: #93000a;
+    --dx-on-error-container-color: #ffdad6;
+    --dx-warn-container-color: #5c4300;
+    --dx-on-warn-container-color: #ffdf9e;
+    --dx-success-container-color: #00513d;
+    --dx-on-success-container-color: #78f2c2;
+    --dx-info-container-color: #254c5a;
+    --dx-on-info-container-color: #c1e8fb;
+    /* Shade ramps — 5-step Radzen-Shade scale per chromatic hue. Derived
+   * with color-mix in sRGB from each base (lighter 45% white, light 30%
+   * white, dark 15% black, darker 30% black), so re-seeded or
+   * mode-tuned bases keep matching ramps automatically — derived, never
+   * hardcoded. M3 approximations, AA-unverified like the rest of this
+   * file. Border/outline lighter+dark complete those families. */
+    --dx-primary-lighter-color: color-mix(
+      in srgb,
+      var(--dx-primary-color) 55%,
+      white
+    );
+    --dx-primary-light-color: color-mix(
+      in srgb,
+      var(--dx-primary-color) 70%,
+      white
+    );
+    --dx-primary-dark-color: color-mix(
+      in srgb,
+      var(--dx-primary-color) 85%,
+      black
+    );
+    --dx-primary-darker-color: color-mix(
+      in srgb,
+      var(--dx-primary-color) 70%,
+      black
+    );
+    --dx-secondary-lighter-color: color-mix(
+      in srgb,
+      var(--dx-secondary-color) 55%,
+      white
+    );
+    --dx-secondary-light-color: color-mix(
+      in srgb,
+      var(--dx-secondary-color) 70%,
+      white
+    );
+    --dx-secondary-dark-color: color-mix(
+      in srgb,
+      var(--dx-secondary-color) 85%,
+      black
+    );
+    --dx-secondary-darker-color: color-mix(
+      in srgb,
+      var(--dx-secondary-color) 70%,
+      black
+    );
+    --dx-info-lighter-color: color-mix(
+      in srgb,
+      var(--dx-info-color) 55%,
+      white
+    );
+    --dx-info-light-color: color-mix(in srgb, var(--dx-info-color) 70%, white);
+    --dx-info-dark-color: color-mix(in srgb, var(--dx-info-color) 85%, black);
+    --dx-info-darker-color: color-mix(in srgb, var(--dx-info-color) 70%, black);
+    --dx-success-lighter-color: color-mix(
+      in srgb,
+      var(--dx-success-color) 55%,
+      white
+    );
+    --dx-success-light-color: color-mix(
+      in srgb,
+      var(--dx-success-color) 70%,
+      white
+    );
+    --dx-success-dark-color: color-mix(
+      in srgb,
+      var(--dx-success-color) 85%,
+      black
+    );
+    --dx-success-darker-color: color-mix(
+      in srgb,
+      var(--dx-success-color) 70%,
+      black
+    );
+    --dx-warning-lighter-color: color-mix(
+      in srgb,
+      var(--dx-warning-color) 55%,
+      white
+    );
+    --dx-warning-light-color: color-mix(
+      in srgb,
+      var(--dx-warning-color) 70%,
+      white
+    );
+    --dx-warning-dark-color: color-mix(
+      in srgb,
+      var(--dx-warning-color) 85%,
+      black
+    );
+    --dx-warning-darker-color: color-mix(
+      in srgb,
+      var(--dx-warning-color) 70%,
+      black
+    );
+    --dx-danger-lighter-color: color-mix(
+      in srgb,
+      var(--dx-danger-color) 55%,
+      white
+    );
+    --dx-danger-light-color: color-mix(
+      in srgb,
+      var(--dx-danger-color) 70%,
+      white
+    );
+    --dx-danger-dark-color: color-mix(
+      in srgb,
+      var(--dx-danger-color) 85%,
+      black
+    );
+    --dx-danger-darker-color: color-mix(
+      in srgb,
+      var(--dx-danger-color) 70%,
+      black
+    );
+    --dx-light-lighter-color: #eff2f7;
+    --dx-light-light-color: #ebeff4;
+    --dx-light-dark-color: #c0c5cc;
+    --dx-light-darker-color: #9ea2a8;
+    --dx-base-lighter-color: #a8b0bc;
+    --dx-base-light-color: #909aaa;
+    --dx-base-dark-color: #525e71;
+    --dx-base-darker-color: #434e5d;
+    --dx-dark-lighter-color: #838993;
+    --dx-dark-light-color: #626976;
+    --dx-dark-dark-color: #1a2332;
+    --dx-dark-darker-color: #151d29;
+    /* Step foregrounds — var() aliases (drift-proof): pale steps take the
+   * hue's darker ink, dark steps take light ink; near-white/-black hues
+   * use the opposite body token. Consumed as --on-* per hue (see below). */
+    --dx-on-primary-lighter-color: color-mix(in srgb, var(--dx-primary-color) 45%, black);
+    --dx-on-primary-light-color: color-mix(in srgb, var(--dx-primary-color) 45%, black);
+    --dx-on-primary-dark-color: var(--dx-on-primary-color);
+    --dx-on-primary-darker-color: var(--dx-on-primary-color);
+    --dx-on-secondary-lighter-color: color-mix(in srgb, var(--dx-secondary-color) 45%, black);
+    --dx-on-secondary-light-color: color-mix(in srgb, var(--dx-secondary-color) 45%, black);
+    --dx-on-secondary-dark-color: var(--dx-on-secondary-color);
+    --dx-on-secondary-darker-color: var(--dx-on-secondary-color);
+    --dx-on-info-lighter-color: color-mix(in srgb, var(--dx-info-color) 45%, black);
+    --dx-on-info-light-color: color-mix(in srgb, var(--dx-info-color) 45%, black);
+    --dx-on-info-dark-color: var(--dx-on-info-color);
+    --dx-on-info-darker-color: var(--dx-on-info-color);
+    --dx-on-success-lighter-color: color-mix(in srgb, var(--dx-success-color) 45%, black);
+    --dx-on-success-light-color: color-mix(in srgb, var(--dx-success-color) 45%, black);
+    --dx-on-success-dark-color: var(--dx-on-success-color);
+    --dx-on-success-darker-color: var(--dx-on-success-color);
+    --dx-on-warning-lighter-color: color-mix(in srgb, var(--dx-warning-color) 45%, black);
+    --dx-on-warning-light-color: color-mix(in srgb, var(--dx-warning-color) 45%, black);
+    --dx-on-warning-dark-color: var(--dx-on-warning-color);
+    --dx-on-warning-darker-color: var(--dx-on-warning-color);
+    --dx-on-danger-lighter-color: color-mix(in srgb, var(--dx-danger-color) 45%, black);
+    --dx-on-danger-light-color: color-mix(in srgb, var(--dx-danger-color) 45%, black);
+    --dx-on-danger-dark-color: var(--dx-on-danger-color);
+    --dx-on-danger-darker-color: var(--dx-on-danger-color);
+    --dx-on-light-lighter-color: var(--dx-dark-color);
+    --dx-on-light-light-color: var(--dx-dark-color);
+    --dx-on-light-dark-color: var(--dx-dark-color);
+    --dx-on-light-darker-color: var(--dx-dark-color);
+    --dx-on-base-lighter-color: color-mix(in srgb, var(--dx-base-color) 45%, black);
+    --dx-on-base-light-color: color-mix(in srgb, var(--dx-base-color) 45%, black);
+    --dx-on-base-dark-color: var(--dx-on-base-color);
+    --dx-on-base-darker-color: var(--dx-on-base-color);
+    --dx-on-dark-lighter-color: var(--dx-light-color);
+    --dx-on-dark-light-color: var(--dx-light-color);
+    --dx-on-dark-dark-color: var(--dx-light-color);
+    --dx-on-dark-darker-color: var(--dx-light-color);
+    --dx-border-primary-lighter-color: #8faff5;
+    --dx-border-primary-dark-color: #2b5dc9;
+    --dx-outline-primary-lighter-color: #8faff5;
+    --dx-outline-primary-dark-color: #2b5dc9;
+    --dx-border-secondary-lighter-color: #abb4c1;
+    --dx-border-secondary-dark-color: #576479;
+    --dx-outline-secondary-lighter-color: #abb4c1;
+    --dx-outline-secondary-dark-color: #576479;
+    --dx-border-info-lighter-color: #79b7d3;
+    --dx-border-info-dark-color: #096995;
+    --dx-outline-info-lighter-color: #79b7d3;
+    --dx-outline-info-dark-color: #096995;
+    --dx-border-success-lighter-color: #7fcf9d;
+    --dx-border-success-dark-color: #148f41;
+    --dx-outline-success-lighter-color: #7fcf9d;
+    --dx-outline-success-dark-color: #148f41;
+    --dx-border-warning-lighter-color: #eab476;
+    --dx-border-warning-dark-color: #b86505;
+    --dx-outline-warning-lighter-color: #eab476;
+    --dx-outline-warning-dark-color: #b86505;
+    --dx-border-danger-lighter-color: #ec8d8d;
+    --dx-border-danger-dark-color: #bc2828;
+    --dx-outline-danger-lighter-color: #ec8d8d;
+    --dx-outline-danger-dark-color: #bc2828;
+    --dx-surface-dim-color: #101413;
+    --dx-surface-bright-color: #363a37;
+    --dx-surface-lowest-color: #0b0e0d;
+    --dx-surface-low-color: #181d1b;
+    --dx-surface-container-lowest-color: #0b0e0d;
+    --dx-surface-container-low-color: #1e2421;
+    --dx-surface-container-color: #1c211f;
+    --dx-surface-container-high-color: #272b28;
+    --dx-surface-container-highest-color: #323633;
+    --dx-inverse-surface-color: #dfe4dd;
+    --dx-inverse-on-surface-color: #2e312d;
+    --dx-inverse-primary-color: #006b54;
+    --dx-accent-color: #e7bd4d;
+    /* radius scale (identical to :root — see comment there) */
+    --dx-radius: 4px;
+    --dx-radius-0: 0;
+    --dx-radius-1: 0.25rem;
+    --dx-radius-2: 0.5rem;
+    --dx-radius-3: 0.75rem;
+    --dx-radius-4: 1rem;
+    --dx-radius-5: 1.25rem;
+    --dx-radius-6: 1.5rem;
+    --dx-radius-7: 1.75rem;
+    --dx-radius-8: 2rem;
+    --dx-radius-9: 2.25rem;
+    --dx-radius-10: 2.5rem;
+    --dx-radius-full: 9999px;
+  }
+}
+
+/* Deprecated abbreviated aliases (remove in 3.0): prefer the full
+ * -background-/-on- names. Reference-only aliases — they track
+ * the winning theme value automatically. */
+:root {
+  --dx-bg-color: var(--dx-background-color);
+  --dx-primary-fg-color: var(--dx-on-primary-color);
+  --dx-secondary-fg-color: var(--dx-on-secondary-color);
+  --dx-success-fg-color: var(--dx-on-success-color);
+  --dx-danger-fg-color: var(--dx-on-danger-color);
+  --dx-warning-fg-color: var(--dx-on-warning-color);
+  --dx-info-fg-color: var(--dx-on-info-color);
+  --dx-light-fg-color: var(--dx-on-light-color);
+  --dx-base-fg-color: var(--dx-on-base-color);
+  --dx-dark-fg-color: var(--dx-on-dark-color);
+  --dx-neutral-fg-color: var(--dx-on-neutral-color);
+  --dx-soft-fg-color: var(--dx-on-soft-color);
+}
+
+/* Deprecated pre-`-on-` full-length names (remove in 3.0): prefer
+ * `--dx-on-{tone}-color`. Same single-hop pattern — they point
+ * straight at the canonical token, so unmigrated stylesheets keep
+ * resolving with zero drift. */
+:root {
+  --dx-primary-foreground-color: var(--dx-on-primary-color);
+  --dx-secondary-foreground-color: var(--dx-on-secondary-color);
+  --dx-success-foreground-color: var(--dx-on-success-color);
+  --dx-danger-foreground-color: var(--dx-on-danger-color);
+  --dx-warning-foreground-color: var(--dx-on-warning-color);
+  --dx-info-foreground-color: var(--dx-on-info-color);
+  --dx-light-foreground-color: var(--dx-on-light-color);
+  --dx-base-foreground-color: var(--dx-on-base-color);
+  --dx-dark-foreground-color: var(--dx-on-dark-color);
+  --dx-neutral-foreground-color: var(--dx-on-neutral-color);
+  --dx-soft-foreground-color: var(--dx-on-soft-color);
+}
+
+/* Scrollbars (Radzen parity): slim floating-thumb bars instead of OS
+ * defaults. Global unless the page opts out with `dx-default-scrollbars`
+ * on <body>; `.dx-scrollbars` forces the treatment on a subtree.
+ * 12px, not Radzen's 16px — suits the 4px-base scale. Firefox gets
+ * thin/colored bars (Radzen is webkit-only). The thumb color tracks
+ * the secondary tone, so both themes adapt automatically. */
+:root {
+  --dx-scrollbar-color: var(--dx-secondary-color);
+  --dx-scrollbar-size: 12px;
+}
+
+body:not(.dx-default-scrollbars),
+body:not(.dx-default-scrollbars) *,
+.dx-scrollbars,
+.dx-scrollbars * {
+  scrollbar-width: thin;
+  scrollbar-color: var(--dx-scrollbar-color) transparent;
+}
+
+body:not(.dx-default-scrollbars)::-webkit-scrollbar,
+body:not(.dx-default-scrollbars) *::-webkit-scrollbar,
+.dx-scrollbars::-webkit-scrollbar,
+.dx-scrollbars *::-webkit-scrollbar {
+  background-color: transparent;
+  width: var(--dx-scrollbar-size);
+  height: var(--dx-scrollbar-size);
+}
+
+body:not(.dx-default-scrollbars)::-webkit-scrollbar-thumb,
+body:not(.dx-default-scrollbars) *::-webkit-scrollbar-thumb,
+.dx-scrollbars::-webkit-scrollbar-thumb,
+.dx-scrollbars *::-webkit-scrollbar-thumb {
+  background: var(--dx-scrollbar-color);
+  border: 4px solid rgba(0, 0, 0, 0);
+  background-clip: padding-box;
+  border-radius: var(--dx-radius);
+  min-width: var(--dx-scrollbar-size);
+  min-height: var(--dx-scrollbar-size);
+}
+
+body:not(.dx-default-scrollbars)::-webkit-scrollbar-corner,
+body:not(.dx-default-scrollbars) *::-webkit-scrollbar-corner,
+.dx-scrollbars::-webkit-scrollbar-corner,
+.dx-scrollbars *::-webkit-scrollbar-corner {
+  background-color: transparent;
+}

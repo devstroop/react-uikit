@@ -37,7 +37,7 @@ async function applyChromeState(
     .poll(() =>
       page.evaluate(() => document.documentElement.dataset.palette ?? null)
     )
-    .toBe(theme === 'default' ? null : theme);
+    .toBe(theme);
 
   const darkToggle = page.locator('#demos-dark');
   await expect(darkToggle).toBeVisible();

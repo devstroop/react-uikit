@@ -484,18 +484,20 @@
 /* Lighter/light filled steps dilute toward white so the dark on-color
    keeps >= 4.5:1 (the raw shade steps are mid-tone and fail). */
 .filled.shade-lighter {
-  background-color: color-mix(in srgb, var(--shade-lighter) 30%, white);
+  background-color: color-mix(in srgb, var(--shade-lighter) 20%, white);
   color: var(--on-lighter);
 }
 .filled.shade-light {
-  background-color: color-mix(in srgb, var(--shade-light) 45%, white);
+  background-color: color-mix(in srgb, var(--shade-light) 30%, white);
   color: var(--on-light);
 }
 .filled.shade-dark {
   background-color: var(--shade-dark);
+  color: var(--on-dark);
 }
 .filled.shade-darker {
   background-color: var(--shade-darker);
+  color: var(--on-darker);
 }
 .shade-lighter:not(.filled):not(.outlined):not(.text) {
   background-color: color-mix(in srgb, var(--shade-lighter) 12%, transparent);

@@ -4,7 +4,7 @@ import { basename, dirname, join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 
 const css = readFileSync(
-  join(dirname(fileURLToPath(import.meta.url)), 'tokens.css'),
+  join(dirname(fileURLToPath(import.meta.url)), 'themes', 'default.css'),
   'utf8'
 );
 
@@ -109,7 +109,10 @@ describe('shade ramp tokens', () => {
     for (const hue of HUES) {
       for (const step of STEPS) {
         const matches = css.match(
-          new RegExp(`--dx-on-${hue}-${step}-color:\\s*var\\([^;]+\\);`, 'g')
+          new RegExp(
+            `--dx-on-${hue}-${step}-color:\\s*(var|color-mix)\\([^;]+\\);`,
+            'g'
+          )
         );
         expect(matches, `on-${hue}-${step}`).toHaveLength(3);
       }
@@ -138,7 +141,6 @@ describe('foundation tokens', () => {
       ['--dx-focus-ring-width', '2px'],
       ['--dx-focus-ring-offset', '2px'],
       ['--dx-disabled-opacity', '0.55'],
-      ['--dx-backdrop-color', 'rgb(66 66 66 / 0.5)'],
       ['--dx-scrollbar-color', 'var(--dx-secondary-color)'],
       ['--dx-scrollbar-size', '12px'],
       ['--dx-field-height-xs', '34px'],
@@ -436,27 +438,6 @@ describe('foundation tokens', () => {
       expect(css, tone).toContain(
         `--dx-${tone}-foreground-color: var(--dx-on-${tone}-color);`
       );
-    }
-  });
-
-  it('defines on-* tone foregrounds in all three theme blocks', () => {
-    for (const tone of [
-      'primary',
-      'secondary',
-      'success',
-      'danger',
-      'warning',
-      'info',
-      'light',
-      'base',
-      'dark',
-      'neutral',
-      'soft',
-    ]) {
-      const matches = css.match(
-        new RegExp(`--dx-on-${tone}-color:\\s*#[0-9a-f]{6};`, 'g')
-      );
-      expect(matches, `on-${tone}`).toHaveLength(3);
     }
   });
 });

@@ -18,7 +18,7 @@ describe('theme contract warning (GAP-015)', () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
     warnIfThemeMissing(() => '');
     const message = String(warn.mock.calls[0]?.[0]);
-    expect(message).toMatch(/tokens\.css/);
+    expect(message).toMatch(/themes\/.*\.css/);
     expect(message).toMatch(/utilities\.css/);
     expect(message).toMatch(/style\.css/);
   });
