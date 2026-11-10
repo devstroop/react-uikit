@@ -444,35 +444,83 @@
   /* Step foregrounds — var() aliases (drift-proof): pale steps take the
    * hue's darker ink, dark steps take light ink; near-white/-black hues
    * use the opposite body token. Consumed as --on-* per hue (see below). */
-  --dx-on-primary-lighter-color: color-mix(in srgb, var(--dx-primary-color) 45%, black);
-  --dx-on-primary-light-color: color-mix(in srgb, var(--dx-primary-color) 45%, black);
+  --dx-on-primary-lighter-color: color-mix(
+    in srgb,
+    var(--dx-primary-color) 45%,
+    black
+  );
+  --dx-on-primary-light-color: color-mix(
+    in srgb,
+    var(--dx-primary-color) 45%,
+    black
+  );
   --dx-on-primary-dark-color: var(--dx-on-primary-color);
   --dx-on-primary-darker-color: var(--dx-on-primary-color);
-  --dx-on-secondary-lighter-color: color-mix(in srgb, var(--dx-secondary-color) 45%, black);
-  --dx-on-secondary-light-color: color-mix(in srgb, var(--dx-secondary-color) 45%, black);
+  --dx-on-secondary-lighter-color: color-mix(
+    in srgb,
+    var(--dx-secondary-color) 45%,
+    black
+  );
+  --dx-on-secondary-light-color: color-mix(
+    in srgb,
+    var(--dx-secondary-color) 45%,
+    black
+  );
   --dx-on-secondary-dark-color: var(--dx-on-secondary-color);
   --dx-on-secondary-darker-color: var(--dx-on-secondary-color);
-  --dx-on-info-lighter-color: color-mix(in srgb, var(--dx-info-color) 45%, black);
+  --dx-on-info-lighter-color: color-mix(
+    in srgb,
+    var(--dx-info-color) 45%,
+    black
+  );
   --dx-on-info-light-color: color-mix(in srgb, var(--dx-info-color) 45%, black);
   --dx-on-info-dark-color: var(--dx-on-info-color);
   --dx-on-info-darker-color: var(--dx-on-info-color);
-  --dx-on-success-lighter-color: color-mix(in srgb, var(--dx-success-color) 45%, black);
-  --dx-on-success-light-color: color-mix(in srgb, var(--dx-success-color) 45%, black);
+  --dx-on-success-lighter-color: color-mix(
+    in srgb,
+    var(--dx-success-color) 45%,
+    black
+  );
+  --dx-on-success-light-color: color-mix(
+    in srgb,
+    var(--dx-success-color) 45%,
+    black
+  );
   --dx-on-success-dark-color: var(--dx-on-success-color);
   --dx-on-success-darker-color: var(--dx-on-success-color);
-  --dx-on-warning-lighter-color: color-mix(in srgb, var(--dx-warning-color) 45%, black);
-  --dx-on-warning-light-color: color-mix(in srgb, var(--dx-warning-color) 45%, black);
+  --dx-on-warning-lighter-color: color-mix(
+    in srgb,
+    var(--dx-warning-color) 45%,
+    black
+  );
+  --dx-on-warning-light-color: color-mix(
+    in srgb,
+    var(--dx-warning-color) 45%,
+    black
+  );
   --dx-on-warning-dark-color: var(--dx-on-warning-color);
   --dx-on-warning-darker-color: var(--dx-on-warning-color);
-  --dx-on-danger-lighter-color: color-mix(in srgb, var(--dx-danger-color) 45%, black);
-  --dx-on-danger-light-color: color-mix(in srgb, var(--dx-danger-color) 45%, black);
+  --dx-on-danger-lighter-color: color-mix(
+    in srgb,
+    var(--dx-danger-color) 45%,
+    black
+  );
+  --dx-on-danger-light-color: color-mix(
+    in srgb,
+    var(--dx-danger-color) 45%,
+    black
+  );
   --dx-on-danger-dark-color: var(--dx-on-danger-color);
   --dx-on-danger-darker-color: var(--dx-on-danger-color);
   --dx-on-light-lighter-color: var(--dx-dark-color);
   --dx-on-light-light-color: var(--dx-dark-color);
   --dx-on-light-dark-color: var(--dx-dark-color);
   --dx-on-light-darker-color: var(--dx-dark-color);
-  --dx-on-base-lighter-color: color-mix(in srgb, var(--dx-base-color) 45%, black);
+  --dx-on-base-lighter-color: color-mix(
+    in srgb,
+    var(--dx-base-color) 45%,
+    black
+  );
   --dx-on-base-light-color: color-mix(in srgb, var(--dx-base-color) 45%, black);
   --dx-on-base-dark-color: var(--dx-on-base-color);
   --dx-on-base-darker-color: var(--dx-on-base-color);
@@ -767,35 +815,83 @@
   /* Step foregrounds — var() aliases (drift-proof): pale steps take the
    * hue's darker ink, dark steps take light ink; near-white/-black hues
    * use the opposite body token. Consumed as --on-* per hue (see below). */
-  --dx-on-primary-lighter-color: color-mix(in srgb, var(--dx-primary-color) 45%, black);
-  --dx-on-primary-light-color: color-mix(in srgb, var(--dx-primary-color) 45%, black);
+  --dx-on-primary-lighter-color: color-mix(
+    in srgb,
+    var(--dx-primary-color) 45%,
+    black
+  );
+  --dx-on-primary-light-color: color-mix(
+    in srgb,
+    var(--dx-primary-color) 45%,
+    black
+  );
   --dx-on-primary-dark-color: var(--dx-on-primary-color);
   --dx-on-primary-darker-color: var(--dx-on-primary-color);
-  --dx-on-secondary-lighter-color: color-mix(in srgb, var(--dx-secondary-color) 45%, black);
-  --dx-on-secondary-light-color: color-mix(in srgb, var(--dx-secondary-color) 45%, black);
+  --dx-on-secondary-lighter-color: color-mix(
+    in srgb,
+    var(--dx-secondary-color) 45%,
+    black
+  );
+  --dx-on-secondary-light-color: color-mix(
+    in srgb,
+    var(--dx-secondary-color) 45%,
+    black
+  );
   --dx-on-secondary-dark-color: var(--dx-on-secondary-color);
   --dx-on-secondary-darker-color: var(--dx-on-secondary-color);
-  --dx-on-info-lighter-color: color-mix(in srgb, var(--dx-info-color) 45%, black);
+  --dx-on-info-lighter-color: color-mix(
+    in srgb,
+    var(--dx-info-color) 45%,
+    black
+  );
   --dx-on-info-light-color: color-mix(in srgb, var(--dx-info-color) 45%, black);
   --dx-on-info-dark-color: var(--dx-on-info-color);
   --dx-on-info-darker-color: var(--dx-on-info-color);
-  --dx-on-success-lighter-color: color-mix(in srgb, var(--dx-success-color) 45%, black);
-  --dx-on-success-light-color: color-mix(in srgb, var(--dx-success-color) 45%, black);
+  --dx-on-success-lighter-color: color-mix(
+    in srgb,
+    var(--dx-success-color) 45%,
+    black
+  );
+  --dx-on-success-light-color: color-mix(
+    in srgb,
+    var(--dx-success-color) 45%,
+    black
+  );
   --dx-on-success-dark-color: var(--dx-on-success-color);
   --dx-on-success-darker-color: var(--dx-on-success-color);
-  --dx-on-warning-lighter-color: color-mix(in srgb, var(--dx-warning-color) 45%, black);
-  --dx-on-warning-light-color: color-mix(in srgb, var(--dx-warning-color) 45%, black);
+  --dx-on-warning-lighter-color: color-mix(
+    in srgb,
+    var(--dx-warning-color) 45%,
+    black
+  );
+  --dx-on-warning-light-color: color-mix(
+    in srgb,
+    var(--dx-warning-color) 45%,
+    black
+  );
   --dx-on-warning-dark-color: var(--dx-on-warning-color);
   --dx-on-warning-darker-color: var(--dx-on-warning-color);
-  --dx-on-danger-lighter-color: color-mix(in srgb, var(--dx-danger-color) 45%, black);
-  --dx-on-danger-light-color: color-mix(in srgb, var(--dx-danger-color) 45%, black);
+  --dx-on-danger-lighter-color: color-mix(
+    in srgb,
+    var(--dx-danger-color) 45%,
+    black
+  );
+  --dx-on-danger-light-color: color-mix(
+    in srgb,
+    var(--dx-danger-color) 45%,
+    black
+  );
   --dx-on-danger-dark-color: var(--dx-on-danger-color);
   --dx-on-danger-darker-color: var(--dx-on-danger-color);
   --dx-on-light-lighter-color: var(--dx-dark-color);
   --dx-on-light-light-color: var(--dx-dark-color);
   --dx-on-light-dark-color: var(--dx-dark-color);
   --dx-on-light-darker-color: var(--dx-dark-color);
-  --dx-on-base-lighter-color: color-mix(in srgb, var(--dx-base-color) 45%, black);
+  --dx-on-base-lighter-color: color-mix(
+    in srgb,
+    var(--dx-base-color) 45%,
+    black
+  );
   --dx-on-base-light-color: color-mix(in srgb, var(--dx-base-color) 45%, black);
   --dx-on-base-dark-color: var(--dx-on-base-color);
   --dx-on-base-darker-color: var(--dx-on-base-color);
@@ -1098,36 +1194,92 @@
     /* Step foregrounds — var() aliases (drift-proof): pale steps take the
    * hue's darker ink, dark steps take light ink; near-white/-black hues
    * use the opposite body token. Consumed as --on-* per hue (see below). */
-    --dx-on-primary-lighter-color: color-mix(in srgb, var(--dx-primary-color) 45%, black);
-    --dx-on-primary-light-color: color-mix(in srgb, var(--dx-primary-color) 45%, black);
+    --dx-on-primary-lighter-color: color-mix(
+      in srgb,
+      var(--dx-primary-color) 45%,
+      black
+    );
+    --dx-on-primary-light-color: color-mix(
+      in srgb,
+      var(--dx-primary-color) 45%,
+      black
+    );
     --dx-on-primary-dark-color: var(--dx-on-primary-color);
     --dx-on-primary-darker-color: var(--dx-on-primary-color);
-    --dx-on-secondary-lighter-color: color-mix(in srgb, var(--dx-secondary-color) 45%, black);
-    --dx-on-secondary-light-color: color-mix(in srgb, var(--dx-secondary-color) 45%, black);
+    --dx-on-secondary-lighter-color: color-mix(
+      in srgb,
+      var(--dx-secondary-color) 45%,
+      black
+    );
+    --dx-on-secondary-light-color: color-mix(
+      in srgb,
+      var(--dx-secondary-color) 45%,
+      black
+    );
     --dx-on-secondary-dark-color: var(--dx-on-secondary-color);
     --dx-on-secondary-darker-color: var(--dx-on-secondary-color);
-    --dx-on-info-lighter-color: color-mix(in srgb, var(--dx-info-color) 45%, black);
-    --dx-on-info-light-color: color-mix(in srgb, var(--dx-info-color) 45%, black);
+    --dx-on-info-lighter-color: color-mix(
+      in srgb,
+      var(--dx-info-color) 45%,
+      black
+    );
+    --dx-on-info-light-color: color-mix(
+      in srgb,
+      var(--dx-info-color) 45%,
+      black
+    );
     --dx-on-info-dark-color: var(--dx-on-info-color);
     --dx-on-info-darker-color: var(--dx-on-info-color);
-    --dx-on-success-lighter-color: color-mix(in srgb, var(--dx-success-color) 45%, black);
-    --dx-on-success-light-color: color-mix(in srgb, var(--dx-success-color) 45%, black);
+    --dx-on-success-lighter-color: color-mix(
+      in srgb,
+      var(--dx-success-color) 45%,
+      black
+    );
+    --dx-on-success-light-color: color-mix(
+      in srgb,
+      var(--dx-success-color) 45%,
+      black
+    );
     --dx-on-success-dark-color: var(--dx-on-success-color);
     --dx-on-success-darker-color: var(--dx-on-success-color);
-    --dx-on-warning-lighter-color: color-mix(in srgb, var(--dx-warning-color) 45%, black);
-    --dx-on-warning-light-color: color-mix(in srgb, var(--dx-warning-color) 45%, black);
+    --dx-on-warning-lighter-color: color-mix(
+      in srgb,
+      var(--dx-warning-color) 45%,
+      black
+    );
+    --dx-on-warning-light-color: color-mix(
+      in srgb,
+      var(--dx-warning-color) 45%,
+      black
+    );
     --dx-on-warning-dark-color: var(--dx-on-warning-color);
     --dx-on-warning-darker-color: var(--dx-on-warning-color);
-    --dx-on-danger-lighter-color: color-mix(in srgb, var(--dx-danger-color) 45%, black);
-    --dx-on-danger-light-color: color-mix(in srgb, var(--dx-danger-color) 45%, black);
+    --dx-on-danger-lighter-color: color-mix(
+      in srgb,
+      var(--dx-danger-color) 45%,
+      black
+    );
+    --dx-on-danger-light-color: color-mix(
+      in srgb,
+      var(--dx-danger-color) 45%,
+      black
+    );
     --dx-on-danger-dark-color: var(--dx-on-danger-color);
     --dx-on-danger-darker-color: var(--dx-on-danger-color);
     --dx-on-light-lighter-color: var(--dx-dark-color);
     --dx-on-light-light-color: var(--dx-dark-color);
     --dx-on-light-dark-color: var(--dx-dark-color);
     --dx-on-light-darker-color: var(--dx-dark-color);
-    --dx-on-base-lighter-color: color-mix(in srgb, var(--dx-base-color) 45%, black);
-    --dx-on-base-light-color: color-mix(in srgb, var(--dx-base-color) 45%, black);
+    --dx-on-base-lighter-color: color-mix(
+      in srgb,
+      var(--dx-base-color) 45%,
+      black
+    );
+    --dx-on-base-light-color: color-mix(
+      in srgb,
+      var(--dx-base-color) 45%,
+      black
+    );
     --dx-on-base-dark-color: var(--dx-on-base-color);
     --dx-on-base-darker-color: var(--dx-on-base-color);
     --dx-on-dark-lighter-color: var(--dx-light-color);
