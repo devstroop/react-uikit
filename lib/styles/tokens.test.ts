@@ -4,7 +4,7 @@ import { basename, dirname, join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 
 const css = readFileSync(
-  join(dirname(fileURLToPath(import.meta.url)), 'tokens.css'),
+  join(dirname(fileURLToPath(import.meta.url)), 'themes', 'default.css'),
   'utf8'
 );
 
@@ -109,7 +109,10 @@ describe('shade ramp tokens', () => {
     for (const hue of HUES) {
       for (const step of STEPS) {
         const matches = css.match(
-          new RegExp(`--dx-on-${hue}-${step}-color:\\s*var\\([^;]+\\);`, 'g')
+          new RegExp(
+            `--dx-on-${hue}-${step}-color:\\s*(var|color-mix)\\([^;]+\\);`,
+            'g'
+          )
         );
         expect(matches, `on-${hue}-${step}`).toHaveLength(3);
       }
