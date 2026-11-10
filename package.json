@@ -22,7 +22,8 @@
     "./themes/material-3.css": "./dist/themes/material-3.css",
     "./themes/github.css": "./dist/themes/github.css",
     "./themes/material.css": "./dist/themes/material.css",
-    "./themes/shadcn.css": "./dist/themes/shadcn.css"
+    "./themes/shadcn.css": "./dist/themes/shadcn.css",
+    "./themes/default.css": "./dist/themes/default.css"
   },
   "files": [
     "dist"
