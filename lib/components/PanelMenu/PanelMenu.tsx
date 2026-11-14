@@ -398,16 +398,15 @@ function PanelMenuItemNode({
   ) : null;
 
   return (
-    <li
+    <div
       className={styles.item}
       style={{ '--dx-panelmenu-level': ctx.level } as React.CSSProperties}
       data-dx-panelmenu-item=""
       data-level={ctx.level}
-      role="none"
     >
       {trigger}
       {submenu}
-    </li>
+    </div>
   );
 }
 
@@ -536,7 +535,6 @@ export function PanelMenu({
     // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- arrow-key navigation is delegated from child links to this nav's keydown handler
     <nav
       aria-label={ariaLabel}
-      aria-orientation="vertical"
       className={[
         styles.root,
         displayStyle === 'icon' ? styles.iconOnly : null,
@@ -548,7 +546,7 @@ export function PanelMenu({
       onKeyDown={handleKeyDown}
       {...rest}
     >
-      <ul className={styles.list} role="presentation">
+      <div className={styles.list} role="presentation">
         <PanelMenuContext.Provider value={ctx}>
           {topItems.map((child, i) => (
             <PanelMenuItemNode
@@ -559,7 +557,7 @@ export function PanelMenu({
             />
           ))}
         </PanelMenuContext.Provider>
-      </ul>
+      </div>
     </nav>
   );
 }
