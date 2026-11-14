@@ -43,7 +43,9 @@
     "demos:build": "vite build --config demos/vite.config.ts",
     "test:e2e": "playwright test",
     "demo:audit": "node scripts/audit-demos.mjs",
-    "check:tokens": "node scripts/check-tokens.mjs"
+    "check:tokens": "node scripts/check-tokens.mjs",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0",
@@ -74,7 +76,17 @@
     "typescript-eslint": "^8.67.0",
     "vite": "^7.3.6",
     "vite-plugin-dts": "^4.5.4",
-    "vitest": "^4.1.10"
+    "vitest": "^4.1.10",
+    "storybook": "^10.6.7",
+    "@storybook/react-vite": "^10.6.7",
+    "@chromatic-com/storybook": "latest",
+    "@storybook/addon-vitest": "^10.6.7",
+    "@storybook/addon-a11y": "^10.6.7",
+    "@storybook/addon-docs": "^10.6.7",
+    "@storybook/addon-mcp": "^10.6.7",
+    "eslint-plugin-storybook": "^10.6.7",
+    "@vitest/browser-playwright": "4.1.10",
+    "playwright": "latest"
   },
   "dependencies": {
     "dompurify": "^3.4.16"
