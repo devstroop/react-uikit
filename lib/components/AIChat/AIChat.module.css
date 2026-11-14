@@ -16,36 +16,36 @@
   padding: var(--dx-space-2);
   border: var(--dx-border);
   border-radius: var(--dx-radius);
-  background: var(--dx-color-surface);
+  background: var(--dx-surface-color);
 }
 
 .message {
   max-width: 85%;
   padding: var(--dx-space-2) var(--dx-space-3);
   border-radius: var(--dx-radius);
-  color: var(--dx-color-text);
+  color: var(--dx-text-color);
 }
 
 .user {
   align-self: flex-end;
-  background: var(--dx-color-primary);
+  background: var(--dx-primary-color);
   color: var(--dx-on-primary-color);
 }
 
 .assistant {
   align-self: flex-start;
-  background: var(--dx-color-surface-hover);
+  background: var(--dx-surface-hover-color);
 }
 
 .system {
   align-self: center;
-  color: var(--dx-color-text-muted);
+  color: var(--dx-text-muted-color);
   font-size: var(--dx-font-size-sm);
 }
 
 .typing {
   align-self: flex-start;
-  color: var(--dx-color-text-muted);
+  color: var(--dx-text-muted-color);
 }
 
 .inputRow {
