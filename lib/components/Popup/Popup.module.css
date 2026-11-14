@@ -8,8 +8,8 @@
   max-width: min(360px, 90vw);
   border: var(--dx-border);
   border-radius: var(--dx-radius-md);
-  background: var(--dx-color-surface);
-  color: var(--dx-color-text);
+  background: var(--dx-surface-color);
+  color: var(--dx-text-color);
   box-shadow: var(--dx-shadow-md);
   outline: none;
 }

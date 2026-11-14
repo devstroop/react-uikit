@@ -139,6 +139,9 @@
   --dx-radius-9: 2.25rem;
   --dx-radius-10: 2.5rem;
   --dx-radius-full: 9999px;
+  --dx-radius-sm: var(--dx-radius-1);
+  --dx-radius-md: var(--dx-radius-2);
+  --dx-base-font-size: var(--dx-body-font-size);
   /* radius roles (Radzen derivation parity): components consume roles
    * or the base — never raw rungs — so a theme retunes geometry by
    * re-pointing a role. Entry controls sit two rungs up (8px), tiny
@@ -950,6 +953,9 @@
   --dx-radius-9: 2.25rem;
   --dx-radius-10: 2.5rem;
   --dx-radius-full: 9999px;
+  --dx-radius-sm: var(--dx-radius-1);
+  --dx-radius-md: var(--dx-radius-2);
+  --dx-base-font-size: var(--dx-body-font-size);
 }
 
 /* OS-dark fallback for apps without an explicit data-theme
@@ -1337,6 +1343,9 @@
     --dx-radius-9: 2.25rem;
     --dx-radius-10: 2.5rem;
     --dx-radius-full: 9999px;
+  --dx-radius-sm: var(--dx-radius-1);
+  --dx-radius-md: var(--dx-radius-2);
+  --dx-base-font-size: var(--dx-body-font-size);
   }
 }
 
