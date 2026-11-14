@@ -3,6 +3,8 @@ export type { ButtonProps, ButtonBaseProps, ButtonButtonProps, ButtonAnchorProps
 export { Card } from './components/Card/Card';
 export type { CardProps, CardVariant } from './components/Card/Card';
 export { Badge } from './components/Badge/Badge';
+export { Chip } from './components/Chip/Chip';
+export type { ChipProps } from './components/Chip/Chip';
 export type { BadgeProps, BadgeStyle, BadgeVariant, BadgeSize, BadgeShade, } from './components/Badge/Badge';
 export { Icon, iconNames } from './components/Icon/Icon';
 export type { IconProps, IconName } from './components/Icon/Icon';
