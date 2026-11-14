@@ -1,12 +1,12 @@
 {
   "name": "@devstroop/react-uikit",
   "version": "1.3.0",
-  "description": "Generic React UI primitives for Devstroop web apps — presentational, themeable, project-agnostic.",
+  "description": "Generic React UI primitives for Devstroop web apps \u2014 presentational, themeable, project-agnostic.",
   "type": "module",
   "license": "MIT",
-  "main": "./dist/main.cjs.js",
-  "module": "./dist/main.es.js",
-  "types": "./dist/main.d.ts",
+  "main": "dist/main.cjs.js",
+  "module": "dist/main.es.js",
+  "types": "dist/main.d.ts",
   "exports": {
     ".": {
       "types": "./dist/main.d.ts",
@@ -14,19 +14,13 @@
       "require": "./dist/main.cjs.js"
     },
     "./style.css": "./dist/style.css",
-    "./base.css": "./dist/base.css",
-    "./tokens.css": "./dist/tokens.css",
-    "./utilities.css": "./dist/utilities.css",
-    "./themes/zen.css": "./dist/themes/zen.css",
-    "./themes/fluent.css": "./dist/themes/fluent.css",
-    "./themes/material-3.css": "./dist/themes/material-3.css",
-    "./themes/github.css": "./dist/themes/github.css",
-    "./themes/material.css": "./dist/themes/material.css",
-    "./themes/shadcn.css": "./dist/themes/shadcn.css",
-    "./themes/default.css": "./dist/themes/default.css"
+    "./utilities.css": "./lib/utilities.css",
+    "./tokens.css": "./lib/styles/tokens.css"
   },
   "files": [
-    "dist"
+    "dist",
+    "lib/styles",
+    "lib/utilities.css"
   ],
   "sideEffects": [
     "*.css"
@@ -90,5 +84,8 @@
   },
   "dependencies": {
     "dompurify": "^3.4.16"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
