@@ -7,3 +7,6 @@ demos/dist
 test-results
 
 coverage/
+
+*storybook.log
+storybook-static
