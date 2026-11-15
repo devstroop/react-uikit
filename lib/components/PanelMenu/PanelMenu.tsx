@@ -288,7 +288,7 @@ function PanelMenuItemNode({
           .join(' ')}
         aria-hidden="true"
       >
-        <Icon icon="keyboard_arrow_down" size={10} />
+        <Icon icon="keyboard_arrow_down" size={16} />
       </span>
     ) : null;
 
