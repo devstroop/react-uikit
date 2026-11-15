@@ -114,8 +114,8 @@
 .submenu {
   display: flex;
   flex-direction: column;
-  padding: var(--dx-space-1);
-  gap: var(--dx-space-1);
+  padding: 0;
+  gap: 0;
   background-color: var(--dx-surface-color);
   border-top: var(--dx-border);
 }
