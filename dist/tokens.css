@@ -1343,9 +1343,9 @@
     --dx-radius-9: 2.25rem;
     --dx-radius-10: 2.5rem;
     --dx-radius-full: 9999px;
-  --dx-radius-sm: var(--dx-radius-1);
-  --dx-radius-md: var(--dx-radius-2);
-  --dx-base-font-size: var(--dx-body-font-size);
+    --dx-radius-sm: var(--dx-radius-1);
+    --dx-radius-md: var(--dx-radius-2);
+    --dx-base-font-size: var(--dx-body-font-size);
   }
 }
 
