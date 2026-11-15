@@ -11765,7 +11765,7 @@ function oO({ children: e }) {
     t ? /* @__PURE__ */ o(Dw, { state: t, onClose: r }) : null
   ] });
 }
-const Iw = "_root_5srqk_1", zw = "_list_5srqk_9", Lw = "_item_5srqk_14", Pw = "_trigger_5srqk_18", Rw = "_disabled_5srqk_48", jw = "_expanded_5srqk_55", Bw = "_selected_5srqk_37", Fw = "_icon_5srqk_80", Hw = "_text_5srqk_96", Uw = "_caret_5srqk_103", qw = "_open_5srqk_110", Ww = "_submenu_5srqk_114", Kw = "_iconOnly_5srqk_196", Gw = "_stacked_5srqk_225", jt = {
+const Iw = "_root_1qc6j_1", zw = "_list_1qc6j_9", Lw = "_item_1qc6j_14", Pw = "_trigger_1qc6j_18", Rw = "_disabled_1qc6j_48", jw = "_expanded_1qc6j_55", Bw = "_selected_1qc6j_37", Fw = "_icon_1qc6j_69", Hw = "_text_1qc6j_85", Uw = "_caret_1qc6j_92", qw = "_open_1qc6j_99", Ww = "_submenu_1qc6j_103", Kw = "_iconOnly_1qc6j_185", Gw = "_stacked_1qc6j_214", jt = {
   root: Iw,
   list: zw,
   item: Lw,
@@ -11867,7 +11867,7 @@ function _s({
     {
       className: [jt.caret, h ? jt.open : null].filter(Boolean).join(" "),
       "aria-hidden": "true",
-      children: /* @__PURE__ */ o(Ce, { icon: "keyboard_arrow_down", size: 10 })
+      children: /* @__PURE__ */ o(Ce, { icon: "keyboard_arrow_down", size: 16 })
     }
   ) : null, D = n.template ?? /* @__PURE__ */ A(ot, { children: [
     /* @__PURE__ */ o(
