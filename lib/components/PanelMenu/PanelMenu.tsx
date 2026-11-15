@@ -376,7 +376,7 @@ function PanelMenuItemNode({
 
   const submenu = hasChildren ? (
     ctx.renderMode === 'server' && !open ? null : (
-      <div
+      <ul
         id={panelId}
         role="menu"
         aria-labelledby={triggerId}
@@ -393,20 +393,21 @@ function PanelMenuItemNode({
             />
           ))}
         </PanelMenuContext.Provider>
-      </div>
+      </ul>
     )
   ) : null;
 
   return (
-    <div
+    <li
       className={styles.item}
       style={{ '--dx-panelmenu-level': ctx.level } as React.CSSProperties}
       data-dx-panelmenu-item=""
       data-level={ctx.level}
+      role="none"
     >
       {trigger}
       {submenu}
-    </div>
+    </li>
   );
 }
 
@@ -546,7 +547,7 @@ export function PanelMenu({
       onKeyDown={handleKeyDown}
       {...rest}
     >
-      <div className={styles.list} role="presentation">
+      <ul className={styles.list} role="presentation">
         <PanelMenuContext.Provider value={ctx}>
           {topItems.map((child, i) => (
             <PanelMenuItemNode
@@ -557,7 +558,7 @@ export function PanelMenu({
             />
           ))}
         </PanelMenuContext.Provider>
-      </div>
+      </ul>
     </nav>
   );
 }
