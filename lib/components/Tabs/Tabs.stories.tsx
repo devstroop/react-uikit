@@ -11,5 +11,11 @@ export default meta;
 type Story = StoryObj<typeof Tabs>;
 
 export const Default: Story = {
-  args: {},
+  args: {
+    ariaLabel: 'Tabs',
+    items: [
+      { key: 'one', label: 'One', content: 'One content' },
+      { key: 'two', label: 'Two', content: 'Two content' },
+    ],
+  },
 };
