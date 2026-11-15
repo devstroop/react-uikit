@@ -6,7 +6,12 @@ import { Dialog } from './Dialog';
 describe('Dialog a11y', () => {
   it('has no axe violations when open', async () => {
     const { container } = render(
-      <Dialog open onClose={() => {}} title="Confirm" description="Are you sure?">
+      <Dialog
+        open
+        onClose={() => {}}
+        title="Confirm"
+        description="Are you sure?"
+      >
         <p>Body</p>
       </Dialog>
     );

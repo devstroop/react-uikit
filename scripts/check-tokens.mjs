@@ -41,4 +41,6 @@ if (missing.length) {
   for (const t of missing) console.error(`  ${t}`);
   process.exit(1);
 }
-console.log(`check-tokens: ok (${used.size} tokens, ${defined.size} definitions)`);
+console.log(
+  `check-tokens: ok (${used.size} tokens, ${defined.size} definitions)`
+);
