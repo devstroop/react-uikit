@@ -62,19 +62,8 @@
  * the dark surface, so the text channel uses --dx-navigation-item-active-color. */
 .trigger.selected,
 .trigger[aria-current='page'] {
-  position: relative;
   color: var(--dx-navigation-item-active-color);
   background-color: var(--dx-navigation-item-active-background-color);
-}
-
-.trigger.selected::before,
-.trigger[aria-current='page']::before {
-  content: '';
-  position: absolute;
-  inset-block: 0;
-  inset-inline-start: 0;
-  width: var(--dx-navigation-item-active-indicator-width);
-  background-color: var(--dx-navigation-item-active-indicator-color);
 }
 
 .trigger.selected .icon,
@@ -102,7 +91,7 @@
 
 .caret {
   flex-shrink: 0;
-  font-size: 10px;
+  font-size: var(--dx-font-size-sm);
   color: var(--dx-text-muted-color);
   transition: transform var(--dx-transition-fast);
 }
