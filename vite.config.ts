@@ -7,7 +7,10 @@ import dts from 'vite-plugin-dts';
 import path from 'node:path';
 import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
 import { playwright } from '@vitest/browser-playwright';
-const ROOT_DIR = typeof __dirname !== 'undefined' ? __dirname : path.dirname(fileURLToPath(import.meta.url));
+const ROOT_DIR =
+  typeof __dirname !== 'undefined'
+    ? __dirname
+    : path.dirname(fileURLToPath(import.meta.url));
 
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 const libRoot = resolve(ROOT_DIR, 'lib');
@@ -19,31 +22,38 @@ const libRoot = resolve(ROOT_DIR, 'lib');
 const copyStandaloneCss = {
   name: 'copy-standalone-css',
   closeBundle() {
-    for (const [from, to] of [['styles/base.css', 'base.css'], ['styles/tokens.css', 'tokens.css'], ['utilities.css', 'utilities.css']] as const) {
+    for (const [from, to] of [
+      ['styles/base.css', 'base.css'],
+      ['styles/tokens.css', 'tokens.css'],
+      ['utilities.css', 'utilities.css'],
+    ] as const) {
       copyFileSync(resolve(libRoot, from), resolve(libRoot, '../dist', to));
     }
-  }
+  },
 };
 export default defineConfig({
-  plugins: [dts({
-    include: ['lib'],
-    exclude: ['**/*.test.tsx', '**/*.test.ts', '**/*.test.d.ts'],
-    tsconfigPath: './tsconfig.json'
-  }), copyStandaloneCss],
+  plugins: [
+    dts({
+      include: ['lib'],
+      exclude: ['**/*.test.tsx', '**/*.test.ts', '**/*.test.d.ts'],
+      tsconfigPath: './tsconfig.json',
+    }),
+    copyStandaloneCss,
+  ],
   build: {
     lib: {
       entry: {
         main: 'lib/main.ts',
-        theme: 'lib/theme.ts'
+        theme: 'lib/theme.ts',
       },
       formats: ['es', 'cjs'],
       cssFileName: 'style',
-      fileName: (format, name) => `${name}.${format}.js`
+      fileName: (format, name) => `${name}.${format}.js`,
     },
     rollupOptions: {
-      external: ['react', 'react-dom', 'react/jsx-runtime']
+      external: ['react', 'react-dom', 'react/jsx-runtime'],
     },
-    cssCodeSplit: false
+    cssCodeSplit: false,
   },
   test: {
     // Coverage provider installed (@vitest/coverage-v8, version-matched to
@@ -61,35 +71,41 @@ export default defineConfig({
         statements: 80,
         branches: 74,
         functions: 88,
-        lines: 84
-      }
+        lines: 84,
+      },
     },
-    projects: [{
-      extends: true,
-      test: {
-        environment: 'jsdom',
-        setupFiles: ['./vitest.setup.ts'],
-        exclude: ['e2e/**', 'node_modules/**', 'dist/**', 'demos/dist/**']
-      }
-    }, {
-      extends: true,
-      plugins: [
-      // The plugin will run tests for the stories defined in your Storybook config
-      // See options at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon#storybooktest
-      storybookTest({
-        configDir: path.join(ROOT_DIR, '.storybook')
-      })],
-      test: {
-        name: 'storybook',
-        browser: {
-          enabled: true,
-          headless: true,
-          provider: playwright({}),
-          instances: [{
-            browser: 'chromium'
-          }]
-        }
-      }
-    }]
-  }
+    projects: [
+      {
+        extends: true,
+        test: {
+          environment: 'jsdom',
+          setupFiles: ['./vitest.setup.ts'],
+          exclude: ['e2e/**', 'node_modules/**', 'dist/**', 'demos/dist/**'],
+        },
+      },
+      {
+        extends: true,
+        plugins: [
+          // The plugin will run tests for the stories defined in your Storybook config
+          // See options at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon#storybooktest
+          storybookTest({
+            configDir: path.join(ROOT_DIR, '.storybook'),
+          }),
+        ],
+        test: {
+          name: 'storybook',
+          browser: {
+            enabled: true,
+            headless: true,
+            provider: playwright({}),
+            instances: [
+              {
+                browser: 'chromium',
+              },
+            ],
+          },
+        },
+      },
+    ],
+  },
 });

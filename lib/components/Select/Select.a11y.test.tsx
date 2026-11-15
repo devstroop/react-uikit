@@ -6,7 +6,13 @@ import { Select } from './Select';
 describe('Select a11y', () => {
   it('has no axe violations', async () => {
     const { container } = render(
-      <Select aria-label="Choice" options={[{ value: 'a', label: 'A' }, { value: 'b', label: 'B' }]} />
+      <Select
+        aria-label="Choice"
+        options={[
+          { value: 'a', label: 'A' },
+          { value: 'b', label: 'B' },
+        ]}
+      />
     );
     const results = await axe.run(container);
     expect(results.violations).toEqual([]);
