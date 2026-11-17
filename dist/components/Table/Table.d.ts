@@ -15,7 +15,11 @@ export interface TableProps<T> {
     gridLines?: GridLines;
     allowAlternatingRows?: boolean;
     className?: string;
+    /** Called when a row is clicked. */
+    onRowClick?: (row: T) => void;
+    /** Key of the currently selected row (for highlighting). */
+    selectedRowKey?: string;
     /** Render nothing when false. Defaults to true. */
     visible?: boolean;
 }
-export declare function Table<T>({ columns, rows, rowKey, empty, caption, gridLines, allowAlternatingRows, className, visible, }: TableProps<T>): import("react").JSX.Element | null;
+export declare function Table<T>({ columns, rows, rowKey, empty, caption, gridLines, allowAlternatingRows, className, onRowClick, selectedRowKey, visible, }: TableProps<T>): import("react").JSX.Element | null;
