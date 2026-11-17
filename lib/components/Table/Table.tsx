@@ -19,6 +19,10 @@ export interface TableProps<T> {
   gridLines?: GridLines;
   allowAlternatingRows?: boolean;
   className?: string;
+  /** Called when a row is clicked. */
+  onRowClick?: (row: T) => void;
+  /** Key of the currently selected row (for highlighting). */
+  selectedRowKey?: string;
   /** Render nothing when false. Defaults to true. */
   visible?: boolean;
 }
@@ -32,6 +36,8 @@ export function Table<T>({
   gridLines = 'default',
   allowAlternatingRows = true,
   className,
+  onRowClick,
+  selectedRowKey,
   visible = true,
 }: TableProps<T>) {
   if (visible === false) return null;
@@ -68,7 +74,12 @@ export function Table<T>({
         </thead>
         <tbody>
           {rows.map((row) => (
-            <tr key={rowKey(row)}>
+            <tr
+              key={rowKey(row)}
+              className={selectedRowKey === rowKey(row) ? styles.selected : undefined}
+              onClick={onRowClick ? () => onRowClick(row) : undefined}
+              style={onRowClick ? { cursor: 'pointer' } : undefined}
+            >
               {columns.map((column) => (
                 <td
                   key={column.key}
