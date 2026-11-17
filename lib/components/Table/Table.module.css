@@ -48,6 +48,10 @@
   background-color: var(--dx-surface-hover-color);
 }
 
+.table tbody tr.selected {
+  background-color: var(--dx-secondary-container-color);
+}
+
 .table.none,
 .table.none thead th,
 .table.none tbody td {
