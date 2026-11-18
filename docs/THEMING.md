@@ -1,169 +1,67 @@
-# Theming contract
+# Theming `@devstroop/react-uikit`
 
-How to re-seed this library (`--dx-primary-color`, …) without silently
-inheriting values tuned for the stock ramp. Read this before overriding
-any token in a product theme.
+All components consume `--dx-*` CSS custom properties exclusively. No
+hardcoded colors, radii, spacing, or shadows exist in component styles.
 
-## Importing the theme
-
-Nothing imports the theme for you. `lib/main.ts` carries no CSS side effect —
-that is GAP-015, and the kit's own `demos/main.tsx` and the parity islands list
-the files explicitly:
-
-| consumer          | import                                                                                                               |
-| ----------------- | -------------------------------------------------------------------------------------------------------------------- |
-| packaged          | `@devstroop/react-uikit/style.css` (tokens + utilities + component CSS), or `…/tokens.css` + `…/utilities.css` alone |
-| from source       | `lib/styles/tokens.css` + `lib/utilities.css` in the app's own entry                                                 |
-| document defaults | `…/base.css`, opt-in, because it restyles `body`                                                                     |
-
-In dev only, a document whose `--dx-primary-color` resolves to nothing warns
-once and names the files (`lib/utils/theme-contract.ts`). Everything below
-presumes the theme actually loaded: a page that never imported the tokens
-renders in browser defaults, which looks exactly like a bad re-seed and is not
-one.
-
-## The rule
-
-Some tokens are **live references** (`var(--dx-primary-color)`) and
-follow a re-seed automatically. Others are **hand-picked hex tuned for
-the stock ramp** — those keep their stock values until a product
-overrides them, which renders wrong without warning (silent runtime
-failure; types still pass). The defect class is always the same:
-a themed consumer sees stock-ramp paint.
-
-`lib/styles/tokens-contrast.test.ts` enforces both halves in every
-theme block (light `:root`, explicit dark, OS-dark fallback):
-
-- bare-hex pairs keep ≥ 4.5:1 contrast;
-- `link-color` / `link-hover-color` are never bare hex — they must
-  reference the ramp (`var()` / `color-mix()`), so derivation can't
-  regress to a hardcoded sibling.
-
-## Tokens downstream of the seed (review all of these on re-seed)
-
-- `link-color`, `link-hover-color` — derived from primary via
-  `color-mix` in dark blocks (a hardcoded fallback here was the
-  original defect: stock-blue links on a re-seeded mint ramp);
-- `on-primary-*`, `primary-hover-*`, `primary-{lighter,light,dark,darker}`,
-  `text-primary-*`, `border/outline-primary-*`, `focus-color`;
-- `on-{secondary,success,warning,danger,info}-*` and their hovers
-  (verify contrast against the re-seeded fills, not just presence);
-- `inverse-*` surfaces (they flip meaning between light and dark).
-
-## Navigation active state
-
-`Menu`, `PanelMenu` and sidebar rows mark the current page with four
-channels, all fed by one token group, so a re-seed moves them together:
-
-| token                                          | role            |
-| ---------------------------------------------- | --------------- |
-| `--dx-navigation-item-active-color`            | row text + icon |
-| `--dx-navigation-item-active-background-color` | row tint        |
-| `--dx-navigation-item-active-indicator-color`  | leading bar     |
-| `--dx-navigation-item-active-indicator-width`  | bar width (4px) |
-
-Two constraints that the ratchet tests hold:
-
-- the text channel is `var(--dx-text-primary-color)`, never
-  `--dx-primary-color`. The brand fill is held at `#2563eb` across
-  themes, which measures 2.83:1 on the dark `#1e293b` surface;
-  `text-primary-color` is the theme-aware sibling (5.75:1 on light
-  white, 5.20:1 on dark).
-- the dark blocks re-derive the tint and the indicator. `color-mix(...,
-var(--dx-primary-color) 12%, transparent)` is invisible on `#1e293b`,
-  so dark re-mixes from `--dx-text-primary-color` instead.
-
-The indicator renders only on vertical surfaces (`.vertical` in
-`Menu.module.css`); horizontal top-level rows get tint + text, matching
-Radzen, which hides `:before` there (`_menu.scss:95-100`).
-
-Selection is per-row, so **nothing clears a sibling for you**: uncontrolled
-rows take their state from the URL (re-derived on `hashchange` and
-`popstate`) or from the menu-wide click slot, while
-`selected`/`onSelectedChange` puts the app in charge and fires only `true` —
-Radzen's `@bind-Selected` behaves the same way. A bare `history.pushState`
-fires neither event, so path-routed apps still need GAP-001's fix.
-
-## Icon font override
-
-`<Icon/>` renders ligature text in `var(--dx-icon-font-family)`
-(default the bundled Material Symbols Outlined). Projects swap the
-family without touching the component — per scope via a class, or
-globally on `:root`:
+## Minimal theme
 
 ```css
-.font-awesome {
-  --dx-icon-font-family: 'Font Awesome 6 Free';
-}
 :root {
-  --dx-icon-font-family: 'Material Symbols Outlined';
+  /* Brand */
+  --dx-primary-color: #006b54;
+  --dx-on-primary-color: #ffffff;
+  --dx-secondary-color: #4d6357;
+  --dx-on-secondary-color: #ffffff;
+
+  /* Surfaces */
+  --dx-background-color: #f6faf7;
+  --dx-surface-color: #ffffff;
+  --dx-surface-hover-color: #eff4ee;
+  --dx-surface-container-color: #eaefea;
+  --dx-surface-container-high-color: #e4e9e3;
+
+  /* Text */
+  --dx-text-color: #191c19;
+  --dx-text-muted-color: #404943;
+
+  /* Borders */
+  --dx-border-color: #c1c9bd;
+  --dx-border-strong-color: #717971;
+  --dx-border-width: 1px;
+
+  /* Radius */
+  --dx-radius: 4px;
+  --dx-radius-full: 9999px;
+
+  /* Spacing */
+  --dx-space-1: 4px;
+  --dx-space-2: 8px;
+  --dx-space-3: 12px;
+  --dx-space-4: 16px;
+
+  /* Typography */
+  --dx-font-sans: 'Source Sans 3', system-ui, sans-serif;
+  --dx-font-size-xs: 12px;
+  --dx-font-size-sm: 14px;
+  --dx-font-size-md: 16px;
 }
 ```
 
-With a foreign family, pass codepoints as literals
-(`icon="\uf015"`); weight rides the variable axis via `style`
-(`fontWeight: 100–700`) where the family supports it. Ink inherits
-(`currentColor`); the `color` prop overrides it per element.
+## Required tokens
 
-## Radius scale (geometry, not color)
+Run `npm run check:tokens` to verify every `var(--dx-*)` referenced in
+`lib/` is defined somewhere in the theme or component CSS. Consumer
+themes should define at least the tokens listed in `tokens.required.json`
+(generated by the audit script).
 
-One Radzen-style scale, defined identically in all three theme blocks:
-`--dx-radius` (4px base), `--dx-radius-0`…`--dx-radius-10` (0.25rem
-steps, 0 → 2.5rem), `--dx-radius-full` (pill). When editing, re-generate
-the whole scale into every theme block — never one block only.
+## Dark mode
 
-Four roles derive from it and are the only radius vocabulary components
-consume:
+Define overrides under `@media (prefers-color-scheme: dark)` and/or
+`:root[data-theme='dark']`. Keep both in sync (see `lib/styles/tokens.css`
+for the convention).
 
-- `--dx-radius-input` → `-2` (8px) — entry fields;
-- `--dx-radius-button` → `-full` — pill emphasis;
-- `--dx-radius-checkbox` → `-1` (4px) — tiny controls;
-- `--dx-radius-surface` → `-3` (12px) — cards/dialogs.
+## Component-scoped tokens
 
-To retune geometry for a theme, re-point a role — never hardcode a rung
-inside a component. Components that are not role owners derive from the
-base instead (`calc(var(--dx-radius) * N)`, the Radzen idiom) or take
-the base/full directly. Ad-hoc DOM reaches for the `.dx-radius-*`
-utilities.
-`lib/styles/tokens.test.ts` enforces scale completeness (×3 blocks) and
-that no component consumes a role outside its own.
-
-## Border thickness (geometry)
-
-Widths are theme-independent geometry, defined once in the light
-`:root` block (like the interaction constants, not per theme block):
-
-- `--dx-border-width` (1px) — every standard border;
-- `--dx-border-width-strong` (2px) — indicator rings (Tabs underline,
-  Avatar ring, Colorpicker knobs, Timeline marker, Toc, spinner);
-- `--dx-outlined-border-width` (1px) — outlined-variant width;
-- `--dx-focus-ring-width` / `--dx-focus-ring-offset` (2px) — focus.
-
-Components write `border: var(--dx-border)` /
-`var(--dx-border-strong)` (Radzen `--rz-border-{color}` parity), or
-`var(--dx-border-width) solid <color>` when the color or style varies
-(dashed, transparent, tone colors, fallbacks). Focus uses the one ring
-width via either idiom (outline or box-shadow).
-
-Caveat — composites resolve where they are declared: `--dx-border`
-bakes `--dx-border-color` at computed-value time on `:root`. Theme
-switches are unaffected (`[data-theme]` / `[data-palette]` are the
-same element, so the cascade feeds the composite), but a **subtree**
-override of `--dx-border-color` alone does not reach composite
-borders — override `--dx-border` / `--dx-border-strong` alongside it,
-or set the `border-color` longhand on the closer scope.
-
-`lib/styles/tokens.test.ts` ratchets raw thickness px across lib CSS
-and demos style objects; `e2e/focus-ring.spec.ts` asserts the
-computed 2px ring / 1px border values.
-
-## Specificity note (verified live)
-
-Explicit theme wins outright by design: `:root[data-theme='dark']`
-is (0,2,0) because a bare `[data-theme="dark"]` tied with consumer
-`:root` rules and lost whenever the consumer stylesheet loaded later.
-To override a dark token, match or beat it —
-`:root[data-theme="dark"] { … }` placed after this import — or set the
-token on a closer scope. The OS-dark fallback uses `:where()` (0,1,0)
-so app rules always win ties there. Plain `:root` overrides keep
-working for light mode only.
+Some components define their own tokens with defaults (e.g.
+`--dx-button-padding-md` in `Button.module.css`). These do not need to
+be in the theme; override them only when customizing that component.
